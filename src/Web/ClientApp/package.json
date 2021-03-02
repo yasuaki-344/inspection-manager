@@ -20,6 +20,7 @@
     "rimraf": "^2.6.2"
   },
   "devDependencies": {
+    "@types/react-router-dom": "^5.1.7",
     "ajv": "^6.9.1",
     "cross-env": "^5.2.0",
     "nan": "^2.14.1",
