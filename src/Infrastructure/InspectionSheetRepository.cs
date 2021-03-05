@@ -5,7 +5,8 @@
 // http://opensource.org/licenses/mit-license.php
 //
 
-using System;
+using System.IO;
+using System.Text.Json;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
 
@@ -20,7 +21,8 @@ namespace InspectionManager.Infrastructure
 
         public void CreateInspectionSheet(InspectionSheetDto dto)
         {
-            throw new NotImplementedException();
+            var json = JsonSerializer.Serialize(dto);
+            File.WriteAllText("example.json", json);
         }
     }
 }

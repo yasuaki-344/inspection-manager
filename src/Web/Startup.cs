@@ -1,4 +1,14 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿//
+// Copyright (c) 2021 Yasuaki Miyoshi
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+//
+
+using InspectionManager.ApplicationCore.Interfaces;
+using InspectionManager.ApplicationCore.Services;
+using InspectionManager.Infrastructure;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -22,6 +32,9 @@ namespace InspectionManager.Web
         {
 
             services.AddControllersWithViews();
+
+            services.AddSingleton<IInspectionSheetRepository, InspectionSheetRepository>();
+            services.AddScoped<IInspectionSheetService, InspectionSheetService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
