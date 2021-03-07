@@ -1,25 +1,17 @@
 import React, { useReducer } from 'react';
 import { Button, Grid, TextField, Typography, Paper } from '@material-ui/core';
+import InspectionSheetReducer, { updateFieldAction } from './InspectionSheetReducer';
 
 export const Create = (): JSX.Element => {
   // eslint-disable-next-line
-  const [inspectionSheet, dispatch] = useReducer((state:any, action:any) => {
-    console.log(action);
-    return {...state, [action.name]: action.value};
-  }, {});
+  const [inspectionSheet, dispatch] = useReducer(InspectionSheetReducer, {});
 
   const handleChange = (event: any) => {
-    dispatch({
-      name : event.target.name,
-      value: event.target.value
-    });
+    dispatch(updateFieldAction(event));
   }
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    console.log("事前確認");
-
-    console.log(inspectionSheet);
 
     fetch('inspectionsheet', {
       method: 'POST',
@@ -46,7 +38,6 @@ export const Create = (): JSX.Element => {
                 label="点検シート名"
                 variant="outlined"
                 size="small"
-                defaultValue="シート名"
                 name="sheetName"
                 value={inspectionSheet.sheetName}
                 onChange={handleChange}
