@@ -83,6 +83,7 @@ namespace InspectionManager.Web.Controllers
         {
             try
             {
+                _logger.LogInformation("try to create inspection sheet");
                 if (vm == null)
                 {
                     return BadRequest();

@@ -1,19 +1,32 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import { Button, Grid, TextField, Typography, Paper } from '@material-ui/core';
 
 export const Create = (): JSX.Element => {
-  const handleSubmit = (event: any) => {
-    event.preventSubmit();
+  // eslint-disable-next-line
+  const [inspectionSheet, dispatch] = useReducer((state:any, action:any) => {
+    console.log(action);
+    return {...state, [action.name]: action.value};
+  }, {});
 
-    console.log('button clicked');
+  const handleChange = (event: any) => {
+    dispatch({
+      name : event.target.name,
+      value: event.target.value
+    });
+  }
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    console.log("事前確認");
+
+    console.log(inspectionSheet);
+
     fetch('inspectionsheet', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        sheetName: 'example sheet',
-      })
+      body: JSON.stringify(inspectionSheet)
     })
       .then((res) => res.json())
       .then(console.log)
@@ -33,6 +46,10 @@ export const Create = (): JSX.Element => {
                 label="点検シート名"
                 variant="outlined"
                 size="small"
+                defaultValue="シート名"
+                name="sheetName"
+                value={inspectionSheet.sheetName}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
