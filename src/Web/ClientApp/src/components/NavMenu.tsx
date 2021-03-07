@@ -1,33 +1,47 @@
 import React, { useState } from 'react';
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import { AppBar, Menu, MenuItem, IconButton, Toolbar, Typography } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 
 export const NavMenu = (): JSX.Element => {
-  const [collapsed, setCollapsed] = useState(true);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const toggleNavbar = () => {
-    setCollapsed(!collapsed);
-  }
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <header>
-      <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
-        <Container>
-          <NavbarBrand tag={Link} to="/">InspectionManager.Web</NavbarBrand>
-          <NavbarToggler onClick={toggleNavbar} className="mr-2" />
-          <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
-            <ul className="navbar-nav flex-grow">
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/Create">Create</NavLink>
-              </NavItem>
-            </ul>
-          </Collapse>
-        </Container>
-      </Navbar>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" aria-label="menu" color="inherit" onClick={handleClick}>
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>
+              <Link className="text-dark" to="/">Home</Link>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <Link className="text-dark" to="/create">Create</Link>
+            </MenuItem>
+          </Menu>
+          <Typography variant="h6" noWrap color="inherit">
+            <Link className="text-white" to="/" color="primary">
+              Inspection Manager
+            </Link>
+          </Typography>
+        </Toolbar>
+      </AppBar>
     </header>
   );
 }
