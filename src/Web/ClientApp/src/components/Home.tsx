@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export const Home = (): JSX.Element => {
   const [inspectionSheets, setInspectionSheets] = useState([]);
@@ -21,12 +22,16 @@ export const Home = (): JSX.Element => {
         <thead>
           <tr>
             <th>シート名</th>
+            <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody>
           {inspectionSheets.map((sheet: any) =>
             <tr key={sheet.sheet_id}>
               <td>{sheet.sheet_name}</td>
+              <td>
+                <Link to={"/details/" + sheet.sheet_id}>詳細</Link>
+              </td>
             </tr>
           )}
         </tbody>
