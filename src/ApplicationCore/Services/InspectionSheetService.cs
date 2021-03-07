@@ -26,6 +26,9 @@ namespace InspectionManager.ApplicationCore.Services
             _logger = logger;
         }
 
+        public bool InspectionSheetExists(string id) =>
+            _repository.InspectionSheetExists(id);
+
         public IEnumerable<InspectionSheetDto> GetAllInspectionSheets() =>
             _repository.GetAllInspectionSheets();
 

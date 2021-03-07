@@ -11,6 +11,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
 {
     public interface IInspectionSheetRepository
     {
+        bool InspectionSheetExists(string id);
         IEnumerable<InspectionSheetDto> GetAllInspectionSheets();
         InspectionSheetDto? GetInspectionSheet(string id);
         InspectionSheetDto CreateInspectionSheet(InspectionSheetDto dto);

@@ -25,6 +25,16 @@ namespace InspectionManager.Infrastructure
         {
         }
 
+        public bool InspectionSheetExists(string id)
+        {
+            if (!Directory.Exists(_baseDirectory))
+            {
+                throw new DirectoryNotFoundException(_baseDirectory);
+            }
+            var filePath = Path.Join(_baseDirectory, $"{id}.json");
+            return File.Exists(filePath);
+        }
+
         /// <summary>
         /// Gets all inspection sheets from database.
         /// </summary>
