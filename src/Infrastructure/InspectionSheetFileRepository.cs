@@ -93,13 +93,38 @@ namespace InspectionManager.Infrastructure
 
         public InspectionSheetDto UpdateInspectionSheet(InspectionSheetDto dto)
         {
-            throw new NotImplementedException();
+            if (!Directory.Exists(_baseDirectory))
+            {
+                throw new DirectoryNotFoundException(_baseDirectory);
+            }
+            var filePath = Path.Join(_baseDirectory, $"{dto.SheetId}.json");
+            if (File.Exists(filePath))
+            {
+                var json = JsonSerializer.Serialize(dto);
+                File.WriteAllText(filePath, json);
+                return dto;
+            }
+            else
+            {
+                throw new FileNotFoundException(filePath);
+            }
         }
 
         public void DeleteInspectionSheet(string id)
         {
-            throw new NotImplementedException();
+            if (!Directory.Exists(_baseDirectory))
+            {
+                throw new DirectoryNotFoundException(_baseDirectory);
+            }
+            var filePath = Path.Join(_baseDirectory, $"{id}.json");
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+            else
+            {
+                throw new FileNotFoundException(filePath);
+            }
         }
-
     }
 }
