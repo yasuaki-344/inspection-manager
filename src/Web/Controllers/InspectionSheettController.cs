@@ -106,5 +106,47 @@ namespace InspectionManager.Web.Controllers
                 );
             }
         }
+
+        [HttpPut("{id:guid}")]
+        public ActionResult<InspectionSheetDto> UpdateInspectionSheet(string id, InspectionSheetDto dto)
+        {
+            try
+            {
+                if (id != dto.SheetId)
+                {
+                    return BadRequest("Sheet ID mismatch");
+                }
+                if (!_service.InspectionSheetExists(id))
+                {
+                    return NotFound($"Sheet with Id = {id} not found");
+                }
+                return _service.UpdateInspectionSheet(dto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error updating data");
+            }
+        }
+
+        [HttpDelete("{id:guid}")]
+        public ActionResult<InspectionSheetDto> DeleteInspectionSheet(string id)
+        {
+            try
+            {
+                if (!_service.InspectionSheetExists(id))
+                {
+                    return NotFound($"sheet with Id = {id} not found");
+                }
+                return _service.DeleteInspectionSheet(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error deleting data");
+            }
+        }
     }
 }
