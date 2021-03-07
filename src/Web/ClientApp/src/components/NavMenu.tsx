@@ -24,9 +24,6 @@ export const NavMenu = (): JSX.Element => {
               <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/Create">Create</NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink>
-              </NavItem>
             </ul>
           </Collapse>
         </Container>
