@@ -23,10 +23,6 @@ namespace InspectionManager.Infrastructure
         /// </summary>
         public InspectionSheetFileRepository()
         {
-            if (!Directory.Exists(_baseDirectory))
-            {
-                Directory.CreateDirectory(_baseDirectory);
-            }
         }
 
         /// <summary>
