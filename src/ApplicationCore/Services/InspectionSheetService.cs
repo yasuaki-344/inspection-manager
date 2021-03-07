@@ -5,6 +5,7 @@
 // http://opensource.org/licenses/mit-license.php
 //
 
+using System.Collections.Generic;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -24,6 +25,9 @@ namespace InspectionManager.ApplicationCore.Services
             _repository = repository;
             _logger = logger;
         }
+
+        public IEnumerable<InspectionSheetDto> GetAllInspectionSheets() =>
+            _repository.GetAllInspectionSheets();
 
         public void CreateInspectionSheet(InspectionSheetDto dto) =>
             _repository.CreateInspectionSheet(dto);

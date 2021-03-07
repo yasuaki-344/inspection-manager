@@ -34,6 +34,20 @@ namespace InspectionManager.Web.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
+        public ActionResult GetAllInspectionSheets()
+        {
+            try
+            {
+                var sheets = _service.GetAllInspectionSheets();
+                return Ok(sheets);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database");
+            }
+        }
         [HttpPost]
         public ActionResult<InspectionSheetViewModel> CreateSheet(InspectionSheetViewModel? vm)
         {

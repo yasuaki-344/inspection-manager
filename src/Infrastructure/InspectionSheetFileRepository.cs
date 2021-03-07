@@ -5,6 +5,7 @@
 // http://opensource.org/licenses/mit-license.php
 //
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using InspectionManager.ApplicationCore.Dto;
@@ -25,6 +26,21 @@ namespace InspectionManager.Infrastructure
             {
                 Directory.CreateDirectory(_baseDirectory);
             }
+        }
+
+        public IEnumerable<InspectionSheetDto> GetAllInspectionSheets()
+        {
+            return new List<InspectionSheetDto>()
+            {
+                new InspectionSheetDto
+                {
+                    SheetName = "pattern1",
+                },
+                new InspectionSheetDto
+                {
+                    SheetName = "pattern2",
+                }
+            };
         }
 
         public void CreateInspectionSheet(InspectionSheetDto dto)
