@@ -1,3 +1,4 @@
+import React from 'react';
 import { InspectionSheetAction } from './Types';
 
 const TYPES = {
@@ -18,7 +19,7 @@ export default function InspectionSheetReducer(state: any, action: InspectionShe
   }
 }
 
-export const updateFieldAction = (event: any): InspectionSheetAction => {
+export const updateFieldAction = (event: React.ChangeEvent<HTMLInputElement>): InspectionSheetAction => {
   return {
     type: TYPES.UPDATE_FIELD,
     payload: {

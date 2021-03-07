@@ -3,14 +3,13 @@ import { Button, Grid, TextField, Typography, Paper } from '@material-ui/core';
 import { InspectionSheetOperator } from './InspectionSheetOperator';
 
 export const Create = (): JSX.Element => {
-  // eslint-disable-next-line
   const [inspectionSheet, updateField] = InspectionSheetOperator();
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     updateField(event);
   }
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     fetch('inspectionsheet', {
