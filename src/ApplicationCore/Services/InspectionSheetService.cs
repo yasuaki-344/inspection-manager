@@ -32,7 +32,7 @@ namespace InspectionManager.ApplicationCore.Services
         public InspectionSheetDto? GetInspectionSheet(string id) =>
             _repository.GetInspectionSheet(id);
 
-        public void CreateInspectionSheet(InspectionSheetDto dto) =>
+        public InspectionSheetDto CreateInspectionSheet(InspectionSheetDto dto) =>
             _repository.CreateInspectionSheet(dto);
     }
 }

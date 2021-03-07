@@ -13,6 +13,6 @@ namespace InspectionManager.ApplicationCore.Interfaces
     {
         IEnumerable<InspectionSheetDto> GetAllInspectionSheets();
         InspectionSheetDto? GetInspectionSheet(string id);
-        void CreateInspectionSheet(InspectionSheetDto dto);
+        InspectionSheetDto CreateInspectionSheet(InspectionSheetDto dto);
     }
 }

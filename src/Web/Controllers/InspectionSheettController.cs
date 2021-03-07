@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.
@@ -90,11 +90,12 @@ namespace InspectionManager.Web.Controllers
                 else
                 {
                     _logger.LogInformation($"{vm.SheetName}");
-                    _service.CreateInspectionSheet(new ApplicationCore.Dto.InspectionSheetDto
+                    var result = _service.CreateInspectionSheet(new ApplicationCore.Dto.InspectionSheetDto
                     {
                         SheetName = vm.SheetName
                     });
-                    return StatusCode(StatusCodes.Status200OK);
+                    return CreatedAtAction(nameof(GetInspectionSheet),
+                    new { id = result.SheetId }, result);
                 }
             }
             catch (Exception ex)

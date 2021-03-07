@@ -75,7 +75,7 @@ namespace InspectionManager.Infrastructure
         /// Creates new inspection sheet by using the specified InspectionSheetDto.
         /// </summary>
         /// <param name="dto">Inspection sheet information</param>
-        public void CreateInspectionSheet(InspectionSheetDto dto)
+        public InspectionSheetDto CreateInspectionSheet(InspectionSheetDto dto)
         {
             if (!Directory.Exists(_baseDirectory))
             {
@@ -91,6 +91,8 @@ namespace InspectionManager.Infrastructure
             dto.SheetId = guid;
             var json = JsonSerializer.Serialize(dto);
             File.WriteAllText(filePath, json);
+
+            return dto;
         }
     }
 }
