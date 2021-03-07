@@ -1,7 +1,10 @@
 import React from 'react';
+import { Button, Grid, TextField, Typography, Paper } from '@material-ui/core';
 
 export const Create = (): JSX.Element => {
-  const handleButtonClick = () => {
+  const handleSubmit = (event: any) => {
+    event.preventSubmit();
+
     console.log('button clicked');
     fetch('inspectionsheet', {
       method: 'POST',
@@ -19,8 +22,26 @@ export const Create = (): JSX.Element => {
 
   return (
     <div>
-      <h1>新規作成ページ</h1>
-      <button onClick={handleButtonClick}>新規作成</button>
+      <Typography variant="h3" >新規作成ページ</Typography>
+      <form onSubmit={handleSubmit}>
+        <Paper>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <TextField
+                required
+                id="outlined-required"
+                label="点検シート名"
+                variant="outlined"
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button type="submit" size='medium' variant='contained' color='primary'>新規作成</Button>
+            </Grid>
+          </Grid>
+
+        </Paper>
+      </form>
     </div>
   );
 }
