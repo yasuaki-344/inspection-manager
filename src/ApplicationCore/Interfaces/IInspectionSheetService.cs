@@ -15,5 +15,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
         IEnumerable<InspectionSheetDto> GetAllInspectionSheets();
         InspectionSheetDto? GetInspectionSheet(string id);
         InspectionSheetDto CreateInspectionSheet(InspectionSheetDto dto);
+        InspectionSheetDto UpdateInspectionSheet(InspectionSheetDto dto);
+        InspectionSheetDto? DeleteInspectionSheet(string id);
     }
 }
