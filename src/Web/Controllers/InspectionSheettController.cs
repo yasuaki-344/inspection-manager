@@ -52,7 +52,7 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpGet("{id:string}")]
+        [HttpGet("{id:guid}")]
         public ActionResult<InspectionSheetDto> GetInspectionSheet(string id)
         {
             try

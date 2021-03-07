@@ -54,7 +54,21 @@ namespace InspectionManager.Infrastructure
 
         public InspectionSheetDto? GetInspectionSheet(string id)
         {
-            throw new NotImplementedException();
+            if (!Directory.Exists(_baseDirectory))
+            {
+                throw new DirectoryNotFoundException(_baseDirectory);
+            }
+            var files = Directory.GetFiles(_baseDirectory, $"{id}.json", SearchOption.TopDirectoryOnly);
+            if (files.Any())
+            {
+                var file = files.First();
+                var json = File.ReadAllText(file);
+                return JsonSerializer.Deserialize<InspectionSheetDto>(json);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
