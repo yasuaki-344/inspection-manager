@@ -90,5 +90,16 @@ namespace InspectionManager.Infrastructure
 
             return dto;
         }
+
+        public InspectionSheetDto UpdateInspectionSheet(InspectionSheetDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteInspectionSheet(string id)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
