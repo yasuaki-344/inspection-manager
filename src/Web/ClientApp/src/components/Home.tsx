@@ -30,6 +30,7 @@ export const Home = (): JSX.Element => {
             <tr key={sheet.sheet_id}>
               <td>{sheet.sheet_name}</td>
               <td>
+                <Link to={"/edit/" + sheet.sheet_id}>編集</Link>|
                 <Link to={"/details/" + sheet.sheet_id}>詳細</Link>
               </td>
             </tr>

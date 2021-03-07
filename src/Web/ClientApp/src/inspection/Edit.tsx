@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-export const Details = ({ match }: any): JSX.Element => {
+export const Edit = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
   const [inspectionSheet, setInspectionSheet] = useState({
     sheet_id: '',
@@ -19,10 +19,10 @@ export const Details = ({ match }: any): JSX.Element => {
 
   return (
     <div>
-      <h1>詳細ページ</h1>
+      <h1>編集ページ</h1>
       <h3>id:{inspectionSheet.sheet_id}</h3>
       <h3>name:{inspectionSheet.sheet_name}</h3>
     </div>
   );
 }
-Details.displayName = Details.name;
+Edit.displayName = Edit.name;
