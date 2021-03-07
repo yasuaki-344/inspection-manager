@@ -35,6 +35,7 @@ export const Home = (): JSX.Element => {
   return (
     <div>
       <h1>点検シート一覧</h1>
+      <Link to="/create">新規作成</Link>
       <table>
         <thead>
           <tr>
