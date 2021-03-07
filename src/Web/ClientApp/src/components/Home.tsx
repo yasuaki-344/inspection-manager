@@ -55,12 +55,12 @@ export const Home = (): JSX.Element => {
                   <Link to={"/edit/" + sheet.sheet_id}>編集</Link>|
                 <Link to={"/details/" + sheet.sheet_id}>詳細</Link>|
                 <Button
-                  size='small'
-                  variant='contained'
-                  color='secondary'
-                  onClick={() => handleDelete(sheet.sheet_id)}
-                >
-                  削除
+                    size='small'
+                    variant='contained'
+                    color='secondary'
+                    onClick={() => handleDelete(sheet.sheet_id)}
+                  >
+                    削除
                 </Button>
                 </TableCell>
               </TableRow>
