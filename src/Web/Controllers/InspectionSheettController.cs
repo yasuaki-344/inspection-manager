@@ -108,17 +108,14 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public ActionResult<InspectionSheetDto> UpdateInspectionSheet(string id, InspectionSheetDto dto)
+        public ActionResult<InspectionSheetDto> UpdateInspectionSheet(InspectionSheetDto dto)
         {
             try
             {
-                if (id != dto.SheetId)
+                _logger.LogInformation($"try to update inspection sheet {dto.SheetId}");
+                if (!_service.InspectionSheetExists(dto.SheetId))
                 {
-                    return BadRequest("Sheet ID mismatch");
-                }
-                if (!_service.InspectionSheetExists(id))
-                {
-                    return NotFound($"Sheet with Id = {id} not found");
+                    return NotFound($"Sheet with Id = {dto.SheetId} not found");
                 }
                 return _service.UpdateInspectionSheet(dto);
             }

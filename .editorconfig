@@ -20,6 +20,9 @@ indent_size = 4
 [*.md]
 trim_trailing_whitespace = false
 
+[*.tsx]
+indent_size = 2
+
 [*.kt]
 insert_final_newline = false
 max_line_legth = 100

@@ -4,7 +4,7 @@ export const Create = (): JSX.Element => {
   const handleButtonClick = () => {
     console.log('button clicked');
     fetch('inspectionsheet', {
-      method:'POST',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
