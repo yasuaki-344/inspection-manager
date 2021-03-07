@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
 using InspectionManager.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -50,6 +51,33 @@ namespace InspectionManager.Web.Controllers
                     "Error retrieving data from the database");
             }
         }
+
+        [HttpGet("{id:string}")]
+        public ActionResult<InspectionSheetDto> GetInspectionSheet(string id)
+        {
+            try
+            {
+                _logger.LogInformation($"try to get inspection sheet {id}");
+
+                var result = _service.GetInspectionSheet(id);
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database");
+            }
+        }
+
+
         [HttpPost]
         public ActionResult<InspectionSheetViewModel> CreateSheet(InspectionSheetViewModel? vm)
         {

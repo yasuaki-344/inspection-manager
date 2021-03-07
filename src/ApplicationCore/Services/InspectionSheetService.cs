@@ -29,6 +29,9 @@ namespace InspectionManager.ApplicationCore.Services
         public IEnumerable<InspectionSheetDto> GetAllInspectionSheets() =>
             _repository.GetAllInspectionSheets();
 
+        public InspectionSheetDto? GetInspectionSheet(string id) =>
+            _repository.GetInspectionSheet(id);
+
         public void CreateInspectionSheet(InspectionSheetDto dto) =>
             _repository.CreateInspectionSheet(dto);
     }

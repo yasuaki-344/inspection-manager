@@ -42,13 +42,19 @@ namespace InspectionManager.Infrastructure
             var files = Directory.GetFiles(_baseDirectory, "*.json", SearchOption.TopDirectoryOnly);
 
             var inspectionSheets = files
-                .Select(x => {
+                .Select(x =>
+                {
                     var json = File.ReadAllText(x);
                     return JsonSerializer.Deserialize<InspectionSheetDto>(json);
                 })
                 .Where(x => x != null)
                 .Select(x => x!);
             return inspectionSheets ?? new List<InspectionSheetDto>();
+        }
+
+        public InspectionSheetDto? GetInspectionSheet(string id)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
