@@ -120,7 +120,7 @@ namespace InspectionManager.Infrastructure
             }
         }
 
-        public InspectionSheetDto? DeleteInspectionSheet(string id)
+        public InspectionSheetDto DeleteInspectionSheet(string id)
         {
             if (!Directory.Exists(_baseDirectory))
             {
@@ -132,7 +132,7 @@ namespace InspectionManager.Infrastructure
                 var json = File.ReadAllText(filePath);
                 var dto = JsonSerializer.Deserialize<InspectionSheetDto>(json);
                 File.Delete(filePath);
-                return dto;
+                return dto!;
             }
             else
             {

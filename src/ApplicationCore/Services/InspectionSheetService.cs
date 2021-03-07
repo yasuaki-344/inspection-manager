@@ -41,7 +41,7 @@ namespace InspectionManager.ApplicationCore.Services
         public InspectionSheetDto UpdateInspectionSheet(InspectionSheetDto dto) =>
             _repository.UpdateInspectionSheet(dto);
 
-        public InspectionSheetDto? DeleteInspectionSheet(string id) =>
+        public InspectionSheetDto DeleteInspectionSheet(string id) =>
             _repository.DeleteInspectionSheet(id);
     }
 }
