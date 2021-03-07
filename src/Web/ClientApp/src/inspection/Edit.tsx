@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Button } from '@material-ui/core';
 
 export const Edit = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
@@ -17,7 +18,7 @@ export const Edit = ({ match }: any): JSX.Element => {
       .catch(console.error);
   }, [sheetId]);
 
-  const handleUpdate = () => {
+  const handleUpdate = (event: React.MouseEvent<HTMLElement, MouseEvent>): void => {
     fetch(`inspectionsheet/${sheetId}`, {
       method: 'PUT',
       headers: {
@@ -37,7 +38,14 @@ export const Edit = ({ match }: any): JSX.Element => {
       <h1>編集ページ</h1>
       <h3>id:{inspectionSheet.sheet_id}</h3>
       <h3>name:{inspectionSheet.sheet_name}</h3>
-      <button onClick={handleUpdate}>更新</button>
+      <Button
+        size='medium'
+        variant='contained'
+        color='primary'
+        onClick={handleUpdate}
+      >
+        更新
+      </Button>
     </div>
   );
 }
