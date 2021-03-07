@@ -9,7 +9,7 @@ export default function InspectionSheetReducer(state: any, action: InspectionShe
   switch (action.type) {
     case TYPES.UPDATE_FIELD:
       if (action.payload != null) {
-        return { ...state, [action?.payload.name]: action?.payload.value };
+        return { ...state, [action.payload.name]: action.payload.value };
       } else {
         return state;
       }

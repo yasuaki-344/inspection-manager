@@ -1,13 +1,13 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import { Button, Grid, TextField, Typography, Paper } from '@material-ui/core';
-import InspectionSheetReducer, { updateFieldAction } from './InspectionSheetReducer';
+import { InspectionSheetOperator } from './InspectionSheetOperator';
 
 export const Create = (): JSX.Element => {
   // eslint-disable-next-line
-  const [inspectionSheet, dispatch] = useReducer(InspectionSheetReducer, {});
+  const [inspectionSheet, updateField] = InspectionSheetOperator();
 
   const handleChange = (event: any) => {
-    dispatch(updateFieldAction(event));
+    updateField(event);
   }
 
   const handleSubmit = (event: any) => {
