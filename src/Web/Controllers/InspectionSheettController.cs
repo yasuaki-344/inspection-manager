@@ -135,6 +135,7 @@ namespace InspectionManager.Web.Controllers
         {
             try
             {
+                _logger.LogInformation($"try to delete inspection sheet {id}");
                 if (!_service.InspectionSheetExists(id))
                 {
                     return NotFound($"sheet with Id = {id} not found");

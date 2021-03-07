@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { InspectionSheet } from '../inspection/Types';
 
 export const Home = (): JSX.Element => {
   const [inspectionSheets, setInspectionSheets] = useState([]);
@@ -14,6 +15,22 @@ export const Home = (): JSX.Element => {
       })
       .catch(console.error);
   }, []);
+
+  const handleDelete = (id: string) => {
+    console.log(`delete ${id}`);
+    fetch(`inspectionsheet/${id}`, {
+      method: 'DELETE',
+    })
+      .then((res) => res.json())
+      .then((json: InspectionSheet) => {
+        console.log(json);
+        setInspectionSheets(
+          inspectionSheets.filter((x: InspectionSheet) =>
+          x.sheet_id !== json.sheet_id)
+        );
+      })
+      .catch(console.error);
+  }
 
   return (
     <div>
@@ -31,7 +48,8 @@ export const Home = (): JSX.Element => {
               <td>{sheet.sheet_name}</td>
               <td>
                 <Link to={"/edit/" + sheet.sheet_id}>編集</Link>|
-                <Link to={"/details/" + sheet.sheet_id}>詳細</Link>
+                <Link to={"/details/" + sheet.sheet_id}>詳細</Link>|
+                <button onClick={() => handleDelete(sheet.sheet_id)}>削除</button>
               </td>
             </tr>
           )}
