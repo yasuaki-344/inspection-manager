@@ -1,6 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export const Home = (): JSX.Element => {
+  const [inspectionSheets, setInspectionSheets] = useState([]);
+
+  useEffect(() => {
+    console.log("called");
+    fetch('inspectionsheet')
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        setInspectionSheets(json);
+      })
+      .catch(console.error);
+  }, []);
+
   return (
     <div>
       <h1>Hello, world!</h1>
@@ -17,6 +30,21 @@ export const Home = (): JSX.Element => {
         <li><strong>Efficient production builds</strong>. In production mode, development-time features are disabled, and your <code>dotnet publish</code> configuration produces minified, efficiently bundled JavaScript files.</li>
       </ul>
       <p>The <code>ClientApp</code> subdirectory is a standard React application based on the <code>create-react-app</code> template. If you open a command prompt in that directory, you can run <code>npm</code> commands such as <code>npm test</code> or <code>npm install</code>.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>シート名</th>
+          </tr>
+        </thead>
+        <tbody>
+          {inspectionSheets.map((sheet: any) =>
+            <tr key={sheet.sheet_name}>
+              <td>{sheet.sheet_name}</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
     </div>
   );
 }

@@ -39,11 +39,13 @@ namespace InspectionManager.Web.Controllers
         {
             try
             {
+                _logger.LogInformation("try to get all inspection sheet");
                 var sheets = _service.GetAllInspectionSheets();
                 return Ok(sheets);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Error retrieving data from the database");
             }
