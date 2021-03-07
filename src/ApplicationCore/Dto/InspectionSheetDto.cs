@@ -10,6 +10,9 @@ namespace InspectionManager.ApplicationCore.Dto
 {
     public class InspectionSheetDto
     {
+        [JsonPropertyName("sheet_id")]
+        public string SheetId { get; set; } = string.Empty;
+
         [JsonPropertyName("sheet_name")]
         public string SheetName { get; set; } = string.Empty;
     }
