@@ -33,7 +33,7 @@ namespace InspectionManager.Web
 
             services.AddControllersWithViews();
 
-            services.AddSingleton<IInspectionSheetRepository, InspectionSheetRepository>();
+            services.AddSingleton<IInspectionSheetRepository, InspectionSheetFileRepository>();
             services.AddScoped<IInspectionSheetService, InspectionSheetService>();
 
             // In production, the React files will be served from this directory

@@ -12,9 +12,9 @@ using InspectionManager.ApplicationCore.Interfaces;
 
 namespace InspectionManager.Infrastructure
 {
-    public class InspectionSheetRepository : IInspectionSheetRepository
+    public class InspectionSheetFileRepository : IInspectionSheetRepository
     {
-        public InspectionSheetRepository()
+        public InspectionSheetFileRepository()
         {
 
         }
