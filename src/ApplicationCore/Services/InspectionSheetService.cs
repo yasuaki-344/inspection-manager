@@ -17,6 +17,11 @@ namespace InspectionManager.ApplicationCore.Services
         private readonly IInspectionSheetRepository _repository;
         private readonly ILogger<InspectionSheetService> _logger;
 
+        /// <summary>
+        /// Initializes a new instace of InspectionSheetService class.
+        /// </summary>
+        /// <param name="repository">Inspection data access object</param>
+        /// <param name="logger">logger object</param>
         public InspectionSheetService(
             IInspectionSheetRepository repository,
             ILogger<InspectionSheetService> logger
