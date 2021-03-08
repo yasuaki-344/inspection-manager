@@ -42,6 +42,11 @@ export const Create = (): JSX.Element => {
                 onChange={handleChange}
               />
             </Grid>
+            {inspectionSheet.equipments.map((equipment: any) =>
+              <Grid item xs={12}>
+                equipment
+              </Grid>
+            )}
             <Grid item xs={12}>
               <Button size='medium' variant='contained' color='primary' onClick={addEquipment}>機器追加</Button>
             </Grid>
