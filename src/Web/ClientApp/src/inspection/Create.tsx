@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Grid, TextField, Typography, Paper } from '@material-ui/core';
 import { InspectionSheetOperator } from './InspectionSheetOperator';
+import { Equipment } from './Types';
 
 export const Create = (): JSX.Element => {
   const [inspectionSheet, updateField, addEquipment] = InspectionSheetOperator();
