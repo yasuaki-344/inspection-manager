@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import InspectionSheetReducer, { updateFieldAction } from './InspectionSheetReducer';
+import InspectionSheetReducer, { updateFieldAction, addEquipmentAction } from './InspectionSheetReducer';
 
 export const InspectionSheetOperator = () => {
   const [inspectionSheet, dispatch] = useReducer(InspectionSheetReducer, {});
@@ -9,7 +9,7 @@ export const InspectionSheetOperator = () => {
   }
 
   const addEquipment = () => {
-    console.log("check point");
+    dispatch(addEquipmentAction());
   }
 
   return [inspectionSheet, updateField, addEquipment];

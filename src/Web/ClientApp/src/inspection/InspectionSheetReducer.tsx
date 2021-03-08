@@ -3,6 +3,7 @@ import { InspectionSheetAction } from './Types';
 
 const TYPES = {
   UPDATE_FIELD: "UPDATE_FIELD",
+  ADD_EQUIPMENT: "ADD_EQUIPMENT",
 };
 
 export default function InspectionSheetReducer(state: any, action: InspectionSheetAction): any {
@@ -14,6 +15,9 @@ export default function InspectionSheetReducer(state: any, action: InspectionShe
       } else {
         return state;
       }
+    case TYPES.ADD_EQUIPMENT:
+      console.log("check point");
+      return state
     default:
       return state;
   }
@@ -26,5 +30,11 @@ export const updateFieldAction = (event: React.ChangeEvent<HTMLInputElement>): I
       name: event.target.name,
       value: event.target.value,
     },
+  }
+};
+
+export const addEquipmentAction = (): InspectionSheetAction => {
+  return {
+    type: TYPES.ADD_EQUIPMENT,
   }
 };
