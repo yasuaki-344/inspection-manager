@@ -42,8 +42,8 @@ export const Create = (): JSX.Element => {
                 onChange={handleChange}
               />
             </Grid>
-            {inspectionSheet.equipments.map((equipment: any) =>
-              <Grid item xs={12}>
+            {inspectionSheet.equipments.map((equipment: Equipment) =>
+              <Grid item xs={12} key={equipment.equipment_id}>
                 equipment
               </Grid>
             )}

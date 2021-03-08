@@ -16,8 +16,16 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         return state;
       }
     case TYPES.ADD_EQUIPMENT:
-      console.log("check point");
-      return state
+      return {
+        ...state,
+        equipments: [
+          ...state.equipments,
+          {
+            equipment_id: "c",
+            equipment_name: "",
+          }
+        ]
+      };
     default:
       return state;
   }
