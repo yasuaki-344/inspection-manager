@@ -1,11 +1,13 @@
 import React, { useReducer } from 'react';
 import InspectionSheetReducer, { updateFieldAction, addEquipmentAction } from './InspectionSheetReducer';
 
+const initialState = {
+  sheet_id: "",
+  sheet_name: "",
+};
+
 export const InspectionSheetOperator = () => {
-  const [inspectionSheet, dispatch] = useReducer(InspectionSheetReducer, {
-    sheet_id: "",
-    sheet_name: "",
-  });
+  const [inspectionSheet, dispatch] = useReducer(InspectionSheetReducer, initialState);
 
   const updateField = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateFieldAction(event));
