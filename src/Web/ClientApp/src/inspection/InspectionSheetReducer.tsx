@@ -6,7 +6,7 @@ const TYPES = {
   ADD_EQUIPMENT: "ADD_EQUIPMENT",
 };
 
-export default function InspectionSheetReducer(state: InspectionSheet, action: InspectionSheetAction): InspectionSheet {
+export default function InspectionSheetReducer(state: InspectionSheet, action: InspectionSheetAction): any {
   console.log(action);
   switch (action.type) {
     case TYPES.UPDATE_FIELD:
