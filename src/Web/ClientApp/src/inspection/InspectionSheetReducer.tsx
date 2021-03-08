@@ -1,12 +1,12 @@
 import React from 'react';
-import { InspectionSheetAction } from './Types';
+import { InspectionSheet, InspectionSheetAction } from './Types';
 
 const TYPES = {
   UPDATE_FIELD: "UPDATE_FIELD",
   ADD_EQUIPMENT: "ADD_EQUIPMENT",
 };
 
-export default function InspectionSheetReducer(state: any, action: InspectionSheetAction): any {
+export default function InspectionSheetReducer(state: InspectionSheet, action: InspectionSheetAction): InspectionSheet {
   console.log(action);
   switch (action.type) {
     case TYPES.UPDATE_FIELD:
