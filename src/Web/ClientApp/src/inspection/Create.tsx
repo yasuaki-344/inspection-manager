@@ -37,8 +37,8 @@ export const Create = (): JSX.Element => {
                 label="点検シート名"
                 variant="outlined"
                 size="small"
-                name="sheetName"
-                value={inspectionSheet.sheetName}
+                name="sheet_name"
+                value={inspectionSheet.sheet_name}
                 onChange={handleChange}
               />
             </Grid>

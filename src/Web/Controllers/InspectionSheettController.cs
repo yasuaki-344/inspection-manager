@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using System.Web;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
-using InspectionManager.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -79,22 +78,19 @@ namespace InspectionManager.Web.Controllers
 
 
         [HttpPost]
-        public ActionResult<InspectionSheetViewModel> CreateSheet(InspectionSheetViewModel? vm)
+        public ActionResult<InspectionSheetDto> CreateSheet(InspectionSheetDto? dto)
         {
             try
             {
                 _logger.LogInformation("try to create inspection sheet");
-                if (vm == null)
+                if (dto == null)
                 {
                     return BadRequest();
                 }
                 else
                 {
-                    _logger.LogInformation($"{vm.SheetName}");
-                    var result = _service.CreateInspectionSheet(new ApplicationCore.Dto.InspectionSheetDto
-                    {
-                        SheetName = vm.SheetName
-                    });
+                    _logger.LogInformation($"{dto.SheetName}");
+                    var result = _service.CreateInspectionSheet(dto);
                     return CreatedAtAction(nameof(GetInspectionSheet),
                     new { id = result.SheetId }, result);
                 }
