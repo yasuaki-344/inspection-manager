@@ -8,5 +8,9 @@ export const InspectionSheetOperator = () => {
     dispatch(updateFieldAction(event));
   }
 
-  return [inspectionSheet, updateField];
+  const addEquipment = () => {
+    console.log("check point");
+  }
+
+  return [inspectionSheet, updateField, addEquipment];
 }

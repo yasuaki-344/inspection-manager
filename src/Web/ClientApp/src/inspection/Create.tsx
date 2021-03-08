@@ -3,13 +3,10 @@ import { Button, Grid, TextField, Typography, Paper } from '@material-ui/core';
 import { InspectionSheetOperator } from './InspectionSheetOperator';
 
 export const Create = (): JSX.Element => {
-  const [inspectionSheet, updateField] = InspectionSheetOperator();
+  const [inspectionSheet, updateField, addEquipment] = InspectionSheetOperator();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     updateField(event);
-  }
-
-  const handleAddEquipment = (): void => {
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -46,7 +43,7 @@ export const Create = (): JSX.Element => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Button size='medium' variant='contained' color='primary' onClick={handleAddEquipment}>機器追加</Button>
+              <Button size='medium' variant='contained' color='primary' onClick={addEquipment}>機器追加</Button>
             </Grid>
             <Grid item xs={12}>
               <Button type="submit" size='medium' variant='contained' color='primary'>新規作成</Button>
