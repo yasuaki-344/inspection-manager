@@ -9,6 +9,9 @@ export const Create = (): JSX.Element => {
     updateField(event);
   }
 
+  const handleAddEquipment = (): void => {
+  }
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -41,6 +44,9 @@ export const Create = (): JSX.Element => {
                 value={inspectionSheet.sheet_name}
                 onChange={handleChange}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <Button size='medium' variant='contained' color='primary' onClick={handleAddEquipment}>機器追加</Button>
             </Grid>
             <Grid item xs={12}>
               <Button type="submit" size='medium' variant='contained' color='primary'>新規作成</Button>
