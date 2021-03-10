@@ -31,8 +31,18 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         equipments: state.equipments.filter(e => e.equipment_id !== action.payload?.equipment_id),
       };
     case TYPES.UPDATE_EQUIPMENT:
-      return state;
-
+      if (action.payload != null && action.payload.name != null && action.payload.value != null) {
+        const index = state.equipments.findIndex(e => e.equipment_id === action.payload?.equipment_id);
+        state.equipments[index] = {
+          ...state.equipments[index],
+          [action.payload.name]: action.payload.value,
+        };
+        return {
+          ...state,
+          equipments: state.equipments
+        };
+      }
+      return state
     default:
       console.warn(`unknown type ${action.type}`);
       return state;
@@ -66,7 +76,7 @@ export const removeEquipmentAction = (id: string): InspectionSheetAction => {
 
 export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement>, id: string): InspectionSheetAction => {
   return {
-    type: TYPES.UPDATE_FIELD,
+    type: TYPES.UPDATE_EQUIPMENT,
     payload: {
       name: event.target.name,
       value: event.target.value,

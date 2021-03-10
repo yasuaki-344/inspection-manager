@@ -4,7 +4,7 @@ import { InspectionSheetOperator } from './InspectionSheetOperator';
 import { Equipment } from './Types';
 
 export const Create = (): JSX.Element => {
-  const [inspectionSheet, updateField, addEquipment, removeEquipment] = InspectionSheetOperator();
+  const [inspectionSheet, updateField, addEquipment, removeEquipment, updateEquipment] = InspectionSheetOperator();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     updateField(event);
@@ -45,9 +45,16 @@ export const Create = (): JSX.Element => {
             </Grid>
             {inspectionSheet.equipments.map((equipment: Equipment) =>
               <Grid item xs={12} key={equipment.equipment_id}>
-                <div>
-                  equipment
-                </div>
+                <TextField
+                  required
+                  id="outlined-required"
+                  label="点検機器名"
+                  variant="outlined"
+                  size="small"
+                  name="equipment_name"
+                  value={equipment.equipment_name}
+                  onChange={(e) => { updateEquipment(e, equipment.equipment_id) }}
+                />
                 <Button size='medium' variant='contained' color='primary' onClick={() => removeEquipment(equipment.equipment_id)}>機器削除</Button>
               </Grid>
             )}
