@@ -1,8 +1,9 @@
 export type InspectionSheetAction = {
   type: string;
   payload?: {
-    name: string;
-    value: string;
+    name?: string;
+    value?: string;
+    equipment_id?: string;
   };
 };
 
