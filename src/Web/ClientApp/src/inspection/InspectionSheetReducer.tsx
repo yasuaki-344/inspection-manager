@@ -5,6 +5,7 @@ const TYPES = {
   UPDATE_FIELD: "UPDATE_FIELD",
   ADD_EQUIPMENT: "ADD_EQUIPMENT",
   REMOVE_EQUIPMENT: "REMOVE_EQUIPMENT",
+  UPDATE_EQUIPMENT: "UPDATE_EQUIPMENT",
 };
 
 export default function InspectionSheetReducer(state: InspectionSheet, action: InspectionSheetAction): any {
@@ -29,6 +30,9 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         ...state,
         equipments: state.equipments.filter(e => e.equipment_id !== action.payload?.equipment_id),
       };
+    case TYPES.UPDATE_EQUIPMENT:
+      return state;
+
     default:
       console.warn(`unknown type ${action.type}`);
       return state;
@@ -59,3 +63,15 @@ export const removeEquipmentAction = (id: string): InspectionSheetAction => {
     }
   }
 };
+
+export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement>, id: string): InspectionSheetAction => {
+  return {
+    type: TYPES.UPDATE_FIELD,
+    payload: {
+      name: event.target.name,
+      value: event.target.value,
+      equipment_id: id,
+    },
+  }
+};
+
