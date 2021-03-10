@@ -18,13 +18,10 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
     case TYPES.ADD_EQUIPMENT:
       return {
         ...state,
-        equipments: [
-          ...state.equipments,
-          {
-            equipment_id: "c",
-            equipment_name: "",
-          }
-        ]
+        equipments: state.equipments.concat({
+          equipment_id: Math.random().toString(36).substr(2, 9),
+          equipment_name: "",
+        })
       };
     default:
       return state;
