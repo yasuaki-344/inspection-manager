@@ -1,6 +1,9 @@
 import React, { useReducer } from 'react';
 import InspectionSheetReducer, { updateFieldAction, addEquipmentAction } from './InspectionSheetReducer';
 
+/**
+ * Initial state of InspectionSheet object.
+ */
 const initialState = {
   sheet_id: "",
   sheet_name: "",
