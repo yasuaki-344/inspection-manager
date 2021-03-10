@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
 import InspectionSheetReducer, {
-  updateFieldAction, addEquipmentAction, removeEquipmentAction, updateEquipmentAction
+  setSheetAction, updateFieldAction,
+  addEquipmentAction, removeEquipmentAction, updateEquipmentAction
 } from './InspectionSheetReducer';
 
 /**
@@ -15,21 +16,17 @@ const initialState = {
 export const InspectionSheetOperator = () => {
   const [inspectionSheet, dispatch] = useReducer(InspectionSheetReducer, initialState);
 
-  const updateField = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const setSheet = (sheet: any): void => dispatch(setSheetAction(sheet));
+
+  const updateField = (event: React.ChangeEvent<HTMLInputElement>): void =>
     dispatch(updateFieldAction(event));
-  }
 
-  const addEquipment = (): void => {
-    dispatch(addEquipmentAction());
-  }
+  const addEquipment = (): void => dispatch(addEquipmentAction());
 
-  const removeEquipment = (id: string): void => {
-    dispatch(removeEquipmentAction(id));
-  }
+  const removeEquipment = (id: string): void => dispatch(removeEquipmentAction(id));
 
-  const updateEquipment = (event: React.ChangeEvent<HTMLInputElement>, id: string): void => {
+  const updateEquipment = (event: React.ChangeEvent<HTMLInputElement>, id: string): void =>
     dispatch(updateEquipmentAction(event, id));
-  }
 
-  return [inspectionSheet, updateField, addEquipment, removeEquipment, updateEquipment];
+  return [inspectionSheet, setSheet, updateField, addEquipment, removeEquipment, updateEquipment];
 }

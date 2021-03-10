@@ -2,6 +2,7 @@ import React from 'react';
 import { InspectionSheet, InspectionSheetAction } from './Types';
 
 const TYPES = {
+  SET_SHEET: "SET_SHEET",
   UPDATE_FIELD: "UPDATE_FIELD",
   ADD_EQUIPMENT: "ADD_EQUIPMENT",
   REMOVE_EQUIPMENT: "REMOVE_EQUIPMENT",
@@ -11,6 +12,8 @@ const TYPES = {
 export default function InspectionSheetReducer(state: InspectionSheet, action: InspectionSheetAction): any {
   console.log(action);
   switch (action.type) {
+    case TYPES.SET_SHEET:
+      return action.payload?.sheet;
     case TYPES.UPDATE_FIELD:
       if (action.payload != null && action.payload.name != null && action.payload.value != null) {
         return { ...state, [action.payload.name]: action.payload.value };
@@ -48,6 +51,15 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
       return state;
   }
 }
+
+export const setSheetAction = (inspectionSheet: InspectionSheet): InspectionSheetAction => {
+  return {
+    type: TYPES.SET_SHEET,
+    payload: {
+      sheet: inspectionSheet
+    },
+  }
+};
 
 export const updateFieldAction = (event: React.ChangeEvent<HTMLInputElement>): InspectionSheetAction => {
   return {
