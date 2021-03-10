@@ -1,5 +1,7 @@
 import React, { useReducer } from 'react';
-import InspectionSheetReducer, { updateFieldAction, addEquipmentAction } from './InspectionSheetReducer';
+import InspectionSheetReducer, {
+  updateFieldAction, addEquipmentAction, removeEquipmentAction
+} from './InspectionSheetReducer';
 
 /**
  * Initial state of InspectionSheet object.
@@ -21,5 +23,9 @@ export const InspectionSheetOperator = () => {
     dispatch(addEquipmentAction());
   }
 
-  return [inspectionSheet, updateField, addEquipment];
+  const removeEquipment = (id: string) => {
+    dispatch(removeEquipmentAction(id));
+  }
+
+  return [inspectionSheet, updateField, addEquipment, removeEquipment];
 }
