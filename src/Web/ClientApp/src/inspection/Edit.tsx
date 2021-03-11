@@ -16,6 +16,7 @@ export const Edit = ({ match }: any): JSX.Element => {
         setSheet(json);
       })
       .catch(console.error);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sheetId]);
 
   const handleUpdate = (event: React.MouseEvent<HTMLElement, MouseEvent>): void => {

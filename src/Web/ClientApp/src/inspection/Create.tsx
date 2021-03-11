@@ -4,7 +4,7 @@ import { InspectionSheetOperator } from './InspectionSheetOperator';
 import { InspectionSheetForm } from './InspectionSheetForm';
 
 export const Create = (): JSX.Element => {
-  const [inspectionSheet, setSheet, updateField, addEquipment, removeEquipment, updateEquipment] = InspectionSheetOperator();
+  const [inspectionSheet,, updateField, addEquipment, removeEquipment, updateEquipment] = InspectionSheetOperator();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
