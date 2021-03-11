@@ -49,7 +49,13 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
           equipments: state.equipments
         };
       }
-      return state
+      return state;
+    case TYPES.ADD_INSPECTION_ITEM:
+      return state;
+    case TYPES.REMOVE_INSPECTION_ITEM:
+      return state;
+    case TYPES.UPDATE_INSPECTION_ITEM:
+      return state;
     default:
       console.warn(`unknown type ${action.type}`);
       return state;
