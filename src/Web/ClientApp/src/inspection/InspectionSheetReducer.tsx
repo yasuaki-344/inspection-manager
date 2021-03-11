@@ -109,14 +109,28 @@ export const addInspectionItemAction = (id: string): InspectionSheetAction => {
   }
 };
 
-export const removeInspectionItemAction = (): InspectionSheetAction => {
+export const removeInspectionItemAction = (id: string, itemId: string): InspectionSheetAction => {
   return {
     type: TYPES.REMOVE_INSPECTION_ITEM,
+    payload: {
+      equipment_id: id,
+      inspection_item_id: itemId,
+    }
   }
 };
 
-export const updateInspectionItemAction = (): InspectionSheetAction => {
+export const updateInspectionItemAction = (
+  event: React.ChangeEvent<HTMLInputElement>,
+  id: string,
+  itemId: string
+): InspectionSheetAction => {
   return {
     type: TYPES.UPDATE_INSPECTION_ITEM,
+    payload: {
+      name: event.target.name,
+      value: event.target.value,
+      equipment_id: id,
+      inspection_item_id: itemId,
+    }
   }
 };

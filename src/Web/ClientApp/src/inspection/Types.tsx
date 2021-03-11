@@ -15,6 +15,7 @@ export type InspectionSheetAction = {
     name?: string;
     value?: string;
     equipment_id?: string;
+    inspection_item_id?: string;
     sheet?: InspectionSheet;
   };
 };
