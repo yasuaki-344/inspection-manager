@@ -100,3 +100,20 @@ export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement>
   }
 };
 
+export const addInspectionItemAction = (): InspectionSheetAction => {
+  return {
+    type: TYPES.ADD_INSPECTION_ITEM,
+  }
+};
+
+export const removeInspectionItemAction = (): InspectionSheetAction => {
+  return {
+    type: TYPES.REMOVE_INSPECTION_ITEM,
+  }
+};
+
+export const updateInspectionItemAction = (): InspectionSheetAction => {
+  return {
+    type: TYPES.UPDATE_INSPECTION_ITEM,
+  }
+};
