@@ -34,37 +34,37 @@ export const Edit = ({ match }: any): JSX.Element => {
   }
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h3" >編集ページ</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Paper variant="outlined">
-          <TextField
-            fullWidth
-            id="outlined-required"
-            label="点検シートID"
-            variant="outlined"
-            size="small"
-            name="sheet_id"
-            defaultValue={inspectionSheet.sheet_id}
-            value={inspectionSheet.sheet_id}
-            margin="normal"
-            InputProps={{ readOnly: true, }}
-          />
-          <TextField
-            required
-            id="outlined-required"
-            label="点検シート名"
-            variant="outlined"
-            size="small"
-            name="sheet_name"
-            value={inspectionSheet.sheet_name}
-            onChange={e => {
-              updateField(e);
-            }}
-            margin="normal"
-          />
+    <div>
+      <Typography variant="h3" >編集ページ</Typography>
+      <Paper variant="outlined">
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              id="outlined-required"
+              label="点検シートID"
+              variant="outlined"
+              size="small"
+              name="sheet_id"
+              defaultValue={inspectionSheet.sheet_id}
+              value={inspectionSheet.sheet_id}
+              InputProps={{ readOnly: true, }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              id="outlined-required"
+              label="点検シート名"
+              variant="outlined"
+              size="small"
+              name="sheet_name"
+              value={inspectionSheet.sheet_name}
+              onChange={e => {
+                updateField(e);
+              }}
+            />
+          </Grid>
           {inspectionSheet.equipments.map((equipment: Equipment) =>
             <Grid item xs={12} key={equipment.equipment_id}>
               <TextField
@@ -80,11 +80,9 @@ export const Edit = ({ match }: any): JSX.Element => {
               <Button size='medium' variant='contained' color='primary' onClick={() => removeEquipment(equipment.equipment_id)}>機器削除</Button>
             </Grid>
           )}
-
           <Grid item xs={12}>
             <Button size='medium' variant='contained' color='primary' onClick={addEquipment}>機器追加</Button>
           </Grid>
-
           <Grid item xs={12}>
             <Button
               size='medium'
@@ -95,9 +93,9 @@ export const Edit = ({ match }: any): JSX.Element => {
               更新
             </Button>
           </Grid>
-        </Paper>
-      </Grid>
-    </Grid>
+        </Grid>
+      </Paper>
+    </div>
   );
 }
 Edit.displayName = Edit.name;

@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Grid, TextField, Typography, Paper } from '@material-ui/core';
 import { InspectionSheetOperator } from './InspectionSheetOperator';
 import { Equipment } from './Types';
+import { InspectionSheetForm } from './InspectionSheetForm';
 
 export const Create = (): JSX.Element => {
   const [inspectionSheet, updateField, addEquipment, removeEquipment, updateEquipment] = InspectionSheetOperator();
@@ -65,7 +66,6 @@ export const Create = (): JSX.Element => {
               <Button type="submit" size='medium' variant='contained' color='primary'>新規作成</Button>
             </Grid>
           </Grid>
-
         </Paper>
       </form>
     </div>
