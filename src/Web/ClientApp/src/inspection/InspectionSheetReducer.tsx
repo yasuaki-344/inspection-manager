@@ -100,9 +100,12 @@ export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement>
   }
 };
 
-export const addInspectionItemAction = (): InspectionSheetAction => {
+export const addInspectionItemAction = (id: string): InspectionSheetAction => {
   return {
     type: TYPES.ADD_INSPECTION_ITEM,
+    payload: {
+      equipment_id: id,
+    }
   }
 };
 
