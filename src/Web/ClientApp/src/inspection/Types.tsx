@@ -1,6 +1,12 @@
+export type InspectionItem = {
+  inspection_item_id: string,
+  inspection_content: string,
+}
+
 export type Equipment = {
   equipment_id: string,
   equipment_name: string,
+  inspection_items: InspectionItem[],
 };
 
 export type InspectionSheet = {
