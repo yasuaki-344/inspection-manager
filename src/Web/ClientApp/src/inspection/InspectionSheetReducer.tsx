@@ -29,6 +29,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         equipments: state.equipments.concat({
           equipment_id: Math.random().toString(36).substr(2, 9),
           equipment_name: "",
+          inspection_items: [],
         })
       };
     case TYPES.REMOVE_EQUIPMENT:
