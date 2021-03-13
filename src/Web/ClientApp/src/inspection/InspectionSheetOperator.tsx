@@ -1,7 +1,8 @@
 import React, { useReducer } from 'react';
 import InspectionSheetReducer, {
   setSheetAction, updateFieldAction,
-  addEquipmentAction, removeEquipmentAction, updateEquipmentAction
+  addEquipmentAction, removeEquipmentAction, updateEquipmentAction,
+  addInspectionItemAction, removeInspectionItemAction, updateInspectionItemAction
 } from './InspectionSheetReducer';
 
 /**
@@ -28,5 +29,21 @@ export const InspectionSheetOperator = () => {
   const updateEquipment = (event: React.ChangeEvent<HTMLInputElement>, id: string): void =>
     dispatch(updateEquipmentAction(event, id));
 
-  return [inspectionSheet, setSheet, updateField, addEquipment, removeEquipment, updateEquipment];
+  const addInspectionItem = (id: string): void => dispatch(addInspectionItemAction(id));
+
+  const removeInspectionItem = (id: string, itemId: string): void =>
+    dispatch(removeInspectionItemAction(id, itemId));
+
+  const updateInspectionItem = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    id: string,
+    itemId: string
+  ): void =>
+    dispatch(updateInspectionItemAction(event, id, itemId));
+
+  return [
+    inspectionSheet, setSheet, updateField,
+    addEquipment, removeEquipment, updateEquipment,
+    addInspectionItem, removeInspectionItem, updateInspectionItem
+  ];
 }
