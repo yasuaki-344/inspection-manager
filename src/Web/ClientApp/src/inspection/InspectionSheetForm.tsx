@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconButton, Grid, Paper, TextField, Typography } from '@material-ui/core';
+import { Fab, Grid, Paper, TextField, Typography } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { EquipmentForm } from './EquipmentForm';
 import { Equipment } from './Types';
@@ -57,10 +57,10 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
           </Grid>
         )}
         <Grid item xs={12}>
-          <IconButton color="primary" onClick={props.addEquipment}>
+          <Fab color="primary" variant="extended" onClick={props.addEquipment}>
             <AddCircleIcon />
-            <Typography>点検機器追加</Typography>
-          </IconButton>
+            点検機器追加
+          </Fab>
         </Grid>
       </Grid>
     </Paper >
