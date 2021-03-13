@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import { InspectionSheetOperator } from './InspectionSheetOperator';
 import { InspectionSheetForm } from './InspectionSheetForm';
 
@@ -26,10 +26,12 @@ export const Create = (): JSX.Element => {
   }
 
   return (
-    <div>
-      <Typography variant="h3" >新規作成ページ</Typography>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={1}>
+    <Grid container>
+      <Grid item xs={12}>
+        <h1>新規作成ページ</h1>
+      </Grid>
+      <Grid item xs={12}>
+        <form onSubmit={handleSubmit}>
           <Grid item xs={12}>
             <InspectionSheetForm
               isEdit={false}
@@ -46,9 +48,9 @@ export const Create = (): JSX.Element => {
           <Grid item xs={12}>
             <Button type="submit" size='medium' variant='contained' color='primary'>新規作成</Button>
           </Grid>
-        </Grid>
-      </form>
-    </div>
+        </form>
+      </Grid>
+    </Grid>
   );
 }
 Create.displayName = Create.name;
