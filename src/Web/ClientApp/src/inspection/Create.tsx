@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, Grid, Typography, Paper } from '@material-ui/core';
+import { Button, Grid, Typography } from '@material-ui/core';
 import { InspectionSheetOperator } from './InspectionSheetOperator';
 import { InspectionSheetForm } from './InspectionSheetForm';
 
 export const Create = (): JSX.Element => {
   const [
-    inspectionSheet,, updateField,
+    inspectionSheet, , updateField,
     addEquipment, removeEquipment, updateEquipment,
     addInspectionItem, removeInspectionItem, updateInspectionItem
   ] = InspectionSheetOperator();
@@ -29,24 +29,24 @@ export const Create = (): JSX.Element => {
     <div>
       <Typography variant="h3" >新規作成ページ</Typography>
       <form onSubmit={handleSubmit}>
-        <Paper>
-          <InspectionSheetForm
-            isEdit={false}
-            sheet={inspectionSheet}
-            updateField={updateField}
-            addEquipment={addEquipment}
-            removeEquipment={removeEquipment}
-            updateEquipment={updateEquipment}
-            addInspectionItem={addInspectionItem}
-            removeInspectionItem={removeInspectionItem}
-            updateInspectionItem={updateInspectionItem}
-          />
-          <Grid container spacing={1}>
-            <Grid item xs={12}>
-              <Button type="submit" size='medium' variant='contained' color='primary'>新規作成</Button>
-            </Grid>
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <InspectionSheetForm
+              isEdit={false}
+              sheet={inspectionSheet}
+              updateField={updateField}
+              addEquipment={addEquipment}
+              removeEquipment={removeEquipment}
+              updateEquipment={updateEquipment}
+              addInspectionItem={addInspectionItem}
+              removeInspectionItem={removeInspectionItem}
+              updateInspectionItem={updateInspectionItem}
+            />
           </Grid>
-        </Paper>
+          <Grid item xs={12}>
+            <Button type="submit" size='medium' variant='contained' color='primary'>新規作成</Button>
+          </Grid>
+        </Grid>
       </form>
     </div>
   );
