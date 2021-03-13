@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Grid, TextField } from '@material-ui/core';
+import { InspectionItemForm } from './InspectionItemForm';
 import { InspectionItem } from './Types';
 
 export const EquipmentForm = (props: any): JSX.Element => {
@@ -21,29 +22,13 @@ export const EquipmentForm = (props: any): JSX.Element => {
         機器削除
     </Button>
       {props.equipment.inspection_items.map((inspectionItem: InspectionItem) =>
-        <div key={inspectionItem.inspection_item_id}>
-          <TextField
-            required
-            id="outlined-required"
-            label="点検項目"
-            variant="outlined"
-            size="small"
-            name="inspection_content"
-            value={inspectionItem.inspection_content}
-            onChange={(e) => {
-              props.updateInspectionItem(e,
-                props.equipment.equipment_id, inspectionItem.inspection_item_id)
-            }}
-          />
-
-          <Button size='medium' variant='contained' color='primary'
-            onClick={() => props.removeInspectionItem(
-              props.equipment.equipment_id, inspectionItem.inspection_item_id
-            )}
-          >
-            点検項目削除
-        </Button>
-        </div>
+        <InspectionItemForm
+          key={inspectionItem.inspection_item_id}
+          equipment_id={props.equipment.equipment_id}
+          inspectionItem={inspectionItem}
+          removeInspectionItem={props.removeInspectionItem}
+          updateInspectionItem={props.updateInspectionItem}
+        />
       )}
       <Button size='medium' variant='contained' color='primary'
         onClick={() => props.addInspectionItem(props.equipment.equipment_id)}
