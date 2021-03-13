@@ -4,7 +4,11 @@ import { InspectionSheetOperator } from './InspectionSheetOperator';
 import { InspectionSheetForm } from './InspectionSheetForm';
 
 export const Create = (): JSX.Element => {
-  const [inspectionSheet,, updateField, addEquipment, removeEquipment, updateEquipment] = InspectionSheetOperator();
+  const [
+    inspectionSheet,, updateField,
+    addEquipment, removeEquipment, updateEquipment,
+    addInspectionItem
+  ] = InspectionSheetOperator();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,6 +37,7 @@ export const Create = (): JSX.Element => {
             addEquipment={addEquipment}
             removeEquipment={removeEquipment}
             updateEquipment={updateEquipment}
+            addInspectionItem={addInspectionItem}
           />
           <Grid container spacing={1}>
             <Grid item xs={12}>

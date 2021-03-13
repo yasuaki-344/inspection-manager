@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Grid, TextField } from '@material-ui/core';
-import { Equipment } from './Types';
+import { Equipment, InspectionItem } from './Types';
 
 export const InspectionSheetForm = (props: any): JSX.Element => {
 
@@ -53,6 +53,19 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
             onClick={() => props.removeEquipment(equipment.equipment_id)}
           >
             機器削除
+          </Button>
+          {equipment.inspection_items.map((inspectionItem: InspectionItem) =>
+            <div>
+              <div>{inspectionItem.inspection_content}</div>
+              <Button size='medium' variant='contained' color='primary'>
+                点検項目削除
+              </Button>
+            </div>
+          )}
+          <Button size='medium' variant='contained' color='primary'
+            onClick={() => props.addInspectionItem(equipment.equipment_id)}
+          >
+            点検項目追加
           </Button>
         </Grid>
       )}
