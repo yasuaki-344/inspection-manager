@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Grid, TextField } from '@material-ui/core';
-import { Equipment, InspectionItem } from './Types';
+import { EquipmentForm } from './EquipmentForm';
+import { Equipment } from './Types';
 
 export const InspectionSheetForm = (props: any): JSX.Element => {
 
@@ -38,51 +39,16 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
         />
       </Grid>
       {props.sheet.equipments.map((equipment: Equipment) =>
-        <Grid item xs={12} key={equipment.equipment_id}>
-          <TextField
-            required
-            id="outlined-required"
-            label="点検機器名"
-            variant="outlined"
-            size="small"
-            name="equipment_name"
-            value={equipment.equipment_name}
-            onChange={(e) => { props.updateEquipment(e, equipment.equipment_id) }}
-          />
-          <Button size='medium' variant='contained' color='primary'
-            onClick={() => props.removeEquipment(equipment.equipment_id)}
-          >
-            機器削除
-          </Button>
-          {equipment.inspection_items.map((inspectionItem: InspectionItem) =>
-            <div key={inspectionItem.inspection_item_id}>
-              <TextField
-                required
-                id="outlined-required"
-                label="点検項目"
-                variant="outlined"
-                size="small"
-                name="inspection_content"
-                value={inspectionItem.inspection_content}
-                onChange={(e) => { props.updateInspectionItem(e,
-                   equipment.equipment_id, inspectionItem.inspection_item_id) }}
-              />
-
-              <Button size='medium' variant='contained' color='primary'
-                onClick={() => props.removeInspectionItem(
-                  equipment.equipment_id, inspectionItem.inspection_item_id
-                )}
-              >
-                点検項目削除
-              </Button>
-            </div>
-          )}
-          <Button size='medium' variant='contained' color='primary'
-            onClick={() => props.addInspectionItem(equipment.equipment_id)}
-          >
-            点検項目追加
-          </Button>
-        </Grid>
+        <EquipmentForm
+          key={equipment.equipment_id}
+          equipment={equipment}
+          addEquipment={props.addEquipment}
+          removeEquipment={props.removeEquipment}
+          updateEquipment={props.updateEquipment}
+          addInspectionItem={props.addInspectionItem}
+          removeInspectionItem={props.removeInspectionItem}
+          updateInspectionItem={props.updateInspectionItem}
+        />
       )}
       <Grid item xs={12}>
         <Button size='medium' variant='contained' color='primary'
