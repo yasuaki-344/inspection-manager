@@ -55,9 +55,13 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
             機器削除
           </Button>
           {equipment.inspection_items.map((inspectionItem: InspectionItem) =>
-            <div>
+            <div key={inspectionItem.inspection_item_id}>
               <div>{inspectionItem.inspection_content}</div>
-              <Button size='medium' variant='contained' color='primary'>
+              <Button size='medium' variant='contained' color='primary'
+                onClick={() => props.removeInspectionItem(
+                  equipment.equipment_id, inspectionItem.inspection_item_id
+                )}
+              >
                 点検項目削除
               </Button>
             </div>

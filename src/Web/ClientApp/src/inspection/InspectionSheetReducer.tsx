@@ -51,9 +51,38 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
       }
       return state;
     case TYPES.ADD_INSPECTION_ITEM:
-      return state;
+      return {
+        ...state,
+        equipments: state.equipments.map(e => {
+          if (e.equipment_id === action.payload?.equipment_id) {
+            return {
+              ...e,
+              inspection_items: e.inspection_items.concat({
+                inspection_item_id: Math.random().toString(36).substr(2, 9),
+                inspection_content: "",
+              })
+            };
+          } else {
+            return e;
+          }
+        }),
+      };
     case TYPES.REMOVE_INSPECTION_ITEM:
-      return state;
+      return {
+        ...state,
+        equipments: state.equipments.map(e => {
+          if (e.equipment_id === action.payload?.equipment_id) {
+            return {
+              ...e,
+              inspection_items: e.inspection_items.filter(i =>
+                i.inspection_item_id !== action.payload?.inspection_item_id
+              )
+            };
+          } else {
+            return e;
+          }
+        }),
+      };
     case TYPES.UPDATE_INSPECTION_ITEM:
       return state;
     default:
