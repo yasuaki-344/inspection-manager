@@ -84,7 +84,32 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         }),
       };
     case TYPES.UPDATE_INSPECTION_ITEM:
-      return state;
+      return {
+        ...state,
+        equipments: state.equipments.map(e => {
+          if (e.equipment_id === action.payload?.equipment_id) {
+            return {
+              ...e,
+              inspection_items: e.inspection_items.map(i => {
+                if (i.inspection_item_id === action.payload?.inspection_item_id) {
+                  if (action.payload.name != null) {
+                    return {
+                      ...i,
+                      [action.payload.name]: action.payload.value,
+                    };
+                  } else {
+                    return i;
+                  }
+                } else {
+                  return i;
+                }
+              }),
+            };
+          } else {
+            return e;
+          }
+        }),
+      };
     default:
       console.warn(`unknown type ${action.type}`);
       return state;
