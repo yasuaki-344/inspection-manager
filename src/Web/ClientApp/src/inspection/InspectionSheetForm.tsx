@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Grid, Paper, TextField } from '@material-ui/core';
+import { IconButton, Grid, Paper, TextField, Typography } from '@material-ui/core';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { EquipmentForm } from './EquipmentForm';
 import { Equipment } from './Types';
 
@@ -22,8 +23,11 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
     : <></>;
 
   return (
-    <Paper>
-      <Grid container spacing={2}>
+    <Paper variant="outlined">
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <Typography>点検シート情報</Typography>
+        </Grid>
         {contents}
         <Grid item xs={12}>
           <TextField
@@ -53,11 +57,13 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
           </Grid>
         )}
         <Grid item xs={12}>
-          <Button size='medium' variant='contained' color='primary'
-            onClick={props.addEquipment}>機器追加</Button>
+          <IconButton color="primary" onClick={props.addEquipment}>
+            <AddCircleIcon />
+            <Typography>点検機器追加</Typography>
+          </IconButton>
         </Grid>
       </Grid>
-    </Paper>
+    </Paper >
   );
 }
 InspectionSheetForm.displayName = InspectionSheetForm.name;
