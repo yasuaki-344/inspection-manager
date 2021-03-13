@@ -56,7 +56,18 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
           </Button>
           {equipment.inspection_items.map((inspectionItem: InspectionItem) =>
             <div key={inspectionItem.inspection_item_id}>
-              <div>{inspectionItem.inspection_content}</div>
+              <TextField
+                required
+                id="outlined-required"
+                label="点検項目"
+                variant="outlined"
+                size="small"
+                name="inspection_content"
+                value={inspectionItem.inspection_content}
+                onChange={(e) => { props.updateInspectionItem(e,
+                   equipment.equipment_id, inspectionItem.inspection_item_id) }}
+              />
+
               <Button size='medium' variant='contained' color='primary'
                 onClick={() => props.removeInspectionItem(
                   equipment.equipment_id, inspectionItem.inspection_item_id

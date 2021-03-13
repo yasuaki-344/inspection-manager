@@ -18,8 +18,11 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
     case TYPES.SET_SHEET:
       return action.payload?.sheet;
     case TYPES.UPDATE_FIELD:
-      if (action.payload != null && action.payload.name != null && action.payload.value != null) {
-        return { ...state, [action.payload.name]: action.payload.value };
+      if (action.payload?.name != null) {
+        return {
+          ...state,
+          [action.payload.name]: action.payload.value,
+        };
       } else {
         return state;
       }
@@ -38,18 +41,20 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         equipments: state.equipments.filter(e => e.equipment_id !== action.payload?.equipment_id),
       };
     case TYPES.UPDATE_EQUIPMENT:
-      if (action.payload != null && action.payload.name != null && action.payload.value != null) {
-        const index = state.equipments.findIndex(e => e.equipment_id === action.payload?.equipment_id);
-        state.equipments[index] = {
-          ...state.equipments[index],
-          [action.payload.name]: action.payload.value,
-        };
-        return {
-          ...state,
-          equipments: state.equipments
-        };
-      }
-      return state;
+      return {
+        ...state,
+        equipments: state.equipments.map(e => {
+          if (e.equipment_id === action.payload?.equipment_id &&
+            action.payload?.name != null) {
+            return {
+              ...e,
+              [action.payload.name]: action.payload.value,
+            };
+          } else {
+            return e;
+          }
+        }),
+      };
     case TYPES.ADD_INSPECTION_ITEM:
       return {
         ...state,

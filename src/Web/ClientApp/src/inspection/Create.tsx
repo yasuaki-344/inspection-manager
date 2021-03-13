@@ -7,12 +7,12 @@ export const Create = (): JSX.Element => {
   const [
     inspectionSheet,, updateField,
     addEquipment, removeEquipment, updateEquipment,
-    addInspectionItem, removeInspectionItem
+    addInspectionItem, removeInspectionItem, updateInspectionItem
   ] = InspectionSheetOperator();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    console.debug(inspectionSheet);
     fetch('inspectionsheet', {
       method: 'POST',
       headers: {
@@ -39,6 +39,7 @@ export const Create = (): JSX.Element => {
             updateEquipment={updateEquipment}
             addInspectionItem={addInspectionItem}
             removeInspectionItem={removeInspectionItem}
+            updateInspectionItem={updateInspectionItem}
           />
           <Grid container spacing={1}>
             <Grid item xs={12}>
