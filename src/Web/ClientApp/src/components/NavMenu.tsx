@@ -1,10 +1,25 @@
 import React, { useState } from 'react';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { AppBar, Menu, MenuItem, IconButton, Toolbar, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    textDark: {
+      color: "#000000",
+      textDecoration:"none",
+    },
+    textWhite: {
+      color: "#FFFFFF",
+      textDecoration:"none",
+    },
+  })
+);
+
 export const NavMenu = (): JSX.Element => {
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -29,14 +44,14 @@ export const NavMenu = (): JSX.Element => {
             onClose={handleClose}
           >
             <MenuItem onClick={handleClose}>
-              <Link className="text-dark" to="/">Home</Link>
+              <Link className={classes.textDark} to="/">Home</Link>
             </MenuItem>
             <MenuItem onClick={handleClose}>
-              <Link className="text-dark" to="/create">Create</Link>
+              <Link className={classes.textDark} to="/create">Create</Link>
             </MenuItem>
           </Menu>
           <Typography variant="h6" noWrap color="inherit">
-            <Link className="text-white" to="/" color="primary">
+            <Link className={classes.textWhite} to="/" color="primary">
               Inspection Manager
             </Link>
           </Typography>
