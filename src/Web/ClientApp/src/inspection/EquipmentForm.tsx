@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import CancelIcon from '@material-ui/icons/Cancel';
 import { InspectionItemForm } from './InspectionItemForm';
 import { InspectionItem } from './Types';
 
@@ -72,7 +72,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
                 />
                 <BottomNavigationAction
                   label="点検機器削除"
-                  icon={<RemoveCircleIcon />}
+                  icon={<CancelIcon />}
                   onClick={() => props.removeEquipment(props.equipment.equipment_id)}
                 />
               </BottomNavigation>
