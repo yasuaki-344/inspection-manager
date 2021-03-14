@@ -1,12 +1,17 @@
 import React, { Fragment, useState } from 'react';
 import {
-  Box, Collapse,
-  IconButton, Grid, TextField,
+  Box, Collapse, IconButton, Grid, TextField,
   TableCell, TableRow
 } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+
+const useInputTypes = [
+  { value: 1, label: "整数入力" },
+  { value: 2, label: "テキスト入力" },
+  { value: 3, label: "項目選択" },
+];
 
 export const InspectionItemForm = (props: any): JSX.Element => {
   const [open, setOpen] = useState(false);
@@ -23,6 +28,7 @@ export const InspectionItemForm = (props: any): JSX.Element => {
           {props.inspectionItem.inspection_content}
         </TableCell>
         <TableCell>
+          {useInputTypes.filter(e => e.value !== props.inspectionItem.input_type)[0].label}
         </TableCell>
         <TableCell align="right">
           <IconButton color="primary" size="small"
@@ -39,7 +45,7 @@ export const InspectionItemForm = (props: any): JSX.Element => {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Grid container spacing={0}>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <TextField
                     required
                     id="outlined-required"
@@ -53,6 +59,28 @@ export const InspectionItemForm = (props: any): JSX.Element => {
                         props.equipment_id, props.inspectionItem.inspection_item_id)
                     }}
                   />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    required
+                    select
+                    id="outlined-required"
+                    label="点検タイプ"
+                    variant="outlined"
+                    size="small"
+                    name="input_type"
+                    value={props.inspectionItem.input_type}
+                    onChange={(e) => {
+                      props.updateInspectionItem(e,
+                        props.equipment_id, props.inspectionItem.inspection_item_id)
+                    }}
+                  >
+                    {useInputTypes.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </TextField>
                 </Grid>
               </Grid>
             </Box>
