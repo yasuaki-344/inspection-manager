@@ -1,6 +1,7 @@
 export type InspectionItem = {
   inspection_item_id: string,
   inspection_content: string,
+  input_type: number,
 }
 
 export type Equipment = {

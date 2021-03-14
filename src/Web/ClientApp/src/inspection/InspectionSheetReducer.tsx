@@ -35,6 +35,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
           inspection_items: [{
             inspection_item_id: Math.random().toString(36).substr(2, 9),
             inspection_content: "",
+            input_type: 1,
           }],
         })
       };
@@ -68,6 +69,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
               inspection_items: e.inspection_items.concat({
                 inspection_item_id: Math.random().toString(36).substr(2, 9),
                 inspection_content: "",
+                input_type: 1,
               })
             };
           } else {
