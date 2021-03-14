@@ -2,7 +2,8 @@ import React from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   Accordion, AccordionSummary, AccordionDetails,
-  BottomNavigation, BottomNavigationAction, Grid, Paper, TextField
+  BottomNavigation, BottomNavigationAction, Grid, Paper, TextField,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -52,17 +53,29 @@ export const EquipmentForm = (props: any): JSX.Element => {
                 onChange={(e) => { props.updateEquipment(e, props.equipment.equipment_id) }}
               />
             </Grid>
-            {props.equipment.inspection_items.map((inspectionItem: InspectionItem) =>
-              <Grid item xs={12}>
-                <InspectionItemForm
-                  key={inspectionItem.inspection_item_id}
-                  equipment_id={props.equipment.equipment_id}
-                  inspectionItem={inspectionItem}
-                  removeInspectionItem={props.removeInspectionItem}
-                  updateInspectionItem={props.updateInspectionItem}
-                />
-              </Grid>
-            )}
+            <TableContainer component={Paper}>
+              <Table aria-label="collapsible table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell />
+                    <TableCell />
+                    <TableCell>点検項目</TableCell>
+                    <TableCell>点検タイプ</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {props.equipment.inspection_items.map((inspectionItem: InspectionItem) =>
+                    <InspectionItemForm
+                      key={inspectionItem.inspection_item_id}
+                      equipment_id={props.equipment.equipment_id}
+                      inspectionItem={inspectionItem}
+                      removeInspectionItem={props.removeInspectionItem}
+                      updateInspectionItem={props.updateInspectionItem}
+                    />
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
             <Grid item xs={12}>
               <BottomNavigation showLabels>
                 <BottomNavigationAction
