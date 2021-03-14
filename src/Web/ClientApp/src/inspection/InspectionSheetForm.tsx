@@ -23,7 +23,7 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
   const classes = useStyles();
 
   const contents = props.isEdit
-    ? <Grid item xs={12}>
+    ? <Grid item xs={12} className={classes.sheetElement}>
       <TextField
         fullWidth
         id="outlined-required"

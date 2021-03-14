@@ -28,7 +28,7 @@ export const InspectionItemForm = (props: any): JSX.Element => {
           {props.inspectionItem.inspection_content}
         </TableCell>
         <TableCell>
-          {useInputTypes.filter(e => e.value !== props.inspectionItem.input_type)[0].label}
+          {useInputTypes.filter(e => e.value === props.inspectionItem.input_type)[0].label}
         </TableCell>
         <TableCell align="right">
           <IconButton color="primary" size="small"

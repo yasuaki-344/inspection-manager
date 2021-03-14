@@ -1,12 +1,16 @@
 import React, { useEffect } from 'react';
-import { Button, Grid, Typography, Paper } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import { InspectionSheet } from './Types';
 import { InspectionSheetOperator } from './InspectionSheetOperator';
 import { InspectionSheetForm } from './InspectionSheetForm';
 
 export const Edit = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
-  const [inspectionSheet, setSheet, updateField, addEquipment, removeEquipment, updateEquipment] = InspectionSheetOperator();
+  const [
+    inspectionSheet, setSheet, updateField,
+    addEquipment, removeEquipment, updateEquipment,
+    addInspectionItem, removeInspectionItem, updateInspectionItem
+  ] = InspectionSheetOperator();
 
   useEffect(() => {
     fetch(`inspectionsheet/${sheetId}`)
@@ -36,9 +40,11 @@ export const Edit = ({ match }: any): JSX.Element => {
   }
 
   return (
-    <div>
-      <Typography variant="h3" >編集ページ</Typography>
-      <Paper variant="outlined">
+    <Grid container>
+      <Grid item xs={12}>
+        <h1>編集ページ</h1>
+      </Grid>
+      <Grid item xs={12}>
         <InspectionSheetForm
           isEdit={true}
           sheet={inspectionSheet}
@@ -46,21 +52,22 @@ export const Edit = ({ match }: any): JSX.Element => {
           addEquipment={addEquipment}
           removeEquipment={removeEquipment}
           updateEquipment={updateEquipment}
+          addInspectionItem={addInspectionItem}
+          removeInspectionItem={removeInspectionItem}
+          updateInspectionItem={updateInspectionItem}
         />
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Button
-              size='medium'
-              variant='contained'
-              color='primary'
-              onClick={handleUpdate}
-            >
-              更新
-            </Button>
-          </Grid>
-        </Grid>
-      </Paper>
-    </div>
+      </Grid>
+      <Grid item xs={12}>
+        <Button
+          size='medium'
+          variant='contained'
+          color='primary'
+          onClick={handleUpdate}
+        >
+          更新
+        </Button>
+      </Grid>
+    </Grid>
   );
 }
 Edit.displayName = Edit.name;
