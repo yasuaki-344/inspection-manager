@@ -74,7 +74,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
                 inspection_item_id: Math.random().toString(36).substr(2, 9),
                 inspection_content: "",
                 input_type: 1,
-                choices: ["choice1", "choice2"],
+                choices: [],
               })
             };
           } else {
@@ -126,11 +126,82 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         }),
       };
     case TYPES.ADD_CHOICE:
-      return state;
+      return {
+        ...state,
+        equipments: state.equipments.map(e => {
+          if (e.equipment_id === action.payload?.equipment_id) {
+            return {
+              ...e,
+              inspection_items: e.inspection_items.map(item => {
+                if (item.inspection_item_id === action.payload?.inspection_item_id) {
+                  return {
+                    ...item,
+                    choices: item.choices.concat("")
+                  }
+                } else {
+                  return item
+                }
+              })
+            };
+          } else {
+            return e;
+          }
+        }),
+      };
     case TYPES.REMOVE_CHOICE:
-      return state;
+      return {
+        ...state,
+        equipments: state.equipments.map(e => {
+          if (e.equipment_id === action.payload?.equipment_id) {
+            return {
+              ...e,
+              inspection_items: e.inspection_items.map(item => {
+                if (item.inspection_item_id === action.payload?.inspection_item_id) {
+                  return {
+                    ...item,
+                    choices: item.choices.filter((choice, index) =>
+                      index !== action.payload?.choice_index
+                    )
+                  }
+                } else {
+                  return item
+                }
+              })
+            };
+          } else {
+            return e;
+          }
+        })
+      };
     case TYPES.UPDATE_CHOICE:
-      return state;
+      return {
+        ...state,
+        equipments: state.equipments.map(e => {
+          if (e.equipment_id === action.payload?.equipment_id) {
+            return {
+              ...e,
+              inspection_items: e.inspection_items.map(item => {
+                if (item.inspection_item_id === action.payload?.inspection_item_id) {
+                  return {
+                    ...item,
+                    choices: item.choices.map((choice, index) => {
+                      if (index === action.payload?.choice_index) {
+                        return action.payload.value;
+                      } else {
+                        return choice;
+                      }
+                    })
+                  }
+                } else {
+                  return item
+                }
+              })
+            };
+          } else {
+            return e;
+          }
+        })
+      };
     default:
       console.warn(`unknown type ${action.type}`);
       return state;
@@ -247,7 +318,6 @@ export const updateChoiceAction = (
   return {
     type: TYPES.UPDATE_CHOICE,
     payload: {
-      name: event.target.name,
       value: event.target.value,
       equipment_id: id,
       inspection_item_id: itemId,
