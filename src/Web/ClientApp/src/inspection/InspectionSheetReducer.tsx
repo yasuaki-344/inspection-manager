@@ -10,6 +10,9 @@ const TYPES = {
   ADD_INSPECTION_ITEM: "ADD_INSPECTION_ITEM",
   REMOVE_INSPECTION_ITEM: "REMOVE_INSPECTION_ITEM",
   UPDATE_INSPECTION_ITEM: "UPDATE_INSPECTION_ITEM",
+  ADD_CHOICE: "ADD_CHOICE",
+  REMOVE_CHOICE: "REMOVE_CHOICE",
+  UPDATE_CHOICE: "UPDATE_CHOICE",
 };
 
 export default function InspectionSheetReducer(state: InspectionSheet, action: InspectionSheetAction): any {
@@ -122,6 +125,12 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
           }
         }),
       };
+    case TYPES.ADD_CHOICE:
+      return state;
+    case TYPES.REMOVE_CHOICE:
+      return state;
+    case TYPES.UPDATE_CHOICE:
+      return state;
     default:
       console.warn(`unknown type ${action.type}`);
       return state;
@@ -204,6 +213,45 @@ export const updateInspectionItemAction = (
       value: event.target.value,
       equipment_id: id,
       inspection_item_id: itemId,
+    }
+  }
+};
+
+export const addChoiceAction = (id: string, itemId: string): InspectionSheetAction => {
+  return {
+    type: TYPES.ADD_CHOICE,
+    payload: {
+      equipment_id: id,
+      inspection_item_id: itemId
+    }
+  }
+};
+
+export const removeChoiceAction = (id: string, itemId: string, index: number): InspectionSheetAction => {
+  return {
+    type: TYPES.REMOVE_CHOICE,
+    payload: {
+      equipment_id: id,
+      inspection_item_id: itemId,
+      choice_index: index,
+    }
+  }
+};
+
+export const updateChoiceAction = (
+  event: React.ChangeEvent<HTMLInputElement>,
+  id: string,
+  itemId: string,
+  index: number
+): InspectionSheetAction => {
+  return {
+    type: TYPES.UPDATE_CHOICE,
+    payload: {
+      name: event.target.name,
+      value: event.target.value,
+      equipment_id: id,
+      inspection_item_id: itemId,
+      choice_index: index,
     }
   }
 };
