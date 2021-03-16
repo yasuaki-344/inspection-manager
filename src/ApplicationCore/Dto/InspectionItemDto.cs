@@ -4,6 +4,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 //
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace InspectionManager.ApplicationCore.Dto
@@ -18,5 +19,8 @@ namespace InspectionManager.ApplicationCore.Dto
 
         [JsonPropertyName("input_type")]
         public int InputType { get; set; } = 1;
+
+        [JsonPropertyName("choices")]
+        public List<string> Choices { get; set; } = new List<string>();
     }
 }
