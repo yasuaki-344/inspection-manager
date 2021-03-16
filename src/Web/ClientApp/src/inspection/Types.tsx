@@ -2,7 +2,8 @@ export type InspectionItem = {
   inspection_item_id: string,
   inspection_content: string,
   input_type: number,
-}
+  choices: string[],
+};
 
 export type Equipment = {
   equipment_id: string,

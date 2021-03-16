@@ -30,6 +30,9 @@ export const InspectionItemForm = (props: any): JSX.Element => {
         <TableCell>
           {useInputTypes.filter(e => e.value === props.inspectionItem.input_type)[0].label}
         </TableCell>
+        <TableCell>
+          {props.inspectionItem.choices.join(',')}
+        </TableCell>
         <TableCell align="right">
           <IconButton color="primary" size="small"
             onClick={() => props.removeInspectionItem(

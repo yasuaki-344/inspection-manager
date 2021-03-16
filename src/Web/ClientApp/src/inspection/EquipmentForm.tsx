@@ -60,6 +60,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
                     <TableCell />
                     <TableCell>点検項目</TableCell>
                     <TableCell>点検タイプ</TableCell>
+                    <TableCell>選択肢</TableCell>
                     <TableCell />
                   </TableRow>
                 </TableHead>

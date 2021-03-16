@@ -36,6 +36,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
             inspection_item_id: Math.random().toString(36).substr(2, 9),
             inspection_content: "",
             input_type: 1,
+            choices: [],
           }],
         })
       };
@@ -70,6 +71,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
                 inspection_item_id: Math.random().toString(36).substr(2, 9),
                 inspection_content: "",
                 input_type: 1,
+                choices: ["choice1", "choice2"],
               })
             };
           } else {
