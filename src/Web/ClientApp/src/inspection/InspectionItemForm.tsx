@@ -91,7 +91,21 @@ export const InspectionItemForm = (props: any): JSX.Element => {
                   <Grid item xs={6}>
                     {props.inspectionItem.choices.map((choice: string, index: number) =>
                       <div key={`${props.inspectionItem.inspection_item_id}_${index}`}>
-                        <div>{choice}</div>
+                        <TextField
+                          required
+                          id="outlined-required"
+                          label={`選択肢${index + 1}`}
+                          variant="outlined"
+                          size="small"
+                          name="choice"
+                          value={choice}
+                          onChange={(e) => {
+                            props.updateChoice(e,
+                              props.equipment_id,
+                              props.inspectionItem.inspection_item_id,
+                              index)
+                          }}
+                        />
                         <IconButton color="primary" size="small"
                           onClick={() => props.removeChoice(
                             props.equipment_id,
