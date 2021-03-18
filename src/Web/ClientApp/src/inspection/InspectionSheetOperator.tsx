@@ -2,7 +2,8 @@ import React, { useReducer } from 'react';
 import InspectionSheetReducer, {
   setSheetAction, updateFieldAction,
   addEquipmentAction, removeEquipmentAction, updateEquipmentAction,
-  addInspectionItemAction, removeInspectionItemAction, updateInspectionItemAction
+  addInspectionItemAction, removeInspectionItemAction, updateInspectionItemAction,
+  addChoiceAction, removeChoiceAction, updateChoiceAction
 } from './InspectionSheetReducer';
 
 /**
@@ -41,9 +42,24 @@ export const InspectionSheetOperator = () => {
   ): void =>
     dispatch(updateInspectionItemAction(event, id, itemId));
 
+  const addChoice = (id: string, itemId: string): void =>
+    dispatch(addChoiceAction(id, itemId));
+
+  const removeChoice =  (id: string, itemId: string, index: number): void =>
+    dispatch(removeChoiceAction(id, itemId, index));
+
+  const updateChoice = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    id: string,
+    itemId: string,
+    index: number
+  ): void =>
+    dispatch(updateChoiceAction(event, id, itemId, index));
+
   return [
     inspectionSheet, setSheet, updateField,
     addEquipment, removeEquipment, updateEquipment,
-    addInspectionItem, removeInspectionItem, updateInspectionItem
+    addInspectionItem, removeInspectionItem, updateInspectionItem,
+    addChoice, removeChoice, updateChoice
   ];
 }
