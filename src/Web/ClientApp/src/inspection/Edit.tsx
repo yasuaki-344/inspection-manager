@@ -9,7 +9,8 @@ export const Edit = ({ match }: any): JSX.Element => {
   const [
     inspectionSheet, setSheet, updateField,
     addEquipment, removeEquipment, updateEquipment,
-    addInspectionItem, removeInspectionItem, updateInspectionItem
+    addInspectionItem, removeInspectionItem, updateInspectionItem,
+    addChoice, removeChoice, updateChoice
   ] = InspectionSheetOperator();
 
   useEffect(() => {
@@ -55,6 +56,9 @@ export const Edit = ({ match }: any): JSX.Element => {
           addInspectionItem={addInspectionItem}
           removeInspectionItem={removeInspectionItem}
           updateInspectionItem={updateInspectionItem}
+          addChoice={addChoice}
+          removeChoice={removeChoice}
+          updateChoice={updateChoice}
         />
       </Grid>
       <Grid item xs={12}>
