@@ -1,8 +1,10 @@
 import React, { Fragment, useState } from 'react';
 import {
+  BottomNavigation, BottomNavigationAction,
   Box, Collapse, IconButton, Grid, TextField,
   TableCell, TableRow
 } from '@material-ui/core';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
@@ -85,6 +87,23 @@ export const InspectionItemForm = (props: any): JSX.Element => {
                     ))}
                   </TextField>
                 </Grid>
+                {(props.inspectionItem.input_type !== 3) ? <></> :
+                  <Grid item xs={6}>
+                    {props.inspectionItem.choices.map((choice: string, index: number) =>
+                      <div key={`${props.inspectionItem.inspection_item_id}_${index}`}>
+                        {choice}
+                      </div>
+                    )}
+                    <BottomNavigation showLabels>
+                      <BottomNavigationAction
+                        label="選択肢追加"
+                        icon={<AddCircleIcon />}
+                        onClick={() => props.addChoice(
+                          props.equipment_id, props.inspectionItem.inspection_item_id)}
+                      />
+                    </BottomNavigation>
+                  </Grid>
+                }
               </Grid>
             </Box>
           </Collapse>
