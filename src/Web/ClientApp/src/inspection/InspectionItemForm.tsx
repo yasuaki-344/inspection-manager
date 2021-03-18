@@ -91,7 +91,17 @@ export const InspectionItemForm = (props: any): JSX.Element => {
                   <Grid item xs={6}>
                     {props.inspectionItem.choices.map((choice: string, index: number) =>
                       <div key={`${props.inspectionItem.inspection_item_id}_${index}`}>
-                        {choice}
+                        <div>{choice}</div>
+                        <IconButton color="primary" size="small"
+                          onClick={() => props.removeChoice(
+                            props.equipment_id,
+                            props.inspectionItem.inspection_item_id,
+                            index
+                          )}
+                        >
+                          <CancelIcon />
+                        </IconButton>
+
                       </div>
                     )}
                     <BottomNavigation showLabels>
