@@ -70,6 +70,9 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
               addInspectionItem={props.addInspectionItem}
               removeInspectionItem={props.removeInspectionItem}
               updateInspectionItem={props.updateInspectionItem}
+              addChoice={props.addChoice}
+              removeChoice={props.removeChoice}
+              updateChoice={props.updateChoice}
             />
           </Grid>
         )}
