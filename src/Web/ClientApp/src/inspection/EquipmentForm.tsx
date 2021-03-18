@@ -72,6 +72,9 @@ export const EquipmentForm = (props: any): JSX.Element => {
                       inspectionItem={inspectionItem}
                       removeInspectionItem={props.removeInspectionItem}
                       updateInspectionItem={props.updateInspectionItem}
+                      addChoice={props.addChoice}
+                      removeChoice={props.removeChoice}
+                      updateChoice={props.updateChoice}
                     />
                   )}
                 </TableBody>
