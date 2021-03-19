@@ -7,8 +7,7 @@ import {
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import EditIcon from '@material-ui/icons/Edit';
 import { InspectionItemOperator } from './InspectionItemOperator';
 
 const useInputTypes = [
@@ -37,8 +36,8 @@ export const InspectionItemForm = (props: any): JSX.Element => {
     <Fragment>
       <TableRow>
         <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          <IconButton size="small" onClick={() => setOpen(!open)}>
+            <EditIcon />
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
