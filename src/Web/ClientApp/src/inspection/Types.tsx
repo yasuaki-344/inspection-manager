@@ -17,6 +17,16 @@ export type InspectionSheet = {
   equipments: Equipment[],
 };
 
+export type InspectionItemAction = {
+  type: string;
+  payload?: {
+    name?: string;
+    value?: string;
+    choice_index?: number;
+    item?: InspectionItem;
+  };
+};
+
 export type InspectionSheetAction = {
   type: string;
   payload?: {
