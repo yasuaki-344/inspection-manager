@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react';
 import {
   Button, BottomNavigation, BottomNavigationAction,
   Dialog, DialogActions, DialogContent, DialogTitle,
-  Box, Collapse, IconButton, Grid, TextField,
+  IconButton, Grid, TextField,
   TableCell, TableRow
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -29,9 +29,10 @@ export const InspectionItemForm = (props: any): JSX.Element => {
     setOpen(true);
   }
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const handleUpdate = () => {
+    // TODO : 親データへの反映
+    setOpen(false);
+  }
 
   const handleClose = () => {
     setOpen(false);
@@ -64,97 +65,6 @@ export const InspectionItemForm = (props: any): JSX.Element => {
           </IconButton>
         </TableCell>
       </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
-              <Grid container spacing={0}>
-                <Grid item xs={6}>
-                  <TextField
-                    required
-                    id="outlined-required"
-                    label="点検項目"
-                    variant="outlined"
-                    size="small"
-                    name="inspection_content"
-                    value={props.inspectionItem.inspection_content}
-                    onChange={(e) => {
-                      props.updateInspectionItem(e,
-                        props.equipment_id, props.inspectionItem.inspection_item_id)
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    required
-                    select
-                    id="outlined-required"
-                    label="点検タイプ"
-                    variant="outlined"
-                    size="small"
-                    name="input_type"
-                    value={props.inspectionItem.input_type}
-                    onChange={(e) => {
-                      props.updateInspectionItem(e,
-                        props.equipment_id, props.inspectionItem.inspection_item_id)
-                    }}
-                  >
-                    {useInputTypes.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </TextField>
-                </Grid>
-                {(props.inspectionItem.input_type !== 3) ? <></> :
-                  <Grid item xs={6}>
-                    {props.inspectionItem.choices.map((choice: string, index: number) =>
-                      <div key={`${props.inspectionItem.inspection_item_id}_${index}`}>
-                        <TextField
-                          required
-                          id="outlined-required"
-                          label={`選択肢${index + 1}`}
-                          variant="outlined"
-                          size="small"
-                          name="choice"
-                          value={choice}
-                          onChange={(e) => {
-                            props.updateChoice(e,
-                              props.equipment_id,
-                              props.inspectionItem.inspection_item_id,
-                              index)
-                          }}
-                        />
-                        <IconButton color="primary" size="small"
-                          onClick={() => props.removeChoice(
-                            props.equipment_id,
-                            props.inspectionItem.inspection_item_id,
-                            index
-                          )}
-                        >
-                          <CancelIcon />
-                        </IconButton>
-
-                      </div>
-                    )}
-                    <BottomNavigation showLabels>
-                      <BottomNavigationAction
-                        label="選択肢追加"
-                        icon={<AddCircleIcon />}
-                        onClick={() => props.addChoice(
-                          props.equipment_id, props.inspectionItem.inspection_item_id)}
-                      />
-                    </BottomNavigation>
-                  </Grid>
-                }
-              </Grid>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
-      </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">点検項目編集</DialogTitle>
         <DialogContent>
@@ -226,7 +136,7 @@ export const InspectionItemForm = (props: any): JSX.Element => {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleUpdate} color="primary">
             OK
           </Button>
           <Button onClick={handleClose} color="primary">
