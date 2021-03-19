@@ -124,13 +124,15 @@ export const InspectionItemForm = (props: any): JSX.Element => {
                     </IconButton>
                   </Grid>
                 )}
-                <BottomNavigation showLabels>
-                  <BottomNavigationAction
-                    label="選択肢追加"
-                    icon={<AddCircleIcon />}
-                    onClick={() => addChoice()}
-                  />
-                </BottomNavigation>
+                <Grid item xs={12}>
+                  <BottomNavigation showLabels>
+                    <BottomNavigationAction
+                      label="選択肢追加"
+                      icon={<AddCircleIcon />}
+                      onClick={() => addChoice()}
+                    />
+                  </BottomNavigation>
+                </Grid>
               </>
             }
           </Grid>
