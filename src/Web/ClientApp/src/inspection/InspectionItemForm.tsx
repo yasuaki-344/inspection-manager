@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import {
-  BottomNavigation, BottomNavigationAction,
+  Button, BottomNavigation, BottomNavigationAction,
+  Dialog, DialogActions, DialogContent, DialogTitle,
   Box, Collapse, IconButton, Grid, TextField,
   TableCell, TableRow
 } from '@material-ui/core';
@@ -17,6 +18,14 @@ const useInputTypes = [
 
 export const InspectionItemForm = (props: any): JSX.Element => {
   const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Fragment>
@@ -133,6 +142,104 @@ export const InspectionItemForm = (props: any): JSX.Element => {
           </Collapse>
         </TableCell>
       </TableRow>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        Open form dialog
+      </Button>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">点検項目編集</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                autoFocus
+                id="outlined-required"
+                label="点検項目"
+                variant="outlined"
+                size="small"
+                name="inspection_content"
+                value={props.inspectionItem.inspection_content}
+                onChange={(e) => {
+                  props.updateInspectionItem(e,
+                    props.equipment_id, props.inspectionItem.inspection_item_id)
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                select
+                id="outlined-required"
+                label="点検タイプ"
+                variant="outlined"
+                size="small"
+                name="input_type"
+                value={props.inspectionItem.input_type}
+                onChange={(e) => {
+                  props.updateInspectionItem(e,
+                    props.equipment_id, props.inspectionItem.inspection_item_id)
+                }}
+              >
+                {useInputTypes.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
+            </Grid>
+            {(props.inspectionItem.input_type !== 3) ? <></> :
+              <>
+                {props.inspectionItem.choices.map((choice: string, index: number) =>
+                  <Grid item xs={12} key={`${props.inspectionItem.inspection_item_id}_${index}`}>
+                    <TextField
+                      required
+                      id="outlined-required"
+                      label={`選択肢${index + 1}`}
+                      variant="outlined"
+                      size="small"
+                      name="choice"
+                      value={choice}
+                      onChange={(e) => {
+                        props.updateChoice(e,
+                          props.equipment_id,
+                          props.inspectionItem.inspection_item_id,
+                          index)
+                      }}
+                    />
+                    <IconButton color="primary" size="small"
+                      onClick={() => props.removeChoice(
+                        props.equipment_id,
+                        props.inspectionItem.inspection_item_id,
+                        index
+                      )}
+                    >
+                      <CancelIcon />
+                    </IconButton>
+                  </Grid>
+                )}
+                <BottomNavigation showLabels>
+                  <BottomNavigationAction
+                    label="選択肢追加"
+                    icon={<AddCircleIcon />}
+                    onClick={() => props.addChoice(
+                      props.equipment_id, props.inspectionItem.inspection_item_id)}
+                  />
+                </BottomNavigation>
+              </>
+            }
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            OK
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            キャンセル
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Fragment>
   );
 }
