@@ -5,7 +5,7 @@ import InspectionItemReducer, {
   addChoiceAction, removeChoiceAction, updateChoiceAction
 } from './InspectionItemReducer';
 
-export const InspectionSheetOperator = () => {
+export const InspectionItemOperator = () => {
   const [inspectionItem, dispatch] = useReducer(InspectionItemReducer, {
     inspection_item_id: Math.random().toString(36).substr(2, 9),
     inspection_content: "",
