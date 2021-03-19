@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
+import {
+  Button,
+  Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Paper
+} from '@material-ui/core';
 import { InspectionSheet } from '../inspection/Types';
 
 export const Home = (): JSX.Element => {
   const [inspectionSheets, setInspectionSheets] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [targetSheetId, setTargetSheetId] = React.useState("");
+  const [targetSheetName, setTargetSheetName] = React.useState("");
 
   useEffect(() => {
     console.log("called");
@@ -17,9 +25,16 @@ export const Home = (): JSX.Element => {
       .catch(console.error);
   }, []);
 
-  const handleDelete = (id: string) => {
-    console.log(`delete ${id}`);
-    fetch(`inspectionsheet/${id}`, {
+  const handleClickOpen = (sheetId: string, sheetName: string) => {
+    setTargetSheetId(sheetId);
+    setTargetSheetName(sheetName);
+    setOpen(true);
+  };
+
+  const handleDelete = () => {
+    setOpen(false);
+    console.log(`delete ${targetSheetId}`);
+    fetch(`inspectionsheet/${targetSheetId}`, {
       method: 'DELETE',
     })
       .then((res) => res.json())
@@ -32,6 +47,10 @@ export const Home = (): JSX.Element => {
       })
       .catch(console.error);
   }
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <div>
@@ -53,22 +72,41 @@ export const Home = (): JSX.Element => {
                 </TableCell>
                 <TableCell>
                   <Link to={"/edit/" + sheet.sheet_id}>編集</Link>|
-                <Link to={"/details/" + sheet.sheet_id}>詳細</Link>|
-                <Button
-                    size='small'
-                    variant='contained'
-                    color='secondary'
-                    onClick={() => handleDelete(sheet.sheet_id)}
+                  <Link to={"/details/" + sheet.sheet_id}>詳細</Link>|
+                  <Button
+                      size='small'
+                      variant='contained'
+                      color='secondary'
+                      onClick={() => handleClickOpen(
+                          sheet.sheet_id, sheet.sheet_name
+                      )}
                   >
                     削除
-                </Button>
+                  </Button>
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+      <Dialog
+        open={open}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"点検シートを削除しますか?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <p>次の点検シートを削除します。（この操作は取り消せません）</p>
+            <p>シート名：{targetSheetName}</p>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDelete} color="primary">削除</Button>
+          <Button onClick={handleClose} color="primary" autoFocus>キャンセル</Button>
+        </DialogActions>
+      </Dialog>
+    </div >
   );
 }
 Home.displayName = Home.name;
