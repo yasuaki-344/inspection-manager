@@ -53,7 +53,7 @@ export default function InspectionSheetReducer(state: InspectionItem, action: In
 
 export const setItemAction = (inspectionItem: InspectionItem): InspectionItemAction => {
   return {
-    type: TYPES.UPDATE_FIELD,
+    type: TYPES.SET_ITEM,
     payload: {
       item: inspectionItem,
     },
