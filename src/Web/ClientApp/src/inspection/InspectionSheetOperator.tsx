@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import { InspectionSheet } from './Types';
 import InspectionSheetReducer, {
   setSheetAction, updateFieldAction,
   addEquipmentAction, removeEquipmentAction, updateEquipmentAction,
@@ -18,7 +19,7 @@ const initialState = {
 export const InspectionSheetOperator = () => {
   const [inspectionSheet, dispatch] = useReducer(InspectionSheetReducer, initialState);
 
-  const setSheet = (sheet: any): void => dispatch(setSheetAction(sheet));
+  const setSheet = (sheet: InspectionSheet): void => dispatch(setSheetAction(sheet));
 
   const updateField = (event: React.ChangeEvent<HTMLInputElement>): void =>
     dispatch(updateFieldAction(event));
@@ -45,7 +46,7 @@ export const InspectionSheetOperator = () => {
   const addChoice = (id: string, itemId: string): void =>
     dispatch(addChoiceAction(id, itemId));
 
-  const removeChoice =  (id: string, itemId: string, index: number): void =>
+  const removeChoice = (id: string, itemId: string, index: number): void =>
     dispatch(removeChoiceAction(id, itemId, index));
 
   const updateChoice = (
