@@ -8,7 +8,6 @@ export const Create = (): JSX.Element => {
     inspectionSheet, , updateField,
     addEquipment, removeEquipment, updateEquipment,
     addInspectionItem, removeInspectionItem, updateInspectionItem,
-    addChoice, removeChoice, updateChoice
   ] = InspectionSheetOperator();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -51,9 +50,6 @@ export const Create = (): JSX.Element => {
               addInspectionItem={addInspectionItem}
               removeInspectionItem={removeInspectionItem}
               updateInspectionItem={updateInspectionItem}
-              addChoice={addChoice}
-              removeChoice={removeChoice}
-              updateChoice={updateChoice}
             />
           </Grid>
           <Grid item xs={12}>

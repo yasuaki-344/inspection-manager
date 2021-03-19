@@ -30,7 +30,7 @@ export const InspectionItemForm = (props: any): JSX.Element => {
   }
 
   const handleUpdate = () => {
-    // TODO : 親データへの反映
+    props.updateInspectionItem(props.equipment_id, inspectionItem);
     setOpen(false);
   }
 

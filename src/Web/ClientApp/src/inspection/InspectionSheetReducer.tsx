@@ -1,5 +1,5 @@
 import React from 'react';
-import { InspectionSheet, InspectionSheetAction } from './Types';
+import { InspectionItem, InspectionSheet, InspectionSheetAction } from './Types';
 
 const TYPES = {
   SET_SHEET: "SET_SHEET",
@@ -10,9 +10,6 @@ const TYPES = {
   ADD_INSPECTION_ITEM: "ADD_INSPECTION_ITEM",
   REMOVE_INSPECTION_ITEM: "REMOVE_INSPECTION_ITEM",
   UPDATE_INSPECTION_ITEM: "UPDATE_INSPECTION_ITEM",
-  ADD_CHOICE: "ADD_CHOICE",
-  REMOVE_CHOICE: "REMOVE_CHOICE",
-  UPDATE_CHOICE: "UPDATE_CHOICE",
 };
 
 export default function InspectionSheetReducer(state: InspectionSheet, action: InspectionSheetAction): any {
@@ -106,15 +103,8 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
             return {
               ...e,
               inspection_items: e.inspection_items.map(i => {
-                if (i.inspection_item_id === action.payload?.inspection_item_id) {
-                  if (action.payload.name != null) {
-                    return {
-                      ...i,
-                      [action.payload.name]: action.payload.value,
-                    };
-                  } else {
-                    return i;
-                  }
+                if (i.inspection_item_id === action.payload?.inspection_item?.inspection_item_id) {
+                  return action.payload?.inspection_item;
                 } else {
                   return i;
                 }
@@ -124,83 +114,6 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
             return e;
           }
         }),
-      };
-    case TYPES.ADD_CHOICE:
-      return {
-        ...state,
-        equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_id) {
-            return {
-              ...e,
-              inspection_items: e.inspection_items.map(item => {
-                if (item.inspection_item_id === action.payload?.inspection_item_id) {
-                  return {
-                    ...item,
-                    choices: item.choices.concat("")
-                  }
-                } else {
-                  return item
-                }
-              })
-            };
-          } else {
-            return e;
-          }
-        }),
-      };
-    case TYPES.REMOVE_CHOICE:
-      return {
-        ...state,
-        equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_id) {
-            return {
-              ...e,
-              inspection_items: e.inspection_items.map(item => {
-                if (item.inspection_item_id === action.payload?.inspection_item_id) {
-                  return {
-                    ...item,
-                    choices: item.choices.filter((choice, index) =>
-                      index !== action.payload?.choice_index
-                    )
-                  }
-                } else {
-                  return item
-                }
-              })
-            };
-          } else {
-            return e;
-          }
-        })
-      };
-    case TYPES.UPDATE_CHOICE:
-      return {
-        ...state,
-        equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_id) {
-            return {
-              ...e,
-              inspection_items: e.inspection_items.map(item => {
-                if (item.inspection_item_id === action.payload?.inspection_item_id) {
-                  return {
-                    ...item,
-                    choices: item.choices.map((choice, index) => {
-                      if (index === action.payload?.choice_index) {
-                        return action.payload.value;
-                      } else {
-                        return choice;
-                      }
-                    })
-                  }
-                } else {
-                  return item
-                }
-              })
-            };
-          } else {
-            return e;
-          }
-        })
       };
     default:
       console.warn(`unknown type ${action.type}`);
@@ -273,55 +186,14 @@ export const removeInspectionItemAction = (id: string, itemId: string): Inspecti
 };
 
 export const updateInspectionItemAction = (
-  event: React.ChangeEvent<HTMLInputElement>,
   id: string,
-  itemId: string
+  item: InspectionItem
 ): InspectionSheetAction => {
   return {
     type: TYPES.UPDATE_INSPECTION_ITEM,
     payload: {
-      name: event.target.name,
-      value: event.target.value,
       equipment_id: id,
-      inspection_item_id: itemId,
-    }
-  }
-};
-
-export const addChoiceAction = (id: string, itemId: string): InspectionSheetAction => {
-  return {
-    type: TYPES.ADD_CHOICE,
-    payload: {
-      equipment_id: id,
-      inspection_item_id: itemId
-    }
-  }
-};
-
-export const removeChoiceAction = (id: string, itemId: string, index: number): InspectionSheetAction => {
-  return {
-    type: TYPES.REMOVE_CHOICE,
-    payload: {
-      equipment_id: id,
-      inspection_item_id: itemId,
-      choice_index: index,
-    }
-  }
-};
-
-export const updateChoiceAction = (
-  event: React.ChangeEvent<HTMLInputElement>,
-  id: string,
-  itemId: string,
-  index: number
-): InspectionSheetAction => {
-  return {
-    type: TYPES.UPDATE_CHOICE,
-    payload: {
-      value: event.target.value,
-      equipment_id: id,
-      inspection_item_id: itemId,
-      choice_index: index,
+      inspection_item: item,
     }
   }
 };
