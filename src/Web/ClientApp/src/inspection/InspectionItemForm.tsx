@@ -24,6 +24,11 @@ export const InspectionItemForm = (props: any): JSX.Element => {
 
   const [open, setOpen] = useState(false);
 
+  const handleEdit = () => {
+    setItem(props.inspectionItem);
+    setOpen(true);
+  }
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -36,7 +41,7 @@ export const InspectionItemForm = (props: any): JSX.Element => {
     <Fragment>
       <TableRow>
         <TableCell>
-          <IconButton size="small" onClick={() => setOpen(!open)}>
+          <IconButton size="small" onClick={() => handleEdit()}>
             <EditIcon />
           </IconButton>
         </TableCell>
