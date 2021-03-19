@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Button,
+  Button, IconButton,
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Paper
 } from '@material-ui/core';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import EditIcon from '@material-ui/icons/Edit';
+import CancelIcon from '@material-ui/icons/Cancel';
+import DetailsIcon from '@material-ui/icons/Details';
+
 import { InspectionSheet } from '../inspection/Types';
 
 export const Home = (): JSX.Element => {
@@ -60,7 +65,12 @@ export const Home = (): JSX.Element => {
         <Table size="small" aria-label="a dense table">
           <TableHead>
             <TableRow>
+              <TableCell>&nbsp;</TableCell>
               <TableCell>点検シート名</TableCell>
+              <TableCell>点検グループ</TableCell>
+              <TableCell>点検種別</TableCell>
+              <TableCell>&nbsp;</TableCell>
+              <TableCell>&nbsp;</TableCell>
               <TableCell>&nbsp;</TableCell>
             </TableRow>
           </TableHead>
@@ -68,21 +78,39 @@ export const Home = (): JSX.Element => {
             {inspectionSheets.map((sheet: any) =>
               <TableRow key={sheet.sheet_id}>
                 <TableCell>
+                  <IconButton
+                    size="small"
+                  >
+                    <GetAppIcon />
+                  </IconButton>
+                </TableCell>
+                <TableCell>
                   {sheet.sheet_name}
                 </TableCell>
                 <TableCell>
-                  <Link to={"/edit/" + sheet.sheet_id}>編集</Link>|
-                  <Link to={"/details/" + sheet.sheet_id}>詳細</Link>|
-                  <Button
-                      size='small'
-                      variant='contained'
-                      color='secondary'
-                      onClick={() => handleClickOpen(
-                          sheet.sheet_id, sheet.sheet_name
-                      )}
+                </TableCell>
+                <TableCell>
+                </TableCell>
+                <TableCell>
+                  <Link to={"/edit/" + sheet.sheet_id}>
+                    <EditIcon />
+                  </Link>
+                </TableCell>
+                <TableCell>
+                  <Link to={"/details/" + sheet.sheet_id}>
+                    <DetailsIcon />
+                  </Link>
+                </TableCell>
+                <TableCell>
+                  <IconButton
+                    size="small"
+                    color='secondary'
+                    onClick={() => handleClickOpen(
+                      sheet.sheet_id, sheet.sheet_name
+                    )}
                   >
-                    削除
-                  </Button>
+                    <CancelIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             )}
