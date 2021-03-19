@@ -9,6 +9,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import { InspectionItemOperator } from './InspectionItemOperator';
 
 const useInputTypes = [
   { value: 1, label: "整数入力" },
@@ -17,6 +18,11 @@ const useInputTypes = [
 ];
 
 export const InspectionItemForm = (props: any): JSX.Element => {
+  const [
+    inspectionItem, setItem, updateField,
+    addChoice, removeChoice, updateChoice
+  ] = InspectionItemOperator();
+
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -159,11 +165,8 @@ export const InspectionItemForm = (props: any): JSX.Element => {
                 variant="outlined"
                 size="small"
                 name="inspection_content"
-                value={props.inspectionItem.inspection_content}
-                onChange={(e) => {
-                  props.updateInspectionItem(e,
-                    props.equipment_id, props.inspectionItem.inspection_item_id)
-                }}
+                value={inspectionItem.inspection_content}
+                onChange={(e) => updateField(e)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -176,11 +179,8 @@ export const InspectionItemForm = (props: any): JSX.Element => {
                 variant="outlined"
                 size="small"
                 name="input_type"
-                value={props.inspectionItem.input_type}
-                onChange={(e) => {
-                  props.updateInspectionItem(e,
-                    props.equipment_id, props.inspectionItem.inspection_item_id)
-                }}
+                value={inspectionItem.input_type}
+                onChange={(e) => { updateField(e); }}
               >
                 {useInputTypes.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -189,10 +189,10 @@ export const InspectionItemForm = (props: any): JSX.Element => {
                 ))}
               </TextField>
             </Grid>
-            {(props.inspectionItem.input_type !== 3) ? <></> :
+            {(inspectionItem.input_type !== 3) ? <></> :
               <>
-                {props.inspectionItem.choices.map((choice: string, index: number) =>
-                  <Grid item xs={12} key={`${props.inspectionItem.inspection_item_id}_${index}`}>
+                {inspectionItem.choices.map((choice: string, index: number) =>
+                  <Grid item xs={12} key={`${inspectionItem.inspection_item_id}_${index}`}>
                     <TextField
                       required
                       id="outlined-required"
@@ -201,19 +201,10 @@ export const InspectionItemForm = (props: any): JSX.Element => {
                       size="small"
                       name="choice"
                       value={choice}
-                      onChange={(e) => {
-                        props.updateChoice(e,
-                          props.equipment_id,
-                          props.inspectionItem.inspection_item_id,
-                          index)
-                      }}
+                      onChange={(e) => updateChoice(e, index)}
                     />
                     <IconButton color="primary" size="small"
-                      onClick={() => props.removeChoice(
-                        props.equipment_id,
-                        props.inspectionItem.inspection_item_id,
-                        index
-                      )}
+                      onClick={() => removeChoice(index)}
                     >
                       <CancelIcon />
                     </IconButton>
@@ -223,8 +214,7 @@ export const InspectionItemForm = (props: any): JSX.Element => {
                   <BottomNavigationAction
                     label="選択肢追加"
                     icon={<AddCircleIcon />}
-                    onClick={() => props.addChoice(
-                      props.equipment_id, props.inspectionItem.inspection_item_id)}
+                    onClick={() => addChoice()}
                   />
                 </BottomNavigation>
               </>
