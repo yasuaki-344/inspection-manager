@@ -21,7 +21,14 @@ export const Create = (): JSX.Element => {
       },
       body: JSON.stringify(inspectionSheet)
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          alert('登録に成功しました');
+        } else {
+          alert('登録に失敗しました')
+        }
+        return res.json();
+      })
       .then(console.log)
       .catch(console.error);
   }

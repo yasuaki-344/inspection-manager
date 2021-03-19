@@ -32,7 +32,14 @@ export const Edit = ({ match }: any): JSX.Element => {
       },
       body: JSON.stringify(inspectionSheet)
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          alert('更新に成功しました');
+        } else {
+          alert('更新に失敗しました')
+        }
+        return res.json();
+      })
       .then((json: InspectionSheet) => {
         console.log(json);
         setSheet(json);

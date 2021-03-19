@@ -47,7 +47,7 @@ export const NavMenu = (): JSX.Element => {
               <Link className={classes.textDark} to="/">Home</Link>
             </MenuItem>
             <MenuItem onClick={handleClose}>
-              <Link className={classes.textDark} to="/create">Create</Link>
+              <Link className={classes.textDark} to="/create">新規作成</Link>
             </MenuItem>
           </Menu>
           <Typography variant="h6" noWrap color="inherit">
