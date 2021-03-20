@@ -41,7 +41,7 @@ export const Home = (): JSX.Element => {
         a.click();
         a.remove();
         setTimeout(() => {
-            URL.revokeObjectURL(url);
+          URL.revokeObjectURL(url);
         }, 1E4);
       })
       .catch(console.error);
@@ -148,8 +148,16 @@ export const Home = (): JSX.Element => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDelete} color="primary">削除</Button>
-          <Button onClick={handleClose} color="primary" autoFocus>キャンセル</Button>
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={handleDelete}
+          >削除</Button>
+          <Button
+            variant='contained'
+            onClick={handleClose}
+            autoFocus
+          >キャンセル</Button>
         </DialogActions>
       </Dialog>
     </div >
