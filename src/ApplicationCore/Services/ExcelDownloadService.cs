@@ -4,8 +4,8 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 //
-
 using Microsoft.Extensions.Logging;
+using NPOI.SS.UserModel;
 
 namespace InspectionManager.ApplicationCore.Interfaces
 {
@@ -26,6 +26,11 @@ namespace InspectionManager.ApplicationCore.Interfaces
         {
             _repository = repository;
             _logger = logger;
+        }
+
+        public IWorkbook CreateXlsx(string id)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

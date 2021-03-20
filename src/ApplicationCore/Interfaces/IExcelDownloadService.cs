@@ -5,9 +5,12 @@
 // http://opensource.org/licenses/mit-license.php
 //
 
+using NPOI.SS.UserModel;
+
 namespace InspectionManager.ApplicationCore.Interfaces
 {
     public interface IExcelDownloadService
     {
+        IWorkbook CreateXlsx(string id);
     }
 }
