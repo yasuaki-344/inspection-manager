@@ -20,7 +20,6 @@ export const Home = (): JSX.Element => {
   const [targetSheetName, setTargetSheetName] = React.useState("");
 
   useEffect(() => {
-    console.log("called");
     fetch('inspectionsheet')
       .then(res => res.json())
       .then(json => {
@@ -29,6 +28,24 @@ export const Home = (): JSX.Element => {
       })
       .catch(console.error);
   }, []);
+
+  const handleDownload = (sheetId: string) => {
+    fetch(`excelsheet/${sheetId}`)
+      .then(response => response.blob())
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        document.body.appendChild(a);
+        a.download = 'sample.xlsx';
+        a.href = url;
+        a.click();
+        a.remove();
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+        }, 1E4);
+      })
+      .catch(console.error);
+  }
 
   const handleClickOpen = (sheetId: string, sheetName: string) => {
     setTargetSheetId(sheetId);
@@ -80,6 +97,7 @@ export const Home = (): JSX.Element => {
                 <TableCell>
                   <IconButton
                     size="small"
+                    onClick={() => handleDownload(sheet.sheet_id)}
                   >
                     <GetAppIcon />
                   </IconButton>
