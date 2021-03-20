@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { EquipmentForm } from './EquipmentForm';
+import {
+  Paper,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+} from '@material-ui/core';
+
 import { InspectionSheet, Equipment, InspectionItem } from './Types';
 
 export const Details = ({ match }: any): JSX.Element => {
@@ -23,24 +27,32 @@ export const Details = ({ match }: any): JSX.Element => {
   return (
     <div>
       <h1>詳細ページ</h1>
-      <h3>id:{inspectionSheet.sheet_id}</h3>
-      <h3>name:{inspectionSheet.sheet_name}</h3>
+      <h3>点検シートID:{inspectionSheet.sheet_id}</h3>
+      <h3>シート名:{inspectionSheet.sheet_name}</h3>
       {inspectionSheet.equipments.map((equipment: Equipment) =>
         <div key={equipment.equipment_id}>
-          <h3>id:{equipment.equipment_id}</h3>
-          <h3>name:{equipment.equipment_name}</h3>
-          {equipment.inspection_items.map((item: InspectionItem) =>
-            <div key={item.inspection_item_id}>
-              <h3>id:{item.inspection_item_id}</h3>
-              <h3>name:{item.inspection_content}</h3>
-              <h3>type:{item.input_type}</h3>
-              {item.choices.map((choice: string, index: number) =>
-                <h3 key={`${item.inspection_item_id}_${index}`}>
-                  {choice}
-                </h3>
-              )}
-            </div>
-          )}
+          <h3>点検機器ID:{equipment.equipment_id}</h3>
+          <h3>点検機器名:{equipment.equipment_name}</h3>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableCell>ID</TableCell>
+                <TableCell>点検項目</TableCell>
+                <TableCell>点検タイプ</TableCell>
+                <TableCell>選択肢</TableCell>
+              </TableHead>
+              <TableBody>
+                {equipment.inspection_items.map((item: InspectionItem) =>
+                  <TableRow key={item.inspection_item_id}>
+                    <TableCell>{item.inspection_item_id}</TableCell>
+                    <TableCell>{item.inspection_content}</TableCell>
+                    <TableCell>{item.input_type}</TableCell>
+                    <TableCell>{item.choices.join(',')}</TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       )}
     </div>
