@@ -79,7 +79,7 @@ export const Home = (): JSX.Element => {
       <h1>点検シート一覧</h1>
       <Link to="/create">新規作成</Link>
       <TableContainer component={Paper}>
-        <Table size="small" aria-label="a dense table">
+        <Table aria-label="a dense table">
           <TableHead>
             <TableRow>
               <TableCell>&nbsp;</TableCell>
@@ -94,7 +94,7 @@ export const Home = (): JSX.Element => {
           <TableBody>
             {inspectionSheets.map((sheet: any) =>
               <TableRow key={sheet.sheet_id}>
-                <TableCell>
+                <TableCell padding='checkbox'>
                   <IconButton
                     size="small"
                     onClick={() => handleDownload(sheet.sheet_id)}
@@ -102,24 +102,20 @@ export const Home = (): JSX.Element => {
                     <GetAppIcon />
                   </IconButton>
                 </TableCell>
-                <TableCell>
-                  {sheet.sheet_name}
-                </TableCell>
-                <TableCell>
-                </TableCell>
-                <TableCell>
-                </TableCell>
-                <TableCell>
+                <TableCell>{sheet.sheet_name}</TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell padding='checkbox'>
                   <Link to={"/edit/" + sheet.sheet_id}>
                     <EditIcon />
                   </Link>
                 </TableCell>
-                <TableCell>
+                <TableCell padding='checkbox'>
                   <Link to={"/details/" + sheet.sheet_id}>
                     <DetailsIcon />
                   </Link>
                 </TableCell>
-                <TableCell>
+                <TableCell padding='checkbox'>
                   <IconButton
                     size="small"
                     color='secondary'
