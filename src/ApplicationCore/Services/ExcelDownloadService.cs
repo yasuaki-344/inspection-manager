@@ -11,14 +11,20 @@ namespace InspectionManager.ApplicationCore.Interfaces
 {
     public class ExcelDownloadService : IExcelDownloadService
     {
+        private readonly IInspectionSheetRepository _repository;
         private readonly ILogger<ExcelDownloadService> _logger;
 
         /// <summary>
         /// Initializes a new instance of ExcelDownloadService class.
         /// </summary>
+        /// <param name="repository">Inspection data access object</param>
         /// <param name="logger">logger object</param>
-        public ExcelDownloadService(ILogger<ExcelDownloadService> logger)
+        public ExcelDownloadService(
+            IInspectionSheetRepository repository,
+            ILogger<ExcelDownloadService> logger
+        )
         {
+            _repository = repository;
             _logger = logger;
         }
     }
