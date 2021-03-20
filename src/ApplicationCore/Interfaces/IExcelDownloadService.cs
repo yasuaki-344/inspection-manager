@@ -11,6 +11,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
 {
     public interface IExcelDownloadService
     {
+        bool InspectionSheetExists(string id);
         IWorkbook CreateXlsx(string id);
     }
 }

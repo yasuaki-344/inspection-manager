@@ -46,15 +46,22 @@ namespace InspectionManager.Web.Controllers
             try
             {
                 _logger.LogInformation($"try to download inspection sheet {id}");
-                var sheet = _service.CreateXlsx(id);
-                using (var ms = new MemoryStream())
+                if (!_service.InspectionSheetExists(id))
                 {
-                    sheet.Write(ms);
-                    return File(
-                        ms.ToArray(),
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        "sample.xlsx"
-                    );
+                    return NotFound($"Sheet with Id = {id} not found");
+                }
+                else
+                {
+                    var sheet = _service.CreateXlsx(id);
+                    using (var ms = new MemoryStream())
+                    {
+                        sheet.Write(ms);
+                        return File(
+                            ms.ToArray(),
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "sample.xlsx"
+                        );
+                    }
                 }
             }
             catch (Exception ex)

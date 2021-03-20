@@ -30,8 +30,11 @@ namespace InspectionManager.ApplicationCore.Interfaces
             _logger = logger;
         }
 
+        public bool InspectionSheetExists(string id) => _repository.InspectionSheetExists(id);
+
         public IWorkbook CreateXlsx(string id)
         {
+
             var book = new XSSFWorkbook();
             book.CreateSheet("sample");
             var sheet = book.GetSheet("sample");
@@ -42,6 +45,14 @@ namespace InspectionManager.ApplicationCore.Interfaces
             cell.SetCellValue("test");
 
             return book;
+        }
+
+        private void WriteCell(ISheet sheet, int columnIndex, int rowIndex, string value)
+        {
+            var row = sheet.GetRow(rowIndex) ?? sheet.CreateRow(rowIndex);
+            var cell = row.GetCell(columnIndex) ?? row.CreateCell(columnIndex);
+
+            cell.SetCellValue(value);
         }
     }
 }
