@@ -22,16 +22,20 @@ namespace InspectionManager.Web.Controllers
     [Route("[controller]")]
     public class ExcelSheetController : ControllerBase
     {
+        private readonly IExcelDownloadService _service;
         private readonly ILogger<ExcelSheetController> _logger;
 
         /// <summary>
         /// Initializes a new instance of ExcelSheetController class.
         /// </summary>
+        /// <param name="service">Excel download service object</param>
         /// <param name="logger">logger object</param>
         public ExcelSheetController(
+            IExcelDownloadService service,
             ILogger<ExcelSheetController> logger
         )
         {
+            _service = service;
             _logger = logger;
         }
 
