@@ -6,6 +6,8 @@
 //
 using Microsoft.Extensions.Logging;
 using NPOI.SS.UserModel;
+using NPOI.SS.Util;
+using NPOI.XSSF.UserModel;
 
 namespace InspectionManager.ApplicationCore.Interfaces
 {
@@ -30,7 +32,16 @@ namespace InspectionManager.ApplicationCore.Interfaces
 
         public IWorkbook CreateXlsx(string id)
         {
-            throw new System.NotImplementedException();
+            var book = new XSSFWorkbook();
+            book.CreateSheet("sample");
+            var sheet = book.GetSheet("sample");
+
+            var row = sheet.CreateRow(0);
+            var cell = row.CreateCell(0);
+
+            cell.SetCellValue("test");
+
+            return book;
         }
     }
 }
