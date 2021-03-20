@@ -25,6 +25,11 @@ namespace InspectionManager.Web.Controllers
         private readonly IInspectionSheetService _service;
         private readonly ILogger<InspectionSheetController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of InspectionSheetController class.
+        /// </summary>
+        /// <param name="service">Inspection sheet CRUD service object</param>
+        /// <param name="logger">logger object</param>
         public InspectionSheetController(
             IInspectionSheetService service,
             ILogger<InspectionSheetController> logger
