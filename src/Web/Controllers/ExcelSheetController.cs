@@ -34,5 +34,22 @@ namespace InspectionManager.Web.Controllers
         {
             _logger = logger;
         }
+
+        [HttpGet("{id:guid}")]
+        public ActionResult<InspectionSheetDto> DownloadExcelSheet(string id)
+        {
+            try
+            {
+                _logger.LogInformation($"try to download inspection sheet {id}");
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database");
+            }
+        }
+
     }
 }
