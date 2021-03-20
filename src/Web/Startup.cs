@@ -35,6 +35,7 @@ namespace InspectionManager.Web
 
             services.AddSingleton<IInspectionSheetRepository, InspectionSheetFileRepository>();
             services.AddScoped<IInspectionSheetService, InspectionSheetService>();
+            services.AddScoped<IExcelDownloadService, ExcelDownloadService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
