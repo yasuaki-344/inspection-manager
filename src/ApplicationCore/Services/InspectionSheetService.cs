@@ -31,21 +31,27 @@ namespace InspectionManager.ApplicationCore.Services
             _logger = logger;
         }
 
+        /// <inheritdoc/>
         public bool InspectionSheetExists(string id) =>
             _repository.InspectionSheetExists(id);
 
+        /// <inheritdoc/>
         public IEnumerable<InspectionSheetDto> GetAllInspectionSheets() =>
             _repository.GetAllInspectionSheets();
 
+        /// <inheritdoc/>
         public InspectionSheetDto? GetInspectionSheet(string id) =>
             _repository.GetInspectionSheet(id);
 
+        /// <inheritdoc/>
         public InspectionSheetDto CreateInspectionSheet(InspectionSheetDto dto) =>
             _repository.CreateInspectionSheet(dto);
 
+        /// <inheritdoc/>
         public InspectionSheetDto UpdateInspectionSheet(InspectionSheetDto dto) =>
             _repository.UpdateInspectionSheet(dto);
 
+        /// <inheritdoc/>
         public InspectionSheetDto DeleteInspectionSheet(string id) =>
             _repository.DeleteInspectionSheet(id);
     }

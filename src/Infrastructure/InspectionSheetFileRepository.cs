@@ -25,6 +25,7 @@ namespace InspectionManager.Infrastructure
         {
         }
 
+        /// <inheritdoc/>
         public bool InspectionSheetExists(string id)
         {
             if (!Directory.Exists(_baseDirectory))
@@ -35,10 +36,7 @@ namespace InspectionManager.Infrastructure
             return File.Exists(filePath);
         }
 
-        /// <summary>
-        /// Gets all inspection sheets from database.
-        /// </summary>
-        /// <returns>All inspection sheets</returns>
+        /// <inheritdoc/>
         public IEnumerable<InspectionSheetDto> GetAllInspectionSheets()
         {
             if (!Directory.Exists(_baseDirectory))
@@ -58,6 +56,7 @@ namespace InspectionManager.Infrastructure
             return inspectionSheets ?? new List<InspectionSheetDto>();
         }
 
+        /// <inheritdoc/>
         public InspectionSheetDto? GetInspectionSheet(string id)
         {
             if (!Directory.Exists(_baseDirectory))
@@ -77,10 +76,7 @@ namespace InspectionManager.Infrastructure
             }
         }
 
-        /// <summary>
-        /// Creates new inspection sheet by using the specified InspectionSheetDto.
-        /// </summary>
-        /// <param name="dto">Inspection sheet information</param>
+        /// <inheritdoc/>
         public InspectionSheetDto CreateInspectionSheet(InspectionSheetDto dto)
         {
             if (!Directory.Exists(_baseDirectory))
@@ -101,6 +97,7 @@ namespace InspectionManager.Infrastructure
             return dto;
         }
 
+        /// <inheritdoc/>
         public InspectionSheetDto UpdateInspectionSheet(InspectionSheetDto dto)
         {
             if (!Directory.Exists(_baseDirectory))
@@ -120,6 +117,7 @@ namespace InspectionManager.Infrastructure
             }
         }
 
+        /// <inheritdoc/>
         public InspectionSheetDto DeleteInspectionSheet(string id)
         {
             if (!Directory.Exists(_baseDirectory))
