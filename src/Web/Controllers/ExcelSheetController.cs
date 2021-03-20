@@ -46,8 +46,12 @@ namespace InspectionManager.Web.Controllers
             try
             {
                 _logger.LogInformation($"try to download inspection sheet {id}");
-
-                return File(new MemoryStream(), "text/csv", "sample.csv");
+                var sheet = _service.CreateXlsx(id);
+                using(var ms = new MemoryStream())
+                {
+                    sheet.Write(ms);
+                    return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "sample.xlsx");
+                }
             }
             catch (Exception ex)
             {
@@ -56,6 +60,5 @@ namespace InspectionManager.Web.Controllers
                     "Error retrieving data from the database");
             }
         }
-
     }
 }
