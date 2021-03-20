@@ -6,6 +6,7 @@
 //
 
 using System.Collections.Generic;
+using System.Linq;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -37,7 +38,8 @@ namespace InspectionManager.ApplicationCore.Services
 
         /// <inheritdoc/>
         public IEnumerable<InspectionSheetDto> GetAllInspectionSheets() =>
-            _repository.GetAllInspectionSheets();
+            _repository.GetAllInspectionSheets()
+            .OrderBy(x => x.SheetName);
 
         /// <inheritdoc/>
         public InspectionSheetDto? GetInspectionSheet(string id) =>
