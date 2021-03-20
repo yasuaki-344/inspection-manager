@@ -18,6 +18,6 @@ namespace InspectionManager.ApplicationCore.Dto
         public string EquipmentName { get; set; } = string.Empty;
 
         [JsonPropertyName("inspection_items")]
-        public List<InspectionItemDto> Equipments { get; set; } = new List<InspectionItemDto>();
+        public List<InspectionItemDto> InspectionItems { get; set; } = new List<InspectionItemDto>();
     }
 }
