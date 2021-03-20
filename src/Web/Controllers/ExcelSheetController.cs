@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,12 +41,13 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        public ActionResult<InspectionSheetDto> DownloadExcelSheet(string id)
+        public IActionResult DownloadExcelSheet(string id)
         {
             try
             {
                 _logger.LogInformation($"try to download inspection sheet {id}");
-                throw new NotImplementedException();
+
+                return File(new MemoryStream(), "text/csv", "sample.csv");
             }
             catch (Exception ex)
             {
