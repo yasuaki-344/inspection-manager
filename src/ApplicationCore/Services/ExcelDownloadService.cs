@@ -87,5 +87,13 @@ namespace InspectionManager.ApplicationCore.Interfaces
 
             cell.SetCellValue(value);
         }
+
+        public static void WriteStyle(ISheet sheet, int rowIndex, int columnIndex, ICellStyle style)
+        {
+            var row = sheet.GetRow(rowIndex) ?? sheet.CreateRow(rowIndex);
+            var cell = row.GetCell(columnIndex) ?? row.CreateCell(columnIndex);
+
+            cell.CellStyle = style;
+        }
     }
 }
