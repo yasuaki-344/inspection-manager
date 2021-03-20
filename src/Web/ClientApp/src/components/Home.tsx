@@ -79,7 +79,7 @@ export const Home = (): JSX.Element => {
       <h1>点検シート一覧</h1>
       <Link to="/create">新規作成</Link>
       <TableContainer component={Paper}>
-        <Table aria-label="a dense table">
+        <Table>
           <TableHead>
             <TableRow>
               <TableCell>&nbsp;</TableCell>
@@ -103,8 +103,8 @@ export const Home = (): JSX.Element => {
                   </IconButton>
                 </TableCell>
                 <TableCell>{sheet.sheet_name}</TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
+                <TableCell>&nbsp;</TableCell>
+                <TableCell>&nbsp;</TableCell>
                 <TableCell padding='checkbox'>
                   <Link to={"/edit/" + sheet.sheet_id}>
                     <EditIcon />
