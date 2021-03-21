@@ -108,7 +108,9 @@ export const Home = (): JSX.Element => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {inspectionSheets.map((sheet: any) =>
+            {inspectionSheets
+             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+             .map((sheet: InspectionSheet) =>
               <TableRow key={sheet.sheet_id}>
                 <TableCell padding='checkbox'>
                   <IconButton
@@ -154,6 +156,8 @@ export const Home = (): JSX.Element => {
         rowsPerPage={rowsPerPage}
         page={page}
         labelRowsPerPage={'1ページあたりの件数:'}
+        backIconButtonText={'前のぺージ'}
+        nextIconButtonText={'次のぺージ'}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
