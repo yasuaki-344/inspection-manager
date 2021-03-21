@@ -4,11 +4,24 @@ import {
   Box, Collapse, Paper, List, ListItem, IconButton,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@material-ui/core';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { InspectionSheet, Equipment, InspectionItem } from './Types';
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    itemTableHead: {
+      backgroundColor: theme.palette.primary.main,
+    },
+    itemTableHeadCell: {
+      color: "#FFFFFF",
+    },
+  })
+);
+
 const Row = (props: any): JSX.Element => {
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const equipment = props.equipment;
 
@@ -28,11 +41,11 @@ const Row = (props: any): JSX.Element => {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Table>
-                <TableHead>
-                  <TableCell>ID</TableCell>
-                  <TableCell>点検項目</TableCell>
-                  <TableCell>点検タイプ</TableCell>
-                  <TableCell>選択肢</TableCell>
+                <TableHead className={classes.itemTableHead}>
+                  <TableCell className={classes.itemTableHeadCell}>ID</TableCell>
+                  <TableCell className={classes.itemTableHeadCell}>点検項目</TableCell>
+                  <TableCell className={classes.itemTableHeadCell}>点検タイプ</TableCell>
+                  <TableCell className={classes.itemTableHeadCell}>選択肢</TableCell>
                 </TableHead>
                 <TableBody>
                   {equipment.inspection_items.map((item: InspectionItem) =>
@@ -80,7 +93,7 @@ export const Details = ({ match }: any): JSX.Element => {
         <ListItem>シート名:{inspectionSheet.sheet_name}</ListItem>
       </List>
       <TableContainer component={Paper}>
-        <Table aria-label="collapsible table">
+        <Table>
           <TableHead>
             <TableRow>
               <TableCell />
