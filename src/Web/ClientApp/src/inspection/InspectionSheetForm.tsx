@@ -11,11 +11,15 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.primary.main,
       color: "#FFFFFF",
       fontSize: 24,
-      padding: 4
+      padding: 4,
     },
-    sheetElement : {
-      margin: 4
-    }
+    sheetElement: {
+      margin: 4,
+    },
+    sheetIdElement: {
+      margin: 4,
+      width: 330,
+    },
   })
 );
 
@@ -23,9 +27,9 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
   const classes = useStyles();
 
   const contents = props.isEdit
-    ? <Grid item xs={12} className={classes.sheetElement}>
+    ? <Grid item xs={12}>
       <TextField
-        fullWidth
+        className={classes.sheetIdElement}
         id="outlined-required"
         label="点検シートID"
         variant="outlined"
@@ -40,15 +44,16 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
 
   return (
     <Paper variant="outlined">
-      <Grid container>
+      <Grid container spacing={1}>
         <Grid item xs={12}>
           <div className={classes.sheetLabel}>点検シート情報</div>
         </Grid>
         {contents}
-        <Grid item xs={12} className={classes.sheetElement}>
+        <Grid item xs={12}>
           <TextField
             className={classes.sheetElement}
             required
+            autoFocus
             id="outlined-required"
             label="点検シート名"
             variant="outlined"
@@ -61,7 +66,7 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
           />
         </Grid>
         {props.sheet.equipments.map((equipment: Equipment) =>
-          <Grid item xs={12} key={equipment.equipment_id} className={classes.sheetElement}>
+          <Grid item xs={12} key={equipment.equipment_id}>
             <EquipmentForm
               equipment={equipment}
               addEquipment={props.addEquipment}
@@ -76,7 +81,7 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
             />
           </Grid>
         )}
-        <Grid item xs={12} className={classes.sheetElement}>
+        <Grid item xs={12}>
           <Fab color="primary" variant="extended" onClick={props.addEquipment}>
             <AddCircleIcon />
             点検機器追加
