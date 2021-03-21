@@ -18,6 +18,8 @@ export const Home = (): JSX.Element => {
   const [open, setOpen] = React.useState(false);
   const [targetSheetId, setTargetSheetId] = React.useState("");
   const [targetSheetName, setTargetSheetName] = React.useState("");
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   useEffect(() => {
     fetch('inspectionsheet')
@@ -70,8 +72,22 @@ export const Home = (): JSX.Element => {
       .catch(console.error);
   }
 
-  const handleClose = () => {
-    setOpen(false);
+  /**
+   * Changes page number to display.
+   * @param event Page number change event.
+   * @param newPage New page number.
+   */
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  /**
+   * Change the number of items to display per page.
+   * @param event Change event for the number of items to display per page.
+   */
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
   };
 
   return (
@@ -134,12 +150,12 @@ export const Home = (): JSX.Element => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 50]}
         component="div"
-        count={0}
-        rowsPerPage={5}
-        page={0}
+        count={inspectionSheets.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
         labelRowsPerPage={'1ページあたりの件数:'}
-        onChangePage={() => {}}
-        onChangeRowsPerPage={() => {}}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
       />
       <Dialog
         open={open}
@@ -161,7 +177,7 @@ export const Home = (): JSX.Element => {
           >削除</Button>
           <Button
             variant='contained'
-            onClick={handleClose}
+            onClick={() => setOpen(false)}
             autoFocus
           >キャンセル</Button>
         </DialogActions>
