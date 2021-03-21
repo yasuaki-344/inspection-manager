@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheet } from './Types';
 import { InspectionSheetOperator } from './InspectionSheetOperator';
@@ -50,6 +51,9 @@ export const Edit = ({ match }: any): JSX.Element => {
     <Grid container>
       <Grid item xs={12}>
         <h1>編集ページ</h1>
+      </Grid>
+      <Grid item xs={12}>
+        <Link to="/">トップページへ戻る</Link>
       </Grid>
       <Grid item xs={12}>
         <InspectionSheetForm
