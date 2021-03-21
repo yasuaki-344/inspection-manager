@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheetOperator } from './InspectionSheetOperator';
 import { InspectionSheetForm } from './InspectionSheetForm';
@@ -36,6 +37,9 @@ export const Create = (): JSX.Element => {
     <Grid container>
       <Grid item xs={12}>
         <h1>新規作成ページ</h1>
+      </Grid>
+      <Grid item xs={12}>
+        <Link to="/">トップページへ戻る</Link>
       </Grid>
       <Grid item xs={12}>
         <form onSubmit={handleSubmit}>
