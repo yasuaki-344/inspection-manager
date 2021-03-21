@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Box, Collapse, Paper, List, ListItem, IconButton,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow
@@ -73,6 +74,7 @@ export const Details = ({ match }: any): JSX.Element => {
   return (
     <div>
       <h1>詳細ページ</h1>
+      <Link to="/">トップページへ戻る</Link>
       <List>
         <ListItem>点検シートID:{inspectionSheet.sheet_id}</ListItem>
         <ListItem>シート名:{inspectionSheet.sheet_name}</ListItem>
