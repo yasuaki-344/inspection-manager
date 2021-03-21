@@ -4,7 +4,7 @@ import {
   Button, IconButton,
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Paper
+  Paper, TablePagination
 } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import EditIcon from '@material-ui/icons/Edit';
@@ -131,6 +131,16 @@ export const Home = (): JSX.Element => {
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 50]}
+        component="div"
+        count={0}
+        rowsPerPage={5}
+        page={0}
+        labelRowsPerPage={'1ページあたりの件数:'}
+        onChangePage={() => {}}
+        onChangeRowsPerPage={() => {}}
+      />
       <Dialog
         open={open}
         aria-labelledby="alert-dialog-title"
