@@ -10,11 +10,10 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import EditIcon from '@material-ui/icons/Edit';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DetailsIcon from '@material-ui/icons/Details';
-
 import { InspectionSheet } from '../inspection/Types';
 
 export const Home = (): JSX.Element => {
-  const [inspectionSheets, setInspectionSheets] = useState([]);
+  const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>([]);
   const [open, setOpen] = React.useState(false);
   const [targetSheetId, setTargetSheetId] = React.useState("");
   const [targetSheetName, setTargetSheetName] = React.useState("");
