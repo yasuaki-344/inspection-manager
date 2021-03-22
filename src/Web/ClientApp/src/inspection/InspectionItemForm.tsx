@@ -9,12 +9,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import { InspectionItemOperator } from './InspectionItemOperator';
-
-const useInputTypes = [
-  { value: 1, label: "整数入力" },
-  { value: 2, label: "テキスト入力" },
-  { value: 3, label: "項目選択" },
-];
+import { useInputTypes } from './Types';
 
 export const InspectionItemForm = (props: any): JSX.Element => {
   const [
