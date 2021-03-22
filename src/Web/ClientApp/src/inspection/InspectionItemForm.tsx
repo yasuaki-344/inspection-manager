@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import {
   Button, BottomNavigation, BottomNavigationAction,
   Dialog, DialogActions, DialogContent, DialogTitle,
@@ -8,7 +8,7 @@ import {
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
-import { InspectionItemOperator } from './InspectionItemOperator';
+import { isValidInspectionItem, InspectionItemOperator } from './InspectionItemOperator';
 import { useInputTypes } from './Types';
 
 export const InspectionItemForm = (props: any): JSX.Element => {
@@ -18,6 +18,11 @@ export const InspectionItemForm = (props: any): JSX.Element => {
   ] = InspectionItemOperator();
 
   const [open, setOpen] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
+  useEffect(() => {
+    setDisabled(!isValidInspectionItem(inspectionItem));
+  }, [inspectionItem]);
 
   const handleEdit = () => {
     setItem(props.inspectionItem);
@@ -136,6 +141,7 @@ export const InspectionItemForm = (props: any): JSX.Element => {
           <Button
             variant='contained'
             color='primary'
+            disabled={disabled}
             onClick={handleUpdate}
           >OK</Button>
           <Button
