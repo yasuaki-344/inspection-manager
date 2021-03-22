@@ -34,30 +34,37 @@ export const Create = (): JSX.Element => {
   }
 
   return (
-    <Grid container>
+    <Grid container spacing={1}>
       <Grid item xs={12}>
         <h1>新規作成ページ</h1>
       </Grid>
       <Grid item xs={12}>
-        <Link to="/">トップページへ戻る</Link>
+        <Link to='/'>トップページへ戻る</Link>
+      </Grid>
+      <Grid item xs={12}>
+        <Button
+          variant='contained'
+        >既存のデータをコピー</Button>
       </Grid>
       <Grid item xs={12}>
         <form onSubmit={handleSubmit}>
-          <Grid item xs={12}>
-            <InspectionSheetForm
-              isEdit={false}
-              sheet={inspectionSheet}
-              updateField={updateField}
-              addEquipment={addEquipment}
-              removeEquipment={removeEquipment}
-              updateEquipment={updateEquipment}
-              addInspectionItem={addInspectionItem}
-              removeInspectionItem={removeInspectionItem}
-              updateInspectionItem={updateInspectionItem}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button type="submit" size='medium' variant='contained' color='primary'>新規作成</Button>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <InspectionSheetForm
+                isEdit={false}
+                sheet={inspectionSheet}
+                updateField={updateField}
+                addEquipment={addEquipment}
+                removeEquipment={removeEquipment}
+                updateEquipment={updateEquipment}
+                addInspectionItem={addInspectionItem}
+                removeInspectionItem={removeInspectionItem}
+                updateInspectionItem={updateInspectionItem}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button type='submit' variant='contained' color='primary'>新規作成</Button>
+            </Grid>
           </Grid>
         </form>
       </Grid>
