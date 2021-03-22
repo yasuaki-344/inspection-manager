@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Dialog, DialogActions, DialogContent, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Paper
+  Paper, TablePagination
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
@@ -12,12 +12,13 @@ import { InspectionSheet } from './Types';
 
 export const Create = (): JSX.Element => {
   const [
-    inspectionSheet, , updateField,
+    inspectionSheet, setSheet, updateField,
     addEquipment, removeEquipment, updateEquipment,
     addInspectionItem, removeInspectionItem, updateInspectionItem,
   ] = InspectionSheetOperator();
 
   const [open, setOpen] = useState(false);
+  const [page, setPage] = React.useState(0);
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>([]);
 
   useEffect(() => {
@@ -29,6 +30,24 @@ export const Create = (): JSX.Element => {
       })
       .catch(console.error);
   }, []);
+
+  /**
+   * Changes page number to display.
+   * @param event Page number change event.
+   * @param newPage New page number.
+   */
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  /**
+   * Set the specified inspection sheet.
+   * @param sheet_id Sheet ID of inspection sheet to set.
+   */
+  const handleSelectSheet = (sheet_id: string) => {
+    setSheet(inspectionSheets.find(x => x.sheet_id === sheet_id));
+    setOpen(false);
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -104,22 +123,37 @@ export const Create = (): JSX.Element => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {inspectionSheets.map((sheet: InspectionSheet) =>
-                  <TableRow key={sheet.sheet_id}>
-                    <TableCell>{sheet.sheet_name}</TableCell>
-                    <TableCell>&nbsp;</TableCell>
-                    <TableCell>&nbsp;</TableCell>
-                    <TableCell>
-                      <Button
-                        variant='contained'
-                        color='primary'
-                      >選択</Button>
-                    </TableCell>
-                  </TableRow>
-                )}
+                {inspectionSheets
+                  .slice(page * 5, page * 5 + 5)
+                  .map((sheet: InspectionSheet) =>
+                    <TableRow key={sheet.sheet_id}>
+                      <TableCell>{sheet.sheet_name}</TableCell>
+                      <TableCell>&nbsp;</TableCell>
+                      <TableCell>&nbsp;</TableCell>
+                      <TableCell>
+                        <Button
+                          variant='contained'
+                          color='primary'
+                          onClick={() => handleSelectSheet(sheet.sheet_id)}
+                        >選択</Button>
+                      </TableCell>
+                    </TableRow>
+                  )}
               </TableBody>
             </Table>
           </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5]}
+            component="div"
+            count={inspectionSheets.length}
+            rowsPerPage={5}
+            page={page}
+            labelRowsPerPage={'1ページあたりの件数:'}
+            backIconButtonText={'前のぺージ'}
+            nextIconButtonText={'次のぺージ'}
+            onChangePage={handleChangePage}
+          />
+
         </DialogContent>
         <DialogActions>
           <Button
