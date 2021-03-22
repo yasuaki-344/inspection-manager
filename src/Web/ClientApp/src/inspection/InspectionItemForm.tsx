@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import {
   Button, BottomNavigation, BottomNavigationAction,
   Dialog, DialogActions, DialogContent, DialogTitle,
-  IconButton, Grid, TextField,
+  IconButton, Grid, TextField, MenuItem,
   TableCell, TableRow
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -97,9 +97,9 @@ export const InspectionItemForm = (props: any): JSX.Element => {
                 onChange={(e) => { updateField(e); }}
               >
                 {useInputTypes.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <MenuItem  key={option.value} value={option.value}>
                     {option.label}
-                  </option>
+                  </MenuItem >
                 ))}
               </TextField>
             </Grid>
