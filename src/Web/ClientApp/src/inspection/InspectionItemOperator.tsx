@@ -49,7 +49,7 @@ export const isValidInspectionItem = (item: InspectionItem): boolean => {
     if (!item.choices.length) {
       return false;
     } else {
-      return (item.choices.indexOf('') === -1);
+      return !item.choices.includes('');
     }
   }
 
