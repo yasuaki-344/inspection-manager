@@ -7,7 +7,7 @@ import {
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import { InspectionSheet, Equipment, InspectionItem } from './Types';
+import { useInputTypes, InspectionSheet, Equipment, InspectionItem } from './Types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,7 +52,9 @@ const Row = (props: any): JSX.Element => {
                     <TableRow key={item.inspection_item_id}>
                       <TableCell>{item.inspection_item_id}</TableCell>
                       <TableCell>{item.inspection_content}</TableCell>
-                      <TableCell>{item.input_type}</TableCell>
+                      <TableCell>
+                        {useInputTypes.filter(e => e.value === item.input_type)[0].label}
+                      </TableCell>
                       <TableCell>{item.choices.join(',')}</TableCell>
                     </TableRow>
                   )}

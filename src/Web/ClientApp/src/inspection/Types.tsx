@@ -1,3 +1,9 @@
+export const useInputTypes = [
+  { value: 1, label: "整数入力" },
+  { value: 2, label: "テキスト入力" },
+  { value: 3, label: "項目選択" },
+];
+
 export type InspectionItem = {
   inspection_item_id: string,
   inspection_content: string,

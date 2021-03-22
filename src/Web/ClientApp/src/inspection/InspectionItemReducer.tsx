@@ -9,17 +9,25 @@ const TYPES = {
   UPDATE_CHOICE: 'UPDATE_CHOICE',
 };
 
-export default function InspectionSheetReducer(state: InspectionItem, action: InspectionItemAction): any {
+export default function InspectionItemReducer(state: InspectionItem, action: InspectionItemAction): any {
   console.log(action);
   switch (action.type) {
     case TYPES.SET_ITEM:
       return action.payload?.item;
     case TYPES.UPDATE_FIELD:
       if (action.payload?.name != null) {
-        return {
-          ...state,
-          [action.payload.name]: action.payload.value,
-        };
+        if (action.payload.name === 'input_type' && action.payload.value !== '3') {
+          return {
+            ...state,
+            [action.payload.name]: action.payload.value,
+            choices: [],
+          }
+        } else {
+          return {
+            ...state,
+            [action.payload.name]: action.payload.value,
+          };
+        }
       } else {
         return state;
       }

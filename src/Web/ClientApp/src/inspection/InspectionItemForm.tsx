@@ -1,20 +1,15 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import {
   Button, BottomNavigation, BottomNavigationAction,
   Dialog, DialogActions, DialogContent, DialogTitle,
-  IconButton, Grid, TextField,
+  IconButton, Grid, TextField, MenuItem,
   TableCell, TableRow
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
-import { InspectionItemOperator } from './InspectionItemOperator';
-
-const useInputTypes = [
-  { value: 1, label: "整数入力" },
-  { value: 2, label: "テキスト入力" },
-  { value: 3, label: "項目選択" },
-];
+import { isValidInspectionItem, InspectionItemOperator } from './InspectionItemOperator';
+import { useInputTypes } from './Types';
 
 export const InspectionItemForm = (props: any): JSX.Element => {
   const [
@@ -23,6 +18,11 @@ export const InspectionItemForm = (props: any): JSX.Element => {
   ] = InspectionItemOperator();
 
   const [open, setOpen] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
+  useEffect(() => {
+    setDisabled(!isValidInspectionItem(inspectionItem));
+  }, [inspectionItem]);
 
   const handleEdit = () => {
     setItem(props.inspectionItem);
@@ -42,11 +42,11 @@ export const InspectionItemForm = (props: any): JSX.Element => {
     <Fragment>
       <TableRow>
         <TableCell>
-          <IconButton size="small" onClick={() => handleEdit()}>
+          <IconButton size='small' onClick={() => handleEdit()}>
             <EditIcon />
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
+        <TableCell component='th' scope='row'>
           {props.inspectionItem.inspection_content}
         </TableCell>
         <TableCell>
@@ -55,8 +55,8 @@ export const InspectionItemForm = (props: any): JSX.Element => {
         <TableCell>
           {props.inspectionItem.choices.join(',')}
         </TableCell>
-        <TableCell align="right">
-          <IconButton color="primary" size="small"
+        <TableCell align='right'>
+          <IconButton color='primary' size='small'
             onClick={() => props.removeInspectionItem(
               props.equipment_id, props.inspectionItem.inspection_item_id
             )}
@@ -65,8 +65,8 @@ export const InspectionItemForm = (props: any): JSX.Element => {
           </IconButton>
         </TableCell>
       </TableRow>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">点検項目編集</DialogTitle>
+      <Dialog open={open} onClose={handleClose} aria-labelledby='form-dialog-title'>
+        <DialogTitle id='form-dialog-title'>点検項目編集</DialogTitle>
         <DialogContent>
           <Grid container spacing={1}>
             <Grid item xs={12}>
@@ -74,11 +74,11 @@ export const InspectionItemForm = (props: any): JSX.Element => {
                 required
                 fullWidth
                 autoFocus
-                id="outlined-required"
-                label="点検項目"
-                variant="outlined"
-                size="small"
-                name="inspection_content"
+                id='outlined-required'
+                label='点検項目'
+                variant='outlined'
+                size='small'
+                name='inspection_content'
                 value={inspectionItem.inspection_content}
                 onChange={(e) => updateField(e)}
               />
@@ -88,18 +88,18 @@ export const InspectionItemForm = (props: any): JSX.Element => {
                 required
                 fullWidth
                 select
-                id="outlined-required"
-                label="点検タイプ"
-                variant="outlined"
-                size="small"
-                name="input_type"
+                id='outlined-required'
+                label='点検タイプ'
+                variant='outlined'
+                size='small'
+                name='input_type'
                 value={inspectionItem.input_type}
                 onChange={(e) => { updateField(e); }}
               >
                 {useInputTypes.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <MenuItem  key={option.value} value={option.value}>
                     {option.label}
-                  </option>
+                  </MenuItem >
                 ))}
               </TextField>
             </Grid>
@@ -109,15 +109,15 @@ export const InspectionItemForm = (props: any): JSX.Element => {
                   <Grid item xs={12} key={`${inspectionItem.inspection_item_id}_${index}`}>
                     <TextField
                       required
-                      id="outlined-required"
+                      id='outlined-required'
                       label={`選択肢${index + 1}`}
-                      variant="outlined"
-                      size="small"
-                      name="choice"
+                      variant='outlined'
+                      size='small'
+                      name='choice'
                       value={choice}
                       onChange={(e) => updateChoice(e, index)}
                     />
-                    <IconButton color="primary" size="small"
+                    <IconButton color='primary' size='small'
                       onClick={() => removeChoice(index)}
                     >
                       <CancelIcon />
@@ -127,7 +127,7 @@ export const InspectionItemForm = (props: any): JSX.Element => {
                 <Grid item xs={12}>
                   <BottomNavigation showLabels>
                     <BottomNavigationAction
-                      label="選択肢追加"
+                      label='選択肢追加'
                       icon={<AddCircleIcon />}
                       onClick={() => addChoice()}
                     />
@@ -138,12 +138,16 @@ export const InspectionItemForm = (props: any): JSX.Element => {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleUpdate} color="primary">
-            OK
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            キャンセル
-          </Button>
+          <Button
+            variant='contained'
+            color='primary'
+            disabled={disabled}
+            onClick={handleUpdate}
+          >OK</Button>
+          <Button
+            variant='contained'
+            onClick={handleClose}
+          >キャンセル</Button>
         </DialogActions>
       </Dialog>
     </Fragment>
