@@ -39,6 +39,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
   ] = InspectionItemOperator();
 
   const [open, setOpen] = useState(false);
+  const [additional, setAdditional] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
@@ -87,6 +88,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
                       inspectionItem={inspectionItem}
                       removeInspectionItem={props.removeInspectionItem}
                       handleEdit={() => {
+                        setAdditional(false);
                         setItem(inspectionItem);
                         setOpen(true);
                       }}
@@ -101,6 +103,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
                   label="点検項目追加"
                   icon={<AddCircleIcon />}
                   onClick={() => {
+                    setAdditional(true);
                     setItem({
                       inspection_item_id: Math.random().toString(36).substr(2, 9),
                       inspection_content: "",
@@ -198,7 +201,11 @@ export const EquipmentForm = (props: any): JSX.Element => {
             color='primary'
             disabled={disabled}
             onClick={() => {
-              props.addInspectionItem(props.equipment.equipment_id, inspectionItem);
+              if (additional) {
+                props.addInspectionItem(props.equipment.equipment_id, inspectionItem);
+              } else {
+                props.updateInspectionItem(props.equipment.equipment_id, inspectionItem);
+              }
               setOpen(false);
             }}
           >OK</Button>
