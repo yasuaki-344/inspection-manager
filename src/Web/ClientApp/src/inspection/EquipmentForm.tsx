@@ -12,7 +12,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { InspectionItem } from './Types';
 import { isValidInspectionItem, InspectionItemOperator } from './InspectionItemOperator';
 import { InspectionItemForm } from './InspectionItemForm';
-import { InspectionDialog } from './InspectionDialog';
+import { InspectionItemDialog } from './InspectionItemDialog';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -123,7 +123,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
           </Grid>
         </AccordionDetails>
       </Accordion>
-      <InspectionDialog
+      <InspectionItemDialog
         open={open}
         disabled={disabled}
         inspectionItem={inspectionItem}

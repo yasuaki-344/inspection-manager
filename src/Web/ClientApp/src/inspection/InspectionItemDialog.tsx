@@ -20,7 +20,7 @@ interface InspectionDialogProps {
   handleInspectionItem: () => void,
 };
 
-export const InspectionDialog = (props: InspectionDialogProps): JSX.Element => {
+export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element => {
   return (
     <Dialog open={props.open} onClose={props.handleClose}>
       <DialogTitle>点検項目編集</DialogTitle>
