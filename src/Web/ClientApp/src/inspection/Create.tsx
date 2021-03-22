@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dialog, DialogActions, DialogContent, DialogTitle,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Paper
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheetOperator } from './InspectionSheetOperator';
 import { InspectionSheetForm } from './InspectionSheetForm';
+import { InspectionSheet } from './Types';
 
 export const Create = (): JSX.Element => {
   const [
@@ -15,6 +18,17 @@ export const Create = (): JSX.Element => {
   ] = InspectionSheetOperator();
 
   const [open, setOpen] = useState(false);
+  const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>([]);
+
+  useEffect(() => {
+    fetch('inspectionsheet')
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        setInspectionSheets(json);
+      })
+      .catch(console.error);
+  }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -79,12 +93,35 @@ export const Create = (): JSX.Element => {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>コピーする点検シートを選択</DialogTitle>
         <DialogContent>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>点検シート名</TableCell>
+                  <TableCell>点検グループ</TableCell>
+                  <TableCell>点検種別</TableCell>
+                  <TableCell>&nbsp;</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {inspectionSheets.map((sheet: InspectionSheet) =>
+                  <TableRow key={sheet.sheet_id}>
+                    <TableCell>{sheet.sheet_name}</TableCell>
+                    <TableCell>&nbsp;</TableCell>
+                    <TableCell>&nbsp;</TableCell>
+                    <TableCell>
+                      <Button
+                        variant='contained'
+                        color='primary'
+                      >選択</Button>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </DialogContent>
         <DialogActions>
-          <Button
-            variant='contained'
-            color='primary'
-          >OK</Button>
           <Button
             variant='contained'
             onClick={() => setOpen(false)}
