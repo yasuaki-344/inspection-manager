@@ -1,6 +1,9 @@
 import React from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { Fab, Grid, Paper, TextField } from '@material-ui/core';
+import {
+  BottomNavigation, BottomNavigationAction,
+  Grid, Paper, TextField
+} from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { EquipmentForm } from './EquipmentForm';
 import { Equipment } from './Types';
@@ -82,10 +85,13 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
           </Grid>
         )}
         <Grid item xs={12}>
-          <Fab color="primary" variant="extended" onClick={props.addEquipment}>
-            <AddCircleIcon />
-            点検機器追加
-          </Fab>
+          <BottomNavigation showLabels>
+            <BottomNavigationAction
+              label="点検機器追加"
+              icon={<AddCircleIcon />}
+              onClick={props.addEquipment}
+            />
+          </BottomNavigation>
         </Grid>
       </Grid>
     </Paper >

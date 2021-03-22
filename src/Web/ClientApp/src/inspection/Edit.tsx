@@ -48,7 +48,7 @@ export const Edit = ({ match }: any): JSX.Element => {
   }
 
   return (
-    <Grid container>
+    <Grid container spacing={1}>
       <Grid item xs={12}>
         <h1>編集ページ</h1>
       </Grid>
@@ -70,7 +70,6 @@ export const Edit = ({ match }: any): JSX.Element => {
       </Grid>
       <Grid item xs={12}>
         <Button
-          size='medium'
           variant='contained'
           color='primary'
           onClick={handleUpdate}
