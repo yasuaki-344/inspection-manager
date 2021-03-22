@@ -64,15 +64,10 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
       return {
         ...state,
         equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_id) {
+          if (e.equipment_id === action.payload?.equipment_id && action.payload?.inspection_item != null) {
             return {
               ...e,
-              inspection_items: e.inspection_items.concat({
-                inspection_item_id: Math.random().toString(36).substr(2, 9),
-                inspection_content: "",
-                input_type: 1,
-                choices: [],
-              })
+              inspection_items: e.inspection_items.concat(action.payload.inspection_item)
             };
           } else {
             return e;
@@ -166,11 +161,12 @@ export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement>
   }
 };
 
-export const addInspectionItemAction = (id: string): InspectionSheetAction => {
+export const addInspectionItemAction = (id: string, item: InspectionItem): InspectionSheetAction => {
   return {
     type: TYPES.ADD_INSPECTION_ITEM,
     payload: {
       equipment_id: id,
+      inspection_item: item,
     }
   }
 };
