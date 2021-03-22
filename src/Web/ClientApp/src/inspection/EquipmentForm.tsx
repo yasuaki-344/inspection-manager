@@ -86,7 +86,10 @@ export const EquipmentForm = (props: any): JSX.Element => {
                       equipment_id={props.equipment.equipment_id}
                       inspectionItem={inspectionItem}
                       removeInspectionItem={props.removeInspectionItem}
-                      updateInspectionItem={props.updateInspectionItem}
+                      handleEdit={() => {
+                        setItem(inspectionItem);
+                        setOpen(true);
+                      }}
                     />
                   )}
                 </TableBody>

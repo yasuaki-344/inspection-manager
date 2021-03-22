@@ -65,7 +65,6 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         ...state,
         equipments: state.equipments.map(e => {
           if (e.equipment_id === action.payload?.equipment_id && action.payload?.inspection_item != null) {
-            console.log(action.payload?.inspection_item)
             return {
               ...e,
               inspection_items: e.inspection_items.concat(action.payload.inspection_item)
