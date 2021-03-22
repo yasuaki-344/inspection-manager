@@ -30,7 +30,8 @@ export const InspectionSheetOperator = () => {
   const updateEquipment = (event: React.ChangeEvent<HTMLInputElement>, id: string): void =>
     dispatch(updateEquipmentAction(event, id));
 
-  const addInspectionItem = (id: string): void => dispatch(addInspectionItemAction(id));
+  const addInspectionItem = (id: string, item: InspectionItem): void =>
+    dispatch(addInspectionItemAction(id, item));
 
   const removeInspectionItem = (id: string, itemId: string): void =>
     dispatch(removeInspectionItemAction(id, itemId));
