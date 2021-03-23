@@ -6,6 +6,7 @@ import { Create } from './inspection/Create';
 import { Details } from './inspection/Details';
 import { Edit } from './inspection/Edit';
 import { InspectionGroupCategory } from './categories/InspectionGroupCategory';
+import { InspectionTypeCategory } from './categories/InspectionTypeCategory';
 
 import './custom.css'
 
@@ -14,6 +15,7 @@ const App = (): JSX.Element => {
     <Layout>
       <Route exact path='/' component={Home} />
       <Route path='/group' component={InspectionGroupCategory} />
+      <Route path='/types' component={InspectionTypeCategory} />
       <Route path='/create' component={Create} />
       <Route path='/details/:id' component={Details} />
       <Route path='/edit/:id' component={Edit} />
