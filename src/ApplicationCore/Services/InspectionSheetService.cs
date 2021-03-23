@@ -43,6 +43,8 @@ namespace InspectionManager.ApplicationCore.Services
             {
                 SheetId = x.SheetId,
                 SheetName = x.SheetName,
+                InspectionType = x.InspectionType,
+                InspectionGroup = x.InspectionGroup,
             })
             .OrderBy(x => x.SheetName);
 

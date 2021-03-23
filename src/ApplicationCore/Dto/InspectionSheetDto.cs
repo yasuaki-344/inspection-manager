@@ -17,6 +17,12 @@ namespace InspectionManager.ApplicationCore.Dto
         [JsonPropertyName("sheet_name")]
         public string SheetName { get; set; } = string.Empty;
 
+        [JsonPropertyName("inspection_type")]
+        public string InspectionType { get; set; } = string.Empty;
+
+        [JsonPropertyName("inspection_group")]
+        public string InspectionGroup { get; set; } = string.Empty;
+
         [JsonPropertyName("equipments")]
         public List<EquipmentDto> Equipments { get; set; } = new List<EquipmentDto>();
     }
