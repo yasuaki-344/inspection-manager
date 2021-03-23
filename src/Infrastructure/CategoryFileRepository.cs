@@ -23,7 +23,7 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public string[]? GetInspectionGroups()
+        public string[] GetInspectionGroups()
         {
             if (!Directory.Exists(_baseDirectory))
             {
@@ -35,7 +35,7 @@ namespace InspectionManager.Infrastructure
                 throw new FileNotFoundException(filePath);
             }
             var json = File.ReadAllText(Path.Join(_baseDirectory, _inspectionGroupsFile));
-            return JsonSerializer.Deserialize<string[]>(json);
+            return JsonSerializer.Deserialize<string[]>(json) ?? new string[] { };
         }
 
         /// <inheritdoc/>

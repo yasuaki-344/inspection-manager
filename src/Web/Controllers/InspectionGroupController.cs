@@ -45,8 +45,8 @@ namespace InspectionManager.Web.Controllers
             try
             {
                 _logger.LogInformation("try to get all inspection groups");
-                // TODO: データ取得
-                return Ok(new string[] { "hoge", "foo", "var" });
+                var groups = _repository.GetInspectionGroups();
+                return Ok(groups);
             }
             catch (Exception ex)
             {
@@ -68,8 +68,7 @@ namespace InspectionManager.Web.Controllers
                 }
                 else
                 {
-                    // TODO: データ登録処理
-                    var result = new string[] { "hoge1", "foo2", "var3" };
+                    var result = _repository.CreateInspectionGroups(groups);
                     return CreatedAtAction(nameof(GetAllGroups), result);
                 }
             }

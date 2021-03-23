@@ -9,7 +9,17 @@ namespace InspectionManager.ApplicationCore.Interfaces
 {
     public interface ICategoryRepository
     {
-        string[]? GetInspectionGroups();
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        string[] GetInspectionGroups();
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="groups"></param>
+        /// <returns></returns>
         string[] CreateInspectionGroups(string[] groups);
     }
 }
