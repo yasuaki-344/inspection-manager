@@ -22,16 +22,20 @@ namespace InspectionManager.Web.Controllers
     [Route("[controller]")]
     public class InspectionGroupController : ControllerBase
     {
+        private readonly ICategoryRepository _repository;
         private readonly ILogger<InspectionGroupController> _logger;
 
         /// <summary>
         /// Initializes a new instance of InspectionGroupController class.
         /// </summary>
-        /// <param name="logger">logger object</param>
+        /// <param name="repository">repository object</param>
+        /// /// <param name="logger">logger object</param>
         public InspectionGroupController(
+            ICategoryRepository repository,
             ILogger<InspectionGroupController> logger
         )
         {
+            _repository = repository;
             _logger = logger;
         }
 
@@ -53,7 +57,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult<string[]> CreateGroups(string[] ? groups)
+        public ActionResult<string[]> CreateGroups(string[]? groups)
         {
             try
             {

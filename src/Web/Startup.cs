@@ -34,6 +34,7 @@ namespace InspectionManager.Web
             services.AddControllersWithViews();
 
             services.AddSingleton<IInspectionSheetRepository, InspectionSheetFileRepository>();
+            services.AddSingleton<ICategoryRepository, CategoryFileRepository>();
             services.AddScoped<IInspectionSheetService, InspectionSheetService>();
             services.AddScoped<IExcelDownloadService, ExcelDownloadService>();
 
