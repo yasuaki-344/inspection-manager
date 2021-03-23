@@ -10,10 +10,10 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import EditIcon from '@material-ui/icons/Edit';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DetailsIcon from '@material-ui/icons/Details';
-import { InspectionSheet } from '../inspection/Types';
+import { InspectionSheet, InspectionSheetSummary } from '../inspection/Types';
 
 export const Home = (): JSX.Element => {
-  const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>([]);
+  const [inspectionSheets, setInspectionSheets] = useState<InspectionSheetSummary[]>([]);
   const [open, setOpen] = React.useState(false);
   const [targetSheetId, setTargetSheetId] = React.useState("");
   const [targetSheetName, setTargetSheetName] = React.useState("");
@@ -64,7 +64,7 @@ export const Home = (): JSX.Element => {
       .then((json: InspectionSheet) => {
         console.log(json);
         setInspectionSheets(
-          inspectionSheets.filter((x: InspectionSheet) =>
+          inspectionSheets.filter((x: InspectionSheetSummary) =>
             x.sheet_id !== json.sheet_id)
         );
       })
@@ -109,7 +109,7 @@ export const Home = (): JSX.Element => {
           <TableBody>
             {inspectionSheets
              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-             .map((sheet: InspectionSheet) =>
+             .map((sheet: InspectionSheetSummary) =>
               <TableRow key={sheet.sheet_id}>
                 <TableCell padding='checkbox'>
                   <IconButton

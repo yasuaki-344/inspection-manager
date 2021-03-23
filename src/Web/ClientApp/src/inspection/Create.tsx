@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheetOperator } from './InspectionSheetOperator';
 import { InspectionSheetForm } from './InspectionSheetForm';
-import { InspectionSheet } from './Types';
+import { InspectionSheet, InspectionSheetSummary } from './Types';
 
 export const Create = (): JSX.Element => {
   const [
@@ -19,12 +19,12 @@ export const Create = (): JSX.Element => {
 
   const [open, setOpen] = useState(false);
   const [page, setPage] = React.useState(0);
-  const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>([]);
+  const [inspectionSheets, setInspectionSheets] = useState<InspectionSheetSummary[]>([]);
 
   useEffect(() => {
     fetch('inspectionsheet')
       .then(res => res.json())
-      .then(json => {
+      .then((json: InspectionSheetSummary[]) => {
         console.log(json);
         setInspectionSheets(json);
       })
@@ -42,10 +42,16 @@ export const Create = (): JSX.Element => {
 
   /**
    * Set the specified inspection sheet.
-   * @param sheet_id Sheet ID of inspection sheet to set.
+   * @param sheetId Sheet ID of inspection sheet to set.
    */
-  const handleSelectSheet = (sheet_id: string) => {
-    setSheet(inspectionSheets.find(x => x.sheet_id === sheet_id));
+  const handleSelectSheet = (sheetId: string) => {
+    fetch(`inspectionsheet/${sheetId}`)
+      .then(res => res.json())
+      .then((json: InspectionSheet) => {
+        console.log(json);
+        setSheet(json);
+      })
+      .catch(console.error);
     setOpen(false);
   };
 
@@ -125,7 +131,7 @@ export const Create = (): JSX.Element => {
               <TableBody>
                 {inspectionSheets
                   .slice(page * 5, page * 5 + 5)
-                  .map((sheet: InspectionSheet) =>
+                  .map((sheet: InspectionSheetSummary) =>
                     <TableRow key={sheet.sheet_id}>
                       <TableCell>{sheet.sheet_name}</TableCell>
                       <TableCell>&nbsp;</TableCell>
