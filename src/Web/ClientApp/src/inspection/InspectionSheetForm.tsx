@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     sheetElement: {
       margin: 4,
+      width: 250,
     },
     sheetIdElement: {
       margin: 4,
@@ -88,7 +89,7 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <TextField
-            required
+            className={classes.sheetElement}
             select
             id='outlined-required'
             label='点検グループ'
@@ -107,7 +108,7 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <TextField
-            required
+            className={classes.sheetElement}
             select
             id='outlined-required'
             label='点検タイプ'
