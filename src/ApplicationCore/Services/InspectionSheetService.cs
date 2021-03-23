@@ -37,8 +37,13 @@ namespace InspectionManager.ApplicationCore.Services
             _repository.InspectionSheetExists(id);
 
         /// <inheritdoc/>
-        public IEnumerable<InspectionSheetDto> GetAllInspectionSheets() =>
+        public IEnumerable<InspectionSheetSummaryDto> GetAllInspectionSheets() =>
             _repository.GetAllInspectionSheets()
+            .Select(x => new InspectionSheetSummaryDto
+            {
+                SheetId = x.SheetId,
+                SheetName = x.SheetName,
+            })
             .OrderBy(x => x.SheetName);
 
         /// <inheritdoc/>
