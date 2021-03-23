@@ -134,8 +134,8 @@ export const Create = (): JSX.Element => {
                   .map((sheet: InspectionSheetSummary) =>
                     <TableRow key={sheet.sheet_id}>
                       <TableCell>{sheet.sheet_name}</TableCell>
-                      <TableCell>&nbsp;</TableCell>
-                      <TableCell>&nbsp;</TableCell>
+                      <TableCell>{sheet.inspection_group}</TableCell>
+                      <TableCell>{sheet.inspection_type}</TableCell>
                       <TableCell>
                         <Button
                           variant='contained'
