@@ -73,6 +73,8 @@ export const Details = ({ match }: any): JSX.Element => {
   const [inspectionSheet, setInspectionSheet] = useState<InspectionSheet>({
     sheet_id: '',
     sheet_name: '',
+    inspection_group: '',
+    inspection_type: '',
     equipments: [],
   });
 
@@ -93,6 +95,8 @@ export const Details = ({ match }: any): JSX.Element => {
       <List>
         <ListItem>点検シートID:{inspectionSheet.sheet_id}</ListItem>
         <ListItem>シート名:{inspectionSheet.sheet_name}</ListItem>
+        <ListItem>点検グループ:{inspectionSheet.inspection_group}</ListItem>
+        <ListItem>点検種別:{inspectionSheet.inspection_type}</ListItem>
       </List>
       <TableContainer component={Paper}>
         <Table>

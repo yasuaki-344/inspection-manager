@@ -15,8 +15,12 @@ import { InspectionSheet, InspectionSheetSummary } from '../inspection/Types';
 export const Home = (): JSX.Element => {
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheetSummary[]>([]);
   const [open, setOpen] = React.useState(false);
-  const [targetSheetId, setTargetSheetId] = React.useState("");
-  const [targetSheetName, setTargetSheetName] = React.useState("");
+  const [targetSheet, setTargetSheet] = React.useState<InspectionSheetSummary>({
+    sheet_id: '',
+    sheet_name: '',
+    inspection_group: '',
+    inspection_type: '',
+  });
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -48,16 +52,15 @@ export const Home = (): JSX.Element => {
       .catch(console.error);
   }
 
-  const handleClickOpen = (sheetId: string, sheetName: string) => {
-    setTargetSheetId(sheetId);
-    setTargetSheetName(sheetName);
+  const handleClickOpen = (sheet: InspectionSheetSummary) => {
+    setTargetSheet(sheet);
     setOpen(true);
   };
 
   const handleDelete = () => {
     setOpen(false);
-    console.log(`delete ${targetSheetId}`);
-    fetch(`inspectionsheet/${targetSheetId}`, {
+    console.log(`delete ${targetSheet.sheet_id}`);
+    fetch(`inspectionsheet/${targetSheet.sheet_id}`, {
       method: 'DELETE',
     })
       .then((res) => res.json())
@@ -120,8 +123,8 @@ export const Home = (): JSX.Element => {
                   </IconButton>
                 </TableCell>
                 <TableCell>{sheet.sheet_name}</TableCell>
-                <TableCell>&nbsp;</TableCell>
-                <TableCell>&nbsp;</TableCell>
+                <TableCell>{sheet.inspection_group}</TableCell>
+                <TableCell>{sheet.inspection_type}</TableCell>
                 <TableCell padding='checkbox'>
                   <Link to={"/edit/" + sheet.sheet_id}>
                     <EditIcon />
@@ -136,9 +139,7 @@ export const Home = (): JSX.Element => {
                   <IconButton
                     size="small"
                     color='secondary'
-                    onClick={() => handleClickOpen(
-                      sheet.sheet_id, sheet.sheet_name
-                    )}
+                    onClick={() => handleClickOpen(sheet)}
                   >
                     <CancelIcon />
                   </IconButton>
@@ -169,7 +170,9 @@ export const Home = (): JSX.Element => {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <p>次の点検シートを削除します。（この操作は取り消せません）</p>
-            <p>シート名：{targetSheetName}</p>
+            <p>シート名：{targetSheet.sheet_name}</p>
+            <p>点検グループ：{targetSheet.inspection_group}</p>
+            <p>点検種別：{targetSheet.inspection_type}</p>
           </DialogContentText>
         </DialogContent>
         <DialogActions>

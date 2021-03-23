@@ -20,12 +20,16 @@ export type Equipment = {
 export type InspectionSheet = {
   sheet_id: string,
   sheet_name: string,
+  inspection_type: string,
+  inspection_group: string,
   equipments: Equipment[],
 };
 
 export type InspectionSheetSummary = {
   sheet_id: string,
   sheet_name: string,
+  inspection_type: string,
+  inspection_group: string,
 };
 
 export type InspectionItemAction = {
