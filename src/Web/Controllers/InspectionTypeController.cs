@@ -20,19 +20,19 @@ namespace InspectionManager.Web.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class InspectionGroupController : ControllerBase
+    public class InspectionTypeController : ControllerBase
     {
         private readonly ICategoryRepository _repository;
-        private readonly ILogger<InspectionGroupController> _logger;
+        private readonly ILogger<InspectionTypeController> _logger;
 
         /// <summary>
-        /// Initializes a new instance of InspectionGroupController class.
+        /// Initializes a new instance of InspectionTypeController class.
         /// </summary>
         /// <param name="repository">repository object</param>
         /// /// <param name="logger">logger object</param>
-        public InspectionGroupController(
+        public InspectionTypeController(
             ICategoryRepository repository,
-            ILogger<InspectionGroupController> logger
+            ILogger<InspectionTypeController> logger
         )
         {
             _repository = repository;
@@ -40,13 +40,13 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult<string[]> GetAllGroups()
+        public ActionResult<string[]> GetAllTypes()
         {
             try
             {
-                _logger.LogInformation("try to get all inspection groups");
-                var groups = _repository.GetInspectionGroups();
-                return Ok(groups);
+                _logger.LogInformation("try to get all inspection types");
+                var types = _repository.GetInspectionTypes();
+                return Ok(types);
             }
             catch (Exception ex)
             {
@@ -57,29 +57,28 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult<string[]> CreateGroups(string[]? groups)
+        public ActionResult<string[]> CreateTypes(string[]? types)
         {
             try
             {
-                _logger.LogInformation("try to create inspection groups");
-                if (groups == null)
+                _logger.LogInformation("try to create inspection types");
+                if (types == null)
                 {
                     return BadRequest();
                 }
                 else
                 {
-                    var result = _repository.CreateInspectionGroups(groups);
-                    return CreatedAtAction(nameof(GetAllGroups), result);
+                    var result = _repository.CreateInspectionTypes(types);
+                    return CreatedAtAction(nameof(GetAllTypes), result);
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error creating new inspection groups"
+                    "Error creating new inspection types"
                 );
             }
         }
-
     }
 }

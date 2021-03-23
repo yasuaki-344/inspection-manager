@@ -21,5 +21,18 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// <param name="groups"></param>
         /// <returns></returns>
         string[] CreateInspectionGroups(string[] groups);
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        string[] GetInspectionTypes();
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="types"></param>
+        /// <returns></returns>
+        string[] CreateInspectionTypes(string[] types);
     }
 }
