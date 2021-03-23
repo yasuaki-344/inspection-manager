@@ -46,6 +46,42 @@ export const EquipmentForm = (props: any): JSX.Element => {
     setDisabled(!isValidInspectionItem(inspectionItem));
   }, [inspectionItem]);
 
+
+  /**
+   * Implements the process for editing inspection item.
+   */
+  const handleEditItem = () => {
+    setAdditional(false);
+    setItem(inspectionItem);
+    setOpen(true);
+  };
+
+  /**
+   * Implements the process for adding inspection item.
+   */
+   const handleAddItem = () => {
+    setAdditional(true);
+    setItem({
+      inspection_item_id: Math.random().toString(36).substr(2, 9),
+      inspection_content: "",
+      input_type: 1,
+      choices: [],
+    })
+    setOpen(true);
+  };
+
+  /**
+   * Implements the process for managing inspection item of equipment.
+   */
+  const handleInspectionItem = () => {
+    if (additional) {
+      props.addInspectionItem(props.equipment.equipment_id, inspectionItem);
+    } else {
+      props.updateInspectionItem(props.equipment.equipment_id, inspectionItem);
+    }
+    setOpen(false);
+  };
+
   return (
     <Paper variant="outlined">
       <Accordion>
@@ -87,11 +123,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
                       equipment_id={props.equipment.equipment_id}
                       inspectionItem={inspectionItem}
                       removeInspectionItem={props.removeInspectionItem}
-                      handleEdit={() => {
-                        setAdditional(false);
-                        setItem(inspectionItem);
-                        setOpen(true);
-                      }}
+                      handleEdit={handleEditItem}
                     />
                   )}
                 </TableBody>
@@ -102,16 +134,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
                 <BottomNavigationAction
                   label="点検項目追加"
                   icon={<AddCircleIcon />}
-                  onClick={() => {
-                    setAdditional(true);
-                    setItem({
-                      inspection_item_id: Math.random().toString(36).substr(2, 9),
-                      inspection_content: "",
-                      input_type: 1,
-                      choices: [],
-                    })
-                    setOpen(true);
-                  }}
+                  onClick={() => { handleAddItem() }}
                 />
                 <BottomNavigationAction
                   label="点検機器削除"
@@ -132,14 +155,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
         addChoice={addChoice}
         updateChoice={updateChoice}
         removeChoice={removeChoice}
-        handleInspectionItem={() => {
-          if (additional) {
-            props.addInspectionItem(props.equipment.equipment_id, inspectionItem);
-          } else {
-            props.updateInspectionItem(props.equipment.equipment_id, inspectionItem);
-          }
-          setOpen(false);
-        }}
+        handleInspectionItem={handleInspectionItem}
       />
     </Paper >
   );

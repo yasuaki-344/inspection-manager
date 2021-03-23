@@ -23,6 +23,11 @@ export type InspectionSheet = {
   equipments: Equipment[],
 };
 
+export type InspectionSheetSummary = {
+  sheet_id: string,
+  sheet_name: string,
+};
+
 export type InspectionItemAction = {
   type: string;
   payload?: {
