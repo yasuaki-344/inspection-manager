@@ -6,6 +6,7 @@ import {
   SwipeableDrawer
 } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
+import GroupIcon from '@material-ui/icons/Group';
 import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
@@ -53,7 +54,11 @@ export const NavMenu = (): JSX.Element => {
                 </ListItem>
                 <ListItem button>
                   <ListItemIcon><CreateIcon /></ListItemIcon>
-                  <Link className={classes.textDark} to='/create'>新規作成</Link>
+                  <Link className={classes.textDark} to='/group'>新規作成</Link>
+                </ListItem>
+                <ListItem button>
+                  <ListItemIcon><GroupIcon /></ListItemIcon>
+                  <Link className={classes.textDark} to='/group'>点検グループ</Link>
                 </ListItem>
               </List>
               <Divider />
