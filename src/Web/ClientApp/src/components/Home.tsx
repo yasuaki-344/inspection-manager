@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
-  Button, IconButton,
+  Button, Container, IconButton, Grid, TextField,
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Paper, TablePagination
@@ -10,9 +11,21 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import EditIcon from '@material-ui/icons/Edit';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DetailsIcon from '@material-ui/icons/Details';
+import SearchIcon from '@material-ui/icons/Search';
 import { InspectionSheet, InspectionSheetSummary } from '../inspection/Types';
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    searchItem: {
+      margin: 2,
+    },
+  })
+);
+
+
 export const Home = (): JSX.Element => {
+  const classes = useStyles();
+
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheetSummary[]>([]);
   const [open, setOpen] = React.useState(false);
   const [targetSheet, setTargetSheet] = React.useState<InspectionSheetSummary>({
@@ -94,73 +107,106 @@ export const Home = (): JSX.Element => {
 
   return (
     <div>
-      <h1>点検シート一覧</h1>
-      <Link to="/create">新規作成</Link>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>&nbsp;</TableCell>
-              <TableCell>点検シート名</TableCell>
-              <TableCell>点検グループ</TableCell>
-              <TableCell>点検種別</TableCell>
-              <TableCell>&nbsp;</TableCell>
-              <TableCell>&nbsp;</TableCell>
-              <TableCell>&nbsp;</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {inspectionSheets
-             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-             .map((sheet: InspectionSheetSummary) =>
-              <TableRow key={sheet.sheet_id}>
-                <TableCell padding='checkbox'>
-                  <IconButton
-                    size="small"
-                    onClick={() => handleDownload(sheet.sheet_id)}
-                  >
-                    <GetAppIcon />
-                  </IconButton>
-                </TableCell>
-                <TableCell>{sheet.sheet_name}</TableCell>
-                <TableCell>{sheet.inspection_group}</TableCell>
-                <TableCell>{sheet.inspection_type}</TableCell>
-                <TableCell padding='checkbox'>
-                  <Link to={"/edit/" + sheet.sheet_id}>
-                    <EditIcon />
-                  </Link>
-                </TableCell>
-                <TableCell padding='checkbox'>
-                  <Link to={"/details/" + sheet.sheet_id}>
-                    <DetailsIcon />
-                  </Link>
-                </TableCell>
-                <TableCell padding='checkbox'>
-                  <IconButton
-                    size="small"
-                    color='secondary'
-                    onClick={() => handleClickOpen(sheet)}
-                  >
-                    <CancelIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 50]}
-        component="div"
-        count={inspectionSheets.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        labelRowsPerPage={'1ページあたりの件数:'}
-        backIconButtonText={'前のぺージ'}
-        nextIconButtonText={'次のぺージ'}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <h1>点検シート一覧</h1>
+        </Grid>
+        <Grid item xs={12}>
+          <Link to="/create">新規作成</Link>
+        </Grid>
+        <Grid item xs={12}>
+          <Container fixed={true}>
+            <TextField
+              className={classes.searchItem}
+              label="点検シート名"
+              variant="outlined"
+              size="small"
+            />
+            <TextField
+              className={classes.searchItem}
+              label="点検グループ"
+              variant="outlined"
+              size="small"
+            />
+            <TextField
+              className={classes.searchItem}
+              label="点検種別"
+              variant="outlined"
+              size="small"
+            />
+            <IconButton edge='end'>
+              <SearchIcon />
+            </IconButton>
+          </Container>
+        </Grid>
+        <Grid item xs={12}>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>&nbsp;</TableCell>
+                  <TableCell>点検シート名</TableCell>
+                  <TableCell>点検グループ</TableCell>
+                  <TableCell>点検種別</TableCell>
+                  <TableCell>&nbsp;</TableCell>
+                  <TableCell>&nbsp;</TableCell>
+                  <TableCell>&nbsp;</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {inspectionSheets
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((sheet: InspectionSheetSummary) =>
+                    <TableRow key={sheet.sheet_id}>
+                      <TableCell padding='checkbox'>
+                        <IconButton
+                          size="small"
+                          onClick={() => handleDownload(sheet.sheet_id)}
+                        >
+                          <GetAppIcon />
+                        </IconButton>
+                      </TableCell>
+                      <TableCell>{sheet.sheet_name}</TableCell>
+                      <TableCell>{sheet.inspection_group}</TableCell>
+                      <TableCell>{sheet.inspection_type}</TableCell>
+                      <TableCell padding='checkbox'>
+                        <Link to={"/edit/" + sheet.sheet_id}>
+                          <EditIcon />
+                        </Link>
+                      </TableCell>
+                      <TableCell padding='checkbox'>
+                        <Link to={"/details/" + sheet.sheet_id}>
+                          <DetailsIcon />
+                        </Link>
+                      </TableCell>
+                      <TableCell padding='checkbox'>
+                        <IconButton
+                          size="small"
+                          color='secondary'
+                          onClick={() => handleClickOpen(sheet)}
+                        >
+                          <CancelIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 50]}
+            component="div"
+            count={inspectionSheets.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            labelRowsPerPage={'1ページあたりの件数:'}
+            backIconButtonText={'前のぺージ'}
+            nextIconButtonText={'次のぺージ'}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+        </Grid>
+      </Grid>
       <Dialog
         open={open}
         aria-labelledby="alert-dialog-title"
