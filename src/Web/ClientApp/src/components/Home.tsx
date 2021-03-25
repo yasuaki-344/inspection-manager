@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
-  Button, IconButton,
+  Button, Container, IconButton, Grid, TextField,
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Paper, TablePagination
@@ -10,10 +11,24 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import EditIcon from '@material-ui/icons/Edit';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DetailsIcon from '@material-ui/icons/Details';
+import RotateLeftIcon from '@material-ui/icons/RotateLeft';
+import SearchIcon from '@material-ui/icons/Search';
 import { InspectionSheet, InspectionSheetSummary } from '../inspection/Types';
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    searchItem: {
+      margin: 2,
+    },
+  })
+);
+
+
 export const Home = (): JSX.Element => {
+  const classes = useStyles();
+
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheetSummary[]>([]);
+  const [filteredInspectionSheets, setFilteredInspectionSheets] = useState<InspectionSheetSummary[]>([]);
   const [open, setOpen] = React.useState(false);
   const [targetSheet, setTargetSheet] = React.useState<InspectionSheetSummary>({
     sheet_id: '',
@@ -21,6 +36,11 @@ export const Home = (): JSX.Element => {
     inspection_group: '',
     inspection_type: '',
   });
+  const [searchOption, setSearchOption] = useState({
+    sheet_name: '',
+    inspection_group: '',
+    inspection_type: '',
+  })
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -30,16 +50,55 @@ export const Home = (): JSX.Element => {
       .then(json => {
         console.log(json);
         setInspectionSheets(json);
+        setFilteredInspectionSheets(json);
       })
       .catch(console.error);
   }, []);
+
+  /**
+   * Updates search option setting with given change event paramter.
+   * @param e Change event which contains search option member name and its value.
+   */
+  const handleSearchOption = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    setSearchOption({
+      ...searchOption,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  /**
+   * Executes to search inspection sheet based on search options.
+   */
+  const handleSearch = () => {
+    setFilteredInspectionSheets(
+      inspectionSheets.filter((x: InspectionSheetSummary) =>
+        x.sheet_name.includes(searchOption.sheet_name) &&
+        x.inspection_group.includes(searchOption.inspection_group) &&
+        x.inspection_type.includes(searchOption.inspection_type)
+      )
+    );
+    setPage(0);
+  };
+
+  /**
+   * Reset search options.
+   */
+   const handleResetSearchOption = () => {
+    setSearchOption({
+      sheet_name: '',
+      inspection_group: '',
+      inspection_type: '',
+    });
+    setFilteredInspectionSheets(inspectionSheets);
+    setPage(0);
+  };
 
   const handleDownload = (sheetId: string) => {
     fetch(`excelsheet/${sheetId}`)
       .then(response => response.blob())
       .then(blob => {
         const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
+        const a = document.createElement('a');
         document.body.appendChild(a);
         a.download = 'sample.xlsx';
         a.href = url;
@@ -94,81 +153,126 @@ export const Home = (): JSX.Element => {
 
   return (
     <div>
-      <h1>点検シート一覧</h1>
-      <Link to="/create">新規作成</Link>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>&nbsp;</TableCell>
-              <TableCell>点検シート名</TableCell>
-              <TableCell>点検グループ</TableCell>
-              <TableCell>点検種別</TableCell>
-              <TableCell>&nbsp;</TableCell>
-              <TableCell>&nbsp;</TableCell>
-              <TableCell>&nbsp;</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {inspectionSheets
-             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-             .map((sheet: InspectionSheetSummary) =>
-              <TableRow key={sheet.sheet_id}>
-                <TableCell padding='checkbox'>
-                  <IconButton
-                    size="small"
-                    onClick={() => handleDownload(sheet.sheet_id)}
-                  >
-                    <GetAppIcon />
-                  </IconButton>
-                </TableCell>
-                <TableCell>{sheet.sheet_name}</TableCell>
-                <TableCell>{sheet.inspection_group}</TableCell>
-                <TableCell>{sheet.inspection_type}</TableCell>
-                <TableCell padding='checkbox'>
-                  <Link to={"/edit/" + sheet.sheet_id}>
-                    <EditIcon />
-                  </Link>
-                </TableCell>
-                <TableCell padding='checkbox'>
-                  <Link to={"/details/" + sheet.sheet_id}>
-                    <DetailsIcon />
-                  </Link>
-                </TableCell>
-                <TableCell padding='checkbox'>
-                  <IconButton
-                    size="small"
-                    color='secondary'
-                    onClick={() => handleClickOpen(sheet)}
-                  >
-                    <CancelIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 50]}
-        component="div"
-        count={inspectionSheets.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        labelRowsPerPage={'1ページあたりの件数:'}
-        backIconButtonText={'前のぺージ'}
-        nextIconButtonText={'次のぺージ'}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <h1>点検シート一覧</h1>
+        </Grid>
+        <Grid item xs={12}>
+          <Link to='/create'>新規作成</Link>
+        </Grid>
+        <Grid item xs={12}>
+          <Container fixed={true}>
+            <TextField
+              className={classes.searchItem}
+              label='点検シート名'
+              variant='outlined'
+              size='small'
+              name='sheet_name'
+              value={searchOption.sheet_name}
+              onChange={(e) => handleSearchOption(e)}
+            />
+            <TextField
+              className={classes.searchItem}
+              label='点検グループ'
+              variant='outlined'
+              size='small'
+              name='inspection_group'
+              value={searchOption.inspection_group}
+              onChange={(e) => handleSearchOption(e)}
+            />
+            <TextField
+              className={classes.searchItem}
+              label='点検種別'
+              variant='outlined'
+              size='small'
+              name='inspection_type'
+              value={searchOption.inspection_type}
+              onChange={(e) => handleSearchOption(e)}
+            />
+            <IconButton onClick={handleSearch}>
+              <SearchIcon />
+            </IconButton>
+            <IconButton edge='end' onClick={handleResetSearchOption}>
+              <RotateLeftIcon />
+            </IconButton>
+          </Container>
+        </Grid>
+        <Grid item xs={12}>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>&nbsp;</TableCell>
+                  <TableCell>点検シート名</TableCell>
+                  <TableCell>点検グループ</TableCell>
+                  <TableCell>点検種別</TableCell>
+                  <TableCell>&nbsp;</TableCell>
+                  <TableCell>&nbsp;</TableCell>
+                  <TableCell>&nbsp;</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredInspectionSheets
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((sheet: InspectionSheetSummary) =>
+                    <TableRow key={sheet.sheet_id}>
+                      <TableCell padding='checkbox'>
+                        <IconButton
+                          size='small'
+                          onClick={() => handleDownload(sheet.sheet_id)}
+                        >
+                          <GetAppIcon />
+                        </IconButton>
+                      </TableCell>
+                      <TableCell>{sheet.sheet_name}</TableCell>
+                      <TableCell>{sheet.inspection_group}</TableCell>
+                      <TableCell>{sheet.inspection_type}</TableCell>
+                      <TableCell padding='checkbox'>
+                        <Link to={'/edit/' + sheet.sheet_id}>
+                          <EditIcon />
+                        </Link>
+                      </TableCell>
+                      <TableCell padding='checkbox'>
+                        <Link to={'/details/' + sheet.sheet_id}>
+                          <DetailsIcon />
+                        </Link>
+                      </TableCell>
+                      <TableCell padding='checkbox'>
+                        <IconButton
+                          size='small'
+                          color='secondary'
+                          onClick={() => handleClickOpen(sheet)}
+                        >
+                          <CancelIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 50]}
+            component='div'
+            count={inspectionSheets.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            labelRowsPerPage={'1ページあたりの件数:'}
+            backIconButtonText={'前のぺージ'}
+            nextIconButtonText={'次のぺージ'}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+        </Grid>
+      </Grid>
       <Dialog
         open={open}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id="alert-dialog-title">{"点検シートを削除しますか?"}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{'点検シートを削除しますか?'}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id='alert-dialog-description'>
             <p>次の点検シートを削除します。（この操作は取り消せません）</p>
             <p>シート名：{targetSheet.sheet_name}</p>
             <p>点検グループ：{targetSheet.inspection_group}</p>
