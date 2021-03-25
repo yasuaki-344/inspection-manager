@@ -3,7 +3,7 @@ import {
   BottomNavigation, BottomNavigationAction, IconButton, Button,
   Dialog, DialogActions, DialogContent, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Grid, Paper,
+  Grid, Paper, TextField,
 
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -12,6 +12,7 @@ import EditIcon from '@material-ui/icons/Edit';
 
 export const ChoicesTemplate = (): JSX.Element => {
   const [open, setOpen] = useState(false);
+  const choices = ['hoge', 'foo', 'var'];
   const templates = [
     ['hoge', 'foo', 'var']
   ];
@@ -73,6 +74,22 @@ export const ChoicesTemplate = (): JSX.Element => {
         <DialogTitle>選択肢テンプレート編集</DialogTitle>
         <DialogContent>
           <Grid container spacing={1}>
+            {choices.map((choice: string, index: number) =>
+              <Grid item xs={12} key={`choice_${index}`}>
+                <TextField
+                  required
+                  id='outlined-required'
+                  label={`選択肢${index + 1}`}
+                  variant='outlined'
+                  size='small'
+                  name='choice'
+                  value={choice}
+                <IconButton color='primary' size='small'
+                >
+                  <CancelIcon />
+                </IconButton>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <BottomNavigation showLabels>
                 <BottomNavigationAction
