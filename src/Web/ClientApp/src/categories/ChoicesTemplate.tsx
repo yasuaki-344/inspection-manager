@@ -12,7 +12,7 @@ import EditIcon from '@material-ui/icons/Edit';
 
 export const ChoicesTemplate = (): JSX.Element => {
   const [open, setOpen] = useState(false);
-  const choices = ['hoge', 'foo', 'var'];
+  const [choices, setChoices] = useState<string[]>([]);
   const templates = [
     ['hoge', 'foo', 'var']
   ];
@@ -84,7 +84,14 @@ export const ChoicesTemplate = (): JSX.Element => {
                   size='small'
                   name='choice'
                   value={choice}
+                  onChange={(e) => setChoices(choices.map((value: string, i: number) => {
+                    return i !== index ? value : e.target.value;
+                  }))}
+                />
                 <IconButton color='primary' size='small'
+                  onClick={() => setChoices(choices.filter(
+                    (value: string, i: number) => i !== index
+                  ))}
                 >
                   <CancelIcon />
                 </IconButton>
@@ -95,6 +102,7 @@ export const ChoicesTemplate = (): JSX.Element => {
                 <BottomNavigationAction
                   label='選択肢追加'
                   icon={<AddCircleIcon />}
+                  onClick={() => setChoices(choices.concat(''))}
                 />
               </BottomNavigation>
             </Grid>
