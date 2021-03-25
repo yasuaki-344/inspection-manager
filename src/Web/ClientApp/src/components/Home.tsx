@@ -52,7 +52,7 @@ export const Home = (): JSX.Element => {
       .then(response => response.blob())
       .then(blob => {
         const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
+        const a = document.createElement('a');
         document.body.appendChild(a);
         a.download = 'sample.xlsx';
         a.href = url;
@@ -112,27 +112,27 @@ export const Home = (): JSX.Element => {
           <h1>点検シート一覧</h1>
         </Grid>
         <Grid item xs={12}>
-          <Link to="/create">新規作成</Link>
+          <Link to='/create'>新規作成</Link>
         </Grid>
         <Grid item xs={12}>
           <Container fixed={true}>
             <TextField
               className={classes.searchItem}
-              label="点検シート名"
-              variant="outlined"
-              size="small"
+              label='点検シート名'
+              variant='outlined'
+              size='small'
             />
             <TextField
               className={classes.searchItem}
-              label="点検グループ"
-              variant="outlined"
-              size="small"
+              label='点検グループ'
+              variant='outlined'
+              size='small'
             />
             <TextField
               className={classes.searchItem}
-              label="点検種別"
-              variant="outlined"
-              size="small"
+              label='点検種別'
+              variant='outlined'
+              size='small'
             />
             <IconButton edge='end'>
               <SearchIcon />
@@ -160,7 +160,7 @@ export const Home = (): JSX.Element => {
                     <TableRow key={sheet.sheet_id}>
                       <TableCell padding='checkbox'>
                         <IconButton
-                          size="small"
+                          size='small'
                           onClick={() => handleDownload(sheet.sheet_id)}
                         >
                           <GetAppIcon />
@@ -170,18 +170,18 @@ export const Home = (): JSX.Element => {
                       <TableCell>{sheet.inspection_group}</TableCell>
                       <TableCell>{sheet.inspection_type}</TableCell>
                       <TableCell padding='checkbox'>
-                        <Link to={"/edit/" + sheet.sheet_id}>
+                        <Link to={'/edit/' + sheet.sheet_id}>
                           <EditIcon />
                         </Link>
                       </TableCell>
                       <TableCell padding='checkbox'>
-                        <Link to={"/details/" + sheet.sheet_id}>
+                        <Link to={'/details/' + sheet.sheet_id}>
                           <DetailsIcon />
                         </Link>
                       </TableCell>
                       <TableCell padding='checkbox'>
                         <IconButton
-                          size="small"
+                          size='small'
                           color='secondary'
                           onClick={() => handleClickOpen(sheet)}
                         >
@@ -195,7 +195,7 @@ export const Home = (): JSX.Element => {
           </TableContainer>
           <TablePagination
             rowsPerPageOptions={[10, 25, 50]}
-            component="div"
+            component='div'
             count={inspectionSheets.length}
             rowsPerPage={rowsPerPage}
             page={page}
@@ -209,12 +209,12 @@ export const Home = (): JSX.Element => {
       </Grid>
       <Dialog
         open={open}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id="alert-dialog-title">{"点検シートを削除しますか?"}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{'点検シートを削除しますか?'}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id='alert-dialog-description'>
             <p>次の点検シートを削除します。（この操作は取り消せません）</p>
             <p>シート名：{targetSheet.sheet_name}</p>
             <p>点検グループ：{targetSheet.inspection_group}</p>
