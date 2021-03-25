@@ -56,7 +56,7 @@ export const NavMenu = (): JSX.Element => {
                 </ListItem>
                 <ListItem button>
                   <ListItemIcon><CreateIcon /></ListItemIcon>
-                  <Link className={classes.textDark} to='/group'>新規作成</Link>
+                  <Link className={classes.textDark} to='/create'>新規作成</Link>
                 </ListItem>
                 <Divider />
                 <ListItem button>
