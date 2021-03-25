@@ -34,6 +34,11 @@ export const Home = (): JSX.Element => {
     inspection_group: '',
     inspection_type: '',
   });
+  const [searchOption, setSearchOption] = useState({
+    sheet_name: '',
+    inspection_group: '',
+    inspection_type: '',
+  })
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -46,6 +51,17 @@ export const Home = (): JSX.Element => {
       })
       .catch(console.error);
   }, []);
+
+  /**
+   * Updates search option setting with given change event paramter.
+   * @param e Change event which contains search option member name and its value.
+   */
+  const handleSearchOption = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    setSearchOption({
+      ...searchOption,
+      [e.target.name]: e.target.value,
+    });
+  }
 
   const handleDownload = (sheetId: string) => {
     fetch(`excelsheet/${sheetId}`)
@@ -121,18 +137,27 @@ export const Home = (): JSX.Element => {
               label='点検シート名'
               variant='outlined'
               size='small'
+              name='sheet_name'
+              value={searchOption.sheet_name}
+              onChange={(e) => handleSearchOption(e)}
             />
             <TextField
               className={classes.searchItem}
               label='点検グループ'
               variant='outlined'
               size='small'
+              name='inspection_group'
+              value={searchOption.inspection_group}
+              onChange={(e) => handleSearchOption(e)}
             />
             <TextField
               className={classes.searchItem}
               label='点検種別'
               variant='outlined'
               size='small'
+              name='inspection_type'
+              value={searchOption.inspection_type}
+              onChange={(e) => handleSearchOption(e)}
             />
             <IconButton edge='end'>
               <SearchIcon />
