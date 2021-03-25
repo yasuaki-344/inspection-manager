@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BottomNavigation, BottomNavigationAction, IconButton, Button,
   Dialog, DialogActions, DialogContent, DialogTitle,
@@ -12,15 +12,25 @@ import EditIcon from '@material-ui/icons/Edit';
 
 export const ChoicesTemplate = (): JSX.Element => {
   const [open, setOpen] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [choices, setChoices] = useState<string[]>([]);
   const templates = [
     ['hoge', 'foo', 'var']
   ];
 
+  useEffect(() => {
+    if (!choices.length) {
+      setDisabled(true);
+    } else {
+      setDisabled(choices.includes(''));
+    }
+  }, [choices]);
+
   /**
    * Add new template set.
    */
   const handleAddTemplate = () => {
+    setChoices([]);
     setOpen(true);
   };
 
@@ -112,6 +122,7 @@ export const ChoicesTemplate = (): JSX.Element => {
           <Button
             variant='contained'
             color='primary'
+            disabled={disabled}
           >OK</Button>
           <Button
             variant='contained'
