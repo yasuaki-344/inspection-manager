@@ -27,6 +27,7 @@ export const Home = (): JSX.Element => {
   const classes = useStyles();
 
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheetSummary[]>([]);
+  const [filteredInspectionSheets, setFilteredInspectionSheets] = useState<InspectionSheetSummary[]>([]);
   const [open, setOpen] = React.useState(false);
   const [targetSheet, setTargetSheet] = React.useState<InspectionSheetSummary>({
     sheet_id: '',
@@ -48,6 +49,7 @@ export const Home = (): JSX.Element => {
       .then(json => {
         console.log(json);
         setInspectionSheets(json);
+        setFilteredInspectionSheets(json);
       })
       .catch(console.error);
   }, []);
@@ -61,7 +63,20 @@ export const Home = (): JSX.Element => {
       ...searchOption,
       [e.target.name]: e.target.value,
     });
-  }
+  };
+
+  /**
+   * Executes to search inspection sheet based on search options.
+   */
+  const handleSearch = () => {
+    setFilteredInspectionSheets(
+      filteredInspectionSheets.filter((x: InspectionSheetSummary) =>
+        x.sheet_name.includes(searchOption.sheet_name) &&
+        x.inspection_group.includes(searchOption.inspection_group) &&
+        x.inspection_type.includes(searchOption.inspection_type)
+      )
+    );
+  };
 
   const handleDownload = (sheetId: string) => {
     fetch(`excelsheet/${sheetId}`)
@@ -159,7 +174,7 @@ export const Home = (): JSX.Element => {
               value={searchOption.inspection_type}
               onChange={(e) => handleSearchOption(e)}
             />
-            <IconButton edge='end'>
+            <IconButton edge='end' onClick={handleSearch}>
               <SearchIcon />
             </IconButton>
           </Container>
@@ -179,7 +194,7 @@ export const Home = (): JSX.Element => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {inspectionSheets
+                {filteredInspectionSheets
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((sheet: InspectionSheetSummary) =>
                     <TableRow key={sheet.sheet_id}>
