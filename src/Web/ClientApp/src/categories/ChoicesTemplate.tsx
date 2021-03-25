@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  BottomNavigation, BottomNavigationAction, IconButton,
+  BottomNavigation, BottomNavigationAction, IconButton, Button,
   Dialog, DialogActions, DialogContent, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Grid, Paper,
@@ -72,6 +72,16 @@ export const ChoicesTemplate = (): JSX.Element => {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>選択肢テンプレート編集</DialogTitle>
         <DialogContent>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <BottomNavigation showLabels>
+                <BottomNavigationAction
+                  label='選択肢追加'
+                  icon={<AddCircleIcon />}
+                />
+              </BottomNavigation>
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button
