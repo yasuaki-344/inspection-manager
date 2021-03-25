@@ -11,6 +11,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import EditIcon from '@material-ui/icons/Edit';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DetailsIcon from '@material-ui/icons/Details';
+import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SearchIcon from '@material-ui/icons/Search';
 import { InspectionSheet, InspectionSheetSummary } from '../inspection/Types';
 
@@ -70,12 +71,26 @@ export const Home = (): JSX.Element => {
    */
   const handleSearch = () => {
     setFilteredInspectionSheets(
-      filteredInspectionSheets.filter((x: InspectionSheetSummary) =>
+      inspectionSheets.filter((x: InspectionSheetSummary) =>
         x.sheet_name.includes(searchOption.sheet_name) &&
         x.inspection_group.includes(searchOption.inspection_group) &&
         x.inspection_type.includes(searchOption.inspection_type)
       )
     );
+    setPage(0);
+  };
+
+  /**
+   * Reset search options.
+   */
+   const handleResetSearchOption = () => {
+    setSearchOption({
+      sheet_name: '',
+      inspection_group: '',
+      inspection_type: '',
+    });
+    setFilteredInspectionSheets(inspectionSheets);
+    setPage(0);
   };
 
   const handleDownload = (sheetId: string) => {
@@ -174,8 +189,11 @@ export const Home = (): JSX.Element => {
               value={searchOption.inspection_type}
               onChange={(e) => handleSearchOption(e)}
             />
-            <IconButton edge='end' onClick={handleSearch}>
+            <IconButton onClick={handleSearch}>
               <SearchIcon />
+            </IconButton>
+            <IconButton edge='end' onClick={handleResetSearchOption}>
+              <RotateLeftIcon />
             </IconButton>
           </Container>
         </Grid>
