@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core';
 import CategoryIcon from '@material-ui/icons/Category';
 import CreateIcon from '@material-ui/icons/Create';
+import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import HomeIcon from '@material-ui/icons/Home';
 import LabelIcon from '@material-ui/icons/Label';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -64,6 +65,12 @@ export const NavMenu = (): JSX.Element => {
                 <ListItem button>
                   <ListItemIcon><LabelIcon /></ListItemIcon>
                   <Link className={classes.textDark} to='/types'>点検種別</Link>
+                </ListItem>
+                <ListItem button>
+                  <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
+                  <Link className={classes.textDark} to='/choices-template'>
+                    選択肢テンプレート
+                  </Link>
                 </ListItem>
               </List>
               <Divider />

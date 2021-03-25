@@ -7,6 +7,7 @@ import { Details } from './inspection/Details';
 import { Edit } from './inspection/Edit';
 import { InspectionGroupCategory } from './categories/InspectionGroupCategory';
 import { InspectionTypeCategory } from './categories/InspectionTypeCategory';
+import { ChoicesTemplate } from './categories/ChoicesTemplate';
 
 import './custom.css'
 
@@ -16,6 +17,7 @@ const App = (): JSX.Element => {
       <Route exact path='/' component={Home} />
       <Route path='/group' component={InspectionGroupCategory} />
       <Route path='/types' component={InspectionTypeCategory} />
+      <Route path='/choices-template' component={ChoicesTemplate} />
       <Route path='/create' component={Create} />
       <Route path='/details/:id' component={Details} />
       <Route path='/edit/:id' component={Edit} />
