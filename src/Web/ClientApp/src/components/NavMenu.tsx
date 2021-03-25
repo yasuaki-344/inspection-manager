@@ -58,6 +58,7 @@ export const NavMenu = (): JSX.Element => {
                   <ListItemIcon><CreateIcon /></ListItemIcon>
                   <Link className={classes.textDark} to='/group'>新規作成</Link>
                 </ListItem>
+                <Divider />
                 <ListItem button>
                   <ListItemIcon><CategoryIcon /></ListItemIcon>
                   <Link className={classes.textDark} to='/group'>点検グループ</Link>
@@ -73,7 +74,6 @@ export const NavMenu = (): JSX.Element => {
                   </Link>
                 </ListItem>
               </List>
-              <Divider />
             </div>
           </SwipeableDrawer>
           <Typography variant='h6' noWrap color='inherit'>
