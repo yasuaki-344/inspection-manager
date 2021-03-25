@@ -74,6 +74,14 @@ export const ChoicesTemplate = (): JSX.Element => {
         <DialogContent>
         </DialogContent>
         <DialogActions>
+          <Button
+            variant='contained'
+            color='primary'
+          >OK</Button>
+          <Button
+            variant='contained'
+            onClick={() => setOpen(false)}
+          >キャンセル</Button>
         </DialogActions>
       </Dialog>
     </>
