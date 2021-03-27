@@ -12,6 +12,7 @@ export interface InspectionSheetContextType {
   updateField: (event: React.ChangeEvent<HTMLInputElement>) => void;
   addEquipment: () => void,
   removeEquipment: (id: string) => void,
+  updateEquipment: (event: React.ChangeEvent<HTMLInputElement>, id: string) => void,
 }
 
 /**
@@ -34,6 +35,7 @@ export const InspectionSheetOperator = () => {
       dispatch(updateFieldAction(event)),
     addEquipment: (): void => dispatch(addEquipmentAction()),
     removeEquipment: (id: string): void => dispatch(removeEquipmentAction(id)),
+    updateEquipment: (event: React.ChangeEvent<HTMLInputElement>, id: string): void =>
   };
 }
 
@@ -43,4 +45,5 @@ export const InspectionSheetContext = createContext<InspectionSheetContextType>(
   updateField: (event: React.ChangeEvent<HTMLInputElement>): void => { },
   addEquipment: (): void => { },
   removeEquipment: (id: string): void => { },
+  updateEquipment: (event: React.ChangeEvent<HTMLInputElement>, id: string): void => { },
 });
