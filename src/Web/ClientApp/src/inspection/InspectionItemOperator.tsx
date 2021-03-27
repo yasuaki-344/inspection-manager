@@ -5,13 +5,18 @@ import InspectionItemReducer, {
   addChoiceAction, removeChoiceAction, updateChoiceAction
 } from './InspectionItemReducer';
 
+/**
+ * Initial state of InspectionItem object.
+ */
+ export const initialState = {
+  inspection_item_id: Math.random().toString(36).substr(2, 9),
+  inspection_content: '',
+  input_type: 1,
+  choices: [],
+};
+
 export const InspectionItemOperator = () => {
-  const [inspectionItem, dispatch] = useReducer(InspectionItemReducer, {
-    inspection_item_id: Math.random().toString(36).substr(2, 9),
-    inspection_content: '',
-    input_type: 1,
-    choices: [],
-  });
+  const [inspectionItem, dispatch] = useReducer(InspectionItemReducer, initialState);
 
   const setItem = (item: InspectionItem): void => dispatch(setItemAction(item));
 
