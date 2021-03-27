@@ -35,7 +35,7 @@ export const ChoicesTemplate = (): JSX.Element => {
   /**
    * Add new template set.
    */
-   const handleAddTemplate = () => {
+  const handleAddTemplate = () => {
     setTemplates(templates.concat(target));
     setOpen(false);
   };
@@ -46,6 +46,16 @@ export const ChoicesTemplate = (): JSX.Element => {
   const handleCreateTemplate = () => {
     setTarget(InitialChoiceTemplate);
     setOpen(true);
+  };
+
+  /**
+   * Removes the specified template.
+   * @param index The index template to be removed.
+   */
+  const handleDeleteTemplate = (index: number) => {
+    setTemplates(
+      templates.filter((value: ChoiceTemplate, i: number) => i !== index)
+    )
   };
 
   return (
@@ -74,7 +84,9 @@ export const ChoicesTemplate = (): JSX.Element => {
                     </TableCell>
                     <TableCell>{template.choices.join(',')}</TableCell>
                     <TableCell align='right'>
-                      <IconButton size='small'>
+                      <IconButton
+                        size='small'
+                        onClick={() => handleDeleteTemplate(index)}>
                         <CancelIcon />
                       </IconButton>
                     </TableCell>
