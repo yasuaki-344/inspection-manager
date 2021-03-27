@@ -35,7 +35,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
 
   const [
     inspectionItem, setItem, updateField,
-    addChoice, removeChoice, updateChoice
+    addChoice, removeChoice, updateChoice, setChoices,
   ] = InspectionItemOperator();
 
   const [open, setOpen] = useState(false);
@@ -152,6 +152,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
         inspectionItem={inspectionItem}
         handleClose={() => setOpen(false)}
         updateField={updateField}
+        setChoices={setChoices}
         addChoice={addChoice}
         updateChoice={updateChoice}
         removeChoice={removeChoice}

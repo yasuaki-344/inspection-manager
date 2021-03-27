@@ -38,6 +38,7 @@ export type InspectionItemAction = {
     name?: string;
     value?: string;
     choice_index?: number;
+    choices?: string[];
     item?: InspectionItem;
   };
 };

@@ -4,6 +4,7 @@ import { InspectionItem, InspectionItemAction } from './Types';
 const TYPES = {
   SET_ITEM: 'SET_ITEM',
   UPDATE_FIELD: 'UPDATE_FIELD',
+  SET_CHOICE: 'SET_CHOICE',
   ADD_CHOICE: 'ADD_CHOICE',
   REMOVE_CHOICE: 'REMOVE_CHOICE',
   UPDATE_CHOICE: 'UPDATE_CHOICE',
@@ -31,6 +32,11 @@ export default function InspectionItemReducer(state: InspectionItem, action: Ins
       } else {
         return state;
       }
+    case TYPES.SET_CHOICE:
+      return {
+        ...state,
+        choices: action.payload?.choices
+      };
     case TYPES.ADD_CHOICE:
       return {
         ...state,
@@ -74,6 +80,15 @@ export const updateFieldAction = (event: React.ChangeEvent<HTMLInputElement>): I
     payload: {
       name: event.target.name,
       value: event.target.value,
+    },
+  }
+};
+
+export const setChoiceAction = (value: string[]): InspectionItemAction => {
+  return {
+    type: TYPES.SET_CHOICE,
+    payload: {
+      choices: value,
     },
   }
 };
