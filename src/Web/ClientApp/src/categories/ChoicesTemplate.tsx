@@ -10,27 +10,41 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 
+type ChoiceTemplate = {
+  choices: string[],
+};
+
+const InitialChoiceTemplate = {
+  choices: []
+};
+
 export const ChoicesTemplate = (): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const [choices, setChoices] = useState<string[]>([]);
-  const templates = [
-    ['hoge', 'foo', 'var']
-  ];
+  const [target, setTarget] = useState<ChoiceTemplate>(InitialChoiceTemplate);
+  const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
 
   useEffect(() => {
-    if (!choices.length) {
+    if (!target.choices.length) {
       setDisabled(true);
     } else {
-      setDisabled(choices.includes(''));
+      setDisabled(target.choices.includes(''));
     }
-  }, [choices]);
+  }, [target]);
 
   /**
    * Add new template set.
    */
-  const handleAddTemplate = () => {
-    setChoices([]);
+   const handleAddTemplate = () => {
+    setTemplates(templates.concat(target));
+    setOpen(false);
+  };
+
+  /**
+   * Creates new template set.
+   */
+  const handleCreateTemplate = () => {
+    setTarget(InitialChoiceTemplate);
     setOpen(true);
   };
 
@@ -51,14 +65,14 @@ export const ChoicesTemplate = (): JSX.Element => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {templates.map((choices: string[], index: number) =>
+                {templates.map((template: ChoiceTemplate, index: number) =>
                   <TableRow key={`template_${index}`}>
                     <TableCell>
                       <IconButton size='small'>
                         <EditIcon />
                       </IconButton>
                     </TableCell>
-                    <TableCell>{choices.join(',')}</TableCell>
+                    <TableCell>{template.choices.join(',')}</TableCell>
                     <TableCell align='right'>
                       <IconButton size='small'>
                         <CancelIcon />
@@ -75,7 +89,7 @@ export const ChoicesTemplate = (): JSX.Element => {
             <BottomNavigationAction
               label="テンプレート追加"
               icon={<AddCircleIcon />}
-              onClick={handleAddTemplate}
+              onClick={handleCreateTemplate}
             />
           </BottomNavigation>
         </Grid>
@@ -84,7 +98,7 @@ export const ChoicesTemplate = (): JSX.Element => {
         <DialogTitle>選択肢テンプレート編集</DialogTitle>
         <DialogContent>
           <Grid container spacing={1}>
-            {choices.map((choice: string, index: number) =>
+            {target.choices.map((choice: string, index: number) =>
               <Grid item xs={12} key={`choice_${index}`}>
                 <TextField
                   required
@@ -94,14 +108,20 @@ export const ChoicesTemplate = (): JSX.Element => {
                   size='small'
                   name='choice'
                   value={choice}
-                  onChange={(e) => setChoices(choices.map((value: string, i: number) => {
-                    return i !== index ? value : e.target.value;
-                  }))}
+                  onChange={(e) => setTarget({
+                    ...target,
+                    'choices': target.choices.map((value: string, i: number) => {
+                      return i !== index ? value : e.target.value;
+                    }),
+                  })}
                 />
                 <IconButton color='primary' size='small'
-                  onClick={() => setChoices(choices.filter(
-                    (value: string, i: number) => i !== index
-                  ))}
+                  onClick={() => setTarget({
+                    ...target,
+                    'choices': target.choices.filter(
+                      (value: string, i: number) => i !== index
+                    ),
+                  })}
                 >
                   <CancelIcon />
                 </IconButton>
@@ -112,7 +132,10 @@ export const ChoicesTemplate = (): JSX.Element => {
                 <BottomNavigationAction
                   label='選択肢追加'
                   icon={<AddCircleIcon />}
-                  onClick={() => setChoices(choices.concat(''))}
+                  onClick={() => setTarget({
+                    ...target,
+                    'choices': target.choices.concat(''),
+                  })}
                 />
               </BottomNavigation>
             </Grid>
@@ -123,6 +146,7 @@ export const ChoicesTemplate = (): JSX.Element => {
             variant='contained'
             color='primary'
             disabled={disabled}
+            onClick={() => handleAddTemplate()}
           >OK</Button>
           <Button
             variant='contained'
