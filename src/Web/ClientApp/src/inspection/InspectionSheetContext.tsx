@@ -13,7 +13,10 @@ export interface InspectionSheetContextType {
   addEquipment: () => void,
   removeEquipment: (id: string) => void,
   updateEquipment: (event: React.ChangeEvent<HTMLInputElement>, id: string) => void,
-}
+  addInspectionItem: (id: string, item: InspectionItem) => void,
+  removeInspectionItem: (id: string, itemId: string) => void,
+  updateInspectionItem: (id: string, item: InspectionItem) => void,
+};
 
 /**
  * Initial state of InspectionSheet object.
@@ -36,6 +39,16 @@ export const InspectionSheetOperator = () => {
     addEquipment: (): void => dispatch(addEquipmentAction()),
     removeEquipment: (id: string): void => dispatch(removeEquipmentAction(id)),
     updateEquipment: (event: React.ChangeEvent<HTMLInputElement>, id: string): void =>
+      dispatch(updateEquipmentAction(event, id)),
+    addInspectionItem: (id: string, item: InspectionItem): void =>
+      dispatch(addInspectionItemAction(id, item)),
+    removeInspectionItem: (id: string, itemId: string): void =>
+      dispatch(removeInspectionItemAction(id, itemId)),
+    updateInspectionItem: (
+      id: string,
+      item: InspectionItem
+    ): void =>
+      dispatch(updateInspectionItemAction(id, item)),
   };
 }
 
@@ -46,4 +59,7 @@ export const InspectionSheetContext = createContext<InspectionSheetContextType>(
   addEquipment: (): void => { },
   removeEquipment: (id: string): void => { },
   updateEquipment: (event: React.ChangeEvent<HTMLInputElement>, id: string): void => { },
+  addInspectionItem: (id: string, item: InspectionItem): void => { },
+  removeInspectionItem: (id: string, itemId: string): void => { },
+  updateInspectionItem: (id: string, item: InspectionItem): void => { },
 });

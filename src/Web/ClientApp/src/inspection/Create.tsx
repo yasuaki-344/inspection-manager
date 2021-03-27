@@ -6,18 +6,12 @@ import {
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
-import { InspectionSheetOperator } from './InspectionSheetOperator';
 import { InspectionSheetForm } from './InspectionSheetForm';
 import { InspectionSheet, InspectionSheetSummary } from './Types';
 import { InspectionSheetContext } from './InspectionSheetContext';
 
 export const Create = (): JSX.Element => {
   const context = useContext(InspectionSheetContext);
-  const [
-    , , , , , ,
-    addInspectionItem, removeInspectionItem, updateInspectionItem,
-  ] = InspectionSheetOperator();
-
   const [open, setOpen] = useState(false);
   const [page, setPage] = React.useState(0);
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheetSummary[]>([]);
@@ -104,9 +98,9 @@ export const Create = (): JSX.Element => {
                   addEquipment={context.addEquipment}
                   removeEquipment={context.removeEquipment}
                   updateEquipment={context.updateEquipment}
-                  addInspectionItem={addInspectionItem}
-                  removeInspectionItem={removeInspectionItem}
-                  updateInspectionItem={updateInspectionItem}
+                  addInspectionItem={context.addInspectionItem}
+                  removeInspectionItem={context.removeInspectionItem}
+                  updateInspectionItem={context.updateInspectionItem}
                 />
               </Grid>
               <Grid item xs={12}>
