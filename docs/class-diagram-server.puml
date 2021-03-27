@@ -6,33 +6,34 @@ package Web.Controllers {
   class InspectionSheetController
   class InspectionTypeController
 }
-package ApplicationCore {
-  package Dto {
-    class ChoiceTemplateDto
-    class EquipmentDto
-    class InspectionItemDto
-    class InspectionSheetDto
-    class InspectionSheetSummaryDto
-  }
-  package Interfaces {
-    interface ICategoryRepository
-    interface IExcelDownloadService
-    interface IInspectionSheetRepository
-    interface IInspectionSheetService
-  }
-  package Services {
-    class ExcelDownloadService
-    class InspectionSheetService
-  }
-  IExcelDownloadService <|-- ExcelDownloadService
-  IInspectionSheetService <|-- InspectionSheetService
+package ApplicationCore.Dto {
+  class ChoiceTemplateDto
+  class EquipmentDto
+  class InspectionItemDto
+  class InspectionSheetDto
+  class InspectionSheetSummaryDto
 }
-package Infrastructure {
+package ApplicationCore.Interfaces {
+  interface ICategoryRepository
+  interface IExcelDownloadService
+  interface IInspectionSheetRepository
+  interface IInspectionSheetService
+}
+package ApplicationCore.Services {
+  class ExcelDownloadService
+  class InspectionSheetService
+}
+IExcelDownloadService <|-- ExcelDownloadService
+IInspectionSheetService <|-- InspectionSheetService
+
+package ApplicationCore.Infrastructure {
   class CategoryFileRepository
   class InspectionSheetFileRepository
 }
 ICategoryRepository <|-- CategoryFileRepository
 IInspectionSheetRepository <|-- InspectionSheetFileRepository
+IInspectionSheetRepository <.. InspectionSheetService
+IInspectionSheetRepository <.. ExcelDownloadService
 
 ChoiceTemplateController ..> ICategoryRepository
 ExcelSheetController ..> IInspectionSheetRepository
