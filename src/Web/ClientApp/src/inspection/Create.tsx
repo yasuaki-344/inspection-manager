@@ -91,17 +91,7 @@ export const Create = (): JSX.Element => {
           <form onSubmit={handleSubmit}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
-                <InspectionSheetForm
-                  isEdit={false}
-                  sheet={context.inspectionSheet}
-                  updateField={context.updateField}
-                  addEquipment={context.addEquipment}
-                  removeEquipment={context.removeEquipment}
-                  updateEquipment={context.updateEquipment}
-                  addInspectionItem={context.addInspectionItem}
-                  removeInspectionItem={context.removeInspectionItem}
-                  updateInspectionItem={context.updateInspectionItem}
-                />
+                <InspectionSheetForm isEdit={false} />
               </Grid>
               <Grid item xs={12}>
                 <Button type='submit' variant='contained' color='primary'>新規作成</Button>

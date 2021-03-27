@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   BottomNavigation, BottomNavigationAction,
@@ -7,6 +7,7 @@ import {
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { EquipmentForm } from './EquipmentForm';
 import { Equipment } from './Types';
+import { InspectionSheetContext } from './InspectionSheetContext';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const InspectionSheetForm = (props: any): JSX.Element => {
   const classes = useStyles();
+  const context = useContext(InspectionSheetContext);
   const [groups, setGroups] = useState<string[]>([]);
   const [types, setTypes] = useState<string[]>([]);
 
@@ -57,8 +59,8 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
         variant="outlined"
         size="small"
         name="sheet_id"
-        defaultValue={props.sheet.sheet_id}
-        value={props.sheet.sheet_id}
+        defaultValue={context.inspectionSheet.sheet_id}
+        value={context.inspectionSheet.sheet_id}
         InputProps={{ readOnly: true, }}
       />
     </Grid>
@@ -81,9 +83,9 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
             variant="outlined"
             size="small"
             name="sheet_name"
-            value={props.sheet.sheet_name}
-            onChange={e => {
-              props.updateField(e);
+            value={context.inspectionSheet.sheet_name}
+            onChange={(e: any) => {
+              context.updateField(e);
             }}
           />
         </Grid>
@@ -96,8 +98,8 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
             variant='outlined'
             size='small'
             name='inspection_group'
-            value={props.sheet.inspection_group}
-            onChange={(e) => { props.updateField(e); }}
+            value={context.inspectionSheet.inspection_group}
+            onChange={(e: any) => { context.updateField(e); }}
           >
             {groups.map((option) => (
               <MenuItem key={option} value={option}>
@@ -115,8 +117,8 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
             variant='outlined'
             size='small'
             name='inspection_type'
-            value={props.sheet.inspection_type}
-            onChange={(e) => { props.updateField(e); }}
+            value={context.inspectionSheet.inspection_type}
+            onChange={(e: any) => { context.updateField(e); }}
           >
             {types.map((option) => (
               <MenuItem key={option} value={option}>
@@ -125,19 +127,16 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
             ))}
           </TextField>
         </Grid>
-        {props.sheet.equipments.map((equipment: Equipment) =>
+        {context.inspectionSheet.equipments.map((equipment: Equipment) =>
           <Grid item xs={12} key={equipment.equipment_id}>
             <EquipmentForm
               equipment={equipment}
-              addEquipment={props.addEquipment}
-              removeEquipment={props.removeEquipment}
-              updateEquipment={props.updateEquipment}
-              addInspectionItem={props.addInspectionItem}
-              removeInspectionItem={props.removeInspectionItem}
-              updateInspectionItem={props.updateInspectionItem}
-              addChoice={props.addChoice}
-              removeChoice={props.removeChoice}
-              updateChoice={props.updateChoice}
+              addEquipment={context.addEquipment}
+              removeEquipment={context.removeEquipment}
+              updateEquipment={context.updateEquipment}
+              addInspectionItem={context.addInspectionItem}
+              removeInspectionItem={context.removeInspectionItem}
+              updateInspectionItem={context.updateInspectionItem}
             />
           </Grid>
         )}
@@ -146,7 +145,7 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
             <BottomNavigationAction
               label="点検機器追加"
               icon={<AddCircleIcon />}
-              onClick={props.addEquipment}
+              onClick={context.addEquipment}
             />
           </BottomNavigation>
         </Grid>
