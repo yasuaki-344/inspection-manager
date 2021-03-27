@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheet } from './Types';
 import { InspectionSheetOperator } from './InspectionSheetOperator';
 import { InspectionSheetForm } from './InspectionSheetForm';
+import { InspectionSheetContext } from './InspectionSheetContext';
 
 export const Edit = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
+  const context = useContext(InspectionSheetContext);
   const [
     inspectionSheet, setSheet, updateField,
     addEquipment, removeEquipment, updateEquipment,

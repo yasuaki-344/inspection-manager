@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Dialog, DialogActions, DialogContent, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -9,8 +9,10 @@ import { Button, Grid } from '@material-ui/core';
 import { InspectionSheetOperator } from './InspectionSheetOperator';
 import { InspectionSheetForm } from './InspectionSheetForm';
 import { InspectionSheet, InspectionSheetSummary } from './Types';
+import { InspectionSheetContext } from './InspectionSheetContext';
 
 export const Create = (): JSX.Element => {
+  const context = useContext(InspectionSheetContext);
   const [
     inspectionSheet, setSheet, updateField,
     addEquipment, removeEquipment, updateEquipment,
