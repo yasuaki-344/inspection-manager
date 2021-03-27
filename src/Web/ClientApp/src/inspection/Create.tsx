@@ -14,7 +14,7 @@ import { InspectionSheetContext } from './InspectionSheetContext';
 export const Create = (): JSX.Element => {
   const context = useContext(InspectionSheetContext);
   const [
-    , , updateField,
+    , , ,
     addEquipment, removeEquipment, updateEquipment,
     addInspectionItem, removeInspectionItem, updateInspectionItem,
   ] = InspectionSheetOperator();
@@ -101,7 +101,7 @@ export const Create = (): JSX.Element => {
                 <InspectionSheetForm
                   isEdit={false}
                   sheet={context.inspectionSheet}
-                  updateField={updateField}
+                  updateField={context.updateField}
                   addEquipment={addEquipment}
                   removeEquipment={removeEquipment}
                   updateEquipment={updateEquipment}

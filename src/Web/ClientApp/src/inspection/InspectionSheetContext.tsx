@@ -9,6 +9,7 @@ import InspectionSheetReducer, {
 export interface InspectionSheetContextType {
   inspectionSheet: InspectionSheet;
   setSheet: (sheet: InspectionSheet) => void;
+  updateField: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 /**
@@ -27,10 +28,13 @@ export const InspectionSheetOperator = () => {
   return {
     inspectionSheet: inspectionSheet,
     setSheet: (sheet: InspectionSheet): void => dispatch(setSheetAction(sheet)),
+    updateField: (event: React.ChangeEvent<HTMLInputElement>): void =>
+      dispatch(updateFieldAction(event)),
   };
 }
 
 export const InspectionSheetContext = createContext<InspectionSheetContextType>({
   inspectionSheet: initialState,
-  setSheet: (sheet: InspectionSheet): void => {},
+  setSheet: (sheet: InspectionSheet): void => { },
+  updateField: (event: React.ChangeEvent<HTMLInputElement>): void => { },
 });
