@@ -1,0 +1,54 @@
+@startuml class-diagram-client
+package component {
+  class Home
+  class Layout
+  class NavMenu
+  ' relationship
+  Layout ..> NavMenu
+}
+package categories {
+  class InspectionGroupCategory
+  class InspectionTypeCategory
+  class ChoicesTemplate
+  ' relationship
+}
+package inspection {
+  class Create
+  class Details
+  class Edit
+  class EquipmentForm
+  class InspectionItemDialog
+  class InspectionItemForm
+  package module {
+    class InspectionItemReducer
+    class InspectionSheetReducer
+  }
+  package operations {
+    class InspectionSheetOperator
+    class InspectionItemOperator
+  }
+  ' relationship
+  Create ..> InspectionSheetOperator
+  Create ..> InspectionSheetForm
+  Edit ..> InspectionSheetOperator
+  Edit ..> InspectionSheetForm
+  InspectionSheetForm ..> EquipmentForm
+  EquipmentForm ..> InspectionItemDialog
+  EquipmentForm ..> InspectionItemOperator
+  EquipmentForm ..> InspectionItemForm
+  InspectionItemOperator ..> InspectionItemReducer
+  InspectionSheetOperator ..> InspectionSheetReducer
+}
+class App
+
+' relationship
+App ..> Layout
+App ..> Home
+App ..> InspectionGroupCategory
+App ..> InspectionTypeCategory
+App ..> ChoicesTemplate
+App ..> Create
+App ..> Details
+App ..> Edit
+
+@enduml
