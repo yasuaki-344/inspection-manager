@@ -49,6 +49,15 @@ export const ChoicesTemplate = (): JSX.Element => {
   };
 
   /**
+   * Edit the specified template.
+   * @param index The index template to be edited.
+   */
+  const handleEditTemplate = (index: number) => {
+    setTarget(templates[index]);
+    setOpen(true);
+  };
+
+  /**
    * Removes the specified template.
    * @param index The index template to be removed.
    */
@@ -78,7 +87,10 @@ export const ChoicesTemplate = (): JSX.Element => {
                 {templates.map((template: ChoiceTemplate, index: number) =>
                   <TableRow key={`template_${index}`}>
                     <TableCell>
-                      <IconButton size='small'>
+                      <IconButton
+                        size='small'
+                        onClick={() => handleEditTemplate(index)}
+                      >
                         <EditIcon />
                       </IconButton>
                     </TableCell>
@@ -86,7 +98,8 @@ export const ChoicesTemplate = (): JSX.Element => {
                     <TableCell align='right'>
                       <IconButton
                         size='small'
-                        onClick={() => handleDeleteTemplate(index)}>
+                        onClick={() => handleDeleteTemplate(index)}
+                      >
                         <CancelIcon />
                       </IconButton>
                     </TableCell>
