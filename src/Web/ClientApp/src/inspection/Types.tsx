@@ -55,6 +55,16 @@ export type InspectionSheetAction = {
   };
 };
 
+export interface InspectionItemContextType {
+  inspectionItem: InspectionItem;
+  setItem: (item: InspectionItem) => void;
+  updateField: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  setChoices: (choices: string[]) => void;
+  addChoice: () => void;
+  removeChoice: (index: number) => void;
+  updateChoice: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void;
+};
+
 export interface InspectionSheetContextType {
   inspectionSheet: InspectionSheet;
   setSheet: (sheet: InspectionSheet) => void;
