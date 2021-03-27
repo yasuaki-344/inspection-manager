@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import { InspectionItem } from './Types';
 import InspectionItemReducer, {
-  setItemAction, updateFieldAction,
+  setItemAction, updateFieldAction, setChoiceAction,
   addChoiceAction, removeChoiceAction, updateChoiceAction
 } from './InspectionItemReducer';
 
@@ -18,6 +18,9 @@ export const InspectionItemOperator = () => {
   const updateField = (event: React.ChangeEvent<HTMLInputElement>): void =>
     dispatch(updateFieldAction(event));
 
+  const setChoices = (choices: string[]): void =>
+    dispatch(setChoiceAction(choices));
+
   const addChoice = (): void => dispatch(addChoiceAction());
 
   const removeChoice = (index: number): void =>
@@ -31,7 +34,8 @@ export const InspectionItemOperator = () => {
 
   return [
     inspectionItem, setItem, updateField,
-    addChoice, removeChoice, updateChoice
+    addChoice, removeChoice, updateChoice,
+    setChoices,
   ];
 }
 
