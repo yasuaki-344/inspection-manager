@@ -1,0 +1,46 @@
+@startuml class-diagram-client
+package Web.Controllers {
+  class ChoiceTemplateController
+  class ExcelSheetController
+  class InspectionGroupController
+  class InspectionSheetController
+  class InspectionTypeController
+}
+package ApplicationCore {
+  package Dto {
+    class ChoiceTemplateDto
+    class EquipmentDto
+    class InspectionItemDto
+    class InspectionSheetDto
+    class InspectionSheetSummaryDto
+  }
+  package Interfaces {
+    interface ICategoryRepository
+    interface IExcelDownloadService
+    interface IInspectionSheetRepository
+    interface IInspectionSheetService
+  }
+  package Services {
+    class ExcelDownloadService
+    class InspectionSheetService
+  }
+  IExcelDownloadService <|-- ExcelDownloadService
+  IInspectionSheetService <|-- InspectionSheetService
+}
+package Infrastructure {
+  class CategoryFileRepository
+  class InspectionSheetFileRepository
+}
+ICategoryRepository <|-- CategoryFileRepository
+IInspectionSheetRepository <|-- InspectionSheetFileRepository
+
+ChoiceTemplateController ..> ICategoryRepository
+ExcelSheetController ..> IInspectionSheetRepository
+ExcelSheetController ..> IExcelDownloadService
+InspectionGroupController ..> ICategoryRepository
+InspectionSheetController ..> IInspectionSheetRepository
+InspectionSheetController ..> IInspectionSheetService
+InspectionTypeController ..> ICategoryRepository
+
+
+@enduml
