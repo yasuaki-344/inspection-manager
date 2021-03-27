@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
+import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { useInputTypes, InspectionItem } from './Types';
 
 interface InspectionDialogProps {
@@ -87,6 +88,10 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                     label='選択肢追加'
                     icon={<AddCircleIcon />}
                     onClick={props.addChoice}
+                  />
+                  <BottomNavigationAction
+                    label='テンプレート選択'
+                    icon={<FormatListNumberedIcon />}
                   />
                 </BottomNavigation>
               </Grid>
