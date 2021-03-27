@@ -129,15 +129,7 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
         </Grid>
         {context.inspectionSheet.equipments.map((equipment: Equipment) =>
           <Grid item xs={12} key={equipment.equipment_id}>
-            <EquipmentForm
-              equipment={equipment}
-              addEquipment={context.addEquipment}
-              removeEquipment={context.removeEquipment}
-              updateEquipment={context.updateEquipment}
-              addInspectionItem={context.addInspectionItem}
-              removeInspectionItem={context.removeInspectionItem}
-              updateInspectionItem={context.updateInspectionItem}
-            />
+            <EquipmentForm equipment={equipment} />
           </Grid>
         )}
         <Grid item xs={12}>

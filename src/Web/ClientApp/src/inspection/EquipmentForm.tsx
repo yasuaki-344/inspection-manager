@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   Accordion, AccordionSummary, AccordionDetails,
@@ -13,6 +13,7 @@ import { InspectionItem } from './Types';
 import { isValidInspectionItem, InspectionItemOperator } from './InspectionItemOperator';
 import { InspectionItemForm } from './InspectionItemForm';
 import { InspectionItemDialog } from './InspectionItemDialog';
+import { InspectionSheetContext } from './InspectionSheetContext';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const EquipmentForm = (props: any): JSX.Element => {
   const classes = useStyles();
-
+  const context = useContext(InspectionSheetContext);
   const [
     inspectionItem, setItem, updateField,
     addChoice, removeChoice, updateChoice, setChoices,
@@ -75,9 +76,9 @@ export const EquipmentForm = (props: any): JSX.Element => {
    */
   const handleInspectionItem = () => {
     if (additional) {
-      props.addInspectionItem(props.equipment.equipment_id, inspectionItem);
+      context.addInspectionItem(props.equipment.equipment_id, inspectionItem);
     } else {
-      props.updateInspectionItem(props.equipment.equipment_id, inspectionItem);
+      context.updateInspectionItem(props.equipment.equipment_id, inspectionItem);
     }
     setOpen(false);
   };
@@ -102,7 +103,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
                 size="small"
                 name="equipment_name"
                 value={props.equipment.equipment_name}
-                onChange={(e) => { props.updateEquipment(e, props.equipment.equipment_id) }}
+                onChange={(e: any) => { context.updateEquipment(e, props.equipment.equipment_id) }}
               />
             </Grid>
             <TableContainer component={Paper}>
@@ -122,7 +123,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
                       key={inspectionItem.inspection_item_id}
                       equipment_id={props.equipment.equipment_id}
                       inspectionItem={inspectionItem}
-                      removeInspectionItem={props.removeInspectionItem}
+                      removeInspectionItem={context.removeInspectionItem}
                       handleEdit={handleEditItem}
                     />
                   )}
@@ -139,7 +140,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
                 <BottomNavigationAction
                   label="点検機器削除"
                   icon={<CancelIcon />}
-                  onClick={() => props.removeEquipment(props.equipment.equipment_id)}
+                  onClick={() => context.removeEquipment(props.equipment.equipment_id)}
                 />
               </BottomNavigation>
             </Grid>
