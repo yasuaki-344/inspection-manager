@@ -8,7 +8,8 @@ import { Edit } from './inspection/Edit';
 import { InspectionGroupCategory } from './categories/InspectionGroupCategory';
 import { InspectionTypeCategory } from './categories/InspectionTypeCategory';
 import { ChoicesTemplate } from './categories/ChoicesTemplate';
-import { InspectionSheetContext, InspectionSheetOperator } from './inspection/InspectionSheetContext';
+import { InspectionSheetContext } from './inspection/InspectionSheetContext';
+import { InspectionSheetOperator } from './inspection/InspectionSheetOperator';
 import './custom.css'
 
 const App = (): JSX.Element => {

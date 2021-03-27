@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { InspectionItem, InspectionSheet } from './Types';
+import { InspectionItem, InspectionSheet, InspectionSheetContextType } from './Types';
 import InspectionSheetReducer, {
   setSheetAction, updateFieldAction,
   addEquipmentAction, removeEquipmentAction, updateEquipmentAction,
@@ -9,42 +9,33 @@ import InspectionSheetReducer, {
 /**
  * Initial state of InspectionSheet object.
  */
-const initialState = {
-  sheet_id: "",
-  sheet_name: "",
+export const initialState = {
+  sheet_id: '',
+  sheet_name: '',
+  inspection_group: '',
+  inspection_type: '',
   equipments: [],
 };
 
-export const InspectionSheetOperator = () => {
+export const InspectionSheetOperator = (): InspectionSheetContextType => {
   const [inspectionSheet, dispatch] = useReducer(InspectionSheetReducer, initialState);
-
-  const setSheet = (sheet: InspectionSheet): void => dispatch(setSheetAction(sheet));
-
-  const updateField = (event: React.ChangeEvent<HTMLInputElement>): void =>
-    dispatch(updateFieldAction(event));
-
-  const addEquipment = (): void => dispatch(addEquipmentAction());
-
-  const removeEquipment = (id: string): void => dispatch(removeEquipmentAction(id));
-
-  const updateEquipment = (event: React.ChangeEvent<HTMLInputElement>, id: string): void =>
-    dispatch(updateEquipmentAction(event, id));
-
-  const addInspectionItem = (id: string, item: InspectionItem): void =>
-    dispatch(addInspectionItemAction(id, item));
-
-  const removeInspectionItem = (id: string, itemId: string): void =>
-    dispatch(removeInspectionItemAction(id, itemId));
-
-  const updateInspectionItem = (
-    id: string,
-    item: InspectionItem
-  ): void =>
-    dispatch(updateInspectionItemAction(id, item));
-
-  return [
-    inspectionSheet, setSheet, updateField,
-    addEquipment, removeEquipment, updateEquipment,
-    addInspectionItem, removeInspectionItem, updateInspectionItem,
-  ];
+  return {
+    inspectionSheet: inspectionSheet,
+    setSheet: (sheet: InspectionSheet): void => dispatch(setSheetAction(sheet)),
+    updateField: (event: React.ChangeEvent<HTMLInputElement>): void =>
+      dispatch(updateFieldAction(event)),
+    addEquipment: (): void => dispatch(addEquipmentAction()),
+    removeEquipment: (id: string): void => dispatch(removeEquipmentAction(id)),
+    updateEquipment: (event: React.ChangeEvent<HTMLInputElement>, id: string): void =>
+      dispatch(updateEquipmentAction(event, id)),
+    addInspectionItem: (id: string, item: InspectionItem): void =>
+      dispatch(addInspectionItemAction(id, item)),
+    removeInspectionItem: (id: string, itemId: string): void =>
+      dispatch(removeInspectionItemAction(id, itemId)),
+    updateInspectionItem: (
+      id: string,
+      item: InspectionItem
+    ): void =>
+      dispatch(updateInspectionItemAction(id, item)),
+  };
 }
