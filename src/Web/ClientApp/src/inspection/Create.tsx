@@ -14,7 +14,7 @@ import { InspectionSheetContext } from './InspectionSheetContext';
 export const Create = (): JSX.Element => {
   const context = useContext(InspectionSheetContext);
   const [
-    inspectionSheet, setSheet, updateField,
+    , , updateField,
     addEquipment, removeEquipment, updateEquipment,
     addInspectionItem, removeInspectionItem, updateInspectionItem,
   ] = InspectionSheetOperator();
@@ -51,7 +51,7 @@ export const Create = (): JSX.Element => {
       .then(res => res.json())
       .then((json: InspectionSheet) => {
         console.log(json);
-        setSheet(json);
+        context.setSheet(json);
       })
       .catch(console.error);
     setOpen(false);
@@ -59,13 +59,13 @@ export const Create = (): JSX.Element => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.debug(inspectionSheet);
+    console.debug(context.inspectionSheet);
     fetch('inspectionsheet', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(inspectionSheet)
+      body: JSON.stringify(context.inspectionSheet)
     })
       .then((res) => {
         if (res.ok) {
@@ -100,7 +100,7 @@ export const Create = (): JSX.Element => {
               <Grid item xs={12}>
                 <InspectionSheetForm
                   isEdit={false}
-                  sheet={inspectionSheet}
+                  sheet={context.inspectionSheet}
                   updateField={updateField}
                   addEquipment={addEquipment}
                   removeEquipment={removeEquipment}
