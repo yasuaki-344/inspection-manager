@@ -25,6 +25,15 @@ export const ChoicesTemplate = (): JSX.Element => {
   const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
 
   useEffect(() => {
+    fetch('choicetemplate')
+      .then(res => res.json())
+      .then((json: ChoiceTemplate[]) => {
+        setTemplates(json);
+      })
+      .catch(console.error);
+  }, []);
+
+  useEffect(() => {
     if (!target.choices.length) {
       setDisabled(true);
     } else {
@@ -67,47 +76,86 @@ export const ChoicesTemplate = (): JSX.Element => {
     )
   };
 
+  /**
+   * Implement the process to submit choice templates
+   */
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    fetch('choicetemplate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(templates)
+    })
+      .then((res) => {
+        if (res.ok) {
+          alert('登録に成功しました');
+        } else {
+          alert('登録に失敗しました')
+        }
+        return res.json();
+      })
+      .then((json: ChoiceTemplate[]) => {
+        setTemplates(json);
+      })
+      .catch(console.error);
+  }
+
   return (
     <>
-      <Grid container>
+      <Grid container spacing={1}>
         <Grid item xs={12}>
           <h1>選択肢テンプレート</h1>
         </Grid>
         <Grid item xs={12}>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell />
-                  <TableCell>選択肢</TableCell>
-                  <TableCell />
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {templates.map((template: ChoiceTemplate, index: number) =>
-                  <TableRow key={`template_${index}`}>
-                    <TableCell>
-                      <IconButton
-                        size='small'
-                        onClick={() => handleEditTemplate(index)}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                    </TableCell>
-                    <TableCell>{template.choices.join(',')}</TableCell>
-                    <TableCell align='right'>
-                      <IconButton
-                        size='small'
-                        onClick={() => handleDeleteTemplate(index)}
-                      >
-                        <CancelIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell />
+                        <TableCell>選択肢</TableCell>
+                        <TableCell />
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {templates.map((template: ChoiceTemplate, index: number) =>
+                        <TableRow key={`template_${index}`}>
+                          <TableCell>
+                            <IconButton
+                              size='small'
+                              onClick={() => handleEditTemplate(index)}
+                            >
+                              <EditIcon />
+                            </IconButton>
+                          </TableCell>
+                          <TableCell>{template.choices.join(',')}</TableCell>
+                          <TableCell align='right'>
+                            <IconButton
+                              size='small'
+                              onClick={() => handleDeleteTemplate(index)}
+                            >
+                              <CancelIcon />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  type='submit'
+                  variant='contained'
+                  color='primary'
+                >テンプレート登録</Button>
+              </Grid>
+            </Grid>
+          </form>
         </Grid>
         <Grid item xs={12}>
           <BottomNavigation showLabels>
