@@ -2,14 +2,14 @@ import React from 'react';
 import { InspectionItem, InspectionSheet, InspectionSheetAction } from './Types';
 
 const TYPES = {
-  SET_SHEET: "SET_SHEET",
-  UPDATE_FIELD: "UPDATE_FIELD",
-  ADD_EQUIPMENT: "ADD_EQUIPMENT",
-  REMOVE_EQUIPMENT: "REMOVE_EQUIPMENT",
-  UPDATE_EQUIPMENT: "UPDATE_EQUIPMENT",
-  ADD_INSPECTION_ITEM: "ADD_INSPECTION_ITEM",
-  REMOVE_INSPECTION_ITEM: "REMOVE_INSPECTION_ITEM",
-  UPDATE_INSPECTION_ITEM: "UPDATE_INSPECTION_ITEM",
+  SET_SHEET: 'SET_SHEET',
+  UPDATE_FIELD: 'UPDATE_FIELD',
+  ADD_EQUIPMENT: 'ADD_EQUIPMENT',
+  REMOVE_EQUIPMENT: 'REMOVE_EQUIPMENT',
+  UPDATE_EQUIPMENT: 'UPDATE_EQUIPMENT',
+  ADD_INSPECTION_ITEM: 'ADD_INSPECTION_ITEM',
+  REMOVE_INSPECTION_ITEM: 'REMOVE_INSPECTION_ITEM',
+  UPDATE_INSPECTION_ITEM: 'UPDATE_INSPECTION_ITEM',
 };
 
 export default function InspectionSheetReducer(state: InspectionSheet, action: InspectionSheetAction): any {
@@ -31,13 +31,8 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         ...state,
         equipments: state.equipments.concat({
           equipment_id: Math.random().toString(36).substr(2, 9),
-          equipment_name: "",
-          inspection_items: [{
-            inspection_item_id: Math.random().toString(36).substr(2, 9),
-            inspection_content: "",
-            input_type: 1,
-            choices: [],
-          }],
+          equipment_name: '',
+          inspection_items: [],
         })
       };
     case TYPES.REMOVE_EQUIPMENT:
