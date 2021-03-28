@@ -9,7 +9,7 @@ export const InspectionItemForm = (props: any): JSX.Element => {
     <Fragment>
       <TableRow>
         <TableCell>
-          <IconButton size='small' onClick={() => props.handleEdit()}>
+          <IconButton size='small' onClick={() => props.editInspectionItem()}>
             <EditIcon />
           </IconButton>
         </TableCell>

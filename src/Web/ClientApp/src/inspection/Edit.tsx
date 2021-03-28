@@ -1,36 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheet } from './Types';
-import { InspectionSheetOperator } from './InspectionSheetOperator';
 import { InspectionSheetForm } from './InspectionSheetForm';
+import { InspectionSheetContext } from './InspectionSheetContext';
 
 export const Edit = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
-  const [
-    inspectionSheet, setSheet, updateField,
-    addEquipment, removeEquipment, updateEquipment,
-    addInspectionItem, removeInspectionItem, updateInspectionItem,
-  ] = InspectionSheetOperator();
+  const context = useContext(InspectionSheetContext);
 
   useEffect(() => {
     fetch(`inspectionsheet/${sheetId}`)
       .then(res => res.json())
       .then((json: InspectionSheet) => {
         console.log(json);
-        setSheet(json);
+        context.setSheet(json);
       })
       .catch(console.error);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sheetId]);
 
-  const handleUpdate = (event: React.MouseEvent<HTMLElement, MouseEvent>): void => {
+  const handleUpdate = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
     fetch(`inspectionsheet/${sheetId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(inspectionSheet)
+      body: JSON.stringify(context.inspectionSheet)
     })
       .then((res) => {
         if (res.ok) {
@@ -42,7 +39,7 @@ export const Edit = ({ match }: any): JSX.Element => {
       })
       .then((json: InspectionSheet) => {
         console.log(json);
-        setSheet(json);
+        context.setSheet(json);
       })
       .catch(console.error);
   }
@@ -56,26 +53,22 @@ export const Edit = ({ match }: any): JSX.Element => {
         <Link to="/">トップページへ戻る</Link>
       </Grid>
       <Grid item xs={12}>
-        <InspectionSheetForm
-          isEdit={true}
-          sheet={inspectionSheet}
-          updateField={updateField}
-          addEquipment={addEquipment}
-          removeEquipment={removeEquipment}
-          updateEquipment={updateEquipment}
-          addInspectionItem={addInspectionItem}
-          removeInspectionItem={removeInspectionItem}
-          updateInspectionItem={updateInspectionItem}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Button
-          variant='contained'
-          color='primary'
-          onClick={handleUpdate}
-        >
-          更新
-        </Button>
+        <form onSubmit={handleUpdate}>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <InspectionSheetForm isEdit={true} />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                type='submit'
+                variant='contained'
+                color='primary'
+              >
+                更新
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
       </Grid>
     </Grid>
   );

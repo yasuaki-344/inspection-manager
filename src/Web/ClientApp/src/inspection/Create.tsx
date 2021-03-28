@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Dialog, DialogActions, DialogContent, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -6,22 +6,19 @@ import {
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
-import { InspectionSheetOperator } from './InspectionSheetOperator';
 import { InspectionSheetForm } from './InspectionSheetForm';
 import { InspectionSheet, InspectionSheetSummary } from './Types';
+import { initialState } from './InspectionSheetOperator';
+import { InspectionSheetContext } from './InspectionSheetContext';
 
 export const Create = (): JSX.Element => {
-  const [
-    inspectionSheet, setSheet, updateField,
-    addEquipment, removeEquipment, updateEquipment,
-    addInspectionItem, removeInspectionItem, updateInspectionItem,
-  ] = InspectionSheetOperator();
-
+  const context = useContext(InspectionSheetContext);
   const [open, setOpen] = useState(false);
   const [page, setPage] = React.useState(0);
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheetSummary[]>([]);
 
   useEffect(() => {
+    context.setSheet(initialState());
     fetch('inspectionsheet')
       .then(res => res.json())
       .then((json: InspectionSheetSummary[]) => {
@@ -29,6 +26,7 @@ export const Create = (): JSX.Element => {
         setInspectionSheets(json);
       })
       .catch(console.error);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /**
@@ -49,7 +47,7 @@ export const Create = (): JSX.Element => {
       .then(res => res.json())
       .then((json: InspectionSheet) => {
         console.log(json);
-        setSheet(json);
+        context.setSheet(json);
       })
       .catch(console.error);
     setOpen(false);
@@ -57,13 +55,13 @@ export const Create = (): JSX.Element => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.debug(inspectionSheet);
+    console.debug(context.inspectionSheet);
     fetch('inspectionsheet', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(inspectionSheet)
+      body: JSON.stringify(context.inspectionSheet)
     })
       .then((res) => {
         if (res.ok) {
@@ -96,17 +94,7 @@ export const Create = (): JSX.Element => {
           <form onSubmit={handleSubmit}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
-                <InspectionSheetForm
-                  isEdit={false}
-                  sheet={inspectionSheet}
-                  updateField={updateField}
-                  addEquipment={addEquipment}
-                  removeEquipment={removeEquipment}
-                  updateEquipment={updateEquipment}
-                  addInspectionItem={addInspectionItem}
-                  removeInspectionItem={removeInspectionItem}
-                  updateInspectionItem={updateInspectionItem}
-                />
+                <InspectionSheetForm isEdit={false} />
               </Grid>
               <Grid item xs={12}>
                 <Button type='submit' variant='contained' color='primary'>新規作成</Button>

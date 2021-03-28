@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   Accordion, AccordionSummary, AccordionDetails,
@@ -10,49 +10,40 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { InspectionItem } from './Types';
-import { isValidInspectionItem, InspectionItemOperator } from './InspectionItemOperator';
 import { InspectionItemForm } from './InspectionItemForm';
 import { InspectionItemDialog } from './InspectionItemDialog';
+import { InspectionSheetContext } from './InspectionSheetContext';
+import { InspectionItemContext } from './InspectionItemContext';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     equipmentLabel: {
       backgroundColor: theme.palette.primary.main,
-      color: "#FFFFFF",
+      color: '#FFFFFF',
       fontSize: 20,
     },
     paperElement: {
       margin: 4
     },
     menuIcon: {
-      color: "#FFFFFF",
+      color: '#FFFFFF',
     },
   })
 );
 
 export const EquipmentForm = (props: any): JSX.Element => {
   const classes = useStyles();
-
-  const [
-    inspectionItem, setItem, updateField,
-    addChoice, removeChoice, updateChoice, setChoices,
-  ] = InspectionItemOperator();
-
+  const context = useContext(InspectionSheetContext);
+  const itemContext = useContext(InspectionItemContext)
   const [open, setOpen] = useState(false);
   const [additional, setAdditional] = useState(false);
-  const [disabled, setDisabled] = useState(false);
-
-  useEffect(() => {
-    setDisabled(!isValidInspectionItem(inspectionItem));
-  }, [inspectionItem]);
-
 
   /**
    * Implements the process for editing inspection item.
    */
-  const handleEditItem = () => {
+  const handleEditItem = (inspectionItem: InspectionItem) => {
     setAdditional(false);
-    setItem(inspectionItem);
+    itemContext.setItem(inspectionItem);
     setOpen(true);
   };
 
@@ -61,9 +52,9 @@ export const EquipmentForm = (props: any): JSX.Element => {
    */
    const handleAddItem = () => {
     setAdditional(true);
-    setItem({
+    itemContext.setItem({
       inspection_item_id: Math.random().toString(36).substr(2, 9),
-      inspection_content: "",
+      inspection_content: '',
       input_type: 1,
       choices: [],
     })
@@ -75,15 +66,15 @@ export const EquipmentForm = (props: any): JSX.Element => {
    */
   const handleInspectionItem = () => {
     if (additional) {
-      props.addInspectionItem(props.equipment.equipment_id, inspectionItem);
+      context.addInspectionItem(props.equipment.equipment_id, itemContext.inspectionItem);
     } else {
-      props.updateInspectionItem(props.equipment.equipment_id, inspectionItem);
+      context.updateInspectionItem(props.equipment.equipment_id, itemContext.inspectionItem);
     }
     setOpen(false);
   };
 
   return (
-    <Paper variant="outlined">
+    <Paper variant='outlined'>
       <Accordion>
         <AccordionSummary
           className={classes.equipmentLabel}
@@ -96,17 +87,17 @@ export const EquipmentForm = (props: any): JSX.Element => {
             <Grid item xs={12} className={classes.paperElement}>
               <TextField
                 required
-                id="outlined-required"
-                label="点検機器名"
-                variant="outlined"
-                size="small"
-                name="equipment_name"
+                id='outlined-required'
+                label='点検機器名'
+                variant='outlined'
+                size='small'
+                name='equipment_name'
                 value={props.equipment.equipment_name}
-                onChange={(e) => { props.updateEquipment(e, props.equipment.equipment_id) }}
+                onChange={e => context.updateEquipment(e, props.equipment.equipment_id)}
               />
             </Grid>
             <TableContainer component={Paper}>
-              <Table aria-label="collapsible table">
+              <Table aria-label='collapsible table'>
                 <TableHead>
                   <TableRow>
                     <TableCell />
@@ -122,8 +113,8 @@ export const EquipmentForm = (props: any): JSX.Element => {
                       key={inspectionItem.inspection_item_id}
                       equipment_id={props.equipment.equipment_id}
                       inspectionItem={inspectionItem}
-                      removeInspectionItem={props.removeInspectionItem}
-                      handleEdit={handleEditItem}
+                      removeInspectionItem={context.removeInspectionItem}
+                      editInspectionItem={() => handleEditItem(inspectionItem)}
                     />
                   )}
                 </TableBody>
@@ -132,14 +123,14 @@ export const EquipmentForm = (props: any): JSX.Element => {
             <Grid item xs={12}>
               <BottomNavigation showLabels>
                 <BottomNavigationAction
-                  label="点検項目追加"
+                  label='点検項目追加'
                   icon={<AddCircleIcon />}
                   onClick={() => { handleAddItem() }}
                 />
                 <BottomNavigationAction
-                  label="点検機器削除"
+                  label='点検機器削除'
                   icon={<CancelIcon />}
-                  onClick={() => props.removeEquipment(props.equipment.equipment_id)}
+                  onClick={() => context.removeEquipment(props.equipment.equipment_id)}
                 />
               </BottomNavigation>
             </Grid>
@@ -148,14 +139,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
       </Accordion>
       <InspectionItemDialog
         open={open}
-        disabled={disabled}
-        inspectionItem={inspectionItem}
         handleClose={() => setOpen(false)}
-        updateField={updateField}
-        setChoices={setChoices}
-        addChoice={addChoice}
-        updateChoice={updateChoice}
-        removeChoice={removeChoice}
         handleInspectionItem={handleInspectionItem}
       />
     </Paper >
