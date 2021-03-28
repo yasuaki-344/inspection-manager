@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheetForm } from './InspectionSheetForm';
 import { InspectionSheet, InspectionSheetSummary } from './Types';
+import { initialState } from './InspectionSheetOperator';
 import { InspectionSheetContext } from './InspectionSheetContext';
 
 export const Create = (): JSX.Element => {
@@ -17,6 +18,7 @@ export const Create = (): JSX.Element => {
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheetSummary[]>([]);
 
   useEffect(() => {
+    context.setSheet(initialState());
     fetch('inspectionsheet')
       .then(res => res.json())
       .then((json: InspectionSheetSummary[]) => {
@@ -24,6 +26,7 @@ export const Create = (): JSX.Element => {
         setInspectionSheets(json);
       })
       .catch(console.error);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /**

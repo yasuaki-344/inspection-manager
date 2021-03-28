@@ -9,16 +9,18 @@ import InspectionSheetReducer, {
 /**
  * Initial state of InspectionSheet object.
  */
-export const initialState = {
-  sheet_id: '',
-  sheet_name: '',
-  inspection_group: '',
-  inspection_type: '',
-  equipments: [],
+export const initialState = () => {
+  return {
+    sheet_id: '',
+    sheet_name: '',
+    inspection_group: '',
+    inspection_type: '',
+    equipments: [],
+  };
 };
 
 export const InspectionSheetOperator = (): InspectionSheetContextType => {
-  const [inspectionSheet, dispatch] = useReducer(InspectionSheetReducer, initialState);
+  const [inspectionSheet, dispatch] = useReducer(InspectionSheetReducer, initialState());
   return {
     inspectionSheet: inspectionSheet,
     setSheet: (sheet: InspectionSheet): void => dispatch(setSheetAction(sheet)),

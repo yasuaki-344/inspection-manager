@@ -8,15 +8,17 @@ import InspectionItemReducer, {
 /**
  * Initial state of InspectionItem object.
  */
-export const initialState = {
-  inspection_item_id: Math.random().toString(36).substr(2, 9),
-  inspection_content: '',
-  input_type: 1,
-  choices: [],
+export const initialState = () => {
+  return {
+    inspection_item_id: Math.random().toString(36).substr(2, 9),
+    inspection_content: '',
+    input_type: 1,
+    choices: [],
+  };
 };
 
 export const InspectionItemOperator = (): InspectionItemContextType => {
-  const [inspectionItem, dispatch] = useReducer(InspectionItemReducer, initialState);
+  const [inspectionItem, dispatch] = useReducer(InspectionItemReducer, initialState());
   return {
     inspectionItem: inspectionItem,
     setItem: (item: InspectionItem): void => dispatch(setItemAction(item)),

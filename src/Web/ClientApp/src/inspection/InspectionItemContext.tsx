@@ -3,7 +3,7 @@ import { InspectionItem, InspectionItemContextType } from './Types';
 import { initialState } from './InspectionItemOperator';
 
 export const InspectionItemContext = createContext<InspectionItemContextType>({
-  inspectionItem: initialState,
+  inspectionItem: initialState(),
   setItem: (item: InspectionItem): void => { },
   updateField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => { },
   setChoices: (choices: string[]): void => { },

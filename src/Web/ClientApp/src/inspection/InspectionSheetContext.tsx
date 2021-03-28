@@ -3,7 +3,7 @@ import { InspectionItem, InspectionSheet, InspectionSheetContextType } from './T
 import { initialState } from './InspectionSheetOperator';
 
 export const InspectionSheetContext = createContext<InspectionSheetContextType>({
-  inspectionSheet: initialState,
+  inspectionSheet: initialState(),
   setSheet: (sheet: InspectionSheet): void => { },
   updateField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => { },
   addEquipment: (): void => { },
