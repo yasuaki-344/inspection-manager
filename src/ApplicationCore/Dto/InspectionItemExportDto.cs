@@ -27,6 +27,6 @@ namespace InspectionManager.ApplicationCore.Dto
         public string InputValue { get; set; } = string.Empty;
 
         [JsonPropertyName("transitions")]
-        public List<TransitionExportDto> Transitions = new List<TransitionExportDto>();
+        public List<TransitionExportDto> Transitions  { get; set; } = new List<TransitionExportDto>();
     }
 }
