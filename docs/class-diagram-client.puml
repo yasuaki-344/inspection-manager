@@ -27,15 +27,18 @@ package inspection {
     class InspectionSheetOperator
     class InspectionItemOperator
   }
+  package contexts {
+    class InspectionSheetContext
+    class InspectionItemContext
+  }
   ' relationship
-  Create ..> InspectionSheetOperator
   Create ..> InspectionSheetForm
-  Edit ..> InspectionSheetOperator
   Edit ..> InspectionSheetForm
   InspectionSheetForm ..> EquipmentForm
   EquipmentForm ..> InspectionItemDialog
-  EquipmentForm ..> InspectionItemOperator
   EquipmentForm ..> InspectionItemForm
+  InspectionItemContext ..> InspectionItemOperator
+  InspectionSheetContext ..> InspectionSheetOperator
   InspectionItemOperator ..> InspectionItemReducer
   InspectionSheetOperator ..> InspectionSheetReducer
 }
