@@ -84,7 +84,7 @@ export const Home = (): JSX.Element => {
   /**
    * Reset search options.
    */
-   const handleResetSearchOption = () => {
+  const handleResetSearchOption = () => {
     setSearchOption({
       sheet_name: '',
       inspection_group: '',
@@ -148,7 +148,10 @@ export const Home = (): JSX.Element => {
           inspectionSheets.filter((x: InspectionSheetSummary) =>
             x.sheet_id !== json.sheet_id)
         );
-        setFilteredInspectionSheets(inspectionSheets);
+        setFilteredInspectionSheets(
+          inspectionSheets.filter((x: InspectionSheetSummary) =>
+            x.sheet_id !== json.sheet_id)
+        );
       })
       .catch(console.error);
   }
