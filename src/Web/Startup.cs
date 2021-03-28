@@ -4,7 +4,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 //
-
+using AutoMapper;
 using InspectionManager.ApplicationCore.Interfaces;
 using InspectionManager.ApplicationCore.Services;
 using InspectionManager.Infrastructure;
@@ -32,6 +32,10 @@ namespace InspectionManager.Web
         {
 
             services.AddControllersWithViews();
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<AutoMapping>();
+            });
 
             services.AddSingleton<IInspectionSheetRepository, InspectionSheetFileRepository>();
             services.AddSingleton<ICategoryRepository, CategoryFileRepository>();

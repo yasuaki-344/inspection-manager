@@ -8,7 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
 
@@ -91,7 +93,9 @@ namespace InspectionManager.Infrastructure
                 throw new IOException($"{filePath} already exists");
             }
             dto.SheetId = guid;
-            var json = JsonSerializer.Serialize(dto);
+            var options = new JsonSerializerOptions();
+            options.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
+            var json = JsonSerializer.Serialize(dto, options);
             File.WriteAllText(filePath, json);
 
             return dto;
@@ -107,7 +111,9 @@ namespace InspectionManager.Infrastructure
             var filePath = Path.Join(_baseDirectory, $"{dto.SheetId}.json");
             if (File.Exists(filePath))
             {
-                var json = JsonSerializer.Serialize(dto);
+                var options = new JsonSerializerOptions();
+                options.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
+                var json = JsonSerializer.Serialize(dto, options);
                 File.WriteAllText(filePath, json);
                 return dto;
             }

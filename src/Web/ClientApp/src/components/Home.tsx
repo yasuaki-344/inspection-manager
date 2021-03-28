@@ -11,6 +11,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import EditIcon from '@material-ui/icons/Edit';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DetailsIcon from '@material-ui/icons/Details';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SearchIcon from '@material-ui/icons/Search';
 import { InspectionSheet, InspectionSheetSummary } from '../inspection/Types';
@@ -83,7 +84,7 @@ export const Home = (): JSX.Element => {
   /**
    * Reset search options.
    */
-   const handleResetSearchOption = () => {
+  const handleResetSearchOption = () => {
     setSearchOption({
       sheet_name: '',
       inspection_group: '',
@@ -93,14 +94,32 @@ export const Home = (): JSX.Element => {
     setPage(0);
   };
 
-  const handleDownload = (sheetId: string) => {
-    fetch(`excelsheet/${sheetId}`)
+  const handleDownload = (sheet: InspectionSheetSummary) => {
+    fetch(`excelsheet/${sheet.sheet_id}`)
       .then(response => response.blob())
       .then(blob => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         document.body.appendChild(a);
-        a.download = 'sample.xlsx';
+        a.download = `${sheet.sheet_name}.xlsx`;
+        a.href = url;
+        a.click();
+        a.remove();
+        setTimeout(() => {
+          URL.revokeObjectURL(url);
+        }, 1E4);
+      })
+      .catch(console.error);
+  }
+
+  const handleExportJson = (sheet: InspectionSheetSummary) => {
+    fetch(`jsonexport/${sheet.sheet_id}`)
+      .then(response => response.blob())
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.download = `${sheet.sheet_name}.json`;
         a.href = url;
         a.click();
         a.remove();
@@ -126,6 +145,10 @@ export const Home = (): JSX.Element => {
       .then((json: InspectionSheet) => {
         console.log(json);
         setInspectionSheets(
+          inspectionSheets.filter((x: InspectionSheetSummary) =>
+            x.sheet_id !== json.sheet_id)
+        );
+        setFilteredInspectionSheets(
           inspectionSheets.filter((x: InspectionSheetSummary) =>
             x.sheet_id !== json.sheet_id)
         );
@@ -203,6 +226,7 @@ export const Home = (): JSX.Element => {
               <TableHead>
                 <TableRow>
                   <TableCell>&nbsp;</TableCell>
+                  <TableCell>&nbsp;</TableCell>
                   <TableCell>点検シート名</TableCell>
                   <TableCell>点検グループ</TableCell>
                   <TableCell>点検種別</TableCell>
@@ -219,9 +243,17 @@ export const Home = (): JSX.Element => {
                       <TableCell padding='checkbox'>
                         <IconButton
                           size='small'
-                          onClick={() => handleDownload(sheet.sheet_id)}
+                          onClick={() => handleDownload(sheet)}
                         >
                           <GetAppIcon />
+                        </IconButton>
+                      </TableCell>
+                      <TableCell padding='checkbox'>
+                        <IconButton
+                          size='small'
+                          onClick={() => handleExportJson(sheet)}
+                        >
+                          <FileCopyIcon />
                         </IconButton>
                       </TableCell>
                       <TableCell>{sheet.sheet_name}</TableCell>

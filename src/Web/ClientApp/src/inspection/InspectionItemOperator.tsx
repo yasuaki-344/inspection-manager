@@ -12,7 +12,7 @@ export const initialState = () => {
   return {
     inspection_item_id: Math.random().toString(36).substr(2, 9),
     inspection_content: '',
-    input_type: 1,
+    input_type: 0,
     choices: [],
   };
 };
@@ -47,7 +47,7 @@ export const isValidInspectionItem = (item: InspectionItem): boolean => {
     return false;
   }
 
-  if (item.input_type === 3) {
+  if (item.input_type === 2) {
     if (!item.choices.length) {
       return false;
     } else {
