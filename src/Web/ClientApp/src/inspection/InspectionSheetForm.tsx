@@ -84,9 +84,7 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
             size="small"
             name="sheet_name"
             value={context.inspectionSheet.sheet_name}
-            onChange={(e: any) => {
-              context.updateField(e);
-            }}
+            onChange={e => context.updateField(e)}
           />
         </Grid>
         <Grid item xs={12}>
@@ -99,7 +97,7 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
             size='small'
             name='inspection_group'
             value={context.inspectionSheet.inspection_group}
-            onChange={(e: any) => { context.updateField(e); }}
+            onChange={e => context.updateField(e)}
           >
             {groups.map((option) => (
               <MenuItem key={option} value={option}>
@@ -118,7 +116,7 @@ export const InspectionSheetForm = (props: any): JSX.Element => {
             size='small'
             name='inspection_type'
             value={context.inspectionSheet.inspection_type}
-            onChange={(e: any) => { context.updateField(e); }}
+            onChange={e => context.updateField(e)}
           >
             {types.map((option) => (
               <MenuItem key={option} value={option}>
