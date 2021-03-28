@@ -76,5 +76,27 @@ namespace InspectionManager.ApplicationCore.Test
             Assert.Equal("foo", actual.InspectionItems[0].Choices[0]);
             Assert.Equal("var", actual.InspectionItems[0].Choices[1]);
         }
+
+        [Fact]
+        public void MapToInspectionSheetExportDtoCorrectly()
+        {
+            var item = new InspectionSheetDto
+            {
+                SheetId= "sheet id",
+                SheetName= "sheet name",
+                InspectionType= "inspection type",
+                InspectionGroup= "inspection group",
+                Equipments= new List<EquipmentDto>(),
+            };
+            var config = new MapperConfiguration(cfg => {
+                cfg.AddProfile<AutoMapping>();
+            });
+            var mapper = new Mapper(config);
+            var actual = mapper.Map<InspectionSheetExportDto>(item);
+            Assert.Equal("sheet id", actual.SheetId);
+            Assert.Equal("sheet name", actual.SheetName);
+            Assert.Equal("inspection type", actual.InspectionType);
+            Assert.Equal("inspection group", actual.InspectionGroup);
+        }
     }
 }

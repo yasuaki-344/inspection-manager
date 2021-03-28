@@ -22,6 +22,8 @@ namespace InspectionManager.ApplicationCore.Services
 
             CreateMap<EquipmentDto, EquipmentExportDto>()
                 .ForMember(dst => dst.EquipmentId, opt => opt.Ignore());
+
+            CreateMap<InspectionSheetDto, InspectionSheetExportDto>();
         }
     }
 }
