@@ -11,7 +11,7 @@ namespace InspectionManager.ApplicationCore.Dto
     public class TransitionExportDto
     {
         [JsonPropertyName("sheet_id")]
-        public int SheetId { get; set; }
+        public string SheetId { get; set; } = string.Empty;
 
         [JsonPropertyName("equipment_id")]
         public int EquipmentId { get; set; }
