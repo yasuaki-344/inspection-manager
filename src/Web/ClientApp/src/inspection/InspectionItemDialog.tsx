@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   Button, BottomNavigation, BottomNavigationAction,
   Dialog, DialogActions, DialogContent, DialogTitle,
@@ -8,22 +8,18 @@ import {
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
-import { useInputTypes, InspectionItem } from './Types';
+import { useInputTypes } from './Types';
+import { InspectionItemContext } from './InspectionItemContext';
 
 interface InspectionDialogProps {
   open: boolean,
   disabled: boolean,
-  inspectionItem: InspectionItem,
   handleClose: () => void,
-  updateField: (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void,
-  setChoices: (choices: string[]) => void,
-  addChoice: () => void,
-  updateChoice: (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, index: number) => void,
-  removeChoice: (index: number) => void,
   handleInspectionItem: () => void,
 };
 
 export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element => {
+  const context = useContext(InspectionItemContext);
   const [value, setValue] = useState(0);
   const [open, setOpen] = useState(false);
   const [templates, setTemplates] = useState<any>([]);
@@ -42,7 +38,7 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
   };
 
   const handleUseTemplate = () => {
-    props.setChoices(templates[value].choices);
+    context.setChoices(templates[value].choices);
     setOpen(false);
   };
 
@@ -62,8 +58,8 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                 variant='outlined'
                 size='small'
                 name='inspection_content'
-                value={props.inspectionItem.inspection_content}
-                onChange={(e) => props.updateField(e)}
+                value={context.inspectionItem.inspection_content}
+                onChange={(e) => context.updateField(e)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -76,8 +72,8 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                 variant='outlined'
                 size='small'
                 name='input_type'
-                value={props.inspectionItem.input_type}
-                onChange={(e) => { props.updateField(e); }}
+                value={context.inspectionItem.input_type}
+                onChange={(e) => { context.updateField(e); }}
               >
                 {useInputTypes.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -86,10 +82,10 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                 ))}
               </TextField>
             </Grid>
-            {(props.inspectionItem.input_type !== 3) ? <></> :
+            {(context.inspectionItem.input_type !== 3) ? <></> :
               <>
-                {props.inspectionItem.choices.map((choice: string, index: number) =>
-                  <Grid item xs={12} key={`${props.inspectionItem.inspection_item_id}_${index}`}>
+                {context.inspectionItem.choices.map((choice: string, index: number) =>
+                  <Grid item xs={12} key={`${context.inspectionItem.inspection_item_id}_${index}`}>
                     <TextField
                       required
                       id='outlined-required'
@@ -98,10 +94,10 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                       size='small'
                       name='choice'
                       value={choice}
-                      onChange={(e) => props.updateChoice(e, index)}
+                      onChange={(e) => context.updateChoice(e, index)}
                     />
                     <IconButton color='primary' size='small'
-                      onClick={() => props.removeChoice(index)}
+                      onClick={() => context.removeChoice(index)}
                     >
                       <CancelIcon />
                     </IconButton>
@@ -112,7 +108,7 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                     <BottomNavigationAction
                       label='選択肢追加'
                       icon={<AddCircleIcon />}
-                      onClick={props.addChoice}
+                      onClick={context.addChoice}
                     />
                     <BottomNavigationAction
                       label='テンプレート選択'

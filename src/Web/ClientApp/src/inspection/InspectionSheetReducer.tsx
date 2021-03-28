@@ -125,7 +125,7 @@ export const setSheetAction = (inspectionSheet: InspectionSheet): InspectionShee
   }
 };
 
-export const updateFieldAction = (event: React.ChangeEvent<HTMLInputElement>): InspectionSheetAction => {
+export const updateFieldAction = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): InspectionSheetAction => {
   return {
     type: TYPES.UPDATE_FIELD,
     payload: {
@@ -150,7 +150,7 @@ export const removeEquipmentAction = (id: string): InspectionSheetAction => {
   }
 };
 
-export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement>, id: string): InspectionSheetAction => {
+export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: string): InspectionSheetAction => {
   return {
     type: TYPES.UPDATE_EQUIPMENT,
     payload: {

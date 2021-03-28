@@ -74,12 +74,12 @@ export const setItemAction = (inspectionItem: InspectionItem): InspectionItemAct
   }
 };
 
-export const updateFieldAction = (event: React.ChangeEvent<HTMLInputElement>): InspectionItemAction => {
+export const updateFieldAction = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): InspectionItemAction => {
   return {
     type: TYPES.UPDATE_FIELD,
     payload: {
-      name: event.target.name,
-      value: event.target.value,
+      name: e.target.name,
+      value: e.target.value,
     },
   }
 };
@@ -109,7 +109,7 @@ export const removeChoiceAction = (index: number): InspectionItemAction => {
 };
 
 export const updateChoiceAction = (
-  event: React.ChangeEvent<HTMLInputElement>,
+  event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   index: number
 ): InspectionItemAction => {
   return {

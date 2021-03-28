@@ -22,11 +22,11 @@ export const InspectionSheetOperator = (): InspectionSheetContextType => {
   return {
     inspectionSheet: inspectionSheet,
     setSheet: (sheet: InspectionSheet): void => dispatch(setSheetAction(sheet)),
-    updateField: (event: React.ChangeEvent<HTMLInputElement>): void =>
+    updateField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void =>
       dispatch(updateFieldAction(event)),
     addEquipment: (): void => dispatch(addEquipmentAction()),
     removeEquipment: (id: string): void => dispatch(removeEquipmentAction(id)),
-    updateEquipment: (event: React.ChangeEvent<HTMLInputElement>, id: string): void =>
+    updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: string): void =>
       dispatch(updateEquipmentAction(event, id)),
     addInspectionItem: (id: string, item: InspectionItem): void =>
       dispatch(addInspectionItemAction(id, item)),

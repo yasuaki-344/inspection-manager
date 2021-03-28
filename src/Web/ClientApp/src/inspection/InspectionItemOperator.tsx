@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { InspectionItem } from './Types';
+import { InspectionItem, InspectionItemContextType } from './Types';
 import InspectionItemReducer, {
   setItemAction, updateFieldAction, setChoiceAction,
   addChoiceAction, removeChoiceAction, updateChoiceAction
@@ -8,41 +8,31 @@ import InspectionItemReducer, {
 /**
  * Initial state of InspectionItem object.
  */
- export const initialState = {
+export const initialState = {
   inspection_item_id: Math.random().toString(36).substr(2, 9),
   inspection_content: '',
   input_type: 1,
   choices: [],
 };
 
-export const InspectionItemOperator = () => {
+export const InspectionItemOperator = (): InspectionItemContextType => {
   const [inspectionItem, dispatch] = useReducer(InspectionItemReducer, initialState);
-
-  const setItem = (item: InspectionItem): void => dispatch(setItemAction(item));
-
-  const updateField = (event: React.ChangeEvent<HTMLInputElement>): void =>
-    dispatch(updateFieldAction(event));
-
-  const setChoices = (choices: string[]): void =>
-    dispatch(setChoiceAction(choices));
-
-  const addChoice = (): void => dispatch(addChoiceAction());
-
-  const removeChoice = (index: number): void =>
-    dispatch(removeChoiceAction(index));
-
-  const updateChoice = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ): void =>
-    dispatch(updateChoiceAction(event, index));
-
-  return [
-    inspectionItem, setItem, updateField,
-    addChoice, removeChoice, updateChoice,
-    setChoices,
-  ];
-
+  return {
+    inspectionItem: inspectionItem,
+    setItem: (item: InspectionItem): void => dispatch(setItemAction(item)),
+    updateField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void =>
+      dispatch(updateFieldAction(event)),
+    setChoices: (choices: string[]): void =>
+      dispatch(setChoiceAction(choices)),
+    addChoice: (): void => dispatch(addChoiceAction()),
+    removeChoice: (index: number): void =>
+      dispatch(removeChoiceAction(index)),
+    updateChoice: (
+      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      index: number
+    ): void =>
+      dispatch(updateChoiceAction(event, index)),
+  }
 }
 
 /**

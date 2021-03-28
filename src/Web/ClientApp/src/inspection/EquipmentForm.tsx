@@ -10,10 +10,11 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { InspectionItem } from './Types';
-import { isValidInspectionItem, InspectionItemOperator } from './InspectionItemOperator';
+import { isValidInspectionItem } from './InspectionItemOperator';
 import { InspectionItemForm } from './InspectionItemForm';
 import { InspectionItemDialog } from './InspectionItemDialog';
 import { InspectionSheetContext } from './InspectionSheetContext';
+import { InspectionItemContext } from './InspectionItemContext';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,18 +35,15 @@ const useStyles = makeStyles((theme: Theme) =>
 export const EquipmentForm = (props: any): JSX.Element => {
   const classes = useStyles();
   const context = useContext(InspectionSheetContext);
-  const [
-    inspectionItem, setItem, updateField,
-    addChoice, removeChoice, updateChoice, setChoices,
-  ] = InspectionItemOperator();
+  const itemContext = useContext(InspectionItemContext)
 
   const [open, setOpen] = useState(false);
   const [additional, setAdditional] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
-    setDisabled(!isValidInspectionItem(inspectionItem));
-  }, [inspectionItem]);
+    setDisabled(!isValidInspectionItem(itemContext.inspectionItem));
+  }, [itemContext.inspectionItem]);
 
 
   /**
@@ -53,7 +51,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
    */
   const handleEditItem = () => {
     setAdditional(false);
-    setItem(inspectionItem);
+    itemContext.setItem(itemContext.inspectionItem);
     setOpen(true);
   };
 
@@ -62,7 +60,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
    */
    const handleAddItem = () => {
     setAdditional(true);
-    setItem({
+    itemContext.setItem({
       inspection_item_id: Math.random().toString(36).substr(2, 9),
       inspection_content: "",
       input_type: 1,
@@ -76,9 +74,9 @@ export const EquipmentForm = (props: any): JSX.Element => {
    */
   const handleInspectionItem = () => {
     if (additional) {
-      context.addInspectionItem(props.equipment.equipment_id, inspectionItem);
+      context.addInspectionItem(props.equipment.equipment_id, itemContext.inspectionItem);
     } else {
-      context.updateInspectionItem(props.equipment.equipment_id, inspectionItem);
+      context.updateInspectionItem(props.equipment.equipment_id, itemContext.inspectionItem);
     }
     setOpen(false);
   };
@@ -150,13 +148,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
       <InspectionItemDialog
         open={open}
         disabled={disabled}
-        inspectionItem={inspectionItem}
         handleClose={() => setOpen(false)}
-        updateField={updateField}
-        setChoices={setChoices}
-        addChoice={addChoice}
-        updateChoice={updateChoice}
-        removeChoice={removeChoice}
         handleInspectionItem={handleInspectionItem}
       />
     </Paper >
