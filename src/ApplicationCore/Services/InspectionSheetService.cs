@@ -4,9 +4,9 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 //
-using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
 using Microsoft.Extensions.Logging;

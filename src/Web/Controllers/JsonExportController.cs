@@ -4,7 +4,6 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 //
-using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +14,7 @@ using System.Text.Json;
 using System.Text.Unicode;
 using System.Threading.Tasks;
 using System.Web;
+using AutoMapper;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -66,6 +66,37 @@ namespace InspectionManager.Web.Controllers
                         var options = new JsonSerializerOptions();
                         options.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
                         var dto = _mapper.Map<InspectionSheetExportDto>(sheet);
+                        foreach (var (equipment, index) in dto.Equipments.Select((x, i) => (x, i)))
+                        {
+                            var isLastEquipment = (index == dto.Equipments.Count - 1);
+                            equipment.EquipmentId = index;
+                            foreach (var (item, index2) in equipment.InspectionItems.Select((x, i) => (x, i)))
+                            {
+                                var isLastInspectionItem = (index2 == equipment.InspectionItems.Count - 1);
+                                item.InspectionItemId = index2;
+                                if (isLastInspectionItem)
+                                {
+                                    if (!isLastEquipment)
+                                    {
+                                        item.Transitions.Add(new TransitionExportDto
+                                        {
+                                            SheetId = dto.SheetId,
+                                            EquipmentId = equipment.EquipmentId + 1,
+                                            InspectionItemId = 0,
+                                        });
+                                    }
+                                }
+                                else
+                                {
+                                    item.Transitions.Add(new TransitionExportDto
+                                    {
+                                        SheetId = dto.SheetId,
+                                        EquipmentId = equipment.EquipmentId,
+                                        InspectionItemId = item.InspectionItemId + 1,
+                                    });
+                                }
+                            }
+                        }
                         var json = JsonSerializer.Serialize(dto, options);
                         var data = System.Text.Encoding.UTF8.GetBytes(json);
                         return File(data, "application/json", $"{sheet?.SheetName}.json");

@@ -32,7 +32,8 @@ namespace InspectionManager.Web
         {
 
             services.AddControllersWithViews();
-            services.AddAutoMapper(cfg => {
+            services.AddAutoMapper(cfg =>
+            {
                 cfg.AddProfile<AutoMapping>();
             });
 
