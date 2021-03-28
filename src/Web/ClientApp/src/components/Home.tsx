@@ -113,13 +113,13 @@ export const Home = (): JSX.Element => {
   }
 
   const handleExportJson = (sheet: InspectionSheetSummary) => {
-    fetch(`exportjson/${sheet.sheet_id}`)
+    fetch(`jsonexport/${sheet.sheet_id}`)
       .then(response => response.blob())
       .then(blob => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         document.body.appendChild(a);
-        a.download = `${sheet.sheet_name}.xlsx`;
+        a.download = `${sheet.sheet_name}.json`;
         a.href = url;
         a.click();
         a.remove();
@@ -148,6 +148,7 @@ export const Home = (): JSX.Element => {
           inspectionSheets.filter((x: InspectionSheetSummary) =>
             x.sheet_id !== json.sheet_id)
         );
+        setFilteredInspectionSheets(inspectionSheets);
       })
       .catch(console.error);
   }
