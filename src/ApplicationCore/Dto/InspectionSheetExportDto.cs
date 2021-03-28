@@ -27,6 +27,6 @@ namespace InspectionManager.ApplicationCore.Dto
         public string InspectionDate { get; set; } = string.Empty;
 
         [JsonPropertyName("equipments")]
-        public List<EquipmentDto> Equipments { get; set; } = new List<EquipmentDto>();
+        public List<EquipmentExportDto> Equipments { get; set; } = new List<EquipmentExportDto>();
     }
 }
