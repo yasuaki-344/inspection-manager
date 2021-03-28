@@ -10,7 +10,6 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { InspectionItem } from './Types';
-import { isValidInspectionItem } from './InspectionItemOperator';
 import { InspectionItemForm } from './InspectionItemForm';
 import { InspectionItemDialog } from './InspectionItemDialog';
 import { InspectionSheetContext } from './InspectionSheetContext';
@@ -36,15 +35,8 @@ export const EquipmentForm = (props: any): JSX.Element => {
   const classes = useStyles();
   const context = useContext(InspectionSheetContext);
   const itemContext = useContext(InspectionItemContext)
-
   const [open, setOpen] = useState(false);
   const [additional, setAdditional] = useState(false);
-  const [disabled, setDisabled] = useState(false);
-
-  useEffect(() => {
-    setDisabled(!isValidInspectionItem(itemContext.inspectionItem));
-  }, [itemContext.inspectionItem]);
-
 
   /**
    * Implements the process for editing inspection item.
@@ -101,7 +93,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
                 size="small"
                 name="equipment_name"
                 value={props.equipment.equipment_name}
-                onChange={(e: any) => { context.updateEquipment(e, props.equipment.equipment_id) }}
+                onChange={e => context.updateEquipment(e, props.equipment.equipment_id)}
               />
             </Grid>
             <TableContainer component={Paper}>
@@ -147,7 +139,6 @@ export const EquipmentForm = (props: any): JSX.Element => {
       </Accordion>
       <InspectionItemDialog
         open={open}
-        disabled={disabled}
         handleClose={() => setOpen(false)}
         handleInspectionItem={handleInspectionItem}
       />

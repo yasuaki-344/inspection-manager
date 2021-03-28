@@ -10,10 +10,10 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { useInputTypes } from './Types';
 import { InspectionItemContext } from './InspectionItemContext';
+import { isValidInspectionItem } from './InspectionItemOperator';
 
 interface InspectionDialogProps {
   open: boolean,
-  disabled: boolean,
   handleClose: () => void,
   handleInspectionItem: () => void,
 };
@@ -23,6 +23,7 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
   const [value, setValue] = useState(0);
   const [open, setOpen] = useState(false);
   const [templates, setTemplates] = useState<any>([]);
+  const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
     fetch('choicetemplate')
@@ -32,6 +33,10 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
       })
       .catch(console.error);
   }, []);
+
+  useEffect(() => {
+    setDisabled(!isValidInspectionItem(context.inspectionItem));
+  }, [context.inspectionItem]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(Number((event.target as HTMLInputElement).value));
@@ -125,7 +130,7 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
           <Button
             variant='contained'
             color='primary'
-            disabled={props.disabled}
+            disabled={disabled}
             onClick={props.handleInspectionItem}
           >OK</Button>
           <Button
