@@ -18,7 +18,7 @@ namespace InspectionManager.ApplicationCore.Dto
         public string InspectionContent { get; set; } = string.Empty;
 
         [JsonPropertyName("input_type")]
-        public int InputType { get; set; } = 1;
+        public int InputType { get; set; }
 
         [JsonPropertyName("choices")]
         public List<string> Choices { get; set; } = new List<string>();
