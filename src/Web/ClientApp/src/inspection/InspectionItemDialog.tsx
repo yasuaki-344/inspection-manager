@@ -87,7 +87,7 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                 ))}
               </TextField>
             </Grid>
-            {(context.inspectionItem.input_type !== 3) ? <></> :
+            {(context.inspectionItem.input_type !== 2) ? <></> :
               <>
                 {context.inspectionItem.choices.map((choice: string, index: number) =>
                   <Grid item xs={12} key={`${context.inspectionItem.inspection_item_id}_${index}`}>

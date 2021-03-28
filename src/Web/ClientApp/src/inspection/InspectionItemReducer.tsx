@@ -17,7 +17,7 @@ export default function InspectionItemReducer(state: InspectionItem, action: Ins
       return action.payload?.item;
     case TYPES.UPDATE_FIELD:
       if (action.payload?.name != null) {
-        if (action.payload.name === 'input_type' && action.payload.value !== '3') {
+        if (action.payload.name === 'input_type' && action.payload.value !== '2') {
           return {
             ...state,
             [action.payload.name]: action.payload.value,
