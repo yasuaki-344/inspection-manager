@@ -28,7 +28,8 @@ namespace InspectionManager.ApplicationCore.Test
                     "foo", "var", "hoge"
                 },
             };
-            var config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg =>
+            {
                 cfg.AddProfile<AutoMapping>();
             });
             var mapper = new Mapper(config);
@@ -63,7 +64,8 @@ namespace InspectionManager.ApplicationCore.Test
                     }
                 }
             };
-            var config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg =>
+            {
                 cfg.AddProfile<AutoMapping>();
             });
             var mapper = new Mapper(config);
@@ -82,17 +84,41 @@ namespace InspectionManager.ApplicationCore.Test
         {
             var item = new InspectionSheetDto
             {
-                SheetId= "sheet id",
-                SheetName= "sheet name",
-                InspectionType= "inspection type",
-                InspectionGroup= "inspection group",
-                Equipments= new List<EquipmentDto>(),
+                SheetId = "sheet id",
+                SheetName = "sheet name",
+                InspectionType = "inspection type",
+                InspectionGroup = "inspection group",
+                Equipments = new List<EquipmentDto>(),
             };
-            var config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg =>
+            {
                 cfg.AddProfile<AutoMapping>();
             });
             var mapper = new Mapper(config);
             var actual = mapper.Map<InspectionSheetExportDto>(item);
+            Assert.Equal("sheet id", actual.SheetId);
+            Assert.Equal("sheet name", actual.SheetName);
+            Assert.Equal("inspection type", actual.InspectionType);
+            Assert.Equal("inspection group", actual.InspectionGroup);
+        }
+
+        [Fact]
+        public void MapToInspectionSheetSummaryDtoCorrectly()
+        {
+            var item = new InspectionSheetDto
+            {
+                SheetId = "sheet id",
+                SheetName = "sheet name",
+                InspectionType = "inspection type",
+                InspectionGroup = "inspection group",
+                Equipments = new List<EquipmentDto>(),
+            };
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<AutoMapping>();
+            });
+            var mapper = new Mapper(config);
+            var actual = mapper.Map<InspectionSheetSummaryDto>(item);
             Assert.Equal("sheet id", actual.SheetId);
             Assert.Equal("sheet name", actual.SheetName);
             Assert.Equal("inspection type", actual.InspectionType);
