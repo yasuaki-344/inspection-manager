@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   Accordion, AccordionSummary, AccordionDetails,
@@ -41,9 +41,9 @@ export const EquipmentForm = (props: any): JSX.Element => {
   /**
    * Implements the process for editing inspection item.
    */
-  const handleEditItem = () => {
+  const handleEditItem = (inspectionItem: InspectionItem) => {
     setAdditional(false);
-    itemContext.setItem(itemContext.inspectionItem);
+    itemContext.setItem(inspectionItem);
     setOpen(true);
   };
 
@@ -114,7 +114,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
                       equipment_id={props.equipment.equipment_id}
                       inspectionItem={inspectionItem}
                       removeInspectionItem={context.removeInspectionItem}
-                      handleEdit={handleEditItem}
+                      handleEdit={() => handleEditItem(inspectionItem)}
                     />
                   )}
                 </TableBody>
