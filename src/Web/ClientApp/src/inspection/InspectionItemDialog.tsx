@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import {
   Button, BottomNavigation, BottomNavigationAction,
   Dialog, DialogActions, DialogContent, DialogTitle,
-  Radio, RadioGroup, FormControl, FormControlLabel, FormLabel,
+  Radio, RadioGroup, FormControl, FormControlLabel,
   IconButton, Grid, TextField, MenuItem,
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -143,7 +143,6 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
         <DialogTitle>テンプレート選択</DialogTitle>
         <DialogContent>
           <FormControl component="fieldset">
-            <FormLabel component="legend">Gender</FormLabel>
             <RadioGroup value={value} onChange={handleChange}>
               {templates.map((template: any, index: number) => (
                 <FormControlLabel value={index} control={<Radio />} label={template.choices.join(',')} />
