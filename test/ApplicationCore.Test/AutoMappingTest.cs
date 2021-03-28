@@ -3,7 +3,7 @@ using Xunit;
 
 namespace InspectionManager.ApplicationCore.Test
 {
-    public class UnitTest1
+    public class AutoMappingTest
     {
         [Fact]
         public void Test1()
