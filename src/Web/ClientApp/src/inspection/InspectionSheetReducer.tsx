@@ -1,7 +1,7 @@
 import React from 'react';
 import { InspectionItem, InspectionSheet, InspectionSheetAction } from './Types';
 
-const TYPES = {
+export const TYPES = {
   SET_SHEET: 'SET_SHEET',
   UPDATE_FIELD: 'UPDATE_FIELD',
   ADD_EQUIPMENT: 'ADD_EQUIPMENT',
