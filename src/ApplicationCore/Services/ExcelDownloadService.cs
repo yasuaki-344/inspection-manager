@@ -73,15 +73,18 @@ namespace InspectionManager.ApplicationCore.Interfaces
                         WriteCell(sheet, rowIndex, 1, item.InspectionContent);
                         switch (item.InputType)
                         {
+                            case 0:
+                                WriteCell(sheet, rowIndex, 2, "テキスト入力");
+                                break;
                             case 1:
                                 WriteCell(sheet, rowIndex, 2, "数値入力");
                                 break;
                             case 2:
-                                WriteCell(sheet, rowIndex, 2, "テキスト入力");
-                                break;
-                            case 3:
                                 WriteCell(sheet, rowIndex, 2, "項目選択");
                                 WriteCell(sheet, rowIndex, 3, string.Join("・", item.Choices));
+                                break;
+                            case 5:
+                                WriteCell(sheet, rowIndex, 2, "日付入力");
                                 break;
                             default:
                                 break;
