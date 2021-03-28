@@ -20,7 +20,8 @@ export const Edit = ({ match }: any): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sheetId]);
 
-  const handleUpdate = (event: React.MouseEvent<HTMLElement, MouseEvent>): void => {
+  const handleUpdate = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
     fetch(`inspectionsheet/${sheetId}`, {
       method: 'PUT',
       headers: {
@@ -52,16 +53,22 @@ export const Edit = ({ match }: any): JSX.Element => {
         <Link to="/">トップページへ戻る</Link>
       </Grid>
       <Grid item xs={12}>
-        <InspectionSheetForm isEdit={true} />
-      </Grid>
-      <Grid item xs={12}>
-        <Button
-          variant='contained'
-          color='primary'
-          onClick={handleUpdate}
-        >
-          更新
-        </Button>
+        <form onSubmit={handleUpdate}>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <InspectionSheetForm isEdit={true} />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                type='submit'
+                variant='contained'
+                color='primary'
+              >
+                更新
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
       </Grid>
     </Grid>
   );
