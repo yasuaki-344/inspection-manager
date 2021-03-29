@@ -94,7 +94,7 @@ export const InspectionTypeCategory = (): JSX.Element => {
                   </TableHead>
                   <TableBody>
                     {types.map((group: string, index: number) =>
-                      <TableRow key={`group_{index}`}>
+                      <TableRow key={`group_${index}`}>
                         <TableCell>
                           <TextField
                             required

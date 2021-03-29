@@ -1,7 +1,7 @@
 import React from 'react';
 import { InspectionItem, InspectionItemAction } from './Types';
 
-const TYPES = {
+export const TYPES = {
   SET_ITEM: 'SET_ITEM',
   UPDATE_FIELD: 'UPDATE_FIELD',
   SET_CHOICE: 'SET_CHOICE',
