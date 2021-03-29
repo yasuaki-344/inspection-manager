@@ -15,9 +15,7 @@ export const InspectionGroupCategory = (): JSX.Element => {
   useEffect(() => {
     fetch('inspectiongroup')
       .then(res => res.json())
-      .then((json: string[]) => {
-        setGroups(json);
-      })
+      .then((json: string[]) => setGroups(json))
       .catch(console.error);
   }, []);
 
@@ -94,7 +92,7 @@ export const InspectionGroupCategory = (): JSX.Element => {
                   </TableHead>
                   <TableBody>
                     {groups.map((group: string, index: number) =>
-                      <TableRow key={`group_{index}`}>
+                      <TableRow key={`group_${index}`}>
                         <TableCell>
                           <TextField
                             required
