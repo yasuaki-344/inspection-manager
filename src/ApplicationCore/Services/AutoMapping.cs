@@ -20,8 +20,7 @@ namespace InspectionManager.ApplicationCore.Services
                 .ForMember(dst => dst.InspectionItemId, opt => opt.Ignore())
                 .ForMember(dst => dst.InputMethod, opt => opt.MapFrom(src => src.InputType));
 
-            CreateMap<EquipmentDto, EquipmentExportDto>()
-                .ForMember(dst => dst.EquipmentId, opt => opt.Ignore());
+            CreateMap<EquipmentDto, EquipmentExportDto>();
 
             CreateMap<InspectionSheetDto, InspectionSheetExportDto>();
 

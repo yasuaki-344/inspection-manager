@@ -70,7 +70,7 @@ namespace InspectionManager.ApplicationCore.Test
             });
             var mapper = new Mapper(config);
             var actual = mapper.Map<EquipmentExportDto>(item);
-            Assert.Equal(0, actual.EquipmentId);
+            Assert.Equal("test", actual.EquipmentId);
             Assert.Equal("equipment", actual.EquipmentName);
             Assert.Equal(0, actual.InspectionItems[0].InspectionItemId);
             Assert.Equal("content", actual.InspectionItems[0].InspectionContent);

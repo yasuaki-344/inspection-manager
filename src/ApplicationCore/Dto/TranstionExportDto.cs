@@ -14,7 +14,7 @@ namespace InspectionManager.ApplicationCore.Dto
         public string SheetId { get; set; } = string.Empty;
 
         [JsonPropertyName("equipment_id")]
-        public int EquipmentId { get; set; }
+        public string EquipmentId { get; set; } = string.Empty;
 
         [JsonPropertyName("inspection_item_id")]
         public int InspectionItemId { get; set; }
