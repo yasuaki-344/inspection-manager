@@ -66,14 +66,13 @@ namespace InspectionManager.Web.Controllers
                         var options = new JsonSerializerOptions();
                         options.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
                         var dto = _mapper.Map<InspectionSheetExportDto>(sheet);
-                        foreach (var (equipment, index) in dto.Equipments.Select((x, i) => (x, i)))
+                        for (var i = 0; i < dto.Equipments.Count; i++)
                         {
-                            var isLastEquipment = (index == dto.Equipments.Count - 1);
-                            equipment.EquipmentId = index;
-                            foreach (var (item, index2) in equipment.InspectionItems.Select((x, i) => (x, i)))
+                            var isLastEquipment = (i == dto.Equipments.Count - 1);
+                            foreach (var (item, index) in dto.Equipments[i].InspectionItems.Select((x, i) => (x, i)))
                             {
-                                var isLastInspectionItem = (index2 == equipment.InspectionItems.Count - 1);
-                                item.InspectionItemId = index2;
+                                var isLastInspectionItem = (index == dto.Equipments[i].InspectionItems.Count - 1);
+                                item.InspectionItemId = index;
                                 if (isLastInspectionItem)
                                 {
                                     if (!isLastEquipment)
@@ -81,7 +80,7 @@ namespace InspectionManager.Web.Controllers
                                         item.Transitions.Add(new TransitionExportDto
                                         {
                                             SheetId = dto.SheetId,
-                                            EquipmentId = equipment.EquipmentId + 1,
+                                            EquipmentId = dto.Equipments[i + 1].EquipmentId,
                                             InspectionItemId = 0,
                                         });
                                     }
@@ -91,13 +90,16 @@ namespace InspectionManager.Web.Controllers
                                     item.Transitions.Add(new TransitionExportDto
                                     {
                                         SheetId = dto.SheetId,
-                                        EquipmentId = equipment.EquipmentId,
+                                        EquipmentId = dto.Equipments[i + 1].EquipmentId,
                                         InspectionItemId = item.InspectionItemId + 1,
                                     });
                                 }
                             }
                         }
-                        var json = JsonSerializer.Serialize(dto, options);
+                        var json = JsonSerializer.Serialize(
+                            new InspectionExportDto { Sheet = dto, },
+                            options
+                        );
                         var data = System.Text.Encoding.UTF8.GetBytes(json);
                         return File(data, "application/json", $"{sheet?.SheetName}.json");
                     }
