@@ -96,7 +96,10 @@ namespace InspectionManager.Web.Controllers
                                 }
                             }
                         }
-                        var json = JsonSerializer.Serialize(dto, options);
+                        var json = JsonSerializer.Serialize(
+                            new InspectionExportDto { Sheet = dto, },
+                            options
+                        );
                         var data = System.Text.Encoding.UTF8.GetBytes(json);
                         return File(data, "application/json", $"{sheet?.SheetName}.json");
                     }
