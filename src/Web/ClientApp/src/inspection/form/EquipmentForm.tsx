@@ -9,11 +9,11 @@ import {
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { InspectionItem } from './Types';
+import { InspectionItem } from '../Types';
 import { InspectionItemForm } from './InspectionItemForm';
-import { InspectionItemDialog } from './InspectionItemDialog';
-import { InspectionSheetContext } from './InspectionSheetContext';
-import { InspectionItemContext } from './InspectionItemContext';
+import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
+import { InspectionSheetContext } from '../context/InspectionSheetContext';
+import { InspectionItemContext } from '../context/InspectionItemContext';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

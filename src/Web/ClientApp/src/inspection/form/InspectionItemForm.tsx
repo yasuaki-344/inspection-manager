@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { IconButton, TableCell, TableRow } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
-import { useInputTypes } from './Types';
+import { useInputTypes } from '../Types';
 
 export const InspectionItemForm = (props: any): JSX.Element => {
   return (

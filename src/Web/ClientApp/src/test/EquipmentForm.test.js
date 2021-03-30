@@ -1,15 +1,7 @@
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
-import { EquipmentForm } from '../inspection/EquipmentForm';
-
-jest.mock('../inspection/InspectionSheetForm', () => {
-  return {
-    InspectionSheetForm: (props) => {
-      return <></>
-    },
-  };
-});
+import { EquipmentForm } from '../inspection/form/EquipmentForm';
 
 let container = null;
 beforeEach(() => {

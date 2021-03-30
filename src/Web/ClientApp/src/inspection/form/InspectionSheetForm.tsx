@@ -6,8 +6,8 @@ import {
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { EquipmentForm } from './EquipmentForm';
-import { Equipment } from './Types';
-import { InspectionSheetContext } from './InspectionSheetContext';
+import { Equipment } from '../Types';
+import { InspectionSheetContext } from '../context/InspectionSheetContext';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

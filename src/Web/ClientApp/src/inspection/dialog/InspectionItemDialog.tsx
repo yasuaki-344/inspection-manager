@@ -8,9 +8,9 @@ import {
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
-import { useInputTypes } from './Types';
-import { InspectionItemContext } from './InspectionItemContext';
-import { isValidInspectionItem } from './InspectionItemOperator';
+import { useInputTypes } from '../Types';
+import { InspectionItemContext } from '../context/InspectionItemContext';
+import { isValidInspectionItem } from '../operator/InspectionItemOperator';
 
 interface InspectionDialogProps {
   open: boolean,

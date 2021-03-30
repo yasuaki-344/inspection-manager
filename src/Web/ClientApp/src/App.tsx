@@ -8,10 +8,10 @@ import { Edit } from './inspection/Edit';
 import { InspectionGroupCategory } from './categories/InspectionGroupCategory';
 import { InspectionTypeCategory } from './categories/InspectionTypeCategory';
 import { ChoicesTemplate } from './categories/ChoicesTemplate';
-import { InspectionSheetContext } from './inspection/InspectionSheetContext';
-import { InspectionSheetOperator } from './inspection/InspectionSheetOperator';
-import { InspectionItemOperator } from './inspection/InspectionItemOperator';
-import { InspectionItemContext } from './inspection/InspectionItemContext';
+import { InspectionSheetContext } from './inspection/context/InspectionSheetContext';
+import { InspectionSheetOperator } from './inspection/operator/InspectionSheetOperator';
+import { InspectionItemOperator } from './inspection/operator/InspectionItemOperator';
+import { InspectionItemContext } from './inspection/context/InspectionItemContext';
 import './custom.css'
 
 const App = (): JSX.Element => {
