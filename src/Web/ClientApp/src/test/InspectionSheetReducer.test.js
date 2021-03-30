@@ -54,7 +54,7 @@ it('do not update field if name is null', () => {
   expect(actual).toStrictEqual({});
 });
 
-it('addEquipmentAction correctly', () => {
+it('add equipment correctly', () => {
   const action = addEquipmentAction();
   expect(action.type).toBe(TYPES.ADD_EQUIPMENT);
 
@@ -66,23 +66,23 @@ it('addEquipmentAction correctly', () => {
   expect(actual.equipments[0].inspection_items.length).toBe(0);
 });
 
-it('removeEquipmentAction correctly', () => {
+it('remove equipmentAction correctly', () => {
   const id = 'equipment_id';
   const action = removeEquipmentAction(id);
   expect(action.type).toBe(TYPES.REMOVE_EQUIPMENT);
   expect(action.payload.equipment_id).toBe(id);
 
   const actual = InspectionSheetReducer({
-    equipments: [{}]
+    equipments: [{ equipment_id: id }]
   }, action);
-  // expect(actual.equipments.length).toBe(0);
+  expect(actual.equipments.length).toBe(0);
 });
 
-it('updateEquipmentAction correctly', () => {
+it('update equipment correctly', () => {
   const event = {
     target: {
-      name: 'sample',
-      value: 'value',
+      name: 'equipment_name',
+      value: 'updated equipment name',
     }
   };
   const id = 'equipment_id';
@@ -91,6 +91,15 @@ it('updateEquipmentAction correctly', () => {
   expect(action.payload.name).toBe(event.target.name);
   expect(action.payload.value).toBe(event.target.value);
   expect(action.payload.equipment_id).toBe(id);
+
+  const actual = InspectionSheetReducer({
+    equipments: [
+      { equipment_id: id + '1', equipment_name: 'before' },
+      { equipment_id: id, equipment_name: 'before' }
+    ]
+  }, action);
+  expect(actual.equipments[0].equipment_name).not.toBe(event.target.value);
+  expect(actual.equipments[1].equipment_name).toBe(event.target.value);
 });
 
 it('addInspectionItemAction correctly', () => {
