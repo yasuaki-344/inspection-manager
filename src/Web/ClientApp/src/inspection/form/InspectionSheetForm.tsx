@@ -28,7 +28,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const InspectionSheetForm = (props: any): JSX.Element => {
+interface InspectionSheetFormProps {
+  isEdit: boolean,
+};
+
+export const InspectionSheetForm = (props: InspectionSheetFormProps): JSX.Element => {
   const classes = useStyles();
   const context = useContext(InspectionSheetContext);
   const [groups, setGroups] = useState<string[]>([]);
