@@ -6,7 +6,7 @@ import InspectionSheetReducer, {
   removeInspectionItemAction, updateInspectionItemAction, TYPES,
 } from '../inspection/InspectionSheetReducer';
 
-it('setSheetAction correctly', () => {
+it('set sheet correctly', () => {
   const sheet = {
     sheet_id: 'sheet_id',
     sheet_name: 'sheet_name',
@@ -22,7 +22,7 @@ it('setSheetAction correctly', () => {
   expect(actual).toBe(sheet);
 });
 
-it('updateFieldAction correctly', () => {
+it('update field correctly', () => {
   const event = {
     target: {
       name: 'sheet_name',
@@ -36,6 +36,22 @@ it('updateFieldAction correctly', () => {
 
   const actual = InspectionSheetReducer({}, action);
   expect(actual.sheet_name).toBe(event.target.value);
+});
+
+it('do not update field if name is null', () => {
+  const event = {
+    target: {
+      name: null,
+      value: 'sample sheet name',
+    }
+  };
+  const action = updateFieldAction(event);
+  expect(action.type).toBe(TYPES.UPDATE_FIELD);
+  expect(action.payload.name).toBe(event.target.name);
+  expect(action.payload.value).toBe(event.target.value);
+
+  const actual = InspectionSheetReducer({}, action);
+  expect(actual).toStrictEqual({});
 });
 
 it('addEquipmentAction correctly', () => {
