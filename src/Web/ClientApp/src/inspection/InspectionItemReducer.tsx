@@ -11,7 +11,6 @@ export const TYPES = {
 };
 
 export default function InspectionItemReducer(state: InspectionItem, action: InspectionItemAction): any {
-  console.log(action);
   switch (action.type) {
     case TYPES.SET_ITEM:
       return action.payload?.item;

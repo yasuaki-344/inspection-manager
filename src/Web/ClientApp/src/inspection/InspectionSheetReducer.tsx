@@ -13,7 +13,6 @@ export const TYPES = {
 };
 
 export default function InspectionSheetReducer(state: InspectionSheet, action: InspectionSheetAction): any {
-  console.log(action);
   switch (action.type) {
     case TYPES.SET_SHEET:
       return action.payload?.sheet;
