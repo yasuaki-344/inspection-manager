@@ -1,5 +1,3 @@
-import React from 'react';
-
 import InspectionSheetReducer, {
   setSheetAction, updateFieldAction, addEquipmentAction,
   removeEquipmentAction, updateEquipmentAction, addInspectionItemAction,
@@ -102,13 +100,26 @@ it('update equipment correctly', () => {
   expect(actual.equipments[1].equipment_name).toBe(event.target.value);
 });
 
-it('addInspectionItemAction correctly', () => {
+it('add inspection item correctly', () => {
   const equipmentId = 'equipment_id';
-  const inspectionItem = {};
+  const inspectionItem = {
+    inspection_item_id: 'id',
+    inspection_content: 'content',
+  };
   const action = addInspectionItemAction(equipmentId, inspectionItem);
   expect(action.type).toBe(TYPES.ADD_INSPECTION_ITEM);
   expect(action.payload.equipment_id).toBe(equipmentId);
   expect(action.payload.inspection_item).toBe(inspectionItem);
+
+  const actual = InspectionSheetReducer({
+    equipments: [
+      { equipment_id: equipmentId + '1', inspection_items: [] },
+      { equipment_id: equipmentId, inspection_items: [] }
+    ]
+  }, action);
+  expect(actual.equipments[0].inspection_items.length).toBe(0);
+  expect(actual.equipments[1].inspection_items.length).toBe(1);
+  expect(actual.equipments[1].inspection_items[0]).toBe(inspectionItem);
 });
 
 it('removeInspectionItemAction correctly', () => {
