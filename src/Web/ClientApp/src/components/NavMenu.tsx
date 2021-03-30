@@ -35,7 +35,11 @@ export const NavMenu = (): JSX.Element => {
     <header>
       <AppBar position='static'>
         <Toolbar>
-          <IconButton edge='start' aria-label='menu' color='inherit' onClick={() => setOpen(true)}>
+          <IconButton
+            id='menu-icon-button'
+            edge='start' aria-label='menu' color='inherit'
+            onClick={() => setOpen(true)}
+          >
             <MenuIcon />
           </IconButton>
           <SwipeableDrawer
@@ -45,6 +49,7 @@ export const NavMenu = (): JSX.Element => {
             onOpen={() => setOpen(true)}
           >
             <div
+              id='menu-aria'
               role='presentation'
               onClick={() => setOpen(false)}
               onKeyDown={() => setOpen(false)}
