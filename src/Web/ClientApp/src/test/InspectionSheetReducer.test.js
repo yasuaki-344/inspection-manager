@@ -122,13 +122,26 @@ it('add inspection item correctly', () => {
   expect(actual.equipments[1].inspection_items[0]).toBe(inspectionItem);
 });
 
-it('removeInspectionItemAction correctly', () => {
+it('remove inspection item correctly', () => {
   const equipmentId = 'equipment_id';
-  const itemId = 'equipment_id';
+  const itemId = 'item_id';
   const action = removeInspectionItemAction(equipmentId, itemId);
   expect(action.type).toBe(TYPES.REMOVE_INSPECTION_ITEM);
   expect(action.payload.equipment_id).toBe(equipmentId);
   expect(action.payload.inspection_item_id).toBe(itemId);
+
+  const inspectionItem = {
+    inspection_item_id: itemId,
+    inspection_content: 'content',
+  };
+  const actual = InspectionSheetReducer({
+    equipments: [
+      { equipment_id: equipmentId + '1', inspection_items: [inspectionItem] },
+      { equipment_id: equipmentId, inspection_items: [inspectionItem] }
+    ]
+  }, action);
+  expect(actual.equipments[0].inspection_items.length).toBe(1);
+  expect(actual.equipments[1].inspection_items.length).toBe(0);
 });
 
 it('updateInspectionItemAction correctly', () => {
