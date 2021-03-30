@@ -14,6 +14,7 @@ import { InspectionItemForm } from './InspectionItemForm';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { InspectionItemContext } from '../context/InspectionItemContext';
+import { Equipment } from '../Types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,7 +32,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const EquipmentForm = (props: any): JSX.Element => {
+interface EquipmentFormProps {
+  equipment: Equipment,
+};
+
+export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
   const classes = useStyles();
   const context = useContext(InspectionSheetContext);
   const itemContext = useContext(InspectionItemContext)
