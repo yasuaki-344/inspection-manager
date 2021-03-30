@@ -1,11 +1,10 @@
-import React from 'react';
 import InspectionItemReducer, {
   setItemAction, updateFieldAction, setChoiceAction,
   addChoiceAction, removeChoiceAction, updateChoiceAction,
   TYPES
 } from '../inspection/InspectionItemReducer';
 
-it('setItemAction correctly', () => {
+it('set inspection item correctly', () => {
   const item = {
     inspection_item_id: 'id',
     inspection_content: 'content',
@@ -20,7 +19,7 @@ it('setItemAction correctly', () => {
   expect(actual).toStrictEqual(item);
 });
 
-it('updateFieldAction correctly', () => {
+it('update field correctly', () => {
   const event = {
     target: {
       name: 'inspection_content',
@@ -37,6 +36,25 @@ it('updateFieldAction correctly', () => {
   };
   const actual = InspectionItemReducer(item, action);
   expect(actual.inspection_content).toBe('update content');
+});
+
+it('do not update field if name is null', () => {
+  const event = {
+    target: {
+      name: null,
+      value: 'update content',
+    }
+  };
+  const action = updateFieldAction(event);
+  expect(action.type).toBe(TYPES.UPDATE_FIELD);
+  expect(action.payload.name).toBe(event.target.name);
+  expect(action.payload.value).toBe(event.target.value);
+
+  const item = {
+    inspection_content: 'content',
+  };
+  const actual = InspectionItemReducer(item, action);
+  expect(actual.inspection_content).toBe('content');
 });
 
 it('setChoiceAction correctly', () => {
