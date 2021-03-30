@@ -2,14 +2,21 @@ import React, { Fragment } from 'react';
 import { IconButton, TableCell, TableRow } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
-import { useInputTypes } from '../Types';
+import { useInputTypes, InspectionItem } from '../Types';
 
-export const InspectionItemForm = (props: any): JSX.Element => {
+interface InspectionItemFormProps {
+  equipment_id: string,
+  inspectionItem: InspectionItem,
+  setInspectionItem: () => void,
+  removeInspectionItem: (equipmentId: string, inspectionItemId: string) => void,
+};
+
+export const InspectionItemForm = (props: InspectionItemFormProps): JSX.Element => {
   return (
     <Fragment>
       <TableRow>
         <TableCell>
-          <IconButton size='small' onClick={() => props.editInspectionItem()}>
+          <IconButton size='small' onClick={() => props.setInspectionItem()}>
             <EditIcon />
           </IconButton>
         </TableCell>

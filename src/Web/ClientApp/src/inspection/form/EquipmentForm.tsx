@@ -114,7 +114,7 @@ export const EquipmentForm = (props: any): JSX.Element => {
                       equipment_id={props.equipment.equipment_id}
                       inspectionItem={inspectionItem}
                       removeInspectionItem={context.removeInspectionItem}
-                      editInspectionItem={() => handleEditItem(inspectionItem)}
+                      setInspectionItem={() => handleEditItem(inspectionItem)}
                     />
                   )}
                 </TableBody>
