@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from 'react';
 import {
   Button, BottomNavigation, BottomNavigationAction,
   Dialog, DialogActions, DialogContent, DialogTitle,
-  Radio, RadioGroup, FormControl, FormControlLabel,
   IconButton, Grid, TextField, MenuItem,
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -11,6 +10,7 @@ import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { useInputTypes } from '../Types';
 import { InspectionItemContext } from '../context/InspectionItemContext';
 import { isValidInspectionItem } from '../operator/InspectionItemOperator';
+import { ChoiceSetSelectDialog } from './ChoiceSetSelectDialog';
 
 interface InspectionDialogProps {
   open: boolean,
@@ -20,32 +20,12 @@ interface InspectionDialogProps {
 
 export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element => {
   const context = useContext(InspectionItemContext);
-  const [value, setValue] = useState(0);
   const [open, setOpen] = useState(false);
-  const [templates, setTemplates] = useState<any>([]);
   const [disabled, setDisabled] = useState(false);
-
-  useEffect(() => {
-    fetch('choicetemplate')
-      .then(res => res.json())
-      .then((json: any) => {
-        setTemplates(json);
-      })
-      .catch(console.error);
-  }, []);
 
   useEffect(() => {
     setDisabled(!isValidInspectionItem(context.inspectionItem));
   }, [context.inspectionItem]);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(Number((event.target as HTMLInputElement).value));
-  };
-
-  const handleUseTemplate = () => {
-    context.setChoices(templates[value].choices);
-    setOpen(false);
-  };
 
   return (
     <>
@@ -139,29 +119,10 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
           >キャンセル</Button>
         </DialogActions>
       </Dialog>
-      <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>テンプレート選択</DialogTitle>
-        <DialogContent>
-          <FormControl component="fieldset">
-            <RadioGroup value={value} onChange={handleChange}>
-              {templates.map((template: any, index: number) => (
-                <FormControlLabel value={index} control={<Radio />} label={template.choices.join(',')} />
-              ))}
-            </RadioGroup>
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant='contained'
-            color='primary'
-            onClick={() => handleUseTemplate()}
-          >OK</Button>
-          <Button
-            variant='contained'
-            onClick={() => setOpen(false)}
-          >キャンセル</Button>
-        </DialogActions>
-      </Dialog>
+      <ChoiceSetSelectDialog
+        open={open}
+        handleClose={() => setOpen(false)}
+      />
     </>
   );
 }
