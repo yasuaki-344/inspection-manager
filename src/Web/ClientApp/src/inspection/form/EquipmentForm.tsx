@@ -1,15 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
-  Accordion, AccordionSummary, AccordionDetails,
-  BottomNavigation, BottomNavigationAction, IconButton,
+  Accordion, AccordionSummary, AccordionDetails, IconButton,
   Grid, Paper, TextField,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@material-ui/core';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { InspectionItem } from '../Types';
 import { InspectionItemForm } from './InspectionItemForm';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
@@ -42,29 +38,6 @@ export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
   const itemContext = useContext(InspectionItemContext)
   const [open, setOpen] = useState(false);
   const [additional, setAdditional] = useState(false);
-
-  /**
-   * Implements the process for editing inspection item.
-   */
-  const handleEditItem = (inspectionItem: InspectionItem) => {
-    setAdditional(false);
-    itemContext.setItem(inspectionItem);
-    setOpen(true);
-  };
-
-  /**
-   * Implements the process for adding inspection item.
-   */
-  const handleAddItem = () => {
-    setAdditional(true);
-    itemContext.setItem({
-      inspection_item_id: Math.random().toString(36).substr(2, 9),
-      inspection_content: '',
-      input_type: 1,
-      choices: [],
-    })
-    setOpen(true);
-  };
 
   /**
    * Implements the process for managing inspection item of equipment.
@@ -108,38 +81,13 @@ export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
                 onChange={e => context.updateEquipment(e, props.equipment.equipment_id)}
               />
             </Grid>
-            <TableContainer component={Paper}>
-              <Table aria-label='collapsible table'>
-                <TableHead>
-                  <TableRow>
-                    <TableCell />
-                    <TableCell>点検項目</TableCell>
-                    <TableCell>点検タイプ</TableCell>
-                    <TableCell>選択肢</TableCell>
-                    <TableCell />
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {props.equipment.inspection_items.map((inspectionItem: InspectionItem) =>
-                    <InspectionItemForm
-                      key={inspectionItem.inspection_item_id}
-                      equipment_id={props.equipment.equipment_id}
-                      inspectionItem={inspectionItem}
-                      removeInspectionItem={context.removeInspectionItem}
-                      setInspectionItem={() => handleEditItem(inspectionItem)}
-                    />
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
             <Grid item xs={12}>
-              <BottomNavigation showLabels>
-                <BottomNavigationAction
-                  label='点検項目追加'
-                  icon={<AddCircleIcon />}
-                  onClick={() => { handleAddItem() }}
-                />
-              </BottomNavigation>
+              <InspectionItemForm
+                equipmentId={props.equipment.equipment_id}
+                inspectionItems={props.equipment.inspection_items}
+                setOpen={setOpen}
+                setAdditional={setAdditional}
+              />
             </Grid>
           </Grid>
         </AccordionDetails>
