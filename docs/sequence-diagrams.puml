@@ -74,4 +74,33 @@ equipForm <-- itemForm : 表示結果
 sheetForm <-- equipForm : 表示結果
 user <-- sheetForm : 更新後の表示結果
 
+== Edit Insepction Item ==
+user -> itemForm : 点検項目編集ボタンをクリック
+itemForm -> itemForm : 更新モードに設定
+itemForm -> sheetContext : 点検項目情報を取得
+itemForm <-- sheetContext : 点検項目情報
+itemForm -> itemContext : 新規点検項目を設定
+itemForm -> itemDialog : 点検項目ダイアログを開く
+user <-- itemDialog : 点検項目ダイアロ表示
+user ->  itemDialog : 点検項目編集
+itemDialog -> itemContext : 点検項目編集
+itemDialog <-- itemContext : 点検項目情報
+user <-- itemDialog : 更新後の表示結果
+alt 編集を適応する場合
+  user ->  itemDialog : OKボタンをクリック
+  itemDialog -> itemContext : 点検項目情報を取得
+  itemDialog <-- itemContext : 点検項目情報
+  itemDialog -> sheetContext : 点検項目を追加
+  itemDialog -> itemDialog : 点検項目ダイアログを閉じる
+  sheetForm <-- sheetContext : 点検シート情報
+  sheetForm -> equipForm : 描画処理
+  equipForm -> itemForm : 描画処理
+  equipForm <-- itemForm : 表示結果
+  sheetForm <-- equipForm : 表示結果
+  user <-- sheetForm : 更新後の表示結果
+else 編集を適応しない場合
+  user ->  itemDialog : キャンセルボタンをクリック
+  itemDialog -> itemDialog : 点検項目ダイアログを閉じる
+end
+
 @enduml
