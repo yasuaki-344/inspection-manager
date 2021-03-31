@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   Accordion, AccordionSummary, AccordionDetails,
-  BottomNavigation, BottomNavigationAction,
+  BottomNavigation, BottomNavigationAction, IconButton,
   Grid, Paper, TextField,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@material-ui/core';
@@ -55,7 +55,7 @@ export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
   /**
    * Implements the process for adding inspection item.
    */
-   const handleAddItem = () => {
+  const handleAddItem = () => {
     setAdditional(true);
     itemContext.setItem({
       inspection_item_id: Math.random().toString(36).substr(2, 9),
@@ -85,6 +85,13 @@ export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
           className={classes.equipmentLabel}
           expandIcon={<ExpandMoreIcon className={classes.menuIcon} />}
         >
+          <IconButton
+            size='small'
+            color='inherit'
+            onClick={() => context.removeEquipment(props.equipment.equipment_id)}
+          >
+            <CancelIcon />
+          </IconButton>
           <div>{props.equipment.equipment_name}</div>
         </AccordionSummary>
         <AccordionDetails>
@@ -131,11 +138,6 @@ export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
                   label='点検項目追加'
                   icon={<AddCircleIcon />}
                   onClick={() => { handleAddItem() }}
-                />
-                <BottomNavigationAction
-                  label='点検機器削除'
-                  icon={<CancelIcon />}
-                  onClick={() => context.removeEquipment(props.equipment.equipment_id)}
                 />
               </BottomNavigation>
             </Grid>
