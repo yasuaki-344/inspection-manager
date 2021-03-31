@@ -17,7 +17,6 @@ package inspection {
   class Details
   class Edit
   class EquipmentForm
-  class InspectionItemDialog
   class InspectionItemForm
   package module {
     class InspectionItemReducer
@@ -30,6 +29,12 @@ package inspection {
   package contexts {
     class InspectionSheetContext
     class InspectionItemContext
+  }
+  package dialog {
+    class ChoiceSetSelectDialog
+    class InspectionItemDialog
+    ' relationship
+    InspectionItemDialog ..> ChoiceSetSelectDialog
   }
   ' relationship
   Create ..> InspectionSheetForm
