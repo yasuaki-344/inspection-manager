@@ -69,7 +69,7 @@ namespace InspectionManager.Web.Controllers
                         for (var i = 0; i < dto.Equipments.Count; i++)
                         {
                             var isLastEquipment = (i == dto.Equipments.Count - 1);
-                            foreach (var (item, index) in dto.Equipments[i].InspectionItems.Select((x, i) => (x, i)))
+                            foreach (var (item, index) in dto.Equipments[i].InspectionItems.Select((x, j) => (x, j)))
                             {
                                 var isLastInspectionItem = (index == dto.Equipments[i].InspectionItems.Count - 1);
                                 item.InspectionItemId = index;
@@ -90,7 +90,7 @@ namespace InspectionManager.Web.Controllers
                                     item.Transitions.Add(new TransitionExportDto
                                     {
                                         SheetId = dto.SheetId,
-                                        EquipmentId = dto.Equipments[i + 1].EquipmentId,
+                                        EquipmentId = dto.Equipments[i].EquipmentId,
                                         InspectionItemId = item.InspectionItemId + 1,
                                     });
                                 }
