@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   Accordion, AccordionSummary, AccordionDetails, IconButton,
@@ -7,9 +7,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { InspectionItemForm } from './InspectionItemForm';
-import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
-import { InspectionItemContext } from '../context/InspectionItemContext';
 import { Equipment } from '../Types';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -30,26 +28,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface EquipmentFormProps {
   equipment: Equipment,
+  setEquipmentId: React.Dispatch<React.SetStateAction<string>>,
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  setAdditional: React.Dispatch<React.SetStateAction<boolean>>,
 };
 
 export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
   const classes = useStyles();
   const context = useContext(InspectionSheetContext);
-  const itemContext = useContext(InspectionItemContext)
-  const [open, setOpen] = useState(false);
-  const [additional, setAdditional] = useState(false);
-
-  /**
-   * Implements the process for managing inspection item of equipment.
-   */
-  const handleInspectionItem = () => {
-    if (additional) {
-      context.addInspectionItem(props.equipment.equipment_id, itemContext.inspectionItem);
-    } else {
-      context.updateInspectionItem(props.equipment.equipment_id, itemContext.inspectionItem);
-    }
-    setOpen(false);
-  };
 
   return (
     <Paper variant='outlined'>
@@ -84,19 +70,15 @@ export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
             <Grid item xs={12}>
               <InspectionItemForm
                 equipmentId={props.equipment.equipment_id}
+                setEquipmentId={props.setEquipmentId}
                 inspectionItems={props.equipment.inspection_items}
-                setOpen={setOpen}
-                setAdditional={setAdditional}
+                setOpen={props.setOpen}
+                setAdditional={props.setAdditional}
               />
             </Grid>
           </Grid>
         </AccordionDetails>
       </Accordion>
-      <InspectionItemDialog
-        open={open}
-        handleClose={() => setOpen(false)}
-        handleInspectionItem={handleInspectionItem}
-      />
     </Paper >
   );
 }

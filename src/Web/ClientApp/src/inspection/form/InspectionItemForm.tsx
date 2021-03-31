@@ -13,8 +13,9 @@ import { useInputTypes, InspectionItem } from '../Types';
 interface InspectionItemFormProps {
   equipmentId: string,
   inspectionItems: InspectionItem[],
-  setOpen: any,
-  setAdditional: any,
+  setEquipmentId: React.Dispatch<React.SetStateAction<string>>,
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  setAdditional: React.Dispatch<React.SetStateAction<boolean>>,
 };
 
 export const InspectionItemForm = (props: InspectionItemFormProps): JSX.Element => {
@@ -25,6 +26,7 @@ export const InspectionItemForm = (props: InspectionItemFormProps): JSX.Element 
    * Implements the process for editing inspection item.
    */
   const handleEditItem = (inspectionItem: InspectionItem) => {
+    props.setEquipmentId(props.equipmentId);
     props.setAdditional(false);
     itemContext.setItem(inspectionItem);
     props.setOpen(true);
@@ -34,6 +36,7 @@ export const InspectionItemForm = (props: InspectionItemFormProps): JSX.Element 
    * Implements the process for adding inspection item.
    */
   const handleAddItem = () => {
+    props.setEquipmentId(props.equipmentId);
     props.setAdditional(true);
     itemContext.setItem({
       inspection_item_id: Math.random().toString(36).substr(2, 9),
