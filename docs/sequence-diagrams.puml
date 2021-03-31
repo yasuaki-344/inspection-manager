@@ -64,5 +64,14 @@ else 編集を適応しない場合
   user ->  itemDialog : キャンセルボタンをクリック
   itemDialog -> itemDialog : 点検項目ダイアログを閉じる
 end
+== Remove Insepction Item ==
+user -> itemForm : 点検項目削除ボタンをクリック
+itemForm -> sheetContext : 点検項目削除
+sheetForm <-- sheetContext : 点検シート情報
+sheetForm -> equipForm : 描画処理
+equipForm -> itemForm : 描画処理
+equipForm <-- itemForm : 表示結果
+sheetForm <-- equipForm : 表示結果
+user <-- sheetForm : 更新後の表示結果
 
 @enduml
