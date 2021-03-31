@@ -5,7 +5,7 @@ participant InpsectionSheetForm as sheetForm
 participant EquipmentForm as equipForm
 participant InpsectionItemForm as itemForm
 participant InpsectionItemDialog as itemDialog
-participant InspectionSheetContext as sheetContext
+entity InspectionSheetContext as sheetContext
 
 == Add New Equipment ==
 user -> sheetForm : 点検機器追加ボタン押下
@@ -26,4 +26,15 @@ equipForm -> itemForm : 描画処理
 equipForm <-- itemForm : 表示結果
 sheetForm <-- equipForm : 表示結果
 user <-- sheetForm : 更新後の表示結果
+
+== Update Equipment ==
+user -> equipForm : 点検機器情報編集
+equipForm -> sheetContext : 点検機器情報編集
+sheetForm <-- sheetContext : 点検シート情報
+sheetForm -> equipForm : 描画処理
+equipForm -> itemForm : 描画処理
+equipForm <-- itemForm : 表示結果
+sheetForm <-- equipForm : 表示結果
+user <-- sheetForm : 更新後の表示結果
+
 @enduml
