@@ -10,11 +10,20 @@ participant InspectionSheetContext as sheetContext
 == Add New Equipment ==
 user -> sheetForm : 点検機器追加ボタン押下
 sheetForm -> sheetContext : 点検機器追加
-sheetForm <-- sheetContext : 点検機器リスト情報
+sheetForm <-- sheetContext : 点検シート情報
 sheetForm -> equipForm : 描画処理
 equipForm -> itemForm : 描画処理
 equipForm <-- itemForm : 表示結果
 sheetForm <-- equipForm : 表示結果
 user <-- sheetForm : 更新後の表示結果
 
+== Remove Equipment ==
+user -> equipForm : 点検機器削除ボタン押下
+equipForm -> sheetContext : 点検機器削除
+sheetForm <-- sheetContext : 点検シート情報
+sheetForm -> equipForm : 描画処理
+equipForm -> itemForm : 描画処理
+equipForm <-- itemForm : 表示結果
+sheetForm <-- equipForm : 表示結果
+user <-- sheetForm : 更新後の表示結果
 @enduml
