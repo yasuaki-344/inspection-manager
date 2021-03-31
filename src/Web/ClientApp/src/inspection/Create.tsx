@@ -6,10 +6,10 @@ import {
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
-import { InspectionSheetForm } from './InspectionSheetForm';
+import { InspectionSheetForm } from './form/InspectionSheetForm';
 import { InspectionSheet, InspectionSheetSummary } from './Types';
-import { initialState } from './InspectionSheetOperator';
-import { InspectionSheetContext } from './InspectionSheetContext';
+import { initialState } from './operator/InspectionSheetOperator';
+import { InspectionSheetContext } from './context/InspectionSheetContext';
 
 export const Create = (): JSX.Element => {
   const context = useContext(InspectionSheetContext);

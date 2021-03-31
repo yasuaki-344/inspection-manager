@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
 import { Edit } from '../inspection/Edit';
 
-jest.mock('../inspection/InspectionSheetForm', () => {
+jest.mock('../inspection/form/InspectionSheetForm', () => {
   return {
     InspectionSheetForm: (props) => {
       return <></>

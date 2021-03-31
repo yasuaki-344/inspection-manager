@@ -1,9 +1,9 @@
 import React, { useReducer } from 'react';
-import { InspectionItem, InspectionItemContextType } from './Types';
+import { InspectionItem, InspectionItemContextType } from '../Types';
 import InspectionItemReducer, {
   setItemAction, updateFieldAction, setChoiceAction,
   addChoiceAction, removeChoiceAction, updateChoiceAction
-} from './InspectionItemReducer';
+} from '../reducer/InspectionItemReducer';
 
 /**
  * Initial state of InspectionItem object.
