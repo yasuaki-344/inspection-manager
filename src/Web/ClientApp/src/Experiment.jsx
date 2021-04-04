@@ -1,12 +1,14 @@
 import React from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
 export const Experiment = () => {
   return (
-    <div>
-       <List component="nav" aria-label="main mailbox folders">
+    <DndProvider backend={HTML5Backend}>
+      <List component="nav" aria-label="main mailbox folders">
         <ListItem button>
           <ListItemText primary="Inbox" />
         </ListItem>
@@ -18,8 +20,8 @@ export const Experiment = () => {
         </ListItem>
         <ListItem button>
           <ListItemText primary="Spam" />
-          </ListItem>
+        </ListItem>
       </List>
-    </div>
+    </DndProvider>
   )
 }
