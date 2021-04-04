@@ -10,9 +10,9 @@ export const ItemTypes = {
   LIST_ITEM: 'listItem'
 }
 
-const DraggableListItem = (text) => {
+const DraggableListItem = ({text}) => {
   const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes.KNIGHT,
+    type: ItemTypes.LIST_ITEM,
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
     }),
