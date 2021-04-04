@@ -20,19 +20,14 @@ const DraggableListItem = ({ text }) => {
   }));
 
   return (
-    <div
-      ref={drag}
+    <ListItem ref={drag}
       style={{
         opacity: isDragging ? 0.5 : 1,
-        fontSize: 25,
-        fontWeight: 'bold',
         cursor: 'move',
       }}
     >
-      <ListItem>
-        <ListItemText primary={text} />
-      </ListItem>
-    </div>
+      <ListItemText primary={text} />
+    </ListItem>
   );
 };
 
@@ -52,14 +47,12 @@ const DroppableList = () => {
   );
 
   return (
-    <div ref={drop}>
-      <List component="nav" aria-label="main mailbox folders">
-        <DraggableListItem text="Inbox" />
-        <DraggableListItem text="Drafts" />
-        <DraggableListItem text="Trash" />
-        <DraggableListItem text="Spam" />
-      </List>
-    </div>
+    <List ref={drop} component="nav" aria-label="main mailbox folders">
+      <DraggableListItem text="Inbox" />
+      <DraggableListItem text="Drafts" />
+      <DraggableListItem text="Trash" />
+      <DraggableListItem text="Spam" />
+    </List>
   );
 };
 
