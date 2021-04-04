@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { useDrag } from 'react-dnd';
 import { useDrop } from 'react-dnd';
@@ -32,6 +32,9 @@ const DraggableListItem = ({ text }) => {
 };
 
 const DroppableList = () => {
+  const [items, setItems] = useState([
+    'Inbox', 'Drafts', 'Trash', 'Spam'
+  ]);
   // eslint-disable-next-line
   const [{ isOver }, drop] = useDrop(
     () => ({
@@ -48,10 +51,9 @@ const DroppableList = () => {
 
   return (
     <List ref={drop} component="nav" aria-label="main mailbox folders">
-      <DraggableListItem text="Inbox" />
-      <DraggableListItem text="Drafts" />
-      <DraggableListItem text="Trash" />
-      <DraggableListItem text="Spam" />
+      {items.map(item =>
+        <DraggableListItem text={item} />
+      )}
     </List>
   );
 };
