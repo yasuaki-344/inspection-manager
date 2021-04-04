@@ -1,5 +1,6 @@
 import React from 'react';
 import { DndProvider } from 'react-dnd';
+import { useDrag } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,10 +11,27 @@ export const ItemTypes = {
 }
 
 const DraggableListItem = (text) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.KNIGHT,
+    collect: monitor => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+
   return (
-    <ListItem button>
-      <ListItemText primary={text} />
-    </ListItem>
+    <div
+      ref={drag}
+      style={{
+        opacity: isDragging ? 0.5 : 1,
+        fontSize: 25,
+        fontWeight: 'bold',
+        cursor: 'move',
+      }}
+    >
+      <ListItem button>
+        <ListItemText primary={text} />
+      </ListItem>
+    </div>
   );
 }
 
