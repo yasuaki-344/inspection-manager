@@ -1,6 +1,7 @@
 import React from 'react';
 import { DndProvider } from 'react-dnd';
 import { useDrag } from 'react-dnd';
+import { useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,7 +11,7 @@ export const ItemTypes = {
   LIST_ITEM: 'listItem'
 }
 
-const DraggableListItem = ({text}) => {
+const DraggableListItem = ({ text }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.LIST_ITEM,
     collect: monitor => ({
@@ -36,13 +37,29 @@ const DraggableListItem = ({text}) => {
 };
 
 const DroppableList = () => {
+  // eslint-disable-next-line
+  const [{ isOver }, drop] = useDrop(
+    () => ({
+      accept: ItemTypes.LIST_ITEM,
+      drop: () => {
+        console.log('dropped');
+      },
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver()
+      })
+    }),
+    []
+  );
+
   return (
-    <List component="nav" aria-label="main mailbox folders">
-      <DraggableListItem text="Inbox" />
-      <DraggableListItem text="Drafts" />
-      <DraggableListItem text="Trash" />
-      <DraggableListItem text="Spam" />
-    </List>
+    <div ref={drop}>
+      <List component="nav" aria-label="main mailbox folders">
+        <DraggableListItem text="Inbox" />
+        <DraggableListItem text="Drafts" />
+        <DraggableListItem text="Trash" />
+        <DraggableListItem text="Spam" />
+      </List>
+    </div>
   );
 };
 
