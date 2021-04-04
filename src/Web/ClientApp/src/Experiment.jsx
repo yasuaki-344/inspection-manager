@@ -9,22 +9,22 @@ export const ItemTypes = {
   LIST_ITEM: 'listItem'
 }
 
+const DraggableListItem = (text) => {
+  return (
+    <ListItem button>
+      <ListItemText primary={text} />
+    </ListItem>
+  );
+}
+
 export const Experiment = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <List component="nav" aria-label="main mailbox folders">
-        <ListItem button>
-          <ListItemText primary="Inbox" />
-        </ListItem>
-        <ListItem button>
-          <ListItemText primary="Drafts" />
-        </ListItem>
-        <ListItem button>
-          <ListItemText primary="Trash" />
-        </ListItem>
-        <ListItem button>
-          <ListItemText primary="Spam" />
-        </ListItem>
+        <DraggableListItem text="Inbox" />
+        <DraggableListItem text="Drafts" />
+        <DraggableListItem text="Trash" />
+        <DraggableListItem text="Spam" />
       </List>
     </DndProvider>
   )
