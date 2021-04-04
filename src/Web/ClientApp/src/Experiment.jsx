@@ -28,22 +28,28 @@ const DraggableListItem = (text) => {
         cursor: 'move',
       }}
     >
-      <ListItem button>
+      <ListItem>
         <ListItemText primary={text} />
       </ListItem>
     </div>
   );
-}
+};
+
+const DroppableList = () => {
+  return (
+    <List component="nav" aria-label="main mailbox folders">
+      <DraggableListItem text="Inbox" />
+      <DraggableListItem text="Drafts" />
+      <DraggableListItem text="Trash" />
+      <DraggableListItem text="Spam" />
+    </List>
+  );
+};
 
 export const Experiment = () => {
   return (
     <DndProvider backend={HTML5Backend}>
-      <List component="nav" aria-label="main mailbox folders">
-        <DraggableListItem text="Inbox" />
-        <DraggableListItem text="Drafts" />
-        <DraggableListItem text="Trash" />
-        <DraggableListItem text="Spam" />
-      </List>
+      <DroppableList />
     </DndProvider>
   )
 }
