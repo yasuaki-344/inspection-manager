@@ -56,8 +56,26 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         }),
       };
     case TYPES.SWAP_EQUIPMENT:
-      // TODO: implementation
-      return state;
+      const srcEquipment = state.equipments.find(e => e.equipment_id === action.payload?.equipment_id);
+      const dstEquipment = state.equipments.find(e => e.equipment_id === action.payload?.swap_id);
+      return {
+        ...state,
+        equipments: state.equipments.map(e => {
+          if (e.equipment_id === action.payload?.equipment_id) {
+            return {
+              ...dstEquipment,
+              equipment_id: e.equipment_id,
+            };
+          } else if (e.equipment_id === action.payload?.swap_id) {
+            return {
+              ...srcEquipment,
+              equipment_id: e.equipment_id,
+            }
+          } else {
+            return e;
+          }
+        }),
+      };
     case TYPES.ADD_INSPECTION_ITEM:
       return {
         ...state,
