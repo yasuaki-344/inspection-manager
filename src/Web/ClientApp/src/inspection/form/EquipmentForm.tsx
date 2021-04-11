@@ -45,8 +45,7 @@ export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
       if (!ref.current || item.id === props.equipment.equipment_id) {
         return;
       }
-      console.log(`${item.id} and ${props.equipment.equipment_id}`);
-      //swapList(item.index, index)
+      context.swapEquipment(props.equipment.equipment_id, item.id);
     }
   })
   const [, drag] = useDrag({

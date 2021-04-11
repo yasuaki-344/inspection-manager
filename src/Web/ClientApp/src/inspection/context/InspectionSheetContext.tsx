@@ -9,6 +9,7 @@ export const InspectionSheetContext = createContext<InspectionSheetContextType>(
   addEquipment: (): void => { },
   removeEquipment: (id: string): void => { },
   updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: string): void => { },
+  swapEquipment: (srdId: string, dstId: string): void => { },
   addInspectionItem: (id: string, item: InspectionItem): void => { },
   removeInspectionItem: (id: string, itemId: string): void => { },
   updateInspectionItem: (id: string, item: InspectionItem): void => { },

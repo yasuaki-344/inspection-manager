@@ -7,6 +7,7 @@ export const TYPES = {
   ADD_EQUIPMENT: 'ADD_EQUIPMENT',
   REMOVE_EQUIPMENT: 'REMOVE_EQUIPMENT',
   UPDATE_EQUIPMENT: 'UPDATE_EQUIPMENT',
+  SWAP_EQUIPMENT: 'SWAP_EQUIPMENT',
   ADD_INSPECTION_ITEM: 'ADD_INSPECTION_ITEM',
   REMOVE_INSPECTION_ITEM: 'REMOVE_INSPECTION_ITEM',
   UPDATE_INSPECTION_ITEM: 'UPDATE_INSPECTION_ITEM',
@@ -54,6 +55,9 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
           }
         }),
       };
+    case TYPES.SWAP_EQUIPMENT:
+      // TODO: implementation
+      return state;
     case TYPES.ADD_INSPECTION_ITEM:
       return {
         ...state,
@@ -151,6 +155,16 @@ export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement 
       name: event.target.name,
       value: event.target.value,
       equipment_id: id,
+    },
+  }
+};
+
+export const swapEquipmentAction = (srcId: string, dstId: string): InspectionSheetAction => {
+  return {
+    type: TYPES.SWAP_EQUIPMENT,
+    payload: {
+      equipment_id: srcId,
+      swap_id: dstId,
     },
   }
 };

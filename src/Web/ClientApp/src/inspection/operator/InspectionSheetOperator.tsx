@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import { InspectionItem, InspectionSheet, InspectionSheetContextType } from '../Types';
 import InspectionSheetReducer, {
   setSheetAction, updateFieldAction,
-  addEquipmentAction, removeEquipmentAction, updateEquipmentAction,
+  addEquipmentAction, removeEquipmentAction, updateEquipmentAction, swapEquipmentAction,
   addInspectionItemAction, removeInspectionItemAction, updateInspectionItemAction,
 } from '../reducer/InspectionSheetReducer';
 
@@ -30,6 +30,7 @@ export const InspectionSheetOperator = (): InspectionSheetContextType => {
     removeEquipment: (id: string): void => dispatch(removeEquipmentAction(id)),
     updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: string): void =>
       dispatch(updateEquipmentAction(event, id)),
+    swapEquipment: (srcId: string, dstId: string): void => dispatch(swapEquipmentAction(srcId, dstId)),
     addInspectionItem: (id: string, item: InspectionItem): void =>
       dispatch(addInspectionItemAction(id, item)),
     removeInspectionItem: (id: string, itemId: string): void =>
