@@ -1,3 +1,7 @@
+export const ItemType = {
+  EQUIPMENT: 'EQUIPMENT',
+};
+
 export const useInputTypes = [
   { value: 0, label: "テキスト入力" },
   { value: 1, label: "数値入力" },
