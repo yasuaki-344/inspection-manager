@@ -128,12 +128,90 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
           }
         }),
       };
-    case TYPES.ORDER_UP_INSPECTION_ITEM:
-      console.log('order up')
-      return state;
-    case TYPES.ORDER_DOWN_INSPECTION_ITEM:
-      console.log('order down')
-      return state;
+    case TYPES.ORDER_UP_INSPECTION_ITEM: {
+      const equipment = state.equipments.find(e => e.equipment_id === action.payload?.equipment_id);
+      if (equipment == null) {
+        return state;
+      } else {
+        const targetIndex = equipment.inspection_items
+          .findIndex(i => i.inspection_item_id === action.payload?.inspection_item_id)
+        if (targetIndex === 0) {
+          return state;
+        } else {
+          const src = equipment.inspection_items[targetIndex];
+          const dst = equipment.inspection_items[targetIndex - 1];
+          return {
+            ...state,
+            equipments: state.equipments.map(e => {
+              if (e.equipment_id === equipment.equipment_id) {
+                return {
+                  ...e,
+                  inspection_items: e.inspection_items.map(i => {
+                    if (i.inspection_item_id === src.inspection_item_id) {
+                      return {
+                        ...dst,
+                        inspection_item_id: i.inspection_item_id,
+                      };
+                    } else if (i.inspection_item_id === dst.inspection_item_id) {
+                      return {
+                        ...src,
+                        inspection_item_id: i.inspection_item_id,
+                      }
+                    } else {
+                      return i;
+                    }
+                  }),
+                };
+              } else {
+                return e;
+              }
+            }),
+          };
+        }
+      }
+    }
+    case TYPES.ORDER_DOWN_INSPECTION_ITEM: {
+      const equipment = state.equipments.find(e => e.equipment_id === action.payload?.equipment_id);
+      if (equipment == null) {
+        return state;
+      } else {
+        const targetIndex = equipment.inspection_items
+          .findIndex(i => i.inspection_item_id === action.payload?.inspection_item_id)
+        if (targetIndex === equipment.inspection_items.length - 1) {
+          return state;
+        } else {
+          const src = equipment.inspection_items[targetIndex];
+          const dst = equipment.inspection_items[targetIndex + 1];
+          return {
+            ...state,
+            equipments: state.equipments.map(e => {
+              if (e.equipment_id === equipment.equipment_id) {
+                return {
+                  ...e,
+                  inspection_items: e.inspection_items.map(i => {
+                    if (i.inspection_item_id === src.inspection_item_id) {
+                      return {
+                        ...dst,
+                        inspection_item_id: i.inspection_item_id,
+                      };
+                    } else if (i.inspection_item_id === dst.inspection_item_id) {
+                      return {
+                        ...src,
+                        inspection_item_id: i.inspection_item_id,
+                      }
+                    } else {
+                      return i;
+                    }
+                  }),
+                };
+              } else {
+                return e;
+              }
+            }),
+          };
+        }
+      }
+    }
     default:
       console.warn(`unknown type ${action.type}`);
       return state;
