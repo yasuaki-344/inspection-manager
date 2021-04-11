@@ -8,7 +8,47 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { InspectionItemContext } from '../context/InspectionItemContext';
-import { useInputTypes, InspectionItem } from '../Types';
+
+interface ItemRowProps {
+  equipmentId: string,
+  item: InspectionItem,
+  handleEditItem: (item: InspectionItem) => void,
+};
+
+const ItemRow = (props: ItemRowProps): JSX.Element => {
+  const context = useContext(InspectionSheetContext);
+
+  return (
+    <TableRow key={props.item.inspection_item_id}>
+      <TableCell>
+        <IconButton
+          size='small'
+          onClick={() => props.handleEditItem(props.item)}
+        >
+          <EditIcon />
+        </IconButton>
+      </TableCell>
+      <TableCell component='th' scope='row'>
+        {props.item.inspection_content}
+      </TableCell>
+      <TableCell>
+        {useInputTypes.filter(e => e.value === props.item.input_type)[0].label}
+      </TableCell>
+      <TableCell>
+        {props.item.choices.join(',')}
+      </TableCell>
+      <TableCell align='right'>
+        <IconButton color='primary' size='small'
+          onClick={() => context.removeInspectionItem(
+            props.equipmentId, props.item.inspection_item_id
+          )}
+        >
+          <CancelIcon />
+        </IconButton>
+      </TableCell>
+    </TableRow>
+  );
+};
 
 interface InspectionItemFormProps {
   equipmentId: string,
