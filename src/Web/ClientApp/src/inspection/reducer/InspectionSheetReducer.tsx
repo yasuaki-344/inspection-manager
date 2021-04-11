@@ -11,6 +11,8 @@ export const TYPES = {
   ADD_INSPECTION_ITEM: 'ADD_INSPECTION_ITEM',
   REMOVE_INSPECTION_ITEM: 'REMOVE_INSPECTION_ITEM',
   UPDATE_INSPECTION_ITEM: 'UPDATE_INSPECTION_ITEM',
+  ORDER_UP_INSPECTION_ITEM: 'ORDER_UP_INSPECTION_ITEM',
+  ORDER_DOWN_INSPECTION_ITEM: 'ORDER_DOWN_INSPECTION_ITEM',
 };
 
 export default function InspectionSheetReducer(state: InspectionSheet, action: InspectionSheetAction): any {
@@ -126,6 +128,12 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
           }
         }),
       };
+    case TYPES.ORDER_UP_INSPECTION_ITEM:
+      console.log('order up')
+      return state;
+    case TYPES.ORDER_DOWN_INSPECTION_ITEM:
+      console.log('order down')
+      return state;
     default:
       console.warn(`unknown type ${action.type}`);
       return state;
@@ -216,6 +224,32 @@ export const updateInspectionItemAction = (
     payload: {
       equipment_id: id,
       inspection_item: item,
+    }
+  }
+};
+
+export const orderUpInspectionItemAction = (
+  id: string,
+  itemId: string
+): InspectionSheetAction => {
+  return {
+    type: TYPES.ORDER_UP_INSPECTION_ITEM,
+    payload: {
+      equipment_id: id,
+      inspection_item_id: itemId,
+    }
+  }
+};
+
+export const orderDownInspectionItemAction = (
+  id: string,
+  itemId: string
+): InspectionSheetAction => {
+  return {
+    type: TYPES.ORDER_DOWN_INSPECTION_ITEM,
+    payload: {
+      equipment_id: id,
+      inspection_item_id: itemId,
     }
   }
 };

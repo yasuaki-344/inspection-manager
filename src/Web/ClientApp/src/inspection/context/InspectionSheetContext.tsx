@@ -13,4 +13,6 @@ export const InspectionSheetContext = createContext<InspectionSheetContextType>(
   addInspectionItem: (id: string, item: InspectionItem): void => { },
   removeInspectionItem: (id: string, itemId: string): void => { },
   updateInspectionItem: (id: string, item: InspectionItem): void => { },
+  orderUpInspectionItem: (id: string, itemId: string): void => { },
+  orderDownInspectionItem: (id: string, itemId: string): void => { },
 });
