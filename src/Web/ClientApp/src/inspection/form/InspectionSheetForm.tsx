@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { DndProvider } from "react-dnd"
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   BottomNavigation, BottomNavigationAction,
@@ -88,7 +90,7 @@ export const InspectionSheetForm = (props: InspectionSheetFormProps): JSX.Elemen
     : <></>;
 
   return (
-    <>
+    <DndProvider backend={HTML5Backend}>
       <Paper variant="outlined">
         <Grid container spacing={1}>
           <Grid item xs={12}>
@@ -173,7 +175,7 @@ export const InspectionSheetForm = (props: InspectionSheetFormProps): JSX.Elemen
         handleClose={() => setOpen(false)}
         handleInspectionItem={handleInspectionItem}
       />
-    </>
+    </DndProvider>
   );
 }
 InspectionSheetForm.displayName = InspectionSheetForm.name;
