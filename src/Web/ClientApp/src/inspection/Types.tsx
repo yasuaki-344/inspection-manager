@@ -1,3 +1,7 @@
+export const ItemType = {
+  EQUIPMENT: 'EQUIPMENT',
+};
+
 export const useInputTypes = [
   { value: 0, label: "テキスト入力" },
   { value: 1, label: "数値入力" },
@@ -51,6 +55,7 @@ export type InspectionSheetAction = {
     value?: string;
     equipment_id?: string;
     inspection_item_id?: string;
+    swap_id?: string;
     sheet?: InspectionSheet;
     inspection_item?: InspectionItem;
   };
@@ -73,7 +78,10 @@ export interface InspectionSheetContextType {
   addEquipment: () => void;
   removeEquipment: (id: string) => void;
   updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: string) => void;
+  swapEquipment: (srdId: string, dstId: string) => void,
   addInspectionItem: (id: string, item: InspectionItem) => void;
   removeInspectionItem: (id: string, itemId: string) => void;
   updateInspectionItem: (id: string, item: InspectionItem) => void;
+  orderUpInspectionItem: (id: string, itemId: string) => void;
+  orderDownInspectionItem: (id: string, itemId: string) => void;
 };

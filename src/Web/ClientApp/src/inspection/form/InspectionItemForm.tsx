@@ -4,11 +4,69 @@ import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { InspectionItemContext } from '../context/InspectionItemContext';
 import { useInputTypes, InspectionItem } from '../Types';
+
+interface ItemRowProps {
+  equipmentId: string,
+  item: InspectionItem,
+  handleEditItem: (item: InspectionItem) => void,
+};
+
+const ItemRow = (props: ItemRowProps): JSX.Element => {
+  const context = useContext(InspectionSheetContext);
+  return (
+    <TableRow key={props.item.inspection_item_id}>
+      <TableCell>
+        <IconButton
+          size='small'
+          onClick={() => props.handleEditItem(props.item)}
+        >
+          <EditIcon />
+        </IconButton>
+      </TableCell>
+      <TableCell component='th' scope='row'>
+        {props.item.inspection_content}
+      </TableCell>
+      <TableCell>
+        {useInputTypes.filter(e => e.value === props.item.input_type)[0].label}
+      </TableCell>
+      <TableCell>
+        {props.item.choices.join(',')}
+      </TableCell>
+      <TableCell padding='checkbox'>
+        <IconButton
+          size='small'
+          onClick={() => context.orderUpInspectionItem(props.equipmentId, props.item.inspection_item_id)}
+        >
+          <ArrowDropUpIcon />
+        </IconButton>
+      </TableCell>
+      <TableCell padding='checkbox'>
+        <IconButton
+          size='small'
+          onClick={() => context.orderDownInspectionItem(props.equipmentId, props.item.inspection_item_id)}
+        >
+          <ArrowDropDownIcon />
+        </IconButton>
+      </TableCell>
+      <TableCell padding='checkbox'>
+        <IconButton color='primary' size='small'
+          onClick={() => context.removeInspectionItem(
+            props.equipmentId, props.item.inspection_item_id
+          )}
+        >
+          <CancelIcon />
+        </IconButton>
+      </TableCell>
+    </TableRow>
+  );
+};
 
 interface InspectionItemFormProps {
   equipmentId: string,
@@ -19,7 +77,6 @@ interface InspectionItemFormProps {
 };
 
 export const InspectionItemForm = (props: InspectionItemFormProps): JSX.Element => {
-  const context = useContext(InspectionSheetContext);
   const itemContext = useContext(InspectionItemContext);
 
   /**
@@ -58,38 +115,18 @@ export const InspectionItemForm = (props: InspectionItemFormProps): JSX.Element 
               <TableCell>点検タイプ</TableCell>
               <TableCell>選択肢</TableCell>
               <TableCell />
+              <TableCell />
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
             {props.inspectionItems.map((item: InspectionItem) =>
-              <TableRow key={item.inspection_item_id}>
-                <TableCell>
-                  <IconButton
-                    size='small'
-                    onClick={() => handleEditItem(item)}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                </TableCell>
-                <TableCell component='th' scope='row'>
-                  {item.inspection_content}
-                </TableCell>
-                <TableCell>
-                  {useInputTypes.filter(e => e.value === item.input_type)[0].label}
-                </TableCell>
-                <TableCell>
-                  {item.choices.join(',')}
-                </TableCell>
-                <TableCell align='right'>
-                  <IconButton color='primary' size='small'
-                    onClick={() => context.removeInspectionItem(
-                      props.equipmentId, item.inspection_item_id
-                    )}
-                  >
-                    <CancelIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
+              <ItemRow
+                key={item.inspection_item_id}
+                equipmentId={props.equipmentId}
+                item={item}
+                handleEditItem={handleEditItem}
+              />
             )}
           </TableBody>
         </Table>

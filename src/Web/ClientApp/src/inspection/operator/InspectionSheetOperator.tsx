@@ -2,8 +2,9 @@ import React, { useReducer } from 'react';
 import { InspectionItem, InspectionSheet, InspectionSheetContextType } from '../Types';
 import InspectionSheetReducer, {
   setSheetAction, updateFieldAction,
-  addEquipmentAction, removeEquipmentAction, updateEquipmentAction,
+  addEquipmentAction, removeEquipmentAction, updateEquipmentAction, swapEquipmentAction,
   addInspectionItemAction, removeInspectionItemAction, updateInspectionItemAction,
+  orderUpInspectionItemAction, orderDownInspectionItemAction,
 } from '../reducer/InspectionSheetReducer';
 
 /**
@@ -30,6 +31,7 @@ export const InspectionSheetOperator = (): InspectionSheetContextType => {
     removeEquipment: (id: string): void => dispatch(removeEquipmentAction(id)),
     updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: string): void =>
       dispatch(updateEquipmentAction(event, id)),
+    swapEquipment: (srcId: string, dstId: string): void => dispatch(swapEquipmentAction(srcId, dstId)),
     addInspectionItem: (id: string, item: InspectionItem): void =>
       dispatch(addInspectionItemAction(id, item)),
     removeInspectionItem: (id: string, itemId: string): void =>
@@ -39,5 +41,9 @@ export const InspectionSheetOperator = (): InspectionSheetContextType => {
       item: InspectionItem
     ): void =>
       dispatch(updateInspectionItemAction(id, item)),
+    orderUpInspectionItem: (id: string, itemId: string) =>
+      dispatch(orderUpInspectionItemAction(id, itemId)),
+    orderDownInspectionItem: (id: string, itemId: string) =>
+      dispatch(orderDownInspectionItemAction(id, itemId)),
   };
 }
