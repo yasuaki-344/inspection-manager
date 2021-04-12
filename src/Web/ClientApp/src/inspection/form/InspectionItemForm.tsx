@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
+import { useDrag, useDrop } from 'react-dnd';
 import {
   BottomNavigation, BottomNavigationAction, IconButton, Paper,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow
@@ -9,7 +10,7 @@ import DragHandleIcon from '@material-ui/icons/DragHandle';
 import EditIcon from '@material-ui/icons/Edit';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { InspectionItemContext } from '../context/InspectionItemContext';
-import { useInputTypes, InspectionItem } from '../Types';
+import { useInputTypes, InspectionItem, ItemType } from '../Types';
 
 interface ItemRowProps {
   equipmentId: string,
@@ -19,9 +20,27 @@ interface ItemRowProps {
 
 const ItemRow = (props: ItemRowProps): JSX.Element => {
   const context = useContext(InspectionSheetContext);
+  const dropRef = useRef(null);
+  const dragRef = useRef(null);
+
+  const [, drop] = useDrop({
+    accept: ItemType.INSPECTION_ITEM,
+    drop(item: any) {
+      console.log('execute drop');
+    }
+  })
+
+  const [, drag] = useDrag({
+    type: ItemType.INSPECTION_ITEM,
+    item: { type: ItemType.INSPECTION_ITEM },
+  })
+
+  drop(dropRef);
+  drag(dragRef);
+
   return (
-    <TableRow key={props.item.inspection_item_id}>
-      <TableCell padding='checkbox'>
+    <TableRow key={props.item.inspection_item_id} ref={dropRef}>
+      <TableCell padding='checkbox' ref={dragRef}>
         <IconButton
           size='small'
         >
@@ -100,7 +119,7 @@ export const InspectionItemForm = (props: InspectionItemFormProps): JSX.Element 
         <Table aria-label='collapsible table'>
           <TableHead>
             <TableRow>
-            <TableCell />
+              <TableCell />
               <TableCell />
               <TableCell>点検項目</TableCell>
               <TableCell>点検タイプ</TableCell>
