@@ -4,9 +4,8 @@ import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import CancelIcon from '@material-ui/icons/Cancel';
+import DragHandleIcon from '@material-ui/icons/DragHandle';
 import EditIcon from '@material-ui/icons/Edit';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { InspectionItemContext } from '../context/InspectionItemContext';
@@ -22,7 +21,14 @@ const ItemRow = (props: ItemRowProps): JSX.Element => {
   const context = useContext(InspectionSheetContext);
   return (
     <TableRow key={props.item.inspection_item_id}>
-      <TableCell>
+      <TableCell padding='checkbox'>
+        <IconButton
+          size='small'
+        >
+          <DragHandleIcon />
+        </IconButton>
+      </TableCell>
+      <TableCell padding='checkbox'>
         <IconButton
           size='small'
           onClick={() => props.handleEditItem(props.item)}
@@ -38,22 +44,6 @@ const ItemRow = (props: ItemRowProps): JSX.Element => {
       </TableCell>
       <TableCell>
         {props.item.choices.join(',')}
-      </TableCell>
-      <TableCell padding='checkbox'>
-        <IconButton
-          size='small'
-          onClick={() => context.orderUpInspectionItem(props.equipmentId, props.item.inspection_item_id)}
-        >
-          <ArrowDropUpIcon />
-        </IconButton>
-      </TableCell>
-      <TableCell padding='checkbox'>
-        <IconButton
-          size='small'
-          onClick={() => context.orderDownInspectionItem(props.equipmentId, props.item.inspection_item_id)}
-        >
-          <ArrowDropDownIcon />
-        </IconButton>
       </TableCell>
       <TableCell padding='checkbox'>
         <IconButton color='primary' size='small'
@@ -110,12 +100,11 @@ export const InspectionItemForm = (props: InspectionItemFormProps): JSX.Element 
         <Table aria-label='collapsible table'>
           <TableHead>
             <TableRow>
+            <TableCell />
               <TableCell />
               <TableCell>点検項目</TableCell>
               <TableCell>点検タイプ</TableCell>
               <TableCell>選択肢</TableCell>
-              <TableCell />
-              <TableCell />
               <TableCell />
             </TableRow>
           </TableHead>
