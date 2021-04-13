@@ -5,6 +5,7 @@ import {
   Accordion, AccordionSummary, AccordionDetails, IconButton,
   Grid, Paper, TextField,
 } from '@material-ui/core';
+import DragHandleIcon from '@material-ui/icons/DragHandle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { InspectionItemForm } from './InspectionItemForm';
@@ -37,30 +38,37 @@ interface EquipmentFormProps {
 export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
   const classes = useStyles();
   const context = useContext(InspectionSheetContext);
+  const dropRef = useRef(null);
+  const dragRef = useRef(null);
 
-  const ref = useRef<HTMLLIElement>(null)
   const [, drop] = useDrop({
     accept: ItemType.EQUIPMENT,
     drop(item: any) {
-      if (!ref.current || item.id === props.equipment.equipment_id) {
+      if (!dropRef.current || item.id === props.equipment.equipment_id) {
         return;
       }
       context.swapEquipment(props.equipment.equipment_id, item.id);
     }
   })
-  const [, drag] = useDrag({
+  const [, drag, preview] = useDrag({
     type: ItemType.EQUIPMENT,
     item: { id: props.equipment.equipment_id },
   })
-  drag(drop(ref));
+  preview(drop(dropRef));
+  drag(dragRef);
 
   return (
-    <Paper variant='outlined' ref={ref}>
+    <Paper variant='outlined' >
       <Accordion>
         <AccordionSummary
           className={classes.equipmentLabel}
           expandIcon={<ExpandMoreIcon className={classes.menuIcon} />}
+          ref={dropRef}
         >
+          <IconButton size='small' color='inherit' ref={dragRef}>
+            <DragHandleIcon />
+          </IconButton>
+          <div>{props.equipment.equipment_name}</div>
           <IconButton
             size='small'
             color='inherit'
@@ -68,7 +76,6 @@ export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
           >
             <CancelIcon />
           </IconButton>
-          <div>{props.equipment.equipment_name}</div>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container>
