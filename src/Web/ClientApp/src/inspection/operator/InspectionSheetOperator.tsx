@@ -4,7 +4,7 @@ import InspectionSheetReducer, {
   setSheetAction, updateFieldAction,
   addEquipmentAction, removeEquipmentAction, updateEquipmentAction, swapEquipmentAction,
   addInspectionItemAction, removeInspectionItemAction, updateInspectionItemAction,
-  orderUpInspectionItemAction, orderDownInspectionItemAction,
+  swapInspectionItemAction,
 } from '../reducer/InspectionSheetReducer';
 
 /**
@@ -41,9 +41,7 @@ export const InspectionSheetOperator = (): InspectionSheetContextType => {
       item: InspectionItem
     ): void =>
       dispatch(updateInspectionItemAction(id, item)),
-    orderUpInspectionItem: (id: string, itemId: string) =>
-      dispatch(orderUpInspectionItemAction(id, itemId)),
-    orderDownInspectionItem: (id: string, itemId: string) =>
-      dispatch(orderDownInspectionItemAction(id, itemId)),
+    swapInspectionItem: (equipmentId: string, srcId: string, dstId: string) =>
+      dispatch(swapInspectionItemAction(equipmentId, srcId, dstId)),
   };
 }

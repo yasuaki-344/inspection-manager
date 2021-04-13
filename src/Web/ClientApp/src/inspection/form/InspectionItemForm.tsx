@@ -30,7 +30,7 @@ const ItemRow = (props: ItemRowProps): JSX.Element => {
         item.itemId === props.item.inspection_item_id) {
         return;
       }
-      console.log('execute drop');
+      context.swapInspectionItem(props.equipmentId, props.item.inspection_item_id, item.itemId);
     }
   })
 
