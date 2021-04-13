@@ -34,7 +34,7 @@ const ItemRow = (props: ItemRowProps): JSX.Element => {
     }
   })
 
-  const [, drag] = useDrag({
+  const [{ isDragging }, drag, preview] = useDrag({
     type: ItemType.INSPECTION_ITEM,
     item: {
       equipmentId: props.equipmentId,
@@ -42,11 +42,13 @@ const ItemRow = (props: ItemRowProps): JSX.Element => {
     },
   })
 
-  drop(dropRef);
+
+  preview(drop(dropRef));
   drag(dragRef);
 
+  const opacity = isDragging ? 0 : 1;
   return (
-    <TableRow key={props.item.inspection_item_id} ref={dropRef}>
+    <TableRow key={props.item.inspection_item_id} ref={dropRef} style={{ opacity }}>
       <TableCell padding='checkbox' ref={dragRef}>
         <IconButton
           size='small'
