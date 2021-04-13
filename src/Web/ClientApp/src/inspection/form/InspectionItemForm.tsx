@@ -26,13 +26,20 @@ const ItemRow = (props: ItemRowProps): JSX.Element => {
   const [, drop] = useDrop({
     accept: ItemType.INSPECTION_ITEM,
     drop(item: any) {
+      if (!dropRef.current || item.equipmentId !== props.equipmentId ||
+        item.itemId === props.item.inspection_item_id) {
+        return;
+      }
       console.log('execute drop');
     }
   })
 
   const [, drag] = useDrag({
     type: ItemType.INSPECTION_ITEM,
-    item: { type: ItemType.INSPECTION_ITEM },
+    item: {
+      equipmentId: props.equipmentId,
+      itemId: props.item.inspection_item_id
+    },
   })
 
   drop(dropRef);
