@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
+import { useDrag, useDrop } from 'react-dnd';
 import {
   BottomNavigation, BottomNavigationAction, IconButton, Paper,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import CancelIcon from '@material-ui/icons/Cancel';
+import DragHandleIcon from '@material-ui/icons/DragHandle';
 import EditIcon from '@material-ui/icons/Edit';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { InspectionItemContext } from '../context/InspectionItemContext';
-import { useInputTypes, InspectionItem } from '../Types';
+import { useInputTypes, InspectionItem, ItemType } from '../Types';
 
 interface ItemRowProps {
   equipmentId: string,
@@ -20,9 +20,42 @@ interface ItemRowProps {
 
 const ItemRow = (props: ItemRowProps): JSX.Element => {
   const context = useContext(InspectionSheetContext);
+  const dropRef = useRef(null);
+  const dragRef = useRef(null);
+
+  const [, drop] = useDrop({
+    accept: ItemType.INSPECTION_ITEM,
+    drop(item: any) {
+      if (!dropRef.current || item.equipmentId !== props.equipmentId ||
+        item.itemId === props.item.inspection_item_id) {
+        return;
+      }
+      context.swapInspectionItem(props.equipmentId, props.item.inspection_item_id, item.itemId);
+    },
+  })
+
+  const [, drag, preview] = useDrag({
+    type: ItemType.INSPECTION_ITEM,
+    item: {
+      equipmentId: props.equipmentId,
+      itemId: props.item.inspection_item_id
+    },
+  })
+
+
+  preview(drop(dropRef));
+  drag(dragRef);
+
   return (
-    <TableRow key={props.item.inspection_item_id}>
-      <TableCell>
+    <TableRow key={props.item.inspection_item_id} ref={dropRef}>
+      <TableCell padding='checkbox' ref={dragRef}>
+        <IconButton
+          size='small'
+        >
+          <DragHandleIcon />
+        </IconButton>
+      </TableCell>
+      <TableCell padding='checkbox'>
         <IconButton
           size='small'
           onClick={() => props.handleEditItem(props.item)}
@@ -38,22 +71,6 @@ const ItemRow = (props: ItemRowProps): JSX.Element => {
       </TableCell>
       <TableCell>
         {props.item.choices.join(',')}
-      </TableCell>
-      <TableCell padding='checkbox'>
-        <IconButton
-          size='small'
-          onClick={() => context.orderUpInspectionItem(props.equipmentId, props.item.inspection_item_id)}
-        >
-          <ArrowDropUpIcon />
-        </IconButton>
-      </TableCell>
-      <TableCell padding='checkbox'>
-        <IconButton
-          size='small'
-          onClick={() => context.orderDownInspectionItem(props.equipmentId, props.item.inspection_item_id)}
-        >
-          <ArrowDropDownIcon />
-        </IconButton>
       </TableCell>
       <TableCell padding='checkbox'>
         <IconButton color='primary' size='small'
@@ -111,11 +128,10 @@ export const InspectionItemForm = (props: InspectionItemFormProps): JSX.Element 
           <TableHead>
             <TableRow>
               <TableCell />
+              <TableCell />
               <TableCell>点検項目</TableCell>
               <TableCell>点検タイプ</TableCell>
               <TableCell>選択肢</TableCell>
-              <TableCell />
-              <TableCell />
               <TableCell />
             </TableRow>
           </TableHead>

@@ -11,8 +11,7 @@ export const TYPES = {
   ADD_INSPECTION_ITEM: 'ADD_INSPECTION_ITEM',
   REMOVE_INSPECTION_ITEM: 'REMOVE_INSPECTION_ITEM',
   UPDATE_INSPECTION_ITEM: 'UPDATE_INSPECTION_ITEM',
-  ORDER_UP_INSPECTION_ITEM: 'ORDER_UP_INSPECTION_ITEM',
-  ORDER_DOWN_INSPECTION_ITEM: 'ORDER_DOWN_INSPECTION_ITEM',
+  SWAP_INSPECTION_ITEM: 'SWAP_INSPECTION_ITEM',
 };
 
 export default function InspectionSheetReducer(state: InspectionSheet, action: InspectionSheetAction): any {
@@ -128,18 +127,16 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
           }
         }),
       };
-    case TYPES.ORDER_UP_INSPECTION_ITEM: {
+    case TYPES.SWAP_INSPECTION_ITEM: {
       const equipment = state.equipments.find(e => e.equipment_id === action.payload?.equipment_id);
       if (equipment == null) {
         return state;
       } else {
-        const targetIndex = equipment.inspection_items
-          .findIndex(i => i.inspection_item_id === action.payload?.inspection_item_id)
-        if (targetIndex === 0) {
-          return state;
-        } else {
-          const src = equipment.inspection_items[targetIndex];
-          const dst = equipment.inspection_items[targetIndex - 1];
+        const srcItem = equipment.inspection_items
+          .find(x => x.inspection_item_id === action.payload?.inspection_item_id);
+        const dstItem = equipment.inspection_items
+          .find(x => x.inspection_item_id === action.payload?.swap_id);
+        if (srcItem != null && dstItem != null) {
           return {
             ...state,
             equipments: state.equipments.map(e => {
@@ -147,14 +144,14 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
                 return {
                   ...e,
                   inspection_items: e.inspection_items.map(i => {
-                    if (i.inspection_item_id === src.inspection_item_id) {
+                    if (i.inspection_item_id === srcItem.inspection_item_id) {
                       return {
-                        ...dst,
+                        ...dstItem,
                         inspection_item_id: i.inspection_item_id,
                       };
-                    } else if (i.inspection_item_id === dst.inspection_item_id) {
+                    } else if (i.inspection_item_id === dstItem.inspection_item_id) {
                       return {
-                        ...src,
+                        ...srcItem,
                         inspection_item_id: i.inspection_item_id,
                       }
                     } else {
@@ -167,48 +164,8 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
               }
             }),
           };
-        }
-      }
-    }
-    case TYPES.ORDER_DOWN_INSPECTION_ITEM: {
-      const equipment = state.equipments.find(e => e.equipment_id === action.payload?.equipment_id);
-      if (equipment == null) {
-        return state;
-      } else {
-        const targetIndex = equipment.inspection_items
-          .findIndex(i => i.inspection_item_id === action.payload?.inspection_item_id)
-        if (targetIndex === equipment.inspection_items.length - 1) {
-          return state;
         } else {
-          const src = equipment.inspection_items[targetIndex];
-          const dst = equipment.inspection_items[targetIndex + 1];
-          return {
-            ...state,
-            equipments: state.equipments.map(e => {
-              if (e.equipment_id === equipment.equipment_id) {
-                return {
-                  ...e,
-                  inspection_items: e.inspection_items.map(i => {
-                    if (i.inspection_item_id === src.inspection_item_id) {
-                      return {
-                        ...dst,
-                        inspection_item_id: i.inspection_item_id,
-                      };
-                    } else if (i.inspection_item_id === dst.inspection_item_id) {
-                      return {
-                        ...src,
-                        inspection_item_id: i.inspection_item_id,
-                      }
-                    } else {
-                      return i;
-                    }
-                  }),
-                };
-              } else {
-                return e;
-              }
-            }),
-          };
+          return state;
         }
       }
     }
@@ -306,28 +263,17 @@ export const updateInspectionItemAction = (
   }
 };
 
-export const orderUpInspectionItemAction = (
-  id: string,
-  itemId: string
+export const swapInspectionItemAction = (
+  equipmentId: string,
+  srcId: string,
+  dstId: string
 ): InspectionSheetAction => {
   return {
-    type: TYPES.ORDER_UP_INSPECTION_ITEM,
+    type: TYPES.SWAP_INSPECTION_ITEM,
     payload: {
-      equipment_id: id,
-      inspection_item_id: itemId,
-    }
-  }
-};
-
-export const orderDownInspectionItemAction = (
-  id: string,
-  itemId: string
-): InspectionSheetAction => {
-  return {
-    type: TYPES.ORDER_DOWN_INSPECTION_ITEM,
-    payload: {
-      equipment_id: id,
-      inspection_item_id: itemId,
+      equipment_id: equipmentId,
+      inspection_item_id: srcId,
+      swap_id: dstId,
     }
   }
 };
