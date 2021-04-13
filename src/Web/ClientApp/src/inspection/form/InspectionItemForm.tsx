@@ -31,10 +31,10 @@ const ItemRow = (props: ItemRowProps): JSX.Element => {
         return;
       }
       context.swapInspectionItem(props.equipmentId, props.item.inspection_item_id, item.itemId);
-    }
+    },
   })
 
-  const [{ isDragging }, drag, preview] = useDrag({
+  const [, drag, preview] = useDrag({
     type: ItemType.INSPECTION_ITEM,
     item: {
       equipmentId: props.equipmentId,
@@ -46,9 +46,8 @@ const ItemRow = (props: ItemRowProps): JSX.Element => {
   preview(drop(dropRef));
   drag(dragRef);
 
-  const opacity = isDragging ? 0 : 1;
   return (
-    <TableRow key={props.item.inspection_item_id} ref={dropRef} style={{ opacity }}>
+    <TableRow key={props.item.inspection_item_id} ref={dropRef}>
       <TableCell padding='checkbox' ref={dragRef}>
         <IconButton
           size='small'

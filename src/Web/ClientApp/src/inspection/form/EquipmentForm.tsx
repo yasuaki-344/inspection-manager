@@ -50,7 +50,7 @@ export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
   })
   const [, drag] = useDrag({
     type: ItemType.EQUIPMENT,
-    item: { type: ItemType.EQUIPMENT, id: props.equipment.equipment_id },
+    item: { id: props.equipment.equipment_id },
   })
   drag(drop(ref));
 
