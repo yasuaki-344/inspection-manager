@@ -1,39 +1,44 @@
-import React, { useContext, useRef } from 'react';
+import React, { FC, useContext, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { IconButton, TableCell, TableRow } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import EditIcon from '@material-ui/icons/Edit';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
-import { useInputTypes, InspectionItem, ItemType } from '../Types';
+import { useInputTypes, InspectionItem, InspectionSheetContextType, ItemType  } from '../Types';
+
+interface DragItem {
+  equipmentId: string;
+  itemId: string;
+};
 
 interface InspectionItemRowProps {
   equipmentId: string,
-  item: InspectionItem,
+  inspectionItem: InspectionItem,
   handleEditItem: (item: InspectionItem) => void,
 };
 
-export const InspectionItemRow = (props: InspectionItemRowProps): JSX.Element => {
-  const context = useContext(InspectionSheetContext);
-  const dropRef = useRef(null);
-  const dragRef = useRef(null);
+export const InspectionItemRow: FC<InspectionItemRowProps> = ({ equipmentId, inspectionItem, handleEditItem }): JSX.Element => {
+  const context = useContext<InspectionSheetContextType>(InspectionSheetContext);
+  const dropRef = useRef<HTMLTableRowElement>(null);
+  const dragRef = useRef<HTMLTableCellElement>(null);
 
   const [, drop] = useDrop({
     accept: ItemType.INSPECTION_ITEM,
-    drop(item: any) {
-      if (!dropRef.current || item.equipmentId !== props.equipmentId ||
-        item.itemId === props.item.inspection_item_id) {
+    drop(item: DragItem) {
+      if (!dropRef.current || item.equipmentId !== equipmentId ||
+        item.itemId === inspectionItem.inspection_item_id) {
         return;
       }
-      context.swapInspectionItem(props.equipmentId, props.item.inspection_item_id, item.itemId);
+      context.swapInspectionItem(equipmentId, inspectionItem.inspection_item_id, item.itemId);
     },
   })
 
   const [, drag, preview] = useDrag({
     type: ItemType.INSPECTION_ITEM,
     item: {
-      equipmentId: props.equipmentId,
-      itemId: props.item.inspection_item_id
+      equipmentId: equipmentId,
+      itemId: inspectionItem.inspection_item_id
     },
   })
 
@@ -41,7 +46,7 @@ export const InspectionItemRow = (props: InspectionItemRowProps): JSX.Element =>
   drag(dragRef);
 
   return (
-    <TableRow key={props.item.inspection_item_id} ref={dropRef}>
+    <TableRow key={inspectionItem.inspection_item_id} ref={dropRef}>
       <TableCell padding='checkbox' ref={dragRef}>
         <IconButton
           size='small'
@@ -52,25 +57,23 @@ export const InspectionItemRow = (props: InspectionItemRowProps): JSX.Element =>
       <TableCell padding='checkbox'>
         <IconButton
           size='small'
-          onClick={() => props.handleEditItem(props.item)}
+          onClick={() => handleEditItem(inspectionItem)}
         >
           <EditIcon />
         </IconButton>
       </TableCell>
       <TableCell component='th' scope='row'>
-        {props.item.inspection_content}
+        {inspectionItem.inspection_content}
       </TableCell>
       <TableCell>
-        {useInputTypes.filter(e => e.value === props.item.input_type)[0].label}
+        {useInputTypes.filter(e => e.value === inspectionItem.input_type)[0].label}
       </TableCell>
       <TableCell>
-        {props.item.choices.join(',')}
+        {inspectionItem.choices.join(',')}
       </TableCell>
       <TableCell padding='checkbox'>
         <IconButton color='primary' size='small'
-          onClick={() => context.removeInspectionItem(
-            props.equipmentId, props.item.inspection_item_id
-          )}
+          onClick={() => context.removeInspectionItem(equipmentId, inspectionItem.inspection_item_id)}
         >
           <CancelIcon />
         </IconButton>

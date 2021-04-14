@@ -63,7 +63,7 @@ export const InspectionItemForm = (props: InspectionItemFormProps): JSX.Element 
               <InspectionItemRow
                 key={item.inspection_item_id}
                 equipmentId={props.equipmentId}
-                item={item}
+                inspectionItem={item}
                 handleEditItem={handleEditItem}
               />
             )}
