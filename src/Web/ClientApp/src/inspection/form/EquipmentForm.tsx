@@ -10,11 +10,8 @@ import DragHandleIcon from '@material-ui/icons/DragHandle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { InspectionItemForm } from './InspectionItemForm';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
-import { InspectionItemContext } from '../context/InspectionItemContext';
 import {
-  Equipment, ItemType, InspectionItem,
-  InspectionSheetContextType, InspectionItemContextType
-
+  Equipment, ItemType, InspectionItem, InspectionSheetContextType
 } from '../Types';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,20 +36,17 @@ interface DragItem {
 
 interface EquipmentFormProps {
   equipment: Equipment,
-  setEquipmentId: React.Dispatch<React.SetStateAction<string>>,
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>,
-  setAdditional: React.Dispatch<React.SetStateAction<boolean>>,
+  handleAddItem: (equipmentId: string) => void,
+  handleEditItem: (equipmentId: string, inspectionItem: InspectionItem) => void,
 };
 
 export const EquipmentForm: FC<EquipmentFormProps> = ({
   equipment,
-  setEquipmentId,
-  setOpen,
-  setAdditional,
+  handleAddItem,
+  handleEditItem
 }): JSX.Element => {
   const classes = useStyles();
   const context = useContext<InspectionSheetContextType>(InspectionSheetContext);
-  const itemContext = useContext<InspectionItemContextType>(InspectionItemContext);
   const dropRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<HTMLButtonElement>(null);
 
@@ -71,31 +65,6 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
   })
   preview(drop(dropRef));
   drag(dragRef);
-
-  /**
-   * Implements the process for editing inspection item.
-   */
-  const handleEditItem = (equipmentId: string, inspectionItem: InspectionItem) => {
-    setEquipmentId(equipmentId);
-    setAdditional(false);
-    itemContext.setItem(inspectionItem);
-    setOpen(true);
-  }
-
-  /**
-   * Implements the process for adding inspection item.
-   */
-  const handleAddItem = (equipmentId: string) => {
-    setEquipmentId(equipmentId);
-    setAdditional(true);
-    itemContext.setItem({
-      inspection_item_id: Math.random().toString(36).substr(2, 9),
-      inspection_content: '',
-      input_type: 1,
-      choices: [],
-    })
-    setOpen(true);
-  };
 
   return (
     <Paper variant='outlined' >

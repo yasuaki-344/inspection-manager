@@ -11,7 +11,7 @@ import { EquipmentForm } from './EquipmentForm';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { InspectionItemContext } from '../context/InspectionItemContext';
-import { Equipment } from '../Types';
+import { Equipment, InspectionItem } from '../Types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -153,9 +153,29 @@ export const InspectionSheetForm = (props: InspectionSheetFormProps): JSX.Elemen
             <Grid item xs={12} key={equipment.equipment_id}>
               <EquipmentForm
                 equipment={equipment}
-                setEquipmentId={setEquipmentId}
-                setOpen={setOpen}
-                setAdditional={setAdditional}
+                handleAddItem={(equipmentId: string) => {
+                  /**
+                   * Implements the process for adding inspection item.
+                   */
+                   setEquipmentId(equipmentId);
+                   setAdditional(true);
+                   itemContext.setItem({
+                     inspection_item_id: Math.random().toString(36).substr(2, 9),
+                     inspection_content: '',
+                     input_type: 1,
+                     choices: [],
+                   })
+                   setOpen(true);
+                }}
+                handleEditItem={(equipmentId: string, inspectionItem: InspectionItem) => {
+                  /**
+                   * Implements the process for editing inspection item.
+                   */
+                  setEquipmentId(equipmentId);
+                  setAdditional(false);
+                  itemContext.setItem(inspectionItem);
+                  setOpen(true);
+                }}
               />
             </Grid>
           )}
