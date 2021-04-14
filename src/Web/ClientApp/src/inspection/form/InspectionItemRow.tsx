@@ -8,8 +8,8 @@ import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { useInputTypes, InspectionItem, InspectionSheetContextType, ItemType  } from '../Types';
 
 interface DragItem {
-  equipmentId: string;
-  itemId: string;
+  equipmentId: string,
+  itemId: string,
 };
 
 interface InspectionItemRowProps {

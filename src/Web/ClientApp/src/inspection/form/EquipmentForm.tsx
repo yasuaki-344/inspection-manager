@@ -1,17 +1,21 @@
-import React, { useRef, useContext } from 'react';
+import React, { FC, useRef, useContext } from 'react';
 import { useDrag, useDrop } from "react-dnd";
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   Accordion, AccordionSummary, AccordionDetails, IconButton,
   Grid, Paper, TextField,
 } from '@material-ui/core';
+import CancelIcon from '@material-ui/icons/Cancel';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import CancelIcon from '@material-ui/icons/Cancel';
 import { InspectionItemForm } from './InspectionItemForm';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { InspectionItemContext } from '../context/InspectionItemContext';
-import { Equipment, ItemType, InspectionItem } from '../Types';
+import {
+  Equipment, ItemType, InspectionItem,
+  InspectionSheetContextType, InspectionItemContextType
+
+} from '../Types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,6 +33,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+interface DragItem {
+  id: string,
+};
+
 interface EquipmentFormProps {
   equipment: Equipment,
   setEquipmentId: React.Dispatch<React.SetStateAction<string>>,
@@ -36,28 +44,58 @@ interface EquipmentFormProps {
   setAdditional: React.Dispatch<React.SetStateAction<boolean>>,
 };
 
-export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
+export const EquipmentForm: FC<EquipmentFormProps> = ({
+  equipment,
+  setEquipmentId,
+  setOpen,
+  setAdditional,
+}): JSX.Element => {
   const classes = useStyles();
-  const context = useContext(InspectionSheetContext);
-  const itemContext = useContext(InspectionItemContext);
-  const dropRef = useRef(null);
-  const dragRef = useRef(null);
+  const context = useContext<InspectionSheetContextType>(InspectionSheetContext);
+  const itemContext = useContext<InspectionItemContextType>(InspectionItemContext);
+  const dropRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef<HTMLButtonElement>(null);
 
   const [, drop] = useDrop({
     accept: ItemType.EQUIPMENT,
-    drop(item: any) {
-      if (!dropRef.current || item.id === props.equipment.equipment_id) {
+    drop(item: DragItem) {
+      if (!dropRef.current || item.id === equipment.equipment_id) {
         return;
       }
-      context.swapEquipment(props.equipment.equipment_id, item.id);
+      context.swapEquipment(equipment.equipment_id, item.id);
     }
   })
   const [, drag, preview] = useDrag({
     type: ItemType.EQUIPMENT,
-    item: { id: props.equipment.equipment_id },
+    item: { id: equipment.equipment_id },
   })
   preview(drop(dropRef));
   drag(dragRef);
+
+  /**
+   * Implements the process for editing inspection item.
+   */
+  const handleEditItem = (equipmentId: string, inspectionItem: InspectionItem) => {
+    setEquipmentId(equipmentId);
+    setAdditional(false);
+    itemContext.setItem(inspectionItem);
+    setOpen(true);
+  }
+
+  /**
+   * Implements the process for adding inspection item.
+   */
+  const handleAddItem = (equipmentId: string) => {
+    setEquipmentId(equipmentId);
+    setAdditional(true);
+    itemContext.setItem({
+      inspection_item_id: Math.random().toString(36).substr(2, 9),
+      inspection_content: '',
+      input_type: 1,
+      choices: [],
+    })
+    setOpen(true);
+  };
 
   return (
     <Paper variant='outlined' >
@@ -70,11 +108,11 @@ export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
           <IconButton size='small' color='inherit' ref={dragRef}>
             <DragHandleIcon />
           </IconButton>
-          <div>{props.equipment.equipment_name}</div>
+          <div>{equipment.equipment_name}</div>
           <IconButton
             size='small'
             color='inherit'
-            onClick={() => context.removeEquipment(props.equipment.equipment_id)}
+            onClick={() => context.removeEquipment(equipment.equipment_id)}
           >
             <CancelIcon />
           </IconButton>
@@ -89,37 +127,18 @@ export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
                 variant='outlined'
                 size='small'
                 name='equipment_name'
-                value={props.equipment.equipment_name}
-                onChange={e => context.updateEquipment(e, props.equipment.equipment_id)}
+                value={equipment.equipment_name}
+                onChange={e => context.updateEquipment(e, equipment.equipment_id)}
               />
             </Grid>
             <Grid item xs={12}>
               <InspectionItemForm
-                equipmentId={props.equipment.equipment_id}
-                inspectionItems={props.equipment.inspection_items}
-                editInspectionItem={(inspectionItem: InspectionItem) => {
-                  /**
-                   * Implements the process for editing inspection item.
-                   */
-                  props.setEquipmentId(props.equipment.equipment_id);
-                  props.setAdditional(false);
-                  itemContext.setItem(inspectionItem);
-                  props.setOpen(true);
-                }}
-                addInspectionItem={() => {
-                  /**
-                   * Implements the process for adding inspection item.
-                   */
-                  props.setEquipmentId(props.equipment.equipment_id);
-                  props.setAdditional(true);
-                  itemContext.setItem({
-                    inspection_item_id: Math.random().toString(36).substr(2, 9),
-                    inspection_content: '',
-                    input_type: 1,
-                    choices: [],
-                  })
-                  props.setOpen(true);
-                }}
+                equipmentId={equipment.equipment_id}
+                inspectionItems={equipment.inspection_items}
+                editInspectionItem={(inspectionItem: InspectionItem) =>
+                  handleEditItem(equipment.equipment_id, inspectionItem)
+                }
+                addInspectionItem={() => handleAddItem(equipment.equipment_id)}
               />
             </Grid>
           </Grid>
