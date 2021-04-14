@@ -10,7 +10,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { InspectionItemForm } from './InspectionItemForm';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
-import { Equipment, ItemType } from '../Types';
+import { InspectionItemContext } from '../context/InspectionItemContext';
+import { Equipment, ItemType, InspectionItem } from '../Types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,6 +39,7 @@ interface EquipmentFormProps {
 export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
   const classes = useStyles();
   const context = useContext(InspectionSheetContext);
+  const itemContext = useContext(InspectionItemContext);
   const dropRef = useRef(null);
   const dragRef = useRef(null);
 
@@ -94,10 +96,30 @@ export const EquipmentForm = (props: EquipmentFormProps): JSX.Element => {
             <Grid item xs={12}>
               <InspectionItemForm
                 equipmentId={props.equipment.equipment_id}
-                setEquipmentId={props.setEquipmentId}
                 inspectionItems={props.equipment.inspection_items}
-                setOpen={props.setOpen}
-                setAdditional={props.setAdditional}
+                editInspectionItem={(inspectionItem: InspectionItem) => {
+                  /**
+                   * Implements the process for editing inspection item.
+                   */
+                  props.setEquipmentId(props.equipment.equipment_id);
+                  props.setAdditional(false);
+                  itemContext.setItem(inspectionItem);
+                  props.setOpen(true);
+                }}
+                addInspectionItem={() => {
+                  /**
+                   * Implements the process for adding inspection item.
+                   */
+                  props.setEquipmentId(props.equipment.equipment_id);
+                  props.setAdditional(true);
+                  itemContext.setItem({
+                    inspection_item_id: Math.random().toString(36).substr(2, 9),
+                    inspection_content: '',
+                    input_type: 1,
+                    choices: [],
+                  })
+                  props.setOpen(true);
+                }}
               />
             </Grid>
           </Grid>

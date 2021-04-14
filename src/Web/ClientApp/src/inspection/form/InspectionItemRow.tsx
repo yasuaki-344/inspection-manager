@@ -15,10 +15,10 @@ interface DragItem {
 interface InspectionItemRowProps {
   equipmentId: string,
   inspectionItem: InspectionItem,
-  handleEditItem: (item: InspectionItem) => void,
+  editInspectionItem: (item: InspectionItem) => void,
 };
 
-export const InspectionItemRow: FC<InspectionItemRowProps> = ({ equipmentId, inspectionItem, handleEditItem }): JSX.Element => {
+export const InspectionItemRow: FC<InspectionItemRowProps> = ({ equipmentId, inspectionItem, editInspectionItem }): JSX.Element => {
   const context = useContext<InspectionSheetContextType>(InspectionSheetContext);
   const dropRef = useRef<HTMLTableRowElement>(null);
   const dragRef = useRef<HTMLTableCellElement>(null);
@@ -54,7 +54,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({ equipmentId, ins
         </IconButton>
       </TableCell>
       <TableCell padding='checkbox'>
-        <IconButton size='small' onClick={() => handleEditItem(inspectionItem)}>
+        <IconButton size='small' onClick={() => editInspectionItem(inspectionItem)}>
           <EditIcon />
         </IconButton>
       </TableCell>
