@@ -157,15 +157,15 @@ export const InspectionSheetForm = (props: InspectionSheetFormProps): JSX.Elemen
                   /**
                    * Implements the process for adding inspection item.
                    */
-                   setEquipmentId(equipmentId);
-                   setAdditional(true);
-                   itemContext.setItem({
-                     inspection_item_id: Math.random().toString(36).substr(2, 9),
-                     inspection_content: '',
-                     input_type: 1,
-                     choices: [],
-                   })
-                   setOpen(true);
+                  setEquipmentId(equipmentId);
+                  setAdditional(true);
+                  itemContext.setItem({
+                    inspection_item_id: Math.random().toString(36).substr(2, 9),
+                    inspection_content: '',
+                    input_type: 1,
+                    choices: [],
+                  })
+                  setOpen(true);
                 }}
                 handleEditItem={(equipmentId: string, inspectionItem: InspectionItem) => {
                   /**

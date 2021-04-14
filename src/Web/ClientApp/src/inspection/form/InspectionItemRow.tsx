@@ -5,7 +5,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import EditIcon from '@material-ui/icons/Edit';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
-import { useInputTypes, InspectionItem, InspectionSheetContextType, ItemType  } from '../Types';
+import { useInputTypes, InspectionItem, InspectionSheetContextType, ItemType } from '../Types';
 
 interface DragItem {
   equipmentId: string,
@@ -18,7 +18,11 @@ interface InspectionItemRowProps {
   editInspectionItem: (equipmentId: string, item: InspectionItem) => void,
 };
 
-export const InspectionItemRow: FC<InspectionItemRowProps> = ({ equipmentId, inspectionItem, editInspectionItem }): JSX.Element => {
+export const InspectionItemRow: FC<InspectionItemRowProps> = ({
+  equipmentId,
+  inspectionItem,
+  editInspectionItem
+}): JSX.Element => {
   const context = useContext<InspectionSheetContextType>(InspectionSheetContext);
   const dropRef = useRef<HTMLTableRowElement>(null);
   const dragRef = useRef<HTMLTableCellElement>(null);
