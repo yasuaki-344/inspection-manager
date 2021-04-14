@@ -26,7 +26,8 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({ equipmentId, ins
   const [, drop] = useDrop({
     accept: ItemType.INSPECTION_ITEM,
     drop(item: DragItem) {
-      if (!dropRef.current || item.equipmentId !== equipmentId ||
+      if (!dropRef.current ||
+        item.equipmentId !== equipmentId ||
         item.itemId === inspectionItem.inspection_item_id) {
         return;
       }
@@ -48,17 +49,12 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({ equipmentId, ins
   return (
     <TableRow key={inspectionItem.inspection_item_id} ref={dropRef}>
       <TableCell padding='checkbox' ref={dragRef}>
-        <IconButton
-          size='small'
-        >
+        <IconButton size='small'>
           <DragHandleIcon />
         </IconButton>
       </TableCell>
       <TableCell padding='checkbox'>
-        <IconButton
-          size='small'
-          onClick={() => handleEditItem(inspectionItem)}
-        >
+        <IconButton size='small' onClick={() => handleEditItem(inspectionItem)}>
           <EditIcon />
         </IconButton>
       </TableCell>
