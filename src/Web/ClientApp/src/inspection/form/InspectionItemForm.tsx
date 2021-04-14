@@ -10,8 +10,8 @@ import { InspectionItemRow } from './InspectionItemRow';
 interface InspectionItemFormProps {
   equipmentId: string,
   inspectionItems: InspectionItem[],
-  editInspectionItem: (inspectionItem: InspectionItem) => void,
-  addInspectionItem: () => void
+  editInspectionItem: (equipmentId: string, inspectionItem: InspectionItem) => void,
+  addInspectionItem: (equipmentId: string) => void
 };
 
 export const InspectionItemForm: FC<InspectionItemFormProps> = ({
@@ -50,7 +50,7 @@ export const InspectionItemForm: FC<InspectionItemFormProps> = ({
         <BottomNavigationAction
           label='点検項目追加'
           icon={<AddCircleIcon />}
-          onClick={addInspectionItem}
+          onClick={() => addInspectionItem(equipmentId)}
         />
       </BottomNavigation>
     </>

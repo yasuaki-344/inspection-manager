@@ -104,10 +104,8 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
               <InspectionItemForm
                 equipmentId={equipment.equipment_id}
                 inspectionItems={equipment.inspection_items}
-                editInspectionItem={(inspectionItem: InspectionItem) =>
-                  handleEditItem(equipment.equipment_id, inspectionItem)
-                }
-                addInspectionItem={() => handleAddItem(equipment.equipment_id)}
+                editInspectionItem={handleEditItem}
+                addInspectionItem={handleAddItem}
               />
             </Grid>
           </Grid>

@@ -15,7 +15,7 @@ interface DragItem {
 interface InspectionItemRowProps {
   equipmentId: string,
   inspectionItem: InspectionItem,
-  editInspectionItem: (item: InspectionItem) => void,
+  editInspectionItem: (equipmentId: string, item: InspectionItem) => void,
 };
 
 export const InspectionItemRow: FC<InspectionItemRowProps> = ({ equipmentId, inspectionItem, editInspectionItem }): JSX.Element => {
@@ -54,7 +54,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({ equipmentId, ins
         </IconButton>
       </TableCell>
       <TableCell padding='checkbox'>
-        <IconButton size='small' onClick={() => editInspectionItem(inspectionItem)}>
+        <IconButton size='small' onClick={() => editInspectionItem(equipmentId, inspectionItem)}>
           <EditIcon />
         </IconButton>
       </TableCell>
