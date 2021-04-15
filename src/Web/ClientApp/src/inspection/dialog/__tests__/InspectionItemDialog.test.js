@@ -2,7 +2,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { MemoryRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import { Details } from '../inspection/Details';
+import { InspectionItemDialog } from '../InspectionItemDialog';
 
 let container = null;
 beforeEach(() => {
@@ -20,8 +20,10 @@ it('renders without crashing', async () => {
   await act(async () => {
     render(
       <MemoryRouter>
-        <Details
-          match={{ params: { id: 'guid' } }}
+        <InspectionItemDialog
+          open={true}
+          handleClose={() => { }}
+          handleInspectionItem={() => { }}
         />
       </MemoryRouter>
       , container

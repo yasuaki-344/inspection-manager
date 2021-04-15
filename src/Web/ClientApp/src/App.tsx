@@ -13,7 +13,6 @@ import { InspectionSheetOperator } from './inspection/operator/InspectionSheetOp
 import { InspectionItemOperator } from './inspection/operator/InspectionItemOperator';
 import { InspectionItemContext } from './inspection/context/InspectionItemContext';
 import './custom.css'
-import { Experiment } from './Experiment';
 
 const App = (): JSX.Element => {
   return (
@@ -29,7 +28,6 @@ const App = (): JSX.Element => {
         </InspectionItemContext.Provider>
       </InspectionSheetContext.Provider>
       <Route path='/details/:id' component={Details} />
-      <Route path='/test' component={Experiment} />
     </Layout>
   );
 }

@@ -2,7 +2,15 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { MemoryRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import { InspectionTypeCategory } from '../categories/InspectionTypeCategory';
+import { Edit } from '../Edit';
+
+jest.mock('../form/InspectionSheetForm', () => {
+  return {
+    InspectionSheetForm: (props) => {
+      return <></>
+    },
+  };
+});
 
 let container = null;
 beforeEach(() => {
@@ -17,21 +25,14 @@ afterEach(() => {
 });
 
 it('renders without crashing', async () => {
-  const types = ['type1', 'type2'];
-  jest.spyOn(global, 'fetch').mockImplementation(() =>
-    Promise.resolve({
-      json: () => Promise.resolve(types)
-    })
-  );
-
   await act(async () => {
     render(
       <MemoryRouter>
-        <InspectionTypeCategory />
+        <Edit
+          match={{ params: { id: 'guid' } }}
+        />
       </MemoryRouter>
       , container
     );
   });
-
-  global.fetch.mockRestore();
 });

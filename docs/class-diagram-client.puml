@@ -18,6 +18,7 @@ package inspection {
   class Edit
   class EquipmentForm
   class InspectionItemForm
+  class InspectionItemRow
   package module {
     class InspectionItemReducer
     class InspectionSheetReducer
@@ -40,8 +41,9 @@ package inspection {
   Create ..> InspectionSheetForm
   Edit ..> InspectionSheetForm
   InspectionSheetForm ..> EquipmentForm
-  EquipmentForm ..> InspectionItemDialog
+  InspectionSheetForm ..> InspectionItemDialog
   EquipmentForm ..> InspectionItemForm
+  InspectionItemForm ..> InspectionItemRow
   InspectionItemContext ..> InspectionItemOperator
   InspectionSheetContext ..> InspectionSheetOperator
   InspectionItemOperator ..> InspectionItemReducer

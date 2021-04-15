@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
-import { Layout } from '../components/Layout';
+import { Layout } from '../Layout';
 
-jest.mock('../components/NavMenu', () => {
+jest.mock('../NavMenu', () => {
   return {
     NavMenu: () => { return <></> },
   };

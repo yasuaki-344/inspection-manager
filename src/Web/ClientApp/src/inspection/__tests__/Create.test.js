@@ -2,7 +2,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { MemoryRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import { InspectionGroupCategory } from '../categories/InspectionGroupCategory';
+import { Create } from '../Create';
 
 let container = null;
 beforeEach(() => {
@@ -17,21 +17,12 @@ afterEach(() => {
 });
 
 it('renders without crashing', async () => {
-  const groups = ['group1', 'group2'];
-  jest.spyOn(global, 'fetch').mockImplementation(() =>
-    Promise.resolve({
-      json: () => Promise.resolve(groups)
-    })
-  );
-
   await act(async () => {
     render(
       <MemoryRouter>
-        <InspectionGroupCategory />
+        <Create />
       </MemoryRouter>
       , container
     );
   });
-
-  global.fetch.mockRestore();
 });

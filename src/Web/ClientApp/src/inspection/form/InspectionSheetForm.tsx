@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -11,7 +11,7 @@ import { EquipmentForm } from './EquipmentForm';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { InspectionItemContext } from '../context/InspectionItemContext';
-import { Equipment } from '../Types';
+import { Equipment, InspectionItem } from '../Types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,7 +36,7 @@ interface InspectionSheetFormProps {
   isEdit: boolean,
 };
 
-export const InspectionSheetForm = (props: InspectionSheetFormProps): JSX.Element => {
+export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): JSX.Element => {
   const classes = useStyles();
   const context = useContext(InspectionSheetContext);
   const itemContext = useContext(InspectionItemContext);
@@ -73,7 +73,32 @@ export const InspectionSheetForm = (props: InspectionSheetFormProps): JSX.Elemen
     setOpen(false);
   };
 
-  const contents = props.isEdit
+  /**
+   * Implements the process for adding inspection item.
+   */
+  const handleAddItem = (equipmentId: string) => {
+    setEquipmentId(equipmentId);
+    setAdditional(true);
+    itemContext.setItem({
+      inspection_item_id: Math.random().toString(36).substr(2, 9),
+      inspection_content: '',
+      input_type: 1,
+      choices: [],
+    })
+    setOpen(true);
+  }
+
+  /**
+   * Implements the process for editing inspection item.
+   */
+  const handleEditItem = (equipmentId: string, inspectionItem: InspectionItem) => {
+    setEquipmentId(equipmentId);
+    setAdditional(false);
+    itemContext.setItem(inspectionItem);
+    setOpen(true);
+  }
+
+  const contents = isEdit
     ? <Grid item xs={12}>
       <TextField
         className={classes.sheetIdElement}
@@ -83,7 +108,6 @@ export const InspectionSheetForm = (props: InspectionSheetFormProps): JSX.Elemen
         size="small"
         name="sheet_id"
         defaultValue={context.inspectionSheet.sheet_id}
-        value={context.inspectionSheet.sheet_id}
         InputProps={{ readOnly: true, }}
       />
     </Grid>
@@ -153,9 +177,8 @@ export const InspectionSheetForm = (props: InspectionSheetFormProps): JSX.Elemen
             <Grid item xs={12} key={equipment.equipment_id}>
               <EquipmentForm
                 equipment={equipment}
-                setEquipmentId={setEquipmentId}
-                setOpen={setOpen}
-                setAdditional={setAdditional}
+                handleAddItem={handleAddItem}
+                handleEditItem={handleEditItem}
               />
             </Grid>
           )}
