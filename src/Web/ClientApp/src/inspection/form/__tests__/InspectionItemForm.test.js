@@ -1,25 +1,44 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { MemoryRouter } from 'react-router-dom';
+import { render, unmountComponentAtNode } from 'react-dom';
+import { act } from 'react-dom/test-utils';
 import { InspectionItemForm } from '../InspectionItemForm';
 
+jest.mock('../InspectionItemRow', () => {
+  return {
+    InspectionItemRow: (props) => {
+      return <></>
+    },
+  };
+});
+
+let container = null;
+beforeEach(() => {
+  container = document.createElement('div');
+  document.body.appendChild(container);
+});
+
+afterEach(() => {
+  unmountComponentAtNode(container);
+  container.remove();
+  container = null;
+});
+
 it('renders without crashing', async () => {
-  const tbody = document.createElement('tbody');
   const equipmentId = 'equipment_id';
-  const inspectionItem = {
+  const inspectionItems = [{
     inspection_item_id: 'item_id',
     inspection_content: 'content',
     input_type: 2,
     choices: ['choice1', 'choice2'],
-  };
-  ReactDOM.render(
-    <MemoryRouter>
+  }];
+  await act(async () => {
+    render(
       <InspectionItemForm
         equipment_id={equipmentId}
-        inspectionItem={inspectionItem}
-        removeInspectionItem={(id, itemId) => { }}
-        editInspectionItem={() => { }}
+        inspectionItems={inspectionItems}
+        editInspectionItem={(equipmentId, inspectionItem) => { }}
+        addInspectionItem={(equipmentId) => { }}
       />
-    </MemoryRouter>, tbody);
-  await new Promise(resolve => setTimeout(resolve, 1000));
+      , container);
+  });
 });
