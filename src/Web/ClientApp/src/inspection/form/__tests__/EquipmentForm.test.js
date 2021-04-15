@@ -1,4 +1,6 @@
 import React from 'react';
+import { DndProvider } from "react-dnd"
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import { EquipmentForm } from '../EquipmentForm';
@@ -18,13 +20,17 @@ afterEach(() => {
 it('renders without crashing', async () => {
   await act(async () => {
     render(
-      <EquipmentForm
-        equipment={{
-          equipment_id: 'id',
-          equipment_name: 'equipment',
-          inspection_items: []
-        }}
-      />
+      <DndProvider backend={HTML5Backend}>
+        <EquipmentForm
+          equipment={{
+            equipment_id: 'id',
+            equipment_name: 'equipment',
+            inspection_items: []
+          }}
+          handleAddItem={(equipmentId) => { }}
+          handleEditItem={(equipmentId, inspectionItem) => { }}
+        />
+      </DndProvider>
       , container
     );
   });
