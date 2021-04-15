@@ -2,7 +2,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { MemoryRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import { InspectionGroupCategory } from '../categories/InspectionGroupCategory';
+import { ChoicesTemplate } from '../ChoicesTemplate';
 
 let container = null;
 beforeEach(() => {
@@ -17,17 +17,21 @@ afterEach(() => {
 });
 
 it('renders without crashing', async () => {
-  const groups = ['group1', 'group2'];
+  const templates = [
+    { choices: ['choice1-1', 'choice1-2'] },
+    { choices: ['choice2-1', 'choice2-2'] },
+    { choices: ['choice3-1', 'choice3-2'] },
+  ];
   jest.spyOn(global, 'fetch').mockImplementation(() =>
     Promise.resolve({
-      json: () => Promise.resolve(groups)
+      json: () => Promise.resolve(templates)
     })
   );
 
   await act(async () => {
     render(
       <MemoryRouter>
-        <InspectionGroupCategory />
+        <ChoicesTemplate />
       </MemoryRouter>
       , container
     );

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { MemoryRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import { InspectionItemDialog } from '../inspection/dialog/InspectionItemDialog';
+import { InspectionItemDialog } from '../InspectionItemDialog';
 
 let container = null;
 beforeEach(() => {

@@ -1,16 +1,7 @@
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
-import { MemoryRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import { Edit } from '../inspection/Edit';
-
-jest.mock('../inspection/form/InspectionSheetForm', () => {
-  return {
-    InspectionSheetForm: (props) => {
-      return <></>
-    },
-  };
-});
+import { EquipmentForm } from '../EquipmentForm';
 
 let container = null;
 beforeEach(() => {
@@ -27,11 +18,13 @@ afterEach(() => {
 it('renders without crashing', async () => {
   await act(async () => {
     render(
-      <MemoryRouter>
-        <Edit
-          match={{ params: { id: 'guid' } }}
-        />
-      </MemoryRouter>
+      <EquipmentForm
+        equipment={{
+          equipment_id: 'id',
+          equipment_name: 'equipment',
+          inspection_items: []
+        }}
+      />
       , container
     );
   });

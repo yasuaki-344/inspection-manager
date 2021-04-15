@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
-import { InspectionSheetForm } from '../inspection/form/InspectionSheetForm';
-import { InspectionSheetContext } from '../inspection/context/InspectionSheetContext';
-import { InspectionSheetOperator } from '../inspection/operator/InspectionSheetOperator';
-import { InspectionItemOperator } from '../inspection/operator/InspectionItemOperator';
-import { InspectionItemContext } from '../inspection/context/InspectionItemContext';
+import { InspectionSheetForm } from '../InspectionSheetForm';
+import { InspectionSheetContext } from '../../context/InspectionSheetContext';
+import { InspectionSheetOperator } from '../../operator/InspectionSheetOperator';
+import { InspectionItemOperator } from '../../operator/InspectionItemOperator';
+import { InspectionItemContext } from '../../context/InspectionItemContext';
 
 
 let container = null;

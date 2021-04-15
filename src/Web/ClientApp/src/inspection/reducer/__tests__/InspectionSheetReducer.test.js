@@ -2,7 +2,7 @@ import InspectionSheetReducer, {
   setSheetAction, updateFieldAction, addEquipmentAction,
   removeEquipmentAction, updateEquipmentAction, addInspectionItemAction,
   removeInspectionItemAction, updateInspectionItemAction, TYPES,
-} from '../inspection/reducer/InspectionSheetReducer';
+} from '../InspectionSheetReducer';
 
 it('set sheet correctly', () => {
   const sheet = {

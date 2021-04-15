@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { MemoryRouter } from 'react-router-dom';
-import { InspectionItemForm } from '../inspection/form/InspectionItemForm';
+import { InspectionItemForm } from '../InspectionItemForm';
 
 it('renders without crashing', async () => {
   const tbody = document.createElement('tbody');

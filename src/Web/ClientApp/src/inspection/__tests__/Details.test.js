@@ -1,7 +1,8 @@
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import { EquipmentForm } from '../inspection/form/EquipmentForm';
+import { Details } from '../Details';
 
 let container = null;
 beforeEach(() => {
@@ -18,13 +19,11 @@ afterEach(() => {
 it('renders without crashing', async () => {
   await act(async () => {
     render(
-      <EquipmentForm
-        equipment={{
-          equipment_id: 'id',
-          equipment_name: 'equipment',
-          inspection_items: []
-        }}
-      />
+      <MemoryRouter>
+        <Details
+          match={{ params: { id: 'guid' } }}
+        />
+      </MemoryRouter>
       , container
     );
   });

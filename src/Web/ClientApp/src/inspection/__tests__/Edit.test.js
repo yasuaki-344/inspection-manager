@@ -2,7 +2,15 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { MemoryRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import { Home } from '../components/Home';
+import { Edit } from '../Edit';
+
+jest.mock('../inspection/form/InspectionSheetForm', () => {
+  return {
+    InspectionSheetForm: (props) => {
+      return <></>
+    },
+  };
+});
 
 let container = null;
 beforeEach(() => {
@@ -20,7 +28,9 @@ it('renders without crashing', async () => {
   await act(async () => {
     render(
       <MemoryRouter>
-        <Home />
+        <Edit
+          match={{ params: { id: 'guid' } }}
+        />
       </MemoryRouter>
       , container
     );

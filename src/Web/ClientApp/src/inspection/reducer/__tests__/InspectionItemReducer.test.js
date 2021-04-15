@@ -2,7 +2,7 @@ import InspectionItemReducer, {
   setItemAction, updateFieldAction, setChoiceAction,
   addChoiceAction, removeChoiceAction, updateChoiceAction,
   TYPES
-} from '../inspection/reducer/InspectionItemReducer';
+} from '../InspectionItemReducer';
 
 it('set inspection item correctly', () => {
   const item = {

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { MemoryRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import { Create } from '../inspection/Create';
+import { InspectionTypeCategory } from '../InspectionTypeCategory';
 
 let container = null;
 beforeEach(() => {
@@ -17,12 +17,21 @@ afterEach(() => {
 });
 
 it('renders without crashing', async () => {
+  const types = ['type1', 'type2'];
+  jest.spyOn(global, 'fetch').mockImplementation(() =>
+    Promise.resolve({
+      json: () => Promise.resolve(types)
+    })
+  );
+
   await act(async () => {
     render(
       <MemoryRouter>
-        <Create />
+        <InspectionTypeCategory />
       </MemoryRouter>
       , container
     );
   });
+
+  global.fetch.mockRestore();
 });
