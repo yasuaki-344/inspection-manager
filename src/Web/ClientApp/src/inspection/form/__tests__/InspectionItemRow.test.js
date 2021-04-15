@@ -7,7 +7,7 @@ import { InspectionItemRow } from '../InspectionItemRow';
 
 let container = null;
 beforeEach(() => {
-  container = document.createElement('div');
+  container = document.createElement('tbody');
   document.body.appendChild(container);
 });
 
