@@ -108,7 +108,6 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
         size="small"
         name="sheet_id"
         defaultValue={context.inspectionSheet.sheet_id}
-        value={context.inspectionSheet.sheet_id}
         InputProps={{ readOnly: true, }}
       />
     </Grid>
