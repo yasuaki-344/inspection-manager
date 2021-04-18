@@ -48,6 +48,7 @@ export const InspectionItemForm: FC<InspectionItemFormProps> = ({
       </TableContainer>
       <BottomNavigation showLabels>
         <BottomNavigationAction
+          data-testid='add-item-button'
           label='点検項目追加'
           icon={<AddCircleIcon />}
           onClick={() => addInspectionItem(equipmentId)}
