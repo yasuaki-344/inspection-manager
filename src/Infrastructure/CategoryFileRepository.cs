@@ -14,7 +14,7 @@ namespace InspectionManager.Infrastructure
 {
     public class CategoryFileRepository : ICategoryRepository
     {
-        private readonly string _baseDirectory = "categories";
+        private readonly string _baseDirectory = Path.Join("database", "categories");
         private readonly string _inspectionGroupsFile = "inspection-group.json";
         private readonly string _inspectionTypesFile = "inspection-type.json";
         private readonly string _choiceTemplateFile = "choice-template.json";

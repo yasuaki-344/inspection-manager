@@ -18,7 +18,7 @@ namespace InspectionManager.Infrastructure
 {
     public class InspectionSheetFileRepository : IInspectionSheetRepository
     {
-        private readonly string _baseDirectory = "inspection-sheet";
+        private readonly string _baseDirectory = Path.Join("database", "inspection-sheet");
 
         /// <summary>
         /// Initializes a new instance of InspectionSheetFileRepository class.
