@@ -18,4 +18,9 @@ WORKDIR /app
 COPY --from=build /app ./
 ENV ASPNETCORE_URLS http://*:5000
 VOLUME [ "/app/database" ]
+
+# switch execute user
+RUN useradd appuser
+USER appuser
+
 ENTRYPOINT ["dotnet", "InspectionManager.Web.dll"]
