@@ -1,19 +1,20 @@
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
-import { MemoryRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
+import { MemoryRouter } from 'react-router-dom';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { Create } from '../Create';
 
-let container = null;
 beforeEach(() => {
-  container = document.createElement('div');
-  document.body.appendChild(container);
+  jest.spyOn(global, 'fetch').mockImplementation(() =>
+    Promise.resolve({
+      json: () => Promise.resolve([
+      ])
+    })
+  );
+  jest.spyOn(window, 'alert').mockImplementation(() => { });
 });
-
 afterEach(() => {
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null;
+  jest.resetAllMocks();
 });
 
 it('renders without crashing', async () => {
@@ -22,7 +23,17 @@ it('renders without crashing', async () => {
       <MemoryRouter>
         <Create />
       </MemoryRouter>
-      , container
     );
+  });
+});
+
+it('submit', async () => {
+  await act(async () => {
+    render(
+      <MemoryRouter>
+        <Create />
+      </MemoryRouter>
+    );
+    fireEvent.submit(screen.getByTestId('form'));
   });
 });

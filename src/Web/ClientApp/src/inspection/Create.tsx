@@ -91,7 +91,7 @@ export const Create = (): JSX.Element => {
           >既存のデータをコピー</Button>
         </Grid>
         <Grid item xs={12}>
-          <form onSubmit={handleSubmit}>
+          <form data-testid='form' onSubmit={handleSubmit}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
                 <InspectionSheetForm isEdit={false} />
