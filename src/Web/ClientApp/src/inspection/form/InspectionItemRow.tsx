@@ -58,7 +58,10 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
         </IconButton>
       </TableCell>
       <TableCell padding='checkbox'>
-        <IconButton size='small' onClick={() => editInspectionItem(equipmentId, inspectionItem)}>
+        <IconButton
+          data-testid='edit-item-button'
+          size='small'
+          onClick={() => editInspectionItem(equipmentId, inspectionItem)}>
           <EditIcon />
         </IconButton>
       </TableCell>
@@ -72,7 +75,10 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
         {inspectionItem.choices.join(',')}
       </TableCell>
       <TableCell padding='checkbox'>
-        <IconButton color='primary' size='small'
+        <IconButton
+          data-testid='remove-item-button'
+          color='primary'
+          size='small'
           onClick={() => context.removeInspectionItem(equipmentId, inspectionItem.inspection_item_id)}
         >
           <CancelIcon />

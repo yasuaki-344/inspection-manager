@@ -1,30 +1,48 @@
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
-import { MemoryRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
+import { MemoryRouter } from 'react-router-dom';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { Details } from '../Details';
 
-let container = null;
 beforeEach(() => {
-  container = document.createElement('div');
-  document.body.appendChild(container);
+  jest.spyOn(global, 'fetch').mockImplementation(() =>
+    Promise.resolve({
+      json: () => Promise.resolve({
+        sheet_id: 'sheet id',
+        sheet_name: 'sheet name',
+        inspection_group: 'group',
+        inspection_type: 'type',
+        equipments: [
+          {
+            equipment_id: 'equipment id',
+            equipment_name: 'equipment name',
+            inspection_items: [
+              {
+                inspection_item_id: 'inspection item id',
+                inspection_content: 'inspection content',
+                input_type: 0,
+                choices: [
+                  'choice1', 'choice2'
+                ]
+              }
+            ]
+          }
+        ]
+      })
+    })
+  );
+  jest.spyOn(window, 'alert').mockImplementation(() => { });
 });
-
 afterEach(() => {
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null;
+  jest.resetAllMocks();
 });
 
 it('renders without crashing', async () => {
   await act(async () => {
     render(
       <MemoryRouter>
-        <Details
-          match={{ params: { id: 'guid' } }}
-        />
+        <Details match={{ params: { id: 'guid' } }} />
       </MemoryRouter>
-      , container
     );
   });
 });

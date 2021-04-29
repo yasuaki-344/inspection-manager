@@ -79,6 +79,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
           </IconButton>
           <div>{equipment.equipment_name}</div>
           <IconButton
+            data-testid='remove-equipment-button'
             size='small'
             color='inherit'
             onClick={() => context.removeEquipment(equipment.equipment_id)}
@@ -91,7 +92,6 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
             <Grid item xs={12} className={classes.paperElement}>
               <TextField
                 required
-                id='outlined-required'
                 label='点検機器名'
                 variant='outlined'
                 size='small'

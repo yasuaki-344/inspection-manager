@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
-import { act } from 'react-dom/test-utils';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { InspectionSheetForm } from '../InspectionSheetForm';
 import { InspectionSheetContext } from '../../context/InspectionSheetContext';
 import { InspectionItemContext } from '../../context/InspectionItemContext';
@@ -20,60 +19,50 @@ jest.mock('../../dialog/InspectionItemDialog', () => {
   };
 });
 
-let container = null;
-beforeEach(() => {
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null;
-});
-
 it('renders without crashing', async () => {
-  await act(async () => {
-    render(
-      <InspectionSheetContext.Provider value={{
-        inspectionSheet: {
-          sheet_id: '',
-          sheet_name: '',
-          inspection_group: '',
-          inspection_type: '',
-          equipments: [],
+  render(
+    <InspectionSheetContext.Provider value={{
+      inspectionSheet: {
+        sheet_id: '',
+        sheet_name: '',
+        inspection_group: '',
+        inspection_type: '',
+        equipments: [
+          {
+            equipment_id: '',
+            equipment_name: ''
+          }
+        ],
+      },
+      setSheet: (sheet) => { },
+      updateField: (event) => { },
+      addEquipment: () => { },
+      removeEquipment: (id) => { },
+      updateEquipment: (event, id) => { },
+      swapEquipment: (srcId, dstId) => { },
+      addInspectionItem: (id, item) => { },
+      removeInspectionItem: (id, itemId) => { },
+      updateInspectionItem: (id, item) => { },
+      swapInspectionItem: (equipmentId, srcId, dstId) => { },
+    }} >
+      <InspectionItemContext.Provider value={{
+        inspectionItem: {
+          inspection_item_id: '',
+          inspection_content: '',
+          input_type: 0,
+          choices: [],
         },
-        setSheet: (sheet) => { },
+        setItem: (item) => { },
         updateField: (event) => { },
-        addEquipment: () => { },
-        removeEquipment: (id) => { },
-        updateEquipment: (event, id) => { },
-        swapEquipment: (srcId, dstId) => { },
-        addInspectionItem: (id, item) => { },
-        removeInspectionItem: (id, itemId) => { },
-        updateInspectionItem: (id, item) => { },
-        swapInspectionItem: (equipmentId, srcId, dstId) => { },
-      }} >
-        <InspectionItemContext.Provider value={{
-          inspectionItem: {
-            inspection_item_id: '',
-            inspection_content: '',
-            input_type: 0,
-            choices: [],
-          },
-          setItem: (item) => { },
-          updateField: (event) => { },
-          setChoices: (choices) => { },
-          addChoice: () => { },
-          removeChoice: (index) => { },
-          updateChoice: (event, index) => { }
-        }}>
-          <InspectionSheetForm
-            isEdit={true}
-          />
-        </InspectionItemContext.Provider>
-      </InspectionSheetContext.Provider>
-      , container
-    );
-  });
+        setChoices: (choices) => { },
+        addChoice: () => { },
+        removeChoice: (index) => { },
+        updateChoice: (event, index) => { }
+      }}>
+        <InspectionSheetForm
+          isEdit={true}
+        />
+      </InspectionItemContext.Provider>
+    </InspectionSheetContext.Provider>
+  );
 });

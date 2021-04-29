@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   IconButton, Grid, Paper, TextField, Button,
@@ -79,7 +79,7 @@ export const InspectionGroupCategory = (): JSX.Element => {
         <Link to='/'>トップページへ戻る</Link>
       </Grid>
       <Grid item xs={12}>
-        <form onSubmit={handleSubmit}>
+        <form data-testid='form' onSubmit={handleSubmit}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <TableContainer component={Paper}>
@@ -96,15 +96,16 @@ export const InspectionGroupCategory = (): JSX.Element => {
                         <TableCell>
                           <TextField
                             required
-                            variant="outlined"
-                            size="small"
+                            variant='outlined'
+                            size='small'
                             value={group}
                             onChange={(e) => handleUpdateItem(e, index)}
                           />
                         </TableCell>
                         <TableCell padding='checkbox'>
                           <IconButton
-                            size="small"
+                            data-testid={`remove-group-button-${index}`}
+                            size='small'
                             color='secondary'
                             onClick={() => handleDeleteItem(index)}
                           >
@@ -120,7 +121,8 @@ export const InspectionGroupCategory = (): JSX.Element => {
             <Grid item xs={12}>
               <BottomNavigation showLabels>
                 <BottomNavigationAction
-                  label="点検グループ追加"
+                  data-testid='add-group-button'
+                  label='点検グループ追加'
                   icon={<AddCircleIcon />}
                   onClick={handleAddItem}
                 />
@@ -132,7 +134,7 @@ export const InspectionGroupCategory = (): JSX.Element => {
                 variant='contained'
                 color='primary'
                 disabled={disabled}
-              >グループ登録</Button>
+              >点検グループ登録</Button>
             </Grid>
           </Grid>
         </form>

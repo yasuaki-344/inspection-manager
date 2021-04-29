@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { FC, useContext, useState, useEffect } from 'react';
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle,
   Radio, RadioGroup, FormControl, FormControlLabel,
@@ -10,7 +10,7 @@ interface ChoiceSetSelectDialogProps {
   handleClose: () => void,
 };
 
-export const ChoiceSetSelectDialog = (props: ChoiceSetSelectDialogProps): JSX.Element => {
+export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({open, handleClose}): JSX.Element => {
   const context = useContext(InspectionItemContext);
   const [value, setValue] = useState(0);
   const [templates, setTemplates] = useState<any>([]);
@@ -30,17 +30,21 @@ export const ChoiceSetSelectDialog = (props: ChoiceSetSelectDialogProps): JSX.El
 
   const handleSelectTemplate = () => {
     context.setChoices(templates[value].choices);
-    props.handleClose();
+    handleClose();
   };
 
   return (
-    <Dialog open={props.open} onClose={props.handleClose}>
+    <Dialog open={open} onClose={handleClose}>
       <DialogTitle>テンプレート選択</DialogTitle>
       <DialogContent>
         <FormControl component="fieldset">
           <RadioGroup value={value} onChange={handleChange}>
             {templates.map((template: any, index: number) => (
-              <FormControlLabel value={index} control={<Radio />} label={template.choices.join(',')} />
+              <FormControlLabel
+                key={`label-${index}`}
+                value={index}
+                control={<Radio data-testid={`radio-${index}`}/>}
+                label={template.choices.join(',')} />
             ))}
           </RadioGroup>
         </FormControl>
@@ -53,7 +57,7 @@ export const ChoiceSetSelectDialog = (props: ChoiceSetSelectDialogProps): JSX.El
         >OK</Button>
         <Button
           variant='contained'
-          onClick={props.handleClose}
+          onClick={handleClose}
         >キャンセル</Button>
       </DialogActions>
     </Dialog>

@@ -1,37 +1,69 @@
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
-import { act } from 'react-dom/test-utils';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { InspectionItemRow } from '../InspectionItemRow';
 
-let container = null;
-beforeEach(() => {
-  container = document.createElement('tbody');
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null;
-});
-
 it('renders without crashing', async () => {
-  await act(async () => {
-    render(
-      <DndProvider backend={HTML5Backend}>
-        <InspectionItemRow
-          equipmentId={'id'}
-          inspectionItem={{
-            inspection_item_id: 'item_id',
-            inspection_content: 'content',
-            input_type: 1,
-            choices: ['choice1', 'choice2']
-          }}
-        />
-      </DndProvider>
-      , container
-    );
-  });
+  render(
+    <table>
+      <tbody>
+        <DndProvider backend={HTML5Backend}>
+          <InspectionItemRow
+            equipmentId={'id'}
+            inspectionItem={{
+              inspection_item_id: 'item_id',
+              inspection_content: 'content',
+              input_type: 1,
+              choices: ['choice1', 'choice2']
+            }}
+          />
+        </DndProvider>
+      </tbody>
+    </table>
+  );
+});
+
+it('click edit item button', async () => {
+  render(
+    <table>
+      <tbody>
+        <DndProvider backend={HTML5Backend}>
+          <InspectionItemRow
+            equipmentId={'id'}
+            inspectionItem={{
+              inspection_item_id: 'item_id',
+              inspection_content: 'content',
+              input_type: 1,
+              choices: ['choice1', 'choice2']
+            }}
+            editInspectionItem={(equipmentId, item) => { }}
+          />
+        </DndProvider>
+      </tbody>
+    </table>
+  );
+  fireEvent.click(screen.getByTestId('edit-item-button'));
+});
+
+it('click remove item button', async () => {
+  render(
+    <table>
+      <tbody>
+        <DndProvider backend={HTML5Backend}>
+          <InspectionItemRow
+            equipmentId={'id'}
+            inspectionItem={{
+              inspection_item_id: 'item_id',
+              inspection_content: 'content',
+              input_type: 1,
+              choices: ['choice1', 'choice2']
+            }}
+            editInspectionItem={(equipmentId, item) => { }}
+          />
+        </DndProvider>
+      </tbody>
+    </table>
+  );
+  fireEvent.click(screen.getByTestId('remove-item-button'));
 });

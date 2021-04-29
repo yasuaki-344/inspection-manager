@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   BottomNavigation, BottomNavigationAction, IconButton, Button,
   Dialog, DialogActions, DialogContent, DialogTitle,
@@ -109,7 +109,7 @@ export const ChoicesTemplate = (): JSX.Element => {
           <h1>選択肢テンプレート</h1>
         </Grid>
         <Grid item xs={12}>
-          <form onSubmit={handleSubmit}>
+          <form data-testid='form' onSubmit={handleSubmit}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
                 <TableContainer component={Paper}>
@@ -126,6 +126,7 @@ export const ChoicesTemplate = (): JSX.Element => {
                         <TableRow key={`template_${index}`}>
                           <TableCell>
                             <IconButton
+                              data-testid={`edit-template-button-${index}`}
                               size='small'
                               onClick={() => handleEditTemplate(index)}
                             >
@@ -135,6 +136,7 @@ export const ChoicesTemplate = (): JSX.Element => {
                           <TableCell>{template.choices.join(',')}</TableCell>
                           <TableCell align='right'>
                             <IconButton
+                              data-testid={`remove-template-button-${index}`}
                               size='small'
                               onClick={() => handleDeleteTemplate(index)}
                             >
@@ -160,7 +162,8 @@ export const ChoicesTemplate = (): JSX.Element => {
         <Grid item xs={12}>
           <BottomNavigation showLabels>
             <BottomNavigationAction
-              label="テンプレート追加"
+              data-testid='add-template-button'
+              label='テンプレート追加'
               icon={<AddCircleIcon />}
               onClick={handleCreateTemplate}
             />
@@ -189,6 +192,7 @@ export const ChoicesTemplate = (): JSX.Element => {
                   })}
                 />
                 <IconButton color='primary' size='small'
+                  data-testid={`remove-choice-${index}`}
                   onClick={() => setTarget({
                     ...target,
                     'choices': target.choices.filter(
@@ -203,6 +207,7 @@ export const ChoicesTemplate = (): JSX.Element => {
             <Grid item xs={12}>
               <BottomNavigation showLabels>
                 <BottomNavigationAction
+                  data-testid='add-choice-button'
                   label='選択肢追加'
                   icon={<AddCircleIcon />}
                   onClick={() => setTarget({
