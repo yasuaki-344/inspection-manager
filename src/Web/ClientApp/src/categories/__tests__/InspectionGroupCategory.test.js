@@ -10,6 +10,7 @@ beforeEach(() => {
       json: () => Promise.resolve(['group1', 'group2'])
     })
   );
+  jest.spyOn(window, 'alert').mockImplementation(() => { });
 });
 afterEach(() => {
   jest.resetAllMocks();
