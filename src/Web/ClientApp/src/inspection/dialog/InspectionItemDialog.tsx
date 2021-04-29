@@ -52,7 +52,6 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                 required
                 fullWidth
                 select
-                id='outlined-required'
                 label='点検タイプ'
                 variant='outlined'
                 size='small'
