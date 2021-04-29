@@ -68,6 +68,6 @@ it('click submit type button', async () => {
         <InspectionTypeCategory />
       </MemoryRouter>
     );
+    fireEvent.submit(screen.getByTestId('form'));
   });
-  fireEvent.submit(screen.getByTestId('form'));
 });
