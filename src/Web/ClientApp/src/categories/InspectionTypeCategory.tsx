@@ -26,12 +26,12 @@ export const InspectionTypeCategory = (): JSX.Element => {
   }, [types]);
 
   /**
-   * Implement the process to add new group
+   * Implement the process to add new type
    */
   const handleAddItem = (): void => setTypes(types.concat(''));
 
   /**
-   * Implement the process to update group
+   * Implement the process to update type
    */
   const handleUpdateItem = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -81,7 +81,7 @@ export const InspectionTypeCategory = (): JSX.Element => {
         <Link to='/'>トップページへ戻る</Link>
       </Grid>
       <Grid item xs={12}>
-        <form onSubmit={handleSubmit}>
+        <form data-testid='form' onSubmit={handleSubmit}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <TableContainer component={Paper}>
@@ -106,6 +106,7 @@ export const InspectionTypeCategory = (): JSX.Element => {
                         </TableCell>
                         <TableCell padding='checkbox'>
                           <IconButton
+                            data-testid={`remove-type-button-${index}`}
                             size="small"
                             color='secondary'
                             onClick={() => handleDeleteItem(index)}
@@ -122,7 +123,8 @@ export const InspectionTypeCategory = (): JSX.Element => {
             <Grid item xs={12}>
               <BottomNavigation showLabels>
                 <BottomNavigationAction
-                  label="点検グループ追加"
+                  data-testid='add-type-button'
+                  label="点検タイプ追加"
                   icon={<AddCircleIcon />}
                   onClick={handleAddItem}
                 />
@@ -134,7 +136,7 @@ export const InspectionTypeCategory = (): JSX.Element => {
                 variant='contained'
                 color='primary'
                 disabled={disabled}
-              >タイプ登録</Button>
+              >点検タイプ登録</Button>
             </Grid>
           </Grid>
         </form>
