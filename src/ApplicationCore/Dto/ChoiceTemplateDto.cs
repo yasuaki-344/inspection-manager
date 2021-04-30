@@ -9,8 +9,14 @@ using System.Text.Json.Serialization;
 
 namespace InspectionManager.ApplicationCore.Dto
 {
+    /// <summary>
+    /// Choice set template data structure
+    /// </summary>
     public class ChoiceTemplateDto
     {
+        [JsonPropertyName("choice_template_id")]
+        public string ChoiceTemplateId { get; set; } = string.Empty;
+
         [JsonPropertyName("choices")]
         public List<string> Choices { get; set; } = new List<string>();
     }
