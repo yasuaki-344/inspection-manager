@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import {
   BottomNavigation, BottomNavigationAction, IconButton, Button,
   Dialog, DialogActions, DialogContent, DialogTitle,
@@ -11,14 +11,16 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 
 type ChoiceTemplate = {
+  choice_template_id: string,
   choices: string[],
 };
 
 const InitialChoiceTemplate = {
+  choice_template_id: '',
   choices: []
 };
 
-export const ChoicesTemplate = (): JSX.Element => {
+export const ChoicesTemplate: FC = (): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [target, setTarget] = useState<ChoiceTemplate>(InitialChoiceTemplate);
@@ -45,7 +47,17 @@ export const ChoicesTemplate = (): JSX.Element => {
    * Add new template set.
    */
   const handleAddTemplate = () => {
-    setTemplates(templates.concat(target));
+    if (templates.some((x: ChoiceTemplate) => x.choice_template_id === target.choice_template_id)) {
+      setTemplates(templates.map((e: ChoiceTemplate) => {
+        if (e.choice_template_id === target.choice_template_id) {
+          return target;
+        } else {
+          return e;
+        }
+      }));
+    } else {
+      setTemplates(templates.concat(target));
+    }
     setOpen(false);
   };
 
@@ -53,26 +65,32 @@ export const ChoicesTemplate = (): JSX.Element => {
    * Creates new template set.
    */
   const handleCreateTemplate = () => {
-    setTarget(InitialChoiceTemplate);
+    setTarget({
+      choice_template_id: Math.random().toString(36).substr(2, 9),
+      choices: [],
+    });
     setOpen(true);
   };
 
   /**
    * Edit the specified template.
-   * @param index The index template to be edited.
+   * @param id The template ID to be edited.
    */
-  const handleEditTemplate = (index: number) => {
-    setTarget(templates[index]);
-    setOpen(true);
+  const handleEditTemplate = (id: string) => {
+    const template = templates.find((x: ChoiceTemplate) => x.choice_template_id === id);
+    if (template != null) {
+      setTarget(template);
+      setOpen(true);
+    }
   };
 
   /**
    * Removes the specified template.
-   * @param index The index template to be removed.
+   * @param id The template ID to be removed.
    */
-  const handleDeleteTemplate = (index: number) => {
+  const handleDeleteTemplate = (id: string) => {
     setTemplates(
-      templates.filter((value: ChoiceTemplate, i: number) => i !== index)
+      templates.filter((x: ChoiceTemplate) => x.choice_template_id !== id)
     )
   };
 
@@ -123,12 +141,12 @@ export const ChoicesTemplate = (): JSX.Element => {
                     </TableHead>
                     <TableBody>
                       {templates.map((template: ChoiceTemplate, index: number) =>
-                        <TableRow key={`template_${index}`}>
+                        <TableRow key={template.choice_template_id}>
                           <TableCell>
                             <IconButton
                               data-testid={`edit-template-button-${index}`}
                               size='small'
-                              onClick={() => handleEditTemplate(index)}
+                              onClick={() => handleEditTemplate(template.choice_template_id)}
                             >
                               <EditIcon />
                             </IconButton>
@@ -138,7 +156,7 @@ export const ChoicesTemplate = (): JSX.Element => {
                             <IconButton
                               data-testid={`remove-template-button-${index}`}
                               size='small'
-                              onClick={() => handleDeleteTemplate(index)}
+                              onClick={() => handleDeleteTemplate(template.choice_template_id)}
                             >
                               <CancelIcon />
                             </IconButton>
