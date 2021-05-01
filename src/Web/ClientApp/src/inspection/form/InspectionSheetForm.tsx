@@ -12,7 +12,7 @@ import { EquipmentForm } from './EquipmentForm';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { InspectionItemContext } from '../context/InspectionItemContext';
-import { Equipment, InspectionItem } from '../Types';
+import { Equipment, InspectionItem, InspectionSheet } from '../Types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,6 +47,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   const [undoDisabled, setUndoDisabled] = useState(true);
   const [additional, setAdditional] = useState(false);
   const [equipmentId, setEquipmentId] = useState('');
+  // eslint-disable-next-line
+  const history: InspectionSheet[] = [];
 
   useEffect(() => {
     fetch('inspectiongroup')
@@ -62,6 +64,10 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
       })
       .catch(console.error);
   }, []);
+
+  useEffect(() => {
+    setUndoDisabled(!history.length);
+  }, [history]);
 
   /**
    * Implements the process for managing inspection item of equipment.
