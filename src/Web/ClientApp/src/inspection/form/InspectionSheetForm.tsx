@@ -47,8 +47,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   const [undoDisabled, setUndoDisabled] = useState(true);
   const [additional, setAdditional] = useState(false);
   const [equipmentId, setEquipmentId] = useState('');
-  // eslint-disable-next-line
-  const history: InspectionSheet[] = [];
+  const [history, setHistory] = useState<InspectionSheet[]>([]);
 
   useEffect(() => {
     fetch('inspectiongroup')
@@ -65,9 +64,19 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
       .catch(console.error);
   }, []);
 
-  useEffect(() => {
-    setUndoDisabled(!history.length);
-  }, [history]);
+  // eslint-disable-next-line
+  const recordHistory = () => {
+    setHistory(history.concat(context.inspectionSheet));
+    setUndoDisabled(false);
+  }
+
+  const getHistory = () => {
+    const sheet = history.pop();
+    if (sheet != null) {
+      context.setSheet(sheet);
+      setUndoDisabled(!history.length);
+    }
+  };
 
   /**
    * Implements the process for managing inspection item of equipment.
@@ -196,7 +205,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
                 disabled={undoDisabled}
                 label="戻る"
                 icon={<UndoIcon />}
-                onClick={() => { }}
+                onClick={getHistory}
               />
               <BottomNavigationAction
                 label="点検機器追加"
