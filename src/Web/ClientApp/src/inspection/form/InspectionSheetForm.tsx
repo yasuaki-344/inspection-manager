@@ -44,6 +44,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   const [groups, setGroups] = useState<string[]>([]);
   const [types, setTypes] = useState<string[]>([]);
   const [open, setOpen] = useState(false);
+  const [undoDisabled, setUndoDisabled] = useState(true);
   const [additional, setAdditional] = useState(false);
   const [equipmentId, setEquipmentId] = useState('');
 
@@ -186,7 +187,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
           <Grid item xs={12}>
             <BottomNavigation showLabels>
               <BottomNavigationAction
-                disabled={true}
+                disabled={undoDisabled}
                 label="戻る"
                 icon={<UndoIcon />}
                 onClick={() => { }}
