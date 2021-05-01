@@ -86,6 +86,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
     } else {
       context.updateInspectionItem(equipmentId, itemContext.inspectionItem);
     }
+    storeHistory();
     setOpen(false);
   };
 
