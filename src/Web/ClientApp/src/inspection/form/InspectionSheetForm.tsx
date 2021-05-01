@@ -7,11 +7,12 @@ import {
   MenuItem, Grid, Paper, TextField
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import UndoIcon from '@material-ui/icons/Undo';
 import { EquipmentForm } from './EquipmentForm';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { InspectionItemContext } from '../context/InspectionItemContext';
-import { Equipment, InspectionItem } from '../Types';
+import { Equipment, InspectionItem, InspectionSheet } from '../Types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,8 +44,10 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   const [groups, setGroups] = useState<string[]>([]);
   const [types, setTypes] = useState<string[]>([]);
   const [open, setOpen] = useState(false);
+  const [undoDisabled, setUndoDisabled] = useState(true);
   const [additional, setAdditional] = useState(false);
   const [equipmentId, setEquipmentId] = useState('');
+  const [history, setHistory] = useState<InspectionSheet[]>([]);
 
   useEffect(() => {
     fetch('inspectiongroup')
@@ -61,6 +64,19 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
       .catch(console.error);
   }, []);
 
+  const storeHistory = () => {
+    setHistory(history.concat(context.inspectionSheet));
+    setUndoDisabled(false);
+  }
+
+  const getHistory = () => {
+    const sheet = history.pop();
+    if (sheet != null) {
+      context.setSheet(sheet);
+      setUndoDisabled(!history.length);
+    }
+  };
+
   /**
    * Implements the process for managing inspection item of equipment.
    */
@@ -70,6 +86,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
     } else {
       context.updateInspectionItem(equipmentId, itemContext.inspectionItem);
     }
+    storeHistory();
     setOpen(false);
   };
 
@@ -179,11 +196,18 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
                 equipment={equipment}
                 handleAddItem={handleAddItem}
                 handleEditItem={handleEditItem}
+                storeHistory={storeHistory}
               />
             </Grid>
           )}
           <Grid item xs={12}>
             <BottomNavigation showLabels>
+              <BottomNavigationAction
+                disabled={undoDisabled}
+                label="戻る"
+                icon={<UndoIcon />}
+                onClick={getHistory}
+              />
               <BottomNavigationAction
                 label="点検機器追加"
                 icon={<AddCircleIcon />}

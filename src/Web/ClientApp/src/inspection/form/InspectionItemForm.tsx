@@ -11,14 +11,16 @@ interface InspectionItemFormProps {
   equipmentId: string,
   inspectionItems: InspectionItem[],
   editInspectionItem: (equipmentId: string, inspectionItem: InspectionItem) => void,
-  addInspectionItem: (equipmentId: string) => void
+  addInspectionItem: (equipmentId: string) => void,
+  storeHistory: () => void,
 };
 
 export const InspectionItemForm: FC<InspectionItemFormProps> = ({
   equipmentId,
   inspectionItems,
   editInspectionItem,
-  addInspectionItem
+  addInspectionItem,
+  storeHistory
 }): JSX.Element => {
   return (
     <>
@@ -41,6 +43,7 @@ export const InspectionItemForm: FC<InspectionItemFormProps> = ({
                 equipmentId={equipmentId}
                 inspectionItem={item}
                 editInspectionItem={editInspectionItem}
+                storeHistory={storeHistory}
               />
             )}
           </TableBody>

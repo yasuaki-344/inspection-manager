@@ -16,12 +16,14 @@ interface InspectionItemRowProps {
   equipmentId: string,
   inspectionItem: InspectionItem,
   editInspectionItem: (equipmentId: string, item: InspectionItem) => void,
+  storeHistory: () => void,
 };
 
 export const InspectionItemRow: FC<InspectionItemRowProps> = ({
   equipmentId,
   inspectionItem,
-  editInspectionItem
+  editInspectionItem,
+  storeHistory
 }): JSX.Element => {
   const context = useContext<InspectionSheetContextType>(InspectionSheetContext);
   const dropRef = useRef<HTMLTableRowElement>(null);
