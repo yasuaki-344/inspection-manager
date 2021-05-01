@@ -7,6 +7,7 @@ import {
   MenuItem, Grid, Paper, TextField
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import UndoIcon from '@material-ui/icons/Undo';
 import { EquipmentForm } from './EquipmentForm';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
@@ -184,6 +185,12 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
           )}
           <Grid item xs={12}>
             <BottomNavigation showLabels>
+              <BottomNavigationAction
+                disabled={true}
+                label="戻る"
+                icon={<UndoIcon />}
+                onClick={() => { }}
+              />
               <BottomNavigationAction
                 label="点検機器追加"
                 icon={<AddCircleIcon />}
