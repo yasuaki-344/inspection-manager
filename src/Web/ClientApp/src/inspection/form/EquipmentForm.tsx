@@ -38,12 +38,14 @@ interface EquipmentFormProps {
   equipment: Equipment,
   handleAddItem: (equipmentId: string) => void,
   handleEditItem: (equipmentId: string, inspectionItem: InspectionItem) => void,
+  storeHistory: () => void,
 };
 
 export const EquipmentForm: FC<EquipmentFormProps> = ({
   equipment,
   handleAddItem,
-  handleEditItem
+  handleEditItem,
+  storeHistory
 }): JSX.Element => {
   const classes = useStyles();
   const context = useContext<InspectionSheetContextType>(InspectionSheetContext);
@@ -106,6 +108,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
                 inspectionItems={equipment.inspection_items}
                 editInspectionItem={handleEditItem}
                 addInspectionItem={handleAddItem}
+                storeHistory={storeHistory}
               />
             </Grid>
           </Grid>

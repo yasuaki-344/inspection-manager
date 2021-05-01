@@ -64,8 +64,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
       .catch(console.error);
   }, []);
 
-  // eslint-disable-next-line
-  const recordHistory = () => {
+  const storeHistory = () => {
     setHistory(history.concat(context.inspectionSheet));
     setUndoDisabled(false);
   }
@@ -196,6 +195,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
                 equipment={equipment}
                 handleAddItem={handleAddItem}
                 handleEditItem={handleEditItem}
+                storeHistory={storeHistory}
               />
             </Grid>
           )}
