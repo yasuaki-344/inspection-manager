@@ -5,9 +5,9 @@
 // http://opensource.org/licenses/mit-license.php
 //
 using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
+using System.Linq;
 using InspectionManager.ApplicationCore.Dto;
+using InspectionManager.ApplicationCore.Entities;
 using InspectionManager.ApplicationCore.Interfaces;
 
 namespace InspectionManager.Infrastructure
@@ -40,13 +40,32 @@ namespace InspectionManager.Infrastructure
         /// <inheritdoc/>
         public string[] GetInspectionTypes()
         {
-            throw new System.NotImplementedException();
+            if (_context.InspectionTypes != null)
+            {
+                return _context.InspectionTypes.Select(x => x.Text).ToArray();
+            }
+            else
+            {
+                return new string[] { };
+            }
         }
 
         /// <inheritdoc/>
-        public string[] CreateInspectionTypes(string[] groups)
+        public string[] CreateInspectionTypes(string[] types)
         {
-            throw new System.NotImplementedException();
+            if (_context.InspectionTypes != null)
+            {
+                _context.InspectionTypes.RemoveRange(_context.InspectionTypes);
+                _context.InspectionTypes.AddRange(types.Select(x =>
+                    new InspectionType { Text = x }
+                ).ToArray());
+                _context.SaveChanges();
+                return _context.InspectionTypes.Select(x => x.Text).ToArray();
+            }
+            else
+            {
+                return new string[] { };
+            }
         }
 
         /// <inheritdoc/>
