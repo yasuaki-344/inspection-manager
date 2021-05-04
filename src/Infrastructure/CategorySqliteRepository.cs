@@ -28,13 +28,32 @@ namespace InspectionManager.Infrastructure
         /// <inheritdoc/>
         public string[] GetInspectionGroups()
         {
-            throw new System.NotImplementedException();
+            if (_context.InspectionGroups != null)
+            {
+                return _context.InspectionGroups.Select(x => x.Text).ToArray();
+            }
+            else
+            {
+                return new string[] { };
+            }
         }
 
         /// <inheritdoc/>
         public string[] CreateInspectionGroups(string[] groups)
         {
-            throw new System.NotImplementedException();
+            if (_context.InspectionGroups != null)
+            {
+                _context.InspectionGroups.RemoveRange(_context.InspectionGroups);
+                _context.InspectionGroups.AddRange(groups.Select(x =>
+                    new InspectionGroup { Text = x }
+                ).ToArray());
+                _context.SaveChanges();
+                return _context.InspectionGroups.Select(x => x.Text).ToArray();
+            }
+            else
+            {
+                return new string[] { };
+            }
         }
 
         /// <inheritdoc/>
