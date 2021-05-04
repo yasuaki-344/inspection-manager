@@ -18,5 +18,7 @@ namespace InspectionManager.Infrastructure
 
         public DbSet<InspectionType>? InspectionTypes { get; set; }
         public DbSet<InspectionGroup>? InspectionGroups { get; set; }
+        public DbSet<Choice>? Choices { get; set; }
+        public DbSet<ChoiceTemplate>? ChoiceTemplates { get; set; }
     }
 }
