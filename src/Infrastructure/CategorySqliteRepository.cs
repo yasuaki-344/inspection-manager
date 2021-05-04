@@ -90,7 +90,19 @@ namespace InspectionManager.Infrastructure
         /// <inheritdoc/>
         public IEnumerable<ChoiceTemplateDto> GetChoiceTemplates()
         {
-            throw new System.NotImplementedException();
+            if (_context.ChoiceTemplates != null)
+            {
+                return _context.ChoiceTemplates.Select(x =>
+                    new ChoiceTemplateDto {
+                        ChoiceTemplateId = x.ChoiceTemplateId,
+                        Choices = x.Choices.Select(e => e.Text).ToList()
+                    }
+                );
+            }
+            else
+            {
+                return new List<ChoiceTemplateDto>();
+            }
         }
 
         /// <inheritdoc/>
@@ -98,7 +110,31 @@ namespace InspectionManager.Infrastructure
             IEnumerable<ChoiceTemplateDto> templates
         )
         {
-            throw new System.NotImplementedException();
+            if (_context.ChoiceTemplates != null　&& _context.Choices != null)
+            {
+                _context.RemoveRange(_context.Choices);
+                _context.RemoveRange(_context.ChoiceTemplates);
+                _context.ChoiceTemplates.AddRange(
+                    templates.Select(x => new ChoiceTemplate
+                    {
+                        ChoiceTemplateId = x.ChoiceTemplateId,
+                        Choices = x.Choices.Select(e =>
+                            new Choice { Text = e }
+                        ).ToList()
+                    })
+                );
+                _context.SaveChanges();
+                return _context.ChoiceTemplates.Select(x =>
+                    new ChoiceTemplateDto {
+                        ChoiceTemplateId = x.ChoiceTemplateId,
+                        Choices = x.Choices.Select(e => e.Text).ToList()
+                    }
+                );
+            }
+            else
+            {
+                return new List<ChoiceTemplateDto>();
+            }
         }
     }
 }
