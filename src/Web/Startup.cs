@@ -47,7 +47,7 @@ namespace InspectionManager.Web
 
             services.AddSingleton<IInspectionSheetRepository, InspectionSheetFileRepository>();
             // services.AddSingleton<ICategoryRepository, CategoryFileRepository>();
-            services.AddSingleton<ICategoryRepository, CategorySqliteRepository>();
+            services.AddScoped<ICategoryRepository, CategorySqliteRepository>();
 
             services.AddScoped<IInspectionSheetService, InspectionSheetService>();
             services.AddScoped<IExcelDownloadService, ExcelDownloadService>();
