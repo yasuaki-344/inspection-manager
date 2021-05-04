@@ -14,12 +14,15 @@ namespace InspectionManager.Infrastructure
 {
     public class CategorySqliteRepository : ICategoryRepository
     {
+        private readonly InspectionContext _context;
+
         /// <summary>
         /// Initializes a new instance of CategorySqliteRepository class.
         /// </summary>
-        public CategorySqliteRepository()
+        /// <param name="context"></param>
+        public CategorySqliteRepository(InspectionContext context)
         {
-
+            _context = context;
         }
 
         /// <inheritdoc/>
