@@ -21,6 +21,10 @@ namespace InspectionManager.Web
 {
     public class Startup
     {
+        /// <summary>
+        /// Initializes a new instance of Startup class
+        /// </summary>
+        /// <param name="configuration">Represents a set of key/value application configuration properties.</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
