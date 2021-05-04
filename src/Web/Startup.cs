@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.
@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -36,9 +37,14 @@ namespace InspectionManager.Web
             {
                 cfg.AddProfile<AutoMapping>();
             });
+            services.AddDbContext<InspectionContext>(options => options.UseSqlite(
+                Configuration.GetConnectionString("InspectionContext")
+            ));
 
             services.AddSingleton<IInspectionSheetRepository, InspectionSheetFileRepository>();
-            services.AddSingleton<ICategoryRepository, CategoryFileRepository>();
+            // services.AddSingleton<ICategoryRepository, CategoryFileRepository>();
+            services.AddSingleton<ICategoryRepository, CategorySqliteRepository>();
+
             services.AddScoped<IInspectionSheetService, InspectionSheetService>();
             services.AddScoped<IExcelDownloadService, ExcelDownloadService>();
 
