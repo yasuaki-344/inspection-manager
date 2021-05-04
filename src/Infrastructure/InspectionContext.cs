@@ -4,6 +4,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 //
+using InspectionManager.ApplicationCore.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace InspectionManager.Infrastructure
@@ -14,5 +15,7 @@ namespace InspectionManager.Infrastructure
         {
 
         }
+
+        public DbSet<InspectionType>? InspectionTypes { get; set; }
     }
 }
