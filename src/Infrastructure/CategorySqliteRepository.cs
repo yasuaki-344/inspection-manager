@@ -30,7 +30,7 @@ namespace InspectionManager.Infrastructure
         {
             if (_context.InspectionGroups != null)
             {
-                return _context.InspectionGroups.Select(x => x.Text).ToArray();
+                return _context.InspectionGroups.Select(x => x.Description).ToArray();
             }
             else
             {
@@ -45,10 +45,10 @@ namespace InspectionManager.Infrastructure
             {
                 _context.InspectionGroups.RemoveRange(_context.InspectionGroups);
                 _context.InspectionGroups.AddRange(groups.Select(x =>
-                    new InspectionGroup { Text = x }
+                    new InspectionGroup { Description = x }
                 ).ToArray());
                 _context.SaveChanges();
-                return _context.InspectionGroups.Select(x => x.Text).ToArray();
+                return _context.InspectionGroups.Select(x => x.Description).ToArray();
             }
             else
             {
@@ -61,7 +61,7 @@ namespace InspectionManager.Infrastructure
         {
             if (_context.InspectionTypes != null)
             {
-                return _context.InspectionTypes.Select(x => x.Text).ToArray();
+                return _context.InspectionTypes.Select(x => x.Description).ToArray();
             }
             else
             {
@@ -76,10 +76,10 @@ namespace InspectionManager.Infrastructure
             {
                 _context.InspectionTypes.RemoveRange(_context.InspectionTypes);
                 _context.InspectionTypes.AddRange(types.Select(x =>
-                    new InspectionType { Text = x }
+                    new InspectionType { Description = x }
                 ).ToArray());
                 _context.SaveChanges();
-                return _context.InspectionTypes.Select(x => x.Text).ToArray();
+                return _context.InspectionTypes.Select(x => x.Description).ToArray();
             }
             else
             {
@@ -93,9 +93,10 @@ namespace InspectionManager.Infrastructure
             if (_context.ChoiceTemplates != null)
             {
                 return _context.ChoiceTemplates.Select(x =>
-                    new ChoiceTemplateDto {
+                    new ChoiceTemplateDto
+                    {
                         ChoiceTemplateId = x.ChoiceTemplateId,
-                        Choices = x.Choices.Select(e => e.Text).ToList()
+                        Choices = x.Choices.Select(e => e.Description).ToList()
                     }
                 );
             }
@@ -110,7 +111,7 @@ namespace InspectionManager.Infrastructure
             IEnumerable<ChoiceTemplateDto> templates
         )
         {
-            if (_context.ChoiceTemplates != null　&& _context.Choices != null)
+            if (_context.ChoiceTemplates != null && _context.Choices != null)
             {
                 _context.RemoveRange(_context.Choices);
                 _context.RemoveRange(_context.ChoiceTemplates);
@@ -119,15 +120,16 @@ namespace InspectionManager.Infrastructure
                     {
                         ChoiceTemplateId = x.ChoiceTemplateId,
                         Choices = x.Choices.Select(e =>
-                            new Choice { Text = e }
+                            new Option { Description = e }
                         ).ToList()
                     })
                 );
                 _context.SaveChanges();
                 return _context.ChoiceTemplates.Select(x =>
-                    new ChoiceTemplateDto {
+                    new ChoiceTemplateDto
+                    {
                         ChoiceTemplateId = x.ChoiceTemplateId,
-                        Choices = x.Choices.Select(e => e.Text).ToList()
+                        Choices = x.Choices.Select(e => e.Description).ToList()
                     }
                 );
             }
