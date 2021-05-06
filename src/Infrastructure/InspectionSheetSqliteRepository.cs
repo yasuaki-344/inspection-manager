@@ -18,11 +18,15 @@ namespace InspectionManager.Infrastructure
 {
     public class InspectionSheetSqliteRepository : IInspectionSheetRepository
     {
+        private readonly InspectionContext _context;
+
         /// <summary>
         /// Initializes a new instance of InspectionSheetSqliteRepository class.
         /// </summary>
-        public InspectionSheetSqliteRepository()
+        /// <param name="context">Database context</param>
+        public InspectionSheetSqliteRepository(InspectionContext context)
         {
+            _context = context;
         }
 
         /// <inheritdoc/>
