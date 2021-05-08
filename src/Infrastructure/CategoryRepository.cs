@@ -12,15 +12,15 @@ using InspectionManager.ApplicationCore.Interfaces;
 
 namespace InspectionManager.Infrastructure
 {
-    public class CategorySqliteRepository : ICategoryRepository
+    public class CategoryRepository : ICategoryRepository
     {
         private readonly InspectionContext _context;
 
         /// <summary>
-        /// Initializes a new instance of CategorySqliteRepository class.
+        /// Initializes a new instance of CategoryRepository class.
         /// </summary>
         /// <param name="context"></param>
-        public CategorySqliteRepository(InspectionContext context)
+        public CategoryRepository(InspectionContext context)
         {
             _context = context;
         }

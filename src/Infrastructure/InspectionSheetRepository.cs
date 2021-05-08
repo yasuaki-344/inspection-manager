@@ -13,15 +13,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InspectionManager.Infrastructure
 {
-    public class InspectionSheetSqliteRepository : IInspectionSheetRepository
+    public class InspectionSheetRepository : IInspectionSheetRepository
     {
         private readonly InspectionContext _context;
 
         /// <summary>
-        /// Initializes a new instance of InspectionSheetSqliteRepository class.
+        /// Initializes a new instance of InspectionSheetRepository class.
         /// </summary>
         /// <param name="context">Database context</param>
-        public InspectionSheetSqliteRepository(InspectionContext context)
+        public InspectionSheetRepository(InspectionContext context)
         {
             _context = context;
         }
