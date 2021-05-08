@@ -74,7 +74,7 @@ namespace InspectionManager.Infrastructure.Migrations
 
                     b.HasIndex("InspectionSheetId");
 
-                    b.ToTable("Equipment");
+                    b.ToTable("Equipments");
                 });
 
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.InputType", b =>
@@ -94,7 +94,7 @@ namespace InspectionManager.Infrastructure.Migrations
 
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.InspectionGroup", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("InspectionGroupId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -102,7 +102,7 @@ namespace InspectionManager.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("InspectionGroupId");
 
                     b.ToTable("InspectionGroups");
                 });
@@ -141,10 +141,10 @@ namespace InspectionManager.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("InspectionGroupId")
+                    b.Property<int>("InspectionGroupId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("InspectionTypeId")
+                    b.Property<int>("InspectionTypeId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("SheetName")
@@ -162,7 +162,7 @@ namespace InspectionManager.Infrastructure.Migrations
 
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.InspectionType", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("InspectionTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -170,7 +170,7 @@ namespace InspectionManager.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("InspectionTypeId");
 
                     b.ToTable("InspectionTypes");
                 });
@@ -225,12 +225,16 @@ namespace InspectionManager.Infrastructure.Migrations
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.InspectionSheet", b =>
                 {
                     b.HasOne("InspectionManager.ApplicationCore.Entities.InspectionGroup", "InspectionGroup")
-                        .WithMany()
-                        .HasForeignKey("InspectionGroupId");
+                        .WithMany("InspectionSheets")
+                        .HasForeignKey("InspectionGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("InspectionManager.ApplicationCore.Entities.InspectionType", "InspectionType")
-                        .WithMany()
-                        .HasForeignKey("InspectionTypeId");
+                        .WithMany("InspectionSheets")
+                        .HasForeignKey("InspectionTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("InspectionGroup");
 
@@ -254,6 +258,11 @@ namespace InspectionManager.Infrastructure.Migrations
                     b.Navigation("InspectionItems");
                 });
 
+            modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.InspectionGroup", b =>
+                {
+                    b.Navigation("InspectionSheets");
+                });
+
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.InspectionItem", b =>
                 {
                     b.Navigation("Choices");
@@ -262,6 +271,11 @@ namespace InspectionManager.Infrastructure.Migrations
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.InspectionSheet", b =>
                 {
                     b.Navigation("Equipments");
+                });
+
+            modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.InspectionType", b =>
+                {
+                    b.Navigation("InspectionSheets");
                 });
 #pragma warning restore 612, 618
         }
