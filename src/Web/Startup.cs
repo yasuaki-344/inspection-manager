@@ -45,11 +45,8 @@ namespace InspectionManager.Web
                 .UseSqlite(Configuration.GetConnectionString("InspectionContext")
             ));
 
-            // services.AddSingleton<IInspectionSheetRepository, InspectionSheetFileRepository>();
-            // services.AddSingleton<ICategoryRepository, CategoryFileRepository>();
             services.AddScoped<IInspectionSheetRepository, InspectionSheetRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-
             services.AddScoped<IInspectionSheetService, InspectionSheetService>();
             services.AddScoped<IExcelDownloadService, ExcelDownloadService>();
 
