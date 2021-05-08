@@ -26,15 +26,21 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public string[] GetInspectionGroups()
+        public IEnumerable<InspectionGroupDto> GetInspectionGroups()
         {
             if (_context.InspectionGroups != null)
             {
-                return _context.InspectionGroups.Select(x => x.Description).ToArray();
+                return _context.InspectionGroups
+                    .Select(x => new InspectionGroupDto
+                    {
+                        InspectionGroupId = x.InspectionGroupId,
+                        Description = x.Description
+                    })
+                    .ToList();
             }
             else
             {
-                return new string[] { };
+                return new List<InspectionGroupDto>();
             }
         }
 

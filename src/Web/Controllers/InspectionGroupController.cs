@@ -40,7 +40,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult<string[]> GetAllGroups()
+        public ActionResult<InspectionGroupDto> GetAllGroups()
         {
             try
             {

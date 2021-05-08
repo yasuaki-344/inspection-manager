@@ -15,7 +15,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// Pulls inspection groups from database.
         /// </summary>
         /// <returns>Inspection group list</returns>
-        string[] GetInspectionGroups();
+        IEnumerable<InspectionGroupDto> GetInspectionGroups();
 
         /// <summary>
         /// Pushes inspection groups database.
