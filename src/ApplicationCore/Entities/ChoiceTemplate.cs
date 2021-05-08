@@ -15,6 +15,6 @@ namespace InspectionManager.ApplicationCore.Entities
     {
         public int Id { get; set; }
         public string ChoiceTemplateId { get; set; } = string.Empty;
-        public List<Option> Choices { get; set; } = new List<Option>();
+        public ICollection<Option> Choices { get; set; } = new List<Option>();
     }
 }

@@ -65,17 +65,18 @@ namespace InspectionManager.Infrastructure.Migrations
                     OptionId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
-                    ChoiceTemplateId = table.Column<int>(type: "INTEGER", nullable: true)
+                    ChoiceTemplateId = table.Column<string>(type: "TEXT", nullable: false),
+                    ChoiceTemplateId1 = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Options", x => x.OptionId);
                     table.ForeignKey(
-                        name: "FK_Options_ChoiceTemplates_ChoiceTemplateId",
-                        column: x => x.ChoiceTemplateId,
+                        name: "FK_Options_ChoiceTemplates_ChoiceTemplateId1",
+                        column: x => x.ChoiceTemplateId1,
                         principalTable: "ChoiceTemplates",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -113,7 +114,7 @@ namespace InspectionManager.Infrastructure.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     OrderIndex = table.Column<int>(type: "INTEGER", nullable: false),
                     EquipmentName = table.Column<string>(type: "TEXT", nullable: false),
-                    InspectionSheetId = table.Column<int>(type: "INTEGER", nullable: true)
+                    InspectionSheetId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -123,7 +124,7 @@ namespace InspectionManager.Infrastructure.Migrations
                         column: x => x.InspectionSheetId,
                         principalTable: "InspectionSheets",
                         principalColumn: "InspectionSheetId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -134,8 +135,8 @@ namespace InspectionManager.Infrastructure.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     OrderIndex = table.Column<int>(type: "INTEGER", nullable: false),
                     InspectionContent = table.Column<string>(type: "TEXT", nullable: false),
-                    InputTypeId = table.Column<int>(type: "INTEGER", nullable: true),
-                    EquipmentId = table.Column<int>(type: "INTEGER", nullable: true)
+                    InputTypeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    EquipmentId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -145,13 +146,13 @@ namespace InspectionManager.Infrastructure.Migrations
                         column: x => x.EquipmentId,
                         principalTable: "Equipments",
                         principalColumn: "EquipmentId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_InspectionItems_InputTypes_InputTypeId",
                         column: x => x.InputTypeId,
                         principalTable: "InputTypes",
                         principalColumn: "InputTypeId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -162,7 +163,7 @@ namespace InspectionManager.Infrastructure.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     OrderIndex = table.Column<int>(type: "INTEGER", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
-                    InspectionItemId = table.Column<int>(type: "INTEGER", nullable: true)
+                    InspectionItemId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -172,7 +173,7 @@ namespace InspectionManager.Infrastructure.Migrations
                         column: x => x.InspectionItemId,
                         principalTable: "InspectionItems",
                         principalColumn: "InspectionItemId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -206,9 +207,9 @@ namespace InspectionManager.Infrastructure.Migrations
                 column: "InspectionTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Options_ChoiceTemplateId",
+                name: "IX_Options_ChoiceTemplateId1",
                 table: "Options",
-                column: "ChoiceTemplateId");
+                column: "ChoiceTemplateId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

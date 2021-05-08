@@ -12,6 +12,6 @@ namespace InspectionManager.ApplicationCore.Entities
     {
         public int InspectionTypeId { get; set; }
         public string Description { get; set; } = string.Empty;
-        public List<InspectionSheet> InspectionSheets { get; set; } = new List<InspectionSheet>();
+        public ICollection<InspectionSheet> InspectionSheets { get; set; } = new List<InspectionSheet>();
     }
 }

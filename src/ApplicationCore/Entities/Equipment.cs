@@ -16,6 +16,8 @@ namespace InspectionManager.ApplicationCore.Entities
         public int EquipmentId { get; set; }
         public int OrderIndex { get; set; }
         public string EquipmentName { get; set; } = string.Empty;
-        public List<InspectionItem> InspectionItems { get; set; } = new List<InspectionItem>();
+        public ICollection<InspectionItem> InspectionItems { get; set; } = new List<InspectionItem>();
+        public int InspectionSheetId { get; set; }
+        public InspectionSheet InspectionSheet { get; set; } = new InspectionSheet();
     }
 }

@@ -45,7 +45,7 @@ namespace InspectionManager.Infrastructure.Data
                                 InspectionTypeId = 1,
                                 InspectionType = new InspectionType { InspectionTypeId = 1, Description = "type" },
                                 InspectionGroupId = 1,
-                                InspectionGroup = new InspectionGroup {  InspectionGroupId = 1, Description = "group" },
+                                InspectionGroup = new InspectionGroup { InspectionGroupId = 1, Description = "group" },
                                 Equipments = new List<Equipment>
                                 {
                                     new Equipment

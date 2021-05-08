@@ -20,6 +20,6 @@ namespace InspectionManager.ApplicationCore.Entities
         public InspectionType InspectionType { get; set; } = new InspectionType();
         public int InspectionGroupId { get; set; }
         public InspectionGroup InspectionGroup { get; set; } = new InspectionGroup();
-        public List<Equipment> Equipments { get; set; } = new List<Equipment>();
+        public ICollection<Equipment> Equipments { get; set; } = new List<Equipment>();
     }
 }
