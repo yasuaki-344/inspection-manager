@@ -42,7 +42,7 @@ export const Create = (): JSX.Element => {
    * Set the specified inspection sheet.
    * @param sheetId Sheet ID of inspection sheet to set.
    */
-  const handleSelectSheet = (sheetId: string) => {
+  const handleSelectSheet = (sheetId: number) => {
     fetch(`inspectionsheet/${sheetId}`)
       .then(res => res.json())
       .then((json: InspectionSheet) => {

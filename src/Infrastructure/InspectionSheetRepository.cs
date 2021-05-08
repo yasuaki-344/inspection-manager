@@ -27,11 +27,11 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public bool InspectionSheetExists(string id)
+        public bool InspectionSheetExists(int id)
         {
             if (_context.InspectionSheets!=null)
             {
-                var sheetExists = _context.InspectionSheets.Any(s => s.InspectionSheetId == int.Parse(id));
+                var sheetExists = _context.InspectionSheets.Any(s => s.InspectionSheetId == id);
                 return sheetExists;
             }
             else
@@ -50,7 +50,7 @@ namespace InspectionManager.Infrastructure
                     .Include(s => s.InspectionType)
                     .Select(s => new InspectionSheetDto
                     {
-                        SheetId = s.InspectionSheetId.ToString(),
+                        SheetId = s.InspectionSheetId,
                         SheetName = s.SheetName,
                         InspectionGroup = s.InspectionGroup.Description,
                         InspectionType = s.InspectionType.Description,
@@ -64,12 +64,12 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public InspectionSheetDto? GetInspectionSheet(string id)
+        public InspectionSheetDto? GetInspectionSheet(int id)
         {
             if (_context.InspectionSheets != null)
             {
                 var sheet = _context.InspectionSheets
-                    .Where(s => s.InspectionSheetId == int.Parse(id))
+                    .Where(s => s.InspectionSheetId == id)
                     .Include(s => s.InspectionGroup)
                     .Include(s => s.InspectionType)
                     .Include(s => s.Equipments)
@@ -77,7 +77,7 @@ namespace InspectionManager.Infrastructure
                     .ThenInclude(i => i.Choices)
                     .Select(s => new InspectionSheetDto
                     {
-                        SheetId = s.InspectionSheetId.ToString(),
+                        SheetId = s.InspectionSheetId,
                         SheetName = s.SheetName,
                         InspectionGroup = s.InspectionGroup.Description,
                         InspectionType = s.InspectionType.Description,
@@ -167,7 +167,7 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public InspectionSheetDto DeleteInspectionSheet(string id)
+        public InspectionSheetDto DeleteInspectionSheet(int id)
         {
             throw new System.NotImplementedException();
         }

@@ -11,7 +11,7 @@ namespace InspectionManager.ApplicationCore.Dto
     public class InspectionSheetSummaryDto
     {
         [JsonPropertyName("sheet_id")]
-        public string SheetId { get; set; } = string.Empty;
+        public int SheetId { get; set; }
 
         [JsonPropertyName("sheet_name")]
         public string SheetName { get; set; } = string.Empty;

@@ -37,7 +37,7 @@ namespace InspectionManager.ApplicationCore.Services
         }
 
         /// <inheritdoc/>
-        public bool InspectionSheetExists(string id) =>
+        public bool InspectionSheetExists(int id) =>
             _repository.InspectionSheetExists(id);
 
         /// <inheritdoc/>
@@ -50,7 +50,7 @@ namespace InspectionManager.ApplicationCore.Services
             .ThenBy(x => x.InspectionType);
 
         /// <inheritdoc/>
-        public InspectionSheetDto? GetInspectionSheet(string id) =>
+        public InspectionSheetDto? GetInspectionSheet(int id) =>
             _repository.GetInspectionSheet(id);
 
         /// <inheritdoc/>
@@ -62,7 +62,7 @@ namespace InspectionManager.ApplicationCore.Services
             _repository.UpdateInspectionSheet(dto);
 
         /// <inheritdoc/>
-        public InspectionSheetDto DeleteInspectionSheet(string id) =>
+        public InspectionSheetDto DeleteInspectionSheet(int id) =>
             _repository.DeleteInspectionSheet(id);
     }
 }

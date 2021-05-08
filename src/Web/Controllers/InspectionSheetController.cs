@@ -56,8 +56,8 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpGet("{id:guid}")]
-        public ActionResult<InspectionSheetDto> GetInspectionSheet(string id)
+        [HttpGet("{id:int}")]
+        public ActionResult<InspectionSheetDto> GetInspectionSheet(int id)
         {
             try
             {
@@ -129,8 +129,8 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpDelete("{id:guid}")]
-        public ActionResult<InspectionSheetDto> DeleteInspectionSheet(string id)
+        [HttpDelete("{id:int}")]
+        public ActionResult<InspectionSheetDto> DeleteInspectionSheet(int id)
         {
             try
             {

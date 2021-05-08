@@ -71,7 +71,7 @@ const Row = (props: any): JSX.Element => {
 export const Details = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
   const [inspectionSheet, setInspectionSheet] = useState<InspectionSheet>({
-    sheet_id: '',
+    sheet_id: 0,
     sheet_name: '',
     inspection_group: '',
     inspection_type: '',

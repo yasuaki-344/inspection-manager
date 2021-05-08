@@ -16,7 +16,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// </summary>
         /// <param name="id">Sheet ID to be checked</param>
         /// <returns>Return True if exist, otherwise false.</returns>
-        bool InspectionSheetExists(string id);
+        bool InspectionSheetExists(int id);
 
         /// <summary>
         /// Gets all inspection sheets from database.
@@ -29,7 +29,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// </summary>
         /// <param name="id">The ID of inspection sheet to be gotton</param>
         /// <returns>The inspection sheet of the specified ID</returns>
-        InspectionSheetDto? GetInspectionSheet(string id);
+        InspectionSheetDto? GetInspectionSheet(int id);
 
         /// <summary>
         /// Creates new inspection sheet by using the specified InspectionSheetDto.
@@ -50,6 +50,6 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// </summary>
         /// <param name="id">Sheet ID to be deleted</param>
         /// <returns>Deleted inspection sheet data</returns>
-        InspectionSheetDto DeleteInspectionSheet(string id);
+        InspectionSheetDto DeleteInspectionSheet(int id);
     }
 }

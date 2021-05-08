@@ -33,10 +33,10 @@ namespace InspectionManager.ApplicationCore.Interfaces
         }
 
         /// <inheritdoc/>
-        public bool InspectionSheetExists(string id) => _repository.InspectionSheetExists(id);
+        public bool InspectionSheetExists(int id) => _repository.InspectionSheetExists(id);
 
         /// <inheritdoc/>
-        public IWorkbook CreateXlsx(string id)
+        public IWorkbook CreateXlsx(int id)
         {
             var dto = _repository.GetInspectionSheet(id);
             if (dto != null)

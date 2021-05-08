@@ -32,7 +32,7 @@ export const Home = (): JSX.Element => {
   const [filteredInspectionSheets, setFilteredInspectionSheets] = useState<InspectionSheetSummary[]>([]);
   const [open, setOpen] = React.useState(false);
   const [targetSheet, setTargetSheet] = React.useState<InspectionSheetSummary>({
-    sheet_id: '',
+    sheet_id: 0,
     sheet_name: '',
     inspection_group: '',
     inspection_type: '',

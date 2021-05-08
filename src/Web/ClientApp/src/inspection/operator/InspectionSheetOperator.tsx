@@ -12,7 +12,7 @@ import InspectionSheetReducer, {
  */
 export const initialState = () => {
   return {
-    sheet_id: '',
+    sheet_id: 0,
     sheet_name: '',
     inspection_group: '',
     inspection_type: '',

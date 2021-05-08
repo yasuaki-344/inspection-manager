@@ -84,7 +84,7 @@ namespace InspectionManager.ApplicationCore.Test
         {
             var item = new InspectionSheetDto
             {
-                SheetId = "sheet id",
+                SheetId = 11,
                 SheetName = "sheet name",
                 InspectionType = "inspection type",
                 InspectionGroup = "inspection group",
@@ -96,7 +96,7 @@ namespace InspectionManager.ApplicationCore.Test
             });
             var mapper = new Mapper(config);
             var actual = mapper.Map<InspectionSheetExportDto>(item);
-            Assert.Equal("sheet id", actual.SheetId);
+            Assert.Equal("11", actual.SheetId);
             Assert.Equal("sheet name", actual.SheetName);
             Assert.Equal("inspection type", actual.InspectionType);
             Assert.Equal("inspection group", actual.InspectionGroup);
@@ -107,7 +107,7 @@ namespace InspectionManager.ApplicationCore.Test
         {
             var item = new InspectionSheetDto
             {
-                SheetId = "sheet id",
+                SheetId = 12,
                 SheetName = "sheet name",
                 InspectionType = "inspection type",
                 InspectionGroup = "inspection group",
@@ -119,7 +119,7 @@ namespace InspectionManager.ApplicationCore.Test
             });
             var mapper = new Mapper(config);
             var actual = mapper.Map<InspectionSheetSummaryDto>(item);
-            Assert.Equal("sheet id", actual.SheetId);
+            Assert.Equal(12, actual.SheetId);
             Assert.Equal("sheet name", actual.SheetName);
             Assert.Equal("inspection type", actual.InspectionType);
             Assert.Equal("inspection group", actual.InspectionGroup);
