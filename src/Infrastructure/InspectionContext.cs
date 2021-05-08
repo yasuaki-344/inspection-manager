@@ -23,7 +23,7 @@ namespace InspectionManager.Infrastructure
         public DbSet<InputType>? InputTypes { get; set; }
         public DbSet<Choice>? Choices { get; set; }
         public DbSet<InspectionItem>? InspectionItems { get; set; }
-        public DbSet<Equipment>? Equipment { get; set; }
+        public DbSet<Equipment>? Equipments { get; set; }
         public DbSet<InspectionSheet>? InspectionSheets { get; set; }
     }
 }
