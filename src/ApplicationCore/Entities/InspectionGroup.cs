@@ -4,12 +4,15 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 //
+using System.Collections.Generic;
 
 namespace InspectionManager.ApplicationCore.Entities
 {
     public class InspectionGroup
     {
-        public int Id { get; set; }
+        public int InspectionGroupId { get; set; }
         public string Description { get; set; } = string.Empty;
+
+        public List<InspectionSheet> InspectionSheets { get; set; } = new List<InspectionSheet>();
     }
 }

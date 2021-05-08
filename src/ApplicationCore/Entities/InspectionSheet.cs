@@ -16,7 +16,9 @@ namespace InspectionManager.ApplicationCore.Entities
     {
         public int InspectionSheetId { get; set; }
         public string SheetName { get; set; } = string.Empty;
+        public int InspectionTypeId { get; set; }
         public InspectionType InspectionType { get; set; } = new InspectionType();
+        public int InspectionGroupId { get; set; }
         public InspectionGroup InspectionGroup { get; set; } = new InspectionGroup();
         public List<Equipment> Equipments { get; set; } = new List<Equipment>();
     }
