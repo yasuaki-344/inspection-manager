@@ -106,5 +106,24 @@ namespace InspectionManager.Web.Controllers
                 );
             }
         }
+        [HttpDelete("{id:int}")]
+        public ActionResult<InspectionGroupDto> DeleteInspectionGroup(int id)
+        {
+            try
+            {
+                _logger.LogInformation($"try to delete inspection group {id}");
+                if (!_repository.InspectionGroupExists(id))
+                {
+                    return NotFound($"group with Id = {id} not found");
+                }
+                return _repository.DeleteInspectionGroup(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error deleting data");
+            }
+        }
     }
 }
