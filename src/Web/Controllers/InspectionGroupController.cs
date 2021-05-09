@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.
@@ -6,10 +6,6 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -106,6 +102,27 @@ namespace InspectionManager.Web.Controllers
                 );
             }
         }
+
+        [HttpPut("{id:guid}")]
+        public ActionResult<InspectionGroupDto> UpdateInspectionGroup(InspectionGroupDto dto)
+        {
+            try
+            {
+                _logger.LogInformation($"try to update inspection group {dto.InspectionGroupId}");
+                if (!_repository.InspectionGroupExists(dto.InspectionGroupId))
+                {
+                    return NotFound($"Group with Id = {dto.InspectionGroupId} not found");
+                }
+                return _repository.UpdateInspectionGroup(dto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error updating data");
+            }
+        }
+
         [HttpDelete("{id:int}")]
         public ActionResult<InspectionGroupDto> DeleteInspectionGroup(int id)
         {
