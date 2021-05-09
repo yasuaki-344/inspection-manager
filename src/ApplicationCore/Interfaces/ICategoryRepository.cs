@@ -54,17 +54,45 @@ namespace InspectionManager.ApplicationCore.Interfaces
         Task<InspectionGroupDto> DeleteInspectionGroupAsync(int id);
 
         /// <summary>
+        /// Checks if the specified inspection type exists.
+        /// </summary>
+        /// <param name="id">Type ID to be checked</param>
+        /// <returns>Return True if exist, otherwise false.</returns>
+        bool InspectionTypeExists(int id);
+
+        /// <summary>
         /// Pulls inspection types from database.
         /// </summary>
         /// <returns>Inspection type list</returns>
-        string[] GetInspectionTypes();
+        IEnumerable<InspectionTypeDto> GetInspectionTypes();
 
         /// <summary>
-        /// Pushes inspection types to database.
+        /// Gets the specified inspection type data from database.
         /// </summary>
-        /// <param name="types">Inspection types to be pushed.</param>
-        /// <returns>Registered inspection types</returns>
-        string[] CreateInspectionTypes(string[] types);
+        /// <param name="id">The ID of inspection type to be gotton</param>
+        /// <returns>The inspection type of the specified ID</returns>
+        InspectionTypeDto? GetInspectionType(int id);
+
+        /// <summary>
+        /// Creates new inspection type by using the specified InspectionTypeDto.
+        /// </summary>
+        /// <param name="dto">Inspection type data to be created</param>
+        /// <returns>Created inspection type data</returns>
+        Task<InspectionTypeDto> CreateInspectionTypeAsync(InspectionTypeDto dto);
+
+        /// <summary>
+        /// Updates the specified inspection type data.
+        /// </summary>
+        /// <param name="dto">Inspection type data for update</param>
+        /// <returns>Updated inspection type data</returns>
+        Task<InspectionTypeDto> UpdateInspectionTypeAsync(InspectionTypeDto dto);
+
+        /// <summary>
+        /// Deletes the specified inspection type data.
+        /// </summary>
+        /// <param name="id">Type ID to be deleted</param>
+        /// <returns>Deleted inspection type data</returns>
+        Task<InspectionTypeDto> DeleteInspectionTypeAsync(int id);
 
         /// <summary>
         /// Pulls choice templates types from database.

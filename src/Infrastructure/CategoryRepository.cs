@@ -137,33 +137,109 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public string[] GetInspectionTypes()
+        public bool InspectionTypeExists(int id)
         {
             if (_context.InspectionTypes != null)
             {
-                return _context.InspectionTypes.Select(x => x.Description).ToArray();
+                return _context.InspectionTypes.Any(x => x.InspectionTypeId == id);
             }
             else
             {
-                return new string[] { };
+                return false;
             }
         }
 
         /// <inheritdoc/>
-        public string[] CreateInspectionTypes(string[] types)
+        public IEnumerable<InspectionTypeDto> GetInspectionTypes()
         {
             if (_context.InspectionTypes != null)
             {
-                _context.InspectionTypes.RemoveRange(_context.InspectionTypes);
-                _context.InspectionTypes.AddRange(types.Select(x =>
-                    new InspectionType { Description = x }
-                ).ToArray());
-                _context.SaveChanges();
-                return _context.InspectionTypes.Select(x => x.Description).ToArray();
+                return _context.InspectionTypes
+                    .Select(x => _mapper.Map<InspectionTypeDto>(x))
+                    .ToList();
             }
             else
             {
-                return new string[] { };
+                return new List<InspectionTypeDto>();
+            }
+        }
+
+        /// <inheritdoc/>
+        public InspectionTypeDto? GetInspectionType(int id)
+        {
+            if (_context.InspectionTypes != null)
+            {
+                var entity = _context.InspectionTypes.Single(x => x.InspectionTypeId == id);
+                if (entity != null)
+                {
+                    return _mapper.Map<InspectionTypeDto>(entity);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<InspectionTypeDto> CreateInspectionTypeAsync(InspectionTypeDto dto)
+        {
+            if (_context.InspectionTypes != null)
+            {
+                var entity = _mapper.Map<InspectionType>(dto);
+                await _context.InspectionTypes.AddAsync(entity);
+                await _context.SaveChangesAsync();
+
+                return _mapper.Map<InspectionTypeDto>(entity);
+            }
+            else
+            {
+                return new InspectionTypeDto();
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<InspectionTypeDto> UpdateInspectionTypeAsync(InspectionTypeDto dto)
+        {
+            if (_context.InspectionTypes != null)
+            {
+                var entity = _mapper.Map<InspectionType>(dto);
+                _context.InspectionTypes.Update(entity);
+                await _context.SaveChangesAsync();
+
+                return _mapper.Map<InspectionTypeDto>(entity);
+            }
+            else
+            {
+                return new InspectionTypeDto();
+            }
+        }
+
+
+        /// <inheritdoc/>
+        public async Task<InspectionTypeDto> DeleteInspectionTypeAsync(int id)
+        {
+            if (_context.InspectionTypes != null)
+            {
+                var entity = _context.InspectionTypes.Single(x => x.InspectionTypeId == id);
+                if (entity != null)
+                {
+                    _context.InspectionTypes.Remove(entity);
+                    await _context.SaveChangesAsync();
+                    return _mapper.Map<InspectionTypeDto>(entity);
+                }
+                else
+                {
+                    return new InspectionTypeDto();
+                }
+            }
+            else
+            {
+                return new InspectionTypeDto();
             }
         }
 
