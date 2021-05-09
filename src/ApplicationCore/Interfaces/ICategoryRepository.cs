@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.
@@ -25,11 +25,11 @@ namespace InspectionManager.ApplicationCore.Interfaces
         InspectionGroupDto? GetInspectionGroup(int id);
 
         /// <summary>
-        /// Pushes inspection groups database.
+        /// Creates new inspection group by using the specified InspectionGroupDto.
         /// </summary>
-        /// <param name="groups">Inspection groups to be pushed.</param>
-        /// <returns>Registered inspection groups</returns>
-        string[] CreateInspectionGroups(string[] groups);
+        /// <param name="dto">Inspection group data to be created</param>
+        /// <returns>Created inspection group data</returns>
+        InspectionGroupDto CreateInspectionGroup(InspectionGroupDto dto);
 
         /// <summary>
         /// Pulls inspection types from database.

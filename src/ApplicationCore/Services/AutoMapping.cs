@@ -6,6 +6,7 @@
 //
 using AutoMapper;
 using InspectionManager.ApplicationCore.Dto;
+using InspectionManager.ApplicationCore.Entities;
 
 namespace InspectionManager.ApplicationCore.Services
 {
@@ -25,6 +26,9 @@ namespace InspectionManager.ApplicationCore.Services
             CreateMap<InspectionSheetDto, InspectionSheetExportDto>();
 
             CreateMap<InspectionSheetDto, InspectionSheetSummaryDto>();
+
+            CreateMap<InspectionGroup, InspectionGroupDto>();
+            CreateMap<InspectionGroupDto, InspectionGroup>();
         }
     }
 }

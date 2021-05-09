@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.
@@ -9,20 +9,24 @@ using System.Linq;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Entities;
 using InspectionManager.ApplicationCore.Interfaces;
+using AutoMapper;
 
 namespace InspectionManager.Infrastructure
 {
     public class CategoryRepository : ICategoryRepository
     {
         private readonly InspectionContext _context;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// Initializes a new instance of CategoryRepository class.
         /// </summary>
-        /// <param name="context"></param>
-        public CategoryRepository(InspectionContext context)
+        /// <param name="context">Database context</param>
+        /// <param name="mapper">O/R mapper object</param>
+        public CategoryRepository(InspectionContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         /// <inheritdoc/>
@@ -31,11 +35,7 @@ namespace InspectionManager.Infrastructure
             if (_context.InspectionGroups != null)
             {
                 return _context.InspectionGroups
-                    .Select(x => new InspectionGroupDto
-                    {
-                        InspectionGroupId = x.InspectionGroupId,
-                        Description = x.Description
-                    })
+                    .Select(x => _mapper.Map<InspectionGroupDto>(x))
                     .ToList();
             }
             else
@@ -52,11 +52,7 @@ namespace InspectionManager.Infrastructure
                 var entity = _context.InspectionGroups.Single(x => x.InspectionGroupId == id);
                 if (entity != null)
                 {
-                    return new InspectionGroupDto
-                    {
-                        InspectionGroupId = entity.InspectionGroupId,
-                        Description = entity.Description
-                    };
+                    return _mapper.Map<InspectionGroupDto>(entity);
                 }
                 else
                 {
@@ -70,21 +66,19 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        /// <inheritdoc/>
-        public string[] CreateInspectionGroups(string[] groups)
+        public InspectionGroupDto CreateInspectionGroup(InspectionGroupDto dto)
         {
             if (_context.InspectionGroups != null)
             {
-                _context.InspectionGroups.RemoveRange(_context.InspectionGroups);
-                _context.InspectionGroups.AddRange(groups.Select(x =>
-                    new InspectionGroup { Description = x }
-                ).ToArray());
+                var entity = _mapper.Map<InspectionGroup>(dto);
+                _context.InspectionGroups.Add(entity);
                 _context.SaveChanges();
-                return _context.InspectionGroups.Select(x => x.Description).ToArray();
+
+                return _mapper.Map<InspectionGroupDto>(entity);
             }
             else
             {
-                return new string[] { };
+                return new InspectionGroupDto();
             }
         }
 

@@ -82,29 +82,29 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult<string[]> CreateGroups(string[]? groups)
+        public ActionResult<InspectionGroupDto> CreateGroup(InspectionGroupDto? dto)
         {
             try
             {
-                _logger.LogInformation("try to create inspection groups");
-                if (groups == null)
+                _logger.LogInformation("try to create inspection group");
+                if (dto == null)
                 {
                     return BadRequest();
                 }
                 else
                 {
-                    var result = _repository.CreateInspectionGroups(groups);
-                    return CreatedAtAction(nameof(GetAllGroups), result);
+                    var result = _repository.CreateInspectionGroup(dto);
+                    return CreatedAtAction(nameof(GetInspectionGroup),
+                    new { id = result.InspectionGroupId }, result);
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error creating new inspection groups"
+                    "Error creating new inspection sheet"
                 );
             }
         }
-
     }
 }
