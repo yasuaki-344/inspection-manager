@@ -96,6 +96,23 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
+        public InspectionGroupDto UpdateInspectionGroup(InspectionGroupDto dto)
+        {
+            if (_context.InspectionGroups != null)
+            {
+                var entity = _mapper.Map<InspectionGroup>(dto);
+                _context.InspectionGroups.Update(entity);
+                _context.SaveChanges();
+
+                return _mapper.Map<InspectionGroupDto>(entity);
+            }
+            else
+            {
+                return new InspectionGroupDto();
+            }
+        }
+
+        /// <inheritdoc/>
         public InspectionGroupDto DeleteInspectionGroup(int id)
         {
             if (_context.InspectionGroups != null)

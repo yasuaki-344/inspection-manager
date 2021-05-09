@@ -39,6 +39,13 @@ namespace InspectionManager.ApplicationCore.Interfaces
         InspectionGroupDto CreateInspectionGroup(InspectionGroupDto dto);
 
         /// <summary>
+        /// Updates the specified inspection group data.
+        /// </summary>
+        /// <param name="dto">Inspection group data for update</param>
+        /// <returns>Updated inspection group data</returns>
+        InspectionGroupDto UpdateInspectionGroup(InspectionGroupDto dto);
+
+        /// <summary>
         /// Deletes the specified inspection group data.
         /// </summary>
         /// <param name="id">Group ID to be deleted</param>
