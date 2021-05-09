@@ -5,6 +5,7 @@
 // http://opensource.org/licenses/mit-license.php
 //
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using InspectionManager.ApplicationCore.Dto;
 
 namespace InspectionManager.ApplicationCore.Interfaces
@@ -36,21 +37,21 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// </summary>
         /// <param name="dto">Inspection group data to be created</param>
         /// <returns>Created inspection group data</returns>
-        InspectionGroupDto CreateInspectionGroup(InspectionGroupDto dto);
+        Task<InspectionGroupDto> CreateInspectionGroupAsync(InspectionGroupDto dto);
 
         /// <summary>
         /// Updates the specified inspection group data.
         /// </summary>
         /// <param name="dto">Inspection group data for update</param>
         /// <returns>Updated inspection group data</returns>
-        InspectionGroupDto UpdateInspectionGroup(InspectionGroupDto dto);
+        Task<InspectionGroupDto> UpdateInspectionGroupAsync(InspectionGroupDto dto);
 
         /// <summary>
         /// Deletes the specified inspection group data.
         /// </summary>
         /// <param name="id">Group ID to be deleted</param>
         /// <returns>Deleted inspection group data</returns>
-        InspectionGroupDto DeleteInspectionGroup(int id);
+        Task<InspectionGroupDto> DeleteInspectionGroupAsync(int id);
 
         /// <summary>
         /// Pulls inspection types from database.

@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.Threading.Tasks;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -78,7 +79,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult<InspectionGroupDto> CreateGroup(InspectionGroupDto? dto)
+        public async Task<ActionResult<InspectionGroupDto>> CreateGroup(InspectionGroupDto? dto)
         {
             try
             {
@@ -89,7 +90,7 @@ namespace InspectionManager.Web.Controllers
                 }
                 else
                 {
-                    var result = _repository.CreateInspectionGroup(dto);
+                    var result = await _repository.CreateInspectionGroupAsync(dto);
                     return CreatedAtAction(nameof(GetInspectionGroup),
                     new { id = result.InspectionGroupId }, result);
                 }
@@ -104,7 +105,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public ActionResult<InspectionGroupDto> UpdateInspectionGroup(InspectionGroupDto dto)
+        public async Task<ActionResult<InspectionGroupDto>> UpdateInspectionGroup(InspectionGroupDto dto)
         {
             try
             {
@@ -113,7 +114,7 @@ namespace InspectionManager.Web.Controllers
                 {
                     return NotFound($"Group with Id = {dto.InspectionGroupId} not found");
                 }
-                return _repository.UpdateInspectionGroup(dto);
+                return await _repository.UpdateInspectionGroupAsync(dto);
             }
             catch (Exception ex)
             {
@@ -124,7 +125,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public ActionResult<InspectionGroupDto> DeleteInspectionGroup(int id)
+        public async Task<ActionResult<InspectionGroupDto>> DeleteInspectionGroupAsync(int id)
         {
             try
             {
@@ -133,7 +134,7 @@ namespace InspectionManager.Web.Controllers
                 {
                     return NotFound($"group with Id = {id} not found");
                 }
-                return _repository.DeleteInspectionGroup(id);
+                return await _repository.DeleteInspectionGroupAsync(id);
             }
             catch (Exception ex)
             {

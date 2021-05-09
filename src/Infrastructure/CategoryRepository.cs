@@ -6,10 +6,11 @@
 //
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Entities;
 using InspectionManager.ApplicationCore.Interfaces;
-using AutoMapper;
 
 namespace InspectionManager.Infrastructure
 {
@@ -79,13 +80,13 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public InspectionGroupDto CreateInspectionGroup(InspectionGroupDto dto)
+        public async Task<InspectionGroupDto> CreateInspectionGroupAsync(InspectionGroupDto dto)
         {
             if (_context.InspectionGroups != null)
             {
                 var entity = _mapper.Map<InspectionGroup>(dto);
-                _context.InspectionGroups.Add(entity);
-                _context.SaveChanges();
+                await _context.InspectionGroups.AddAsync(entity);
+                await _context.SaveChangesAsync();
 
                 return _mapper.Map<InspectionGroupDto>(entity);
             }
@@ -96,13 +97,13 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public InspectionGroupDto UpdateInspectionGroup(InspectionGroupDto dto)
+        public async Task<InspectionGroupDto> UpdateInspectionGroupAsync(InspectionGroupDto dto)
         {
             if (_context.InspectionGroups != null)
             {
                 var entity = _mapper.Map<InspectionGroup>(dto);
                 _context.InspectionGroups.Update(entity);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return _mapper.Map<InspectionGroupDto>(entity);
             }
@@ -113,7 +114,7 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public InspectionGroupDto DeleteInspectionGroup(int id)
+        public async Task<InspectionGroupDto> DeleteInspectionGroupAsync(int id)
         {
             if (_context.InspectionGroups != null)
             {
@@ -121,7 +122,7 @@ namespace InspectionManager.Infrastructure
                 if (entity != null)
                 {
                     _context.InspectionGroups.Remove(entity);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                     return _mapper.Map<InspectionGroupDto>(entity);
                 }
                 else
