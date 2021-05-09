@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.
@@ -16,6 +16,13 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// </summary>
         /// <returns>Inspection group list</returns>
         IEnumerable<InspectionGroupDto> GetInspectionGroups();
+
+        /// <summary>
+        /// Gets the specified inspection group data from database.
+        /// </summary>
+        /// <param name="id">The ID of inspection group to be gotton</param>
+        /// <returns>The inspection group of the specified ID</returns>
+        InspectionGroupDto? GetInspectionGroup(int id);
 
         /// <summary>
         /// Pushes inspection groups database.

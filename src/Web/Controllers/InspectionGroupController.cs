@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.
@@ -29,7 +29,7 @@ namespace InspectionManager.Web.Controllers
         /// Initializes a new instance of InspectionGroupController class.
         /// </summary>
         /// <param name="repository">repository object</param>
-        /// /// <param name="logger">logger object</param>
+        /// <param name="logger">logger object</param>
         public InspectionGroupController(
             ICategoryRepository repository,
             ILogger<InspectionGroupController> logger
@@ -47,6 +47,31 @@ namespace InspectionManager.Web.Controllers
                 _logger.LogInformation("try to get all inspection groups");
                 var groups = _repository.GetInspectionGroups();
                 return Ok(groups);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database");
+            }
+        }
+
+        [HttpGet("{id:int}")]
+        public ActionResult<InspectionGroupDto> GetInspectionGroup(int id)
+        {
+            try
+            {
+                _logger.LogInformation($"try to get inspection group {id}");
+
+                var result = _repository.GetInspectionGroup(id);
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return result;
+                }
             }
             catch (Exception ex)
             {
