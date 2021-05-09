@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.
@@ -37,6 +37,13 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// <param name="dto">Inspection group data to be created</param>
         /// <returns>Created inspection group data</returns>
         InspectionGroupDto CreateInspectionGroup(InspectionGroupDto dto);
+
+        /// <summary>
+        /// Deletes the specified inspection group data.
+        /// </summary>
+        /// <param name="id">Group ID to be deleted</param>
+        /// <returns>Deleted inspection group data</returns>
+        InspectionGroupDto DeleteInspectionGroup(int id);
 
         /// <summary>
         /// Pulls inspection types from database.

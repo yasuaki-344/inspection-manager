@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.
@@ -88,6 +88,29 @@ namespace InspectionManager.Infrastructure
                 _context.SaveChanges();
 
                 return _mapper.Map<InspectionGroupDto>(entity);
+            }
+            else
+            {
+                return new InspectionGroupDto();
+            }
+        }
+
+        /// <inheritdoc/>
+        public InspectionGroupDto DeleteInspectionGroup(int id)
+        {
+            if (_context.InspectionGroups != null)
+            {
+                var entity = _context.InspectionGroups.Single(x => x.InspectionGroupId == id);
+                if (entity != null)
+                {
+                    _context.InspectionGroups.Remove(entity);
+                    _context.SaveChanges();
+                    return _mapper.Map<InspectionGroupDto>(entity);
+                }
+                else
+                {
+                    return new InspectionGroupDto();
+                }
             }
             else
             {
