@@ -99,7 +99,7 @@ namespace InspectionManager.Web.Controllers
             {
                 _logger.LogError(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error creating new inspection sheet"
+                    "Error creating new inspection group"
                 );
             }
         }
