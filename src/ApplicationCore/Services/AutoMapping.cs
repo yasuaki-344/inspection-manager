@@ -29,6 +29,8 @@ namespace InspectionManager.ApplicationCore.Services
 
             CreateMap<InspectionGroup, InspectionGroupDto>();
             CreateMap<InspectionGroupDto, InspectionGroup>();
+            CreateMap<InspectionType, InspectionTypeDto>();
+            CreateMap<InspectionTypeDto, InspectionType>();
         }
     }
 }
