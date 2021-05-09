@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.
@@ -11,6 +11,13 @@ namespace InspectionManager.ApplicationCore.Interfaces
 {
     public interface ICategoryRepository
     {
+        /// <summary>
+        /// Checks if the specified inspection group exists.
+        /// </summary>
+        /// <param name="id">Group ID to be checked</param>
+        /// <returns>Return True if exist, otherwise false.</returns>
+        bool InspectionGroupExists(int id);
+
         /// <summary>
         /// Pulls inspection groups from database.
         /// </summary>
