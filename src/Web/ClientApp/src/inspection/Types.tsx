@@ -10,6 +10,11 @@ export const useInputTypes = [
   { value: 5, label: "日付入力" },
 ];
 
+export type InspectionGroup = {
+  inspection_group_id: number,
+  description: string,
+};
+
 export type InspectionItem = {
   inspection_item_id: string,
   inspection_content: string,

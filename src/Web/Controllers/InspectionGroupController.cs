@@ -104,7 +104,7 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpPut("{id:guid}")]
+        [HttpPut("{id:int}")]
         public async Task<ActionResult<InspectionGroupDto>> UpdateInspectionGroup(InspectionGroupDto dto)
         {
             try
