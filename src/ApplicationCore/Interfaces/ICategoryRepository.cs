@@ -133,7 +133,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// </summary>
         /// <param name="id">Choice template ID to be deleted</param>
         /// <returns>Deleted choice template data</returns>
-        Task<InspectionGroupDto> DeleteChoiceTempalteAsync(int id);
+        Task<ChoiceTemplateDto> DeleteChoiceTemplateAsync(int id);
 
         /// <summary>
         /// Pushes choice templates to database.

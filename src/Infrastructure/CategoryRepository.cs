@@ -283,7 +283,7 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public Task<InspectionGroupDto> DeleteChoiceTempalteAsync(int id)
+        public Task<ChoiceTemplateDto> DeleteChoiceTemplateAsync(int id)
         {
             throw new System.NotImplementedException();
         }
