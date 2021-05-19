@@ -244,6 +244,12 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
+        public bool ChoiceTemplateExists(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <inheritdoc/>
         public IEnumerable<ChoiceTemplateDto> GetChoiceTemplates()
         {
             if (_context.ChoiceTemplates != null)
@@ -260,6 +266,30 @@ namespace InspectionManager.Infrastructure
             {
                 return new List<ChoiceTemplateDto>();
             }
+        }
+
+        /// <inheritdoc/>
+        public ChoiceTemplateDto? GetChoiceTemplate(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public Task<ChoiceTemplateDto> CreateChoiceTemplateAsync(ChoiceTemplateDto dto)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public Task<ChoiceTemplateDto> UpdateChoiceTemplateAsync(ChoiceTemplateDto dto)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public Task<InspectionGroupDto> DeleteChoiceTempalteAsync(int id)
+        {
+            throw new System.NotImplementedException();
         }
 
         /// <inheritdoc/>

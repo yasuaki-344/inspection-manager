@@ -95,10 +95,45 @@ namespace InspectionManager.ApplicationCore.Interfaces
         Task<InspectionTypeDto> DeleteInspectionTypeAsync(int id);
 
         /// <summary>
+        /// Checks if the specified choice template exists.
+        /// </summary>
+        /// <param name="id">Choice template ID to be checked</param>
+        /// <returns>Return True if exist, otherwise false.</returns>
+        bool ChoiceTemplateExists(int id);
+
+        /// <summary>
         /// Pulls choice templates types from database.
         /// </summary>
         /// <returns>Choice templates list</returns>
         IEnumerable<ChoiceTemplateDto> GetChoiceTemplates();
+
+        /// <summary>
+        /// Gets the specified choice template data from database.
+        /// </summary>
+        /// <param name="id">The ID of choice template to be gotton</param>
+        /// <returns>The choice template of the specified ID</returns>
+        ChoiceTemplateDto? GetChoiceTemplate(int id);
+
+        /// <summary>
+        /// Creates new choice template by using the specified ChoiceTemplateDto.
+        /// </summary>
+        /// <param name="dto">Choice template data to be created</param>
+        /// <returns>Created choice template data</returns>
+        Task<ChoiceTemplateDto> CreateChoiceTemplateAsync(ChoiceTemplateDto dto);
+
+        /// <summary>
+        /// Updates the specified choice template data.
+        /// </summary>
+        /// <param name="dto">Choice template data for update</param>
+        /// <returns>Updated choice template data</returns>
+        Task<ChoiceTemplateDto> UpdateChoiceTemplateAsync(ChoiceTemplateDto dto);
+
+        /// <summary>
+        /// Deletes the specified choice template data.
+        /// </summary>
+        /// <param name="id">Choice template ID to be deleted</param>
+        /// <returns>Deleted choice template data</returns>
+        Task<InspectionGroupDto> DeleteChoiceTempalteAsync(int id);
 
         /// <summary>
         /// Pushes choice templates to database.
