@@ -13,7 +13,7 @@ namespace InspectionManager.ApplicationCore.Entities
     {
         public int OptionId { get; set; }
         public string Description { get; set; } = string.Empty;
-        public string ChoiceTemplateId { get; set; } = string.Empty;
+        public int ChoiceTemplateId { get; set; }
         public ChoiceTemplate ChoiceTemplate { get; set; } = new ChoiceTemplate();
     }
 }
