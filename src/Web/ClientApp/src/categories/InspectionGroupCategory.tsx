@@ -38,7 +38,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
   const handleAddItem = (): void => {
     setTarget({
       inspection_group_id: 0,
-      description: 'グループ名'
+      description: 'グループ'
     });
     setIsUpdate(false);
     setOpen(true);
@@ -57,7 +57,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
     }
   }
 
-  const handleGroup = (): void => {
+  const handleRegistration = (): void => {
     if (isUpdate) {
       fetch(`inspectiongroup/${target.inspection_group_id}`, {
         method: 'PUT',
@@ -210,7 +210,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
             variant='contained'
             color='primary'
             disabled={disabled}
-            onClick={() => handleGroup()}
+            onClick={() => handleRegistration()}
           >OK</Button>
           <Button
             variant='contained'
