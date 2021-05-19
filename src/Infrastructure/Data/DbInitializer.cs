@@ -35,6 +35,21 @@ namespace InspectionManager.Infrastructure.Data
                         }
                         context.SaveChanges();
                     }
+                    if (context.ChoiceTemplates!=null)
+                    {
+                        if (!context.ChoiceTemplates.Any())
+                        {
+                            context.ChoiceTemplates.Add(new ChoiceTemplate
+                            {
+                                Choices = new List<Option>
+                                {
+                                    new Option { Description = "選択肢1" },
+                                    new Option { Description = "選択肢2" },
+                                }
+                            });
+                            context.SaveChanges();
+                        }
+                    }
                     if (context.InspectionSheets != null && context.InputTypes != null)
                     {
                         if (!context.InspectionSheets.Any())
