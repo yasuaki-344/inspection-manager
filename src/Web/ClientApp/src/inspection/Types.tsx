@@ -15,6 +15,11 @@ export type InspectionGroup = {
   description: string,
 };
 
+export type InspectionType = {
+  inspection_type_id: number,
+  description: string,
+};
+
 export type InspectionItem = {
   inspection_item_id: string,
   inspection_content: string,
