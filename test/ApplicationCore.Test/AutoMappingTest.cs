@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using AutoMapper;
 using InspectionManager.ApplicationCore.Dto;
+using InspectionManager.ApplicationCore.Entities;
 using InspectionManager.ApplicationCore.Services;
 using Xunit;
 
@@ -123,6 +124,31 @@ namespace InspectionManager.ApplicationCore.Test
             Assert.Equal("sheet name", actual.SheetName);
             Assert.Equal("inspection type", actual.InspectionType);
             Assert.Equal("inspection group", actual.InspectionGroup);
+        }
+
+        [Fact]
+        public void MapToChoiceTemplateDtoCorrectly()
+        {
+            var item = new ChoiceTemplate
+            {
+                ChoiceTemplateId = 10,
+                Choices = new List<Option>
+                {
+                    new Option { OptionId= 1, Description = "option 1" },
+                    new Option { OptionId= 5, Description = "option 2" },
+                }
+            };
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<AutoMapping>();
+            });
+            var mapper = new Mapper(config);
+            var actual = mapper.Map<ChoiceTemplateDto>(item);
+            Assert.Equal(10, actual.ChoiceTemplateId);
+            Assert.Equal(1, actual.Choices[0].OptionId);
+            Assert.Equal("option 1", actual.Choices[0].Description);
+            Assert.Equal(5, actual.Choices[1].OptionId);
+            Assert.Equal("option 2", actual.Choices[1].Description);
         }
     }
 }

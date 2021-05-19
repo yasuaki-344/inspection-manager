@@ -33,6 +33,8 @@ namespace InspectionManager.ApplicationCore.Services
             CreateMap<InspectionTypeDto, InspectionType>();
             CreateMap<Option, OptionDto>();
             CreateMap<OptionDto, Option>();
+            CreateMap<ChoiceTemplate, ChoiceTemplateDto>();
+            CreateMap<ChoiceTemplateDto, ChoiceTemplate>();
         }
     }
 }
