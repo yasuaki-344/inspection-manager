@@ -288,9 +288,20 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public Task<ChoiceTemplateDto> CreateChoiceTemplateAsync(ChoiceTemplateDto dto)
+        public async Task<ChoiceTemplateDto> CreateChoiceTemplateAsync(ChoiceTemplateDto dto)
         {
-            throw new System.NotImplementedException();
+            if (_context.ChoiceTemplates != null)
+            {
+                var entity = _mapper.Map<ChoiceTemplate>(dto);
+                await _context.ChoiceTemplates.AddAsync(entity);
+                await _context.SaveChangesAsync();
+
+                return _mapper.Map<ChoiceTemplateDto>(entity);
+            }
+            else
+            {
+                return new ChoiceTemplateDto();
+            }
         }
 
         /// <inheritdoc/>
