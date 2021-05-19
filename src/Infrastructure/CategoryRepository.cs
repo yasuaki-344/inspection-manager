@@ -254,13 +254,9 @@ namespace InspectionManager.Infrastructure
         {
             if (_context.ChoiceTemplates != null)
             {
-                return _context.ChoiceTemplates.Select(x =>
-                    new ChoiceTemplateDto
-                    {
-                        ChoiceTemplateId = x.ChoiceTemplateId,
-                        Choices = x.Choices.Select(e => e.Description).ToList()
-                    }
-                );
+                return _context.ChoiceTemplates
+                    .Select(x => _mapper.Map<ChoiceTemplateDto>(x))
+                    .ToList();
             }
             else
             {
@@ -297,32 +293,7 @@ namespace InspectionManager.Infrastructure
             IEnumerable<ChoiceTemplateDto> templates
         )
         {
-            if (_context.ChoiceTemplates != null && _context.Choices != null)
-            {
-                _context.RemoveRange(_context.Choices);
-                _context.RemoveRange(_context.ChoiceTemplates);
-                _context.ChoiceTemplates.AddRange(
-                    templates.Select(x => new ChoiceTemplate
-                    {
-                        ChoiceTemplateId = x.ChoiceTemplateId,
-                        Choices = x.Choices.Select(e =>
-                            new Option { Description = e }
-                        ).ToList()
-                    })
-                );
-                _context.SaveChanges();
-                return _context.ChoiceTemplates.Select(x =>
-                    new ChoiceTemplateDto
-                    {
-                        ChoiceTemplateId = x.ChoiceTemplateId,
-                        Choices = x.Choices.Select(e => e.Description).ToList()
-                    }
-                );
-            }
-            else
-            {
-                return new List<ChoiceTemplateDto>();
-            }
+            throw new System.NotImplementedException();
         }
     }
 }
