@@ -79,7 +79,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ChoiceTemplateDto>> CreateGroup(ChoiceTemplateDto? dto)
+        public async Task<ActionResult<ChoiceTemplateDto>> CreateChoiceTemplate(ChoiceTemplateDto? dto)
         {
             try
             {
