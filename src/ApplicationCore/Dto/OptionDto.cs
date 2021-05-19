@@ -6,7 +6,7 @@
 //
 using System.Text.Json.Serialization;
 
-namespace InspectionManager.ApplicationCore.Entities
+namespace InspectionManager.ApplicationCore.Dto
 {
     public class OptionDto
     {
