@@ -246,7 +246,14 @@ namespace InspectionManager.Infrastructure
         /// <inheritdoc/>
         public bool ChoiceTemplateExists(int id)
         {
-            throw new System.NotImplementedException();
+            if (_context.ChoiceTemplates != null)
+            {
+                return _context.ChoiceTemplates.Any(x => x.ChoiceTemplateId == id);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <inheritdoc/>
@@ -267,7 +274,17 @@ namespace InspectionManager.Infrastructure
         /// <inheritdoc/>
         public ChoiceTemplateDto? GetChoiceTemplate(int id)
         {
-            throw new System.NotImplementedException();
+            if (_context.ChoiceTemplates != null)
+            {
+                return _context.ChoiceTemplates
+                    .Where(x => x.ChoiceTemplateId == id)
+                    .Select(x => _mapper.Map<ChoiceTemplateDto>(x))
+                    .First();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <inheritdoc/>
