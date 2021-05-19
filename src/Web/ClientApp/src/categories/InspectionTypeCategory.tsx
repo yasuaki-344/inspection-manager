@@ -1,87 +1,135 @@
-import React, { useState, useEffect } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import {
   IconButton, Grid, Paper, TextField, Button,
   BottomNavigation, BottomNavigationAction,
+  Dialog, DialogActions, DialogContent, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
+import EditIcon from '@material-ui/icons/Edit';
+import { InspectionType } from './../inspection/Types';
 
 export const InspectionTypeCategory = (): JSX.Element => {
-  const [types, setTypes] = useState<string[]>([]);
+  const [open, setOpen] = useState(false);
+  const [types, setTypes] = useState<InspectionType[]>([]);
   const [disabled, setDisabled] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [target, setTarget] = useState<InspectionType>({
+    inspection_type_id: 0,
+    description: ''
+  });
 
   useEffect(() => {
     fetch('inspectiontype')
       .then(res => res.json())
-      .then((json: string[]) => {
-        setTypes(json);
-      })
+      .then((json: InspectionType[]) => setTypes(json))
       .catch(console.error);
   }, []);
 
   useEffect(() => {
-    setDisabled(!types.length || types.includes(''));
-  }, [types]);
+    setDisabled(!target.description.length);
+  }, [target]);
 
   /**
    * Implement the process to add new type
    */
-  const handleAddItem = (): void => setTypes(types.concat(''));
+  const handleAddItem = (): void => {
+    setTarget({
+      inspection_type_id: 0,
+      description: 'タイプ'
+    });
+    setIsUpdate(false);
+    setOpen(true);
+  }
 
   /**
    * Implement the process to update type
+   * @param id Type ID to be edited.
    */
-  const handleUpdateItem = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number): void =>
-    setTypes(types.map((group: string, i: number) =>
-      (i === index) ? event.target.value : group
-    ));
+  const handleUpdateItem = (id: number): void => {
+    const type = types.find(x => x.inspection_type_id === id);
+    if (type != null) {
+      setTarget(type);
+      setIsUpdate(true);
+      setOpen(true);
+    }
+  }
+
+  const handleRegistration = (): void => {
+    if (isUpdate) {
+      fetch(`inspectiontype/${target.inspection_type_id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(target)
+      })
+        .then((res) => {
+          if (!res.ok) {
+            alert('更新に失敗しました')
+          }
+          return res.json();
+        })
+        .then((json: InspectionType) => {
+          setTypes(types.map(x => {
+            if (x.inspection_type_id === json.inspection_type_id) {
+              return json;
+            } else {
+              return x;
+            }
+          }));
+        })
+        .catch(console.error);
+    } else {
+      fetch('inspectiontype', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(target)
+      })
+        .then((res) => {
+          if (!res.ok) {
+            alert('登録に失敗しました')
+          }
+          return res.json();
+        })
+        .then((json: InspectionType) => {
+          setTypes(types.concat(json));
+        })
+        .catch(console.error);
+    }
+    setOpen(false);
+  }
 
   /**
    * Implement the process to delete group
+   * @param id Type ID to be deleted.
    */
-  const handleDeleteItem = (index: number): void =>
-    setTypes(types.filter((item: string, i: number) => i !== index));
-
-  /**
-   * Implement the process to submit inspection types
-   */
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    fetch('inspectiontype', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(types)
+  const handleDeleteItem = (id: number): void => {
+    fetch(`inspectiontype/${id}`, {
+      method: 'DELETE',
     })
-      .then((res) => {
-        if (res.ok) {
-          alert('登録に成功しました');
-        } else {
-          alert('登録に失敗しました')
-        }
-        return res.json();
-      })
-      .then((json: string[]) => {
-        setTypes(json);
+      .then((res) => res.json())
+      .then((json: InspectionType) => {
+        setTypes(types.filter((x: InspectionType) =>
+          x.inspection_type_id !== json.inspection_type_id));
       })
       .catch(console.error);
   }
 
   return (
-    <Grid container spacing={1}>
-      <Grid item xs={12}>
-        <h1>点検タイプ編集</h1>
-      </Grid>
-      <Grid item xs={12}>
-        <Link to='/'>トップページへ戻る</Link>
-      </Grid>
-      <Grid item xs={12}>
-        <form data-testid='form' onSubmit={handleSubmit}>
+    <>
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <h1>点検タイプ編集</h1>
+        </Grid>
+        <Grid item xs={12}>
+          <Link to='/'>トップページへ戻る</Link>
+        </Grid>
+        <Grid item xs={12}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <TableContainer component={Paper}>
@@ -90,19 +138,23 @@ export const InspectionTypeCategory = (): JSX.Element => {
                     <TableRow>
                       <TableCell>点検タイプ</TableCell>
                       <TableCell>&nbsp;</TableCell>
+                      <TableCell>&nbsp;</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {types.map((group: string, index: number) =>
-                      <TableRow key={`group_${index}`}>
+                    {types.map((type: InspectionType, index: number) =>
+                      <TableRow key={type.inspection_type_id}>
                         <TableCell>
-                          <TextField
-                            required
-                            variant="outlined"
-                            size="small"
-                            value={group}
-                            onChange={(e) => handleUpdateItem(e, index)}
-                          />
+                          {type.description}
+                        </TableCell>
+                        <TableCell padding='checkbox'>
+                          <IconButton
+                            size='small'
+                            color='primary'
+                            onClick={() => handleUpdateItem(type.inspection_type_id)}
+                          >
+                            <EditIcon />
+                          </IconButton>
                         </TableCell>
                         <TableCell padding='checkbox'>
                           <IconButton
@@ -130,18 +182,43 @@ export const InspectionTypeCategory = (): JSX.Element => {
                 />
               </BottomNavigation>
             </Grid>
+          </Grid>
+        </Grid>
+      </Grid >
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>点検タイプ編集</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={1}>
             <Grid item xs={12}>
-              <Button
-                type='submit'
-                variant='contained'
-                color='primary'
-                disabled={disabled}
-              >点検タイプ登録</Button>
+              <TextField
+                required
+                label='点検タイプ名'
+                variant='outlined'
+                size='small'
+                name='description'
+                value={target.description}
+                onChange={(e) => setTarget({
+                  ...target,
+                  [e.target.name]: e.target.value,
+                })}
+              />
             </Grid>
           </Grid>
-        </form>
-      </Grid>
-    </Grid >
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant='contained'
+            color='primary'
+            disabled={disabled}
+            onClick={() => handleRegistration()}
+          >OK</Button>
+          <Button
+            variant='contained'
+            onClick={() => setOpen(false)}
+          >キャンセル</Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }
 InspectionTypeCategory.displayName = InspectionTypeCategory.name;
