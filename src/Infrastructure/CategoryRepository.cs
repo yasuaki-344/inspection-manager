@@ -287,13 +287,5 @@ namespace InspectionManager.Infrastructure
         {
             throw new System.NotImplementedException();
         }
-
-        /// <inheritdoc/>
-        public IEnumerable<ChoiceTemplateDto> CreateChoiceTemplates(
-            IEnumerable<ChoiceTemplateDto> templates
-        )
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

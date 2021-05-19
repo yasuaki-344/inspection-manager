@@ -134,14 +134,5 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// <param name="id">Choice template ID to be deleted</param>
         /// <returns>Deleted choice template data</returns>
         Task<ChoiceTemplateDto> DeleteChoiceTemplateAsync(int id);
-
-        /// <summary>
-        /// Pushes choice templates to database.
-        /// </summary>
-        /// <param name="types">Choice templates to be pushed.</param>
-        /// <returns>Registered choice templates</returns>
-        IEnumerable<ChoiceTemplateDto> CreateChoiceTemplates(
-            IEnumerable<ChoiceTemplateDto> templates
-        );
     }
 }
