@@ -10,13 +10,12 @@ namespace InspectionManager.Infrastructure.Migrations
                 name: "ChoiceTemplates",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ChoiceTemplateId = table.Column<string>(type: "TEXT", nullable: false)
+                    ChoiceTemplateId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChoiceTemplates", x => x.Id);
+                    table.PrimaryKey("PK_ChoiceTemplates", x => x.ChoiceTemplateId);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,17 +64,16 @@ namespace InspectionManager.Infrastructure.Migrations
                     OptionId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
-                    ChoiceTemplateId = table.Column<string>(type: "TEXT", nullable: false),
-                    ChoiceTemplateId1 = table.Column<int>(type: "INTEGER", nullable: false)
+                    ChoiceTemplateId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Options", x => x.OptionId);
                     table.ForeignKey(
-                        name: "FK_Options_ChoiceTemplates_ChoiceTemplateId1",
-                        column: x => x.ChoiceTemplateId1,
+                        name: "FK_Options_ChoiceTemplates_ChoiceTemplateId",
+                        column: x => x.ChoiceTemplateId,
                         principalTable: "ChoiceTemplates",
-                        principalColumn: "Id",
+                        principalColumn: "ChoiceTemplateId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -207,9 +205,9 @@ namespace InspectionManager.Infrastructure.Migrations
                 column: "InspectionTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Options_ChoiceTemplateId1",
+                name: "IX_Options_ChoiceTemplateId",
                 table: "Options",
-                column: "ChoiceTemplateId1");
+                column: "ChoiceTemplateId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

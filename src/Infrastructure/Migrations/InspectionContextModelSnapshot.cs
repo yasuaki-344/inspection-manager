@@ -40,15 +40,11 @@ namespace InspectionManager.Infrastructure.Migrations
 
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.ChoiceTemplate", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ChoiceTemplateId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ChoiceTemplateId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
+                    b.HasKey("ChoiceTemplateId");
 
                     b.ToTable("ChoiceTemplates");
                 });
@@ -180,11 +176,7 @@ namespace InspectionManager.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ChoiceTemplateId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ChoiceTemplateId1")
+                    b.Property<int>("ChoiceTemplateId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
@@ -193,7 +185,7 @@ namespace InspectionManager.Infrastructure.Migrations
 
                     b.HasKey("OptionId");
 
-                    b.HasIndex("ChoiceTemplateId1");
+                    b.HasIndex("ChoiceTemplateId");
 
                     b.ToTable("Options");
                 });
@@ -262,7 +254,7 @@ namespace InspectionManager.Infrastructure.Migrations
                 {
                     b.HasOne("InspectionManager.ApplicationCore.Entities.ChoiceTemplate", "ChoiceTemplate")
                         .WithMany("Choices")
-                        .HasForeignKey("ChoiceTemplateId1")
+                        .HasForeignKey("ChoiceTemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
