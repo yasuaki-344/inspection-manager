@@ -200,12 +200,12 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                 />
                 <IconButton color='primary' size='small'
                   data-testid={`remove-choice-${index}`}
-                  // onClick={() => setTarget({
-                  //   ...target,
-                  //   'choices': target.choices.filter(
-                  //     (value: string, i: number) => i !== index
-                  //   ),
-                  // })}
+                  onClick={() => setTarget({
+                    ...target,
+                    'choices': target.choices.filter(
+                      (value: Option, i: number) => i !== index
+                    ),
+                  })}
                 >
                   <CancelIcon />
                 </IconButton>
