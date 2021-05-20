@@ -35,7 +35,7 @@ namespace InspectionManager.Infrastructure.Data
                         }
                         context.SaveChanges();
                     }
-                    if (context.ChoiceTemplates!=null)
+                    if (context.ChoiceTemplates != null)
                     {
                         if (!context.ChoiceTemplates.Any())
                         {
