@@ -9,11 +9,7 @@ import {
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
-
-type ChoiceTemplate = {
-  choice_template_id: string,
-  choices: string[],
-};
+import { ChoiceTemplate, Option } from '../inspection/Types';
 
 const InitialChoiceTemplate = {
   choice_template_id: '',
@@ -35,41 +31,41 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
       .catch(console.error);
   }, []);
 
-  useEffect(() => {
-    if (!target.choices.length) {
-      setDisabled(true);
-    } else {
-      setDisabled(target.choices.includes(''));
-    }
-  }, [target]);
+  // useEffect(() => {
+  //   if (!target.choices.length) {
+  //     setDisabled(true);
+  //   } else {
+  //     setDisabled(target.choices.includes(''));
+  //   }
+  // }, [target]);
 
   /**
    * Add new template set.
    */
   const handleAddTemplate = () => {
-    if (templates.some((x: ChoiceTemplate) => x.choice_template_id === target.choice_template_id)) {
-      setTemplates(templates.map((e: ChoiceTemplate) => {
-        if (e.choice_template_id === target.choice_template_id) {
-          return target;
-        } else {
-          return e;
-        }
-      }));
-    } else {
-      setTemplates(templates.concat(target));
-    }
-    setOpen(false);
+    // if (templates.some((x: ChoiceTemplate) => x.choice_template_id === target.choice_template_id)) {
+    //   setTemplates(templates.map((e: ChoiceTemplate) => {
+    //     if (e.choice_template_id === target.choice_template_id) {
+    //       return target;
+    //     } else {
+    //       return e;
+    //     }
+    //   }));
+    // } else {
+    //   setTemplates(templates.concat(target));
+    // }
+    // setOpen(false);
   };
 
   /**
    * Creates new template set.
    */
   const handleCreateTemplate = () => {
-    setTarget({
-      choice_template_id: Math.random().toString(36).substr(2, 9),
-      choices: [],
-    });
-    setOpen(true);
+    // setTarget({
+    //   choice_template_id: Math.random().toString(36).substr(2, 9),
+    //   choices: [],
+    // });
+    // setOpen(true);
   };
 
   /**
@@ -77,11 +73,11 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    * @param id The template ID to be edited.
    */
   const handleEditTemplate = (id: string) => {
-    const template = templates.find((x: ChoiceTemplate) => x.choice_template_id === id);
-    if (template != null) {
-      setTarget(template);
-      setOpen(true);
-    }
+    // const template = templates.find((x: ChoiceTemplate) => x.choice_template_id === id);
+    // if (template != null) {
+    //   setTarget(template);
+    //   setOpen(true);
+    // }
   };
 
   /**
@@ -89,35 +85,35 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    * @param id The template ID to be removed.
    */
   const handleDeleteTemplate = (id: string) => {
-    setTemplates(
-      templates.filter((x: ChoiceTemplate) => x.choice_template_id !== id)
-    )
+    // setTemplates(
+    //   templates.filter((x: ChoiceTemplate) => x.choice_template_id !== id)
+    // )
   };
 
   /**
    * Implement the process to submit choice templates
    */
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    fetch('choicetemplate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(templates)
-    })
-      .then((res) => {
-        if (res.ok) {
-          alert('登録に成功しました');
-        } else {
-          alert('登録に失敗しました')
-        }
-        return res.json();
-      })
-      .then((json: ChoiceTemplate[]) => {
-        setTemplates(json);
-      })
-      .catch(console.error);
+    // event.preventDefault();
+    // fetch('choicetemplate', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(templates)
+    // })
+    //   .then((res) => {
+    //     if (res.ok) {
+    //       alert('登録に成功しました');
+    //     } else {
+    //       alert('登録に失敗しました')
+    //     }
+    //     return res.json();
+    //   })
+    //   .then((json: ChoiceTemplate[]) => {
+    //     setTemplates(json);
+    //   })
+    //   .catch(console.error);
   }
 
   return (
@@ -151,7 +147,9 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                               <EditIcon />
                             </IconButton>
                           </TableCell>
-                          <TableCell>{template.choices.join(',')}</TableCell>
+                          <TableCell>
+                            {template.choices.map(x => x.description).join(',')}
+                          </TableCell>
                           <TableCell align='right'>
                             <IconButton
                               data-testid={`remove-template-button-${index}`}
@@ -166,13 +164,6 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                     </TableBody>
                   </Table>
                 </TableContainer>
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  type='submit'
-                  variant='contained'
-                  color='primary'
-                >テンプレート登録</Button>
               </Grid>
             </Grid>
           </form>
@@ -192,7 +183,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
         <DialogTitle>選択肢テンプレート編集</DialogTitle>
         <DialogContent>
           <Grid container spacing={1}>
-            {target.choices.map((choice: string, index: number) =>
+            {/* {target.choices.map((choice: string, index: number) =>
               <Grid item xs={12} key={`choice_${index}`}>
                 <TextField
                   required
@@ -221,17 +212,17 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                   <CancelIcon />
                 </IconButton>
               </Grid>
-            )}
+            )} */}
             <Grid item xs={12}>
               <BottomNavigation showLabels>
                 <BottomNavigationAction
                   data-testid='add-choice-button'
                   label='選択肢追加'
                   icon={<AddCircleIcon />}
-                  onClick={() => setTarget({
-                    ...target,
-                    'choices': target.choices.concat(''),
-                  })}
+                  // onClick={() => setTarget({
+                  //   ...target,
+                  //   'choices': target.choices.concat(''),
+                  // })}
                 />
               </BottomNavigation>
             </Grid>

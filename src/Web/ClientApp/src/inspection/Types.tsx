@@ -10,6 +10,16 @@ export const useInputTypes = [
   { value: 5, label: "日付入力" },
 ];
 
+export type Option = {
+  option_id: number,
+  description: string,
+};
+
+export type ChoiceTemplate = {
+  choice_template_id: string,
+  choices: Option[],
+};
+
 export type InspectionGroup = {
   inspection_group_id: number,
   description: string,

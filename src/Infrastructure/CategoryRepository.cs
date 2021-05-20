@@ -261,9 +261,16 @@ namespace InspectionManager.Infrastructure
         {
             if (_context.ChoiceTemplates != null)
             {
-                return _context.ChoiceTemplates
-                    .Select(x => _mapper.Map<ChoiceTemplateDto>(x))
+                var templates = _context.ChoiceTemplates
+                    .Select(x => new ChoiceTemplateDto
+                    {
+                        ChoiceTemplateId = x.ChoiceTemplateId,
+                        Choices = x.Choices.Select(y =>
+                            _mapper.Map<OptionDto>(y)
+                        ).ToList()
+                    })
                     .ToList();
+                return templates;
             }
             else
             {
