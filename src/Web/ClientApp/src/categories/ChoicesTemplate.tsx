@@ -190,7 +190,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                   variant='outlined'
                   size='small'
                   name='choice'
-                  value={choice}
+                  value={choice.description}
                   // onChange={(e) => setTarget({
                   //   ...target,
                   //   'choices': target.choices.map((value: string, i: number) => {
@@ -217,10 +217,13 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                   data-testid='add-choice-button'
                   label='選択肢追加'
                   icon={<AddCircleIcon />}
-                  // onClick={() => setTarget({
-                  //   ...target,
-                  //   'choices': target.choices.concat(''),
-                  // })}
+                  onClick={() => setTarget({
+                    ...target,
+                    'choices': target.choices.concat({
+                      option_id: 0,
+                      description: ''
+                    }),
+                  })}
                 />
               </BottomNavigation>
             </Grid>
