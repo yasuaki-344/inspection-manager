@@ -181,8 +181,8 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
         <DialogTitle>選択肢テンプレート編集</DialogTitle>
         <DialogContent>
           <Grid container spacing={1}>
-            {/* {target.choices.map((choice: string, index: number) =>
-              <Grid item xs={12} key={`choice_${index}`}>
+            {target.choices.map((choice: Option, index: number) =>
+              <Grid item xs={12} key={choice.option_id}>
                 <TextField
                   required
                   id='outlined-required'
@@ -191,26 +191,26 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                   size='small'
                   name='choice'
                   value={choice}
-                  onChange={(e) => setTarget({
-                    ...target,
-                    'choices': target.choices.map((value: string, i: number) => {
-                      return i !== index ? value : e.target.value;
-                    }),
-                  })}
+                  // onChange={(e) => setTarget({
+                  //   ...target,
+                  //   'choices': target.choices.map((value: string, i: number) => {
+                  //     return i !== index ? value : e.target.value;
+                  //   }),
+                  // })}
                 />
                 <IconButton color='primary' size='small'
                   data-testid={`remove-choice-${index}`}
-                  onClick={() => setTarget({
-                    ...target,
-                    'choices': target.choices.filter(
-                      (value: string, i: number) => i !== index
-                    ),
-                  })}
+                  // onClick={() => setTarget({
+                  //   ...target,
+                  //   'choices': target.choices.filter(
+                  //     (value: string, i: number) => i !== index
+                  //   ),
+                  // })}
                 >
                   <CancelIcon />
                 </IconButton>
               </Grid>
-            )} */}
+            )}
             <Grid item xs={12}>
               <BottomNavigation showLabels>
                 <BottomNavigationAction
