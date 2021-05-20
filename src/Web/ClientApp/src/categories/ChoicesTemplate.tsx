@@ -11,15 +11,13 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import { ChoiceTemplate, Option } from '../inspection/Types';
 
-const InitialChoiceTemplate = {
-  choice_template_id: '',
-  choices: []
-};
-
 export const ChoicesTemplate: FC = (): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const [target, setTarget] = useState<ChoiceTemplate>(InitialChoiceTemplate);
+  const [target, setTarget] = useState<ChoiceTemplate>({
+    choice_template_id: 0,
+    choices: []
+  });
   const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
 
   useEffect(() => {
@@ -61,18 +59,18 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    * Creates new template set.
    */
   const handleCreateTemplate = () => {
-    // setTarget({
-    //   choice_template_id: Math.random().toString(36).substr(2, 9),
-    //   choices: [],
-    // });
-    // setOpen(true);
+    setTarget({
+      choice_template_id: 0,
+      choices: [],
+    });
+    setOpen(true);
   };
 
   /**
    * Edit the specified template.
    * @param id The template ID to be edited.
    */
-  const handleEditTemplate = (id: string) => {
+  const handleEditTemplate = (id: number) => {
     // const template = templates.find((x: ChoiceTemplate) => x.choice_template_id === id);
     // if (template != null) {
     //   setTarget(template);
@@ -84,7 +82,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    * Removes the specified template.
    * @param id The template ID to be removed.
    */
-  const handleDeleteTemplate = (id: string) => {
+  const handleDeleteTemplate = (id: number) => {
     // setTemplates(
     //   templates.filter((x: ChoiceTemplate) => x.choice_template_id !== id)
     // )
