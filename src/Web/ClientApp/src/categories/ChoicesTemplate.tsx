@@ -100,32 +100,6 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
       .catch(console.error);
   };
 
-  /**
-   * Implement the process to submit choice templates
-   */
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    // event.preventDefault();
-    // fetch('choicetemplate', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(templates)
-    // })
-    //   .then((res) => {
-    //     if (res.ok) {
-    //       alert('登録に成功しました');
-    //     } else {
-    //       alert('登録に失敗しました')
-    //     }
-    //     return res.json();
-    //   })
-    //   .then((json: ChoiceTemplate[]) => {
-    //     setTemplates(json);
-    //   })
-    //   .catch(console.error);
-  }
-
   return (
     <>
       <Grid container spacing={1}>
@@ -133,50 +107,48 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
           <h1>選択肢テンプレート</h1>
         </Grid>
         <Grid item xs={12}>
-          <form data-testid='form' onSubmit={handleSubmit}>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                <TableContainer component={Paper}>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell />
-                        <TableCell>選択肢</TableCell>
-                        <TableCell />
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell />
+                      <TableCell>選択肢</TableCell>
+                      <TableCell />
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {templates.map((template: ChoiceTemplate, index: number) =>
+                      <TableRow key={template.choice_template_id}>
+                        <TableCell>
+                          <IconButton
+                            data-testid={`edit-template-button-${index}`}
+                            size='small'
+                            onClick={() => handleEditTemplate(template.choice_template_id)}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </TableCell>
+                        <TableCell>
+                          {template.choices.map(x => x.description).join(',')}
+                        </TableCell>
+                        <TableCell align='right'>
+                          <IconButton
+                            data-testid={`remove-template-button-${index}`}
+                            size='small'
+                            onClick={() => handleDeleteTemplate(template.choice_template_id)}
+                          >
+                            <CancelIcon />
+                          </IconButton>
+                        </TableCell>
                       </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {templates.map((template: ChoiceTemplate, index: number) =>
-                        <TableRow key={template.choice_template_id}>
-                          <TableCell>
-                            <IconButton
-                              data-testid={`edit-template-button-${index}`}
-                              size='small'
-                              onClick={() => handleEditTemplate(template.choice_template_id)}
-                            >
-                              <EditIcon />
-                            </IconButton>
-                          </TableCell>
-                          <TableCell>
-                            {template.choices.map(x => x.description).join(',')}
-                          </TableCell>
-                          <TableCell align='right'>
-                            <IconButton
-                              data-testid={`remove-template-button-${index}`}
-                              size='small'
-                              onClick={() => handleDeleteTemplate(template.choice_template_id)}
-                            >
-                              <CancelIcon />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Grid>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </Grid>
-          </form>
+          </Grid>
         </Grid>
         <Grid item xs={12}>
           <BottomNavigation showLabels>
