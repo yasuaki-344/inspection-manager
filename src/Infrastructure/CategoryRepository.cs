@@ -11,6 +11,7 @@ using AutoMapper;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Entities;
 using InspectionManager.ApplicationCore.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace InspectionManager.Infrastructure
 {
@@ -318,9 +319,28 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public Task<ChoiceTemplateDto> DeleteChoiceTemplateAsync(int id)
+        public async Task<ChoiceTemplateDto> DeleteChoiceTemplateAsync(int id)
         {
-            throw new System.NotImplementedException();
+            if (_context.ChoiceTemplates != null)
+            {
+                var entity = _context.ChoiceTemplates
+                    .Include(x => x.Choices)
+                    .Single(x => x.ChoiceTemplateId == id);
+                if (entity != null)
+                {
+                    _context.ChoiceTemplates.Remove(entity);
+                    await _context.SaveChangesAsync();
+                    return _mapper.Map<ChoiceTemplateDto>(entity);
+                }
+                else
+                {
+                    return new ChoiceTemplateDto();
+                }
+            }
+            else
+            {
+                return new ChoiceTemplateDto();
+            }
         }
     }
 }
