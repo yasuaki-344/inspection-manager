@@ -321,13 +321,10 @@ namespace InspectionManager.Infrastructure
         /// <inheritdoc/>
         public async Task<ChoiceTemplateDto> DeleteChoiceTemplateAsync(int id)
         {
-            if (_context.ChoiceTemplates != null && _context.Options != null)
+            if (_context.ChoiceTemplates != null)
             {
                 var entity = _context.ChoiceTemplates
                     .Single(x => x.ChoiceTemplateId == id);
-                entity.Choices = await _context.Options
-                    .Where(x => x.ChoiceTemplateId == entity.ChoiceTemplateId)
-                    .ToListAsync();
 
                 if (entity != null)
                 {
