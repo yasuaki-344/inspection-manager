@@ -191,12 +191,15 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                   size='small'
                   name='choice'
                   value={choice.description}
-                  // onChange={(e) => setTarget({
-                  //   ...target,
-                  //   'choices': target.choices.map((value: string, i: number) => {
-                  //     return i !== index ? value : e.target.value;
-                  //   }),
-                  // })}
+                  onChange={(e) => setTarget({
+                    ...target,
+                    'choices': target.choices.map((value: Option, i: number) => {
+                      return i !== index ? value : {
+                        option_id: value.option_id,
+                        description: e.target.value
+                      };
+                    }),
+                  })}
                 />
                 <IconButton color='primary' size='small'
                   data-testid={`remove-choice-${index}`}
