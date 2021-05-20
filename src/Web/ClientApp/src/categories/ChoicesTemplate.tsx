@@ -89,9 +89,15 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    * @param id The template ID to be removed.
    */
   const handleDeleteTemplate = (id: number) => {
-    // setTemplates(
-    //   templates.filter((x: ChoiceTemplate) => x.choice_template_id !== id)
-    // )
+    fetch(`choicetemplate/${id}`, {
+      method: 'DELETE',
+    })
+      .then((res) => res.json())
+      .then((json: ChoiceTemplate) => {
+        setTemplates(templates.filter((x: ChoiceTemplate) =>
+          x.choice_template_id !== json.choice_template_id));
+      })
+      .catch(console.error);
   };
 
   /**
