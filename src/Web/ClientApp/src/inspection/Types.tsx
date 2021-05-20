@@ -16,7 +16,7 @@ export type Option = {
 };
 
 export type ChoiceTemplate = {
-  choice_template_id: string,
+  choice_template_id: number,
   choices: Option[],
 };
 
