@@ -41,18 +41,24 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    * Add new template set.
    */
   const handleAddTemplate = () => {
-    // if (templates.some((x: ChoiceTemplate) => x.choice_template_id === target.choice_template_id)) {
-    //   setTemplates(templates.map((e: ChoiceTemplate) => {
-    //     if (e.choice_template_id === target.choice_template_id) {
-    //       return target;
-    //     } else {
-    //       return e;
-    //     }
-    //   }));
-    // } else {
-    //   setTemplates(templates.concat(target));
-    // }
-    // setOpen(false);
+    fetch('choicetemplate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(target)
+    })
+      .then((res) => {
+        if (!res.ok) {
+          alert('登録に失敗しました')
+        }
+        return res.json();
+      })
+      .then((json: ChoiceTemplate) => {
+        setTemplates(templates.concat(json));
+      })
+      .catch(console.error);
+    setOpen(false);
   };
 
   /**
