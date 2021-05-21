@@ -13,19 +13,18 @@ import { ChoiceTemplate, Option } from '../inspection/Types';
 
 export const ChoicesTemplate: FC = (): JSX.Element => {
   const [open, setOpen] = useState(false);
+  const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
   const [disabled, setDisabled] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<ChoiceTemplate>({
     choice_template_id: 0,
     choices: []
   });
-  const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
 
   useEffect(() => {
     fetch('choicetemplate')
       .then(res => res.json())
-      .then((json: ChoiceTemplate[]) => {
-        setTemplates(json);
-      })
+      .then((json: ChoiceTemplate[]) => setTemplates(json))
       .catch(console.error);
   }, []);
 
@@ -37,29 +36,6 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
   //   }
   // }, [target]);
 
-  /**
-   * Add new template set.
-   */
-  const handleAddTemplate = () => {
-    fetch('choicetemplate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(target)
-    })
-      .then((res) => {
-        if (!res.ok) {
-          alert('登録に失敗しました')
-        }
-        return res.json();
-      })
-      .then((json: ChoiceTemplate) => {
-        setTemplates(templates.concat(json));
-      })
-      .catch(console.error);
-    setOpen(false);
-  };
 
   /**
    * Creates new template set.
@@ -69,6 +45,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
       choice_template_id: 0,
       choices: [],
     });
+    setIsUpdate(false);
     setOpen(true);
   };
 
@@ -77,11 +54,62 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    * @param id The template ID to be edited.
    */
   const handleEditTemplate = (id: number) => {
-    // const template = templates.find((x: ChoiceTemplate) => x.choice_template_id === id);
-    // if (template != null) {
-    //   setTarget(template);
-    //   setOpen(true);
-    // }
+    const template = templates.find((x: ChoiceTemplate) => x.choice_template_id === id);
+    if (template != null) {
+      setTarget(template);
+      setIsUpdate(true);
+      setOpen(true);
+    }
+  };
+
+  /**
+   * Add new template set.
+   */
+  const handleAddTemplate = () => {
+    if (isUpdate) {
+      fetch(`choicetemplate/${target.choice_template_id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(target)
+      })
+        .then((res) => {
+          if (!res.ok) {
+            alert('登録に失敗しました')
+          }
+          return res.json();
+        })
+        .then((json: ChoiceTemplate) => {
+          setTemplates(templates.map(x => {
+            if (x.choice_template_id === json.choice_template_id) {
+              return json;
+            } else {
+              return x;
+            }
+          }));
+        })
+        .catch(console.error);
+    } else {
+      fetch('choicetemplate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(target)
+      })
+        .then((res) => {
+          if (!res.ok) {
+            alert('登録に失敗しました')
+          }
+          return res.json();
+        })
+        .then((json: ChoiceTemplate) => {
+          setTemplates(templates.concat(json));
+        })
+        .catch(console.error);
+    }
+    setOpen(false);
   };
 
   /**
@@ -113,14 +141,17 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell />
                       <TableCell>選択肢</TableCell>
-                      <TableCell />
+                      <TableCell>&nbsp;</TableCell>
+                      <TableCell>&nbsp;</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {templates.map((template: ChoiceTemplate, index: number) =>
                       <TableRow key={template.choice_template_id}>
+                        <TableCell>
+                          {template.choices.map(x => x.description).join(',')}
+                        </TableCell>
                         <TableCell>
                           <IconButton
                             data-testid={`edit-template-button-${index}`}
@@ -129,9 +160,6 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                           >
                             <EditIcon />
                           </IconButton>
-                        </TableCell>
-                        <TableCell>
-                          {template.choices.map(x => x.description).join(',')}
                         </TableCell>
                         <TableCell align='right'>
                           <IconButton
