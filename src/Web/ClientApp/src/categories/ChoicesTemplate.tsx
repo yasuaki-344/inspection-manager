@@ -28,14 +28,14 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
       .catch(console.error);
   }, []);
 
-  // useEffect(() => {
-  //   if (!target.choices.length) {
-  //     setDisabled(true);
-  //   } else {
-  //     setDisabled(target.choices.includes(''));
-  //   }
-  // }, [target]);
-
+  useEffect(() => {
+    if (!target.choices.length) {
+      setDisabled(true);
+    } else {
+      const index = target.choices.findIndex(x => x.description === '');
+      setDisabled(index !== -1);
+    }
+  }, [target]);
 
   /**
    * Creates new template set.
