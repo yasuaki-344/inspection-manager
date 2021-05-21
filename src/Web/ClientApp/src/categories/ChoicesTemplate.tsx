@@ -152,19 +152,21 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                         <TableCell>
                           {template.choices.map(x => x.description).join(',')}
                         </TableCell>
-                        <TableCell>
+                        <TableCell padding='checkbox'>
                           <IconButton
                             data-testid={`edit-template-button-${index}`}
                             size='small'
+                            color='primary'
                             onClick={() => handleEditTemplate(template.choice_template_id)}
                           >
                             <EditIcon />
                           </IconButton>
                         </TableCell>
-                        <TableCell align='right'>
+                        <TableCell padding='checkbox'>
                           <IconButton
                             data-testid={`remove-template-button-${index}`}
                             size='small'
+                            color='secondary'
                             onClick={() => handleDeleteTemplate(template.choice_template_id)}
                           >
                             <CancelIcon />
