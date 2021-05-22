@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.
@@ -29,7 +29,7 @@ namespace InspectionManager.Infrastructure
         /// <inheritdoc/>
         public bool InspectionSheetExists(int id)
         {
-            if (_context.InspectionSheets!=null)
+            if (_context.InspectionSheets != null)
             {
                 var sheetExists = _context.InspectionSheets.Any(s => s.InspectionSheetId == id);
                 return sheetExists;
@@ -169,7 +169,21 @@ namespace InspectionManager.Infrastructure
         /// <inheritdoc/>
         public InspectionSheetDto DeleteInspectionSheet(int id)
         {
-            throw new System.NotImplementedException();
+            if (InspectionSheetExists(id))
+            {
+                var dto = GetInspectionSheet(id);
+                if (_context.InspectionSheets != null)
+                {
+                    var sheet = _context.InspectionSheets.Single(s => s.InspectionSheetId == id);
+                    _context.Remove(sheet);
+                    _context.SaveChanges();
+                }
+                return dto != null ? dto : new InspectionSheetDto();
+            }
+            else
+            {
+                return new InspectionSheetDto();
+            }
         }
     }
 }
