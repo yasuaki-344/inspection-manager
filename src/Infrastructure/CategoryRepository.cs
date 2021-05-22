@@ -313,9 +313,26 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public Task<ChoiceTemplateDto> UpdateChoiceTemplateAsync(ChoiceTemplateDto dto)
+        public async Task<ChoiceTemplateDto> UpdateChoiceTemplateAsync(ChoiceTemplateDto dto)
         {
-            throw new System.NotImplementedException();
+            if (_context.ChoiceTemplates != null &&
+                _context.Options != null)
+            {
+                var entity = _mapper.Map<ChoiceTemplate>(dto);
+                var optionIds = entity.Choices.Select(x => x.OptionId);
+                var options = _context.Options
+                    .Where(x => x.ChoiceTemplateId == dto.ChoiceTemplateId)
+                    .Where(x => !optionIds.Contains(x.OptionId));
+                _context.Options.RemoveRange(options);
+                _context.ChoiceTemplates.Update(entity);
+                await _context.SaveChangesAsync();
+
+                return _mapper.Map<ChoiceTemplateDto>(entity);
+            }
+            else
+            {
+                return new ChoiceTemplateDto();
+            }
         }
 
         /// <inheritdoc/>
