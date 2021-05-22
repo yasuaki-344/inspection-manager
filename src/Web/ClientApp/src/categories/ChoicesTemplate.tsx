@@ -40,7 +40,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
   /**
    * Creates new template set.
    */
-  const handleCreateTemplate = () => {
+  const handleAddTemplate = () => {
     setTarget({
       choice_template_id: 0,
       choices: [],
@@ -53,7 +53,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    * Edit the specified template.
    * @param id The template ID to be edited.
    */
-  const handleEditTemplate = (id: number) => {
+  const handleUpdateTemplate = (id: number) => {
     const template = templates.find((x: ChoiceTemplate) => x.choice_template_id === id);
     if (template != null) {
       setTarget(template);
@@ -65,7 +65,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
   /**
    * Add new template set.
    */
-  const handleAddTemplate = () => {
+  const handleRegistration = () => {
     if (isUpdate) {
       fetch(`choicetemplate/${target.choice_template_id}`, {
         method: 'PUT',
@@ -157,7 +157,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                             data-testid={`edit-template-button-${index}`}
                             size='small'
                             color='primary'
-                            onClick={() => handleEditTemplate(template.choice_template_id)}
+                            onClick={() => handleUpdateTemplate(template.choice_template_id)}
                           >
                             <EditIcon />
                           </IconButton>
@@ -186,7 +186,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
               data-testid='add-template-button'
               label='テンプレート追加'
               icon={<AddCircleIcon />}
-              onClick={handleCreateTemplate}
+              onClick={handleAddTemplate}
             />
           </BottomNavigation>
         </Grid>
@@ -251,7 +251,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
             variant='contained'
             color='primary'
             disabled={disabled}
-            onClick={() => handleAddTemplate()}
+            onClick={() => handleRegistration()}
           >OK</Button>
           <Button
             variant='contained'
