@@ -163,12 +163,12 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
               label='点検グループ'
               variant='outlined'
               size='small'
-              name='inspection_group'
-              value={context.inspectionSheet.inspection_group}
+              name='inspection_group_id'
+              value={context.inspectionSheet.inspection_group_id}
               onChange={e => context.updateField(e)}
             >
               {groups.map((option: InspectionGroup) => (
-                <MenuItem key={option.inspection_group_id} value={option.description}>
+                <MenuItem key={option.inspection_group_id} value={option.inspection_group_id}>
                   {option.description}
                 </MenuItem >
               ))}
@@ -182,12 +182,12 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
               label='点検タイプ'
               variant='outlined'
               size='small'
-              name='inspection_type'
-              value={context.inspectionSheet.inspection_type}
+              name='inspection_type_id'
+              value={context.inspectionSheet.inspection_type_id}
               onChange={e => context.updateField(e)}
             >
               {types.map((option: InspectionType) => (
-                <MenuItem key={option.inspection_type_id} value={option.description}>
+                <MenuItem key={option.inspection_type_id} value={option.inspection_type_id}>
                   {option.description}
                 </MenuItem >
               ))}
