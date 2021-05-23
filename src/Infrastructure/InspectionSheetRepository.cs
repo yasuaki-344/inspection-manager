@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.
@@ -31,7 +31,7 @@ namespace InspectionManager.Infrastructure
         {
             if (_context.InspectionSheets != null)
             {
-                var sheetExists = _context.InspectionSheets.Any(s => s.InspectionSheetId == id);
+                var sheetExists = _context.InspectionSheets.Any(s => s.SheetId == id);
                 return sheetExists;
             }
             else
@@ -50,7 +50,7 @@ namespace InspectionManager.Infrastructure
                     .Include(s => s.InspectionType)
                     .Select(s => new InspectionSheetDto
                     {
-                        SheetId = s.InspectionSheetId,
+                        SheetId = s.SheetId,
                         SheetName = s.SheetName,
                         InspectionGroup = s.InspectionGroup.Description,
                         InspectionType = s.InspectionType.Description,
@@ -68,41 +68,39 @@ namespace InspectionManager.Infrastructure
         {
             if (_context.InspectionSheets != null)
             {
-                var sheet = _context.InspectionSheets
-                    .Where(s => s.InspectionSheetId == id)
-                    .Include(s => s.InspectionGroup)
-                    .Include(s => s.InspectionType)
-                    .Include(s => s.Equipments)
-                    .ThenInclude(e => e.InspectionItems)
-                    .ThenInclude(i => i.Choices)
-                    .Select(s => new InspectionSheetDto
-                    {
-                        SheetId = s.InspectionSheetId,
-                        SheetName = s.SheetName,
-                        InspectionGroup = s.InspectionGroup.Description,
-                        InspectionType = s.InspectionType.Description,
-                        Equipments = s.Equipments
-                        .OrderBy(e => e.OrderIndex)
-                        .Select(e => new EquipmentDto
-                        {
-                            EquipmentId = e.EquipmentId.ToString(),
-                            EquipmentName = e.EquipmentName,
-                            InspectionItems = e.InspectionItems
-                                .OrderBy(i => i.OrderIndex)
-                                .Select(i => new InspectionItemDto
-                                {
-                                    InspectionItemId = i.InspectionItemId.ToString(),
-                                    InspectionContent = i.InspectionContent,
-                                    InputType = i.InputType.InputTypeId - 1,
-                                    Choices = i.Choices
-                                        .OrderBy(c => c.OrderIndex)
-                                        .Select(c => c.Description)
-                                        .ToList()
-                                })
-                                .ToList()
-                        })
-                        .ToList()
-                    })
+                var query = _context.InspectionSheets
+                    .Where(s => s.SheetId == id)
+                    .Include(s => s.InspectionGroup);
+                System.Console.WriteLine(query.ToQueryString());
+                var entity = query.Single<InspectionSheet>();
+                var sheet = query.Select(s => new InspectionSheetDto
+                {
+                    SheetId = s.SheetId,
+                    SheetName = s.SheetName,
+                    InspectionGroup = s.InspectionGroup.Description,
+                    InspectionType = s.InspectionType.Description,
+                    Equipments = s.Equipments
+                            .OrderBy(e => e.OrderIndex)
+                            .Select(e => new EquipmentDto
+                            {
+                                EquipmentId = e.EquipmentId.ToString(),
+                                EquipmentName = e.EquipmentName,
+                                InspectionItems = e.InspectionItems
+                                    .OrderBy(i => i.OrderIndex)
+                                    .Select(i => new InspectionItemDto
+                                    {
+                                        InspectionItemId = i.InspectionItemId.ToString(),
+                                        InspectionContent = i.InspectionContent,
+                                        InputType = i.InputType.InputTypeId - 1,
+                                        Choices = i.Choices
+                                            .OrderBy(c => c.OrderIndex)
+                                            .Select(c => c.Description)
+                                            .ToList()
+                                    })
+                                    .ToList()
+                            })
+                            .ToList()
+                })
                     .FirstOrDefault();
                 return sheet;
             }
@@ -134,21 +132,21 @@ namespace InspectionManager.Infrastructure
                     InspectionGroupId = group.InspectionGroupId,
                     InspectionGroup = group,
                     Equipments = dto.Equipments.Select((e, i) => new Equipment
+                    {
+                        OrderIndex = i,
+                        EquipmentName = e.EquipmentName,
+                        InspectionItems = e.InspectionItems.Select((x, index) => new InspectionItem
                         {
-                            OrderIndex = i,
-                            EquipmentName = e.EquipmentName,
-                            InspectionItems = e.InspectionItems.Select((x, index) => new InspectionItem
-                                {
-                                    OrderIndex = index,
-                                    InspectionContent = x.InspectionContent,
-                                    InputType = inputTypes.First(t => t.InputTypeId == x.InputType + 1),
-                                    Choices = x.Choices.Select((c, order) => new Choice
-                                    {
-                                        OrderIndex = order,
-                                        Description = c
-                                    }).ToList()
-                                }).ToList()
+                            OrderIndex = index,
+                            InspectionContent = x.InspectionContent,
+                            InputType = inputTypes.First(t => t.InputTypeId == x.InputType + 1),
+                            Choices = x.Choices.Select((c, order) => new Choice
+                            {
+                                OrderIndex = order,
+                                Description = c
+                            }).ToList()
                         }).ToList()
+                    }).ToList()
                 };
                 _context.InspectionSheets.Add(entity);
                 _context.SaveChanges();
@@ -174,7 +172,7 @@ namespace InspectionManager.Infrastructure
                 var dto = GetInspectionSheet(id);
                 if (_context.InspectionSheets != null)
                 {
-                    var sheet = _context.InspectionSheets.Single(s => s.InspectionSheetId == id);
+                    var sheet = _context.InspectionSheets.Single(s => s.SheetId == id);
                     _context.Remove(sheet);
                     _context.SaveChanges();
                 }
