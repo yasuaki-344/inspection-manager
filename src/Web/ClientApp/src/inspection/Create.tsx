@@ -7,7 +7,7 @@ import {
 import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
-import { InspectionSheet, InspectionSheetSummary } from './Types';
+import { InspectionSheet } from './Types';
 import { initialState } from './operator/InspectionSheetOperator';
 import { InspectionSheetContext } from './context/InspectionSheetContext';
 
@@ -15,13 +15,13 @@ export const Create = (): JSX.Element => {
   const context = useContext(InspectionSheetContext);
   const [open, setOpen] = useState(false);
   const [page, setPage] = React.useState(0);
-  const [inspectionSheets, setInspectionSheets] = useState<InspectionSheetSummary[]>([]);
+  const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>([]);
 
   useEffect(() => {
     context.setSheet(initialState());
     fetch('inspectionsheet')
       .then(res => res.json())
-      .then((json: InspectionSheetSummary[]) => {
+      .then((json: InspectionSheet[]) => {
         console.log(json);
         setInspectionSheets(json);
       })
@@ -119,7 +119,7 @@ export const Create = (): JSX.Element => {
               <TableBody>
                 {inspectionSheets
                   .slice(page * 5, page * 5 + 5)
-                  .map((sheet: InspectionSheetSummary) =>
+                  .map((sheet: InspectionSheet) =>
                     <TableRow key={sheet.sheet_id}>
                       <TableCell>{sheet.sheet_name}</TableCell>
                       <TableCell>{sheet.inspection_group}</TableCell>

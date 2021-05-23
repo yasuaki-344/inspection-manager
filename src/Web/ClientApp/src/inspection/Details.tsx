@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { FC, Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Box, Collapse, Paper, List, ListItem, IconButton,
@@ -8,6 +8,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { useInputTypes, InspectionSheet, Equipment, InspectionItem } from './Types';
+import { initialState } from './operator/InspectionSheetOperator';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,10 +21,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Row = (props: any): JSX.Element => {
+interface RowProps {
+  equipment: Equipment,
+};
+
+const Row: FC<RowProps> = ({ equipment }): JSX.Element => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const equipment = props.equipment;
+  const [open, setOpen] = useState(false);
 
   return (
     <Fragment key={equipment.equipment_id}>
@@ -70,13 +74,7 @@ const Row = (props: any): JSX.Element => {
 
 export const Details = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
-  const [inspectionSheet, setInspectionSheet] = useState<InspectionSheet>({
-    sheet_id: 0,
-    sheet_name: '',
-    inspection_group: '',
-    inspection_type: '',
-    equipments: [],
-  });
+  const [inspectionSheet, setInspectionSheet] = useState<InspectionSheet>(initialState());
 
   useEffect(() => {
     fetch(`inspectionsheet/${sheetId}`)

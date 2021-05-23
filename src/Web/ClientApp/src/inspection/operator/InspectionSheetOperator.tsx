@@ -14,6 +14,8 @@ export const initialState = () => {
   return {
     sheet_id: 0,
     sheet_name: '',
+    inspection_group_id: 0,
+    inspection_type_id: 0,
     inspection_group: '',
     inspection_type: '',
     equipments: [],

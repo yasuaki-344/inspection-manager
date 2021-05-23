@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
@@ -14,7 +14,8 @@ import DetailsIcon from '@material-ui/icons/Details';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SearchIcon from '@material-ui/icons/Search';
-import { InspectionSheet, InspectionSheetSummary } from '../inspection/Types';
+import { InspectionSheet, InspectionGroup, InspectionType } from '../inspection/Types';
+import { initialState } from '../inspection/operator/InspectionSheetOperator';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,27 +26,38 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-export const Home = (): JSX.Element => {
+export const Home: FC = (): JSX.Element => {
   const classes = useStyles();
 
-  const [inspectionSheets, setInspectionSheets] = useState<InspectionSheetSummary[]>([]);
-  const [filteredInspectionSheets, setFilteredInspectionSheets] = useState<InspectionSheetSummary[]>([]);
-  const [open, setOpen] = React.useState(false);
-  const [targetSheet, setTargetSheet] = React.useState<InspectionSheetSummary>({
-    sheet_id: 0,
-    sheet_name: '',
-    inspection_group: '',
-    inspection_type: '',
-  });
+  const [groups, setGroups] = useState<InspectionGroup[]>([]);
+  const [types, setTypes] = useState<InspectionType[]>([]);
+  const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>([]);
+  const [filteredInspectionSheets, setFilteredInspectionSheets] = useState<InspectionSheet[]>([]);
+  const [open, setOpen] = useState(false);
+  const [targetSheet, setTargetSheet] = useState<InspectionSheet>(initialState());
   const [searchOption, setSearchOption] = useState({
     sheet_name: '',
     inspection_group: '',
     inspection_type: '',
   })
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
+    fetch('inspectiongroup')
+      .then(res => res.json())
+      .then((json: InspectionGroup[]) => {
+        setGroups(json);
+      })
+      .catch(console.error);
+
+    fetch('inspectiontype')
+      .then(res => res.json())
+      .then((json: InspectionType[]) => {
+        setTypes(json);
+      })
+      .catch(console.error);
+
     fetch('inspectionsheet')
       .then(res => res.json())
       .then(json => {
@@ -72,7 +84,7 @@ export const Home = (): JSX.Element => {
    */
   const handleSearch = () => {
     setFilteredInspectionSheets(
-      inspectionSheets.filter((x: InspectionSheetSummary) =>
+      inspectionSheets.filter((x: InspectionSheet) =>
         x.sheet_name.includes(searchOption.sheet_name) &&
         x.inspection_group.includes(searchOption.inspection_group) &&
         x.inspection_type.includes(searchOption.inspection_type)
@@ -94,7 +106,7 @@ export const Home = (): JSX.Element => {
     setPage(0);
   };
 
-  const handleDownload = (sheet: InspectionSheetSummary) => {
+  const handleDownload = (sheet: InspectionSheet) => {
     fetch(`excelsheet/${sheet.sheet_id}`)
       .then(response => response.blob())
       .then(blob => {
@@ -112,7 +124,7 @@ export const Home = (): JSX.Element => {
       .catch(console.error);
   }
 
-  const handleExportJson = (sheet: InspectionSheetSummary) => {
+  const handleExportJson = (sheet: InspectionSheet) => {
     fetch(`jsonexport/${sheet.sheet_id}`)
       .then(response => response.blob())
       .then(blob => {
@@ -130,7 +142,7 @@ export const Home = (): JSX.Element => {
       .catch(console.error);
   }
 
-  const handleClickOpen = (sheet: InspectionSheetSummary) => {
+  const handleClickOpen = (sheet: InspectionSheet) => {
     setTargetSheet(sheet);
     setOpen(true);
   };
@@ -145,11 +157,11 @@ export const Home = (): JSX.Element => {
       .then((json: InspectionSheet) => {
         console.log(json);
         setInspectionSheets(
-          inspectionSheets.filter((x: InspectionSheetSummary) =>
+          inspectionSheets.filter((x: InspectionSheet) =>
             x.sheet_id !== json.sheet_id)
         );
         setFilteredInspectionSheets(
-          inspectionSheets.filter((x: InspectionSheetSummary) =>
+          inspectionSheets.filter((x: InspectionSheet) =>
             x.sheet_id !== json.sheet_id)
         );
       })
@@ -238,7 +250,7 @@ export const Home = (): JSX.Element => {
               <TableBody>
                 {filteredInspectionSheets
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((sheet: InspectionSheetSummary) =>
+                  .map((sheet: InspectionSheet) =>
                     <TableRow key={sheet.sheet_id}>
                       <TableCell padding='checkbox'>
                         <IconButton
@@ -257,8 +269,12 @@ export const Home = (): JSX.Element => {
                         </IconButton>
                       </TableCell>
                       <TableCell>{sheet.sheet_name}</TableCell>
-                      <TableCell>{sheet.inspection_group}</TableCell>
-                      <TableCell>{sheet.inspection_type}</TableCell>
+                      <TableCell>
+                        {groups.find(x => x.inspection_group_id === sheet.inspection_group_id)?.description}
+                      </TableCell>
+                      <TableCell>
+                        {types.find(x => x.inspection_type_id === sheet.inspection_type_id)?.description}
+                      </TableCell>
                       <TableCell padding='checkbox'>
                         <Link to={'/edit/' + sheet.sheet_id}>
                           <EditIcon />
