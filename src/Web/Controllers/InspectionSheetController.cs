@@ -129,7 +129,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public ActionResult<InspectionSheetDto> DeleteInspectionSheet(int id)
+        public async Task<ActionResult<InspectionSheetDto>> DeleteInspectionSheetAsync(int id)
         {
             try
             {
@@ -138,7 +138,7 @@ namespace InspectionManager.Web.Controllers
                 {
                     return NotFound($"sheet with Id = {id} not found");
                 }
-                return _service.DeleteInspectionSheet(id);
+                return await _service.DeleteInspectionSheetAsync(id);
             }
             catch (Exception ex)
             {

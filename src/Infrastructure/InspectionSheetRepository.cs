@@ -159,18 +159,22 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public InspectionSheetDto DeleteInspectionSheet(int id)
+        public async Task<InspectionSheetDto> DeleteInspectionSheetAsync(int id)
         {
-            if (InspectionSheetExists(id))
+            if (_context.InspectionSheets != null)
             {
-                var dto = GetInspectionSheet(id);
-                if (_context.InspectionSheets != null)
+                var entity = _context.InspectionSheets
+                    .Single(s => s.SheetId == id);
+                if (entity != null)
                 {
-                    var sheet = _context.InspectionSheets.Single(s => s.SheetId == id);
-                    _context.Remove(sheet);
-                    _context.SaveChanges();
+                    _context.InspectionSheets.Remove(entity);
+                    await _context.SaveChangesAsync();
+                    return _mapper.Map<InspectionSheetDto>(entity);
                 }
-                return dto != null ? dto : new InspectionSheetDto();
+                else
+                {
+                    return new InspectionSheetDto();
+                }
             }
             else
             {

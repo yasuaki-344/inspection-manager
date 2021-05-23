@@ -61,7 +61,7 @@ namespace InspectionManager.ApplicationCore.Services
             await _repository.UpdateInspectionSheetAsync(dto);
 
         /// <inheritdoc/>
-        public InspectionSheetDto DeleteInspectionSheet(int id) =>
-            _repository.DeleteInspectionSheet(id);
+        public async Task<InspectionSheetDto> DeleteInspectionSheetAsync(int id) =>
+            await _repository.DeleteInspectionSheetAsync(id);
     }
 }
