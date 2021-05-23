@@ -6,6 +6,7 @@
 //
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Entities;
 using InspectionManager.ApplicationCore.Interfaces;
@@ -16,14 +17,17 @@ namespace InspectionManager.Infrastructure
     public class InspectionSheetRepository : IInspectionSheetRepository
     {
         private readonly InspectionContext _context;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// Initializes a new instance of InspectionSheetRepository class.
         /// </summary>
         /// <param name="context">Database context</param>
-        public InspectionSheetRepository(InspectionContext context)
+        /// <param name="mapper">O/R mapper object</param>
+        public InspectionSheetRepository(InspectionContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         /// <inheritdoc/>
