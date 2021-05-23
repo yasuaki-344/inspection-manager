@@ -29,11 +29,7 @@ namespace InspectionManager.ApplicationCore.Test
                     "foo", "var", "hoge"
                 },
             };
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<AutoMapping>();
-            });
-            var mapper = new Mapper(config);
+            var mapper = CreateMapper();
             var actual = mapper.Map<InspectionItemExportDto>(item);
             Assert.Equal(0, actual.InspectionItemId);
             Assert.Equal("content", actual.InspectionContent);
@@ -65,11 +61,7 @@ namespace InspectionManager.ApplicationCore.Test
                     }
                 }
             };
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<AutoMapping>();
-            });
-            var mapper = new Mapper(config);
+            var mapper = CreateMapper();
             var actual = mapper.Map<EquipmentExportDto>(item);
             Assert.Equal("test", actual.EquipmentId);
             Assert.Equal("equipment", actual.EquipmentName);
@@ -91,11 +83,7 @@ namespace InspectionManager.ApplicationCore.Test
                 InspectionGroup = "inspection group",
                 Equipments = new List<EquipmentDto>(),
             };
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<AutoMapping>();
-            });
-            var mapper = new Mapper(config);
+            var mapper = CreateMapper();
             var actual = mapper.Map<InspectionSheetExportDto>(item);
             Assert.Equal("11", actual.SheetId);
             Assert.Equal("sheet name", actual.SheetName);
@@ -114,11 +102,7 @@ namespace InspectionManager.ApplicationCore.Test
                 InspectionGroup = "inspection group",
                 Equipments = new List<EquipmentDto>(),
             };
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<AutoMapping>();
-            });
-            var mapper = new Mapper(config);
+            var mapper = CreateMapper();
             var actual = mapper.Map<InspectionSheetSummaryDto>(item);
             Assert.Equal(12, actual.SheetId);
             Assert.Equal("sheet name", actual.SheetName);
@@ -138,17 +122,41 @@ namespace InspectionManager.ApplicationCore.Test
                     new Option { OptionId= 5, Description = "option 2" },
                 }
             };
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<AutoMapping>();
-            });
-            var mapper = new Mapper(config);
+            var mapper = CreateMapper();
             var actual = mapper.Map<ChoiceTemplateDto>(item);
             Assert.Equal(10, actual.ChoiceTemplateId);
             Assert.Equal(1, actual.Choices[0].OptionId);
             Assert.Equal("option 1", actual.Choices[0].Description);
             Assert.Equal(5, actual.Choices[1].OptionId);
             Assert.Equal("option 2", actual.Choices[1].Description);
+        }
+
+        [Fact]
+        public void MapToInspectionSheetDtoCorrectly()
+        {
+            var item = new InspectionSheet
+            {
+                SheetId = 1,
+                SheetName = "sheet name",
+                InspectionTypeId = 10,
+                InspectionGroupId = 20,
+            };
+            var mapper = CreateMapper();
+            var actual = mapper.Map<InspectionSheetDto>(item);
+            Assert.Equal(1, actual.SheetId);
+            Assert.Equal("sheet name", actual.SheetName);
+            Assert.Equal(10, actual.InspectionTypeId);
+            Assert.Equal(20, actual.InspectionGroupId);
+        }
+
+        private Mapper CreateMapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<AutoMapping>();
+            });
+            var mapper = new Mapper(config);
+            return mapper;
         }
     }
 }
