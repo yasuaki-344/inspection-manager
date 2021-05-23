@@ -92,25 +92,6 @@ namespace InspectionManager.ApplicationCore.Test
         }
 
         [Fact]
-        public void MapToInspectionSheetSummaryDtoCorrectly()
-        {
-            var item = new InspectionSheetDto
-            {
-                SheetId = 12,
-                SheetName = "sheet name",
-                InspectionType = "inspection type",
-                InspectionGroup = "inspection group",
-                Equipments = new List<EquipmentDto>(),
-            };
-            var mapper = CreateMapper();
-            var actual = mapper.Map<InspectionSheetSummaryDto>(item);
-            Assert.Equal(12, actual.SheetId);
-            Assert.Equal("sheet name", actual.SheetName);
-            Assert.Equal("inspection type", actual.InspectionType);
-            Assert.Equal("inspection group", actual.InspectionGroup);
-        }
-
-        [Fact]
         public void MapToChoiceTemplateDtoCorrectly()
         {
             var item = new ChoiceTemplate
