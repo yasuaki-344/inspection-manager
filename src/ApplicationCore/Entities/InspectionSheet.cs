@@ -5,6 +5,7 @@
 // http://opensource.org/licenses/mit-license.php
 //
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace InspectionManager.ApplicationCore.Entities
 {
@@ -14,6 +15,7 @@ namespace InspectionManager.ApplicationCore.Entities
     ///
     public class InspectionSheet
     {
+        [Key]
         public int SheetId { get; set; }
         public string SheetName { get; set; } = string.Empty;
         public int InspectionTypeId { get; set; }

@@ -132,7 +132,7 @@ namespace InspectionManager.Infrastructure.Migrations
 
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.InspectionSheet", b =>
                 {
-                    b.Property<int>("InspectionSheetId")
+                    b.Property<int>("SheetId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -146,7 +146,7 @@ namespace InspectionManager.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("InspectionSheetId");
+                    b.HasKey("SheetId");
 
                     b.HasIndex("InspectionGroupId");
 

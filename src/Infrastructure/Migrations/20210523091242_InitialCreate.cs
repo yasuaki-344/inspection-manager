@@ -81,7 +81,7 @@ namespace InspectionManager.Infrastructure.Migrations
                 name: "InspectionSheets",
                 columns: table => new
                 {
-                    InspectionSheetId = table.Column<int>(type: "INTEGER", nullable: false)
+                    SheetId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     SheetName = table.Column<string>(type: "TEXT", nullable: false),
                     InspectionTypeId = table.Column<int>(type: "INTEGER", nullable: false),
@@ -89,7 +89,7 @@ namespace InspectionManager.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InspectionSheets", x => x.InspectionSheetId);
+                    table.PrimaryKey("PK_InspectionSheets", x => x.SheetId);
                     table.ForeignKey(
                         name: "FK_InspectionSheets_InspectionGroups_InspectionGroupId",
                         column: x => x.InspectionGroupId,
@@ -121,7 +121,7 @@ namespace InspectionManager.Infrastructure.Migrations
                         name: "FK_Equipments_InspectionSheets_InspectionSheetId",
                         column: x => x.InspectionSheetId,
                         principalTable: "InspectionSheets",
-                        principalColumn: "InspectionSheetId",
+                        principalColumn: "SheetId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
