@@ -49,17 +49,10 @@ namespace InspectionManager.Infrastructure
         {
             if (_context.InspectionSheets != null)
             {
-                var sheets = _context.InspectionSheets
-                    .Include(s => s.InspectionGroup)
-                    .Include(s => s.InspectionType)
-                    .Select(s => new InspectionSheetDto
-                    {
-                        SheetId = s.SheetId,
-                        SheetName = s.SheetName,
-                        InspectionGroup = s.InspectionGroup.Description,
-                        InspectionType = s.InspectionType.Description,
-                    });
-                return sheets;
+                var entities = _context.InspectionSheets
+                    .Select(x => _mapper.Map<InspectionSheetDto>(x))
+                    .ToList();
+                return entities;
             }
             else
             {
