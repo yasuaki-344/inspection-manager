@@ -323,8 +323,8 @@ export const Home: FC = (): JSX.Element => {
           <DialogContentText id='alert-dialog-description'>
             <p>次の点検シートを削除します。（この操作は取り消せません）</p>
             <p>シート名：{targetSheet.sheet_name}</p>
-            <p>点検グループ：{targetSheet.inspection_group}</p>
-            <p>点検種別：{targetSheet.inspection_type}</p>
+            <p>点検グループ：{groups.find(x => x.inspection_group_id === targetSheet.inspection_group_id)?.description}</p>
+            <p>点検種別：{types.find(x => x.inspection_type_id === targetSheet.inspection_type_id)?.description}</p>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
