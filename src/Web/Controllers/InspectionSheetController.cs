@@ -94,7 +94,6 @@ namespace InspectionManager.Web.Controllers
                 }
                 else
                 {
-                    _logger.LogInformation($"{dto.SheetName}");
                     var result = _service.CreateInspectionSheet(dto);
                     return CreatedAtAction(nameof(GetInspectionSheet),
                     new { id = result.SheetId }, result);
@@ -109,7 +108,7 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpPut("{id:guid}")]
+        [HttpPut("{id:int}")]
         public ActionResult<InspectionSheetDto> UpdateInspectionSheet(InspectionSheetDto dto)
         {
             try
