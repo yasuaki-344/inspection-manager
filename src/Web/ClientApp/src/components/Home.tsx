@@ -83,11 +83,18 @@ export const Home: FC = (): JSX.Element => {
    * Executes to search inspection sheet based on search options.
    */
   const handleSearch = () => {
+    const filteredGroupIds = groups.filter(x =>
+      x.description.includes(searchOption.inspection_group)
+    ).map(x => x.inspection_group_id);
+    const filteredTypeIds = types.filter(x =>
+      x.description.includes(searchOption.inspection_type)
+    ).map(x => x.inspection_type_id);
+
     setFilteredInspectionSheets(
       inspectionSheets.filter((x: InspectionSheet) =>
         x.sheet_name.includes(searchOption.sheet_name) &&
-        x.inspection_group.includes(searchOption.inspection_group) &&
-        x.inspection_type.includes(searchOption.inspection_type)
+        filteredGroupIds.includes(x.inspection_group_id) &&
+        filteredTypeIds.includes(x.inspection_type_id)
       )
     );
     setPage(0);
