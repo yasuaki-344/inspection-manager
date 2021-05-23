@@ -12,7 +12,10 @@ import { EquipmentForm } from './EquipmentForm';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { InspectionItemContext } from '../context/InspectionItemContext';
-import { Equipment, InspectionItem, InspectionSheet } from '../Types';
+import {
+  InspectionGroup, InspectionType,
+  Equipment, InspectionItem, InspectionSheet
+} from '../Types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,8 +44,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   const classes = useStyles();
   const context = useContext(InspectionSheetContext);
   const itemContext = useContext(InspectionItemContext);
-  const [groups, setGroups] = useState<string[]>([]);
-  const [types, setTypes] = useState<string[]>([]);
+  const [groups, setGroups] = useState<InspectionGroup[]>([]);
+  const [types, setTypes] = useState<InspectionType[]>([]);
   const [open, setOpen] = useState(false);
   const [undoDisabled, setUndoDisabled] = useState(true);
   const [additional, setAdditional] = useState(false);
@@ -52,13 +55,13 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   useEffect(() => {
     fetch('inspectiongroup')
       .then(res => res.json())
-      .then((json: string[]) => {
+      .then((json: InspectionGroup[]) => {
         setGroups(json);
       })
       .catch(console.error);
     fetch('inspectiontype')
       .then(res => res.json())
-      .then((json: string[]) => {
+      .then((json: InspectionType[]) => {
         setTypes(json);
       })
       .catch(console.error);
@@ -164,9 +167,9 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
               value={context.inspectionSheet.inspection_group}
               onChange={e => context.updateField(e)}
             >
-              {groups.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
+              {groups.map((option: InspectionGroup) => (
+                <MenuItem key={option.inspection_group_id} value={option.description}>
+                  {option.description}
                 </MenuItem >
               ))}
             </TextField>
@@ -183,9 +186,9 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
               value={context.inspectionSheet.inspection_type}
               onChange={e => context.updateField(e)}
             >
-              {types.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
+              {types.map((option: InspectionType) => (
+                <MenuItem key={option.inspection_type_id} value={option.description}>
+                  {option.description}
                 </MenuItem >
               ))}
             </TextField>
