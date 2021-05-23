@@ -83,7 +83,7 @@ namespace InspectionManager.Web.Controllers
 
 
         [HttpPost]
-        public ActionResult<InspectionSheetDto> CreateSheet(InspectionSheetDto? dto)
+        public async Task<ActionResult<InspectionSheetDto>> CreateSheetAsync(InspectionSheetDto? dto)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace InspectionManager.Web.Controllers
                 }
                 else
                 {
-                    var result = _service.CreateInspectionSheet(dto);
+                    var result = await _service.CreateInspectionSheetAsync(dto);
                     return CreatedAtAction(nameof(GetInspectionSheet),
                     new { id = result.SheetId }, result);
                 }

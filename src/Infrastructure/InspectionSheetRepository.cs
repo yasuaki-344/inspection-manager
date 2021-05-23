@@ -6,6 +6,7 @@
 //
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Entities;
@@ -108,46 +109,22 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public InspectionSheetDto CreateInspectionSheet(InspectionSheetDto dto)
+        public async Task<InspectionSheetDto> CreateInspectionSheetAsync(InspectionSheetDto dto)
         {
-            if (_context.InspectionSheets != null
-                && _context.InspectionTypes != null
-                && _context.InspectionGroups != null
-                && _context.InputTypes != null
-            )
+            if (_context.InspectionSheets != null)
             {
-                var type = _context.InspectionTypes
-                    .Single(x => x.Description == dto.InspectionType);
-                var group = _context.InspectionGroups
-                    .Single(x => x.Description == dto.InspectionGroup);
-                var inputTypes = _context.InputTypes.ToList();
-                var entity = new InspectionSheet
+                var entity = _mapper.Map<InspectionSheet>(dto);
+                if (_context.InspectionTypes != null && _context.InspectionGroups != null)
                 {
-                    SheetName = dto.SheetName,
-                    InspectionTypeId = type.InspectionTypeId,
-                    InspectionType = type,
-                    InspectionGroupId = group.InspectionGroupId,
-                    InspectionGroup = group,
-                    Equipments = dto.Equipments.Select((e, i) => new Equipment
-                    {
-                        OrderIndex = i,
-                        EquipmentName = e.EquipmentName,
-                        InspectionItems = e.InspectionItems.Select((x, index) => new InspectionItem
-                        {
-                            OrderIndex = index,
-                            InspectionContent = x.InspectionContent,
-                            InputType = inputTypes.First(t => t.InputTypeId == x.InputType + 1),
-                            Choices = x.Choices.Select((c, order) => new Choice
-                            {
-                                OrderIndex = order,
-                                Description = c
-                            }).ToList()
-                        }).ToList()
-                    }).ToList()
-                };
-                _context.InspectionSheets.Add(entity);
-                _context.SaveChanges();
-                return dto;
+                    entity.InspectionGroup = _context.InspectionGroups
+                        .Single(x => x.InspectionGroupId == entity.InspectionGroupId);
+                    entity.InspectionType = _context.InspectionTypes
+                        .Single(x => x.InspectionTypeId == entity.InspectionTypeId);
+                }
+                await _context.InspectionSheets.AddAsync(entity);
+                await _context.SaveChangesAsync();
+
+                return _mapper.Map<InspectionSheetDto>(entity);
             }
             else
             {

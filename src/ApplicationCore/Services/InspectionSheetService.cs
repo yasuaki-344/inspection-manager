@@ -6,6 +6,7 @@
 //
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
@@ -52,8 +53,8 @@ namespace InspectionManager.ApplicationCore.Services
             _repository.GetInspectionSheet(id);
 
         /// <inheritdoc/>
-        public InspectionSheetDto CreateInspectionSheet(InspectionSheetDto dto) =>
-            _repository.CreateInspectionSheet(dto);
+        public async Task<InspectionSheetDto> CreateInspectionSheetAsync(InspectionSheetDto dto) =>
+            await _repository.CreateInspectionSheetAsync(dto);
 
         /// <inheritdoc/>
         public InspectionSheetDto UpdateInspectionSheet(InspectionSheetDto dto) =>

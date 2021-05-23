@@ -35,7 +35,9 @@ namespace InspectionManager.ApplicationCore.Services
             CreateMap<ChoiceTemplateDto, ChoiceTemplate>();
 
             CreateMap<InspectionSheet, InspectionSheetDto>();
-            CreateMap<InspectionSheetDto, InspectionSheet>();
+            CreateMap<InspectionSheetDto, InspectionSheet>()
+                .ForMember(dst => dst.InspectionGroup, opt => opt.Ignore())
+                .ForMember(dst => dst.InspectionType, opt => opt.Ignore());
         }
     }
 }

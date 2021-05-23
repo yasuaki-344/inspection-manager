@@ -5,6 +5,7 @@
 // http://opensource.org/licenses/mit-license.php
 //
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using InspectionManager.ApplicationCore.Dto;
 
 namespace InspectionManager.ApplicationCore.Interfaces
@@ -36,7 +37,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// </summary>
         /// <param name="dto">Inspection sheet data to be created</param>
         /// <returns>Created inspection sheet data</returns>
-        InspectionSheetDto CreateInspectionSheet(InspectionSheetDto dto);
+        Task<InspectionSheetDto> CreateInspectionSheetAsync(InspectionSheetDto dto);
 
         /// <summary>
         /// Updates the specified inspection sheet data.
