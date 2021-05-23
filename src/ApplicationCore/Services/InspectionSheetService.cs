@@ -41,13 +41,11 @@ namespace InspectionManager.ApplicationCore.Services
             _repository.InspectionSheetExists(id);
 
         /// <inheritdoc/>
-        public IEnumerable<InspectionSheetSummaryDto> GetAllInspectionSheets() =>
-            _mapper.Map<IEnumerable<InspectionSheetSummaryDto>>(
-                _repository.GetAllInspectionSheets()
-            )
-            .OrderBy(x => x.SheetName)
-            .ThenBy(x => x.InspectionGroup)
-            .ThenBy(x => x.InspectionType);
+        public IEnumerable<InspectionSheetDto> GetAllInspectionSheets() =>
+            _repository.GetAllInspectionSheets()
+                .OrderBy(x => x.SheetName)
+                .ThenBy(x => x.InspectionGroupId)
+                .ThenBy(x => x.InspectionTypeId);
 
         /// <inheritdoc/>
         public InspectionSheetDto? GetInspectionSheet(int id) =>

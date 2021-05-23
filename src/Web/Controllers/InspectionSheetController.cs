@@ -40,7 +40,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult<InspectionSheetSummaryDto> GetAllInspectionSheets()
+        public ActionResult<InspectionSheetDto> GetAllInspectionSheets()
         {
             try
             {

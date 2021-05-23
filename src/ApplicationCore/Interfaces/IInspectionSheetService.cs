@@ -23,7 +23,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// Gets all inspection sheets from database.
         /// </summary>
         /// <returns>All inspection sheets</returns>
-        IEnumerable<InspectionSheetSummaryDto> GetAllInspectionSheets();
+        IEnumerable<InspectionSheetDto> GetAllInspectionSheets();
 
         /// <summary>
         /// Gets the specified inspection sheet data from database.
