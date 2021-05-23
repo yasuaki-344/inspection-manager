@@ -44,7 +44,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// </summary>
         /// <param name="dto">Inspection sheet data for update</param>
         /// <returns>Updated inspection sheet data</returns>
-        InspectionSheetDto UpdateInspectionSheet(InspectionSheetDto dto);
+        Task<InspectionSheetDto> UpdateInspectionSheetAsync(InspectionSheetDto dto);
 
         /// <summary>
         /// Deletes the specified inspection sheet data.

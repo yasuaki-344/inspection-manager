@@ -109,7 +109,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult<InspectionSheetDto> UpdateInspectionSheet(InspectionSheetDto dto)
+        public async Task<ActionResult<InspectionSheetDto>> UpdateInspectionSheet(InspectionSheetDto dto)
         {
             try
             {
@@ -118,7 +118,7 @@ namespace InspectionManager.Web.Controllers
                 {
                     return NotFound($"Sheet with Id = {dto.SheetId} not found");
                 }
-                return _service.UpdateInspectionSheet(dto);
+                return await _service.UpdateInspectionSheetAsync(dto);
             }
             catch (Exception ex)
             {

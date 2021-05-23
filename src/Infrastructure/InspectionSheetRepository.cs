@@ -66,41 +66,43 @@ namespace InspectionManager.Infrastructure
         {
             if (_context.InspectionSheets != null)
             {
-                var query = _context.InspectionSheets
-                    .Where(s => s.SheetId == id)
-                    .Include(s => s.InspectionGroup);
-                System.Console.WriteLine(query.ToQueryString());
-                var entity = query.Single<InspectionSheet>();
-                var sheet = query.Select(s => new InspectionSheetDto
-                {
-                    SheetId = s.SheetId,
-                    SheetName = s.SheetName,
-                    InspectionGroup = s.InspectionGroup.Description,
-                    InspectionType = s.InspectionType.Description,
-                    Equipments = s.Equipments
-                            .OrderBy(e => e.OrderIndex)
-                            .Select(e => new EquipmentDto
-                            {
-                                EquipmentId = e.EquipmentId.ToString(),
-                                EquipmentName = e.EquipmentName,
-                                InspectionItems = e.InspectionItems
-                                    .OrderBy(i => i.OrderIndex)
-                                    .Select(i => new InspectionItemDto
-                                    {
-                                        InspectionItemId = i.InspectionItemId.ToString(),
-                                        InspectionContent = i.InspectionContent,
-                                        InputType = i.InputType.InputTypeId - 1,
-                                        Choices = i.Choices
-                                            .OrderBy(c => c.OrderIndex)
-                                            .Select(c => c.Description)
-                                            .ToList()
-                                    })
-                                    .ToList()
-                            })
-                            .ToList()
-                })
-                    .FirstOrDefault();
-                return sheet;
+                var entity = _context.InspectionSheets.Single(x => x.SheetId == id);
+                var dto = _mapper.Map<InspectionSheetDto>(entity);
+                // var query = _context.InspectionSheets
+                //     .Where(s => s.SheetId == id)
+                //     .Include(s => s.InspectionGroup);
+                // System.Console.WriteLine(query.ToQueryString());
+                // var entity = query.Single<InspectionSheet>();
+                // var sheet = query.Select(s => new InspectionSheetDto
+                // {
+                //     SheetId = s.SheetId,
+                //     SheetName = s.SheetName,
+                //     InspectionGroup = s.InspectionGroup.Description,
+                //     InspectionType = s.InspectionType.Description,
+                //     Equipments = s.Equipments
+                //             .OrderBy(e => e.OrderIndex)
+                //             .Select(e => new EquipmentDto
+                //             {
+                //                 EquipmentId = e.EquipmentId.ToString(),
+                //                 EquipmentName = e.EquipmentName,
+                //                 InspectionItems = e.InspectionItems
+                //                     .OrderBy(i => i.OrderIndex)
+                //                     .Select(i => new InspectionItemDto
+                //                     {
+                //                         InspectionItemId = i.InspectionItemId.ToString(),
+                //                         InspectionContent = i.InspectionContent,
+                //                         InputType = i.InputType.InputTypeId - 1,
+                //                         Choices = i.Choices
+                //                             .OrderBy(c => c.OrderIndex)
+                //                             .Select(c => c.Description)
+                //                             .ToList()
+                //                     })
+                //                     .ToList()
+                //             })
+                //             .ToList()
+                // })
+                //     .FirstOrDefault();
+                return dto;
             }
             else
             {
@@ -133,9 +135,27 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public InspectionSheetDto UpdateInspectionSheet(InspectionSheetDto dto)
+        public async Task<InspectionSheetDto> UpdateInspectionSheetAsync(InspectionSheetDto dto)
         {
-            throw new System.NotImplementedException();
+            if (_context.InspectionSheets != null)
+            {
+                var entity = _mapper.Map<InspectionSheet>(dto);
+                if (_context.InspectionTypes != null && _context.InspectionGroups != null)
+                {
+                    entity.InspectionGroup = _context.InspectionGroups
+                        .Single(x => x.InspectionGroupId == entity.InspectionGroupId);
+                    entity.InspectionType = _context.InspectionTypes
+                        .Single(x => x.InspectionTypeId == entity.InspectionTypeId);
+                }
+                _context.InspectionSheets.Update(entity);
+                await _context.SaveChangesAsync();
+
+                return _mapper.Map<InspectionSheetDto>(entity);
+            }
+            else
+            {
+                return new InspectionSheetDto();
+            }
         }
 
         /// <inheritdoc/>
