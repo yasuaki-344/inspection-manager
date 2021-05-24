@@ -7,7 +7,10 @@ import {
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import { useInputTypes, InspectionSheet, Equipment, InspectionItem } from './Types';
+import {
+  useInputTypes, InspectionSheet, Equipment, InspectionItem,
+  InspectionGroup, InspectionType
+} from './Types';
 import { initialState } from './operator/InspectionSheetOperator';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -75,8 +78,24 @@ const Row: FC<RowProps> = ({ equipment }): JSX.Element => {
 export const Details = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
   const [inspectionSheet, setInspectionSheet] = useState<InspectionSheet>(initialState());
+  const [groups, setGroups] = useState<InspectionGroup[]>([]);
+  const [types, setTypes] = useState<InspectionType[]>([]);
 
   useEffect(() => {
+    fetch('inspectiongroup')
+      .then(res => res.json())
+      .then((json: InspectionGroup[]) => {
+        setGroups(json);
+      })
+      .catch(console.error);
+
+    fetch('inspectiontype')
+      .then(res => res.json())
+      .then((json: InspectionType[]) => {
+        setTypes(json);
+      })
+      .catch(console.error);
+
     fetch(`inspectionsheet/${sheetId}`)
       .then(res => res.json())
       .then(json => {
@@ -93,8 +112,14 @@ export const Details = ({ match }: any): JSX.Element => {
       <List>
         <ListItem>点検シートID:{inspectionSheet.sheet_id}</ListItem>
         <ListItem>シート名:{inspectionSheet.sheet_name}</ListItem>
-        <ListItem>点検グループ:{inspectionSheet.inspection_group}</ListItem>
-        <ListItem>点検種別:{inspectionSheet.inspection_type}</ListItem>
+        <ListItem>
+          点検グループ:
+          {groups.find(x => x.inspection_group_id === inspectionSheet.inspection_group_id)?.description}
+        </ListItem>
+        <ListItem>
+          点検種別:
+          {types.find(x => x.inspection_type_id === inspectionSheet.inspection_type_id)?.description}
+        </ListItem>
       </List>
       <TableContainer component={Paper}>
         <Table>
