@@ -67,12 +67,15 @@ namespace InspectionManager.Infrastructure
             if (_context.InspectionSheets != null)
             {
                 var entity = _context.InspectionSheets.Single(x => x.SheetId == id);
+                if (_context.Equipments != null)
+                {
+                    entity.Equipments = _context.Equipments
+                        .Where(x => x.InspectionSheetId == entity.SheetId)
+                        .OrderBy(x => x.OrderIndex)
+                        .ToList();
+                }
+
                 var dto = _mapper.Map<InspectionSheetDto>(entity);
-                // var query = _context.InspectionSheets
-                //     .Where(s => s.SheetId == id)
-                //     .Include(s => s.InspectionGroup);
-                // System.Console.WriteLine(query.ToQueryString());
-                // var entity = query.Single<InspectionSheet>();
                 // var sheet = query.Select(s => new InspectionSheetDto
                 // {
                 //     SheetId = s.SheetId,
@@ -101,7 +104,6 @@ namespace InspectionManager.Infrastructure
                 //             })
                 //             .ToList()
                 // })
-                //     .FirstOrDefault();
                 return dto;
             }
             else
