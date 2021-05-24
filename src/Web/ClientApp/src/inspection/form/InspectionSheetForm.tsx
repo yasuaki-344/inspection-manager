@@ -49,7 +49,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   const [open, setOpen] = useState(false);
   const [undoDisabled, setUndoDisabled] = useState(true);
   const [additional, setAdditional] = useState(false);
-  const [equipmentId, setEquipmentId] = useState('');
+  const [equipmentId, setEquipmentId] = useState(0);
   const [history, setHistory] = useState<InspectionSheet[]>([]);
 
   useEffect(() => {
@@ -96,11 +96,11 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   /**
    * Implements the process for adding inspection item.
    */
-  const handleAddItem = (equipmentId: string) => {
+  const handleAddItem = (equipmentId: number) => {
     setEquipmentId(equipmentId);
     setAdditional(true);
     itemContext.setItem({
-      inspection_item_id: Math.random().toString(36).substr(2, 9),
+      inspection_item_id: 0,
       inspection_content: '',
       input_type: 1,
       choices: [],
@@ -111,7 +111,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   /**
    * Implements the process for editing inspection item.
    */
-  const handleEditItem = (equipmentId: string, inspectionItem: InspectionItem) => {
+  const handleEditItem = (equipmentId: number, inspectionItem: InspectionItem) => {
     setEquipmentId(equipmentId);
     setAdditional(false);
     itemContext.setItem(inspectionItem);
@@ -193,8 +193,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
               ))}
             </TextField>
           </Grid>
-          {context.inspectionSheet.equipments.map((equipment: Equipment) =>
-            <Grid item xs={12} key={equipment.equipment_id}>
+          {context.inspectionSheet.equipments.map((equipment: Equipment, index: number) =>
+            <Grid item xs={12} key={`equipment-{index}`}>
               <EquipmentForm
                 equipment={equipment}
                 handleAddItem={handleAddItem}

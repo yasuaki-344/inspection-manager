@@ -10,7 +10,7 @@ import InspectionItemReducer, {
  */
 export const initialState = () => {
   return {
-    inspection_item_id: Math.random().toString(36).substr(2, 9),
+    inspection_item_id: 0,
     inspection_content: '',
     input_type: 0,
     choices: [],

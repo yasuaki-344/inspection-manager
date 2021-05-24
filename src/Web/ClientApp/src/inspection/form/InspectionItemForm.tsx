@@ -8,10 +8,10 @@ import { InspectionItem } from '../Types';
 import { InspectionItemRow } from './InspectionItemRow';
 
 interface InspectionItemFormProps {
-  equipmentId: string,
+  equipmentId: number,
   inspectionItems: InspectionItem[],
-  editInspectionItem: (equipmentId: string, inspectionItem: InspectionItem) => void,
-  addInspectionItem: (equipmentId: string) => void,
+  editInspectionItem: (equipmentId: number, inspectionItem: InspectionItem) => void,
+  addInspectionItem: (equipmentId: number) => void,
   storeHistory: () => void,
 };
 

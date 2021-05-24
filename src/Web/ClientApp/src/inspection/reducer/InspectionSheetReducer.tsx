@@ -31,7 +31,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
       return {
         ...state,
         equipments: state.equipments.concat({
-          equipment_id: Math.random().toString(36).substr(2, 9),
+          equipment_id: 0,
           equipment_name: '',
           inspection_items: [],
         })
@@ -200,7 +200,7 @@ export const addEquipmentAction = (): InspectionSheetAction => {
   }
 };
 
-export const removeEquipmentAction = (id: string): InspectionSheetAction => {
+export const removeEquipmentAction = (id: number): InspectionSheetAction => {
   return {
     type: TYPES.REMOVE_EQUIPMENT,
     payload: {
@@ -209,7 +209,7 @@ export const removeEquipmentAction = (id: string): InspectionSheetAction => {
   }
 };
 
-export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: string): InspectionSheetAction => {
+export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: number): InspectionSheetAction => {
   return {
     type: TYPES.UPDATE_EQUIPMENT,
     payload: {
@@ -220,7 +220,7 @@ export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement 
   }
 };
 
-export const swapEquipmentAction = (srcId: string, dstId: string): InspectionSheetAction => {
+export const swapEquipmentAction = (srcId: number, dstId: number): InspectionSheetAction => {
   return {
     type: TYPES.SWAP_EQUIPMENT,
     payload: {
@@ -230,7 +230,7 @@ export const swapEquipmentAction = (srcId: string, dstId: string): InspectionShe
   }
 };
 
-export const addInspectionItemAction = (id: string, item: InspectionItem): InspectionSheetAction => {
+export const addInspectionItemAction = (id: number, item: InspectionItem): InspectionSheetAction => {
   return {
     type: TYPES.ADD_INSPECTION_ITEM,
     payload: {
@@ -240,7 +240,7 @@ export const addInspectionItemAction = (id: string, item: InspectionItem): Inspe
   }
 };
 
-export const removeInspectionItemAction = (id: string, itemId: string): InspectionSheetAction => {
+export const removeInspectionItemAction = (id: number, itemId: number): InspectionSheetAction => {
   return {
     type: TYPES.REMOVE_INSPECTION_ITEM,
     payload: {
@@ -251,7 +251,7 @@ export const removeInspectionItemAction = (id: string, itemId: string): Inspecti
 };
 
 export const updateInspectionItemAction = (
-  id: string,
+  id: number,
   item: InspectionItem
 ): InspectionSheetAction => {
   return {
@@ -264,9 +264,9 @@ export const updateInspectionItemAction = (
 };
 
 export const swapInspectionItemAction = (
-  equipmentId: string,
-  srcId: string,
-  dstId: string
+  equipmentId: number,
+  srcId: number,
+  dstId: number
 ): InspectionSheetAction => {
   return {
     type: TYPES.SWAP_INSPECTION_ITEM,

@@ -31,13 +31,13 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface DragItem {
-  id: string,
+  id: number,
 };
 
 interface EquipmentFormProps {
   equipment: Equipment,
-  handleAddItem: (equipmentId: string) => void,
-  handleEditItem: (equipmentId: string, inspectionItem: InspectionItem) => void,
+  handleAddItem: (equipmentId: number) => void,
+  handleEditItem: (equipmentId: number, inspectionItem: InspectionItem) => void,
   storeHistory: () => void,
 };
 

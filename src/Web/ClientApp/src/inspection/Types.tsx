@@ -31,14 +31,14 @@ export type InspectionType = {
 };
 
 export type InspectionItem = {
-  inspection_item_id: string,
+  inspection_item_id: number,
   inspection_content: string,
   input_type: number,
   choices: string[],
 };
 
 export type Equipment = {
-  equipment_id: string,
+  equipment_id: number,
   equipment_name: string,
   inspection_items: InspectionItem[],
 };
@@ -69,9 +69,9 @@ export type InspectionSheetAction = {
   payload?: {
     name?: string;
     value?: string;
-    equipment_id?: string;
-    inspection_item_id?: string;
-    swap_id?: string;
+    equipment_id?: number;
+    inspection_item_id?: number;
+    swap_id?: number;
     sheet?: InspectionSheet;
     inspection_item?: InspectionItem;
   };
@@ -92,11 +92,11 @@ export interface InspectionSheetContextType {
   setSheet: (sheet: InspectionSheet) => void;
   updateField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   addEquipment: () => void;
-  removeEquipment: (id: string) => void;
-  updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: string) => void;
-  swapEquipment: (srdId: string, dstId: string) => void,
-  addInspectionItem: (id: string, item: InspectionItem) => void;
-  removeInspectionItem: (id: string, itemId: string) => void;
-  updateInspectionItem: (id: string, item: InspectionItem) => void;
-  swapInspectionItem: (equipmentId: string, srdId: string, dstId: string) => void;
+  removeEquipment: (id: number) => void;
+  updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: number) => void;
+  swapEquipment: (srdId: number, dstId: number) => void,
+  addInspectionItem: (id: number, item: InspectionItem) => void;
+  removeInspectionItem: (id: number, itemId: number) => void;
+  updateInspectionItem: (id: number, item: InspectionItem) => void;
+  swapInspectionItem: (equipmentId: number, srdId: number, dstId: number) => void;
 };

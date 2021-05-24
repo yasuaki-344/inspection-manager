@@ -30,20 +30,20 @@ export const InspectionSheetOperator = (): InspectionSheetContextType => {
     updateField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void =>
       dispatch(updateFieldAction(event)),
     addEquipment: (): void => dispatch(addEquipmentAction()),
-    removeEquipment: (id: string): void => dispatch(removeEquipmentAction(id)),
-    updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: string): void =>
+    removeEquipment: (id: number): void => dispatch(removeEquipmentAction(id)),
+    updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: number): void =>
       dispatch(updateEquipmentAction(event, id)),
-    swapEquipment: (srcId: string, dstId: string): void => dispatch(swapEquipmentAction(srcId, dstId)),
-    addInspectionItem: (id: string, item: InspectionItem): void =>
+    swapEquipment: (srcId: number, dstId: number): void => dispatch(swapEquipmentAction(srcId, dstId)),
+    addInspectionItem: (id: number, item: InspectionItem): void =>
       dispatch(addInspectionItemAction(id, item)),
-    removeInspectionItem: (id: string, itemId: string): void =>
+    removeInspectionItem: (id: number, itemId: number): void =>
       dispatch(removeInspectionItemAction(id, itemId)),
     updateInspectionItem: (
-      id: string,
+      id: number,
       item: InspectionItem
     ): void =>
       dispatch(updateInspectionItemAction(id, item)),
-    swapInspectionItem: (equipmentId: string, srcId: string, dstId: string) =>
+    swapInspectionItem: (equipmentId: number, srcId: number, dstId: number) =>
       dispatch(swapInspectionItemAction(equipmentId, srcId, dstId)),
   };
 }

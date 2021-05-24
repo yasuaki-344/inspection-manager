@@ -11,7 +11,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import { InspectionType } from './../inspection/Types';
 
-export const InspectionTypeCategory = (): JSX.Element => {
+export const InspectionTypeCategory: FC = (): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [types, setTypes] = useState<InspectionType[]>([]);
   const [disabled, setDisabled] = useState(false);
