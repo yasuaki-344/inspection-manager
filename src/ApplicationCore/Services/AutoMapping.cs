@@ -38,6 +38,8 @@ namespace InspectionManager.ApplicationCore.Services
             CreateMap<InspectionSheetDto, InspectionSheet>()
                 .ForMember(dst => dst.InspectionGroup, opt => opt.Ignore())
                 .ForMember(dst => dst.InspectionType, opt => opt.Ignore());
+            CreateMap<Equipment, EquipmentDto>();
+            CreateMap<EquipmentDto, Equipment>();
         }
     }
 }

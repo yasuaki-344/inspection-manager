@@ -130,6 +130,19 @@ namespace InspectionManager.ApplicationCore.Test
             Assert.Equal(20, actual.InspectionGroupId);
         }
 
+        public void MapToEquipmentDtoCorrectly()
+        {
+            var expect = new Equipment
+            {
+                EquipmentId = 1,
+                EquipmentName = "equipment name",
+            };
+            var mapper = CreateMapper();
+            var actual = mapper.Map<EquipmentDto>(expect);
+            Assert.Equal(expect.EquipmentId, actual.EquipmentId);
+            Assert.Equal(expect.EquipmentName, actual.EquipmentName);
+        }
+
         private Mapper CreateMapper()
         {
             var config = new MapperConfiguration(cfg =>
