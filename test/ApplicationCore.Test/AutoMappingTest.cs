@@ -43,9 +43,9 @@ namespace InspectionManager.ApplicationCore.Test
         [Fact]
         public void MapToEquipmentExportDtoCorrectly()
         {
-            var item = new EquipmentDto
+            var expect = new EquipmentDto
             {
-                EquipmentId = "test",
+                EquipmentId = 10,
                 EquipmentName = "equipment",
                 InspectionItems = new List<InspectionItemDto>
                 {
@@ -62,9 +62,9 @@ namespace InspectionManager.ApplicationCore.Test
                 }
             };
             var mapper = CreateMapper();
-            var actual = mapper.Map<EquipmentExportDto>(item);
-            Assert.Equal("test", actual.EquipmentId);
-            Assert.Equal("equipment", actual.EquipmentName);
+            var actual = mapper.Map<EquipmentExportDto>(expect);
+            Assert.Equal(expect.EquipmentId.ToString(), actual.EquipmentId);
+            Assert.Equal(expect.EquipmentName, actual.EquipmentName);
             Assert.Equal(0, actual.InspectionItems[0].InspectionItemId);
             Assert.Equal("content", actual.InspectionItems[0].InspectionContent);
             Assert.Equal(2, actual.InspectionItems[0].InputMethod);
