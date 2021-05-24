@@ -116,6 +116,13 @@ namespace InspectionManager.Infrastructure
             if (_context.InspectionSheets != null)
             {
                 var entity = _mapper.Map<InspectionSheet>(dto);
+                int equipmentOrder = 0;
+                foreach (var equipment in entity.Equipments)
+                {
+                    equipment.OrderIndex = equipmentOrder;
+                    equipmentOrder++;
+                }
+
                 if (_context.InspectionTypes != null && _context.InspectionGroups != null)
                 {
                     entity.InspectionGroup = _context.InspectionGroups
