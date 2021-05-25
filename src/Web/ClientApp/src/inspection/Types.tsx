@@ -96,7 +96,7 @@ export interface InspectionSheetContextType {
   updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => void;
   swapEquipment: (srdIndex: number, dstIndex: number) => void,
   addInspectionItem: (index: number, item: InspectionItem) => void;
-  removeInspectionItem: (id: number, itemId: number) => void;
+  removeInspectionItem: (equipmentIndex: number, itemIndex: number) => void;
   updateInspectionItem: (id: number, item: InspectionItem) => void;
   swapInspectionItem: (equipmentId: number, srdId: number, dstId: number) => void;
 };

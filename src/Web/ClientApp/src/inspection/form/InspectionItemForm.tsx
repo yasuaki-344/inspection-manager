@@ -37,10 +37,11 @@ export const InspectionItemForm: FC<InspectionItemFormProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {inspectionItems.map((item: InspectionItem) =>
+            {inspectionItems.map((item: InspectionItem, index: number) =>
               <InspectionItemRow
                 key={item.inspection_item_id}
-                equipmentId={equipmentIndex}
+                equipmentIndex={equipmentIndex}
+                inspectionItemIndex={index}
                 inspectionItem={item}
                 editInspectionItem={editInspectionItem}
                 storeHistory={storeHistory}

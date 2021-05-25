@@ -41,7 +41,7 @@ it('renders without crashing', async () => {
       updateEquipment: (event, index) => { },
       swapEquipment: (srcIndex, dstIndex) => { },
       addInspectionItem: (index, item) => { },
-      removeInspectionItem: (id, itemId) => { },
+      removeInspectionItem: (equipmentIndex, itemIndex) => { },
       updateInspectionItem: (id, item) => { },
       swapInspectionItem: (equipmentId, srcId, dstId) => { },
     }} >

@@ -8,19 +8,21 @@ import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { useInputTypes, InspectionItem, InspectionSheetContextType, ItemType } from '../Types';
 
 interface DragItem {
-  equipmentId: number,
+  equipmentIndex: number,
   itemId: number,
 };
 
 interface InspectionItemRowProps {
-  equipmentId: number,
+  equipmentIndex: number,
+  inspectionItemIndex: number,
   inspectionItem: InspectionItem,
-  editInspectionItem: (equipmentId: number, item: InspectionItem) => void,
+  editInspectionItem: (equipmentIndex: number, item: InspectionItem) => void,
   storeHistory: () => void,
 };
 
 export const InspectionItemRow: FC<InspectionItemRowProps> = ({
-  equipmentId,
+  equipmentIndex,
+  inspectionItemIndex,
   inspectionItem,
   editInspectionItem,
   storeHistory
@@ -33,18 +35,18 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
     accept: ItemType.INSPECTION_ITEM,
     drop(item: DragItem) {
       if (!dropRef.current ||
-        item.equipmentId !== equipmentId ||
+        item.equipmentIndex !== equipmentIndex ||
         item.itemId === inspectionItem.inspection_item_id) {
         return;
       }
-      context.swapInspectionItem(equipmentId, inspectionItem.inspection_item_id, item.itemId);
+      context.swapInspectionItem(equipmentIndex, inspectionItem.inspection_item_id, item.itemId);
     },
   })
 
   const [, drag, preview] = useDrag({
     type: ItemType.INSPECTION_ITEM,
     item: {
-      equipmentId: equipmentId,
+      equipmentIndex: equipmentIndex,
       itemId: inspectionItem.inspection_item_id
     },
   })
@@ -63,7 +65,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
         <IconButton
           data-testid='edit-item-button'
           size='small'
-          onClick={() => editInspectionItem(equipmentId, inspectionItem)}>
+          onClick={() => editInspectionItem(equipmentIndex, inspectionItem)}>
           <EditIcon />
         </IconButton>
       </TableCell>
@@ -81,7 +83,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
           data-testid='remove-item-button'
           color='primary'
           size='small'
-          onClick={() => context.removeInspectionItem(equipmentId, inspectionItem.inspection_item_id)}
+          onClick={() => context.removeInspectionItem(equipmentIndex, inspectionItemIndex)}
         >
           <CancelIcon />
         </IconButton>

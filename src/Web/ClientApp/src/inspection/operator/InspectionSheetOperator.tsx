@@ -36,8 +36,8 @@ export const InspectionSheetOperator = (): InspectionSheetContextType => {
     swapEquipment: (srcIndex: number, dstIndex: number): void => dispatch(swapEquipmentAction(srcIndex, dstIndex)),
     addInspectionItem: (index: number, item: InspectionItem): void =>
       dispatch(addInspectionItemAction(index, item)),
-    removeInspectionItem: (id: number, itemId: number): void =>
-      dispatch(removeInspectionItemAction(id, itemId)),
+    removeInspectionItem: (equipmentIndex: number, itemIndex: number): void =>
+      dispatch(removeInspectionItemAction(equipmentIndex, itemIndex)),
     updateInspectionItem: (
       id: number,
       item: InspectionItem
