@@ -108,48 +108,20 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
           }
         }),
       };
-    case TYPES.SWAP_INSPECTION_ITEM: {
-      const equipment = state.equipments.find(e => e.equipment_id === action.payload?.equipment_index);
-      if (equipment == null) {
-        return state;
-      } else {
-        const srcItem = equipment.inspection_items
-          .find(x => x.inspection_item_id === action.payload?.inspection_item_index);
-        const dstItem = equipment.inspection_items
-          .find(x => x.inspection_item_id === action.payload?.swap_index);
-        if (srcItem != null && dstItem != null) {
-          return {
-            ...state,
-            equipments: state.equipments.map(e => {
-              if (e.equipment_id === equipment.equipment_id) {
-                return {
-                  ...e,
-                  inspection_items: e.inspection_items.map(i => {
-                    if (i.inspection_item_id === srcItem.inspection_item_id) {
-                      return {
-                        ...dstItem,
-                        inspection_item_id: i.inspection_item_id,
-                      };
-                    } else if (i.inspection_item_id === dstItem.inspection_item_id) {
-                      return {
-                        ...srcItem,
-                        inspection_item_id: i.inspection_item_id,
-                      }
-                    } else {
-                      return i;
-                    }
-                  }),
-                };
-              } else {
-                return e;
-              }
-            }),
-          };
-        } else {
-          return state;
+    case TYPES.SWAP_INSPECTION_ITEM:
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.equipment_index != null &&
+          payload.inspection_item_index != null &&
+          payload.swap_index != null) {
+          [state.equipments[payload.equipment_index].inspection_items[payload.inspection_item_index],
+          state.equipments[payload.equipment_index].inspection_items[payload.swap_index]] =
+            [state.equipments[payload.equipment_index].inspection_items[payload.swap_index],
+            state.equipments[payload.equipment_index].inspection_items[payload.equipment_index]];
+          return { ...state };
         }
       }
-    }
+      return state;
     default:
       console.warn(`unknown type ${action.type}`);
       return state;
@@ -246,15 +218,15 @@ export const updateInspectionItemAction = (
 
 export const swapInspectionItemAction = (
   equipmentIndex: number,
-  srcId: number,
-  dstId: number
+  srcIndex: number,
+  dstIndex: number
 ): InspectionSheetAction => {
   return {
     type: TYPES.SWAP_INSPECTION_ITEM,
     payload: {
       equipment_index: equipmentIndex,
-      inspection_item_index: srcId,
-      swap_index: dstId,
+      inspection_item_index: srcIndex,
+      swap_index: dstIndex,
     }
   }
 };

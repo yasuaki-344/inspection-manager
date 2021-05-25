@@ -9,7 +9,7 @@ import { useInputTypes, InspectionItem, InspectionSheetContextType, ItemType } f
 
 interface DragItem {
   equipmentIndex: number,
-  itemId: number,
+  inspectionItemIndex: number,
 };
 
 interface InspectionItemRowProps {
@@ -36,10 +36,10 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
     drop(item: DragItem) {
       if (!dropRef.current ||
         item.equipmentIndex !== equipmentIndex ||
-        item.itemId === inspectionItem.inspection_item_id) {
+        item.inspectionItemIndex === inspectionItemIndex) {
         return;
       }
-      context.swapInspectionItem(equipmentIndex, inspectionItem.inspection_item_id, item.itemId);
+      context.swapInspectionItem(equipmentIndex, inspectionItemIndex, item.inspectionItemIndex);
     },
   })
 
@@ -47,7 +47,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
     type: ItemType.INSPECTION_ITEM,
     item: {
       equipmentIndex: equipmentIndex,
-      itemId: inspectionItem.inspection_item_id
+      inspectionItemIndex: inspectionItemIndex
     },
   })
 

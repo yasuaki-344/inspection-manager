@@ -43,7 +43,7 @@ it('renders without crashing', async () => {
       addInspectionItem: (index, item) => { },
       removeInspectionItem: (equipmentIndex, itemIndex) => { },
       updateInspectionItem: (id, item) => { },
-      swapInspectionItem: (equipmentId, srcId, dstId) => { },
+      swapInspectionItem: (equipmentIndex, srcIndex, dstIndex) => { },
     }} >
       <InspectionItemContext.Provider value={{
         inspectionItem: {

@@ -98,5 +98,5 @@ export interface InspectionSheetContextType {
   addInspectionItem: (index: number, item: InspectionItem) => void;
   removeInspectionItem: (equipmentIndex: number, itemIndex: number) => void;
   updateInspectionItem: (id: number, item: InspectionItem) => void;
-  swapInspectionItem: (equipmentId: number, srdId: number, dstId: number) => void;
+  swapInspectionItem: (equipmentId: number, srdIndex: number, dstIndex: number) => void;
 };
