@@ -68,19 +68,16 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
       }
       return state;
     case TYPES.ADD_INSPECTION_ITEM:
-      return {
-        ...state,
-        equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_index && action.payload?.inspection_item != null) {
-            return {
-              ...e,
-              inspection_items: e.inspection_items.concat(action.payload.inspection_item)
-            };
-          } else {
-            return e;
-          }
-        }),
-      };
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.equipment_index != null && payload.inspection_item != null) {
+          state.equipments[payload.equipment_index].inspection_items.push(
+            payload.inspection_item
+          );
+          return { ...state };
+        }
+      }
+      return state;
     case TYPES.REMOVE_INSPECTION_ITEM:
       return {
         ...state,
@@ -89,7 +86,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
             return {
               ...e,
               inspection_items: e.inspection_items.filter(i =>
-                i.inspection_item_id !== action.payload?.inspection_item_id
+                i.inspection_item_id !== action.payload?.inspection_item_index
               )
             };
           } else {
@@ -123,7 +120,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         return state;
       } else {
         const srcItem = equipment.inspection_items
-          .find(x => x.inspection_item_id === action.payload?.inspection_item_id);
+          .find(x => x.inspection_item_id === action.payload?.inspection_item_index);
         const dstItem = equipment.inspection_items
           .find(x => x.inspection_item_id === action.payload?.swap_index);
         if (srcItem != null && dstItem != null) {
@@ -235,7 +232,7 @@ export const removeInspectionItemAction = (index: number, itemId: number): Inspe
     type: TYPES.REMOVE_INSPECTION_ITEM,
     payload: {
       equipment_index: index,
-      inspection_item_id: itemId,
+      inspection_item_index: itemId,
     }
   }
 };
@@ -262,7 +259,7 @@ export const swapInspectionItemAction = (
     type: TYPES.SWAP_INSPECTION_ITEM,
     payload: {
       equipment_index: equipmentIndex,
-      inspection_item_id: srcId,
+      inspection_item_index: srcId,
       swap_index: dstId,
     }
   }

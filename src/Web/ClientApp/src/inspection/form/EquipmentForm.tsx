@@ -37,8 +37,8 @@ interface DragItem {
 interface EquipmentFormProps {
   index: number,
   equipment: Equipment,
-  handleAddItem: (equipmentId: number) => void,
-  handleEditItem: (equipmentId: number, inspectionItem: InspectionItem) => void,
+  handleAddItem: (equipmentIndex: number) => void,
+  handleEditItem: (equipmentIndex: number, inspectionItem: InspectionItem) => void,
   storeHistory: () => void,
 };
 
@@ -106,7 +106,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
             </Grid>
             <Grid item xs={12}>
               <InspectionItemForm
-                equipmentId={equipment.equipment_id}
+                equipmentIndex={index}
                 inspectionItems={equipment.inspection_items}
                 editInspectionItem={handleEditItem}
                 addInspectionItem={handleAddItem}

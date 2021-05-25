@@ -8,15 +8,15 @@ import { InspectionItem } from '../Types';
 import { InspectionItemRow } from './InspectionItemRow';
 
 interface InspectionItemFormProps {
-  equipmentId: number,
+  equipmentIndex: number,
   inspectionItems: InspectionItem[],
-  editInspectionItem: (equipmentId: number, inspectionItem: InspectionItem) => void,
-  addInspectionItem: (equipmentId: number) => void,
+  editInspectionItem: (equipmentIndex: number, inspectionItem: InspectionItem) => void,
+  addInspectionItem: (equipmentIndex: number) => void,
   storeHistory: () => void,
 };
 
 export const InspectionItemForm: FC<InspectionItemFormProps> = ({
-  equipmentId,
+  equipmentIndex,
   inspectionItems,
   editInspectionItem,
   addInspectionItem,
@@ -40,7 +40,7 @@ export const InspectionItemForm: FC<InspectionItemFormProps> = ({
             {inspectionItems.map((item: InspectionItem) =>
               <InspectionItemRow
                 key={item.inspection_item_id}
-                equipmentId={equipmentId}
+                equipmentId={equipmentIndex}
                 inspectionItem={item}
                 editInspectionItem={editInspectionItem}
                 storeHistory={storeHistory}
@@ -54,7 +54,7 @@ export const InspectionItemForm: FC<InspectionItemFormProps> = ({
           data-testid='add-item-button'
           label='点検項目追加'
           icon={<AddCircleIcon />}
-          onClick={() => addInspectionItem(equipmentId)}
+          onClick={() => addInspectionItem(equipmentIndex)}
         />
       </BottomNavigation>
     </>
