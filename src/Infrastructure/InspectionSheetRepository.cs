@@ -76,18 +76,6 @@ namespace InspectionManager.Infrastructure
                 }
 
                 var dto = _mapper.Map<InspectionSheetDto>(entity);
-                // var sheet = query.Select(s => new InspectionSheetDto
-                // {
-                //     SheetId = s.SheetId,
-                //     SheetName = s.SheetName,
-                //     InspectionGroup = s.InspectionGroup.Description,
-                //     InspectionType = s.InspectionType.Description,
-                //     Equipments = s.Equipments
-                //             .OrderBy(e => e.OrderIndex)
-                //             .Select(e => new EquipmentDto
-                //             {
-                //                 EquipmentId = e.EquipmentId.ToString(),
-                //                 EquipmentName = e.EquipmentName,
                 //                 InspectionItems = e.InspectionItems
                 //                     .OrderBy(i => i.OrderIndex)
                 //                     .Select(i => new InspectionItemDto
@@ -101,9 +89,6 @@ namespace InspectionManager.Infrastructure
                 //                             .ToList()
                 //                     })
                 //                     .ToList()
-                //             })
-                //             .ToList()
-                // })
                 return dto;
             }
             else
@@ -149,12 +134,28 @@ namespace InspectionManager.Infrastructure
             if (_context.InspectionSheets != null)
             {
                 var entity = _mapper.Map<InspectionSheet>(dto);
+                int equipmentOrder = 0;
+                foreach (var equipment in entity.Equipments)
+                {
+                    equipment.OrderIndex = equipmentOrder;
+                    equipmentOrder++;
+                }
+
                 if (_context.InspectionTypes != null && _context.InspectionGroups != null)
                 {
                     entity.InspectionGroup = _context.InspectionGroups
                         .Single(x => x.InspectionGroupId == entity.InspectionGroupId);
                     entity.InspectionType = _context.InspectionTypes
                         .Single(x => x.InspectionTypeId == entity.InspectionTypeId);
+                }
+
+                if (_context.Equipments != null)
+                {
+                    var equipmentIds = entity.Equipments.Select(x => x.EquipmentId);
+                    var equipments = _context.Equipments
+                        .Where(x => x.InspectionSheetId == entity.SheetId)
+                        .Where(x => !equipmentIds.Contains(x.EquipmentId));
+                    _context.Equipments.RemoveRange(equipments);
                 }
                 _context.InspectionSheets.Update(entity);
                 await _context.SaveChangesAsync();
