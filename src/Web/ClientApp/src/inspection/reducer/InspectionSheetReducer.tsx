@@ -39,14 +39,13 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
     case TYPES.REMOVE_EQUIPMENT:
       return {
         ...state,
-        equipments: state.equipments.filter(e => e.equipment_id !== action.payload?.equipment_id),
+        equipments: state.equipments.filter(e => e.equipment_id !== action.payload?.equipment_index),
       };
     case TYPES.UPDATE_EQUIPMENT:
       return {
         ...state,
-        equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_id &&
-            action.payload?.name != null) {
+        equipments: state.equipments.map((e, i) => {
+          if (i === action.payload?.equipment_index && action.payload?.name != null) {
             return {
               ...e,
               [action.payload.name]: action.payload.value,
@@ -57,12 +56,12 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         }),
       };
     case TYPES.SWAP_EQUIPMENT:
-      const srcEquipment = state.equipments.find(e => e.equipment_id === action.payload?.equipment_id);
+      const srcEquipment = state.equipments.find(e => e.equipment_id === action.payload?.equipment_index);
       const dstEquipment = state.equipments.find(e => e.equipment_id === action.payload?.swap_id);
       return {
         ...state,
         equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_id) {
+          if (e.equipment_id === action.payload?.equipment_index) {
             return {
               ...dstEquipment,
               equipment_id: e.equipment_id,
@@ -81,7 +80,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
       return {
         ...state,
         equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_id && action.payload?.inspection_item != null) {
+          if (e.equipment_id === action.payload?.equipment_index && action.payload?.inspection_item != null) {
             return {
               ...e,
               inspection_items: e.inspection_items.concat(action.payload.inspection_item)
@@ -95,7 +94,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
       return {
         ...state,
         equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_id) {
+          if (e.equipment_id === action.payload?.equipment_index) {
             return {
               ...e,
               inspection_items: e.inspection_items.filter(i =>
@@ -111,7 +110,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
       return {
         ...state,
         equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_id) {
+          if (e.equipment_id === action.payload?.equipment_index) {
             return {
               ...e,
               inspection_items: e.inspection_items.map(i => {
@@ -128,7 +127,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         }),
       };
     case TYPES.SWAP_INSPECTION_ITEM: {
-      const equipment = state.equipments.find(e => e.equipment_id === action.payload?.equipment_id);
+      const equipment = state.equipments.find(e => e.equipment_id === action.payload?.equipment_index);
       if (equipment == null) {
         return state;
       } else {
@@ -200,78 +199,78 @@ export const addEquipmentAction = (): InspectionSheetAction => {
   }
 };
 
-export const removeEquipmentAction = (id: number): InspectionSheetAction => {
+export const removeEquipmentAction = (index: number): InspectionSheetAction => {
   return {
     type: TYPES.REMOVE_EQUIPMENT,
     payload: {
-      equipment_id: id,
+      equipment_index: index,
     }
   }
 };
 
-export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: number): InspectionSheetAction => {
+export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number): InspectionSheetAction => {
   return {
     type: TYPES.UPDATE_EQUIPMENT,
     payload: {
       name: event.target.name,
       value: event.target.value,
-      equipment_id: id,
+      equipment_index: index,
     },
   }
 };
 
-export const swapEquipmentAction = (srcId: number, dstId: number): InspectionSheetAction => {
+export const swapEquipmentAction = (srcIndex: number, dstId: number): InspectionSheetAction => {
   return {
     type: TYPES.SWAP_EQUIPMENT,
     payload: {
-      equipment_id: srcId,
+      equipment_index: srcIndex,
       swap_id: dstId,
     },
   }
 };
 
-export const addInspectionItemAction = (id: number, item: InspectionItem): InspectionSheetAction => {
+export const addInspectionItemAction = (index: number, item: InspectionItem): InspectionSheetAction => {
   return {
     type: TYPES.ADD_INSPECTION_ITEM,
     payload: {
-      equipment_id: id,
+      equipment_index: index,
       inspection_item: item,
     }
   }
 };
 
-export const removeInspectionItemAction = (id: number, itemId: number): InspectionSheetAction => {
+export const removeInspectionItemAction = (index: number, itemId: number): InspectionSheetAction => {
   return {
     type: TYPES.REMOVE_INSPECTION_ITEM,
     payload: {
-      equipment_id: id,
+      equipment_index: index,
       inspection_item_id: itemId,
     }
   }
 };
 
 export const updateInspectionItemAction = (
-  id: number,
+  index: number,
   item: InspectionItem
 ): InspectionSheetAction => {
   return {
     type: TYPES.UPDATE_INSPECTION_ITEM,
     payload: {
-      equipment_id: id,
+      equipment_index: index,
       inspection_item: item,
     }
   }
 };
 
 export const swapInspectionItemAction = (
-  equipmentId: number,
+  equipmentIndex: number,
   srcId: number,
   dstId: number
 ): InspectionSheetAction => {
   return {
     type: TYPES.SWAP_INSPECTION_ITEM,
     payload: {
-      equipment_id: equipmentId,
+      equipment_index: equipmentIndex,
       inspection_item_id: srcId,
       swap_id: dstId,
     }

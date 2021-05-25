@@ -49,7 +49,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   const [open, setOpen] = useState(false);
   const [undoDisabled, setUndoDisabled] = useState(true);
   const [additional, setAdditional] = useState(false);
-  const [equipmentId, setEquipmentId] = useState(0);
+  const [equipmentIndx, setEquipmentIndex] = useState(0);
   const [history, setHistory] = useState<InspectionSheet[]>([]);
 
   useEffect(() => {
@@ -85,9 +85,9 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
    */
   const handleInspectionItem = () => {
     if (additional) {
-      context.addInspectionItem(equipmentId, itemContext.inspectionItem);
+      context.addInspectionItem(equipmentIndx, itemContext.inspectionItem);
     } else {
-      context.updateInspectionItem(equipmentId, itemContext.inspectionItem);
+      context.updateInspectionItem(equipmentIndx, itemContext.inspectionItem);
     }
     storeHistory();
     setOpen(false);
@@ -97,7 +97,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
    * Implements the process for adding inspection item.
    */
   const handleAddItem = (equipmentId: number) => {
-    setEquipmentId(equipmentId);
+    setEquipmentIndex(equipmentId);
     setAdditional(true);
     itemContext.setItem({
       inspection_item_id: 0,
@@ -112,7 +112,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
    * Implements the process for editing inspection item.
    */
   const handleEditItem = (equipmentId: number, inspectionItem: InspectionItem) => {
-    setEquipmentId(equipmentId);
+    setEquipmentIndex(equipmentId);
     setAdditional(false);
     itemContext.setItem(inspectionItem);
     setOpen(true);
@@ -194,8 +194,9 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
             </TextField>
           </Grid>
           {context.inspectionSheet.equipments.map((equipment: Equipment, index: number) =>
-            <Grid item xs={12} key={`equipment-{index}`}>
+            <Grid item xs={12} key={`equipment-${index}`}>
               <EquipmentForm
+                index={index}
                 equipment={equipment}
                 handleAddItem={handleAddItem}
                 handleEditItem={handleEditItem}

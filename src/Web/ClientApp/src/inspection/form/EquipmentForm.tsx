@@ -35,6 +35,7 @@ interface DragItem {
 };
 
 interface EquipmentFormProps {
+  index: number,
   equipment: Equipment,
   handleAddItem: (equipmentId: number) => void,
   handleEditItem: (equipmentId: number, inspectionItem: InspectionItem) => void,
@@ -42,6 +43,7 @@ interface EquipmentFormProps {
 };
 
 export const EquipmentForm: FC<EquipmentFormProps> = ({
+  index,
   equipment,
   handleAddItem,
   handleEditItem,
@@ -99,7 +101,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
                 size='small'
                 name='equipment_name'
                 value={equipment.equipment_name}
-                onChange={e => context.updateEquipment(e, equipment.equipment_id)}
+                onChange={e => context.updateEquipment(e, index)}
               />
             </Grid>
             <Grid item xs={12}>

@@ -69,7 +69,7 @@ export type InspectionSheetAction = {
   payload?: {
     name?: string;
     value?: string;
-    equipment_id?: number;
+    equipment_index?: number;
     inspection_item_id?: number;
     swap_id?: number;
     sheet?: InspectionSheet;
@@ -93,7 +93,7 @@ export interface InspectionSheetContextType {
   updateField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   addEquipment: () => void;
   removeEquipment: (id: number) => void;
-  updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: number) => void;
+  updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => void;
   swapEquipment: (srdId: number, dstId: number) => void,
   addInspectionItem: (id: number, item: InspectionItem) => void;
   removeInspectionItem: (id: number, itemId: number) => void;

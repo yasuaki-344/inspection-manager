@@ -31,8 +31,8 @@ export const InspectionSheetOperator = (): InspectionSheetContextType => {
       dispatch(updateFieldAction(event)),
     addEquipment: (): void => dispatch(addEquipmentAction()),
     removeEquipment: (id: number): void => dispatch(removeEquipmentAction(id)),
-    updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: number): void =>
-      dispatch(updateEquipmentAction(event, id)),
+    updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number): void =>
+      dispatch(updateEquipmentAction(event, index)),
     swapEquipment: (srcId: number, dstId: number): void => dispatch(swapEquipmentAction(srcId, dstId)),
     addInspectionItem: (id: number, item: InspectionItem): void =>
       dispatch(addInspectionItemAction(id, item)),
