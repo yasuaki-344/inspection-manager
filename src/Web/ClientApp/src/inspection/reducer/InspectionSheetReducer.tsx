@@ -39,7 +39,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
     case TYPES.REMOVE_EQUIPMENT:
       return {
         ...state,
-        equipments: state.equipments.filter(e => e.equipment_id !== action.payload?.equipment_index),
+        equipments: state.equipments.filter((e, i) => i !== action.payload?.equipment_index),
       };
     case TYPES.UPDATE_EQUIPMENT:
       return {

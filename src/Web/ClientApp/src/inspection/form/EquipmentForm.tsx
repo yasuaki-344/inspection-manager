@@ -86,7 +86,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
             data-testid='remove-equipment-button'
             size='small'
             color='inherit'
-            onClick={() => context.removeEquipment(equipment.equipment_id)}
+            onClick={() => context.removeEquipment(index)}
           >
             <CancelIcon />
           </IconButton>
