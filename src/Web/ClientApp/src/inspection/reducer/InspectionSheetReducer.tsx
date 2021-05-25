@@ -56,26 +56,15 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         }),
       };
     case TYPES.SWAP_EQUIPMENT:
-      const srcEquipment = state.equipments.find(e => e.equipment_id === action.payload?.equipment_index);
-      const dstEquipment = state.equipments.find(e => e.equipment_id === action.payload?.swap_id);
-      return {
-        ...state,
-        equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_index) {
-            return {
-              ...dstEquipment,
-              equipment_id: e.equipment_id,
-            };
-          } else if (e.equipment_id === action.payload?.swap_id) {
-            return {
-              ...srcEquipment,
-              equipment_id: e.equipment_id,
-            }
-          } else {
-            return e;
-          }
-        }),
-      };
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.equipment_index != null && payload.swap_index != null) {
+          [state.equipments[payload.equipment_index], state.equipments[payload.swap_index]] =
+            [state.equipments[payload.swap_index], state.equipments[payload.equipment_index]];
+          return { ...state };
+        }
+      }
+      return state;
     case TYPES.ADD_INSPECTION_ITEM:
       return {
         ...state,
@@ -134,7 +123,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         const srcItem = equipment.inspection_items
           .find(x => x.inspection_item_id === action.payload?.inspection_item_id);
         const dstItem = equipment.inspection_items
-          .find(x => x.inspection_item_id === action.payload?.swap_id);
+          .find(x => x.inspection_item_id === action.payload?.swap_index);
         if (srcItem != null && dstItem != null) {
           return {
             ...state,
@@ -224,7 +213,7 @@ export const swapEquipmentAction = (srcIndex: number, dstId: number): Inspection
     type: TYPES.SWAP_EQUIPMENT,
     payload: {
       equipment_index: srcIndex,
-      swap_id: dstId,
+      swap_index: dstId,
     },
   }
 };
@@ -272,7 +261,7 @@ export const swapInspectionItemAction = (
     payload: {
       equipment_index: equipmentIndex,
       inspection_item_id: srcId,
-      swap_id: dstId,
+      swap_index: dstId,
     }
   }
 };

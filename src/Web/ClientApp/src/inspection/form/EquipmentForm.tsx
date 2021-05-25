@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface DragItem {
-  id: number,
+  index: number,
 };
 
 interface EquipmentFormProps {
@@ -57,15 +57,15 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
   const [, drop] = useDrop({
     accept: ItemType.EQUIPMENT,
     drop(item: DragItem) {
-      if (!dropRef.current || item.id === equipment.equipment_id) {
+      if (!dropRef.current || item.index === index) {
         return;
       }
-      context.swapEquipment(equipment.equipment_id, item.id);
+      context.swapEquipment(index, item.index);
     }
   })
   const [, drag, preview] = useDrag({
     type: ItemType.EQUIPMENT,
-    item: { id: equipment.equipment_id },
+    item: { index: index },
   })
   preview(drop(dropRef));
   drag(dragRef);
