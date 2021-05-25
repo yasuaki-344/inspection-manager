@@ -37,24 +37,26 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         })
       };
     case TYPES.REMOVE_EQUIPMENT:
-      return {
-        ...state,
-        equipments: state.equipments.filter((e, i) => i !== action.payload?.equipment_index),
-      };
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.equipment_index != null) {
+          state.equipments.splice(payload.equipment_index, 1);
+          return { ...state };
+        }
+      }
+      return state;
     case TYPES.UPDATE_EQUIPMENT:
-      return {
-        ...state,
-        equipments: state.equipments.map((e, i) => {
-          if (i === action.payload?.equipment_index && action.payload?.name != null) {
-            return {
-              ...e,
-              [action.payload.name]: action.payload.value,
-            };
-          } else {
-            return e;
-          }
-        }),
-      };
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.equipment_index != null && payload.name != null) {
+          state.equipments[payload.equipment_index] = {
+            ...state.equipments[payload.equipment_index],
+            [payload.name]: payload.value,
+          };
+          return { ...state };
+        }
+      }
+      return state;
     case TYPES.SWAP_EQUIPMENT:
       if (action.payload != null) {
         const payload = action.payload;
