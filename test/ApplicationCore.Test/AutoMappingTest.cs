@@ -19,9 +19,9 @@ namespace InspectionManager.ApplicationCore.Test
         [Fact]
         public void MapToInspectionItemExportDtoCorrectly()
         {
-            var item = new InspectionItemDto
+            var expect = new InspectionItemDto
             {
-                InspectionItemId = "test",
+                InspectionItemId = 1,
                 InspectionContent = "content",
                 InputType = 3,
                 Choices = new List<string>
@@ -30,8 +30,8 @@ namespace InspectionManager.ApplicationCore.Test
                 },
             };
             var mapper = CreateMapper();
-            var actual = mapper.Map<InspectionItemExportDto>(item);
-            Assert.Equal(0, actual.InspectionItemId);
+            var actual = mapper.Map<InspectionItemExportDto>(expect);
+            Assert.Equal(expect.InspectionItemId, actual.InspectionItemId);
             Assert.Equal("content", actual.InspectionContent);
             Assert.Equal(3, actual.InputMethod);
             Assert.Equal("foo", actual.Choices[0]);
@@ -51,7 +51,7 @@ namespace InspectionManager.ApplicationCore.Test
                 {
                     new InspectionItemDto
                     {
-                        InspectionItemId = "test",
+                        InspectionItemId = 11,
                         InspectionContent = "content",
                         InputType = 2,
                         Choices = new List<string>
@@ -65,7 +65,7 @@ namespace InspectionManager.ApplicationCore.Test
             var actual = mapper.Map<EquipmentExportDto>(expect);
             Assert.Equal(expect.EquipmentId.ToString(), actual.EquipmentId);
             Assert.Equal(expect.EquipmentName, actual.EquipmentName);
-            Assert.Equal(0, actual.InspectionItems[0].InspectionItemId);
+            Assert.Equal(11, actual.InspectionItems[0].InspectionItemId);
             Assert.Equal("content", actual.InspectionItems[0].InspectionContent);
             Assert.Equal(2, actual.InspectionItems[0].InputMethod);
             Assert.Equal("foo", actual.InspectionItems[0].Choices[0]);
@@ -130,6 +130,7 @@ namespace InspectionManager.ApplicationCore.Test
             Assert.Equal(20, actual.InspectionGroupId);
         }
 
+        [Fact]
         public void MapToEquipmentDtoCorrectly()
         {
             var expect = new Equipment
