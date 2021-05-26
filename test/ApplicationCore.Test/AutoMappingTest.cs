@@ -144,6 +144,21 @@ namespace InspectionManager.ApplicationCore.Test
             Assert.Equal(expect.EquipmentName, actual.EquipmentName);
         }
 
+        [Fact]
+        public void MapToInspectionItemDtoCorrectly()
+        {
+            var expect = new InspectionItem
+            {
+                InspectionItemId = 11,
+                InspectionContent = "inspection content",
+                InputTypeId = 2,
+            };
+            var mapper = CreateMapper();
+            var actual = mapper.Map<InspectionItemDto>(expect);
+            Assert.Equal(expect.InspectionItemId, actual.InspectionItemId);
+            Assert.Equal(expect.InspectionContent, actual.InspectionContent);
+        }
+
         private Mapper CreateMapper()
         {
             var config = new MapperConfiguration(cfg =>
