@@ -23,7 +23,7 @@ namespace InspectionManager.ApplicationCore.Test
             {
                 InspectionItemId = 1,
                 InspectionContent = "content",
-                InputType = 3,
+                InputTypeId = 3,
                 Choices = new List<string>
                 {
                     "foo", "var", "hoge"
@@ -53,7 +53,7 @@ namespace InspectionManager.ApplicationCore.Test
                     {
                         InspectionItemId = 11,
                         InspectionContent = "content",
-                        InputType = 2,
+                        InputTypeId = 2,
                         Choices = new List<string>
                         {
                             "foo", "var",
@@ -157,6 +157,7 @@ namespace InspectionManager.ApplicationCore.Test
             var actual = mapper.Map<InspectionItemDto>(expect);
             Assert.Equal(expect.InspectionItemId, actual.InspectionItemId);
             Assert.Equal(expect.InspectionContent, actual.InspectionContent);
+            Assert.Equal(expect.InputTypeId, actual.InputTypeId);
         }
 
         private Mapper CreateMapper()
