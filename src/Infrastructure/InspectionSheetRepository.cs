@@ -74,21 +74,24 @@ namespace InspectionManager.Infrastructure
                         .OrderBy(x => x.OrderIndex)
                         .ToList();
                 }
+                if (_context.InspectionItems != null)
+                {
+                    foreach (var equipment in entity.Equipments)
+                    {
+                        equipment.InspectionItems = _context.InspectionItems
+                            .Where(x => x.EquipmentId == equipment.EquipmentId)
+                            .OrderBy(x => x.OrderIndex)
+                            .ToList();
+                    }
+                }
 
                 var dto = _mapper.Map<InspectionSheetDto>(entity);
-                //                 InspectionItems = e.InspectionItems
-                //                     .OrderBy(i => i.OrderIndex)
-                //                     .Select(i => new InspectionItemDto
-                //                     {
-                //                         InspectionItemId = i.InspectionItemId.ToString(),
-                //                         InspectionContent = i.InspectionContent,
+
                 //                         InputType = i.InputType.InputTypeId - 1,
                 //                         Choices = i.Choices
                 //                             .OrderBy(c => c.OrderIndex)
                 //                             .Select(c => c.Description)
                 //                             .ToList()
-                //                     })
-                //                     .ToList()
                 return dto;
             }
             else
