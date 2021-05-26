@@ -16,7 +16,7 @@ interface InspectionItemRowProps {
   equipmentIndex: number,
   inspectionItemIndex: number,
   inspectionItem: InspectionItem,
-  editInspectionItem: (equipmentIndex: number, item: InspectionItem) => void,
+  editInspectionItem: (equipmentIndex: number, inspectionItemIndex: number, item: InspectionItem) => void,
   storeHistory: () => void,
 };
 
@@ -65,7 +65,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
         <IconButton
           data-testid='edit-item-button'
           size='small'
-          onClick={() => editInspectionItem(equipmentIndex, inspectionItem)}>
+          onClick={() => editInspectionItem(equipmentIndex, inspectionItemIndex, inspectionItem)}>
           <EditIcon />
         </IconButton>
       </TableCell>

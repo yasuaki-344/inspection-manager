@@ -49,7 +49,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   const [open, setOpen] = useState(false);
   const [undoDisabled, setUndoDisabled] = useState(true);
   const [additional, setAdditional] = useState(false);
-  const [equipmentIndx, setEquipmentIndex] = useState(0);
+  const [equipmentIndex, setEquipmentIndex] = useState(0);
+  const [inspectionItemIndex, setInspectionItemIndex] = useState(0);
   const [history, setHistory] = useState<InspectionSheet[]>([]);
 
   useEffect(() => {
@@ -85,9 +86,9 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
    */
   const handleInspectionItem = () => {
     if (additional) {
-      context.addInspectionItem(equipmentIndx, itemContext.inspectionItem);
+      context.addInspectionItem(equipmentIndex, itemContext.inspectionItem);
     } else {
-      context.updateInspectionItem(equipmentIndx, itemContext.inspectionItem);
+      context.updateInspectionItem(equipmentIndex, inspectionItemIndex, itemContext.inspectionItem);
     }
     storeHistory();
     setOpen(false);
@@ -111,8 +112,9 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   /**
    * Implements the process for editing inspection item.
    */
-  const handleEditItem = (equipmentId: number, inspectionItem: InspectionItem) => {
-    setEquipmentIndex(equipmentId);
+  const handleEditItem = (equipmentIndex: number, inspectionItemIndex: number, inspectionItem: InspectionItem) => {
+    setEquipmentIndex(equipmentIndex);
+    setInspectionItemIndex(inspectionItemIndex);
     setAdditional(false);
     itemContext.setItem(inspectionItem);
     setOpen(true);

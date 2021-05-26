@@ -38,7 +38,7 @@ interface EquipmentFormProps {
   index: number,
   equipment: Equipment,
   handleAddItem: (equipmentIndex: number) => void,
-  handleEditItem: (equipmentIndex: number, inspectionItem: InspectionItem) => void,
+  handleEditItem: (equipmentIndex: number, inspectionItemIndex: number, inspectionItem: InspectionItem) => void,
   storeHistory: () => void,
 };
 

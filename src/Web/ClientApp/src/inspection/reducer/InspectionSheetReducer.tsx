@@ -89,25 +89,17 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
       }
       return state;
     case TYPES.UPDATE_INSPECTION_ITEM:
-      return {
-        ...state,
-        equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_index) {
-            return {
-              ...e,
-              inspection_items: e.inspection_items.map(i => {
-                if (i.inspection_item_id === action.payload?.inspection_item?.inspection_item_id) {
-                  return action.payload?.inspection_item;
-                } else {
-                  return i;
-                }
-              }),
-            };
-          } else {
-            return e;
-          }
-        }),
-      };
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.equipment_index != null &&
+          payload.inspection_item_index != null &&
+          payload.inspection_item != null) {
+          state.equipments[payload.equipment_index]
+            .inspection_items[payload.inspection_item_index] = payload.inspection_item;
+          return { ...state };
+        }
+      }
+      return state;
     case TYPES.SWAP_INSPECTION_ITEM:
       if (action.payload != null) {
         const payload = action.payload;
@@ -204,13 +196,15 @@ export const removeInspectionItemAction = (equipmentIndex: number, itemIndex: nu
 };
 
 export const updateInspectionItemAction = (
-  index: number,
+  equipmentIndex: number,
+  itemIndex: number,
   item: InspectionItem
 ): InspectionSheetAction => {
   return {
     type: TYPES.UPDATE_INSPECTION_ITEM,
     payload: {
-      equipment_index: index,
+      equipment_index: equipmentIndex,
+      inspection_item_index: itemIndex,
       inspection_item: item,
     }
   }

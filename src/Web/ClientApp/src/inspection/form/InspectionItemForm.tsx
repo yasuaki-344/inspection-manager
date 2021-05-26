@@ -10,7 +10,7 @@ import { InspectionItemRow } from './InspectionItemRow';
 interface InspectionItemFormProps {
   equipmentIndex: number,
   inspectionItems: InspectionItem[],
-  editInspectionItem: (equipmentIndex: number, inspectionItem: InspectionItem) => void,
+  editInspectionItem: (equipmentIndex: number, inspectionItemIndex: number, inspectionItem: InspectionItem) => void,
   addInspectionItem: (equipmentIndex: number) => void,
   storeHistory: () => void,
 };

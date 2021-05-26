@@ -12,6 +12,6 @@ export const InspectionSheetContext = createContext<InspectionSheetContextType>(
   swapEquipment: (srdIndex: number, dstIndex: number): void => { },
   addInspectionItem: (index: number, item: InspectionItem): void => { },
   removeInspectionItem: (equipmentIndex: number, itemIndex: number): void => { },
-  updateInspectionItem: (id: number, item: InspectionItem): void => { },
+  updateInspectionItem: (equipmentIndex: number, itemIndex: number, item: InspectionItem): void => { },
   swapInspectionItem: (equipmentId: number, srcIndex: number, dstIndex: number) => { },
 });
