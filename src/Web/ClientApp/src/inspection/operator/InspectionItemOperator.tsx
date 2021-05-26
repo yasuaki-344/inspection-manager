@@ -47,7 +47,7 @@ export const isValidInspectionItem = (item: InspectionItem): boolean => {
     return false;
   }
 
-  if (item.input_type === 2) {
+  if (item.input_type === 3) {
     if (!item.choices.length) {
       return false;
     } else {

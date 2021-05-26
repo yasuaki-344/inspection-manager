@@ -110,6 +110,19 @@ namespace InspectionManager.Infrastructure
                 foreach (var equipment in entity.Equipments)
                 {
                     equipment.OrderIndex = equipmentOrder;
+
+                    var itemOrder = 0;
+                    foreach (var inspectionItem in equipment.InspectionItems)
+                    {
+                        inspectionItem.OrderIndex = itemOrder;
+                        if (_context.InputTypes != null)
+                        {
+                            inspectionItem.InputType = _context.InputTypes
+                                .Single(x => x.InputTypeId == inspectionItem.InputTypeId);
+                        }
+                        itemOrder++;
+                    }
+
                     equipmentOrder++;
                 }
 
