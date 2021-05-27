@@ -45,22 +45,23 @@ export default function InspectionItemReducer(state: InspectionItem, action: Ins
         })
       };
     case TYPES.REMOVE_CHOICE:
-      return {
-        ...state,
-        choices: state.choices.filter((choice, index) =>
-          index !== action.payload?.choice_index)
-      };
-    case TYPES.UPDATE_CHOICE:
-      return {
-        ...state,
-        choices: state.choices.map((choice, index) => {
-          if (index === action.payload?.choice_index) {
-            return action.payload.value;
-          } else {
-            return choice;
-          }
-        })
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.choice_index != null) {
+          state.choices.splice(payload.choice_index, 1);
+          return { ...state };
+        }
       }
+      return state;
+    case TYPES.UPDATE_CHOICE:
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.choice_index != null && payload.value != null) {
+          state.choices[payload.choice_index].description = payload.value;
+          return { ...state };
+        }
+      }
+      return state;
     default:
       console.warn(`unknown type ${action.type}`);
       return state;

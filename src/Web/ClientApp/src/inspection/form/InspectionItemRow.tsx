@@ -76,7 +76,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
         {useInputTypes.filter(e => e.value === inspectionItem.input_type)[0].label}
       </TableCell>
       <TableCell>
-        {inspectionItem.choices.join(',')}
+        {inspectionItem.choices.map(x => x.description).join(',')}
       </TableCell>
       <TableCell padding='checkbox'>
         <IconButton
