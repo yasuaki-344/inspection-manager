@@ -84,13 +84,21 @@ namespace InspectionManager.Infrastructure
                             .ToList();
                     }
                 }
-
+                if (_context.Choices != null)
+                {
+                    foreach (var equipment in entity.Equipments)
+                    {
+                        foreach (var inspectionItem in equipment.InspectionItems)
+                        {
+                            inspectionItem.Choices = _context.Choices
+                                .Where(x => x.InspectionItemId == inspectionItem.InspectionItemId)
+                                .OrderBy(x => x.OrderIndex)
+                                .ToList();
+                        }
+                    }
+                }
                 var dto = _mapper.Map<InspectionSheetDto>(entity);
 
-                //                         Choices = i.Choices
-                //                             .OrderBy(c => c.OrderIndex)
-                //                             .Select(c => c.Description)
-                //                             .ToList()
                 return dto;
             }
             else
