@@ -62,7 +62,7 @@ const Row: FC<RowProps> = ({ equipment }): JSX.Element => {
                       <TableCell>
                         {useInputTypes.filter(e => e.value === item.input_type)[0].label}
                       </TableCell>
-                      <TableCell>{item.choices.join(',')}</TableCell>
+                      <TableCell>{item.choices.map(x => x.description).join(',')}</TableCell>
                     </TableRow>
                   )}
                 </TableBody>

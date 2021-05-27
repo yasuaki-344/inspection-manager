@@ -51,7 +51,8 @@ export const isValidInspectionItem = (item: InspectionItem): boolean => {
     if (!item.choices.length) {
       return false;
     } else {
-      return !item.choices.includes('');
+      const descriptions = item.choices.map(x => x.description);
+      return !descriptions.includes('');
     }
   }
 

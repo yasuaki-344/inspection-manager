@@ -36,11 +36,16 @@ export type InspectionType = {
   description: string,
 };
 
+export type Choice = {
+  choice_id: number,
+  description: string,
+};
+
 export type InspectionItem = {
   inspection_item_id: number,
   inspection_content: string,
   input_type: number,
-  choices: string[],
+  choices: Choice[],
 };
 
 export type Equipment = {

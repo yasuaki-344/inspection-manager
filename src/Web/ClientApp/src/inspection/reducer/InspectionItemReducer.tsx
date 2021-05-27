@@ -39,7 +39,10 @@ export default function InspectionItemReducer(state: InspectionItem, action: Ins
     case TYPES.ADD_CHOICE:
       return {
         ...state,
-        choices: state.choices.concat('')
+        choices: state.choices.concat({
+          choice_id: 0,
+          description: '',
+        })
       };
     case TYPES.REMOVE_CHOICE:
       return {

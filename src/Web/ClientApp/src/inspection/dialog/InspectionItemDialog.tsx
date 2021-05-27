@@ -7,7 +7,7 @@ import {
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
-import { useInputTypes } from '../Types';
+import { Choice, useInputTypes } from '../Types';
 import { InspectionItemContext } from '../context/InspectionItemContext';
 import { isValidInspectionItem } from '../operator/InspectionItemOperator';
 import { ChoiceSetSelectDialog } from './ChoiceSetSelectDialog';
@@ -68,7 +68,7 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
             </Grid>
             {(context.inspectionItem.input_type !== 3) ? <></> :
               <>
-                {context.inspectionItem.choices.map((choice: string, index: number) =>
+                {context.inspectionItem.choices.map((choice: Choice, index: number) =>
                   <Grid item xs={12} key={`${context.inspectionItem.inspection_item_id}_${index}`}>
                     <TextField
                       required
@@ -77,7 +77,7 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                       variant='outlined'
                       size='small'
                       name='choice'
-                      value={choice}
+                      value={choice.description}
                       onChange={(e) => context.updateChoice(e, index)}
                     />
                     <IconButton color='primary' size='small'
