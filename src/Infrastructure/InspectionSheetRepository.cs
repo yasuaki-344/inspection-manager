@@ -87,7 +87,6 @@ namespace InspectionManager.Infrastructure
 
                 var dto = _mapper.Map<InspectionSheetDto>(entity);
 
-                //                         InputType = i.InputType.InputTypeId - 1,
                 //                         Choices = i.Choices
                 //                             .OrderBy(c => c.OrderIndex)
                 //                             .Select(c => c.Description)
@@ -154,6 +153,19 @@ namespace InspectionManager.Infrastructure
                 foreach (var equipment in entity.Equipments)
                 {
                     equipment.OrderIndex = equipmentOrder;
+
+                    var itemOrder = 0;
+                    foreach (var inspectionItem in equipment.InspectionItems)
+                    {
+                        inspectionItem.OrderIndex = itemOrder;
+                        if (_context.InputTypes != null)
+                        {
+                            inspectionItem.InputType = _context.InputTypes
+                                .Single(x => x.InputTypeId == inspectionItem.InputTypeId);
+                        }
+                        itemOrder++;
+                    }
+
                     equipmentOrder++;
                 }
 
@@ -173,6 +185,19 @@ namespace InspectionManager.Infrastructure
                         .Where(x => !equipmentIds.Contains(x.EquipmentId));
                     _context.Equipments.RemoveRange(equipments);
                 }
+
+                if (_context.InspectionItems != null)
+                {
+                    foreach (var equipment in entity.Equipments)
+                    {
+                        var inspectionItemIds = equipment.InspectionItems.Select(x => x.InspectionItemId);
+                        var inspectionItems = _context.InspectionItems
+                            .Where(x => x.EquipmentId == equipment.EquipmentId)
+                            .Where(x => !inspectionItemIds.Contains(x.InspectionItemId));
+                        _context.InspectionItems.RemoveRange(inspectionItems);
+                    }
+                }
+
                 _context.InspectionSheets.Update(entity);
                 await _context.SaveChangesAsync();
 
