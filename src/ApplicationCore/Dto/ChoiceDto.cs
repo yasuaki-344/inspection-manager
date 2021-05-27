@@ -13,7 +13,7 @@ namespace InspectionManager.ApplicationCore.Dto
         [JsonPropertyName("choice_id")]
         public int ChoiceId { get; set; }
 
-        [JsonPropertyName("description_id")]
+        [JsonPropertyName("description")]
         public string Description { get; set; } = string.Empty;
     }
 }
