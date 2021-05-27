@@ -160,6 +160,20 @@ namespace InspectionManager.ApplicationCore.Test
             Assert.Equal(expect.InputTypeId, actual.InputTypeId);
         }
 
+        [Fact]
+        public void MapToChoiceDtoCorrectly()
+        {
+            var expect = new Choice
+            {
+                ChoiceId = 3,
+                Description = "choice"
+            };
+            var mapper = CreateMapper();
+            var actual = mapper.Map<ChoiceDto>(expect);
+            Assert.Equal(expect.ChoiceId, actual.ChoiceId);
+            Assert.Equal(expect.Description, actual.Description);
+        }
+
         private Mapper CreateMapper()
         {
             var config = new MapperConfiguration(cfg =>
