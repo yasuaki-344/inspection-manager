@@ -21,6 +21,6 @@ namespace InspectionManager.ApplicationCore.Dto
         public int InputTypeId { get; set; }
 
         [JsonPropertyName("choices")]
-        public List<string> Choices { get; set; } = new List<string>();
+        public List<ChoiceDto> Choices { get; set; } = new List<ChoiceDto>();
     }
 }

@@ -17,6 +17,8 @@ namespace InspectionManager.ApplicationCore.Services
         /// </summary>
         public AutoMapping()
         {
+            CreateMap<ChoiceDto, string>()
+                .ConvertUsing(src => src.Description);
             CreateMap<InspectionItemDto, InspectionItemExportDto>()
                 .ForMember(dst => dst.InputMethod, opt => opt.MapFrom(src => src.InputTypeId));
 

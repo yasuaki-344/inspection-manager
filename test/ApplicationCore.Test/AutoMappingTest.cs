@@ -17,6 +17,15 @@ namespace InspectionManager.ApplicationCore.Test
     public class AutoMappingTest
     {
         [Fact]
+        public void MapChoiceDtoToStringCorrectly()
+        {
+            var expect = new ChoiceDto { Description = "foo"};
+            var mapper = CreateMapper();
+            var actual = mapper.Map<string>(expect);
+            Assert.Equal(expect.Description, actual);
+        }
+
+        [Fact]
         public void MapToInspectionItemExportDtoCorrectly()
         {
             var expect = new InspectionItemDto
@@ -24,9 +33,11 @@ namespace InspectionManager.ApplicationCore.Test
                 InspectionItemId = 1,
                 InspectionContent = "content",
                 InputTypeId = 3,
-                Choices = new List<string>
+                Choices = new List<ChoiceDto>
                 {
-                    "foo", "var", "hoge"
+                    new ChoiceDto { Description = "foo"},
+                    new ChoiceDto { Description = "var"},
+                    new ChoiceDto { Description = "hoge"}
                 },
             };
             var mapper = CreateMapper();
@@ -54,9 +65,10 @@ namespace InspectionManager.ApplicationCore.Test
                         InspectionItemId = 11,
                         InspectionContent = "content",
                         InputTypeId = 2,
-                        Choices = new List<string>
+                        Choices = new List<ChoiceDto>
                         {
-                            "foo", "var",
+                            new ChoiceDto { Description = "foo"},
+                            new ChoiceDto { Description = "var"},
                         },
                     }
                 }
