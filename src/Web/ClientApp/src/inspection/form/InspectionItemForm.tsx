@@ -8,15 +8,15 @@ import { InspectionItem } from '../Types';
 import { InspectionItemRow } from './InspectionItemRow';
 
 interface InspectionItemFormProps {
-  equipmentId: string,
+  equipmentIndex: number,
   inspectionItems: InspectionItem[],
-  editInspectionItem: (equipmentId: string, inspectionItem: InspectionItem) => void,
-  addInspectionItem: (equipmentId: string) => void,
+  editInspectionItem: (equipmentIndex: number, inspectionItemIndex: number, inspectionItem: InspectionItem) => void,
+  addInspectionItem: (equipmentIndex: number) => void,
   storeHistory: () => void,
 };
 
 export const InspectionItemForm: FC<InspectionItemFormProps> = ({
-  equipmentId,
+  equipmentIndex,
   inspectionItems,
   editInspectionItem,
   addInspectionItem,
@@ -37,10 +37,11 @@ export const InspectionItemForm: FC<InspectionItemFormProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {inspectionItems.map((item: InspectionItem) =>
+            {inspectionItems.map((item: InspectionItem, index: number) =>
               <InspectionItemRow
                 key={item.inspection_item_id}
-                equipmentId={equipmentId}
+                equipmentIndex={equipmentIndex}
+                inspectionItemIndex={index}
                 inspectionItem={item}
                 editInspectionItem={editInspectionItem}
                 storeHistory={storeHistory}
@@ -54,7 +55,7 @@ export const InspectionItemForm: FC<InspectionItemFormProps> = ({
           data-testid='add-item-button'
           label='点検項目追加'
           icon={<AddCircleIcon />}
-          onClick={() => addInspectionItem(equipmentId)}
+          onClick={() => addInspectionItem(equipmentIndex)}
         />
       </BottomNavigation>
     </>

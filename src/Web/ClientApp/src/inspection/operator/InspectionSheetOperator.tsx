@@ -12,8 +12,10 @@ import InspectionSheetReducer, {
  */
 export const initialState = () => {
   return {
-    sheet_id: '',
+    sheet_id: 0,
     sheet_name: '',
+    inspection_group_id: 0,
+    inspection_type_id: 0,
     inspection_group: '',
     inspection_type: '',
     equipments: [],
@@ -28,20 +30,21 @@ export const InspectionSheetOperator = (): InspectionSheetContextType => {
     updateField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void =>
       dispatch(updateFieldAction(event)),
     addEquipment: (): void => dispatch(addEquipmentAction()),
-    removeEquipment: (id: string): void => dispatch(removeEquipmentAction(id)),
-    updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: string): void =>
-      dispatch(updateEquipmentAction(event, id)),
-    swapEquipment: (srcId: string, dstId: string): void => dispatch(swapEquipmentAction(srcId, dstId)),
-    addInspectionItem: (id: string, item: InspectionItem): void =>
-      dispatch(addInspectionItemAction(id, item)),
-    removeInspectionItem: (id: string, itemId: string): void =>
-      dispatch(removeInspectionItemAction(id, itemId)),
+    removeEquipment: (index: number): void => dispatch(removeEquipmentAction(index)),
+    updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number): void =>
+      dispatch(updateEquipmentAction(event, index)),
+    swapEquipment: (srcIndex: number, dstIndex: number): void => dispatch(swapEquipmentAction(srcIndex, dstIndex)),
+    addInspectionItem: (index: number, item: InspectionItem): void =>
+      dispatch(addInspectionItemAction(index, item)),
+    removeInspectionItem: (equipmentIndex: number, itemIndex: number): void =>
+      dispatch(removeInspectionItemAction(equipmentIndex, itemIndex)),
     updateInspectionItem: (
-      id: string,
+      equipmentIndex: number,
+      itemIndex: number,
       item: InspectionItem
     ): void =>
-      dispatch(updateInspectionItemAction(id, item)),
-    swapInspectionItem: (equipmentId: string, srcId: string, dstId: string) =>
-      dispatch(swapInspectionItemAction(equipmentId, srcId, dstId)),
+      dispatch(updateInspectionItemAction(equipmentIndex, itemIndex, item)),
+    swapInspectionItem: (equipmentIndex: number, srcIndex: number, dstIndex: number) =>
+      dispatch(swapInspectionItemAction(equipmentIndex, srcIndex, dstIndex)),
   };
 }

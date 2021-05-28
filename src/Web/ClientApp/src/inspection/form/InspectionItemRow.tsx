@@ -8,19 +8,21 @@ import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { useInputTypes, InspectionItem, InspectionSheetContextType, ItemType } from '../Types';
 
 interface DragItem {
-  equipmentId: string,
-  itemId: string,
+  equipmentIndex: number,
+  inspectionItemIndex: number,
 };
 
 interface InspectionItemRowProps {
-  equipmentId: string,
+  equipmentIndex: number,
+  inspectionItemIndex: number,
   inspectionItem: InspectionItem,
-  editInspectionItem: (equipmentId: string, item: InspectionItem) => void,
+  editInspectionItem: (equipmentIndex: number, inspectionItemIndex: number, item: InspectionItem) => void,
   storeHistory: () => void,
 };
 
 export const InspectionItemRow: FC<InspectionItemRowProps> = ({
-  equipmentId,
+  equipmentIndex,
+  inspectionItemIndex,
   inspectionItem,
   editInspectionItem,
   storeHistory
@@ -33,19 +35,19 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
     accept: ItemType.INSPECTION_ITEM,
     drop(item: DragItem) {
       if (!dropRef.current ||
-        item.equipmentId !== equipmentId ||
-        item.itemId === inspectionItem.inspection_item_id) {
+        item.equipmentIndex !== equipmentIndex ||
+        item.inspectionItemIndex === inspectionItemIndex) {
         return;
       }
-      context.swapInspectionItem(equipmentId, inspectionItem.inspection_item_id, item.itemId);
+      context.swapInspectionItem(equipmentIndex, inspectionItemIndex, item.inspectionItemIndex);
     },
   })
 
   const [, drag, preview] = useDrag({
     type: ItemType.INSPECTION_ITEM,
     item: {
-      equipmentId: equipmentId,
-      itemId: inspectionItem.inspection_item_id
+      equipmentIndex: equipmentIndex,
+      inspectionItemIndex: inspectionItemIndex
     },
   })
 
@@ -63,7 +65,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
         <IconButton
           data-testid='edit-item-button'
           size='small'
-          onClick={() => editInspectionItem(equipmentId, inspectionItem)}>
+          onClick={() => editInspectionItem(equipmentIndex, inspectionItemIndex, inspectionItem)}>
           <EditIcon />
         </IconButton>
       </TableCell>
@@ -74,14 +76,14 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
         {useInputTypes.filter(e => e.value === inspectionItem.input_type)[0].label}
       </TableCell>
       <TableCell>
-        {inspectionItem.choices.join(',')}
+        {inspectionItem.choices.map(x => x.description).join(',')}
       </TableCell>
       <TableCell padding='checkbox'>
         <IconButton
           data-testid='remove-item-button'
           color='primary'
           size='small'
-          onClick={() => context.removeInspectionItem(equipmentId, inspectionItem.inspection_item_id)}
+          onClick={() => context.removeInspectionItem(equipmentIndex, inspectionItemIndex)}
         >
           <CancelIcon />
         </IconButton>

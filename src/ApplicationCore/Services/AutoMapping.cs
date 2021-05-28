@@ -6,6 +6,7 @@
 //
 using AutoMapper;
 using InspectionManager.ApplicationCore.Dto;
+using InspectionManager.ApplicationCore.Entities;
 
 namespace InspectionManager.ApplicationCore.Services
 {
@@ -16,15 +17,34 @@ namespace InspectionManager.ApplicationCore.Services
         /// </summary>
         public AutoMapping()
         {
+            CreateMap<ChoiceDto, string>()
+                .ConvertUsing(src => src.Description);
             CreateMap<InspectionItemDto, InspectionItemExportDto>()
-                .ForMember(dst => dst.InspectionItemId, opt => opt.Ignore())
-                .ForMember(dst => dst.InputMethod, opt => opt.MapFrom(src => src.InputType));
+                .ForMember(dst => dst.InputMethod, opt => opt.MapFrom(src => src.InputTypeId));
 
             CreateMap<EquipmentDto, EquipmentExportDto>();
 
             CreateMap<InspectionSheetDto, InspectionSheetExportDto>();
 
-            CreateMap<InspectionSheetDto, InspectionSheetSummaryDto>();
+            CreateMap<InspectionGroup, InspectionGroupDto>();
+            CreateMap<InspectionGroupDto, InspectionGroup>();
+            CreateMap<InspectionType, InspectionTypeDto>();
+            CreateMap<InspectionTypeDto, InspectionType>();
+            CreateMap<Option, OptionDto>();
+            CreateMap<OptionDto, Option>();
+            CreateMap<ChoiceTemplate, ChoiceTemplateDto>();
+            CreateMap<ChoiceTemplateDto, ChoiceTemplate>();
+
+            CreateMap<InspectionSheet, InspectionSheetDto>();
+            CreateMap<InspectionSheetDto, InspectionSheet>()
+                .ForMember(dst => dst.InspectionGroup, opt => opt.Ignore())
+                .ForMember(dst => dst.InspectionType, opt => opt.Ignore());
+            CreateMap<Equipment, EquipmentDto>();
+            CreateMap<EquipmentDto, Equipment>();
+            CreateMap<InspectionItem, InspectionItemDto>();
+            CreateMap<InspectionItemDto, InspectionItem>();
+            CreateMap<Choice, ChoiceDto>();
+            CreateMap<ChoiceDto, Choice>();
         }
     }
 }

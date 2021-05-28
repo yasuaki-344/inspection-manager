@@ -31,144 +31,89 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
       return {
         ...state,
         equipments: state.equipments.concat({
-          equipment_id: Math.random().toString(36).substr(2, 9),
+          equipment_id: 0,
           equipment_name: '',
           inspection_items: [],
         })
       };
     case TYPES.REMOVE_EQUIPMENT:
-      return {
-        ...state,
-        equipments: state.equipments.filter(e => e.equipment_id !== action.payload?.equipment_id),
-      };
-    case TYPES.UPDATE_EQUIPMENT:
-      return {
-        ...state,
-        equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_id &&
-            action.payload?.name != null) {
-            return {
-              ...e,
-              [action.payload.name]: action.payload.value,
-            };
-          } else {
-            return e;
-          }
-        }),
-      };
-    case TYPES.SWAP_EQUIPMENT:
-      const srcEquipment = state.equipments.find(e => e.equipment_id === action.payload?.equipment_id);
-      const dstEquipment = state.equipments.find(e => e.equipment_id === action.payload?.swap_id);
-      return {
-        ...state,
-        equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_id) {
-            return {
-              ...dstEquipment,
-              equipment_id: e.equipment_id,
-            };
-          } else if (e.equipment_id === action.payload?.swap_id) {
-            return {
-              ...srcEquipment,
-              equipment_id: e.equipment_id,
-            }
-          } else {
-            return e;
-          }
-        }),
-      };
-    case TYPES.ADD_INSPECTION_ITEM:
-      return {
-        ...state,
-        equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_id && action.payload?.inspection_item != null) {
-            return {
-              ...e,
-              inspection_items: e.inspection_items.concat(action.payload.inspection_item)
-            };
-          } else {
-            return e;
-          }
-        }),
-      };
-    case TYPES.REMOVE_INSPECTION_ITEM:
-      return {
-        ...state,
-        equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_id) {
-            return {
-              ...e,
-              inspection_items: e.inspection_items.filter(i =>
-                i.inspection_item_id !== action.payload?.inspection_item_id
-              )
-            };
-          } else {
-            return e;
-          }
-        }),
-      };
-    case TYPES.UPDATE_INSPECTION_ITEM:
-      return {
-        ...state,
-        equipments: state.equipments.map(e => {
-          if (e.equipment_id === action.payload?.equipment_id) {
-            return {
-              ...e,
-              inspection_items: e.inspection_items.map(i => {
-                if (i.inspection_item_id === action.payload?.inspection_item?.inspection_item_id) {
-                  return action.payload?.inspection_item;
-                } else {
-                  return i;
-                }
-              }),
-            };
-          } else {
-            return e;
-          }
-        }),
-      };
-    case TYPES.SWAP_INSPECTION_ITEM: {
-      const equipment = state.equipments.find(e => e.equipment_id === action.payload?.equipment_id);
-      if (equipment == null) {
-        return state;
-      } else {
-        const srcItem = equipment.inspection_items
-          .find(x => x.inspection_item_id === action.payload?.inspection_item_id);
-        const dstItem = equipment.inspection_items
-          .find(x => x.inspection_item_id === action.payload?.swap_id);
-        if (srcItem != null && dstItem != null) {
-          return {
-            ...state,
-            equipments: state.equipments.map(e => {
-              if (e.equipment_id === equipment.equipment_id) {
-                return {
-                  ...e,
-                  inspection_items: e.inspection_items.map(i => {
-                    if (i.inspection_item_id === srcItem.inspection_item_id) {
-                      return {
-                        ...dstItem,
-                        inspection_item_id: i.inspection_item_id,
-                      };
-                    } else if (i.inspection_item_id === dstItem.inspection_item_id) {
-                      return {
-                        ...srcItem,
-                        inspection_item_id: i.inspection_item_id,
-                      }
-                    } else {
-                      return i;
-                    }
-                  }),
-                };
-              } else {
-                return e;
-              }
-            }),
-          };
-        } else {
-          return state;
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.equipment_index != null) {
+          state.equipments.splice(payload.equipment_index, 1);
+          return { ...state };
         }
       }
-    }
+      return state;
+    case TYPES.UPDATE_EQUIPMENT:
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.equipment_index != null && payload.name != null) {
+          state.equipments[payload.equipment_index] = {
+            ...state.equipments[payload.equipment_index],
+            [payload.name]: payload.value,
+          };
+          return { ...state };
+        }
+      }
+      return state;
+    case TYPES.SWAP_EQUIPMENT:
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.equipment_index != null && payload.swap_index != null) {
+          [state.equipments[payload.equipment_index], state.equipments[payload.swap_index]] =
+            [state.equipments[payload.swap_index], state.equipments[payload.equipment_index]];
+          return { ...state };
+        }
+      }
+      return state;
+    case TYPES.ADD_INSPECTION_ITEM:
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.equipment_index != null && payload.inspection_item != null) {
+          state.equipments[payload.equipment_index].inspection_items.push(
+            payload.inspection_item
+          );
+          return { ...state };
+        }
+      }
+      return state;
+    case TYPES.REMOVE_INSPECTION_ITEM:
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.equipment_index != null && payload.inspection_item_index != null) {
+          state.equipments[payload.equipment_index]
+            .inspection_items.splice(payload.inspection_item_index, 1);
+          return { ...state };
+        }
+      }
+      return state;
+    case TYPES.UPDATE_INSPECTION_ITEM:
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.equipment_index != null &&
+          payload.inspection_item_index != null &&
+          payload.inspection_item != null) {
+          state.equipments[payload.equipment_index]
+            .inspection_items[payload.inspection_item_index] = payload.inspection_item;
+          return { ...state };
+        }
+      }
+      return state;
+    case TYPES.SWAP_INSPECTION_ITEM:
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.equipment_index != null &&
+          payload.inspection_item_index != null &&
+          payload.swap_index != null) {
+          [state.equipments[payload.equipment_index].inspection_items[payload.inspection_item_index],
+          state.equipments[payload.equipment_index].inspection_items[payload.swap_index]] =
+            [state.equipments[payload.equipment_index].inspection_items[payload.swap_index],
+            state.equipments[payload.equipment_index].inspection_items[payload.equipment_index]];
+          return { ...state };
+        }
+      }
+      return state;
     default:
       console.warn(`unknown type ${action.type}`);
       return state;
@@ -200,80 +145,82 @@ export const addEquipmentAction = (): InspectionSheetAction => {
   }
 };
 
-export const removeEquipmentAction = (id: string): InspectionSheetAction => {
+export const removeEquipmentAction = (index: number): InspectionSheetAction => {
   return {
     type: TYPES.REMOVE_EQUIPMENT,
     payload: {
-      equipment_id: id,
+      equipment_index: index,
     }
   }
 };
 
-export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: string): InspectionSheetAction => {
+export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number): InspectionSheetAction => {
   return {
     type: TYPES.UPDATE_EQUIPMENT,
     payload: {
       name: event.target.name,
       value: event.target.value,
-      equipment_id: id,
+      equipment_index: index,
     },
   }
 };
 
-export const swapEquipmentAction = (srcId: string, dstId: string): InspectionSheetAction => {
+export const swapEquipmentAction = (srcIndex: number, dstId: number): InspectionSheetAction => {
   return {
     type: TYPES.SWAP_EQUIPMENT,
     payload: {
-      equipment_id: srcId,
-      swap_id: dstId,
+      equipment_index: srcIndex,
+      swap_index: dstId,
     },
   }
 };
 
-export const addInspectionItemAction = (id: string, item: InspectionItem): InspectionSheetAction => {
+export const addInspectionItemAction = (index: number, item: InspectionItem): InspectionSheetAction => {
   return {
     type: TYPES.ADD_INSPECTION_ITEM,
     payload: {
-      equipment_id: id,
+      equipment_index: index,
       inspection_item: item,
     }
   }
 };
 
-export const removeInspectionItemAction = (id: string, itemId: string): InspectionSheetAction => {
+export const removeInspectionItemAction = (equipmentIndex: number, itemIndex: number): InspectionSheetAction => {
   return {
     type: TYPES.REMOVE_INSPECTION_ITEM,
     payload: {
-      equipment_id: id,
-      inspection_item_id: itemId,
+      equipment_index: equipmentIndex,
+      inspection_item_index: itemIndex,
     }
   }
 };
 
 export const updateInspectionItemAction = (
-  id: string,
+  equipmentIndex: number,
+  itemIndex: number,
   item: InspectionItem
 ): InspectionSheetAction => {
   return {
     type: TYPES.UPDATE_INSPECTION_ITEM,
     payload: {
-      equipment_id: id,
+      equipment_index: equipmentIndex,
+      inspection_item_index: itemIndex,
       inspection_item: item,
     }
   }
 };
 
 export const swapInspectionItemAction = (
-  equipmentId: string,
-  srcId: string,
-  dstId: string
+  equipmentIndex: number,
+  srcIndex: number,
+  dstIndex: number
 ): InspectionSheetAction => {
   return {
     type: TYPES.SWAP_INSPECTION_ITEM,
     payload: {
-      equipment_id: equipmentId,
-      inspection_item_id: srcId,
-      swap_id: dstId,
+      equipment_index: equipmentIndex,
+      inspection_item_index: srcIndex,
+      swap_index: dstIndex,
     }
   }
 };

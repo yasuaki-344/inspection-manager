@@ -40,7 +40,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult<InspectionSheetSummaryDto> GetAllInspectionSheets()
+        public ActionResult<InspectionSheetDto> GetAllInspectionSheets()
         {
             try
             {
@@ -56,8 +56,8 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpGet("{id:guid}")]
-        public ActionResult<InspectionSheetDto> GetInspectionSheet(string id)
+        [HttpGet("{id:int}")]
+        public ActionResult<InspectionSheetDto> GetInspectionSheet(int id)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace InspectionManager.Web.Controllers
 
 
         [HttpPost]
-        public ActionResult<InspectionSheetDto> CreateSheet(InspectionSheetDto? dto)
+        public async Task<ActionResult<InspectionSheetDto>> CreateSheetAsync(InspectionSheetDto? dto)
         {
             try
             {
@@ -94,8 +94,7 @@ namespace InspectionManager.Web.Controllers
                 }
                 else
                 {
-                    _logger.LogInformation($"{dto.SheetName}");
-                    var result = _service.CreateInspectionSheet(dto);
+                    var result = await _service.CreateInspectionSheetAsync(dto);
                     return CreatedAtAction(nameof(GetInspectionSheet),
                     new { id = result.SheetId }, result);
                 }
@@ -109,8 +108,8 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpPut("{id:guid}")]
-        public ActionResult<InspectionSheetDto> UpdateInspectionSheet(InspectionSheetDto dto)
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<InspectionSheetDto>> UpdateInspectionSheet(InspectionSheetDto dto)
         {
             try
             {
@@ -119,7 +118,7 @@ namespace InspectionManager.Web.Controllers
                 {
                     return NotFound($"Sheet with Id = {dto.SheetId} not found");
                 }
-                return _service.UpdateInspectionSheet(dto);
+                return await _service.UpdateInspectionSheetAsync(dto);
             }
             catch (Exception ex)
             {
@@ -129,8 +128,8 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpDelete("{id:guid}")]
-        public ActionResult<InspectionSheetDto> DeleteInspectionSheet(string id)
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<InspectionSheetDto>> DeleteInspectionSheetAsync(int id)
         {
             try
             {
@@ -139,7 +138,7 @@ namespace InspectionManager.Web.Controllers
                 {
                     return NotFound($"sheet with Id = {id} not found");
                 }
-                return _service.DeleteInspectionSheet(id);
+                return await _service.DeleteInspectionSheetAsync(id);
             }
             catch (Exception ex)
             {

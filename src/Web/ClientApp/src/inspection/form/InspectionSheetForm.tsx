@@ -12,7 +12,10 @@ import { EquipmentForm } from './EquipmentForm';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { InspectionItemContext } from '../context/InspectionItemContext';
-import { Equipment, InspectionItem, InspectionSheet } from '../Types';
+import {
+  InspectionGroup, InspectionType,
+  Equipment, InspectionItem, InspectionSheet
+} from '../Types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,24 +44,25 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   const classes = useStyles();
   const context = useContext(InspectionSheetContext);
   const itemContext = useContext(InspectionItemContext);
-  const [groups, setGroups] = useState<string[]>([]);
-  const [types, setTypes] = useState<string[]>([]);
+  const [groups, setGroups] = useState<InspectionGroup[]>([]);
+  const [types, setTypes] = useState<InspectionType[]>([]);
   const [open, setOpen] = useState(false);
   const [undoDisabled, setUndoDisabled] = useState(true);
   const [additional, setAdditional] = useState(false);
-  const [equipmentId, setEquipmentId] = useState('');
+  const [equipmentIndex, setEquipmentIndex] = useState(0);
+  const [inspectionItemIndex, setInspectionItemIndex] = useState(0);
   const [history, setHistory] = useState<InspectionSheet[]>([]);
 
   useEffect(() => {
     fetch('inspectiongroup')
       .then(res => res.json())
-      .then((json: string[]) => {
+      .then((json: InspectionGroup[]) => {
         setGroups(json);
       })
       .catch(console.error);
     fetch('inspectiontype')
       .then(res => res.json())
-      .then((json: string[]) => {
+      .then((json: InspectionType[]) => {
         setTypes(json);
       })
       .catch(console.error);
@@ -82,9 +86,9 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
    */
   const handleInspectionItem = () => {
     if (additional) {
-      context.addInspectionItem(equipmentId, itemContext.inspectionItem);
+      context.addInspectionItem(equipmentIndex, itemContext.inspectionItem);
     } else {
-      context.updateInspectionItem(equipmentId, itemContext.inspectionItem);
+      context.updateInspectionItem(equipmentIndex, inspectionItemIndex, itemContext.inspectionItem);
     }
     storeHistory();
     setOpen(false);
@@ -93,11 +97,11 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   /**
    * Implements the process for adding inspection item.
    */
-  const handleAddItem = (equipmentId: string) => {
-    setEquipmentId(equipmentId);
+  const handleAddItem = (equipmentId: number) => {
+    setEquipmentIndex(equipmentId);
     setAdditional(true);
     itemContext.setItem({
-      inspection_item_id: Math.random().toString(36).substr(2, 9),
+      inspection_item_id: 0,
       inspection_content: '',
       input_type: 1,
       choices: [],
@@ -108,8 +112,9 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   /**
    * Implements the process for editing inspection item.
    */
-  const handleEditItem = (equipmentId: string, inspectionItem: InspectionItem) => {
-    setEquipmentId(equipmentId);
+  const handleEditItem = (equipmentIndex: number, inspectionItemIndex: number, inspectionItem: InspectionItem) => {
+    setEquipmentIndex(equipmentIndex);
+    setInspectionItemIndex(inspectionItemIndex);
     setAdditional(false);
     itemContext.setItem(inspectionItem);
     setOpen(true);
@@ -160,13 +165,13 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
               label='点検グループ'
               variant='outlined'
               size='small'
-              name='inspection_group'
-              value={context.inspectionSheet.inspection_group}
+              name='inspection_group_id'
+              value={context.inspectionSheet.inspection_group_id}
               onChange={e => context.updateField(e)}
             >
-              {groups.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
+              {groups.map((option: InspectionGroup) => (
+                <MenuItem key={option.inspection_group_id} value={option.inspection_group_id}>
+                  {option.description}
                 </MenuItem >
               ))}
             </TextField>
@@ -179,20 +184,21 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
               label='点検タイプ'
               variant='outlined'
               size='small'
-              name='inspection_type'
-              value={context.inspectionSheet.inspection_type}
+              name='inspection_type_id'
+              value={context.inspectionSheet.inspection_type_id}
               onChange={e => context.updateField(e)}
             >
-              {types.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
+              {types.map((option: InspectionType) => (
+                <MenuItem key={option.inspection_type_id} value={option.inspection_type_id}>
+                  {option.description}
                 </MenuItem >
               ))}
             </TextField>
           </Grid>
-          {context.inspectionSheet.equipments.map((equipment: Equipment) =>
-            <Grid item xs={12} key={equipment.equipment_id}>
+          {context.inspectionSheet.equipments.map((equipment: Equipment, index: number) =>
+            <Grid item xs={12} key={`equipment-${index}`}>
               <EquipmentForm
+                index={index}
                 equipment={equipment}
                 handleAddItem={handleAddItem}
                 handleEditItem={handleEditItem}

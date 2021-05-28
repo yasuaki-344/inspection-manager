@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using AutoMapper;
 using InspectionManager.ApplicationCore.Dto;
+using InspectionManager.ApplicationCore.Entities;
 using InspectionManager.ApplicationCore.Services;
 using Xunit;
 
@@ -16,25 +17,32 @@ namespace InspectionManager.ApplicationCore.Test
     public class AutoMappingTest
     {
         [Fact]
+        public void MapChoiceDtoToStringCorrectly()
+        {
+            var expect = new ChoiceDto { Description = "foo"};
+            var mapper = CreateMapper();
+            var actual = mapper.Map<string>(expect);
+            Assert.Equal(expect.Description, actual);
+        }
+
+        [Fact]
         public void MapToInspectionItemExportDtoCorrectly()
         {
-            var item = new InspectionItemDto
+            var expect = new InspectionItemDto
             {
-                InspectionItemId = "test",
+                InspectionItemId = 1,
                 InspectionContent = "content",
-                InputType = 3,
-                Choices = new List<string>
+                InputTypeId = 3,
+                Choices = new List<ChoiceDto>
                 {
-                    "foo", "var", "hoge"
+                    new ChoiceDto { Description = "foo"},
+                    new ChoiceDto { Description = "var"},
+                    new ChoiceDto { Description = "hoge"}
                 },
             };
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<AutoMapping>();
-            });
-            var mapper = new Mapper(config);
-            var actual = mapper.Map<InspectionItemExportDto>(item);
-            Assert.Equal(0, actual.InspectionItemId);
+            var mapper = CreateMapper();
+            var actual = mapper.Map<InspectionItemExportDto>(expect);
+            Assert.Equal(expect.InspectionItemId, actual.InspectionItemId);
             Assert.Equal("content", actual.InspectionContent);
             Assert.Equal(3, actual.InputMethod);
             Assert.Equal("foo", actual.Choices[0]);
@@ -46,33 +54,30 @@ namespace InspectionManager.ApplicationCore.Test
         [Fact]
         public void MapToEquipmentExportDtoCorrectly()
         {
-            var item = new EquipmentDto
+            var expect = new EquipmentDto
             {
-                EquipmentId = "test",
+                EquipmentId = 10,
                 EquipmentName = "equipment",
                 InspectionItems = new List<InspectionItemDto>
                 {
                     new InspectionItemDto
                     {
-                        InspectionItemId = "test",
+                        InspectionItemId = 11,
                         InspectionContent = "content",
-                        InputType = 2,
-                        Choices = new List<string>
+                        InputTypeId = 2,
+                        Choices = new List<ChoiceDto>
                         {
-                            "foo", "var",
+                            new ChoiceDto { Description = "foo"},
+                            new ChoiceDto { Description = "var"},
                         },
                     }
                 }
             };
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<AutoMapping>();
-            });
-            var mapper = new Mapper(config);
-            var actual = mapper.Map<EquipmentExportDto>(item);
-            Assert.Equal("test", actual.EquipmentId);
-            Assert.Equal("equipment", actual.EquipmentName);
-            Assert.Equal(0, actual.InspectionItems[0].InspectionItemId);
+            var mapper = CreateMapper();
+            var actual = mapper.Map<EquipmentExportDto>(expect);
+            Assert.Equal(expect.EquipmentId.ToString(), actual.EquipmentId);
+            Assert.Equal(expect.EquipmentName, actual.EquipmentName);
+            Assert.Equal(11, actual.InspectionItems[0].InspectionItemId);
             Assert.Equal("content", actual.InspectionItems[0].InspectionContent);
             Assert.Equal(2, actual.InspectionItems[0].InputMethod);
             Assert.Equal("foo", actual.InspectionItems[0].Choices[0]);
@@ -84,45 +89,111 @@ namespace InspectionManager.ApplicationCore.Test
         {
             var item = new InspectionSheetDto
             {
-                SheetId = "sheet id",
+                SheetId = 11,
                 SheetName = "sheet name",
                 InspectionType = "inspection type",
                 InspectionGroup = "inspection group",
                 Equipments = new List<EquipmentDto>(),
             };
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<AutoMapping>();
-            });
-            var mapper = new Mapper(config);
+            var mapper = CreateMapper();
             var actual = mapper.Map<InspectionSheetExportDto>(item);
-            Assert.Equal("sheet id", actual.SheetId);
+            Assert.Equal("11", actual.SheetId);
             Assert.Equal("sheet name", actual.SheetName);
             Assert.Equal("inspection type", actual.InspectionType);
             Assert.Equal("inspection group", actual.InspectionGroup);
         }
 
         [Fact]
-        public void MapToInspectionSheetSummaryDtoCorrectly()
+        public void MapToChoiceTemplateDtoCorrectly()
         {
-            var item = new InspectionSheetDto
+            var item = new ChoiceTemplate
             {
-                SheetId = "sheet id",
-                SheetName = "sheet name",
-                InspectionType = "inspection type",
-                InspectionGroup = "inspection group",
-                Equipments = new List<EquipmentDto>(),
+                ChoiceTemplateId = 10,
+                Choices = new List<Option>
+                {
+                    new Option { OptionId= 1, Description = "option 1" },
+                    new Option { OptionId= 5, Description = "option 2" },
+                }
             };
+            var mapper = CreateMapper();
+            var actual = mapper.Map<ChoiceTemplateDto>(item);
+            Assert.Equal(10, actual.ChoiceTemplateId);
+            Assert.Equal(1, actual.Choices[0].OptionId);
+            Assert.Equal("option 1", actual.Choices[0].Description);
+            Assert.Equal(5, actual.Choices[1].OptionId);
+            Assert.Equal("option 2", actual.Choices[1].Description);
+        }
+
+        [Fact]
+        public void MapToInspectionSheetDtoCorrectly()
+        {
+            var item = new InspectionSheet
+            {
+                SheetId = 1,
+                SheetName = "sheet name",
+                InspectionTypeId = 10,
+                InspectionGroupId = 20,
+            };
+            var mapper = CreateMapper();
+            var actual = mapper.Map<InspectionSheetDto>(item);
+            Assert.Equal(1, actual.SheetId);
+            Assert.Equal("sheet name", actual.SheetName);
+            Assert.Equal(10, actual.InspectionTypeId);
+            Assert.Equal(20, actual.InspectionGroupId);
+        }
+
+        [Fact]
+        public void MapToEquipmentDtoCorrectly()
+        {
+            var expect = new Equipment
+            {
+                EquipmentId = 1,
+                EquipmentName = "equipment name",
+            };
+            var mapper = CreateMapper();
+            var actual = mapper.Map<EquipmentDto>(expect);
+            Assert.Equal(expect.EquipmentId, actual.EquipmentId);
+            Assert.Equal(expect.EquipmentName, actual.EquipmentName);
+        }
+
+        [Fact]
+        public void MapToInspectionItemDtoCorrectly()
+        {
+            var expect = new InspectionItem
+            {
+                InspectionItemId = 11,
+                InspectionContent = "inspection content",
+                InputTypeId = 2,
+            };
+            var mapper = CreateMapper();
+            var actual = mapper.Map<InspectionItemDto>(expect);
+            Assert.Equal(expect.InspectionItemId, actual.InspectionItemId);
+            Assert.Equal(expect.InspectionContent, actual.InspectionContent);
+            Assert.Equal(expect.InputTypeId, actual.InputTypeId);
+        }
+
+        [Fact]
+        public void MapToChoiceDtoCorrectly()
+        {
+            var expect = new Choice
+            {
+                ChoiceId = 3,
+                Description = "choice"
+            };
+            var mapper = CreateMapper();
+            var actual = mapper.Map<ChoiceDto>(expect);
+            Assert.Equal(expect.ChoiceId, actual.ChoiceId);
+            Assert.Equal(expect.Description, actual.Description);
+        }
+
+        private Mapper CreateMapper()
+        {
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<AutoMapping>();
             });
             var mapper = new Mapper(config);
-            var actual = mapper.Map<InspectionSheetSummaryDto>(item);
-            Assert.Equal("sheet id", actual.SheetId);
-            Assert.Equal("sheet name", actual.SheetName);
-            Assert.Equal("inspection type", actual.InspectionType);
-            Assert.Equal("inspection group", actual.InspectionGroup);
+            return mapper;
         }
     }
 }

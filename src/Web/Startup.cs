@@ -41,14 +41,12 @@ namespace InspectionManager.Web
             {
                 cfg.AddProfile<AutoMapping>();
             });
-            services.AddDbContext<InspectionContext>(options => options.UseSqlite(
-                Configuration.GetConnectionString("InspectionContext")
+            services.AddDbContext<InspectionContext>(options => options
+                .UseSqlite(Configuration.GetConnectionString("InspectionContext")
             ));
 
-            services.AddSingleton<IInspectionSheetRepository, InspectionSheetFileRepository>();
-            // services.AddSingleton<ICategoryRepository, CategoryFileRepository>();
-            services.AddScoped<ICategoryRepository, CategorySqliteRepository>();
-
+            services.AddScoped<IInspectionSheetRepository, InspectionSheetRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IInspectionSheetService, InspectionSheetService>();
             services.AddScoped<IExcelDownloadService, ExcelDownloadService>();
 

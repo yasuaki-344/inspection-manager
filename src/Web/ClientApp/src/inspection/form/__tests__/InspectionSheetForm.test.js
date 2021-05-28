@@ -37,13 +37,13 @@ it('renders without crashing', async () => {
       setSheet: (sheet) => { },
       updateField: (event) => { },
       addEquipment: () => { },
-      removeEquipment: (id) => { },
-      updateEquipment: (event, id) => { },
-      swapEquipment: (srcId, dstId) => { },
-      addInspectionItem: (id, item) => { },
-      removeInspectionItem: (id, itemId) => { },
+      removeEquipment: (index) => { },
+      updateEquipment: (event, index) => { },
+      swapEquipment: (srcIndex, dstIndex) => { },
+      addInspectionItem: (index, item) => { },
+      removeInspectionItem: (equipmentIndex, itemIndex) => { },
       updateInspectionItem: (id, item) => { },
-      swapInspectionItem: (equipmentId, srcId, dstId) => { },
+      swapInspectionItem: (equipmentIndex, srcIndex, dstIndex) => { },
     }} >
       <InspectionItemContext.Provider value={{
         inspectionItem: {

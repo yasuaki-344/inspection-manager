@@ -12,15 +12,15 @@ namespace InspectionManager.ApplicationCore.Dto
     public class InspectionItemDto
     {
         [JsonPropertyName("inspection_item_id")]
-        public string InspectionItemId { get; set; } = string.Empty;
+        public int InspectionItemId { get; set; }
 
         [JsonPropertyName("inspection_content")]
         public string InspectionContent { get; set; } = string.Empty;
 
         [JsonPropertyName("input_type")]
-        public int InputType { get; set; }
+        public int InputTypeId { get; set; }
 
         [JsonPropertyName("choices")]
-        public List<string> Choices { get; set; } = new List<string>();
+        public List<ChoiceDto> Choices { get; set; } = new List<ChoiceDto>();
     }
 }

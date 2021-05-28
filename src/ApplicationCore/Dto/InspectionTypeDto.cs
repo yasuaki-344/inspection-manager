@@ -4,14 +4,16 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 //
-using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
-namespace InspectionManager.ApplicationCore.Entities
+namespace InspectionManager.ApplicationCore.Dto
 {
-    public class InspectionType
+    public class InspectionTypeDto
     {
+        [JsonPropertyName("inspection_type_id")]
         public int InspectionTypeId { get; set; }
+
+        [JsonPropertyName("description")]
         public string Description { get; set; } = string.Empty;
-        public ICollection<InspectionSheet> InspectionSheets { get; set; } = new List<InspectionSheet>();
     }
 }

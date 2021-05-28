@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { InspectionItem, InspectionItemContextType } from '../Types';
+import { ChoiceTemplate, InspectionItem, InspectionItemContextType } from '../Types';
 import InspectionItemReducer, {
   setItemAction, updateFieldAction, setChoiceAction,
   addChoiceAction, removeChoiceAction, updateChoiceAction
@@ -10,7 +10,7 @@ import InspectionItemReducer, {
  */
 export const initialState = () => {
   return {
-    inspection_item_id: Math.random().toString(36).substr(2, 9),
+    inspection_item_id: 0,
     inspection_content: '',
     input_type: 0,
     choices: [],
@@ -24,7 +24,7 @@ export const InspectionItemOperator = (): InspectionItemContextType => {
     setItem: (item: InspectionItem): void => dispatch(setItemAction(item)),
     updateField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void =>
       dispatch(updateFieldAction(event)),
-    setChoices: (choices: string[]): void =>
+    setChoices: (choices: ChoiceTemplate): void =>
       dispatch(setChoiceAction(choices)),
     addChoice: (): void => dispatch(addChoiceAction()),
     removeChoice: (index: number): void =>
@@ -47,11 +47,12 @@ export const isValidInspectionItem = (item: InspectionItem): boolean => {
     return false;
   }
 
-  if (item.input_type === 2) {
+  if (item.input_type === 3) {
     if (!item.choices.length) {
       return false;
     } else {
-      return !item.choices.includes('');
+      const descriptions = item.choices.map(x => x.description);
+      return !descriptions.includes('');
     }
   }
 

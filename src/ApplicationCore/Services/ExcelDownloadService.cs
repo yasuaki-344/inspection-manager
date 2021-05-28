@@ -33,10 +33,10 @@ namespace InspectionManager.ApplicationCore.Interfaces
         }
 
         /// <inheritdoc/>
-        public bool InspectionSheetExists(string id) => _repository.InspectionSheetExists(id);
+        public bool InspectionSheetExists(int id) => _repository.InspectionSheetExists(id);
 
         /// <inheritdoc/>
-        public IWorkbook CreateXlsx(string id)
+        public IWorkbook CreateXlsx(int id)
         {
             var dto = _repository.GetInspectionSheet(id);
             if (dto != null)
@@ -71,7 +71,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
                     {
                         var lastIndex = equipment.InspectionItems.Count - 1;
                         WriteCell(sheet, rowIndex, 1, item.InspectionContent);
-                        switch (item.InputType)
+                        switch (item.InputTypeId)
                         {
                             case 0:
                                 WriteCell(sheet, rowIndex, 2, "テキスト入力");

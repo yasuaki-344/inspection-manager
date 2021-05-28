@@ -9,29 +9,22 @@ import {
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
-
-type ChoiceTemplate = {
-  choice_template_id: string,
-  choices: string[],
-};
-
-const InitialChoiceTemplate = {
-  choice_template_id: '',
-  choices: []
-};
+import { ChoiceTemplate, Option } from '../inspection/Types';
 
 export const ChoicesTemplate: FC = (): JSX.Element => {
   const [open, setOpen] = useState(false);
-  const [disabled, setDisabled] = useState(false);
-  const [target, setTarget] = useState<ChoiceTemplate>(InitialChoiceTemplate);
   const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
+  const [disabled, setDisabled] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [target, setTarget] = useState<ChoiceTemplate>({
+    choice_template_id: 0,
+    choices: []
+  });
 
   useEffect(() => {
     fetch('choicetemplate')
       .then(res => res.json())
-      .then((json: ChoiceTemplate[]) => {
-        setTemplates(json);
-      })
+      .then((json: ChoiceTemplate[]) => setTemplates(json))
       .catch(console.error);
   }, []);
 
@@ -39,36 +32,20 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
     if (!target.choices.length) {
       setDisabled(true);
     } else {
-      setDisabled(target.choices.includes(''));
+      const index = target.choices.findIndex(x => x.description === '');
+      setDisabled(index !== -1);
     }
   }, [target]);
 
   /**
-   * Add new template set.
-   */
-  const handleAddTemplate = () => {
-    if (templates.some((x: ChoiceTemplate) => x.choice_template_id === target.choice_template_id)) {
-      setTemplates(templates.map((e: ChoiceTemplate) => {
-        if (e.choice_template_id === target.choice_template_id) {
-          return target;
-        } else {
-          return e;
-        }
-      }));
-    } else {
-      setTemplates(templates.concat(target));
-    }
-    setOpen(false);
-  };
-
-  /**
    * Creates new template set.
    */
-  const handleCreateTemplate = () => {
+  const handleAddTemplate = () => {
     setTarget({
-      choice_template_id: Math.random().toString(36).substr(2, 9),
+      choice_template_id: 0,
       choices: [],
     });
+    setIsUpdate(false);
     setOpen(true);
   };
 
@@ -76,49 +53,80 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    * Edit the specified template.
    * @param id The template ID to be edited.
    */
-  const handleEditTemplate = (id: string) => {
+  const handleUpdateTemplate = (id: number) => {
     const template = templates.find((x: ChoiceTemplate) => x.choice_template_id === id);
     if (template != null) {
       setTarget(template);
+      setIsUpdate(true);
       setOpen(true);
     }
+  };
+
+  /**
+   * Add new template set.
+   */
+  const handleRegistration = () => {
+    if (isUpdate) {
+      fetch(`choicetemplate/${target.choice_template_id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(target)
+      })
+        .then((res) => {
+          if (!res.ok) {
+            alert('登録に失敗しました')
+          }
+          return res.json();
+        })
+        .then((json: ChoiceTemplate) => {
+          setTemplates(templates.map(x => {
+            if (x.choice_template_id === json.choice_template_id) {
+              return json;
+            } else {
+              return x;
+            }
+          }));
+        })
+        .catch(console.error);
+    } else {
+      fetch('choicetemplate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(target)
+      })
+        .then((res) => {
+          if (!res.ok) {
+            alert('登録に失敗しました')
+          }
+          return res.json();
+        })
+        .then((json: ChoiceTemplate) => {
+          setTemplates(templates.concat(json));
+        })
+        .catch(console.error);
+    }
+    setOpen(false);
   };
 
   /**
    * Removes the specified template.
    * @param id The template ID to be removed.
    */
-  const handleDeleteTemplate = (id: string) => {
-    setTemplates(
-      templates.filter((x: ChoiceTemplate) => x.choice_template_id !== id)
-    )
-  };
-
-  /**
-   * Implement the process to submit choice templates
-   */
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    fetch('choicetemplate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(templates)
+  const handleDeleteTemplate = (id: number) => {
+    fetch(`choicetemplate/${id}`, {
+      method: 'DELETE',
     })
-      .then((res) => {
-        if (res.ok) {
-          alert('登録に成功しました');
-        } else {
-          alert('登録に失敗しました')
-        }
-        return res.json();
-      })
-      .then((json: ChoiceTemplate[]) => {
-        setTemplates(json);
+      .then((res) => res.json())
+      .then((json: ChoiceTemplate) => {
+        setTemplates(templates.filter((x: ChoiceTemplate) =>
+          x.choice_template_id !== json.choice_template_id));
       })
       .catch(console.error);
-  }
+  };
 
   return (
     <>
@@ -127,55 +135,50 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
           <h1>選択肢テンプレート</h1>
         </Grid>
         <Grid item xs={12}>
-          <form data-testid='form' onSubmit={handleSubmit}>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                <TableContainer component={Paper}>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell />
-                        <TableCell>選択肢</TableCell>
-                        <TableCell />
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>選択肢</TableCell>
+                      <TableCell>&nbsp;</TableCell>
+                      <TableCell>&nbsp;</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {templates.map((template: ChoiceTemplate, index: number) =>
+                      <TableRow key={template.choice_template_id}>
+                        <TableCell>
+                          {template.choices.map(x => x.description).join(',')}
+                        </TableCell>
+                        <TableCell padding='checkbox'>
+                          <IconButton
+                            data-testid={`edit-template-button-${index}`}
+                            size='small'
+                            color='primary'
+                            onClick={() => handleUpdateTemplate(template.choice_template_id)}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </TableCell>
+                        <TableCell padding='checkbox'>
+                          <IconButton
+                            data-testid={`remove-template-button-${index}`}
+                            size='small'
+                            color='secondary'
+                            onClick={() => handleDeleteTemplate(template.choice_template_id)}
+                          >
+                            <CancelIcon />
+                          </IconButton>
+                        </TableCell>
                       </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {templates.map((template: ChoiceTemplate, index: number) =>
-                        <TableRow key={template.choice_template_id}>
-                          <TableCell>
-                            <IconButton
-                              data-testid={`edit-template-button-${index}`}
-                              size='small'
-                              onClick={() => handleEditTemplate(template.choice_template_id)}
-                            >
-                              <EditIcon />
-                            </IconButton>
-                          </TableCell>
-                          <TableCell>{template.choices.join(',')}</TableCell>
-                          <TableCell align='right'>
-                            <IconButton
-                              data-testid={`remove-template-button-${index}`}
-                              size='small'
-                              onClick={() => handleDeleteTemplate(template.choice_template_id)}
-                            >
-                              <CancelIcon />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  type='submit'
-                  variant='contained'
-                  color='primary'
-                >テンプレート登録</Button>
-              </Grid>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </Grid>
-          </form>
+          </Grid>
         </Grid>
         <Grid item xs={12}>
           <BottomNavigation showLabels>
@@ -183,7 +186,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
               data-testid='add-template-button'
               label='テンプレート追加'
               icon={<AddCircleIcon />}
-              onClick={handleCreateTemplate}
+              onClick={handleAddTemplate}
             />
           </BottomNavigation>
         </Grid>
@@ -192,8 +195,8 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
         <DialogTitle>選択肢テンプレート編集</DialogTitle>
         <DialogContent>
           <Grid container spacing={1}>
-            {target.choices.map((choice: string, index: number) =>
-              <Grid item xs={12} key={`choice_${index}`}>
+            {target.choices.map((choice: Option, index: number) =>
+              <Grid item xs={12} key={choice.option_id}>
                 <TextField
                   required
                   id='outlined-required'
@@ -201,11 +204,14 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                   variant='outlined'
                   size='small'
                   name='choice'
-                  value={choice}
+                  value={choice.description}
                   onChange={(e) => setTarget({
                     ...target,
-                    'choices': target.choices.map((value: string, i: number) => {
-                      return i !== index ? value : e.target.value;
+                    'choices': target.choices.map((value: Option, i: number) => {
+                      return i !== index ? value : {
+                        option_id: value.option_id,
+                        description: e.target.value
+                      };
                     }),
                   })}
                 />
@@ -214,7 +220,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                   onClick={() => setTarget({
                     ...target,
                     'choices': target.choices.filter(
-                      (value: string, i: number) => i !== index
+                      (value: Option, i: number) => i !== index
                     ),
                   })}
                 >
@@ -230,7 +236,10 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                   icon={<AddCircleIcon />}
                   onClick={() => setTarget({
                     ...target,
-                    'choices': target.choices.concat(''),
+                    'choices': target.choices.concat({
+                      option_id: 0,
+                      description: ''
+                    }),
                   })}
                 />
               </BottomNavigation>
@@ -242,7 +251,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
             variant='contained'
             color='primary'
             disabled={disabled}
-            onClick={() => handleAddTemplate()}
+            onClick={() => handleRegistration()}
           >OK</Button>
           <Button
             variant='contained'

@@ -22,8 +22,8 @@ it('renders without crashing', async () => {
     <InspectionItemForm
       equipment_id={equipmentId}
       inspectionItems={inspectionItems}
-      editInspectionItem={(equipmentId, inspectionItem) => { }}
-      addInspectionItem={(equipmentId) => { }}
+      editInspectionItem={(equipmentIndex, inspectionItem) => { }}
+      addInspectionItem={(equipmentIndex) => { }}
     />
   );
 });

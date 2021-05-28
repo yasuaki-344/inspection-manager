@@ -1,0 +1,79 @@
+@startuml entity-relationship-diagram
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity "ChoiceTemplate" as template {
+  *choice_template_id : number <<generated>>
+  --
+}
+
+entity "Option" as option {
+  *option_id : number <<generated>>
+  --
+  *description : text
+  *choice_template_id : number <<FK>>
+}
+
+entity "InspectionType" as type {
+  *inspection_type_id : number <<generated>>
+  --
+  *description : text
+}
+
+entity "InspectionGroup" as group {
+  *inspection_group_id : number <<generated>>
+  --
+  *description : text
+}
+
+entity "InspectionSheet" as sheet {
+  *sheet_id : number <<generated>>
+  --
+  *sheet_name : text
+  *inspection_type_id : number <<FK>>
+  *inspection_group_id : number <<FK>>
+}
+entity "Equipment" as equipment {
+  *equipment_id : number <<generated>>
+  --
+  *order_index: number
+  *equipment_name : text
+  *sheet_id : number <<FK>>
+}
+
+entity "InspectionItem" as item {
+  *inspection_item_id: number <<generated>>
+  --
+  *order_index: number
+  *inspection_content : text
+  *input_type_id : number <<FK>>
+  *equipment_id : number <<FK>>
+}
+
+entity "InputType" as input_type {
+  *input_type_id : number <<generated>>
+  --
+  *description : text
+}
+
+entity "Choice" as choice {
+  *choice_id : number <<generated>>
+  --
+  *order_index: number
+  *description : text
+  *inspection_item_id : number <<FK>>
+}
+
+' relation
+template ||..|{ option
+sheet ||..|{ equipment
+sheet }o..|| type
+sheet }o..|| group
+equipment ||..|{ item
+item ||..o{ choice
+item }o..|| input_type
+
+@enduml

@@ -48,8 +48,8 @@ namespace InspectionManager.Web.Controllers
             _logger = logger;
         }
 
-        [HttpGet("{id:guid}")]
-        public IActionResult ExportJson(string id)
+        [HttpGet("{id:int}")]
+        public IActionResult ExportJson(int id)
         {
             try
             {

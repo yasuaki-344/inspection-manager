@@ -15,9 +15,9 @@ namespace InspectionManager.ApplicationCore.Dto
     public class ChoiceTemplateDto
     {
         [JsonPropertyName("choice_template_id")]
-        public string ChoiceTemplateId { get; set; } = string.Empty;
+        public int ChoiceTemplateId { get; set; }
 
         [JsonPropertyName("choices")]
-        public List<string> Choices { get; set; } = new List<string>();
+        public List<OptionDto> Choices { get; set; } = new List<OptionDto>();
     }
 }

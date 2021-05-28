@@ -31,17 +31,19 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface DragItem {
-  id: string,
+  index: number,
 };
 
 interface EquipmentFormProps {
+  index: number,
   equipment: Equipment,
-  handleAddItem: (equipmentId: string) => void,
-  handleEditItem: (equipmentId: string, inspectionItem: InspectionItem) => void,
+  handleAddItem: (equipmentIndex: number) => void,
+  handleEditItem: (equipmentIndex: number, inspectionItemIndex: number, inspectionItem: InspectionItem) => void,
   storeHistory: () => void,
 };
 
 export const EquipmentForm: FC<EquipmentFormProps> = ({
+  index,
   equipment,
   handleAddItem,
   handleEditItem,
@@ -55,15 +57,15 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
   const [, drop] = useDrop({
     accept: ItemType.EQUIPMENT,
     drop(item: DragItem) {
-      if (!dropRef.current || item.id === equipment.equipment_id) {
+      if (!dropRef.current || item.index === index) {
         return;
       }
-      context.swapEquipment(equipment.equipment_id, item.id);
+      context.swapEquipment(index, item.index);
     }
   })
   const [, drag, preview] = useDrag({
     type: ItemType.EQUIPMENT,
-    item: { id: equipment.equipment_id },
+    item: { index: index },
   })
   preview(drop(dropRef));
   drag(dragRef);
@@ -84,7 +86,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
             data-testid='remove-equipment-button'
             size='small'
             color='inherit'
-            onClick={() => context.removeEquipment(equipment.equipment_id)}
+            onClick={() => context.removeEquipment(index)}
           >
             <CancelIcon />
           </IconButton>
@@ -99,12 +101,12 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
                 size='small'
                 name='equipment_name'
                 value={equipment.equipment_name}
-                onChange={e => context.updateEquipment(e, equipment.equipment_id)}
+                onChange={e => context.updateEquipment(e, index)}
               />
             </Grid>
             <Grid item xs={12}>
               <InspectionItemForm
-                equipmentId={equipment.equipment_id}
+                equipmentIndex={index}
                 inspectionItems={equipment.inspection_items}
                 editInspectionItem={handleEditItem}
                 addInspectionItem={handleAddItem}

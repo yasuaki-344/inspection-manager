@@ -6,10 +6,7 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -40,7 +37,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult<string[]> GetAllTypes()
+        public ActionResult<InspectionTypeDto> GetAllTypes()
         {
             try
             {
@@ -56,20 +53,46 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult<string[]> CreateTypes(string[]? types)
+        [HttpGet("{id:int}")]
+        public ActionResult<InspectionTypeDto> GetInspectionType(int id)
         {
             try
             {
-                _logger.LogInformation("try to create inspection types");
-                if (types == null)
+                _logger.LogInformation($"try to get inspection type {id}");
+
+                var result = _repository.GetInspectionType(id);
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<InspectionTypeDto>> CreateType(InspectionTypeDto? dto)
+        {
+            try
+            {
+                _logger.LogInformation("try to create inspection type");
+                if (dto == null)
                 {
                     return BadRequest();
                 }
                 else
                 {
-                    var result = _repository.CreateInspectionTypes(types);
-                    return CreatedAtAction(nameof(GetAllTypes), result);
+                    var result = await _repository.CreateInspectionTypeAsync(dto);
+                    return CreatedAtAction(nameof(GetInspectionType),
+                    new { id = result.InspectionTypeId }, result);
                 }
             }
             catch (Exception ex)
@@ -78,6 +101,46 @@ namespace InspectionManager.Web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Error creating new inspection types"
                 );
+            }
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<InspectionTypeDto>> UpdateInspectionType(InspectionTypeDto dto)
+        {
+            try
+            {
+                _logger.LogInformation($"try to update inspection type {dto.InspectionTypeId}");
+                if (!_repository.InspectionTypeExists(dto.InspectionTypeId))
+                {
+                    return NotFound($"Type with Id = {dto.InspectionTypeId} not found");
+                }
+                return await _repository.UpdateInspectionTypeAsync(dto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error updating data");
+            }
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<InspectionTypeDto>> DeleteInspectionTypeAsync(int id)
+        {
+            try
+            {
+                _logger.LogInformation($"try to delete inspection type {id}");
+                if (!_repository.InspectionTypeExists(id))
+                {
+                    return NotFound($"type with Id = {id} not found");
+                }
+                return await _repository.DeleteInspectionTypeAsync(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error deleting data");
             }
         }
     }

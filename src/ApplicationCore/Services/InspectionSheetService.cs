@@ -6,6 +6,7 @@
 //
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
@@ -37,32 +38,30 @@ namespace InspectionManager.ApplicationCore.Services
         }
 
         /// <inheritdoc/>
-        public bool InspectionSheetExists(string id) =>
+        public bool InspectionSheetExists(int id) =>
             _repository.InspectionSheetExists(id);
 
         /// <inheritdoc/>
-        public IEnumerable<InspectionSheetSummaryDto> GetAllInspectionSheets() =>
-            _mapper.Map<IEnumerable<InspectionSheetSummaryDto>>(
-                _repository.GetAllInspectionSheets()
-            )
-            .OrderBy(x => x.SheetName)
-            .ThenBy(x => x.InspectionGroup)
-            .ThenBy(x => x.InspectionType);
+        public IEnumerable<InspectionSheetDto> GetAllInspectionSheets() =>
+            _repository.GetAllInspectionSheets()
+                .OrderBy(x => x.SheetName)
+                .ThenBy(x => x.InspectionGroupId)
+                .ThenBy(x => x.InspectionTypeId);
 
         /// <inheritdoc/>
-        public InspectionSheetDto? GetInspectionSheet(string id) =>
+        public InspectionSheetDto? GetInspectionSheet(int id) =>
             _repository.GetInspectionSheet(id);
 
         /// <inheritdoc/>
-        public InspectionSheetDto CreateInspectionSheet(InspectionSheetDto dto) =>
-            _repository.CreateInspectionSheet(dto);
+        public async Task<InspectionSheetDto> CreateInspectionSheetAsync(InspectionSheetDto dto) =>
+            await _repository.CreateInspectionSheetAsync(dto);
 
         /// <inheritdoc/>
-        public InspectionSheetDto UpdateInspectionSheet(InspectionSheetDto dto) =>
-            _repository.UpdateInspectionSheet(dto);
+        public async Task<InspectionSheetDto> UpdateInspectionSheetAsync(InspectionSheetDto dto) =>
+            await _repository.UpdateInspectionSheetAsync(dto);
 
         /// <inheritdoc/>
-        public InspectionSheetDto DeleteInspectionSheet(string id) =>
-            _repository.DeleteInspectionSheet(id);
+        public async Task<InspectionSheetDto> DeleteInspectionSheetAsync(int id) =>
+            await _repository.DeleteInspectionSheetAsync(id);
     }
 }

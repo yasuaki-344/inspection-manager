@@ -3,6 +3,7 @@ import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle,
   Radio, RadioGroup, FormControl, FormControlLabel,
 } from '@material-ui/core';
+import { ChoiceTemplate }from '../Types';
 import { InspectionItemContext } from '../context/InspectionItemContext';
 
 interface ChoiceSetSelectDialogProps {
@@ -13,7 +14,7 @@ interface ChoiceSetSelectDialogProps {
 export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({open, handleClose}): JSX.Element => {
   const context = useContext(InspectionItemContext);
   const [value, setValue] = useState(0);
-  const [templates, setTemplates] = useState<any>([]);
+  const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
 
   useEffect(() => {
     fetch('choicetemplate')
@@ -29,7 +30,7 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({open, han
   };
 
   const handleSelectTemplate = () => {
-    context.setChoices(templates[value].choices);
+    context.setChoices(templates[value]);
     handleClose();
   };
 
@@ -39,12 +40,12 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({open, han
       <DialogContent>
         <FormControl component="fieldset">
           <RadioGroup value={value} onChange={handleChange}>
-            {templates.map((template: any, index: number) => (
+            {templates.map((template: ChoiceTemplate, index: number) => (
               <FormControlLabel
                 key={`label-${index}`}
                 value={index}
                 control={<Radio data-testid={`radio-${index}`}/>}
-                label={template.choices.join(',')} />
+                label={template.choices.map(x => x.description).join(',')} />
             ))}
           </RadioGroup>
         </FormControl>
