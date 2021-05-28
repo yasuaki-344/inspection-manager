@@ -206,6 +206,21 @@ namespace InspectionManager.Infrastructure
                     }
                 }
 
+                if (_context.Choices != null)
+                {
+                    foreach (var equipment in entity.Equipments)
+                    {
+                        foreach (var inspectionItem in equipment.InspectionItems)
+                        {
+                            var choiceIds = inspectionItem.Choices.Select(x => x.ChoiceId);
+                            var choices = _context.Choices
+                                .Where(x => x.ChoiceId == inspectionItem.InspectionItemId)
+                                .Where(x => !choiceIds.Contains(x.ChoiceId));
+                            _context.Choices.RemoveRange(choices);
+                        }
+                    }
+                }
+
                 _context.InspectionSheets.Update(entity);
                 await _context.SaveChangesAsync();
 
