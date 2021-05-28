@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { InspectionItem, InspectionItemContextType } from '../Types';
+import { ChoiceTemplate, InspectionItem, InspectionItemContextType } from '../Types';
 import InspectionItemReducer, {
   setItemAction, updateFieldAction, setChoiceAction,
   addChoiceAction, removeChoiceAction, updateChoiceAction
@@ -24,7 +24,7 @@ export const InspectionItemOperator = (): InspectionItemContextType => {
     setItem: (item: InspectionItem): void => dispatch(setItemAction(item)),
     updateField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void =>
       dispatch(updateFieldAction(event)),
-    setChoices: (choices: string[]): void =>
+    setChoices: (choices: ChoiceTemplate): void =>
       dispatch(setChoiceAction(choices)),
     addChoice: (): void => dispatch(addChoiceAction()),
     removeChoice: (index: number): void =>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { InspectionItem, InspectionItemAction } from '../Types';
+import { ChoiceTemplate, InspectionItem, InspectionItemAction } from '../Types';
 
 export const TYPES = {
   SET_ITEM: 'SET_ITEM',
@@ -15,27 +15,40 @@ export default function InspectionItemReducer(state: InspectionItem, action: Ins
     case TYPES.SET_ITEM:
       return action.payload?.item;
     case TYPES.UPDATE_FIELD:
-      if (action.payload?.name != null) {
-        if (action.payload.name === 'input_type' && action.payload.value !== '2') {
-          return {
-            ...state,
-            [action.payload.name]: action.payload.value,
-            choices: [],
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.name != null && payload.value != null) {
+          if (payload.name === 'input_type' && payload.value !== '2') {
+            return {
+              ...state,
+              [payload.name]: payload.value,
+              choices: [],
+            }
+          } else {
+            return {
+              ...state,
+              [payload.name]: payload.value,
+            };
           }
-        } else {
+        }
+      }
+      return state;
+    case TYPES.SET_CHOICE:
+      if (action.payload != null) {
+        const payload = action.payload;
+        if (payload.choices != null){
           return {
             ...state,
-            [action.payload.name]: action.payload.value,
-          };
+            choices: payload.choices.choices.map(x => {
+              return {
+                choice_id: 0,
+                description: x.description
+              }
+            })
+          }
         }
-      } else {
-        return state;
       }
-    case TYPES.SET_CHOICE:
-      return {
-        ...state,
-        choices: action.payload?.choices
-      };
+      return state;
     case TYPES.ADD_CHOICE:
       return {
         ...state,
@@ -87,7 +100,7 @@ export const updateFieldAction = (e: React.ChangeEvent<HTMLInputElement | HTMLTe
   }
 };
 
-export const setChoiceAction = (value: string[]): InspectionItemAction => {
+export const setChoiceAction = (value: ChoiceTemplate): InspectionItemAction => {
   return {
     type: TYPES.SET_CHOICE,
     payload: {

@@ -70,7 +70,7 @@ export type InspectionItemAction = {
     name?: string;
     value?: string;
     choice_index?: number;
-    choices?: string[];
+    choices?: ChoiceTemplate;
     item?: InspectionItem;
   };
 };
@@ -92,7 +92,7 @@ export interface InspectionItemContextType {
   inspectionItem: InspectionItem;
   setItem: (item: InspectionItem) => void;
   updateField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  setChoices: (choices: string[]) => void;
+  setChoices: (choices: ChoiceTemplate) => void;
   addChoice: () => void;
   removeChoice: (index: number) => void;
   updateChoice: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => void;
