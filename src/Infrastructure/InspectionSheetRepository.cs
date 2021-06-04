@@ -67,6 +67,16 @@ namespace InspectionManager.Infrastructure
             if (_context.InspectionSheets != null)
             {
                 var entity = _context.InspectionSheets.Single(x => x.SheetId == id);
+                if (_context.InspectionGroups != null)
+                {
+                    entity.InspectionGroup = _context.InspectionGroups
+                        .Single(x => x.InspectionGroupId == entity.InspectionGroupId);
+                }
+                if (_context.InspectionTypes != null)
+                {
+                    entity.InspectionType = _context.InspectionTypes
+                        .Single(x => x.InspectionTypeId == entity.InspectionTypeId);
+                }
                 if (_context.Equipments != null)
                 {
                     entity.Equipments = _context.Equipments

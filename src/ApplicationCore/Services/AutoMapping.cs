@@ -20,7 +20,7 @@ namespace InspectionManager.ApplicationCore.Services
             CreateMap<ChoiceDto, string>()
                 .ConvertUsing(src => src.Description);
             CreateMap<InspectionItemDto, InspectionItemExportDto>()
-                .ForMember(dst => dst.InputMethod, opt => opt.MapFrom(src => src.InputTypeId));
+                .ForMember(dst => dst.InputMethod, opt => opt.MapFrom(src => src.InputTypeId - 1));
 
             CreateMap<EquipmentDto, EquipmentExportDto>();
 
@@ -35,7 +35,9 @@ namespace InspectionManager.ApplicationCore.Services
             CreateMap<ChoiceTemplate, ChoiceTemplateDto>();
             CreateMap<ChoiceTemplateDto, ChoiceTemplate>();
 
-            CreateMap<InspectionSheet, InspectionSheetDto>();
+            CreateMap<InspectionSheet, InspectionSheetDto>()
+                .ForMember(dst => dst.InspectionGroup, opt => opt.MapFrom(src => src.InspectionGroup.Description))
+                .ForMember(dst => dst.InspectionType, opt => opt.MapFrom(src => src.InspectionType.Description));
             CreateMap<InspectionSheetDto, InspectionSheet>()
                 .ForMember(dst => dst.InspectionGroup, opt => opt.Ignore())
                 .ForMember(dst => dst.InspectionType, opt => opt.Ignore());
