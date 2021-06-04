@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.

@@ -19,7 +19,7 @@ namespace InspectionManager.ApplicationCore.Test
         [Fact]
         public void MapChoiceDtoToStringCorrectly()
         {
-            var expect = new ChoiceDto { Description = "foo"};
+            var expect = new ChoiceDto { Description = "foo" };
             var mapper = CreateMapper();
             var actual = mapper.Map<string>(expect);
             Assert.Equal(expect.Description, actual);
@@ -43,11 +43,11 @@ namespace InspectionManager.ApplicationCore.Test
             var mapper = CreateMapper();
             var actual = mapper.Map<InspectionItemExportDto>(expect);
             Assert.Equal(expect.InspectionItemId, actual.InspectionItemId);
-            Assert.Equal("content", actual.InspectionContent);
-            Assert.Equal(3, actual.InputMethod);
-            Assert.Equal("foo", actual.Choices[0]);
-            Assert.Equal("var", actual.Choices[1]);
-            Assert.Equal("hoge", actual.Choices[2]);
+            Assert.Equal(expect.InspectionContent, actual.InspectionContent);
+            Assert.Equal(expect.InputTypeId - 1, actual.InputMethod);
+            Assert.Equal(expect.Choices[0].Description, actual.Choices[0]);
+            Assert.Equal(expect.Choices[1].Description, actual.Choices[1]);
+            Assert.Equal(expect.Choices[2].Description, actual.Choices[2]);
             Assert.Empty(actual.Transitions);
         }
 
@@ -58,36 +58,17 @@ namespace InspectionManager.ApplicationCore.Test
             {
                 EquipmentId = 10,
                 EquipmentName = "equipment",
-                InspectionItems = new List<InspectionItemDto>
-                {
-                    new InspectionItemDto
-                    {
-                        InspectionItemId = 11,
-                        InspectionContent = "content",
-                        InputTypeId = 2,
-                        Choices = new List<ChoiceDto>
-                        {
-                            new ChoiceDto { Description = "foo"},
-                            new ChoiceDto { Description = "var"},
-                        },
-                    }
-                }
             };
             var mapper = CreateMapper();
             var actual = mapper.Map<EquipmentExportDto>(expect);
             Assert.Equal(expect.EquipmentId.ToString(), actual.EquipmentId);
             Assert.Equal(expect.EquipmentName, actual.EquipmentName);
-            Assert.Equal(11, actual.InspectionItems[0].InspectionItemId);
-            Assert.Equal("content", actual.InspectionItems[0].InspectionContent);
-            Assert.Equal(2, actual.InspectionItems[0].InputMethod);
-            Assert.Equal("foo", actual.InspectionItems[0].Choices[0]);
-            Assert.Equal("var", actual.InspectionItems[0].Choices[1]);
         }
 
         [Fact]
         public void MapToInspectionSheetExportDtoCorrectly()
         {
-            var item = new InspectionSheetDto
+            var expect = new InspectionSheetDto
             {
                 SheetId = 11,
                 SheetName = "sheet name",
@@ -96,11 +77,11 @@ namespace InspectionManager.ApplicationCore.Test
                 Equipments = new List<EquipmentDto>(),
             };
             var mapper = CreateMapper();
-            var actual = mapper.Map<InspectionSheetExportDto>(item);
-            Assert.Equal("11", actual.SheetId);
-            Assert.Equal("sheet name", actual.SheetName);
-            Assert.Equal("inspection type", actual.InspectionType);
-            Assert.Equal("inspection group", actual.InspectionGroup);
+            var actual = mapper.Map<InspectionSheetExportDto>(expect);
+            Assert.Equal(expect.SheetId.ToString(), actual.SheetId);
+            Assert.Equal(expect.SheetName, actual.SheetName);
+            Assert.Equal(expect.InspectionType, actual.InspectionType);
+            Assert.Equal(expect.InspectionGroup, actual.InspectionGroup);
         }
 
         [Fact]

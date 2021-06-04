@@ -73,17 +73,19 @@ namespace InspectionManager.ApplicationCore.Interfaces
                         WriteCell(sheet, rowIndex, 1, item.InspectionContent);
                         switch (item.InputTypeId)
                         {
-                            case 0:
+                            case 1:
                                 WriteCell(sheet, rowIndex, 2, "テキスト入力");
                                 break;
-                            case 1:
+                            case 2:
                                 WriteCell(sheet, rowIndex, 2, "数値入力");
                                 break;
-                            case 2:
+                            case 3:
                                 WriteCell(sheet, rowIndex, 2, "項目選択");
-                                WriteCell(sheet, rowIndex, 3, string.Join("・", item.Choices));
+                                WriteCell(sheet, rowIndex, 3,
+                                    string.Join("・", item.Choices.Select(x => x.Description))
+                                );
                                 break;
-                            case 5:
+                            case 6:
                                 WriteCell(sheet, rowIndex, 2, "日付入力");
                                 break;
                             default:
@@ -99,7 +101,6 @@ namespace InspectionManager.ApplicationCore.Interfaces
                         }
                         else
                         {
-
                             WriteStyle(sheet, rowIndex, 0, mediumHeadingStyle);
                         }
 
