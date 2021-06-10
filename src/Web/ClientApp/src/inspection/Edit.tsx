@@ -1,4 +1,5 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import MuiAlert from '@material-ui/lab/Alert';
 import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheet } from './Types';
@@ -8,6 +9,8 @@ import { InspectionSheetContext } from './context/InspectionSheetContext';
 export const Edit = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
   const context = useContext(InspectionSheetContext);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     fetch(`inspectionsheet/${sheetId}`)
@@ -16,7 +19,11 @@ export const Edit = ({ match }: any): JSX.Element => {
         console.log(json);
         context.setSheet(json);
       })
-      .catch(console.error);
+      .catch((error) => {
+        setSuccessMessage('');
+        setErrorMessage(`データの取得に失敗しました (ID:${sheetId})`);
+        console.error(error);
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sheetId]);
 
@@ -31,9 +38,11 @@ export const Edit = ({ match }: any): JSX.Element => {
     })
       .then((res) => {
         if (res.ok) {
-          alert('更新に成功しました');
+          setSuccessMessage('更新に成功しました');
+          setErrorMessage('');
         } else {
-          alert('更新に失敗しました')
+          setSuccessMessage('');
+          setErrorMessage('更新に失敗しました');
         }
         return res.json();
       })
@@ -52,6 +61,20 @@ export const Edit = ({ match }: any): JSX.Element => {
       <Grid item xs={12}>
         <Link to="/">トップページへ戻る</Link>
       </Grid>
+      {errorMessage !== '' &&
+        <Grid item xs={12}>
+          <MuiAlert elevation={6} variant="filled" severity="error">
+            {errorMessage}
+          </MuiAlert>
+        </Grid>
+      }
+      {successMessage !== '' &&
+        <Grid item xs={12}>
+          <MuiAlert elevation={6} variant="filled" severity="success">
+            {successMessage}
+          </MuiAlert>
+        </Grid>
+      }
       <Grid item xs={12}>
         <form data-testid='form' onSubmit={handleUpdate}>
           <Grid container spacing={1}>
