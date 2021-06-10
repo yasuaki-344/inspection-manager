@@ -124,6 +124,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
     ? <Grid item xs={12}>
       <TextField
         className={classes.sheetIdElement}
+        disabled
         id="outlined-required"
         label="点検シートID"
         variant="outlined"
