@@ -6,6 +6,7 @@ import {
   Dialog, DialogActions, DialogContent, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
@@ -20,6 +21,8 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
     inspection_type_id: 0,
     description: ''
   });
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     fetch('inspectiontype')
@@ -68,7 +71,8 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
       })
         .then((res) => {
           if (!res.ok) {
-            alert('更新に失敗しました')
+            setSuccessMessage('');
+            setErrorMessage('更新に失敗しました');
           }
           return res.json();
         })
@@ -80,6 +84,8 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
               return x;
             }
           }));
+          setSuccessMessage('更新に成功しました');
+          setErrorMessage('');
         })
         .catch(console.error);
     } else {
@@ -92,12 +98,15 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
       })
         .then((res) => {
           if (!res.ok) {
-            alert('登録に失敗しました')
+            setSuccessMessage('');
+            setErrorMessage('追加に失敗しました');
           }
           return res.json();
         })
         .then((json: InspectionType) => {
           setTypes(types.concat(json));
+          setSuccessMessage('追加に成功しました');
+          setErrorMessage('');
         })
         .catch(console.error);
     }
@@ -112,10 +121,18 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
     fetch(`inspectiontype/${id}`, {
       method: 'DELETE',
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          setSuccessMessage('');
+          setErrorMessage('削除に失敗しました');
+        }
+        return res.json();
+      })
       .then((json: InspectionType) => {
         setTypes(types.filter((x: InspectionType) =>
           x.inspection_type_id !== json.inspection_type_id));
+        setSuccessMessage('削除に成功しました');
+        setErrorMessage('');
       })
       .catch(console.error);
   }
@@ -129,6 +146,20 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
         <Grid item xs={12}>
           <Link to='/'>トップページへ戻る</Link>
         </Grid>
+        {errorMessage !== '' &&
+          <Grid item xs={12}>
+            <MuiAlert elevation={6} variant="filled" severity="error">
+              {errorMessage}
+            </MuiAlert>
+          </Grid>
+        }
+        {successMessage !== '' &&
+          <Grid item xs={12}>
+            <MuiAlert elevation={6} variant="filled" severity="success">
+              {successMessage}
+            </MuiAlert>
+          </Grid>
+        }
         <Grid item xs={12}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
