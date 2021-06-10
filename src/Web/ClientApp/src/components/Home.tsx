@@ -2,16 +2,14 @@ import React, { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
-  Button, Container, IconButton, Grid, TextField,
+  Button, ButtonGroup, Container, IconButton, Grid, TextField,
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Paper, TablePagination
 } from '@material-ui/core';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import EditIcon from '@material-ui/icons/Edit';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DetailsIcon from '@material-ui/icons/Details';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SearchIcon from '@material-ui/icons/Search';
 import { InspectionSheet, InspectionGroup, InspectionType } from '../inspection/Types';
@@ -244,8 +242,7 @@ export const Home: FC = (): JSX.Element => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>&nbsp;</TableCell>
-                  <TableCell>&nbsp;</TableCell>
+                  <TableCell>ダウンロード</TableCell>
                   <TableCell>点検シート名</TableCell>
                   <TableCell>点検グループ</TableCell>
                   <TableCell>点検種別</TableCell>
@@ -260,20 +257,10 @@ export const Home: FC = (): JSX.Element => {
                   .map((sheet: InspectionSheet) =>
                     <TableRow key={sheet.sheet_id}>
                       <TableCell padding='checkbox'>
-                        <IconButton
-                          size='small'
-                          onClick={() => handleDownload(sheet)}
-                        >
-                          <GetAppIcon />
-                        </IconButton>
-                      </TableCell>
-                      <TableCell padding='checkbox'>
-                        <IconButton
-                          size='small'
-                          onClick={() => handleExportJson(sheet)}
-                        >
-                          <FileCopyIcon />
-                        </IconButton>
+                        <ButtonGroup color="primary" aria-label="outlined primary button group">
+                          <Button onClick={() => handleDownload(sheet)}>Excel</Button>
+                          <Button onClick={() => handleExportJson(sheet)}>JSON</Button>
+                        </ButtonGroup>
                       </TableCell>
                       <TableCell>{sheet.sheet_name}</TableCell>
                       <TableCell>
