@@ -4,6 +4,7 @@ import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Paper, TablePagination
 } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
@@ -16,6 +17,8 @@ export const Create = (): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [page, setPage] = React.useState(0);
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>([]);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     context.setSheet(initialState());
@@ -25,7 +28,11 @@ export const Create = (): JSX.Element => {
         console.log(json);
         setInspectionSheets(json);
       })
-      .catch(console.error);
+      .catch((error) => {
+        setSuccessMessage('');
+        setErrorMessage('データの取得に失敗しました');
+        console.error(error);
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -49,7 +56,11 @@ export const Create = (): JSX.Element => {
         console.log(json);
         context.setSheet(json);
       })
-      .catch(console.error);
+      .catch((error) => {
+        setSuccessMessage('');
+        setErrorMessage(`データの取得に失敗しました (ID:${sheetId})`);
+        console.error(error);
+      });
     setOpen(false);
   };
 
@@ -65,9 +76,20 @@ export const Create = (): JSX.Element => {
     })
       .then((res) => {
         if (res.ok) {
-          alert('登録に成功しました');
+          setSuccessMessage('登録に成功しました');
+          setErrorMessage('');
+          context.setSheet({
+            sheet_id: 0,
+            sheet_name: '',
+            inspection_type_id: 0,
+            inspection_group_id: 0,
+            inspection_type: '',
+            inspection_group: '',
+            equipments: [],
+          });
         } else {
-          alert('登録に失敗しました')
+          setSuccessMessage('');
+          setErrorMessage('登録に失敗しました');
         }
         return res.json();
       })
@@ -90,6 +112,20 @@ export const Create = (): JSX.Element => {
             onClick={() => setOpen(true)}
           >既存のデータをコピー</Button>
         </Grid>
+        {errorMessage !== '' &&
+          <Grid item xs={12}>
+            <MuiAlert elevation={6} variant="filled" severity="error">
+              {errorMessage}
+            </MuiAlert>
+          </Grid>
+        }
+        {successMessage !== '' &&
+          <Grid item xs={12}>
+            <MuiAlert elevation={6} variant="filled" severity="success">
+              {successMessage}
+            </MuiAlert>
+          </Grid>
+        }
         <Grid item xs={12}>
           <form data-testid='form' onSubmit={handleSubmit}>
             <Grid container spacing={1}>
