@@ -6,6 +6,7 @@ import {
   Grid, Paper, TextField,
 
 } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
@@ -20,6 +21,8 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
     choice_template_id: 0,
     choices: []
   });
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     fetch('choicetemplate')
@@ -76,7 +79,8 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
       })
         .then((res) => {
           if (!res.ok) {
-            alert('登録に失敗しました')
+            setSuccessMessage('');
+            setErrorMessage('更新に失敗しました');
           }
           return res.json();
         })
@@ -88,6 +92,8 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
               return x;
             }
           }));
+          setSuccessMessage('更新に成功しました');
+          setErrorMessage('');
         })
         .catch(console.error);
     } else {
@@ -100,12 +106,15 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
       })
         .then((res) => {
           if (!res.ok) {
-            alert('登録に失敗しました')
+            setSuccessMessage('');
+            setErrorMessage('追加に失敗しました');
           }
           return res.json();
         })
         .then((json: ChoiceTemplate) => {
           setTemplates(templates.concat(json));
+          setSuccessMessage('追加に成功しました');
+          setErrorMessage('');
         })
         .catch(console.error);
     }
@@ -120,10 +129,18 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
     fetch(`choicetemplate/${id}`, {
       method: 'DELETE',
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          setSuccessMessage('');
+          setErrorMessage('削除に失敗しました');
+        }
+        return res.json();
+      })
       .then((json: ChoiceTemplate) => {
         setTemplates(templates.filter((x: ChoiceTemplate) =>
           x.choice_template_id !== json.choice_template_id));
+        setSuccessMessage('削除に成功しました');
+        setErrorMessage('');
       })
       .catch(console.error);
   };
@@ -136,6 +153,20 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={1}>
+            {errorMessage !== '' &&
+              <Grid item xs={12}>
+                <MuiAlert elevation={6} variant="filled" severity="error">
+                  {errorMessage}
+                </MuiAlert>
+              </Grid>
+            }
+            {successMessage !== '' &&
+              <Grid item xs={12}>
+                <MuiAlert elevation={6} variant="filled" severity="success">
+                  {successMessage}
+                </MuiAlert>
+              </Grid>
+            }
             <Grid item xs={12}>
               <TableContainer component={Paper}>
                 <Table>
