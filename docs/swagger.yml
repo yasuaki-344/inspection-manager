@@ -1,0 +1,5 @@
+openapi: 3.0.0
+info:
+  title: API Specification
+  description: クライアント-サーバー間のデータ通信仕様
+  version: "1.0.0"
