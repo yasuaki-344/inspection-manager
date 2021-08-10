@@ -68,13 +68,19 @@ paths:
                   description: NG
       responses:
         "201":
-          description: CREATED
+          description: 正常系（同期）Created
+        "202":
+          description: 正常系（非同期）Accepted
         "400":
           description: バリデーションエラー or 業務エラー Bad Request
         "401":
           description: 認証エラー Unauthorized
         "403":
           description: 認可エラー Forbidden
+        "404":
+          description: 一意制約違反エラー Conflict
+        "409":
+          description: 親リソースが存在しないエラー Not Found
         "503":
           description: システムエラー Internal Server Error
   /choice-templates/{choiceTemplateId}:
