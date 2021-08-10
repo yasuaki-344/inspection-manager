@@ -56,31 +56,35 @@ paths:
       responses:
         '201':
           description: CREATED
-  /users/{userId}:
+  /choice-templates/{choiceTemplateId}:
     get:
       tags:
-        - users
-      summary: Get user by ID.
-      description: Returns a single User model
-      parameters: # リクエストパラメータ
+        - choice templates
+      summary: Get choiceTemplate by ID.
+      description: Returns a single ChoiceTemplate model
+      parameters:
         - name: userId
-          in: path # パラメータをパス内に含める
+          in: path
           description: user id
           required: true
           schema:
             type: integer
       responses:
         '200':
-          description: A single User model
+          description: A single ChoiceTemplate model
           content:
             application/json:
               schema:
                 type: object
                 items:
-                  $ref: '#/components/schemas/User'
+                  $ref: '#/components/schemas/ChoiceTemplate'
                 example:
-                  id: 1
-                  name: John Doe
+                  choice_template_id: 1
+                  choices:
+                    - id: 1
+                      description: OK
+                    - id: 2
+                      description: NG
 components:
   schemas:
     ChoiceTemplate:
