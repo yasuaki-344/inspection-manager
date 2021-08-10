@@ -1,0 +1,486 @@
+openapi: 3.0.0
+info:
+  title: API Specification
+  description: クライアント-サーバー間のデータ通信仕様
+  version: "0.4.0"
+servers:
+  - url: http://localhost/v1
+    description: Development server
+paths:
+  /inspection-groups:
+    get:
+      tags:
+        - inspection groups
+      summary: Get all inspection groups.
+      description: ""
+      parameters: []
+      responses:
+        "200":
+          description: A JSON array of InspectionGroup model
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InspectionGroup"
+                example:
+                  - inspection_group_id: 1
+                    description: group1
+                  - inspection_group_id: 2
+                    description: group2
+        "400":
+          description: バリデーションエラー or 業務エラー Bad Request
+        "503":
+          description: システムエラー Internal Server Error
+    post:
+      tags:
+        - inspection groups
+      summary: Create a new InspectionGroup model
+      description: ""
+      parameters: []
+      requestBody:
+        description: inspection group to create
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InspectionGroup"
+            example:
+              id: 0
+              name: new group
+      responses:
+        "202":
+          description: 正常系（非同期）Accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InspectionGroup"
+              example:
+                inspection_group_id: 1
+                description: inspection group
+        "400":
+          description: バリデーションエラー or 業務エラー Bad Request
+        "503":
+          description: システムエラー Internal Server Error
+  /inspection-groups/{inspection_group_id}:
+    get:
+      tags:
+        - inspection groups
+      summary: Get InspectionGroup model by ID.
+      description: ""
+      parameters:
+        - name: inspection_group_id
+          in: path
+          description: inspection group ID to get
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A single InspectionGroup model
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InspectionGroup"
+              example:
+                inspection_group_id: 1
+                description: group name
+        "404":
+          description: 対象リソースが存在しない Not Found
+        "503":
+          description: システムエラー Internal Server Error
+    put:
+      tags:
+        - inspection groups
+      summary: Updates the InspectionGroup model.
+      description: ""
+      parameters:
+        - name: inspection_group_id
+          in: path
+          description: inspection group ID to update
+          required: true
+          schema:
+            type: integer
+      responses:
+        "202":
+          description: 正常系（非同期）Accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InspectionGroup"
+              example:
+                inspection_group_id: 1
+                description: updated group name
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Not found"
+        "503":
+          description: "Internal Server Error"
+    delete:
+      tags:
+        - inspection groups
+      summary: Deletes the InspectionGroup model.
+      description: ""
+      parameters:
+        - name: inspection_group_id
+          in: path
+          description: inspection group ID to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Not found"
+        "503":
+          description: "Internal Server Error"
+  /inspection-types:
+    get:
+      tags:
+        - inspection types
+      summary: Get all inspection types.
+      description: ""
+      parameters: []
+      responses:
+        "200":
+          description: A JSON array of InspectionType model
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InspectionType"
+                example:
+                  - inspection_type_id: 1
+                    description: type1
+                  - inspection_type_id: 2
+                    description: type2
+        "400":
+          description: バリデーションエラー or 業務エラー Bad Request
+        "503":
+          description: システムエラー Internal Server Error
+    post:
+      tags:
+        - inspection types
+      summary: Create a new InspectionType model
+      description: ""
+      parameters: []
+      requestBody:
+        description: inspection type to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InspectionType'
+            example:
+              id: 0
+              name: new type
+      responses:
+        "202":
+          description: 正常系（非同期）Accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InspectionType"
+              example:
+                inspection_group_id: 1
+                description: inspection type
+        "400":
+          description: バリデーションエラー or 業務エラー Bad Request
+        "503":
+          description: システムエラー Internal Server Error
+  /inspection-types/{inspection_type_id}:
+    get:
+      tags:
+        - inspection types
+      summary: Get InspectionType model by ID.
+      description: ""
+      parameters:
+        - name: inspection_type_id
+          in: path
+          description: inspection type ID to get
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A single InspectionType model
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InspectionType"
+              example:
+                inspection_group_id: 1
+                description: type name
+        "404":
+          description: 対象リソースが存在しない Not Found
+        "503":
+          description: システムエラー Internal Server Error
+    put:
+      tags:
+        - inspection types
+      summary: Updates the InspectionType model.
+      description: ""
+      parameters:
+        - name: inspection_type_id
+          in: path
+          description: inspection type ID to update
+          required: true
+          schema:
+            type: integer
+      responses:
+        "202":
+          description: 正常系（非同期）Accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InspectionType"
+              example:
+                inspection_group_id: 1
+                description: updated type name
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Not found"
+        "503":
+          description: "Internal Server Error"
+    delete:
+      tags:
+        - inspection types
+      summary: Deletes the InspectionType model.
+      description: ""
+      parameters:
+        - name: inspection_type_id
+          in: path
+          description: inspection type ID to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Not found"
+        "503":
+          description: "Internal Server Error"
+  /choice-templates:
+    get:
+      tags:
+        - choice templates
+      summary: Get all choice templates.
+      description: Returns an array of ChoiceTemplate model
+      parameters: []
+      responses:
+        "200":
+          description: A JSON array of ChoiceTemplate model
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChoiceTemplate'
+                example:
+                  - choice_template_id: 1
+                    choices:
+                      - id: 1
+                        description: OK
+                      - id: 2
+                        description: NG
+                  - choice_template_id: 2
+                    choices:
+                      - id: 3
+                        description: Yes
+                      - id: 4
+                        description: No
+                      - id: 5
+                        description: Unknown
+        "400":
+          description: バリデーションエラー or 業務エラー Bad Request
+        "401":
+          description: 認証エラー Unauthorized
+        "403":
+          description: 認可エラー Forbidden
+        "503":
+          description: システムエラー Internal Server Error
+    post:
+      tags:
+        - choice templates
+      summary: Create a new ChoiceTemplate
+      description: Create a new ChoiceTemplate
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChoiceTemplate"
+            example:
+              choice_template_id: 0
+              choices:
+                - id: 1
+                  description: OK
+                - id: 2
+                  description: NG
+      responses:
+        "201":
+          description: 正常系（同期）Created
+        "202":
+          description: 正常系（非同期）Accepted
+        "400":
+          description: バリデーションエラー or 業務エラー Bad Request
+        "401":
+          description: 認証エラー Unauthorized
+        "403":
+          description: 認可エラー Forbidden
+        "404":
+          description: 一意制約違反エラー Conflict
+        "409":
+          description: 親リソースが存在しないエラー Not Found
+        "503":
+          description: システムエラー Internal Server Error
+  /choice-templates/{choiceTemplateId}:
+    get:
+      tags:
+        - choice templates
+      summary: Get choiceTemplate by ID.
+      description: Returns a single ChoiceTemplate model
+      parameters:
+        - name: choiceTemplateId
+          in: path
+          description: choice template ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A single ChoiceTemplate model
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/ChoiceTemplate'
+                example:
+                  choice_template_id: 1
+                  choices:
+                    - id: 1
+                      description: OK
+                    - id: 2
+                      description: NG
+        "400":
+          description: バリデーションエラー or 業務エラー Bad Request
+        "401":
+          description: 認証エラー Unauthorized
+        "403":
+          description: 認可エラー Forbidden
+        "404":
+          description: 対象リソースが存在しない Not Found
+        "503":
+          description: システムエラー Internal Server Error
+    put:
+      tags:
+        - choice templates
+      summary: Updates a ChoiceTemplate
+      description: ""
+      parameters:
+        - name: choiceTemplateId
+          in: path
+          description: choice template ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 正常系（同期）OK
+        "202":
+          description: 正常系（非同期）Accepted
+        "400":
+          description: "Invalid ID supplied"
+        "401":
+          description: 認証エラー Unauthorized
+        "403":
+          description: 認可エラー Forbidden
+        "404":
+          description: "ChoiceTemplate not found"
+        "503":
+          description: システムエラー Internal Server Error
+    delete:
+      tags:
+        - choice templates
+      summary: Deletes a ChoiceTemplate
+      description: ""
+      parameters:
+        - name: choiceTemplateId
+          in: path
+          description: choice template ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: "Invalid ID supplied"
+        "401":
+          description: 認証エラー Unauthorized
+        "403":
+          description: 認可エラー Forbidden
+        "404":
+          description: "ChoiceTemplate not found"
+        "503":
+          description: システムエラー Internal Server Error
+components:
+  schemas:
+    InspectionGroup:
+      type: object
+      required:
+        - inspection_group_id
+        - description
+      properties:
+        inspection_group_id:
+          type: integer
+          format: int64
+        description:
+          type: string
+    InspectionType:
+      type: object
+      required:
+        - inspection_type_id
+        - description
+      properties:
+        inspection_type_id:
+          type: integer
+          format: int64
+        description:
+          type: string
+    ChoiceTemplate:
+      type: object
+      required:
+        - choice_template_id
+      properties:
+        choice_template_id:
+          type: integer
+          format: int64
+        choices:
+          type: array
+          items:
+            $ref: "#/components/schemas/Option"
+    Option:
+      type: object
+      required:
+        - option_id
+      properties:
+        option_id:
+          type: integer
+          format: int64
+        description:
+          type: string
+tags:
+  - name: inspection groups
+  - name: inspection types
+  - name: choice templates
+    description: Access to ChoiceTemplates
