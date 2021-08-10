@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: API Specification
   description: クライアント-サーバー間のデータ通信仕様
-  version: "1.0.0"
+  version: "0.4.0"
 servers:
   - url: http://localhost/v1
     description: Development server
@@ -175,6 +175,17 @@ paths:
           description: システムエラー Internal Server Error
 components:
   schemas:
+    InspectionGroup:
+      type: object
+      required:
+        - inspection_group_id
+        - description
+      properties:
+        inspection_group_id:
+          type: integer
+          format: int64
+        description:
+          type: string
     ChoiceTemplate:
       type: object
       required:
@@ -198,5 +209,6 @@ components:
         description:
           type: string
 tags:
+  - name: inspection groups
   - name: choice templates
     description: Access to ChoiceTemplates
