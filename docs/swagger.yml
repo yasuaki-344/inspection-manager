@@ -75,7 +75,17 @@ paths:
                   id: 1
                   name: John Doe
 components:
-  schemas: # スキーマオブジェクトの定義
+    Option:
+      type: object
+      required:
+        - option_id
+      properties:
+        option_id:
+          type: integer
+          format: int64
+        description:
+          type: string
+
     User: # モデル名
       type: object # 型
       required: # 必須フィールド
