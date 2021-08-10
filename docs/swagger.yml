@@ -61,6 +61,33 @@ paths:
           description: バリデーションエラー or 業務エラー Bad Request
         "503":
           description: システムエラー Internal Server Error
+  /inspection-groups/{inspection_group_id}:
+    get:
+      tags:
+        - inspection groups
+      summary: Get InspectionGroup model by ID.
+      description: ""
+      parameters:
+        - name: inspection_group_id
+          in: path
+          description: inspection group ID to get
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A single InspectionGroup model
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InspectionGroup"
+              example:
+                inspection_group_id: 1
+                description: group name
+        "404":
+          description: 対象リソースが存在しない Not Found
+        "503":
+          description: システムエラー Internal Server Error
   /choice-templates:
     get:
       tags:
