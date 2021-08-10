@@ -131,6 +131,8 @@ security:
     - write:users
     - read:users
 tags:
+  - name: choice templates
+    description: Access to ChoiceTemplates
   - name: users
     description: Access to Users
   - name: products
