@@ -7,30 +7,37 @@ servers:
   - url: http://localhost/v1
     description: Development server
 paths:
-  # paths オブジェクト
-  /users:
-    # path item オブジェクト
-    get: # GET
-      # Operationオブジェクト
+  /choice-templates:
+    get:
       tags:
-        - users
-      summary: Get all users.
-      description: Returns an array of User model
+        - choice templates
+      summary: Get all choice templates.
+      description: Returns an array of ChoiceTemplate model
       parameters: []
-      responses: # レスポンス定義
-        '200': # HTTP status
-          description: A JSON array of User model
+      responses:
+        '200':
+          description: A JSON array of ChoiceTemplate model
           content:
-            application/json: # レスポンスの形式指定
+            application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/User' # 参照するモデル
-                example: # サンプルデータ
-                  - id: 1
-                    name: John Doe
-                  - id: 2
-                    name: Jane Doe
+                  $ref: '#/components/schemas/ChoiceTemplate'
+                example:
+                  - choice_template_id: 1
+                    choices:
+                      - id: 1
+                        description: OK
+                      - id: 2
+                        description: NG
+                  - choice_template_id: 2
+                    choices:
+                      - id: 3
+                        description: Yes
+                      - id: 4
+                        description: No
+                      - id: 5
+                        description: Unknown
     post: # POST
       tags:
         - users
