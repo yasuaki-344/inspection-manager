@@ -88,6 +88,35 @@ paths:
           description: 対象リソースが存在しない Not Found
         "503":
           description: システムエラー Internal Server Error
+    put:
+      tags:
+        - inspection groups
+      summary: Updates the InspectionGroup model.
+      description: ""
+      parameters:
+        - name: inspection_group_id
+          in: path
+          description: inspection group ID to update
+          required: true
+          schema:
+            type: integer
+      responses:
+        "202":
+          description: 正常系（非同期）Accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InspectionGroup"
+              example:
+                inspection_group_id: 1
+                description: updated group name
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Not found"
+        "503":
+          description: "Internal Server Error"
+
   /choice-templates:
     get:
       tags:
