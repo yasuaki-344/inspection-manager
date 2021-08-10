@@ -316,6 +316,17 @@ components:
           format: int64
         description:
           type: string
+    InspectionType:
+      type: object
+      required:
+        - inspection_type_id
+        - description
+      properties:
+        inspection_type_id:
+          type: integer
+          format: int64
+        description:
+          type: string
     ChoiceTemplate:
       type: object
       required:
@@ -340,5 +351,6 @@ components:
           type: string
 tags:
   - name: inspection groups
+  - name: inspection types
   - name: choice templates
     description: Access to ChoiceTemplates
