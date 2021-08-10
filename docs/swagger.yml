@@ -176,7 +176,7 @@ paths:
   /inspection-groups:
     get:
       tags:
-        - inspection group
+        - inspection groups
       summary: Get all inspection groups.
       description: ""
       parameters: []
@@ -200,7 +200,7 @@ paths:
           description: システムエラー Internal Server Error
     post:
       tags:
-        - inspection group
+        - inspection groups
       summary: Create a new InspectionGroup model
       description: ""
       parameters: []
