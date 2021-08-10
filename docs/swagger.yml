@@ -67,9 +67,9 @@ paths:
       summary: Get choiceTemplate by ID.
       description: Returns a single ChoiceTemplate model
       parameters:
-        - name: userId
+        - name: choiceTemplateId
           in: path
-          description: user id
+          description: choice template ID
           required: true
           schema:
             type: integer
@@ -95,9 +95,9 @@ paths:
       summary: Updates a ChoiceTemplate
       description: ""
       parameters:
-        - name: userId
+        - name: choiceTemplateId
           in: path
-          description: user id
+          description: choice template ID
           required: true
           schema:
             type: integer
@@ -112,9 +112,9 @@ paths:
       summary: Deletes a ChoiceTemplate
       description: ""
       parameters:
-        - name: userId
+        - name: choiceTemplateId
           in: path
-          description: user id
+          description: choice template ID
           required: true
           schema:
             type: integer
@@ -147,11 +147,6 @@ components:
           format: int64
         description:
           type: string
-security:
-  - api_key: []
-  - users_auth:
-    - write:users
-    - read:users
 tags:
   - name: choice templates
     description: Access to ChoiceTemplates
