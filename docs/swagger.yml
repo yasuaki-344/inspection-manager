@@ -198,7 +198,35 @@ paths:
           description: バリデーションエラー or 業務エラー Bad Request
         "503":
           description: システムエラー Internal Server Error
-
+    post:
+      tags:
+        - inspection group
+      summary: Create a new InspectionGroup model
+      description: ""
+      parameters: []
+      requestBody:
+        description: inspection group to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InspectionGroup'
+            example:
+              id: 0
+              name: new group
+      responses:
+        "202":
+          description: 正常系（非同期）Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InspectionGroup'
+              example:
+                inspection_group_id: 1
+                description: inspection group
+        "400":
+          description: バリデーションエラー or 業務エラー Bad Request
+        "503":
+          description: システムエラー Internal Server Error
 components:
   schemas:
     InspectionGroup:
