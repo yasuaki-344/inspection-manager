@@ -6,3 +6,9 @@ info:
 servers:
   - url: http://localhost/v1
     description: Development server
+
+security:
+  - api_key: []
+  - users_auth:
+    - write:users
+    - read:users
