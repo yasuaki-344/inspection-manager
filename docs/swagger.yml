@@ -75,6 +75,19 @@ paths:
                   id: 1
                   name: John Doe
 components:
+  schemas:
+    ChoiceTemplate:
+      type: object
+      required:
+        - choice_template_id
+      properties:
+        choice_template_id:
+          type: integer
+          format: int64
+        choices:
+          type: array
+          items:
+            $ref: "#/components/schemas/Option"
     Option:
       type: object
       required:
