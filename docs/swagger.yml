@@ -109,17 +109,6 @@ components:
           format: int64
         description:
           type: string
-
-    User: # モデル名
-      type: object # 型
-      required: # 必須フィールド
-        - id
-      properties:
-        id: # プロパティ名
-          type: integer # 型
-          format: int64 # フォーマット(int32, int64等)
-        name:
-          type: string
 security:
   - api_key: []
   - users_auth:
@@ -128,5 +117,3 @@ security:
 tags:
   - name: choice templates
     description: Access to ChoiceTemplates
-  - name: users
-    description: Access to Users
