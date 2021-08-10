@@ -116,7 +116,27 @@ paths:
           description: "Not found"
         "503":
           description: "Internal Server Error"
-
+    delete:
+      tags:
+        - inspection groups
+      summary: Deletes the InspectionGroup model.
+      description: ""
+      parameters:
+        - name: inspection_group_id
+          in: path
+          description: inspection group ID to update
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Not found"
+        "503":
+          description: "Internal Server Error"
   /choice-templates:
     get:
       tags:
