@@ -7,6 +7,60 @@ servers:
   - url: http://localhost/v1
     description: Development server
 paths:
+  /inspection-groups:
+    get:
+      tags:
+        - inspection groups
+      summary: Get all inspection groups.
+      description: ""
+      parameters: []
+      responses:
+        "200":
+          description: A JSON array of InspectionGroup model
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InspectionGroup'
+                example:
+                  - inspection_group_id: 1
+                    description: group1
+                  - inspection_group_id: 2
+                    description: group2
+        "400":
+          description: バリデーションエラー or 業務エラー Bad Request
+        "503":
+          description: システムエラー Internal Server Error
+    post:
+      tags:
+        - inspection groups
+      summary: Create a new InspectionGroup model
+      description: ""
+      parameters: []
+      requestBody:
+        description: inspection group to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InspectionGroup'
+            example:
+              id: 0
+              name: new group
+      responses:
+        "202":
+          description: 正常系（非同期）Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InspectionGroup'
+              example:
+                inspection_group_id: 1
+                description: inspection group
+        "400":
+          description: バリデーションエラー or 業務エラー Bad Request
+        "503":
+          description: システムエラー Internal Server Error
   /choice-templates:
     get:
       tags:
@@ -171,60 +225,6 @@ paths:
           description: 認可エラー Forbidden
         "404":
           description: "ChoiceTemplate not found"
-        "503":
-          description: システムエラー Internal Server Error
-  /inspection-groups:
-    get:
-      tags:
-        - inspection groups
-      summary: Get all inspection groups.
-      description: ""
-      parameters: []
-      responses:
-        "200":
-          description: A JSON array of InspectionGroup model
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/InspectionGroup'
-                example:
-                  - inspection_group_id: 1
-                    description: group1
-                  - inspection_group_id: 2
-                    description: group2
-        "400":
-          description: バリデーションエラー or 業務エラー Bad Request
-        "503":
-          description: システムエラー Internal Server Error
-    post:
-      tags:
-        - inspection groups
-      summary: Create a new InspectionGroup model
-      description: ""
-      parameters: []
-      requestBody:
-        description: inspection group to create
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InspectionGroup'
-            example:
-              id: 0
-              name: new group
-      responses:
-        "202":
-          description: 正常系（非同期）Accepted
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InspectionGroup'
-              example:
-                inspection_group_id: 1
-                description: inspection group
-        "400":
-          description: バリデーションエラー or 業務エラー Bad Request
         "503":
           description: システムエラー Internal Server Error
 components:
