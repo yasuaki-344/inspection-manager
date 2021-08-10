@@ -85,6 +85,23 @@ paths:
                       description: OK
                     - id: 2
                       description: NG
+    delete:
+      tags:
+        - choice templates
+      summary: Deletes a ChoiceTemplate
+      description: ""
+      parameters:
+        - name: userId
+          in: path
+          description: user id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "ChoiceTemplate not found"
 components:
   schemas:
     ChoiceTemplate:
