@@ -22,7 +22,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/InspectionGroup'
+                  $ref: "#/components/schemas/InspectionGroup"
                 example:
                   - inspection_group_id: 1
                     description: group1
@@ -43,7 +43,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InspectionGroup'
+              $ref: "#/components/schemas/InspectionGroup"
             example:
               id: 0
               name: new group
@@ -53,7 +53,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InspectionGroup'
+                $ref: "#/components/schemas/InspectionGroup"
               example:
                 inspection_group_id: 1
                 description: inspection group
@@ -124,7 +124,137 @@ paths:
       parameters:
         - name: inspection_group_id
           in: path
-          description: inspection group ID to update
+          description: inspection group ID to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Not found"
+        "503":
+          description: "Internal Server Error"
+  /inspection-types:
+    get:
+      tags:
+        - inspection types
+      summary: Get all inspection types.
+      description: ""
+      parameters: []
+      responses:
+        "200":
+          description: A JSON array of InspectionType model
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InspectionType"
+                example:
+                  - inspection_type_id: 1
+                    description: type1
+                  - inspection_type_id: 2
+                    description: type2
+        "400":
+          description: バリデーションエラー or 業務エラー Bad Request
+        "503":
+          description: システムエラー Internal Server Error
+    post:
+      tags:
+        - inspection types
+      summary: Create a new InspectionType model
+      description: ""
+      parameters: []
+      requestBody:
+        description: inspection type to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InspectionType'
+            example:
+              id: 0
+              name: new type
+      responses:
+        "202":
+          description: 正常系（非同期）Accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InspectionType"
+              example:
+                inspection_group_id: 1
+                description: inspection type
+        "400":
+          description: バリデーションエラー or 業務エラー Bad Request
+        "503":
+          description: システムエラー Internal Server Error
+  /inspection-types/{inspection_type_id}:
+    get:
+      tags:
+        - inspection types
+      summary: Get InspectionType model by ID.
+      description: ""
+      parameters:
+        - name: inspection_type_id
+          in: path
+          description: inspection type ID to get
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A single InspectionType model
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InspectionType"
+              example:
+                inspection_group_id: 1
+                description: type name
+        "404":
+          description: 対象リソースが存在しない Not Found
+        "503":
+          description: システムエラー Internal Server Error
+    put:
+      tags:
+        - inspection types
+      summary: Updates the InspectionType model.
+      description: ""
+      parameters:
+        - name: inspection_type_id
+          in: path
+          description: inspection type ID to update
+          required: true
+          schema:
+            type: integer
+      responses:
+        "202":
+          description: 正常系（非同期）Accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InspectionType"
+              example:
+                inspection_group_id: 1
+                description: updated type name
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Not found"
+        "503":
+          description: "Internal Server Error"
+    delete:
+      tags:
+        - inspection types
+      summary: Deletes the InspectionType model.
+      description: ""
+      parameters:
+        - name: inspection_type_id
+          in: path
+          description: inspection type ID to delete
           required: true
           schema:
             type: integer
