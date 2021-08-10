@@ -91,7 +91,7 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: A single ChoiceTemplate model
           content:
             application/json:
@@ -112,6 +112,8 @@ paths:
           description: 認証エラー Unauthorized
         "403":
           description: 認可エラー Forbidden
+        "404":
+          description: 対象リソースが存在しない Not Found
         "503":
           description: システムエラー Internal Server Error
     put:
