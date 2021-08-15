@@ -37,9 +37,92 @@ export interface InspectionGroupsPostRequest {
 }
 
 /**
+ * InspectionGroupsApi - interface
+ * 
+ * @export
+ * @interface InspectionGroupsApiInterface
+ */
+export interface InspectionGroupsApiInterface {
+    /**
+     * 
+     * @summary Get all inspection groups.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InspectionGroupsApiInterface
+     */
+    inspectionGroupsGetRaw(): Promise<runtime.ApiResponse<Array<InspectionGroup>>>;
+
+    /**
+     * Get all inspection groups.
+     */
+    inspectionGroupsGet(): Promise<Array<InspectionGroup>>;
+
+    /**
+     * 
+     * @summary Deletes the InspectionGroup model.
+     * @param {number} inspectionGroupId inspection group ID to delete
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InspectionGroupsApiInterface
+     */
+    inspectionGroupsInspectionGroupIdDeleteRaw(requestParameters: InspectionGroupsInspectionGroupIdDeleteRequest): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Deletes the InspectionGroup model.
+     */
+    inspectionGroupsInspectionGroupIdDelete(requestParameters: InspectionGroupsInspectionGroupIdDeleteRequest): Promise<void>;
+
+    /**
+     * 
+     * @summary Get InspectionGroup model by ID.
+     * @param {number} inspectionGroupId inspection group ID to get
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InspectionGroupsApiInterface
+     */
+    inspectionGroupsInspectionGroupIdGetRaw(requestParameters: InspectionGroupsInspectionGroupIdGetRequest): Promise<runtime.ApiResponse<InspectionGroup>>;
+
+    /**
+     * Get InspectionGroup model by ID.
+     */
+    inspectionGroupsInspectionGroupIdGet(requestParameters: InspectionGroupsInspectionGroupIdGetRequest): Promise<InspectionGroup>;
+
+    /**
+     * 
+     * @summary Updates the InspectionGroup model.
+     * @param {number} inspectionGroupId inspection group ID to update
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InspectionGroupsApiInterface
+     */
+    inspectionGroupsInspectionGroupIdPutRaw(requestParameters: InspectionGroupsInspectionGroupIdPutRequest): Promise<runtime.ApiResponse<InspectionGroup>>;
+
+    /**
+     * Updates the InspectionGroup model.
+     */
+    inspectionGroupsInspectionGroupIdPut(requestParameters: InspectionGroupsInspectionGroupIdPutRequest): Promise<InspectionGroup>;
+
+    /**
+     * 
+     * @summary Create a new InspectionGroup model
+     * @param {InspectionGroup} [inspectionGroup] inspection group to create
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InspectionGroupsApiInterface
+     */
+    inspectionGroupsPostRaw(requestParameters: InspectionGroupsPostRequest): Promise<runtime.ApiResponse<InspectionGroup>>;
+
+    /**
+     * Create a new InspectionGroup model
+     */
+    inspectionGroupsPost(requestParameters: InspectionGroupsPostRequest): Promise<InspectionGroup>;
+
+}
+
+/**
  * 
  */
-export class InspectionGroupsApi extends runtime.BaseAPI {
+export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGroupsApiInterface {
 
     /**
      * Get all inspection groups.

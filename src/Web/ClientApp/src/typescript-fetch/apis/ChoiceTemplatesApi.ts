@@ -37,9 +37,95 @@ export interface ChoiceTemplatesPostRequest {
 }
 
 /**
+ * ChoiceTemplatesApi - interface
+ * 
+ * @export
+ * @interface ChoiceTemplatesApiInterface
+ */
+export interface ChoiceTemplatesApiInterface {
+    /**
+     * 
+     * @summary Deletes a ChoiceTemplate
+     * @param {number} choiceTemplateId choice template ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChoiceTemplatesApiInterface
+     */
+    choiceTemplatesChoiceTemplateIdDeleteRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdDeleteRequest): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Deletes a ChoiceTemplate
+     */
+    choiceTemplatesChoiceTemplateIdDelete(requestParameters: ChoiceTemplatesChoiceTemplateIdDeleteRequest): Promise<void>;
+
+    /**
+     * Returns a single ChoiceTemplate model
+     * @summary Get choiceTemplate by ID.
+     * @param {number} choiceTemplateId choice template ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChoiceTemplatesApiInterface
+     */
+    choiceTemplatesChoiceTemplateIdGetRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdGetRequest): Promise<runtime.ApiResponse<Array<ChoiceTemplate>>>;
+
+    /**
+     * Returns a single ChoiceTemplate model
+     * Get choiceTemplate by ID.
+     */
+    choiceTemplatesChoiceTemplateIdGet(requestParameters: ChoiceTemplatesChoiceTemplateIdGetRequest): Promise<Array<ChoiceTemplate>>;
+
+    /**
+     * 
+     * @summary Updates a ChoiceTemplate
+     * @param {number} choiceTemplateId choice template ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChoiceTemplatesApiInterface
+     */
+    choiceTemplatesChoiceTemplateIdPutRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Updates a ChoiceTemplate
+     */
+    choiceTemplatesChoiceTemplateIdPut(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<void>;
+
+    /**
+     * Returns an array of ChoiceTemplate model
+     * @summary Get all choice templates.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChoiceTemplatesApiInterface
+     */
+    choiceTemplatesGetRaw(): Promise<runtime.ApiResponse<Array<ChoiceTemplate>>>;
+
+    /**
+     * Returns an array of ChoiceTemplate model
+     * Get all choice templates.
+     */
+    choiceTemplatesGet(): Promise<Array<ChoiceTemplate>>;
+
+    /**
+     * Create a new ChoiceTemplate
+     * @summary Create a new ChoiceTemplate
+     * @param {ChoiceTemplate} [choiceTemplate] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChoiceTemplatesApiInterface
+     */
+    choiceTemplatesPostRaw(requestParameters: ChoiceTemplatesPostRequest): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Create a new ChoiceTemplate
+     * Create a new ChoiceTemplate
+     */
+    choiceTemplatesPost(requestParameters: ChoiceTemplatesPostRequest): Promise<void>;
+
+}
+
+/**
  * 
  */
-export class ChoiceTemplatesApi extends runtime.BaseAPI {
+export class ChoiceTemplatesApi extends runtime.BaseAPI implements ChoiceTemplatesApiInterface {
 
     /**
      * Deletes a ChoiceTemplate

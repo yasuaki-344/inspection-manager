@@ -37,9 +37,92 @@ export interface InspectionTypesPostRequest {
 }
 
 /**
+ * InspectionTypesApi - interface
+ * 
+ * @export
+ * @interface InspectionTypesApiInterface
+ */
+export interface InspectionTypesApiInterface {
+    /**
+     * 
+     * @summary Get all inspection types.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InspectionTypesApiInterface
+     */
+    inspectionTypesGetRaw(): Promise<runtime.ApiResponse<Array<InspectionType>>>;
+
+    /**
+     * Get all inspection types.
+     */
+    inspectionTypesGet(): Promise<Array<InspectionType>>;
+
+    /**
+     * 
+     * @summary Deletes the InspectionType model.
+     * @param {number} inspectionTypeId inspection type ID to delete
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InspectionTypesApiInterface
+     */
+    inspectionTypesInspectionTypeIdDeleteRaw(requestParameters: InspectionTypesInspectionTypeIdDeleteRequest): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Deletes the InspectionType model.
+     */
+    inspectionTypesInspectionTypeIdDelete(requestParameters: InspectionTypesInspectionTypeIdDeleteRequest): Promise<void>;
+
+    /**
+     * 
+     * @summary Get InspectionType model by ID.
+     * @param {number} inspectionTypeId inspection type ID to get
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InspectionTypesApiInterface
+     */
+    inspectionTypesInspectionTypeIdGetRaw(requestParameters: InspectionTypesInspectionTypeIdGetRequest): Promise<runtime.ApiResponse<InspectionType>>;
+
+    /**
+     * Get InspectionType model by ID.
+     */
+    inspectionTypesInspectionTypeIdGet(requestParameters: InspectionTypesInspectionTypeIdGetRequest): Promise<InspectionType>;
+
+    /**
+     * 
+     * @summary Updates the InspectionType model.
+     * @param {number} inspectionTypeId inspection type ID to update
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InspectionTypesApiInterface
+     */
+    inspectionTypesInspectionTypeIdPutRaw(requestParameters: InspectionTypesInspectionTypeIdPutRequest): Promise<runtime.ApiResponse<InspectionType>>;
+
+    /**
+     * Updates the InspectionType model.
+     */
+    inspectionTypesInspectionTypeIdPut(requestParameters: InspectionTypesInspectionTypeIdPutRequest): Promise<InspectionType>;
+
+    /**
+     * 
+     * @summary Create a new InspectionType model
+     * @param {InspectionType} [inspectionType] inspection type to create
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InspectionTypesApiInterface
+     */
+    inspectionTypesPostRaw(requestParameters: InspectionTypesPostRequest): Promise<runtime.ApiResponse<InspectionType>>;
+
+    /**
+     * Create a new InspectionType model
+     */
+    inspectionTypesPost(requestParameters: InspectionTypesPostRequest): Promise<InspectionType>;
+
+}
+
+/**
  * 
  */
-export class InspectionTypesApi extends runtime.BaseAPI {
+export class InspectionTypesApi extends runtime.BaseAPI implements InspectionTypesApiInterface {
 
     /**
      * Get all inspection types.
