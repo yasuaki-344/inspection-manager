@@ -302,7 +302,7 @@ export const Home: FC = (): JSX.Element => {
             labelRowsPerPage={'1ページあたりの件数:'}
             backIconButtonText={'前のぺージ'}
             nextIconButtonText={'次のぺージ'}
-            onPageChange={handleChangePage}
+            onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
           />
         </Grid>
