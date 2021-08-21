@@ -28,8 +28,6 @@ paths:
                     description: group1
                   - inspection_group_id: 2
                     description: group2
-        "400":
-          description: バリデーションエラー or 業務エラー Bad Request
         "500":
           description: システムエラー Internal Server Error
     post:
@@ -48,8 +46,8 @@ paths:
               id: 0
               name: new group
       responses:
-        "202":
-          description: 正常系（非同期）Accepted
+        "201":
+          description: Single InspectionGroup model
           content:
             application/json:
               schema:
@@ -84,6 +82,8 @@ paths:
               example:
                 inspection_group_id: 1
                 description: group name
+        "400":
+          description: IDが設定されていない Bad Request
         "404":
           description: 対象リソースが存在しない Not Found
         "500":
@@ -110,8 +110,8 @@ paths:
               inspection_group_id: 1
               description: group name
       responses:
-        "202":
-          description: 正常系（非同期）Accepted
+        "201":
+          description: 正常系（非同期）Created
           content:
             application/json:
               schema:

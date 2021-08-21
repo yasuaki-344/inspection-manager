@@ -7,6 +7,7 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
@@ -40,11 +41,12 @@ namespace InspectionManager.Web.Controllers
         /// Get all inspection groups.
         /// </summary>
         /// <response code="200">A JSON array of InspectionGroup model</response>
-        /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
         /// <response code="500">システムエラー Internal Server Error</response>
         [HttpGet]
         [Route("/v1/inspection-groups")]
-        public ActionResult<InspectionGroupDto> GetAllGroups()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionGroupDto))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetAllGroups()
         {
             try
             {
@@ -65,11 +67,16 @@ namespace InspectionManager.Web.Controllers
         /// </summary>
         /// <param name="inspectionGroupId">inspection group ID to get</param>
         /// <response code="200">A single InspectionGroup model</response>
+        /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
         /// <response code="404">対象リソースが存在しない Not Found</response>
         /// <response code="500">システムエラー Internal Server Error</response>
         [HttpGet]
         [Route("/v1/inspection-groups/{inspectionGroupId}")]
-        public ActionResult<InspectionGroupDto> GetInspectionGroup([FromRoute][Required] int? inspectionGroupId)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionGroupDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetInspectionGroup([FromRoute][Required] int? inspectionGroupId)
         {
             try
             {
@@ -79,7 +86,7 @@ namespace InspectionManager.Web.Controllers
                     var result = _repository.GetInspectionGroup(inspectionGroupId.Value);
                     if (result != null)
                     {
-                        return result;
+                        return Ok(result);
                     }
                     else
                     {
@@ -103,12 +110,16 @@ namespace InspectionManager.Web.Controllers
         /// Create a new InspectionGroup model
         /// </summary>
         /// <param name="body">inspection group to create</param>
-        /// <response code="202">正常系（非同期）Accepted</response>
+        /// <response code="201">正常系（非同期）Created</response>
         /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
         /// <response code="500">システムエラー Internal Server Error</response>
         [HttpPost]
         [Route("/v1/inspection-groups")]
-        public async Task<ActionResult<InspectionGroupDto>> CreateGroup([FromBody] InspectionGroupDto? dto)
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionGroupDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreateGroup([FromBody] InspectionGroupDto? dto)
         {
             try
             {
@@ -138,13 +149,18 @@ namespace InspectionManager.Web.Controllers
         /// </summary>
         /// <param name="inspectionGroupId">inspection group ID to update</param>
         /// <param name="body">inspection group to update</param>
-        /// <response code="202">正常系（非同期）Accepted</response>
+        /// <response code="201">正常系（非同期）Created</response>
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Not found</response>
         /// <response code="500">Internal Server Error</response>
         [HttpPut]
         [Route("/v1/inspection-groups/{inspectionGroupId}")]
-        public async Task<ActionResult<InspectionGroupDto>> UpdateInspectionGroup([FromRoute][Required] int? inspectionGroupId, [FromBody] InspectionGroupDto dto)
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionGroupDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateInspectionGroup([FromRoute][Required] int? inspectionGroupId, [FromBody] InspectionGroupDto dto)
         {
             try
             {
@@ -155,7 +171,9 @@ namespace InspectionManager.Web.Controllers
                     {
                         if (inspectionGroupId.Value == dto.InspectionGroupId)
                         {
-                            return await _repository.UpdateInspectionGroupAsync(dto);
+                            var result = await _repository.UpdateInspectionGroupAsync(dto);
+                            return CreatedAtAction(nameof(GetInspectionGroup),
+                            new { id = result.InspectionGroupId }, result);
                         }
                         else
                         {
@@ -190,6 +208,11 @@ namespace InspectionManager.Web.Controllers
         /// <response code="500">Internal Server Error</response>
         [HttpDelete]
         [Route("/v1/inspection-groups/{inspectionGroupId}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteInspectionGroupAsync([FromRoute][Required] int? inspectionGroupId)
         {
             try
