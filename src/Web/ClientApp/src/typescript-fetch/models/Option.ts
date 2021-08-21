@@ -24,7 +24,7 @@ export interface Option {
      * @type {number}
      * @memberof Option
      */
-    optionId: number;
+    option_id: number;
     /**
      * 
      * @type {string}
@@ -43,7 +43,7 @@ export function OptionFromJSONTyped(json: any, ignoreDiscriminator: boolean): Op
     }
     return {
         
-        'optionId': json['option_id'],
+        'option_id': json['option_id'],
         'description': !exists(json, 'description') ? undefined : json['description'],
     };
 }
@@ -57,7 +57,7 @@ export function OptionToJSON(value?: Option | null): any {
     }
     return {
         
-        'option_id': value.optionId,
+        'option_id': value.option_id,
         'description': value.description,
     };
 }

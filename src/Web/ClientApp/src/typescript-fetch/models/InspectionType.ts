@@ -24,7 +24,7 @@ export interface InspectionType {
      * @type {number}
      * @memberof InspectionType
      */
-    inspectionTypeId: number;
+    inspection_type_id: number;
     /**
      * 
      * @type {string}
@@ -43,7 +43,7 @@ export function InspectionTypeFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'inspectionTypeId': json['inspection_type_id'],
+        'inspection_type_id': json['inspection_type_id'],
         'description': json['description'],
     };
 }
@@ -57,7 +57,7 @@ export function InspectionTypeToJSON(value?: InspectionType | null): any {
     }
     return {
         
-        'inspection_type_id': value.inspectionTypeId,
+        'inspection_type_id': value.inspection_type_id,
         'description': value.description,
     };
 }
