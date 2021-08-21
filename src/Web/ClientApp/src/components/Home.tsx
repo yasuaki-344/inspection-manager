@@ -14,6 +14,7 @@ import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SearchIcon from '@material-ui/icons/Search';
 import { InspectionSheet, InspectionGroup, InspectionType } from '../inspection/Types';
 import { initialState } from '../inspection/operator/InspectionSheetOperator';
+import { InspectionGroupsApi } from './../typescript-fetch/apis/InspectionGroupsApi'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Home: FC = (): JSX.Element => {
   const classes = useStyles();
+  const groupApi = new InspectionGroupsApi();
 
   const [groups, setGroups] = useState<InspectionGroup[]>([]);
   const [types, setTypes] = useState<InspectionType[]>([]);
@@ -42,11 +44,8 @@ export const Home: FC = (): JSX.Element => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    fetch('inspectiongroup')
-      .then(res => res.json())
-      .then((json: InspectionGroup[]) => {
-        setGroups(json);
-      })
+    groupApi.inspectionGroupsGet()
+      .then(res => { setGroups(res); })
       .catch(console.error);
 
     fetch('inspectiontype')
