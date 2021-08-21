@@ -151,18 +151,39 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpDelete("{id:int}")]
-        [Route("[controller]")]
-        public async Task<ActionResult<ChoiceTemplateDto>> DeleteChoiceTemplateAsync(int id)
+        /// <summary>
+        /// Deletes the ChoiceTemplate model.
+        /// </summary>
+        /// <param name="choiceTemplateId">Choice template ID to delete</param>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Invalid ID supplied</response>
+        /// <response code="404">Not found</response>
+        /// <response code="500">Internal Server Error</response>
+        [HttpDelete]
+        [Route("/v1/choice-templates/{choiceTemplateId}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteChoiceTemplateAsync([FromRoute][Required] int? choiceTemplateId)
         {
             try
             {
-                _logger.LogInformation($"try to delete choice template {id}");
-                if (!_repository.ChoiceTemplateExists(id))
+                if (choiceTemplateId.HasValue)
                 {
-                    return NotFound($"choice template with Id = {id} not found");
+                    _logger.LogInformation($"try to delete choice template {choiceTemplateId}");
+                    if (!_repository.ChoiceTemplateExists(choiceTemplateId.Value))
+                    {
+                        return NotFound($"choice template with Id = {choiceTemplateId} not found");
+                    }
+                    await _repository.DeleteChoiceTemplateAsync(choiceTemplateId.Value);
+                    return StatusCode(StatusCodes.Status204NoContent);
                 }
-                return await _repository.DeleteChoiceTemplateAsync(id);
+                else
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest);
+                }
             }
             catch (Exception ex)
             {

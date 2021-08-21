@@ -120,23 +120,20 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    * @param id The template ID to be removed.
    */
   const handleDeleteTemplate = (id: number) => {
-    fetch(`choicetemplate/${id}`, {
-      method: 'DELETE',
+    api.choiceTemplatesChoiceTemplateIdDelete({
+      'choiceTemplateId': id
     })
-      .then((res) => {
-        if (!res.ok) {
-          setSuccessMessage('');
-          setErrorMessage('削除に失敗しました');
-        }
-        return res.json();
-      })
-      .then((json: ChoiceTemplate) => {
+      .then(() => {
         setTemplates(templates.filter((x: ChoiceTemplate) =>
-          x.choice_template_id !== json.choice_template_id));
+          x.choice_template_id !== id));
         setSuccessMessage('削除に成功しました');
         setErrorMessage('');
       })
-      .catch(console.error);
+      .catch(error => {
+        console.error(error);
+        setSuccessMessage('');
+        setErrorMessage('削除に失敗しました');
+      });
   };
 
   return (
