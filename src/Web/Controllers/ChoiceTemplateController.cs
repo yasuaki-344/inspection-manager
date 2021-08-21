@@ -93,22 +93,33 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpGet("{id:int}")]
-        [Route("[controller]")]
-        public ActionResult<ChoiceTemplateDto> GetChoiceTemplate(int id)
+        /// <summary>
+        /// Get ChoiceTemplate model by ID.
+        /// </summary>
+        /// <param name="choiceTemplateId">Choice template ID to get</param>
+        /// <response code="200">A single ChoiceTemplate model</response>
+        /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
+        /// <response code="404">対象リソースが存在しない Not Found</response>
+        /// <response code="500">システムエラー Internal Server Error</response>
+        [HttpGet]
+        [Route("/v1/choice-templates/{choiceTemplateId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChoiceTemplateDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetChoiceTemplate(int choiceTemplateId)
         {
             try
             {
-                _logger.LogInformation($"try to get choice template {id}");
-
-                var result = _repository.GetChoiceTemplate(id);
-                if (result == null)
+                _logger.LogInformation($"try to get choice template {choiceTemplateId}");
+                var result = _repository.GetChoiceTemplate(choiceTemplateId);
+                if (result != null)
                 {
-                    return NotFound();
+                    return Ok(result);
                 }
                 else
                 {
-                    return result;
+                    return NotFound($"template with Id = {choiceTemplateId} not found");
                 }
             }
             catch (Exception ex)
