@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
@@ -9,7 +11,6 @@ using Microsoft.Extensions.Logging;
 namespace InspectionManager.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class ChoiceTemplateController : ControllerBase
     {
         private readonly ICategoryRepository _repository;
@@ -29,8 +30,16 @@ namespace InspectionManager.Web.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Get all inspection types.
+        /// </summary>
+        /// <response code="200">A JSON array of InspectionType model</response>
+        /// <response code="500">システムエラー Internal Server Error</response>
         [HttpGet]
-        public ActionResult<ChoiceTemplateDto> GetAllChoiceTemplates()
+        [Route("/v1/choice-templates")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChoiceTemplateDto))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetAllChoiceTemplates()
         {
             try
             {
@@ -47,6 +56,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [Route("[controller]")]
         public ActionResult<ChoiceTemplateDto> GetChoiceTemplate(int id)
         {
             try
@@ -72,6 +82,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpPost]
+        [Route("[controller]")]
         public async Task<ActionResult<ChoiceTemplateDto>> CreateChoiceTemplate(ChoiceTemplateDto? dto)
         {
             try
@@ -98,6 +109,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Route("[controller]")]
         public async Task<ActionResult<ChoiceTemplateDto>> UpdateChoiceTemplate(ChoiceTemplateDto dto)
         {
             try
@@ -118,6 +130,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Route("[controller]")]
         public async Task<ActionResult<ChoiceTemplateDto>> DeleteChoiceTemplateAsync(int id)
         {
             try

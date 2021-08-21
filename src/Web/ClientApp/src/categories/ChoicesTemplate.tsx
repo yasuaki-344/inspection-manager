@@ -12,6 +12,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import { ChoiceTemplatesApi, ChoiceTemplate, Option } from '../typescript-fetch';
 
+const api = new ChoiceTemplatesApi();
 
 export const ChoicesTemplate: FC = (): JSX.Element => {
   const [open, setOpen] = useState(false);
@@ -26,9 +27,8 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    fetch('choicetemplate')
-      .then(res => res.json())
-      .then((json: ChoiceTemplate[]) => setTemplates(json))
+    api.choiceTemplatesGet()
+      .then(res => { setTemplates(res); })
       .catch(console.error);
   }, []);
 

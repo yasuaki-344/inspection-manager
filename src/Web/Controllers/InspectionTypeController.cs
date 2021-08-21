@@ -11,7 +11,6 @@ using Microsoft.Extensions.Logging;
 namespace InspectionManager.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class InspectionTypeController : ControllerBase
     {
         private readonly ICategoryRepository _repository;
@@ -21,7 +20,7 @@ namespace InspectionManager.Web.Controllers
         /// Initializes a new instance of InspectionTypeController class.
         /// </summary>
         /// <param name="repository">repository object</param>
-        /// /// <param name="logger">logger object</param>
+        /// <param name="logger">logger object</param>
         public InspectionTypeController(
             ICategoryRepository repository,
             ILogger<InspectionTypeController> logger
