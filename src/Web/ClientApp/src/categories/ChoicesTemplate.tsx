@@ -98,26 +98,19 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
         })
         .catch(console.error);
     } else {
-      fetch('choicetemplate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(target)
+      api.choiceTemplatesPost({
+        choiceTemplate: target
       })
-        .then((res) => {
-          if (!res.ok) {
-            setSuccessMessage('');
-            setErrorMessage('追加に失敗しました');
-          }
-          return res.json();
-        })
-        .then((json: ChoiceTemplate) => {
-          setTemplates(templates.concat(json));
+        .then(res => {
+          setTemplates(templates.concat(res));
           setSuccessMessage('追加に成功しました');
           setErrorMessage('');
         })
-        .catch(console.error);
+        .catch(error => {
+          console.error(error);
+          setSuccessMessage('');
+          setErrorMessage('追加に失敗しました');
+        });
     }
     setOpen(false);
   };

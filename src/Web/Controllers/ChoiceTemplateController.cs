@@ -55,6 +55,44 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// Create a new ChoiceTemplate model
+        /// </summary>
+        /// <param name="dto">Choice template to create</param>
+        /// <response code="201">正常系（非同期）Created</response>
+        /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
+        /// <response code="500">システムエラー Internal Server Error</response>
+        [HttpPost]
+        [Route("/v1/choice-templates")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ChoiceTemplateDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreateChoiceTemplate(ChoiceTemplateDto? dto)
+        {
+            try
+            {
+                _logger.LogInformation("try to create choice template");
+                if (dto == null)
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    var result = await _repository.CreateChoiceTemplateAsync(dto);
+                    return CreatedAtAction(nameof(GetChoiceTemplate),
+                    new { id = result.ChoiceTemplateId }, result);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error creating new choice template"
+                );
+            }
+        }
+
         [HttpGet("{id:int}")]
         [Route("[controller]")]
         public ActionResult<ChoiceTemplateDto> GetChoiceTemplate(int id)
@@ -78,33 +116,6 @@ namespace InspectionManager.Web.Controllers
                 _logger.LogError(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Error retrieving data from the database");
-            }
-        }
-
-        [HttpPost]
-        [Route("[controller]")]
-        public async Task<ActionResult<ChoiceTemplateDto>> CreateChoiceTemplate(ChoiceTemplateDto? dto)
-        {
-            try
-            {
-                _logger.LogInformation("try to create choice template");
-                if (dto == null)
-                {
-                    return BadRequest();
-                }
-                else
-                {
-                    var result = await _repository.CreateChoiceTemplateAsync(dto);
-                    return CreatedAtAction(nameof(GetChoiceTemplate),
-                    new { id = result.ChoiceTemplateId }, result);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error creating new choice template"
-                );
             }
         }
 
