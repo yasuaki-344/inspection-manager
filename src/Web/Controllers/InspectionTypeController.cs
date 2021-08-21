@@ -101,21 +101,34 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpGet("{id:int}")]
-        public ActionResult<InspectionTypeDto> GetInspectionType(int id)
+        /// <summary>
+        /// Get InspectionType model by ID.
+        /// </summary>
+        /// <param name="inspectionTypeId">inspection type ID to get</param>
+        /// <response code="200">A single InspectionType model</response>
+        /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
+        /// <response code="404">対象リソースが存在しない Not Found</response>
+        /// <response code="500">システムエラー Internal Server Error</response>
+        [HttpGet]
+        [Route("/v1/inspection-types/{inspectionTypeId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionTypeDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetInspectionType(int inspectionTypeId)
         {
             try
             {
-                _logger.LogInformation($"try to get inspection type {id}");
+                _logger.LogInformation($"try to get inspection type {inspectionTypeId}");
 
-                var result = _repository.GetInspectionType(id);
-                if (result == null)
+                var result = _repository.GetInspectionType(inspectionTypeId);
+                if (result != null)
                 {
-                    return NotFound();
+                    return Ok(result);
                 }
                 else
                 {
-                    return result;
+                    return NotFound($"type with Id = {inspectionTypeId} not found");
                 }
             }
             catch (Exception ex)
