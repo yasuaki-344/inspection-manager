@@ -1,10 +1,4 @@
-﻿//
-// Copyright (c) 2021 Yasuaki Miyoshi
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
-//
-using AutoMapper;
+﻿using AutoMapper;
 using InspectionManager.ApplicationCore.Interfaces;
 using InspectionManager.ApplicationCore.Services;
 using InspectionManager.Infrastructure;
