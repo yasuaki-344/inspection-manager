@@ -133,18 +133,44 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpPut("{id:int}")]
-        [Route("[controller]")]
-        public async Task<ActionResult<InspectionGroupDto>> UpdateInspectionGroup(InspectionGroupDto dto)
+        /// <summary>
+        /// Updates the InspectionGroup model.
+        /// </summary>
+        /// <param name="inspectionGroupId">inspection group ID to update</param>
+        /// <param name="body">inspection group to update</param>
+        /// <response code="202">正常系（非同期）Accepted</response>
+        /// <response code="400">Invalid ID supplied</response>
+        /// <response code="404">Not found</response>
+        /// <response code="500">Internal Server Error</response>
+        [HttpPut]
+        [Route("/v1/inspection-groups/{inspectionGroupId}")]
+        public async Task<ActionResult<InspectionGroupDto>> UpdateInspectionGroup([FromRoute][Required] int? inspectionGroupId, [FromBody] InspectionGroupDto dto)
         {
             try
             {
-                _logger.LogInformation($"try to update inspection group {dto.InspectionGroupId}");
-                if (!_repository.InspectionGroupExists(dto.InspectionGroupId))
+                if (inspectionGroupId.HasValue)
                 {
-                    return NotFound($"Group with Id = {dto.InspectionGroupId} not found");
+                    _logger.LogInformation($"try to update inspection group {dto.InspectionGroupId}");
+                    if (_repository.InspectionGroupExists(dto.InspectionGroupId))
+                    {
+                        if (inspectionGroupId.Value == dto.InspectionGroupId)
+                        {
+                            return await _repository.UpdateInspectionGroupAsync(dto);
+                        }
+                        else
+                        {
+                            return BadRequest("Invalid ID supplied");
+                        }
+                    }
+                    else
+                    {
+                        return NotFound($"Group with Id = {dto.InspectionGroupId} not found");
+                    }
                 }
-                return await _repository.UpdateInspectionGroupAsync(dto);
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {

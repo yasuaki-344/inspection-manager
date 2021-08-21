@@ -63,24 +63,14 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
 
   const handleRegistration = (): void => {
     if (isUpdate) {
-      fetch(`inspectiongroup/${target.inspection_group_id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(target)
+      api.inspectionGroupsInspectionGroupIdPut({
+        'inspectionGroupId': target.inspection_group_id,
+        'inspectionGroup': target
       })
-        .then((res) => {
-          if (!res.ok) {
-            setSuccessMessage('');
-            setErrorMessage('更新に失敗しました');
-          }
-          return res.json();
-        })
-        .then((json: InspectionGroup) => {
+        .then(res => {
           setGroups(groups.map(x => {
-            if (x.inspection_group_id === json.inspection_group_id) {
-              return json;
+            if (x.inspection_group_id === res.inspection_group_id) {
+              return res;
             } else {
               return x;
             }
@@ -88,7 +78,11 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
           setSuccessMessage('更新に成功しました');
           setErrorMessage('');
         })
-        .catch(console.error);
+        .catch(error => {
+          console.error(error);
+          setSuccessMessage('');
+          setErrorMessage('更新に失敗しました');
+        });
     } else {
       api.inspectionGroupsPost({
         'inspectionGroup': target
