@@ -40,11 +40,12 @@ namespace InspectionManager.Web.Controllers
         /// Get all inspection groups.
         /// </summary>
         /// <response code="200">A JSON array of InspectionGroup model</response>
-        /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
         /// <response code="500">システムエラー Internal Server Error</response>
         [HttpGet]
         [Route("/v1/inspection-groups")]
-        public ActionResult<InspectionGroupDto> GetAllGroups()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionGroupDto))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetAllGroups()
         {
             try
             {
