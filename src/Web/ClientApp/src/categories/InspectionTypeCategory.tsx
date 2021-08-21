@@ -10,7 +10,10 @@ import MuiAlert from '@material-ui/lab/Alert';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
-import { InspectionType } from './../inspection/Types';
+import { InspectionType } from './../typescript-fetch/models/InspectionType';
+import { InspectionTypesApi } from './../typescript-fetch/apis/InspectionTypesApi';
+
+const api = new InspectionTypesApi();
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
   const [open, setOpen] = useState(false);
@@ -25,9 +28,8 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    fetch('inspectiontype')
-      .then(res => res.json())
-      .then((json: InspectionType[]) => setTypes(json))
+    api.inspectionTypesGet()
+      .then(res => setTypes(res))
       .catch(console.error);
   }, []);
 
@@ -62,24 +64,14 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
 
   const handleRegistration = (): void => {
     if (isUpdate) {
-      fetch(`inspectiontype/${target.inspection_type_id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(target)
+      api.inspectionTypesInspectionTypeIdPut({
+        inspectionTypeId: target.inspection_type_id,
+        inspectionType: target
       })
-        .then((res) => {
-          if (!res.ok) {
-            setSuccessMessage('');
-            setErrorMessage('更新に失敗しました');
-          }
-          return res.json();
-        })
-        .then((json: InspectionType) => {
+        .then(res => {
           setTypes(types.map(x => {
-            if (x.inspection_type_id === json.inspection_type_id) {
-              return json;
+            if (x.inspection_type_id === res.inspection_type_id) {
+              return res;
             } else {
               return x;
             }
@@ -87,28 +79,25 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
           setSuccessMessage('更新に成功しました');
           setErrorMessage('');
         })
-        .catch(console.error);
+        .catch(error => {
+          console.log(error);
+          setSuccessMessage('');
+          setErrorMessage('更新に失敗しました');
+        });
     } else {
-      fetch('inspectiontype', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(target)
+      api.inspectionTypesPost({
+        'inspectionType': target
       })
-        .then((res) => {
-          if (!res.ok) {
-            setSuccessMessage('');
-            setErrorMessage('追加に失敗しました');
-          }
-          return res.json();
-        })
-        .then((json: InspectionType) => {
-          setTypes(types.concat(json));
+        .then(res => {
+          setTypes(types.concat(res));
           setSuccessMessage('追加に成功しました');
           setErrorMessage('');
         })
-        .catch(console.error);
+        .catch(error => {
+          console.error(error);
+          setSuccessMessage('');
+          setErrorMessage('追加に失敗しました');
+        })
     }
     setOpen(false);
   }
@@ -118,23 +107,20 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
    * @param id Type ID to be deleted.
    */
   const handleDeleteItem = (id: number): void => {
-    fetch(`inspectiontype/${id}`, {
-      method: 'DELETE',
+    api.inspectionTypesInspectionTypeIdDelete({
+      'inspectionTypeId': id
     })
-      .then((res) => {
-        if (!res.ok) {
-          setSuccessMessage('');
-          setErrorMessage('削除に失敗しました');
-        }
-        return res.json();
-      })
-      .then((json: InspectionType) => {
+      .then(() => {
         setTypes(types.filter((x: InspectionType) =>
-          x.inspection_type_id !== json.inspection_type_id));
+          x.inspection_type_id !== id));
         setSuccessMessage('削除に成功しました');
         setErrorMessage('');
       })
-      .catch(console.error);
+      .catch(error => {
+        console.error(error);
+        setSuccessMessage('');
+        setErrorMessage('削除に失敗しました');
+      });
   }
 
   return (
@@ -192,7 +178,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
                             data-testid={`remove-type-button-${index}`}
                             size="small"
                             color='secondary'
-                            onClick={() => handleDeleteItem(index)}
+                            onClick={() => handleDeleteItem(type.inspection_type_id)}
                           >
                             <CancelIcon />
                           </IconButton>

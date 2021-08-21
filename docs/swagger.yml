@@ -167,8 +167,6 @@ paths:
                     description: type1
                   - inspection_type_id: 2
                     description: type2
-        "400":
-          description: バリデーションエラー or 業務エラー Bad Request
         "500":
           description: システムエラー Internal Server Error
     post:
@@ -187,8 +185,8 @@ paths:
               id: 0
               name: new type
       responses:
-        "202":
-          description: 正常系（非同期）Accepted
+        "201":
+          description: 正常系（非同期）Created
           content:
             application/json:
               schema:
@@ -223,6 +221,8 @@ paths:
               example:
                 inspection_group_id: 1
                 description: type name
+        "400":
+          description: 無効なID Bad Request
         "404":
           description: 対象リソースが存在しない Not Found
         "500":
@@ -239,9 +239,18 @@ paths:
           required: true
           schema:
             type: integer
+      requestBody:
+        description: inspection type to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InspectionType'
+            example:
+              id: 1
+              name: update type
       responses:
-        "202":
-          description: 正常系（非同期）Accepted
+        "201":
+          description: 正常系（非同期）Created
           content:
             application/json:
               schema:

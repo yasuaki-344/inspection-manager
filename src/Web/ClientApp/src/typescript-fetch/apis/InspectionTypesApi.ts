@@ -30,6 +30,7 @@ export interface InspectionTypesInspectionTypeIdGetRequest {
 
 export interface InspectionTypesInspectionTypeIdPutRequest {
     inspectionTypeId: number;
+    inspectionType?: InspectionType;
 }
 
 export interface InspectionTypesPostRequest {
@@ -91,6 +92,7 @@ export interface InspectionTypesApiInterface {
      * 
      * @summary Updates the InspectionType model.
      * @param {number} inspectionTypeId inspection type ID to update
+     * @param {InspectionType} [inspectionType] inspection type to update
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof InspectionTypesApiInterface
@@ -221,11 +223,14 @@ export class InspectionTypesApi extends runtime.BaseAPI implements InspectionTyp
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        headerParameters['Content-Type'] = 'application/json';
+
         const response = await this.request({
             path: `/inspection-types/{inspection_type_id}`.replace(`{${"inspection_type_id"}}`, encodeURIComponent(String(requestParameters.inspectionTypeId))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
+            body: InspectionTypeToJSON(requestParameters.inspectionType),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => InspectionTypeFromJSON(jsonValue));

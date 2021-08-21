@@ -109,7 +109,7 @@ namespace InspectionManager.Web.Controllers
         /// <summary>
         /// Create a new InspectionGroup model
         /// </summary>
-        /// <param name="body">inspection group to create</param>
+        /// <param name="dto">inspection group to create</param>
         /// <response code="201">正常系（非同期）Created</response>
         /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
         /// <response code="500">システムエラー Internal Server Error</response>
@@ -148,7 +148,7 @@ namespace InspectionManager.Web.Controllers
         /// Updates the InspectionGroup model.
         /// </summary>
         /// <param name="inspectionGroupId">inspection group ID to update</param>
-        /// <param name="body">inspection group to update</param>
+        /// <param name="dto">inspection group to update</param>
         /// <response code="201">正常系（非同期）Created</response>
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Not found</response>
@@ -160,7 +160,7 @@ namespace InspectionManager.Web.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateInspectionGroup([FromRoute][Required] int? inspectionGroupId, [FromBody] InspectionGroupDto dto)
+        public async Task<IActionResult> UpdateInspectionGroupAsync([FromRoute][Required] int? inspectionGroupId, [FromBody] InspectionGroupDto dto)
         {
             try
             {
