@@ -41,7 +41,7 @@ namespace InspectionManager.Web.Controllers
         /// </summary>
         /// <response code="200">A JSON array of InspectionGroup model</response>
         /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
-        /// <response code="503">システムエラー Internal Server Error</response>
+        /// <response code="500">システムエラー Internal Server Error</response>
         [HttpGet]
         [Route("/v1/inspection-groups")]
         public ActionResult<InspectionGroupDto> GetAllGroups()
@@ -66,7 +66,7 @@ namespace InspectionManager.Web.Controllers
         /// <param name="inspectionGroupId">inspection group ID to get</param>
         /// <response code="200">A single InspectionGroup model</response>
         /// <response code="404">対象リソースが存在しない Not Found</response>
-        /// <response code="503">システムエラー Internal Server Error</response>
+        /// <response code="500">システムエラー Internal Server Error</response>
         [HttpGet]
         [Route("/v1/inspection-groups/{inspectionGroupId}")]
         public ActionResult<InspectionGroupDto> GetInspectionGroup([FromRoute][Required] int? inspectionGroupId)
@@ -161,10 +161,9 @@ namespace InspectionManager.Web.Controllers
         /// <response code="204">No Content</response>
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Not found</response>
-        /// <response code="503">Internal Server Error</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpDelete]
         [Route("/v1/inspection-groups/{inspectionGroupId}")]
-        //public async Task<IActionResult> DeleteInspectionGroupAsync([FromRoute][Required] int? inspectionGroupId)
         public async Task<IActionResult> DeleteInspectionGroupAsync([FromRoute][Required] int? inspectionGroupId)
         {
             try

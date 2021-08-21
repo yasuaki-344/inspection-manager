@@ -30,7 +30,7 @@ paths:
                     description: group2
         "400":
           description: バリデーションエラー or 業務エラー Bad Request
-        "503":
+        "500":
           description: システムエラー Internal Server Error
     post:
       tags:
@@ -59,7 +59,7 @@ paths:
                 description: inspection group
         "400":
           description: バリデーションエラー or 業務エラー Bad Request
-        "503":
+        "500":
           description: システムエラー Internal Server Error
   /inspection-groups/{inspection_group_id}:
     get:
@@ -86,7 +86,7 @@ paths:
                 description: group name
         "404":
           description: 対象リソースが存在しない Not Found
-        "503":
+        "500":
           description: システムエラー Internal Server Error
     put:
       tags:
@@ -114,7 +114,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Not found"
-        "503":
+        "500":
           description: "Internal Server Error"
     delete:
       tags:
@@ -135,7 +135,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Not found"
-        "503":
+        "500":
           description: "Internal Server Error"
   /inspection-types:
     get:
@@ -160,7 +160,7 @@ paths:
                     description: type2
         "400":
           description: バリデーションエラー or 業務エラー Bad Request
-        "503":
+        "500":
           description: システムエラー Internal Server Error
     post:
       tags:
@@ -189,7 +189,7 @@ paths:
                 description: inspection type
         "400":
           description: バリデーションエラー or 業務エラー Bad Request
-        "503":
+        "500":
           description: システムエラー Internal Server Error
   /inspection-types/{inspection_type_id}:
     get:
@@ -216,7 +216,7 @@ paths:
                 description: type name
         "404":
           description: 対象リソースが存在しない Not Found
-        "503":
+        "500":
           description: システムエラー Internal Server Error
     put:
       tags:
@@ -244,7 +244,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Not found"
-        "503":
+        "500":
           description: "Internal Server Error"
     delete:
       tags:
@@ -265,7 +265,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Not found"
-        "503":
+        "500":
           description: "Internal Server Error"
   /choice-templates:
     get:
@@ -304,7 +304,7 @@ paths:
           description: 認証エラー Unauthorized
         "403":
           description: 認可エラー Forbidden
-        "503":
+        "500":
           description: システムエラー Internal Server Error
     post:
       tags:
@@ -340,7 +340,7 @@ paths:
           description: 一意制約違反エラー Conflict
         "409":
           description: 親リソースが存在しないエラー Not Found
-        "503":
+        "500":
           description: システムエラー Internal Server Error
   /choice-templates/{choiceTemplateId}:
     get:
@@ -379,7 +379,7 @@ paths:
           description: 認可エラー Forbidden
         "404":
           description: 対象リソースが存在しない Not Found
-        "503":
+        "500":
           description: システムエラー Internal Server Error
     put:
       tags:
@@ -406,7 +406,7 @@ paths:
           description: 認可エラー Forbidden
         "404":
           description: "ChoiceTemplate not found"
-        "503":
+        "500":
           description: システムエラー Internal Server Error
     delete:
       tags:
@@ -431,7 +431,7 @@ paths:
           description: 認可エラー Forbidden
         "404":
           description: "ChoiceTemplate not found"
-        "503":
+        "500":
           description: システムエラー Internal Server Error
 components:
   schemas:
