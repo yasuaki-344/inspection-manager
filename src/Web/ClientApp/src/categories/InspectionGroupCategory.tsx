@@ -11,8 +11,10 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import { InspectionGroup } from './../inspection/Types';
+import { InspectionGroupsApi } from './../typescript-fetch/apis/InspectionGroupsApi'
 
 export const InspectionGroupCategory: FC = (): JSX.Element => {
+  const api = new InspectionGroupsApi();
   const [open, setOpen] = useState(false);
   const [groups, setGroups] = useState<InspectionGroup[]>([]);
   const [disabled, setDisabled] = useState(false);
@@ -25,11 +27,10 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    fetch('inspectiongroup')
-      .then(res => res.json())
-      .then((json: InspectionGroup[]) => setGroups(json))
+    api.inspectionGroupsGet()
+      .then(res => setGroups(res))
       .catch(console.error);
-  }, []);
+  });
 
   useEffect(() => {
     setDisabled(!target.description.length);

@@ -16,7 +16,6 @@ using Microsoft.Extensions.Logging;
 namespace InspectionManager.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class InspectionGroupController : ControllerBase
     {
         private readonly ICategoryRepository _repository;
@@ -36,7 +35,14 @@ namespace InspectionManager.Web.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Get all inspection groups.
+        /// </summary>
+        /// <response code="200">A JSON array of InspectionGroup model</response>
+        /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
+        /// <response code="503">システムエラー Internal Server Error</response>
         [HttpGet]
+        [Route("/v1/inspection-groups")]
         public ActionResult<InspectionGroupDto> GetAllGroups()
         {
             try
@@ -54,6 +60,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [Route("[controller]")]
         public ActionResult<InspectionGroupDto> GetInspectionGroup(int id)
         {
             try
@@ -79,6 +86,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpPost]
+        [Route("[controller]")]
         public async Task<ActionResult<InspectionGroupDto>> CreateGroup(InspectionGroupDto? dto)
         {
             try
@@ -105,6 +113,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Route("[controller]")]
         public async Task<ActionResult<InspectionGroupDto>> UpdateInspectionGroup(InspectionGroupDto dto)
         {
             try
@@ -125,6 +134,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Route("[controller]")]
         public async Task<ActionResult<InspectionGroupDto>> DeleteInspectionGroupAsync(int id)
         {
             try
