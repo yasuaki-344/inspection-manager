@@ -30,6 +30,7 @@ export interface ChoiceTemplatesChoiceTemplateIdGetRequest {
 
 export interface ChoiceTemplatesChoiceTemplateIdPutRequest {
     choiceTemplateId: number;
+    choiceTemplate?: ChoiceTemplate;
 }
 
 export interface ChoiceTemplatesPostRequest {
@@ -78,16 +79,17 @@ export interface ChoiceTemplatesApiInterface {
      * 
      * @summary Updates a ChoiceTemplate
      * @param {number} choiceTemplateId choice template ID
+     * @param {ChoiceTemplate} [choiceTemplate] choice template to update
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ChoiceTemplatesApiInterface
      */
-    choiceTemplatesChoiceTemplateIdPutRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<runtime.ApiResponse<void>>;
+    choiceTemplatesChoiceTemplateIdPutRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<runtime.ApiResponse<ChoiceTemplate>>;
 
     /**
      * Updates a ChoiceTemplate
      */
-    choiceTemplatesChoiceTemplateIdPut(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<void>;
+    choiceTemplatesChoiceTemplateIdPut(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<ChoiceTemplate>;
 
     /**
      * Returns an array of ChoiceTemplate model
@@ -112,13 +114,13 @@ export interface ChoiceTemplatesApiInterface {
      * @throws {RequiredError}
      * @memberof ChoiceTemplatesApiInterface
      */
-    choiceTemplatesPostRaw(requestParameters: ChoiceTemplatesPostRequest): Promise<runtime.ApiResponse<void>>;
+    choiceTemplatesPostRaw(requestParameters: ChoiceTemplatesPostRequest): Promise<runtime.ApiResponse<ChoiceTemplate>>;
 
     /**
      * Create a new ChoiceTemplate
      * Create a new ChoiceTemplate
      */
-    choiceTemplatesPost(requestParameters: ChoiceTemplatesPostRequest): Promise<void>;
+    choiceTemplatesPost(requestParameters: ChoiceTemplatesPostRequest): Promise<ChoiceTemplate>;
 
 }
 
@@ -191,7 +193,7 @@ export class ChoiceTemplatesApi extends runtime.BaseAPI implements ChoiceTemplat
     /**
      * Updates a ChoiceTemplate
      */
-    async choiceTemplatesChoiceTemplateIdPutRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<runtime.ApiResponse<void>> {
+    async choiceTemplatesChoiceTemplateIdPutRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<runtime.ApiResponse<ChoiceTemplate>> {
         if (requestParameters.choiceTemplateId === null || requestParameters.choiceTemplateId === undefined) {
             throw new runtime.RequiredError('choiceTemplateId','Required parameter requestParameters.choiceTemplateId was null or undefined when calling choiceTemplatesChoiceTemplateIdPut.');
         }
@@ -200,21 +202,25 @@ export class ChoiceTemplatesApi extends runtime.BaseAPI implements ChoiceTemplat
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        headerParameters['Content-Type'] = 'application/json';
+
         const response = await this.request({
             path: `/choice-templates/{choiceTemplateId}`.replace(`{${"choiceTemplateId"}}`, encodeURIComponent(String(requestParameters.choiceTemplateId))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
+            body: ChoiceTemplateToJSON(requestParameters.choiceTemplate),
         });
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => ChoiceTemplateFromJSON(jsonValue));
     }
 
     /**
      * Updates a ChoiceTemplate
      */
-    async choiceTemplatesChoiceTemplateIdPut(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<void> {
-        await this.choiceTemplatesChoiceTemplateIdPutRaw(requestParameters);
+    async choiceTemplatesChoiceTemplateIdPut(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<ChoiceTemplate> {
+        const response = await this.choiceTemplatesChoiceTemplateIdPutRaw(requestParameters);
+        return await response.value();
     }
 
     /**
@@ -249,7 +255,7 @@ export class ChoiceTemplatesApi extends runtime.BaseAPI implements ChoiceTemplat
      * Create a new ChoiceTemplate
      * Create a new ChoiceTemplate
      */
-    async choiceTemplatesPostRaw(requestParameters: ChoiceTemplatesPostRequest): Promise<runtime.ApiResponse<void>> {
+    async choiceTemplatesPostRaw(requestParameters: ChoiceTemplatesPostRequest): Promise<runtime.ApiResponse<ChoiceTemplate>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -264,15 +270,16 @@ export class ChoiceTemplatesApi extends runtime.BaseAPI implements ChoiceTemplat
             body: ChoiceTemplateToJSON(requestParameters.choiceTemplate),
         });
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => ChoiceTemplateFromJSON(jsonValue));
     }
 
     /**
      * Create a new ChoiceTemplate
      * Create a new ChoiceTemplate
      */
-    async choiceTemplatesPost(requestParameters: ChoiceTemplatesPostRequest): Promise<void> {
-        await this.choiceTemplatesPostRaw(requestParameters);
+    async choiceTemplatesPost(requestParameters: ChoiceTemplatesPostRequest): Promise<ChoiceTemplate> {
+        const response = await this.choiceTemplatesPostRaw(requestParameters);
+        return await response.value();
     }
 
 }

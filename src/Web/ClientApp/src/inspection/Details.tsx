@@ -11,8 +11,7 @@ import {
   useInputTypes, InspectionSheet, Equipment, InspectionItem
 } from './Types';
 import { initialState } from './operator/InspectionSheetOperator';
-import { InspectionGroup } from './../typescript-fetch/models/InspectionGroup';
-import { InspectionType } from './../typescript-fetch/models/InspectionType';
+import { InspectionGroup, InspectionType } from '../typescript-fetch';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

@@ -1,6 +1,7 @@
 import React, { createContext } from 'react';
-import { ChoiceTemplate, InspectionItem, InspectionItemContextType } from '../Types';
+import { InspectionItem, InspectionItemContextType } from '../Types';
 import { initialState } from '../operator/InspectionItemOperator';
+import { ChoiceTemplate } from '../../typescript-fetch';
 
 export const InspectionItemContext = createContext<InspectionItemContextType>({
   inspectionItem: initialState(),

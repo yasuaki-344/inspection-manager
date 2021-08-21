@@ -10,7 +10,9 @@ import MuiAlert from '@material-ui/lab/Alert';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
-import { ChoiceTemplate, Option } from '../inspection/Types';
+import { ChoiceTemplatesApi, ChoiceTemplate, Option } from '../typescript-fetch';
+
+const api = new ChoiceTemplatesApi();
 
 export const ChoicesTemplate: FC = (): JSX.Element => {
   const [open, setOpen] = useState(false);
@@ -25,9 +27,8 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    fetch('choicetemplate')
-      .then(res => res.json())
-      .then((json: ChoiceTemplate[]) => setTemplates(json))
+    api.choiceTemplatesGet()
+      .then(res => { setTemplates(res); })
       .catch(console.error);
   }, []);
 
@@ -70,24 +71,14 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    */
   const handleRegistration = () => {
     if (isUpdate) {
-      fetch(`choicetemplate/${target.choice_template_id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(target)
+      api.choiceTemplatesChoiceTemplateIdPut({
+        'choiceTemplateId': target.choice_template_id,
+        'choiceTemplate': target
       })
-        .then((res) => {
-          if (!res.ok) {
-            setSuccessMessage('');
-            setErrorMessage('更新に失敗しました');
-          }
-          return res.json();
-        })
-        .then((json: ChoiceTemplate) => {
+        .then(res => {
           setTemplates(templates.map(x => {
-            if (x.choice_template_id === json.choice_template_id) {
-              return json;
+            if (x.choice_template_id === res.choice_template_id) {
+              return res;
             } else {
               return x;
             }
@@ -95,28 +86,25 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
           setSuccessMessage('更新に成功しました');
           setErrorMessage('');
         })
-        .catch(console.error);
-    } else {
-      fetch('choicetemplate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(target)
-      })
-        .then((res) => {
-          if (!res.ok) {
-            setSuccessMessage('');
-            setErrorMessage('追加に失敗しました');
-          }
-          return res.json();
+        .catch(error => {
+          console.error(error);
+          setSuccessMessage('');
+          setErrorMessage('更新に失敗しました');
         })
-        .then((json: ChoiceTemplate) => {
-          setTemplates(templates.concat(json));
+    } else {
+      api.choiceTemplatesPost({
+        choiceTemplate: target
+      })
+        .then(res => {
+          setTemplates(templates.concat(res));
           setSuccessMessage('追加に成功しました');
           setErrorMessage('');
         })
-        .catch(console.error);
+        .catch(error => {
+          console.error(error);
+          setSuccessMessage('');
+          setErrorMessage('追加に失敗しました');
+        });
     }
     setOpen(false);
   };
@@ -126,23 +114,20 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    * @param id The template ID to be removed.
    */
   const handleDeleteTemplate = (id: number) => {
-    fetch(`choicetemplate/${id}`, {
-      method: 'DELETE',
+    api.choiceTemplatesChoiceTemplateIdDelete({
+      'choiceTemplateId': id
     })
-      .then((res) => {
-        if (!res.ok) {
-          setSuccessMessage('');
-          setErrorMessage('削除に失敗しました');
-        }
-        return res.json();
-      })
-      .then((json: ChoiceTemplate) => {
+      .then(() => {
         setTemplates(templates.filter((x: ChoiceTemplate) =>
-          x.choice_template_id !== json.choice_template_id));
+          x.choice_template_id !== id));
         setSuccessMessage('削除に成功しました');
         setErrorMessage('');
       })
-      .catch(console.error);
+      .catch(error => {
+        console.error(error);
+        setSuccessMessage('');
+        setErrorMessage('削除に失敗しました');
+      });
   };
 
   return (
@@ -227,7 +212,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
         <DialogContent>
           <Grid container spacing={1}>
             {target.choices.map((choice: Option, index: number) =>
-              <Grid item xs={12} key={choice.option_id}>
+              <Grid item xs={12} key={index}>
                 <TextField
                   required
                   id='outlined-required'

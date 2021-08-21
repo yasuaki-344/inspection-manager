@@ -14,10 +14,10 @@ import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SearchIcon from '@material-ui/icons/Search';
 import { InspectionSheet } from '../inspection/Types';
 import { initialState } from '../inspection/operator/InspectionSheetOperator';
-import { InspectionGroup } from './../typescript-fetch/models/InspectionGroup';
-import { InspectionType } from './../typescript-fetch/models/InspectionType';
-import { InspectionGroupsApi } from './../typescript-fetch/apis/InspectionGroupsApi';
-import { InspectionTypesApi } from './../typescript-fetch/apis/InspectionTypesApi';
+import {
+  InspectionGroup, InspectionGroupsApi,
+  InspectionType, InspectionTypesApi
+} from '../typescript-fetch';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

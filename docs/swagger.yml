@@ -316,12 +316,6 @@ paths:
                         description: No
                       - id: 5
                         description: Unknown
-        "400":
-          description: バリデーションエラー or 業務エラー Bad Request
-        "401":
-          description: 認証エラー Unauthorized
-        "403":
-          description: 認可エラー Forbidden
         "500":
           description: システムエラー Internal Server Error
     post:
@@ -346,18 +340,19 @@ paths:
       responses:
         "201":
           description: 正常系（同期）Created
-        "202":
-          description: 正常系（非同期）Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChoiceTemplate'
+                example:
+                  choice_template_id: 1
+                  choices:
+                    - id: 1
+                      description: OK
+                    - id: 2
+                      description: NG
         "400":
           description: バリデーションエラー or 業務エラー Bad Request
-        "401":
-          description: 認証エラー Unauthorized
-        "403":
-          description: 認可エラー Forbidden
-        "404":
-          description: 一意制約違反エラー Conflict
-        "409":
-          description: 親リソースが存在しないエラー Not Found
         "500":
           description: システムエラー Internal Server Error
   /choice-templates/{choiceTemplateId}:
@@ -391,10 +386,6 @@ paths:
                       description: NG
         "400":
           description: バリデーションエラー or 業務エラー Bad Request
-        "401":
-          description: 認証エラー Unauthorized
-        "403":
-          description: 認可エラー Forbidden
         "404":
           description: 対象リソースが存在しない Not Found
         "500":
@@ -411,17 +402,35 @@ paths:
           required: true
           schema:
             type: integer
+      requestBody:
+        description: choice template to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChoiceTemplate'
+            example:
+              choice_template_id: 1
+              choices:
+                - id: 1
+                  description: OK
+                - id: 2
+                  description: NG
       responses:
-        "200":
-          description: 正常系（同期）OK
-        "202":
-          description: 正常系（非同期）Accepted
+        "201":
+          description: 正常系（非同期）Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChoiceTemplate'
+              example:
+                choice_template_id: 1
+                choices:
+                  - id: 1
+                    description: OK
+                  - id: 2
+                    description: NG
         "400":
           description: "Invalid ID supplied"
-        "401":
-          description: 認証エラー Unauthorized
-        "403":
-          description: 認可エラー Forbidden
         "404":
           description: "ChoiceTemplate not found"
         "500":
@@ -443,10 +452,6 @@ paths:
           description: No Content
         "400":
           description: "Invalid ID supplied"
-        "401":
-          description: 認証エラー Unauthorized
-        "403":
-          description: 認可エラー Forbidden
         "404":
           description: "ChoiceTemplate not found"
         "500":
@@ -479,6 +484,7 @@ components:
       type: object
       required:
         - choice_template_id
+        - choices
       properties:
         choice_template_id:
           type: integer

@@ -1,3 +1,5 @@
+import { ChoiceTemplate } from "../typescript-fetch";
+
 export const ItemType = {
   EQUIPMENT: 'EQUIPMENT',
   INSPECTION_ITEM: 'INSPECTION_ITEM',
@@ -15,16 +17,6 @@ export const useInputTypes = [
   { value: 3, label: "項目選択" },
   { value: 6, label: "日付入力" },
 ];
-
-export type Option = {
-  option_id: number,
-  description: string,
-};
-
-export type ChoiceTemplate = {
-  choice_template_id: number,
-  choices: Option[],
-};
 
 export type Choice = {
   choice_id: number,
