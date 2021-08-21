@@ -60,22 +60,35 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpGet("{id:int}")]
-        [Route("[controller]")]
-        public ActionResult<InspectionGroupDto> GetInspectionGroup(int id)
+        /// <summary>
+        /// Get InspectionGroup model by ID.
+        /// </summary>
+        /// <param name="inspectionGroupId">inspection group ID to get</param>
+        /// <response code="200">A single InspectionGroup model</response>
+        /// <response code="404">対象リソースが存在しない Not Found</response>
+        /// <response code="503">システムエラー Internal Server Error</response>
+        [HttpGet]
+        [Route("/v1/inspection-groups/{inspectionGroupId}")]
+        public ActionResult<InspectionGroupDto> GetInspectionGroup([FromRoute][Required] int? inspectionGroupId)
         {
             try
             {
-                _logger.LogInformation($"try to get inspection group {id}");
-
-                var result = _repository.GetInspectionGroup(id);
-                if (result == null)
+                if (inspectionGroupId.HasValue)
                 {
-                    return NotFound();
+                    _logger.LogInformation($"try to get inspection group {inspectionGroupId}");
+                    var result = _repository.GetInspectionGroup(inspectionGroupId.Value);
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                    else
+                    {
+                        return NotFound($"group with Id = {inspectionGroupId} not found");
+                    }
                 }
                 else
                 {
-                    return result;
+                    return BadRequest();
                 }
             }
             catch (Exception ex)
