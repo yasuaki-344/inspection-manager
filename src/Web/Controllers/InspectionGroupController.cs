@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.
@@ -110,11 +110,12 @@ namespace InspectionManager.Web.Controllers
         /// Create a new InspectionGroup model
         /// </summary>
         /// <param name="body">inspection group to create</param>
-        /// <response code="201">正常系（非同期）Accepted</response>
+        /// <response code="201">正常系（非同期）Created</response>
         /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
         /// <response code="500">システムエラー Internal Server Error</response>
         [HttpPost]
         [Route("/v1/inspection-groups")]
+        [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionGroupDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -148,13 +149,18 @@ namespace InspectionManager.Web.Controllers
         /// </summary>
         /// <param name="inspectionGroupId">inspection group ID to update</param>
         /// <param name="body">inspection group to update</param>
-        /// <response code="202">正常系（非同期）Accepted</response>
+        /// <response code="201">正常系（非同期）Created</response>
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Not found</response>
         /// <response code="500">Internal Server Error</response>
         [HttpPut]
         [Route("/v1/inspection-groups/{inspectionGroupId}")]
-        public async Task<ActionResult<InspectionGroupDto>> UpdateInspectionGroup([FromRoute][Required] int? inspectionGroupId, [FromBody] InspectionGroupDto dto)
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionGroupDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateInspectionGroup([FromRoute][Required] int? inspectionGroupId, [FromBody] InspectionGroupDto dto)
         {
             try
             {
@@ -165,7 +171,9 @@ namespace InspectionManager.Web.Controllers
                     {
                         if (inspectionGroupId.Value == dto.InspectionGroupId)
                         {
-                            return await _repository.UpdateInspectionGroupAsync(dto);
+                            var result = await _repository.UpdateInspectionGroupAsync(dto);
+                            return CreatedAtAction(nameof(GetInspectionGroup),
+                            new { id = result.InspectionGroupId }, result);
                         }
                         else
                         {
