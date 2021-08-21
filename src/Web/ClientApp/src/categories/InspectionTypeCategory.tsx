@@ -178,7 +178,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
                             data-testid={`remove-type-button-${index}`}
                             size="small"
                             color='secondary'
-                            onClick={() => handleDeleteItem(index)}
+                            onClick={() => handleDeleteItem(type.inspection_type_id)}
                           >
                             <CancelIcon />
                           </IconButton>

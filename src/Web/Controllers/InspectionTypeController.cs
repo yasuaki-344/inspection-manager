@@ -120,7 +120,6 @@ namespace InspectionManager.Web.Controllers
             try
             {
                 _logger.LogInformation($"try to get inspection type {inspectionTypeId}");
-
                 var result = _repository.GetInspectionType(inspectionTypeId);
                 if (result != null)
                 {
@@ -161,7 +160,6 @@ namespace InspectionManager.Web.Controllers
             {
                 if (inspectionGroupId.HasValue)
                 {
-
                     _logger.LogInformation($"try to update inspection type {dto.InspectionTypeId}");
                     if (_repository.InspectionTypeExists(dto.InspectionTypeId))
                     {
@@ -208,7 +206,6 @@ namespace InspectionManager.Web.Controllers
             {
                 if (inspectionTypeId.HasValue)
                 {
-
                     _logger.LogInformation($"try to delete inspection type {inspectionTypeId}");
                     if (!_repository.InspectionTypeExists(inspectionTypeId.Value))
                     {
