@@ -212,7 +212,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
         <DialogContent>
           <Grid container spacing={1}>
             {target.choices.map((choice: Option, index: number) =>
-              <Grid item xs={12} key={choice.option_id}>
+              <Grid item xs={12} key={index}>
                 <TextField
                   required
                   id='outlined-required'
