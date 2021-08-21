@@ -8,11 +8,11 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import {
-  useInputTypes, InspectionSheet, Equipment, InspectionItem,
-  InspectionType
+  useInputTypes, InspectionSheet, Equipment, InspectionItem
 } from './Types';
 import { initialState } from './operator/InspectionSheetOperator';
 import { InspectionGroup } from './../typescript-fetch/models/InspectionGroup';
+import { InspectionType } from './../typescript-fetch/models/InspectionType';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

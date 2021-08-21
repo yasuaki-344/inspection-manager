@@ -26,11 +26,6 @@ export type ChoiceTemplate = {
   choices: Option[],
 };
 
-export type InspectionType = {
-  inspection_type_id: number,
-  description: string,
-};
-
 export type Choice = {
   choice_id: number,
   description: string,
