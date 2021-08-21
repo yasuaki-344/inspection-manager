@@ -109,12 +109,15 @@ namespace InspectionManager.Web.Controllers
         /// Create a new InspectionGroup model
         /// </summary>
         /// <param name="body">inspection group to create</param>
-        /// <response code="202">正常系（非同期）Accepted</response>
+        /// <response code="201">正常系（非同期）Accepted</response>
         /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
         /// <response code="500">システムエラー Internal Server Error</response>
         [HttpPost]
         [Route("/v1/inspection-groups")]
-        public async Task<ActionResult<InspectionGroupDto>> CreateGroup([FromBody] InspectionGroupDto? dto)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionGroupDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreateGroup([FromBody] InspectionGroupDto? dto)
         {
             try
             {
