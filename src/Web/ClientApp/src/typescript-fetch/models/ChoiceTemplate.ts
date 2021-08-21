@@ -37,7 +37,7 @@ export interface ChoiceTemplate {
      * @type {Array<Option>}
      * @memberof ChoiceTemplate
      */
-    choices?: Array<Option>;
+    choices: Array<Option>;
 }
 
 export function ChoiceTemplateFromJSON(json: any): ChoiceTemplate {
@@ -51,7 +51,7 @@ export function ChoiceTemplateFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'choice_template_id': json['choice_template_id'],
-        'choices': !exists(json, 'choices') ? undefined : ((json['choices'] as Array<any>).map(OptionFromJSON)),
+        'choices': ((json['choices'] as Array<any>).map(OptionFromJSON)),
     };
 }
 
@@ -65,7 +65,7 @@ export function ChoiceTemplateToJSON(value?: ChoiceTemplate | null): any {
     return {
         
         'choice_template_id': value.choice_template_id,
-        'choices': value.choices === undefined ? undefined : ((value.choices as Array<any>).map(OptionToJSON)),
+        'choices': ((value.choices as Array<any>).map(OptionToJSON)),
     };
 }
 
