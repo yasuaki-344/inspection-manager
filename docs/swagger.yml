@@ -100,6 +100,15 @@ paths:
           required: true
           schema:
             type: integer
+      requestBody:
+        description: inspection group to update
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InspectionGroup"
+            example:
+              inspection_group_id: 1
+              description: group name
       responses:
         "202":
           description: 正常系（非同期）Accepted
