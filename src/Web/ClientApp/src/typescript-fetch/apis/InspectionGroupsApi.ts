@@ -30,6 +30,7 @@ export interface InspectionGroupsInspectionGroupIdGetRequest {
 
 export interface InspectionGroupsInspectionGroupIdPutRequest {
     inspectionGroupId: number;
+    inspectionGroup?: InspectionGroup;
 }
 
 export interface InspectionGroupsPostRequest {
@@ -91,6 +92,7 @@ export interface InspectionGroupsApiInterface {
      * 
      * @summary Updates the InspectionGroup model.
      * @param {number} inspectionGroupId inspection group ID to update
+     * @param {InspectionGroup} [inspectionGroup] inspection group to update
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof InspectionGroupsApiInterface
@@ -221,11 +223,14 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        headerParameters['Content-Type'] = 'application/json';
+
         const response = await this.request({
             path: `/inspection-groups/{inspection_group_id}`.replace(`{${"inspection_group_id"}}`, encodeURIComponent(String(requestParameters.inspectionGroupId))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
+            body: InspectionGroupToJSON(requestParameters.inspectionGroup),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => InspectionGroupFromJSON(jsonValue));
