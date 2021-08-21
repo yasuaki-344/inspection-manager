@@ -30,7 +30,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
     api.inspectionGroupsGet()
       .then(res => setGroups(res))
       .catch(console.error);
-  });
+  }, []);
 
   useEffect(() => {
     setDisabled(!target.description.length);
@@ -112,23 +112,20 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
    * @param id Group ID to be deleted.
    */
   const handleDeleteItem = (id: number): void => {
-    fetch(`inspectiongroup/${id}`, {
-      method: 'DELETE',
+    api.inspectionGroupsInspectionGroupIdDelete({
+      'inspectionGroupId': id
     })
-      .then((res) => {
-        if (!res.ok) {
-          setSuccessMessage('');
-          setErrorMessage('削除に失敗しました');
-        }
-        return res.json();
-      })
-      .then((json: InspectionGroup) => {
+      .then(() => {
         setGroups(groups.filter((x: InspectionGroup) =>
-          x.inspection_group_id !== json.inspection_group_id));
+          x.inspection_group_id !== id));
         setSuccessMessage('削除に成功しました');
         setErrorMessage('');
       })
-      .catch(console.error);
+      .catch(error => {
+        console.error(error);
+        setSuccessMessage('');
+        setErrorMessage('削除に失敗しました');
+      });
   }
 
   return (

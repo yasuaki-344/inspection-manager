@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.
@@ -154,18 +154,35 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpDelete("{id:int}")]
-        [Route("[controller]")]
-        public async Task<ActionResult<InspectionGroupDto>> DeleteInspectionGroupAsync(int id)
+        /// <summary>
+        /// Deletes the InspectionGroup model.
+        /// </summary>
+        /// <param name="inspectionGroupId">inspection group ID to delete</param>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Invalid ID supplied</response>
+        /// <response code="404">Not found</response>
+        /// <response code="503">Internal Server Error</response>
+        [HttpDelete]
+        [Route("/v1/inspection-groups/{inspectionGroupId}")]
+        //public async Task<IActionResult> DeleteInspectionGroupAsync([FromRoute][Required] int? inspectionGroupId)
+        public async Task<IActionResult> DeleteInspectionGroupAsync([FromRoute][Required] int? inspectionGroupId)
         {
             try
             {
-                _logger.LogInformation($"try to delete inspection group {id}");
-                if (!_repository.InspectionGroupExists(id))
+                if (inspectionGroupId.HasValue)
                 {
-                    return NotFound($"group with Id = {id} not found");
+                    _logger.LogInformation($"try to delete inspection group {inspectionGroupId}");
+                    if (!_repository.InspectionGroupExists(inspectionGroupId.Value))
+                    {
+                        return NotFound($"group with Id = {inspectionGroupId} not found");
+                    }
+                    await _repository.DeleteInspectionGroupAsync(inspectionGroupId.Value);
+                    return StatusCode(StatusCodes.Status204NoContent);
                 }
-                return await _repository.DeleteInspectionGroupAsync(id);
+                else
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest);
+                }
             }
             catch (Exception ex)
             {
