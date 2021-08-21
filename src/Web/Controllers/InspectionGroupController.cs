@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.
@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
@@ -94,7 +95,7 @@ namespace InspectionManager.Web.Controllers
         /// <response code="500">システムエラー Internal Server Error</response>
         [HttpPost]
         [Route("/v1/inspection-groups")]
-        public async Task<ActionResult<InspectionGroupDto>> CreateGroup([FromBody]InspectionGroupDto? dto)
+        public async Task<ActionResult<InspectionGroupDto>> CreateGroup([FromBody] InspectionGroupDto? dto)
         {
             try
             {
