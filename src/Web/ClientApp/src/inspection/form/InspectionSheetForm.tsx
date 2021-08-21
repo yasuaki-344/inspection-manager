@@ -13,9 +13,10 @@ import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { InspectionItemContext } from '../context/InspectionItemContext';
 import {
-  InspectionGroup, InspectionType,
+  InspectionType,
   Equipment, InspectionItem, InspectionSheet
 } from '../Types';
+import { InspectionGroup } from './../../typescript-fetch/models/InspectionGroup';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

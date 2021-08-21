@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   IconButton, Grid, Paper, TextField, Button,
@@ -10,9 +10,12 @@ import MuiAlert from '@material-ui/lab/Alert';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
-import { InspectionGroup } from './../inspection/Types';
+import { InspectionGroup } from './../typescript-fetch/models/InspectionGroup';
+import { InspectionGroupsApi } from './../typescript-fetch/apis/InspectionGroupsApi'
 
 export const InspectionGroupCategory: FC = (): JSX.Element => {
+  const api = useMemo(() => new InspectionGroupsApi(), []);
+
   const [open, setOpen] = useState(false);
   const [groups, setGroups] = useState<InspectionGroup[]>([]);
   const [disabled, setDisabled] = useState(false);
@@ -25,11 +28,10 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    fetch('inspectiongroup')
-      .then(res => res.json())
-      .then((json: InspectionGroup[]) => setGroups(json))
+    api.inspectionGroupsGet()
+      .then(res => setGroups(res))
       .catch(console.error);
-  }, []);
+  }, [api]);
 
   useEffect(() => {
     setDisabled(!target.description.length);
@@ -62,24 +64,14 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
 
   const handleRegistration = (): void => {
     if (isUpdate) {
-      fetch(`inspectiongroup/${target.inspection_group_id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(target)
+      api.inspectionGroupsInspectionGroupIdPut({
+        'inspectionGroupId': target.inspection_group_id,
+        'inspectionGroup': target
       })
-        .then((res) => {
-          if (!res.ok) {
-            setSuccessMessage('');
-            setErrorMessage('更新に失敗しました');
-          }
-          return res.json();
-        })
-        .then((json: InspectionGroup) => {
+        .then(res => {
           setGroups(groups.map(x => {
-            if (x.inspection_group_id === json.inspection_group_id) {
-              return json;
+            if (x.inspection_group_id === res.inspection_group_id) {
+              return res;
             } else {
               return x;
             }
@@ -87,28 +79,25 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
           setSuccessMessage('更新に成功しました');
           setErrorMessage('');
         })
-        .catch(console.error);
+        .catch(error => {
+          console.error(error);
+          setSuccessMessage('');
+          setErrorMessage('更新に失敗しました');
+        });
     } else {
-      fetch('inspectiongroup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(target)
+      api.inspectionGroupsPost({
+        'inspectionGroup': target
       })
-        .then((res) => {
-          if (!res.ok) {
-            setSuccessMessage('');
-            setErrorMessage('追加に失敗しました');
-          }
-          return res.json();
-        })
-        .then((json: InspectionGroup) => {
-          setGroups(groups.concat(json));
+        .then(res => {
+          setGroups(groups.concat(res));
           setSuccessMessage('追加に成功しました');
           setErrorMessage('');
         })
-        .catch(console.error);
+        .catch(error => {
+          console.error(error);
+          setSuccessMessage('');
+          setErrorMessage('追加に失敗しました');
+        });
     }
     setOpen(false);
   }
@@ -118,23 +107,20 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
    * @param id Group ID to be deleted.
    */
   const handleDeleteItem = (id: number): void => {
-    fetch(`inspectiongroup/${id}`, {
-      method: 'DELETE',
+    api.inspectionGroupsInspectionGroupIdDelete({
+      'inspectionGroupId': id
     })
-      .then((res) => {
-        if (!res.ok) {
-          setSuccessMessage('');
-          setErrorMessage('削除に失敗しました');
-        }
-        return res.json();
-      })
-      .then((json: InspectionGroup) => {
+      .then(() => {
         setGroups(groups.filter((x: InspectionGroup) =>
-          x.inspection_group_id !== json.inspection_group_id));
+          x.inspection_group_id !== id));
         setSuccessMessage('削除に成功しました');
         setErrorMessage('');
       })
-      .catch(console.error);
+      .catch(error => {
+        console.error(error);
+        setSuccessMessage('');
+        setErrorMessage('削除に失敗しました');
+      });
   }
 
   return (
