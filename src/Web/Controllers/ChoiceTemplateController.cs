@@ -130,18 +130,44 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpPut("{id:int}")]
-        [Route("[controller]")]
-        public async Task<ActionResult<ChoiceTemplateDto>> UpdateChoiceTemplate(ChoiceTemplateDto dto)
+        /// <summary>
+        /// Updates the ChoiceTemplate model.
+        /// </summary>
+        /// <param name="choiceTemplateId">Choice template ID to update</param>
+        /// <param name="dto">inspection type to update</param>
+        /// <response code="201">正常系（非同期）Created</response>
+        /// <response code="400">Invalid ID supplied</response>
+        /// <response code="404">Not found</response>
+        /// <response code="500">Internal Server Error</response>
+        [HttpPut]
+        [Route("/v1/choice-templates/{choiceTemplateId}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionGroupDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateChoiceTemplateAsync([FromRoute][Required] int? choiceTemplateId, [FromBody] ChoiceTemplateDto dto)
         {
             try
             {
-                _logger.LogInformation($"try to update choice template {dto.ChoiceTemplateId}");
-                if (!_repository.ChoiceTemplateExists(dto.ChoiceTemplateId))
+                if (choiceTemplateId.HasValue)
                 {
-                    return NotFound($"Template with Id = {dto.ChoiceTemplateId} not found");
+                    _logger.LogInformation($"try to update choice template {dto.ChoiceTemplateId}");
+                    if (_repository.ChoiceTemplateExists(dto.ChoiceTemplateId))
+                    {
+                        var result = await _repository.UpdateChoiceTemplateAsync(dto);
+                        return CreatedAtAction(nameof(GetChoiceTemplate),
+                        new { id = result.ChoiceTemplateId }, result);
+                    }
+                    else
+                    {
+                        return NotFound($"Template with Id = {dto.ChoiceTemplateId} not found");
+                    }
                 }
-                return await _repository.UpdateChoiceTemplateAsync(dto);
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {

@@ -84,12 +84,12 @@ export interface ChoiceTemplatesApiInterface {
      * @throws {RequiredError}
      * @memberof ChoiceTemplatesApiInterface
      */
-    choiceTemplatesChoiceTemplateIdPutRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<runtime.ApiResponse<void>>;
+    choiceTemplatesChoiceTemplateIdPutRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<runtime.ApiResponse<ChoiceTemplate>>;
 
     /**
      * Updates a ChoiceTemplate
      */
-    choiceTemplatesChoiceTemplateIdPut(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<void>;
+    choiceTemplatesChoiceTemplateIdPut(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<ChoiceTemplate>;
 
     /**
      * Returns an array of ChoiceTemplate model
@@ -193,7 +193,7 @@ export class ChoiceTemplatesApi extends runtime.BaseAPI implements ChoiceTemplat
     /**
      * Updates a ChoiceTemplate
      */
-    async choiceTemplatesChoiceTemplateIdPutRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<runtime.ApiResponse<void>> {
+    async choiceTemplatesChoiceTemplateIdPutRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<runtime.ApiResponse<ChoiceTemplate>> {
         if (requestParameters.choiceTemplateId === null || requestParameters.choiceTemplateId === undefined) {
             throw new runtime.RequiredError('choiceTemplateId','Required parameter requestParameters.choiceTemplateId was null or undefined when calling choiceTemplatesChoiceTemplateIdPut.');
         }
@@ -212,14 +212,15 @@ export class ChoiceTemplatesApi extends runtime.BaseAPI implements ChoiceTemplat
             body: ChoiceTemplateToJSON(requestParameters.choiceTemplate),
         });
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => ChoiceTemplateFromJSON(jsonValue));
     }
 
     /**
      * Updates a ChoiceTemplate
      */
-    async choiceTemplatesChoiceTemplateIdPut(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<void> {
-        await this.choiceTemplatesChoiceTemplateIdPutRaw(requestParameters);
+    async choiceTemplatesChoiceTemplateIdPut(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<ChoiceTemplate> {
+        const response = await this.choiceTemplatesChoiceTemplateIdPutRaw(requestParameters);
+        return await response.value();
     }
 
     /**

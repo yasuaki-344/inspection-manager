@@ -71,24 +71,14 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    */
   const handleRegistration = () => {
     if (isUpdate) {
-      fetch(`choicetemplate/${target.choice_template_id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(target)
+      api.choiceTemplatesChoiceTemplateIdPut({
+        'choiceTemplateId': target.choice_template_id,
+        'choiceTemplate': target
       })
-        .then((res) => {
-          if (!res.ok) {
-            setSuccessMessage('');
-            setErrorMessage('更新に失敗しました');
-          }
-          return res.json();
-        })
-        .then((json: ChoiceTemplate) => {
+        .then(res => {
           setTemplates(templates.map(x => {
-            if (x.choice_template_id === json.choice_template_id) {
-              return json;
+            if (x.choice_template_id === res.choice_template_id) {
+              return res;
             } else {
               return x;
             }
@@ -96,7 +86,11 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
           setSuccessMessage('更新に成功しました');
           setErrorMessage('');
         })
-        .catch(console.error);
+        .catch(error => {
+          console.error(error);
+          setSuccessMessage('');
+          setErrorMessage('更新に失敗しました');
+        })
     } else {
       api.choiceTemplatesPost({
         choiceTemplate: target

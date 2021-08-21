@@ -418,6 +418,17 @@ paths:
       responses:
         "201":
           description: 正常系（非同期）Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChoiceTemplate'
+              example:
+                choice_template_id: 1
+                choices:
+                  - id: 1
+                    description: OK
+                  - id: 2
+                    description: NG
         "400":
           description: "Invalid ID supplied"
         "404":
