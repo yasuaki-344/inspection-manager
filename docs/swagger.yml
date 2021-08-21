@@ -462,6 +462,7 @@ components:
       type: object
       required:
         - choice_template_id
+        - choices
       properties:
         choice_template_id:
           type: integer
