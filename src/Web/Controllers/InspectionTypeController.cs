@@ -159,17 +159,40 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpDelete("{id:int}")]
-        public async Task<ActionResult<InspectionTypeDto>> DeleteInspectionTypeAsync(int id)
+        /// <summary>
+        /// Deletes the InspectionType model.
+        /// </summary>
+        /// <param name="inspectionTypeId">inspection type ID to delete</param>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Invalid ID supplied</response>
+        /// <response code="404">Not found</response>
+        /// <response code="500">Internal Server Error</response>
+        [HttpDelete]
+        [Route("/v1/inspection-types/{inspectionTypeId}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteInspectionTypeAsync([FromRoute][Required] int? inspectionTypeId)
         {
             try
             {
-                _logger.LogInformation($"try to delete inspection type {id}");
-                if (!_repository.InspectionTypeExists(id))
+                if (inspectionTypeId.HasValue)
                 {
-                    return NotFound($"type with Id = {id} not found");
+
+                    _logger.LogInformation($"try to delete inspection type {inspectionTypeId}");
+                    if (!_repository.InspectionTypeExists(inspectionTypeId.Value))
+                    {
+                        return NotFound($"type with Id = {inspectionTypeId} not found");
+                    }
+                    await _repository.DeleteInspectionTypeAsync(inspectionTypeId.Value);
+                    return StatusCode(StatusCodes.Status204NoContent);
                 }
-                return await _repository.DeleteInspectionTypeAsync(id);
+                else
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest);
+                }
             }
             catch (Exception ex)
             {

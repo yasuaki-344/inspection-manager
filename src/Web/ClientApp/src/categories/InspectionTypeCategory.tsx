@@ -113,23 +113,20 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
    * @param id Type ID to be deleted.
    */
   const handleDeleteItem = (id: number): void => {
-    fetch(`inspectiontype/${id}`, {
-      method: 'DELETE',
+    api.inspectionTypesInspectionTypeIdDelete({
+      'inspectionTypeId': id
     })
-      .then((res) => {
-        if (!res.ok) {
-          setSuccessMessage('');
-          setErrorMessage('削除に失敗しました');
-        }
-        return res.json();
-      })
-      .then((json: InspectionType) => {
+      .then(() => {
         setTypes(types.filter((x: InspectionType) =>
-          x.inspection_type_id !== json.inspection_type_id));
+          x.inspection_type_id !== id));
         setSuccessMessage('削除に成功しました');
         setErrorMessage('');
       })
-      .catch(console.error);
+      .catch(error => {
+        console.error(error);
+        setSuccessMessage('');
+        setErrorMessage('削除に失敗しました');
+      });
   }
 
   return (
