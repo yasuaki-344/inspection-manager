@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) 2021 Yasuaki Miyoshi
 //
 // This software is released under the MIT License.
@@ -7,6 +7,7 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
@@ -199,6 +200,11 @@ namespace InspectionManager.Web.Controllers
         /// <response code="500">Internal Server Error</response>
         [HttpDelete]
         [Route("/v1/inspection-groups/{inspectionGroupId}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteInspectionGroupAsync([FromRoute][Required] int? inspectionGroupId)
         {
             try
