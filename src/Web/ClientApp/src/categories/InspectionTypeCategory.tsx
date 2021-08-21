@@ -91,26 +91,19 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
         })
         .catch(console.error);
     } else {
-      fetch('inspectiontype', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(target)
+      api.inspectionTypesPost({
+        'inspectionType': target
       })
-        .then((res) => {
-          if (!res.ok) {
-            setSuccessMessage('');
-            setErrorMessage('追加に失敗しました');
-          }
-          return res.json();
-        })
-        .then((json: InspectionType) => {
-          setTypes(types.concat(json));
+        .then(res => {
+          setTypes(types.concat(res));
           setSuccessMessage('追加に成功しました');
           setErrorMessage('');
         })
-        .catch(console.error);
+        .catch(error => {
+          console.error(error);
+          setSuccessMessage('');
+          setErrorMessage('追加に失敗しました');
+        })
     }
     setOpen(false);
   }
