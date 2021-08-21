@@ -90,26 +90,19 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
         })
         .catch(console.error);
     } else {
-      fetch('inspectiongroup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(target)
+      api.inspectionGroupsPost({
+        'inspectionGroup': target
       })
-        .then((res) => {
-          if (!res.ok) {
-            setSuccessMessage('');
-            setErrorMessage('追加に失敗しました');
-          }
-          return res.json();
-        })
-        .then((json: InspectionGroup) => {
-          setGroups(groups.concat(json));
+        .then(res => {
+          setGroups(groups.concat(res));
           setSuccessMessage('追加に成功しました');
           setErrorMessage('');
         })
-        .catch(console.error);
+        .catch(error => {
+          console.error(error);
+          setSuccessMessage('');
+          setErrorMessage('追加に失敗しました');
+        });
     }
     setOpen(false);
   }

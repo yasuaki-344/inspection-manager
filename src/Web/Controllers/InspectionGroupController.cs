@@ -85,9 +85,16 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// Create a new InspectionGroup model
+        /// </summary>
+        /// <param name="body">inspection group to create</param>
+        /// <response code="202">正常系（非同期）Accepted</response>
+        /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
+        /// <response code="500">システムエラー Internal Server Error</response>
         [HttpPost]
-        [Route("[controller]")]
-        public async Task<ActionResult<InspectionGroupDto>> CreateGroup(InspectionGroupDto? dto)
+        [Route("/v1/inspection-groups")]
+        public async Task<ActionResult<InspectionGroupDto>> CreateGroup([FromBody]InspectionGroupDto? dto)
         {
             try
             {
