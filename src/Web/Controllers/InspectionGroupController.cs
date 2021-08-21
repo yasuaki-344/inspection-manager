@@ -66,11 +66,16 @@ namespace InspectionManager.Web.Controllers
         /// </summary>
         /// <param name="inspectionGroupId">inspection group ID to get</param>
         /// <response code="200">A single InspectionGroup model</response>
+        /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
         /// <response code="404">対象リソースが存在しない Not Found</response>
         /// <response code="500">システムエラー Internal Server Error</response>
         [HttpGet]
         [Route("/v1/inspection-groups/{inspectionGroupId}")]
-        public ActionResult<InspectionGroupDto> GetInspectionGroup([FromRoute][Required] int? inspectionGroupId)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionGroupDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetInspectionGroup([FromRoute][Required] int? inspectionGroupId)
         {
             try
             {
@@ -80,7 +85,7 @@ namespace InspectionManager.Web.Controllers
                     var result = _repository.GetInspectionGroup(inspectionGroupId.Value);
                     if (result != null)
                     {
-                        return result;
+                        return Ok(result);
                     }
                     else
                     {
