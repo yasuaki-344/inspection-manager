@@ -3,7 +3,7 @@ import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle,
   Radio, RadioGroup, FormControl, FormControlLabel,
 } from '@material-ui/core';
-import { ChoiceTemplate }from '../Types';
+import { ChoiceTemplate } from '../../typescript-fetch';
 import { InspectionItemContext } from '../context/InspectionItemContext';
 
 interface ChoiceSetSelectDialogProps {

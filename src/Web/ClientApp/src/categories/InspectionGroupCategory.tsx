@@ -10,8 +10,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
-import { InspectionGroup } from './../typescript-fetch/models/InspectionGroup';
-import { InspectionGroupsApi } from './../typescript-fetch/apis/InspectionGroupsApi'
+import { InspectionGroup, InspectionGroupsApi } from '../typescript-fetch';
 
 const api = new InspectionGroupsApi();
 

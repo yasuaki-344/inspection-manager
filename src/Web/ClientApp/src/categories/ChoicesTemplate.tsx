@@ -10,7 +10,8 @@ import MuiAlert from '@material-ui/lab/Alert';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
-import { ChoiceTemplate, Option } from '../inspection/Types';
+import { ChoiceTemplatesApi, ChoiceTemplate, Option } from '../typescript-fetch';
+
 
 export const ChoicesTemplate: FC = (): JSX.Element => {
   const [open, setOpen] = useState(false);
