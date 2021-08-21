@@ -66,7 +66,7 @@ namespace InspectionManager.Web.Controllers
         /// <summary>
         /// Create a new InspectionType model
         /// </summary>
-        /// <param name="body">inspection type to create</param>
+        /// <param name="dto">inspection type to create</param>
         /// <response code="201">正常系（非同期）Created</response>
         /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
         /// <response code="500">システムエラー Internal Server Error</response>
@@ -139,17 +139,45 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<ActionResult<InspectionTypeDto>> UpdateInspectionType(InspectionTypeDto dto)
+        /// <summary>
+        /// Updates the InspectionType model.
+        /// </summary>
+        /// <param name="inspectionTypeId">inspection type ID to update</param>
+        /// <param name="dto">inspection type to update</param>
+        /// <response code="201">正常系（非同期）Created</response>
+        /// <response code="400">Invalid ID supplied</response>
+        /// <response code="404">Not found</response>
+        /// <response code="500">Internal Server Error</response>
+        [HttpPut]
+        [Route("/v1/inspection-types/{inspectionGroupId}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionGroupDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateInspectionTypeAsync([FromRoute][Required] int? inspectionGroupId, [FromBody] InspectionTypeDto dto)
         {
             try
             {
-                _logger.LogInformation($"try to update inspection type {dto.InspectionTypeId}");
-                if (!_repository.InspectionTypeExists(dto.InspectionTypeId))
+                if (inspectionGroupId.HasValue)
                 {
-                    return NotFound($"Type with Id = {dto.InspectionTypeId} not found");
+
+                    _logger.LogInformation($"try to update inspection type {dto.InspectionTypeId}");
+                    if (_repository.InspectionTypeExists(dto.InspectionTypeId))
+                    {
+                        var result = await _repository.UpdateInspectionTypeAsync(dto);
+                        return CreatedAtAction(nameof(GetInspectionType),
+                        new { id = result.InspectionTypeId }, result);
+                    }
+                    else
+                    {
+                        return NotFound($"Type with Id = {dto.InspectionTypeId} not found");
+                    }
                 }
-                return await _repository.UpdateInspectionTypeAsync(dto);
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {
