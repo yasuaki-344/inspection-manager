@@ -30,6 +30,7 @@ export interface ChoiceTemplatesChoiceTemplateIdGetRequest {
 
 export interface ChoiceTemplatesChoiceTemplateIdPutRequest {
     choiceTemplateId: number;
+    choiceTemplate?: ChoiceTemplate;
 }
 
 export interface ChoiceTemplatesPostRequest {
@@ -78,6 +79,7 @@ export interface ChoiceTemplatesApiInterface {
      * 
      * @summary Updates a ChoiceTemplate
      * @param {number} choiceTemplateId choice template ID
+     * @param {ChoiceTemplate} [choiceTemplate] choice template to update
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ChoiceTemplatesApiInterface
@@ -200,11 +202,14 @@ export class ChoiceTemplatesApi extends runtime.BaseAPI implements ChoiceTemplat
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        headerParameters['Content-Type'] = 'application/json';
+
         const response = await this.request({
             path: `/choice-templates/{choiceTemplateId}`.replace(`{${"choiceTemplateId"}}`, encodeURIComponent(String(requestParameters.choiceTemplateId))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
+            body: ChoiceTemplateToJSON(requestParameters.choiceTemplate),
         });
 
         return new runtime.VoidApiResponse(response);
