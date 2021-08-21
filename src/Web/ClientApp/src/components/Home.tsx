@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
@@ -12,8 +12,9 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import DetailsIcon from '@material-ui/icons/Details';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SearchIcon from '@material-ui/icons/Search';
-import { InspectionSheet, InspectionGroup, InspectionType } from '../inspection/Types';
+import { InspectionSheet, InspectionType } from '../inspection/Types';
 import { initialState } from '../inspection/operator/InspectionSheetOperator';
+import { InspectionGroup } from './../typescript-fetch/models/InspectionGroup';
 import { InspectionGroupsApi } from './../typescript-fetch/apis/InspectionGroupsApi'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Home: FC = (): JSX.Element => {
   const classes = useStyles();
-  const groupApi = new InspectionGroupsApi();
+  const groupApi = useMemo(() => new InspectionGroupsApi(), []);
 
   const [groups, setGroups] = useState<InspectionGroup[]>([]);
   const [types, setTypes] = useState<InspectionType[]>([]);
@@ -63,7 +64,7 @@ export const Home: FC = (): JSX.Element => {
         setFilteredInspectionSheets(json);
       })
       .catch(console.error);
-  }, []);
+  }, [groupApi]);
 
   /**
    * Updates search option setting with given change event paramter.

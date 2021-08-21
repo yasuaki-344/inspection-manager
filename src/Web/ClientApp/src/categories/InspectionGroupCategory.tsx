@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   IconButton, Grid, Paper, TextField, Button,
@@ -10,11 +10,12 @@ import MuiAlert from '@material-ui/lab/Alert';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
-import { InspectionGroup } from './../inspection/Types';
+import { InspectionGroup } from './../typescript-fetch/models/InspectionGroup';
 import { InspectionGroupsApi } from './../typescript-fetch/apis/InspectionGroupsApi'
 
 export const InspectionGroupCategory: FC = (): JSX.Element => {
-  const api = new InspectionGroupsApi();
+  const api = useMemo(() => new InspectionGroupsApi(), []);
+
   const [open, setOpen] = useState(false);
   const [groups, setGroups] = useState<InspectionGroup[]>([]);
   const [disabled, setDisabled] = useState(false);
@@ -30,7 +31,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
     api.inspectionGroupsGet()
       .then(res => setGroups(res))
       .catch(console.error);
-  }, []);
+  }, [api]);
 
   useEffect(() => {
     setDisabled(!target.description.length);

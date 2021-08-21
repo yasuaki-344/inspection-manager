@@ -9,9 +9,10 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import {
   useInputTypes, InspectionSheet, Equipment, InspectionItem,
-  InspectionGroup, InspectionType
+  InspectionType
 } from './Types';
 import { initialState } from './operator/InspectionSheetOperator';
+import { InspectionGroup } from './../typescript-fetch/models/InspectionGroup';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
