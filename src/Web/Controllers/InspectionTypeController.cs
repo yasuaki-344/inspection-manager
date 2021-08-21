@@ -6,6 +6,8 @@
 //
 
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
@@ -36,8 +38,16 @@ namespace InspectionManager.Web.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Get all inspection types.
+        /// </summary>
+        /// <response code="200">A JSON array of InspectionType model</response>
+        /// <response code="500">システムエラー Internal Server Error</response>
         [HttpGet]
-        public ActionResult<InspectionTypeDto> GetAllTypes()
+        [Route("/v1/inspection-types")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionTypeDto))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetAllTypes()
         {
             try
             {

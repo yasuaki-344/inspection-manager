@@ -11,6 +11,9 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import { InspectionType } from './../inspection/Types';
+import { InspectionTypesApi } from './../typescript-fetch/apis/InspectionTypesApi'
+
+const api = new InspectionTypesApi();
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
   const [open, setOpen] = useState(false);
@@ -25,9 +28,8 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    fetch('inspectiontype')
-      .then(res => res.json())
-      .then((json: InspectionType[]) => setTypes(json))
+    api.inspectionTypesGet()
+      .then(res => setTypes(res))
       .catch(console.error);
   }, []);
 
