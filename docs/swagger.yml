@@ -4,7 +4,7 @@ info:
   description: クライアント-サーバー間のデータ通信仕様
   version: "0.4.0"
 servers:
-  - url: http://localhost/v1
+  - url: https://localhost:5001/v1
     description: Development server
 paths:
   /inspection-groups:
