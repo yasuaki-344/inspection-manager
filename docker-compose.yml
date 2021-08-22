@@ -13,10 +13,21 @@ services:
       - frontend
   app:
     build: ./src/
+    depends_on:
+      - database
     volumes:
       - ./database:/app/database
     networks:
       - frontend
+      - backend
+  database:
+    image: postgres:alpine
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - backend
 networks:
   frontend:
+    driver: bridge
+  backend:
     driver: bridge
