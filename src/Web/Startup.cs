@@ -35,9 +35,9 @@ namespace InspectionManager.Web
             {
                 cfg.AddProfile<AutoMapping>();
             });
-            services.AddDbContext<InspectionContext>(options => options
-                .UseSqlite(Configuration.GetConnectionString("InspectionContext")
-            ));
+            services.AddDbContext<InspectionContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("InspectionContext"))
+            );
 
             services.AddScoped<IInspectionSheetRepository, InspectionSheetRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();

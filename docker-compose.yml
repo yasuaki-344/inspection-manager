@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 services:
   web:
     image: nginx:alpine
@@ -13,10 +13,27 @@ services:
       - frontend
   app:
     build: ./src/
+    depends_on:
+      - database
     volumes:
       - ./database:/app/database
+    environment:
+      ConnectionStrings__InspectionContext: Host=database;Database=${DATABASE};Username=${DB_USERNAME};Password=${DB_PASSWORD}
     networks:
       - frontend
+      - backend
+  database:
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DATABASE}
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - backend
 networks:
   frontend:
+    driver: bridge
+  backend:
     driver: bridge
