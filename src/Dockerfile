@@ -3,6 +3,10 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
 
 RUN apk update && apk add --no-cache nodejs npm
 
+WORKDIR /source/Web/ClientApp
+COPY ./Web/ClientApp/package*.json ./
+RUN npm install
+
 WORKDIR /source
 COPY ./ApplicationCore/ ApplicationCore/.
 COPY ./Infrastructure/ Infrastructure/.
@@ -23,6 +27,5 @@ USER appuser
 WORKDIR /app
 COPY --from=build /app ./
 ENV ASPNETCORE_URLS http://*:5000
-VOLUME [ "/app/database" ]
 
 ENTRYPOINT ["dotnet", "InspectionManager.Web.dll"]

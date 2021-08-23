@@ -15,8 +15,6 @@ services:
     build: ./src/
     depends_on:
       - database
-    volumes:
-      - ./database:/app/database
     environment:
       ConnectionStrings__InspectionContext: Host=database;Database=${DATABASE};Username=${DB_USERNAME};Password=${DB_PASSWORD}
     networks:
