@@ -67,7 +67,7 @@ export const Home: FC = (): JSX.Element => {
   }, []);
 
   /**
-   * Updates search option setting with given change event paramter.
+   * Updates search option setting with given change event parameter.
    * @param e Change event which contains search option member name and its value.
    */
   const handleSearchOption = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
