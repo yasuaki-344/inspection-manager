@@ -1,6 +1,19 @@
 import { InspectionSheetAction } from '../components/inspection/Types';
 import { InspectionSheet } from '.';
 
+/**
+ * Initial state of InspectionSheet object.
+ */
+export const InspectionSheetInitialState: InspectionSheet = {
+  sheet_id: 0,
+  sheet_name: '',
+  inspection_group_id: 0,
+  inspection_type_id: 0,
+  inspection_group: '',
+  inspection_type: '',
+  equipments: [],
+};
+
 export const SHEET_ACTION_TYPE = {
   SET_SHEET: 'SET_SHEET',
   UPDATE_FIELD: 'UPDATE_FIELD',

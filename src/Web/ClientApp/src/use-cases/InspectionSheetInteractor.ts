@@ -3,21 +3,6 @@ import { InspectionItem, InspectionSheet } from '../entities';
 import { SHEET_ACTION_TYPE } from '../entities';
 import { IInspectionSheetInteractor } from '../interfaces';
 
-/**
- * Initial state of InspectionSheet object.
- */
-export const initialState = () => {
-  return {
-    sheet_id: 0,
-    sheet_name: '',
-    inspection_group_id: 0,
-    inspection_type_id: 0,
-    inspection_group: '',
-    inspection_type: '',
-    equipments: [],
-  };
-};
-
 export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   state: InspectionSheet
   dispatch: React.Dispatch<any>

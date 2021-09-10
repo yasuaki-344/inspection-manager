@@ -10,7 +10,6 @@ import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { useInputTypes } from '../Types';
 import { Choice } from '../../../entities';
 import { InspectionItemContext } from './../../../App';
-import { isValidInspectionItem } from '../../../use-cases/InspectionItemOperator';
 import { ChoiceSetSelectDialog } from './ChoiceSetSelectDialog';
 
 interface InspectionDialogProps {
@@ -25,7 +24,8 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
-    setDisabled(!isValidInspectionItem(state));
+    setDisabled(!useCase.isValidInspectionItem(state));
+  // eslint-disable-next-line
   }, [state]);
 
   return (

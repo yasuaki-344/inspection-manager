@@ -68,4 +68,25 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
       }
     });
   }
+
+  /**
+   * Checks if the given InspectionItem object is valid or not.
+   * @param item InspectionItem object to check.
+   * @returns Return true if the item is valid, otherwise false.
+   */
+  isValidInspectionItem(item: InspectionItem): boolean {
+    if (item.inspection_content === '') {
+      return false;
+    }
+
+    if (item.input_type === 3) {
+      if (!item.choices.length) {
+        return false;
+      } else {
+        const descriptions = item.choices.map(x => x.description);
+        return !descriptions.includes('');
+      }
+    }
+    return true;
+  };
 }

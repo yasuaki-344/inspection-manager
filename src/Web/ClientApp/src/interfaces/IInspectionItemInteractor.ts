@@ -11,4 +11,5 @@ export interface IInspectionItemInteractor {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number
   ): void
+  isValidInspectionItem(item: InspectionItem): boolean
 }

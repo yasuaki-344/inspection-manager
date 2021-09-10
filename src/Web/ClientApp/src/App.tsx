@@ -8,10 +8,12 @@ import { Edit } from './components/inspection/Edit';
 import { InspectionGroupCategory } from './components/categories/InspectionGroupCategory';
 import { InspectionTypeCategory } from './components/categories/InspectionTypeCategory';
 import { ChoicesTemplate } from './components/categories/ChoicesTemplate';
-import { InspectionSheetInteractor, InspectionItemInitialState } from './use-cases';
-import { InspectionItem, InspectionItemReducer, InspectionSheet, InspectionSheetReducer } from './entities';
-import { initialState } from './use-cases';
-import { InspectionItemInteractor } from './use-cases/InspectionItemInteractor';
+import { InspectionSheetInteractor, InspectionItemInteractor } from './use-cases';
+import {
+  InspectionItem, InspectionSheet,
+  InspectionItemReducer, InspectionItemInitialState,
+  InspectionSheetReducer, InspectionSheetInitialState
+} from './entities';
 import { IInspectionItemInteractor, IInspectionSheetInteractor } from './interfaces';
 import './custom.css'
 
@@ -19,9 +21,9 @@ export const InspectionItemContext = createContext({} as { state: InspectionItem
 export const InspectionSheetContext = createContext({} as { sheetPresenter: InspectionSheet, sheetController: IInspectionSheetInteractor })
 
 const App = (): JSX.Element => {
-  const [inspectionItem, dispatch] = useReducer(InspectionItemReducer, InspectionItemInitialState());
+  const [inspectionItem, dispatch] = useReducer(InspectionItemReducer, InspectionItemInitialState);
   const inspectionItemInteractor = new InspectionItemInteractor(inspectionItem, dispatch)
-  const [inspectionSheet, sheetDispatch] = useReducer(InspectionSheetReducer, initialState());
+  const [inspectionSheet, sheetDispatch] = useReducer(InspectionSheetReducer, InspectionSheetInitialState);
   const inspectionSheetInteractor = new InspectionSheetInteractor(inspectionSheet, sheetDispatch)
 
   return (

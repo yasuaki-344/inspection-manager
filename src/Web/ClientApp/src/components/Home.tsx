@@ -12,8 +12,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import DetailsIcon from '@material-ui/icons/Details';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SearchIcon from '@material-ui/icons/Search';
-import { InspectionSheet } from '../entities';
-import { initialState } from '../use-cases/InspectionSheetInteractor';
+import { InspectionSheet, InspectionSheetInitialState } from '../entities';
 import {
   InspectionGroup, InspectionGroupsApi,
   InspectionType, InspectionTypesApi
@@ -38,7 +37,7 @@ export const Home: FC = (): JSX.Element => {
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>([]);
   const [filteredInspectionSheets, setFilteredInspectionSheets] = useState<InspectionSheet[]>([]);
   const [open, setOpen] = useState(false);
-  const [targetSheet, setTargetSheet] = useState<InspectionSheet>(initialState());
+  const [targetSheet, setTargetSheet] = useState<InspectionSheet>(InspectionSheetInitialState);
   const [searchOption, setSearchOption] = useState({
     sheet_name: '',
     inspection_group: '',

@@ -1,6 +1,16 @@
 import { InspectionItemAction } from '../components/inspection/Types';
 import { InspectionItem } from '.';
 
+/**
+ * Initial state of InspectionItem object.
+ */
+export const InspectionItemInitialState: InspectionItem = {
+  inspection_item_id: 0,
+  inspection_content: '',
+  input_type: 0,
+  choices: [],
+};
+
 export const TYPES = {
   SET_ITEM: 'SET_ITEM',
   UPDATE_FIELD: 'UPDATE_FIELD',
@@ -36,7 +46,7 @@ export function InspectionItemReducer(state: InspectionItem, action: InspectionI
     case TYPES.SET_CHOICE:
       if (action.payload != null) {
         const payload = action.payload;
-        if (payload.choices != null){
+        if (payload.choices != null) {
           return {
             ...state,
             choices: payload.choices.choices.map(x => {

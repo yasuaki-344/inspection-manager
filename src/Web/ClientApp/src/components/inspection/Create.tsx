@@ -8,8 +8,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
-import { InspectionSheet } from '../../entities';
-import { initialState } from '../../use-cases/InspectionSheetInteractor';
+import { InspectionSheet, InspectionSheetInitialState } from '../../entities';
 import { InspectionSheetContext } from '../../App';
 
 export const Create = (): JSX.Element => {
@@ -21,7 +20,7 @@ export const Create = (): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    sheetController.setSheet(initialState());
+    sheetController.setSheet(InspectionSheetInitialState);
     fetch('inspectionsheet')
       .then(res => res.json())
       .then((json: InspectionSheet[]) => {
