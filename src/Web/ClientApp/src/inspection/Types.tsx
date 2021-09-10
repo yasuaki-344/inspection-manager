@@ -1,4 +1,5 @@
 import { ChoiceTemplate } from "../typescript-fetch";
+import { InspectionItem, InspectionSheet } from "../entities";
 
 export const ItemType = {
   EQUIPMENT: 'EQUIPMENT',
@@ -17,34 +18,6 @@ export const useInputTypes = [
   { value: 3, label: "項目選択" },
   { value: 6, label: "日付入力" },
 ];
-
-export type Choice = {
-  choice_id: number,
-  description: string,
-};
-
-export type InspectionItem = {
-  inspection_item_id: number,
-  inspection_content: string,
-  input_type: number,
-  choices: Choice[],
-};
-
-export type Equipment = {
-  equipment_id: number,
-  equipment_name: string,
-  inspection_items: InspectionItem[],
-};
-
-export type InspectionSheet = {
-  sheet_id: number,
-  sheet_name: string,
-  inspection_type_id: number,
-  inspection_group_id: number,
-  inspection_type: string,
-  inspection_group: string,
-  equipments: Equipment[],
-};
 
 export type InspectionItemAction = {
   type: string;
