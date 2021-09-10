@@ -1,5 +1,6 @@
 import React from 'react';
-import { InspectionItem, InspectionItemAction } from '../Types';
+import { InspectionItemAction } from '../Types';
+import { InspectionItem } from '../../entities';
 import { ChoiceTemplate } from '../../typescript-fetch';
 
 export const TYPES = {

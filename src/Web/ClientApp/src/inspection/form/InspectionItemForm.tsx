@@ -4,7 +4,7 @@ import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { InspectionItem } from '../Types';
+import { InspectionItem } from '../../entities';
 import { InspectionItemRow } from './InspectionItemRow';
 
 interface InspectionItemFormProps {

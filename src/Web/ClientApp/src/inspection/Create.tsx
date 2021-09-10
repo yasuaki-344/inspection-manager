@@ -8,7 +8,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
-import { InspectionSheet } from './Types';
+import { InspectionSheet } from '../entities';
 import { initialState } from './operator/InspectionSheetOperator';
 import { InspectionSheetContext } from './context/InspectionSheetContext';
 

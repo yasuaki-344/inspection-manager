@@ -1,5 +1,6 @@
 import React from 'react';
-import { InspectionItem, InspectionSheet, InspectionSheetAction } from '../Types';
+import { InspectionSheetAction } from '../Types';
+import { InspectionItem, InspectionSheet } from '../../entities';
 
 export const TYPES = {
   SET_SHEET: 'SET_SHEET',

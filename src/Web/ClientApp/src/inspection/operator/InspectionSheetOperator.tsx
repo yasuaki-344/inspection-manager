@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
-import { InspectionItem, InspectionSheet, InspectionSheetContextType } from '../Types';
+import { InspectionSheetContextType } from '../Types';
+import { InspectionItem, InspectionSheet } from '../../entities';
 import InspectionSheetReducer, {
   setSheetAction, updateFieldAction,
   addEquipmentAction, removeEquipmentAction, updateEquipmentAction, swapEquipmentAction,

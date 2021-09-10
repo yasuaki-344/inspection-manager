@@ -7,7 +7,8 @@ import {
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
-import { Choice, useInputTypes } from '../Types';
+import { useInputTypes } from '../Types';
+import { Choice } from '../../entities';
 import { InspectionItemContext } from '../context/InspectionItemContext';
 import { isValidInspectionItem } from '../operator/InspectionItemOperator';
 import { ChoiceSetSelectDialog } from './ChoiceSetSelectDialog';

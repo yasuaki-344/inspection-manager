@@ -12,7 +12,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import DetailsIcon from '@material-ui/icons/Details';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SearchIcon from '@material-ui/icons/Search';
-import { InspectionSheet } from '../inspection/Types';
+import { InspectionSheet } from '../entities';
 import { initialState } from '../inspection/operator/InspectionSheetOperator';
 import {
   InspectionGroup, InspectionGroupsApi,

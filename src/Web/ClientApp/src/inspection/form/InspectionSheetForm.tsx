@@ -14,7 +14,7 @@ import { InspectionSheetContext } from '../context/InspectionSheetContext';
 import { InspectionItemContext } from '../context/InspectionItemContext';
 import {
   Equipment, InspectionItem, InspectionSheet
-} from '../Types';
+} from '../../entities';
 import { InspectionGroup, InspectionType } from '../../typescript-fetch';
 
 const useStyles = makeStyles((theme: Theme) =>

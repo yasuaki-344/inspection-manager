@@ -7,9 +7,8 @@ import {
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import {
-  useInputTypes, InspectionSheet, Equipment, InspectionItem
-} from './Types';
+import { useInputTypes } from './Types';
+import { InspectionSheet, Equipment, InspectionItem } from '../entities';
 import { initialState } from './operator/InspectionSheetOperator';
 import { InspectionGroup, InspectionType } from '../typescript-fetch';
 
