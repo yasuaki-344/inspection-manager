@@ -11,9 +11,7 @@ import UndoIcon from '@material-ui/icons/Undo';
 import { EquipmentForm } from './EquipmentForm';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext, InspectionItemContext } from '../../../App';
-import {
-  Equipment, InspectionItem, InspectionSheet
-} from '../../../entities';
+import { Equipment, InspectionItem, InspectionSheet } from '../../../entities';
 import { InspectionGroup, InspectionType } from '../../../typescript-fetch';
 
 const useStyles = makeStyles((theme: Theme) =>

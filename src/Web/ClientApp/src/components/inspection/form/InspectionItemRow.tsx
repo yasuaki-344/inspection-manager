@@ -28,7 +28,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
   editInspectionItem,
   storeHistory
 }): JSX.Element => {
-  const { sheetController} = useContext(InspectionSheetContext);
+  const { sheetController } = useContext(InspectionSheetContext);
   const dropRef = useRef<HTMLTableRowElement>(null);
   const dragRef = useRef<HTMLTableCellElement>(null);
 
