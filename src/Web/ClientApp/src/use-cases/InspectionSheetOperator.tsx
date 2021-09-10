@@ -1,12 +1,12 @@
 import React, { useReducer } from 'react';
-import { InspectionSheetContextType } from '../Types';
-import { InspectionItem, InspectionSheet } from '../../entities';
+import { InspectionSheetContextType } from './../inspection/Types';
+import { InspectionItem, InspectionSheet } from '../entities';
 import InspectionSheetReducer, {
   setSheetAction, updateFieldAction,
   addEquipmentAction, removeEquipmentAction, updateEquipmentAction, swapEquipmentAction,
   addInspectionItemAction, removeInspectionItemAction, updateInspectionItemAction,
   swapInspectionItemAction,
-} from '../../entities/InspectionSheetReducer';
+} from '../entities/InspectionSheetReducer';
 
 /**
  * Initial state of InspectionSheet object.

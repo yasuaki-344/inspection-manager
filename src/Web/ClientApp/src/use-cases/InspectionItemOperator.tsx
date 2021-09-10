@@ -1,11 +1,11 @@
 import React, { useReducer } from 'react';
-import { InspectionItemContextType } from '../Types';
-import { InspectionItem } from '../../entities';
+import { InspectionItemContextType } from '../inspection/Types';
+import { InspectionItem } from '../entities';
 import InspectionItemReducer, {
   setItemAction, updateFieldAction, setChoiceAction,
   addChoiceAction, removeChoiceAction, updateChoiceAction
-} from '../../entities/InspectionItemReducer';
-import { ChoiceTemplate } from '../../typescript-fetch';
+} from '../entities/InspectionItemReducer';
+import { ChoiceTemplate } from '../typescript-fetch';
 
 /**
  * Initial state of InspectionItem object.

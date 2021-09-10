@@ -9,7 +9,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { useInputTypes } from './Types';
 import { InspectionSheet, Equipment, InspectionItem } from '../entities';
-import { initialState } from './operator/InspectionSheetOperator';
+import { initialState } from '../use-cases/InspectionSheetOperator';
 import { InspectionGroup, InspectionType } from '../typescript-fetch';
 
 const useStyles = makeStyles((theme: Theme) =>

@@ -1,7 +1,7 @@
 import React, { createContext } from 'react';
 import { InspectionItem } from '../../entities';
 import { InspectionItemContextType } from '../Types';
-import { initialState } from '../operator/InspectionItemOperator';
+import { initialState } from '../../use-cases/InspectionItemOperator';
 import { ChoiceTemplate } from '../../typescript-fetch';
 
 export const InspectionItemContext = createContext<InspectionItemContextType>({

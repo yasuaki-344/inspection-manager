@@ -10,7 +10,7 @@ import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { useInputTypes } from '../Types';
 import { Choice } from '../../entities';
 import { InspectionItemContext } from '../context/InspectionItemContext';
-import { isValidInspectionItem } from '../operator/InspectionItemOperator';
+import { isValidInspectionItem } from '../../use-cases/InspectionItemOperator';
 import { ChoiceSetSelectDialog } from './ChoiceSetSelectDialog';
 
 interface InspectionDialogProps {

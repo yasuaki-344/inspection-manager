@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
 import { InspectionSheet } from '../entities';
-import { initialState } from './operator/InspectionSheetOperator';
+import { initialState } from '../use-cases/InspectionSheetOperator';
 import { InspectionSheetContext } from './context/InspectionSheetContext';
 
 export const Create = (): JSX.Element => {

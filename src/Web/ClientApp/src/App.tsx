@@ -9,8 +9,8 @@ import { InspectionGroupCategory } from './categories/InspectionGroupCategory';
 import { InspectionTypeCategory } from './categories/InspectionTypeCategory';
 import { ChoicesTemplate } from './categories/ChoicesTemplate';
 import { InspectionSheetContext } from './inspection/context/InspectionSheetContext';
-import { InspectionSheetOperator } from './inspection/operator/InspectionSheetOperator';
-import { InspectionItemOperator } from './inspection/operator/InspectionItemOperator';
+import { InspectionSheetOperator } from './use-cases/InspectionSheetOperator';
+import { InspectionItemOperator } from './use-cases/InspectionItemOperator';
 import { InspectionItemContext } from './inspection/context/InspectionItemContext';
 import './custom.css'
 
