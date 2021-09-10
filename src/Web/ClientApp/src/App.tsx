@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, useReducer } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
@@ -8,15 +8,18 @@ import { Edit } from './components/inspection/Edit';
 import { InspectionGroupCategory } from './components/categories/InspectionGroupCategory';
 import { InspectionTypeCategory } from './components/categories/InspectionTypeCategory';
 import { ChoicesTemplate } from './components/categories/ChoicesTemplate';
-import {
-  InspectionSheetContext,
-  InspectionSheetOperator,
-  InspectionItemOperator,
-  InspectionItemContext
-} from './use-cases';
+import { InspectionSheetContext,  InspectionSheetOperator, InspectionItemInitialState } from './use-cases';
+import { InspectionItem, InspectionItemReducer } from './entities';
+import { InspectionItemInteractor } from './use-cases/InspectionItemInteractor';
+import { IInspectionItemInteractor } from './interfaces';
 import './custom.css'
 
+export const InspectionItemContext = createContext({} as { state: InspectionItem, useCase: IInspectionItemInteractor })
+
 const App = (): JSX.Element => {
+  const [inspectionItem, dispatch] = useReducer(InspectionItemReducer, InspectionItemInitialState());
+  const inspectionItemInteractor = new InspectionItemInteractor(inspectionItem, dispatch)
+
   return (
     <Layout>
       <Route exact path='/' component={Home} />
@@ -24,7 +27,7 @@ const App = (): JSX.Element => {
       <Route path='/types' component={InspectionTypeCategory} />
       <Route path='/choices-template' component={ChoicesTemplate} />
       <InspectionSheetContext.Provider value={InspectionSheetOperator()} >
-        <InspectionItemContext.Provider value={InspectionItemOperator()}>
+        <InspectionItemContext.Provider value={{ state: inspectionItem, useCase: inspectionItemInteractor }}>
           <Route path='/create' component={Create} />
           <Route path='/edit/:id' component={Edit} />
         </InspectionItemContext.Provider>

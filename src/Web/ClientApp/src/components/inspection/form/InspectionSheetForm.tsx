@@ -11,7 +11,7 @@ import UndoIcon from '@material-ui/icons/Undo';
 import { EquipmentForm } from './EquipmentForm';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext } from '../../../use-cases/InspectionSheetContext';
-import { InspectionItemContext } from '../../../use-cases/InspectionItemContext';
+import { InspectionItemContext } from '../../../App';
 import {
   Equipment, InspectionItem, InspectionSheet
 } from '../../../entities';
@@ -43,7 +43,7 @@ interface InspectionSheetFormProps {
 export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): JSX.Element => {
   const classes = useStyles();
   const context = useContext(InspectionSheetContext);
-  const itemContext = useContext(InspectionItemContext);
+  const { state, useCase } = useContext(InspectionItemContext);
   const [groups, setGroups] = useState<InspectionGroup[]>([]);
   const [types, setTypes] = useState<InspectionType[]>([]);
   const [open, setOpen] = useState(false);
@@ -86,9 +86,9 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
    */
   const handleInspectionItem = () => {
     if (additional) {
-      context.addInspectionItem(equipmentIndex, itemContext.inspectionItem);
+      context.addInspectionItem(equipmentIndex, state);
     } else {
-      context.updateInspectionItem(equipmentIndex, inspectionItemIndex, itemContext.inspectionItem);
+      context.updateInspectionItem(equipmentIndex, inspectionItemIndex, state);
     }
     storeHistory();
     setOpen(false);
@@ -100,7 +100,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   const handleAddItem = (equipmentId: number) => {
     setEquipmentIndex(equipmentId);
     setAdditional(true);
-    itemContext.setItem({
+    useCase.setItem({
       inspection_item_id: 0,
       inspection_content: '',
       input_type: 1,
@@ -116,7 +116,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
     setEquipmentIndex(equipmentIndex);
     setInspectionItemIndex(inspectionItemIndex);
     setAdditional(false);
-    itemContext.setItem(inspectionItem);
+    useCase.setItem(inspectionItem);
     setOpen(true);
   }
 

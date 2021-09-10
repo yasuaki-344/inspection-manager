@@ -181,7 +181,8 @@ export const Create = (): JSX.Element => {
             labelRowsPerPage={'1ページあたりの件数:'}
             backIconButtonText={'前のぺージ'}
             nextIconButtonText={'次のぺージ'}
-            onChangePage={handleChangePage}
+            // onChangePage={handleChangePage}
+            onPageChange={handleChangePage}
           />
 
         </DialogContent>

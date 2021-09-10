@@ -1,11 +1,4 @@
-import React, { useReducer } from 'react';
-import { InspectionItemContextType } from '../components/inspection/Types';
 import { InspectionItem } from '../entities';
-import InspectionItemReducer, {
-  setItemAction, updateFieldAction, setChoiceAction,
-  addChoiceAction, removeChoiceAction, updateChoiceAction
-} from '../entities/InspectionItemReducer';
-import { ChoiceTemplate } from '../typescript-fetch';
 
 /**
  * Initial state of InspectionItem object.
@@ -18,26 +11,6 @@ export const InspectionItemInitialState = () => {
     choices: [],
   };
 };
-
-export const InspectionItemOperator = (): InspectionItemContextType => {
-  const [inspectionItem, dispatch] = useReducer(InspectionItemReducer, InspectionItemInitialState());
-  return {
-    inspectionItem: inspectionItem,
-    setItem: (item: InspectionItem): void => dispatch(setItemAction(item)),
-    updateField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void =>
-      dispatch(updateFieldAction(event)),
-    setChoices: (choices: ChoiceTemplate): void =>
-      dispatch(setChoiceAction(choices)),
-    addChoice: (): void => dispatch(addChoiceAction()),
-    removeChoice: (index: number): void =>
-      dispatch(removeChoiceAction(index)),
-    updateChoice: (
-      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-      index: number
-    ): void =>
-      dispatch(updateChoiceAction(event, index)),
-  }
-}
 
 /**
  * Checks if the given InspectionItem object is valid or not.

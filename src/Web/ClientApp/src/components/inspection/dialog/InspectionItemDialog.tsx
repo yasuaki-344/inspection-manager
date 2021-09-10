@@ -9,7 +9,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { useInputTypes } from '../Types';
 import { Choice } from '../../../entities';
-import { InspectionItemContext } from '../../../use-cases/InspectionItemContext';
+import { InspectionItemContext } from './../../../App';
 import { isValidInspectionItem } from '../../../use-cases/InspectionItemOperator';
 import { ChoiceSetSelectDialog } from './ChoiceSetSelectDialog';
 
@@ -20,13 +20,13 @@ interface InspectionDialogProps {
 };
 
 export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element => {
-  const context = useContext(InspectionItemContext);
+  const { state, useCase } = useContext(InspectionItemContext);
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
-    setDisabled(!isValidInspectionItem(context.inspectionItem));
-  }, [context.inspectionItem]);
+    setDisabled(!isValidInspectionItem(state));
+  }, [state]);
 
   return (
     <>
@@ -44,8 +44,8 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                 variant='outlined'
                 size='small'
                 name='inspection_content'
-                value={context.inspectionItem.inspection_content}
-                onChange={(e) => context.updateField(e)}
+                value={state.inspection_content}
+                onChange={(e) => useCase.updateField(e)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -57,8 +57,8 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                 variant='outlined'
                 size='small'
                 name='input_type'
-                value={context.inspectionItem.input_type}
-                onChange={(e) => { context.updateField(e); }}
+                value={state.input_type}
+                onChange={(e) => { useCase.updateField(e); }}
               >
                 {useInputTypes.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -67,10 +67,10 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                 ))}
               </TextField>
             </Grid>
-            {(context.inspectionItem.input_type !== 3) ? <></> :
+            {(state.input_type !== 3) ? <></> :
               <>
-                {context.inspectionItem.choices.map((choice: Choice, index: number) =>
-                  <Grid item xs={12} key={`${context.inspectionItem.inspection_item_id}_${index}`}>
+                {state.choices.map((choice: Choice, index: number) =>
+                  <Grid item xs={12} key={`${state.inspection_item_id}_${index}`}>
                     <TextField
                       required
                       id='outlined-required'
@@ -79,10 +79,10 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                       size='small'
                       name='choice'
                       value={choice.description}
-                      onChange={(e) => context.updateChoice(e, index)}
+                      onChange={(e) => useCase.updateChoice(e, index)}
                     />
                     <IconButton color='primary' size='small'
-                      onClick={() => context.removeChoice(index)}
+                      onClick={() => useCase.removeChoice(index)}
                     >
                       <CancelIcon />
                     </IconButton>
@@ -93,7 +93,7 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                     <BottomNavigationAction
                       label='選択肢追加'
                       icon={<AddCircleIcon />}
-                      onClick={context.addChoice}
+                      onClick={useCase.addChoice}
                     />
                     <BottomNavigationAction
                       label='テンプレート選択'

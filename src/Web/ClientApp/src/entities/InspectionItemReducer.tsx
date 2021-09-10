@@ -12,7 +12,7 @@ export const TYPES = {
   UPDATE_CHOICE: 'UPDATE_CHOICE',
 };
 
-export default function InspectionItemReducer(state: InspectionItem, action: InspectionItemAction): any {
+export function InspectionItemReducer(state: InspectionItem, action: InspectionItemAction): any {
   switch (action.type) {
     case TYPES.SET_ITEM:
       return action.payload?.item;

@@ -4,15 +4,15 @@ import {
   Radio, RadioGroup, FormControl, FormControlLabel,
 } from '@material-ui/core';
 import { ChoiceTemplate } from '../../../typescript-fetch';
-import { InspectionItemContext } from '../../../use-cases/InspectionItemContext';
+import { InspectionItemContext } from '../../../App';
 
 interface ChoiceSetSelectDialogProps {
   open: boolean,
   handleClose: () => void,
 };
 
-export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({open, handleClose}): JSX.Element => {
-  const context = useContext(InspectionItemContext);
+export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({ open, handleClose }): JSX.Element => {
+  const { useCase } = useContext(InspectionItemContext);
   const [value, setValue] = useState(0);
   const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
 
@@ -30,7 +30,7 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({open, han
   };
 
   const handleSelectTemplate = () => {
-    context.setChoices(templates[value]);
+    useCase.setChoices(templates[value]);
     handleClose();
   };
 
@@ -44,7 +44,7 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({open, han
               <FormControlLabel
                 key={`label-${index}`}
                 value={index}
-                control={<Radio data-testid={`radio-${index}`}/>}
+                control={<Radio data-testid={`radio-${index}`} />}
                 label={template.choices.map(x => x.description).join(',')} />
             ))}
           </RadioGroup>
