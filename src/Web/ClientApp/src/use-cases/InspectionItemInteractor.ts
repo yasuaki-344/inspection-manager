@@ -5,8 +5,8 @@ import { InspectionItem } from "../entities";
 import { IInspectionItemInteractor } from "../interfaces";
 
 export class InspectionItemInteractor implements IInspectionItemInteractor {
-  state: any;
-  dispatch: React.Dispatch<any>;
+  private readonly state: any;
+  private readonly dispatch: React.Dispatch<any>;
 
   constructor(state: any, dispatch: React.Dispatch<any>) {
     this.state = state;
