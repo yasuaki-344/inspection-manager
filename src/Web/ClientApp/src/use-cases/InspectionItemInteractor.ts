@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  setItemAction, updateFieldAction, setChoiceAction,
-  addChoiceAction, removeChoiceAction, updateChoiceAction
-} from '../entities/InspectionItemReducer';
+import { TYPES } from '../entities';
 import { ChoiceTemplate } from '../typescript-fetch';
 import { InspectionItem } from "../entities";
 import { IInspectionItemInteractor } from "../interfaces";
@@ -17,29 +14,58 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
   }
 
   setItem(item: InspectionItem): void {
-    this.dispatch(setItemAction(item));
+    this.dispatch({
+      type: TYPES.SET_ITEM,
+      payload: {
+        item: item,
+      },
+    });
   }
 
   updateField(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
-    this.dispatch(updateFieldAction(event));
+    this.dispatch({
+      type: TYPES.UPDATE_FIELD,
+      payload: {
+        name: event.target.name,
+        value: event.target.value,
+      },
+    });
   }
 
   setChoices(choices: ChoiceTemplate): void {
-    this.dispatch(setChoiceAction(choices));
+    this.dispatch({
+      type: TYPES.SET_CHOICE,
+      payload: {
+        choices: choices,
+      },
+    });
   }
 
   addChoice(): void {
-    this.dispatch(addChoiceAction());
+    this.dispatch({
+      type: TYPES.ADD_CHOICE,
+    });
   }
 
   removeChoice(index: number): void {
-    this.dispatch(removeChoiceAction(index));
+    this.dispatch({
+      type: TYPES.REMOVE_CHOICE,
+      payload: {
+        choice_index: index,
+      }
+    });
   }
 
   updateChoice(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number
   ): void {
-    this.dispatch(updateChoiceAction(event, index))
+    this.dispatch({
+      type: TYPES.UPDATE_CHOICE,
+      payload: {
+        value: event.target.value,
+        choice_index: index,
+      }
+    });
   }
 }

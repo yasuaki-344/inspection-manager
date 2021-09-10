@@ -93,7 +93,7 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                     <BottomNavigationAction
                       label='選択肢追加'
                       icon={<AddCircleIcon />}
-                      onClick={useCase.addChoice}
+                      onClick={() => useCase.addChoice()}
                     />
                     <BottomNavigationAction
                       label='テンプレート選択'

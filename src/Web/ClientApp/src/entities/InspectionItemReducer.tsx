@@ -1,7 +1,5 @@
-import React from 'react';
 import { InspectionItemAction } from '../components/inspection/Types';
 import { InspectionItem } from '.';
-import { ChoiceTemplate } from '../typescript-fetch';
 
 export const TYPES = {
   SET_ITEM: 'SET_ITEM',
@@ -52,6 +50,7 @@ export function InspectionItemReducer(state: InspectionItem, action: InspectionI
       }
       return state;
     case TYPES.ADD_CHOICE:
+      console.log("check")
       return {
         ...state,
         choices: state.choices.concat({
@@ -82,59 +81,3 @@ export function InspectionItemReducer(state: InspectionItem, action: InspectionI
       return state;
   }
 }
-
-export const setItemAction = (inspectionItem: InspectionItem): InspectionItemAction => {
-  return {
-    type: TYPES.SET_ITEM,
-    payload: {
-      item: inspectionItem,
-    },
-  }
-};
-
-export const updateFieldAction = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): InspectionItemAction => {
-  return {
-    type: TYPES.UPDATE_FIELD,
-    payload: {
-      name: e.target.name,
-      value: e.target.value,
-    },
-  }
-};
-
-export const setChoiceAction = (value: ChoiceTemplate): InspectionItemAction => {
-  return {
-    type: TYPES.SET_CHOICE,
-    payload: {
-      choices: value,
-    },
-  }
-};
-
-export const addChoiceAction = (): InspectionItemAction => {
-  return {
-    type: TYPES.ADD_CHOICE,
-  }
-};
-
-export const removeChoiceAction = (index: number): InspectionItemAction => {
-  return {
-    type: TYPES.REMOVE_CHOICE,
-    payload: {
-      choice_index: index,
-    }
-  }
-};
-
-export const updateChoiceAction = (
-  event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  index: number
-): InspectionItemAction => {
-  return {
-    type: TYPES.UPDATE_CHOICE,
-    payload: {
-      value: event.target.value,
-      choice_index: index,
-    }
-  }
-};
