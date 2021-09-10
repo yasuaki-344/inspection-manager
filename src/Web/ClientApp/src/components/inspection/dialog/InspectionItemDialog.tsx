@@ -8,9 +8,9 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { useInputTypes } from '../Types';
-import { Choice } from '../../entities';
-import { InspectionItemContext } from '../../use-cases/InspectionItemContext';
-import { isValidInspectionItem } from '../../use-cases/InspectionItemOperator';
+import { Choice } from '../../../entities';
+import { InspectionItemContext } from '../../../use-cases/InspectionItemContext';
+import { isValidInspectionItem } from '../../../use-cases/InspectionItemOperator';
 import { ChoiceSetSelectDialog } from './ChoiceSetSelectDialog';
 
 interface InspectionDialogProps {

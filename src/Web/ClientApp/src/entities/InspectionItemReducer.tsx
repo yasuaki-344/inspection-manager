@@ -1,5 +1,5 @@
 import React from 'react';
-import { InspectionItemAction } from '../inspection/Types';
+import { InspectionItemAction } from '../components/inspection/Types';
 import { InspectionItem } from '.';
 import { ChoiceTemplate } from '../typescript-fetch';
 

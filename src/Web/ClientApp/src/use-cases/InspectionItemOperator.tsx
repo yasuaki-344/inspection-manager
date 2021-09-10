@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { InspectionItemContextType } from '../inspection/Types';
+import { InspectionItemContextType } from '../components/inspection/Types';
 import { InspectionItem } from '../entities';
 import InspectionItemReducer, {
   setItemAction, updateFieldAction, setChoiceAction,

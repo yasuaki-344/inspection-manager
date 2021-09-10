@@ -2,16 +2,18 @@ import React from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
-import { Create } from './inspection/Create';
-import { Details } from './inspection/Details';
-import { Edit } from './inspection/Edit';
-import { InspectionGroupCategory } from './categories/InspectionGroupCategory';
-import { InspectionTypeCategory } from './categories/InspectionTypeCategory';
-import { ChoicesTemplate } from './categories/ChoicesTemplate';
-import { InspectionSheetContext } from './use-cases/InspectionSheetContext';
-import { InspectionSheetOperator } from './use-cases/InspectionSheetOperator';
-import { InspectionItemOperator } from './use-cases/InspectionItemOperator';
-import { InspectionItemContext } from './use-cases/InspectionItemContext';
+import { Create } from './components/inspection/Create';
+import { Details } from './components/inspection/Details';
+import { Edit } from './components/inspection/Edit';
+import { InspectionGroupCategory } from './components/categories/InspectionGroupCategory';
+import { InspectionTypeCategory } from './components/categories/InspectionTypeCategory';
+import { ChoicesTemplate } from './components/categories/ChoicesTemplate';
+import {
+  InspectionSheetContext,
+  InspectionSheetOperator,
+  InspectionItemOperator,
+  InspectionItemContext
+} from './use-cases';
 import './custom.css'
 
 const App = (): JSX.Element => {

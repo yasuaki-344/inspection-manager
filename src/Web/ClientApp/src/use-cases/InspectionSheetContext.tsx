@@ -1,5 +1,5 @@
 import React, { createContext } from 'react';
-import { InspectionSheetContextType } from '../inspection/Types';
+import { InspectionSheetContextType } from '../components/inspection/Types';
 import { InspectionItem, InspectionSheet } from '../entities';
 import { initialState } from './InspectionSheetOperator';
 

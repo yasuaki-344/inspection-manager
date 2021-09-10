@@ -1,5 +1,5 @@
 import React from 'react';
-import { InspectionSheetAction } from '../inspection/Types';
+import { InspectionSheetAction } from '../components/inspection/Types';
 import { InspectionItem, InspectionSheet } from '.';
 
 export const TYPES = {

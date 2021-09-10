@@ -10,12 +10,12 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import UndoIcon from '@material-ui/icons/Undo';
 import { EquipmentForm } from './EquipmentForm';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
-import { InspectionSheetContext } from '../../use-cases/InspectionSheetContext';
-import { InspectionItemContext } from '../../use-cases/InspectionItemContext';
+import { InspectionSheetContext } from '../../../use-cases/InspectionSheetContext';
+import { InspectionItemContext } from '../../../use-cases/InspectionItemContext';
 import {
   Equipment, InspectionItem, InspectionSheet
-} from '../../entities';
-import { InspectionGroup, InspectionType } from '../../typescript-fetch';
+} from '../../../entities';
+import { InspectionGroup, InspectionType } from '../../../typescript-fetch';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

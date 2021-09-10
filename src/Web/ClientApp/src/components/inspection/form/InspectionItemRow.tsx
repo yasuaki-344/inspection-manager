@@ -4,9 +4,9 @@ import { IconButton, TableCell, TableRow } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import EditIcon from '@material-ui/icons/Edit';
-import { InspectionSheetContext } from '../../use-cases/InspectionSheetContext';
+import { InspectionSheetContext } from '../../../use-cases/InspectionSheetContext';
 import { useInputTypes, InspectionSheetContextType, ItemType } from '../Types';
-import { InspectionItem } from '../../entities';
+import { InspectionItem } from '../../../entities';
 
 interface DragItem {
   equipmentIndex: number,
