@@ -1,7 +1,7 @@
 import React from 'react';
-import { InspectionItemAction } from '../Types';
-import { InspectionItem } from '../../entities';
-import { ChoiceTemplate } from '../../typescript-fetch';
+import { InspectionItemAction } from '../inspection/Types';
+import { InspectionItem } from '.';
+import { ChoiceTemplate } from '../typescript-fetch';
 
 export const TYPES = {
   SET_ITEM: 'SET_ITEM',

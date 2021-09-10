@@ -6,7 +6,7 @@ import InspectionSheetReducer, {
   addEquipmentAction, removeEquipmentAction, updateEquipmentAction, swapEquipmentAction,
   addInspectionItemAction, removeInspectionItemAction, updateInspectionItemAction,
   swapInspectionItemAction,
-} from '../reducer/InspectionSheetReducer';
+} from '../../entities/InspectionSheetReducer';
 
 /**
  * Initial state of InspectionSheet object.

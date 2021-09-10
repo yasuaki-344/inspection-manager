@@ -4,7 +4,7 @@ import { InspectionItem } from '../../entities';
 import InspectionItemReducer, {
   setItemAction, updateFieldAction, setChoiceAction,
   addChoiceAction, removeChoiceAction, updateChoiceAction
-} from '../reducer/InspectionItemReducer';
+} from '../../entities/InspectionItemReducer';
 import { ChoiceTemplate } from '../../typescript-fetch';
 
 /**
