@@ -10,8 +10,8 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import UndoIcon from '@material-ui/icons/Undo';
 import { EquipmentForm } from './EquipmentForm';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
-import { InspectionSheetContext } from '../context/InspectionSheetContext';
-import { InspectionItemContext } from '../context/InspectionItemContext';
+import { InspectionSheetContext } from '../../use-cases/InspectionSheetContext';
+import { InspectionItemContext } from '../../use-cases/InspectionItemContext';
 import {
   Equipment, InspectionItem, InspectionSheet
 } from '../../entities';

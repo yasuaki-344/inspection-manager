@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheet } from '../entities';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
-import { InspectionSheetContext } from './context/InspectionSheetContext';
+import { InspectionSheetContext } from '../use-cases/InspectionSheetContext';
 
 export const Edit = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;

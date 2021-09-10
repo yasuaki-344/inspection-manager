@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { InspectionSheetForm } from '../InspectionSheetForm';
-import { InspectionSheetContext } from '../../context/InspectionSheetContext';
-import { InspectionItemContext } from '../../context/InspectionItemContext';
+import { InspectionSheetContext } from '../../../use-cases/InspectionSheetContext';
+import { InspectionItemContext } from '../../../use-cases/InspectionItemContext';
 
 jest.mock('../EquipmentForm', () => {
   return {

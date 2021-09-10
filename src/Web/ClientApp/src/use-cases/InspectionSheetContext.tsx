@@ -1,7 +1,7 @@
 import React, { createContext } from 'react';
-import { InspectionSheetContextType } from '../Types';
-import { InspectionItem, InspectionSheet } from '../../entities';
-import { initialState } from '../../use-cases/InspectionSheetOperator';
+import { InspectionSheetContextType } from '../inspection/Types';
+import { InspectionItem, InspectionSheet } from '../entities';
+import { initialState } from './InspectionSheetOperator';
 
 export const InspectionSheetContext = createContext<InspectionSheetContextType>({
   inspectionSheet: initialState(),

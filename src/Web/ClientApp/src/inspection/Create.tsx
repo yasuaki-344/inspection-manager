@@ -10,7 +10,7 @@ import { Button, Grid } from '@material-ui/core';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
 import { InspectionSheet } from '../entities';
 import { initialState } from '../use-cases/InspectionSheetOperator';
-import { InspectionSheetContext } from './context/InspectionSheetContext';
+import { InspectionSheetContext } from '../use-cases/InspectionSheetContext';
 
 export const Create = (): JSX.Element => {
   const context = useContext(InspectionSheetContext);

@@ -10,7 +10,7 @@ import { ChoiceTemplate } from '../typescript-fetch';
 /**
  * Initial state of InspectionItem object.
  */
-export const initialState = () => {
+export const InspectionItemInitialState = () => {
   return {
     inspection_item_id: 0,
     inspection_content: '',
@@ -20,7 +20,7 @@ export const initialState = () => {
 };
 
 export const InspectionItemOperator = (): InspectionItemContextType => {
-  const [inspectionItem, dispatch] = useReducer(InspectionItemReducer, initialState());
+  const [inspectionItem, dispatch] = useReducer(InspectionItemReducer, InspectionItemInitialState());
   return {
     inspectionItem: inspectionItem,
     setItem: (item: InspectionItem): void => dispatch(setItemAction(item)),

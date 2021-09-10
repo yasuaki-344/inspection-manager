@@ -4,7 +4,7 @@ import {
   Radio, RadioGroup, FormControl, FormControlLabel,
 } from '@material-ui/core';
 import { ChoiceTemplate } from '../../typescript-fetch';
-import { InspectionItemContext } from '../context/InspectionItemContext';
+import { InspectionItemContext } from '../../use-cases/InspectionItemContext';
 
 interface ChoiceSetSelectDialogProps {
   open: boolean,
