@@ -1,3 +1,3 @@
 export * from './InspectionItemOperator';
-export * from './InspectionSheetContext';
-export * from './InspectionSheetOperator';
+export * from './InspectionItemInteractor';
+export * from './InspectionSheetInteractor';

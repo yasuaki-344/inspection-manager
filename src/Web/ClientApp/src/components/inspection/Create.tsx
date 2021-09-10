@@ -9,11 +9,11 @@ import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
 import { InspectionSheet } from '../../entities';
-import { initialState } from '../../use-cases/InspectionSheetOperator';
-import { InspectionSheetContext } from '../../use-cases/InspectionSheetContext';
+import { initialState } from '../../use-cases/InspectionSheetInteractor';
+import { InspectionSheetContext } from '../../App';
 
 export const Create = (): JSX.Element => {
-  const context = useContext(InspectionSheetContext);
+  const { sheetPresenter, sheetController } = useContext(InspectionSheetContext);
   const [open, setOpen] = useState(false);
   const [page, setPage] = React.useState(0);
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>([]);
@@ -21,7 +21,7 @@ export const Create = (): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    context.setSheet(initialState());
+    sheetController.setSheet(initialState());
     fetch('inspectionsheet')
       .then(res => res.json())
       .then((json: InspectionSheet[]) => {
@@ -54,7 +54,7 @@ export const Create = (): JSX.Element => {
       .then(res => res.json())
       .then((json: InspectionSheet) => {
         console.log(json);
-        context.setSheet(json);
+        sheetController.setSheet(json);
       })
       .catch((error) => {
         setSuccessMessage('');
@@ -66,19 +66,19 @@ export const Create = (): JSX.Element => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.debug(context.inspectionSheet);
+    console.debug(sheetPresenter);
     fetch('inspectionsheet', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(context.inspectionSheet)
+      body: JSON.stringify(sheetPresenter)
     })
       .then((res) => {
         if (res.ok) {
           setSuccessMessage('登録に成功しました');
           setErrorMessage('');
-          context.setSheet({
+          sheetController.setSheet({
             sheet_id: 0,
             sheet_name: '',
             inspection_type_id: 0,

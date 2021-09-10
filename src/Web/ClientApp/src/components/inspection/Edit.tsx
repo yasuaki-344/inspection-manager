@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheet } from '../../entities';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
-import { InspectionSheetContext } from '../../use-cases/InspectionSheetContext';
+import { InspectionSheetContext } from '../../App';
 
 export const Edit = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
-  const context = useContext(InspectionSheetContext);
+  const { sheetPresenter, sheetController } = useContext(InspectionSheetContext);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -17,7 +17,7 @@ export const Edit = ({ match }: any): JSX.Element => {
       .then(res => res.json())
       .then((json: InspectionSheet) => {
         console.log(json);
-        context.setSheet(json);
+        sheetController.setSheet(json);
       })
       .catch((error) => {
         setSuccessMessage('');
@@ -34,7 +34,7 @@ export const Edit = ({ match }: any): JSX.Element => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(context.inspectionSheet)
+      body: JSON.stringify(sheetPresenter)
     })
       .then((res) => {
         if (res.ok) {
@@ -48,7 +48,7 @@ export const Edit = ({ match }: any): JSX.Element => {
       })
       .then((json: InspectionSheet) => {
         console.log(json);
-        context.setSheet(json);
+        sheetController.setSheet(json);
       })
       .catch(console.error);
   }

@@ -10,8 +10,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import UndoIcon from '@material-ui/icons/Undo';
 import { EquipmentForm } from './EquipmentForm';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
-import { InspectionSheetContext } from '../../../use-cases/InspectionSheetContext';
-import { InspectionItemContext } from '../../../App';
+import { InspectionSheetContext, InspectionItemContext } from '../../../App';
 import {
   Equipment, InspectionItem, InspectionSheet
 } from '../../../entities';
@@ -42,7 +41,7 @@ interface InspectionSheetFormProps {
 
 export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): JSX.Element => {
   const classes = useStyles();
-  const context = useContext(InspectionSheetContext);
+  const { sheetPresenter, sheetController } = useContext(InspectionSheetContext);
   const { state, useCase } = useContext(InspectionItemContext);
   const [groups, setGroups] = useState<InspectionGroup[]>([]);
   const [types, setTypes] = useState<InspectionType[]>([]);
@@ -69,14 +68,14 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   }, []);
 
   const storeHistory = () => {
-    setHistory(history.concat(context.inspectionSheet));
+    setHistory(history.concat(sheetPresenter));
     setUndoDisabled(false);
   }
 
   const getHistory = () => {
     const sheet = history.pop();
     if (sheet != null) {
-      context.setSheet(sheet);
+      sheetController.setSheet(sheet);
       setUndoDisabled(!history.length);
     }
   };
@@ -86,9 +85,9 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
    */
   const handleInspectionItem = () => {
     if (additional) {
-      context.addInspectionItem(equipmentIndex, state);
+      sheetController.addInspectionItem(equipmentIndex, state);
     } else {
-      context.updateInspectionItem(equipmentIndex, inspectionItemIndex, state);
+      sheetController.updateInspectionItem(equipmentIndex, inspectionItemIndex, state);
     }
     storeHistory();
     setOpen(false);
@@ -130,7 +129,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
         variant="outlined"
         size="small"
         name="sheet_id"
-        defaultValue={context.inspectionSheet.sheet_id}
+        defaultValue={sheetPresenter.sheet_id}
         InputProps={{ readOnly: true, }}
       />
     </Grid>
@@ -154,8 +153,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
               variant="outlined"
               size="small"
               name="sheet_name"
-              value={context.inspectionSheet.sheet_name}
-              onChange={e => context.updateField(e)}
+              value={sheetPresenter.sheet_name}
+              onChange={e => sheetController.updateField(e)}
             />
           </Grid>
           <Grid item xs={12}>
@@ -167,8 +166,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
               variant='outlined'
               size='small'
               name='inspection_group_id'
-              value={context.inspectionSheet.inspection_group_id}
-              onChange={e => context.updateField(e)}
+              value={sheetPresenter.inspection_group_id}
+              onChange={e => sheetController.updateField(e)}
             >
               {groups.map((option: InspectionGroup) => (
                 <MenuItem key={option.inspection_group_id} value={option.inspection_group_id}>
@@ -186,8 +185,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
               variant='outlined'
               size='small'
               name='inspection_type_id'
-              value={context.inspectionSheet.inspection_type_id}
-              onChange={e => context.updateField(e)}
+              value={sheetPresenter.inspection_type_id}
+              onChange={e => sheetController.updateField(e)}
             >
               {types.map((option: InspectionType) => (
                 <MenuItem key={option.inspection_type_id} value={option.inspection_type_id}>
@@ -196,7 +195,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
               ))}
             </TextField>
           </Grid>
-          {context.inspectionSheet.equipments.map((equipment: Equipment, index: number) =>
+          {sheetPresenter.equipments.map((equipment: Equipment, index: number) =>
             <Grid item xs={12} key={`equipment-${index}`}>
               <EquipmentForm
                 index={index}
@@ -218,7 +217,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
               <BottomNavigationAction
                 label="点検機器追加"
                 icon={<AddCircleIcon />}
-                onClick={context.addEquipment}
+                onClick={() => sheetController.addEquipment()}
               />
             </BottomNavigation>
           </Grid>

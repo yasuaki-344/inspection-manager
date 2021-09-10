@@ -9,8 +9,8 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { InspectionItemForm } from './InspectionItemForm';
-import { InspectionSheetContext } from '../../../use-cases/InspectionSheetContext';
-import { ItemType, InspectionSheetContextType } from '../Types';
+import { InspectionSheetContext } from '../../../App';
+import { ItemType } from '../Types';
 import { Equipment, InspectionItem } from '../../../entities';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -49,7 +49,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
   storeHistory
 }): JSX.Element => {
   const classes = useStyles();
-  const context = useContext<InspectionSheetContextType>(InspectionSheetContext);
+  const { sheetController } = useContext(InspectionSheetContext);
   const dropRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<HTMLButtonElement>(null);
 
@@ -59,7 +59,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
       if (!dropRef.current || item.index === index) {
         return;
       }
-      context.swapEquipment(index, item.index);
+      sheetController.swapEquipment(index, item.index);
     }
   })
   const [, drag, preview] = useDrag({
@@ -85,7 +85,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
             data-testid='remove-equipment-button'
             size='small'
             color='inherit'
-            onClick={() => context.removeEquipment(index)}
+            onClick={() => sheetController.removeEquipment(index)}
           >
             <CancelIcon />
           </IconButton>
@@ -100,7 +100,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
                 size='small'
                 name='equipment_name'
                 value={equipment.equipment_name}
-                onChange={e => context.updateEquipment(e, index)}
+                onChange={e => sheetController.updateEquipment(e, index)}
               />
             </Grid>
             <Grid item xs={12}>

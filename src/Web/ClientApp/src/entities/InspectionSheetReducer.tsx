@@ -2,7 +2,7 @@ import React from 'react';
 import { InspectionSheetAction } from '../components/inspection/Types';
 import { InspectionItem, InspectionSheet } from '.';
 
-export const TYPES = {
+export const SHEET_ACTION_TYPE = {
   SET_SHEET: 'SET_SHEET',
   UPDATE_FIELD: 'UPDATE_FIELD',
   ADD_EQUIPMENT: 'ADD_EQUIPMENT',
@@ -15,11 +15,11 @@ export const TYPES = {
   SWAP_INSPECTION_ITEM: 'SWAP_INSPECTION_ITEM',
 };
 
-export default function InspectionSheetReducer(state: InspectionSheet, action: InspectionSheetAction): any {
+export function InspectionSheetReducer(state: InspectionSheet, action: InspectionSheetAction): any {
   switch (action.type) {
-    case TYPES.SET_SHEET:
+    case SHEET_ACTION_TYPE.SET_SHEET:
       return action.payload?.sheet;
-    case TYPES.UPDATE_FIELD:
+    case SHEET_ACTION_TYPE.UPDATE_FIELD:
       if (action.payload?.name != null) {
         return {
           ...state,
@@ -28,7 +28,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
       } else {
         return state;
       }
-    case TYPES.ADD_EQUIPMENT:
+    case SHEET_ACTION_TYPE.ADD_EQUIPMENT:
       return {
         ...state,
         equipments: state.equipments.concat({
@@ -37,7 +37,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
           inspection_items: [],
         })
       };
-    case TYPES.REMOVE_EQUIPMENT:
+    case SHEET_ACTION_TYPE.REMOVE_EQUIPMENT:
       if (action.payload != null) {
         const payload = action.payload;
         if (payload.equipment_index != null) {
@@ -46,7 +46,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         }
       }
       return state;
-    case TYPES.UPDATE_EQUIPMENT:
+    case SHEET_ACTION_TYPE.UPDATE_EQUIPMENT:
       if (action.payload != null) {
         const payload = action.payload;
         if (payload.equipment_index != null && payload.name != null) {
@@ -58,7 +58,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         }
       }
       return state;
-    case TYPES.SWAP_EQUIPMENT:
+    case SHEET_ACTION_TYPE.SWAP_EQUIPMENT:
       if (action.payload != null) {
         const payload = action.payload;
         if (payload.equipment_index != null && payload.swap_index != null) {
@@ -68,7 +68,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         }
       }
       return state;
-    case TYPES.ADD_INSPECTION_ITEM:
+    case SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM:
       if (action.payload != null) {
         const payload = action.payload;
         if (payload.equipment_index != null && payload.inspection_item != null) {
@@ -79,7 +79,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         }
       }
       return state;
-    case TYPES.REMOVE_INSPECTION_ITEM:
+    case SHEET_ACTION_TYPE.REMOVE_INSPECTION_ITEM:
       if (action.payload != null) {
         const payload = action.payload;
         if (payload.equipment_index != null && payload.inspection_item_index != null) {
@@ -89,7 +89,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         }
       }
       return state;
-    case TYPES.UPDATE_INSPECTION_ITEM:
+    case SHEET_ACTION_TYPE.UPDATE_INSPECTION_ITEM:
       if (action.payload != null) {
         const payload = action.payload;
         if (payload.equipment_index != null &&
@@ -101,7 +101,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
         }
       }
       return state;
-    case TYPES.SWAP_INSPECTION_ITEM:
+    case SHEET_ACTION_TYPE.SWAP_INSPECTION_ITEM:
       if (action.payload != null) {
         const payload = action.payload;
         if (payload.equipment_index != null &&
@@ -123,7 +123,7 @@ export default function InspectionSheetReducer(state: InspectionSheet, action: I
 
 export const setSheetAction = (inspectionSheet: InspectionSheet): InspectionSheetAction => {
   return {
-    type: TYPES.SET_SHEET,
+    type: SHEET_ACTION_TYPE.SET_SHEET,
     payload: {
       sheet: inspectionSheet
     },
@@ -132,7 +132,7 @@ export const setSheetAction = (inspectionSheet: InspectionSheet): InspectionShee
 
 export const updateFieldAction = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): InspectionSheetAction => {
   return {
-    type: TYPES.UPDATE_FIELD,
+    type: SHEET_ACTION_TYPE.UPDATE_FIELD,
     payload: {
       name: event.target.name,
       value: event.target.value,
@@ -142,13 +142,13 @@ export const updateFieldAction = (event: React.ChangeEvent<HTMLInputElement | HT
 
 export const addEquipmentAction = (): InspectionSheetAction => {
   return {
-    type: TYPES.ADD_EQUIPMENT,
+    type: SHEET_ACTION_TYPE.ADD_EQUIPMENT,
   }
 };
 
 export const removeEquipmentAction = (index: number): InspectionSheetAction => {
   return {
-    type: TYPES.REMOVE_EQUIPMENT,
+    type: SHEET_ACTION_TYPE.REMOVE_EQUIPMENT,
     payload: {
       equipment_index: index,
     }
@@ -157,7 +157,7 @@ export const removeEquipmentAction = (index: number): InspectionSheetAction => {
 
 export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number): InspectionSheetAction => {
   return {
-    type: TYPES.UPDATE_EQUIPMENT,
+    type: SHEET_ACTION_TYPE.UPDATE_EQUIPMENT,
     payload: {
       name: event.target.name,
       value: event.target.value,
@@ -168,7 +168,7 @@ export const updateEquipmentAction = (event: React.ChangeEvent<HTMLInputElement 
 
 export const swapEquipmentAction = (srcIndex: number, dstId: number): InspectionSheetAction => {
   return {
-    type: TYPES.SWAP_EQUIPMENT,
+    type: SHEET_ACTION_TYPE.SWAP_EQUIPMENT,
     payload: {
       equipment_index: srcIndex,
       swap_index: dstId,
@@ -178,7 +178,7 @@ export const swapEquipmentAction = (srcIndex: number, dstId: number): Inspection
 
 export const addInspectionItemAction = (index: number, item: InspectionItem): InspectionSheetAction => {
   return {
-    type: TYPES.ADD_INSPECTION_ITEM,
+    type: SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM,
     payload: {
       equipment_index: index,
       inspection_item: item,
@@ -188,7 +188,7 @@ export const addInspectionItemAction = (index: number, item: InspectionItem): In
 
 export const removeInspectionItemAction = (equipmentIndex: number, itemIndex: number): InspectionSheetAction => {
   return {
-    type: TYPES.REMOVE_INSPECTION_ITEM,
+    type: SHEET_ACTION_TYPE.REMOVE_INSPECTION_ITEM,
     payload: {
       equipment_index: equipmentIndex,
       inspection_item_index: itemIndex,
@@ -202,7 +202,7 @@ export const updateInspectionItemAction = (
   item: InspectionItem
 ): InspectionSheetAction => {
   return {
-    type: TYPES.UPDATE_INSPECTION_ITEM,
+    type: SHEET_ACTION_TYPE.UPDATE_INSPECTION_ITEM,
     payload: {
       equipment_index: equipmentIndex,
       inspection_item_index: itemIndex,
@@ -217,7 +217,7 @@ export const swapInspectionItemAction = (
   dstIndex: number
 ): InspectionSheetAction => {
   return {
-    type: TYPES.SWAP_INSPECTION_ITEM,
+    type: SHEET_ACTION_TYPE.SWAP_INSPECTION_ITEM,
     payload: {
       equipment_index: equipmentIndex,
       inspection_item_index: srcIndex,

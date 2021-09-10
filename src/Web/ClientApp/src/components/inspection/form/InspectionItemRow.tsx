@@ -4,8 +4,8 @@ import { IconButton, TableCell, TableRow } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import EditIcon from '@material-ui/icons/Edit';
-import { InspectionSheetContext } from '../../../use-cases/InspectionSheetContext';
-import { useInputTypes, InspectionSheetContextType, ItemType } from '../Types';
+import { InspectionSheetContext } from '../../../App';
+import { useInputTypes, ItemType } from '../Types';
 import { InspectionItem } from '../../../entities';
 
 interface DragItem {
@@ -28,7 +28,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
   editInspectionItem,
   storeHistory
 }): JSX.Element => {
-  const context = useContext<InspectionSheetContextType>(InspectionSheetContext);
+  const { sheetController} = useContext(InspectionSheetContext);
   const dropRef = useRef<HTMLTableRowElement>(null);
   const dragRef = useRef<HTMLTableCellElement>(null);
 
@@ -40,7 +40,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
         item.inspectionItemIndex === inspectionItemIndex) {
         return;
       }
-      context.swapInspectionItem(equipmentIndex, inspectionItemIndex, item.inspectionItemIndex);
+      sheetController.swapInspectionItem(equipmentIndex, inspectionItemIndex, item.inspectionItemIndex);
     },
   })
 
@@ -84,7 +84,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
           data-testid='remove-item-button'
           color='primary'
           size='small'
-          onClick={() => context.removeInspectionItem(equipmentIndex, inspectionItemIndex)}
+          onClick={() => sheetController.removeInspectionItem(equipmentIndex, inspectionItemIndex)}
         >
           <CancelIcon />
         </IconButton>
