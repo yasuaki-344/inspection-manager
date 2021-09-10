@@ -1,11 +1,6 @@
 import React from 'react';
 import { InspectionItem, InspectionSheet } from '../entities';
-import {
-  setSheetAction, updateFieldAction,
-  addEquipmentAction, removeEquipmentAction, updateEquipmentAction, swapEquipmentAction,
-  addInspectionItemAction, removeInspectionItemAction, updateInspectionItemAction,
-  swapInspectionItemAction,
-} from '../entities/InspectionSheetReducer';
+import { SHEET_ACTION_TYPE } from '../entities';
 import { IInspectionSheetInteractor } from '../interfaces';
 
 /**
@@ -33,35 +28,78 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   }
 
   setSheet(sheet: InspectionSheet): void {
-    this.dispatch(setSheetAction(sheet))
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.SET_SHEET,
+      payload: {
+        sheet: sheet
+      },
+    })
   }
 
   updateField(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
-    this.dispatch(updateFieldAction(event))
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.UPDATE_FIELD,
+      payload: {
+        name: event.target.name,
+        value: event.target.value,
+      },
+    })
   }
 
   addEquipment(): void {
-    this.dispatch(addEquipmentAction())
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.ADD_EQUIPMENT,
+    })
   }
 
   removeEquipment(index: number): void {
-    this.dispatch(removeEquipmentAction(index))
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.REMOVE_EQUIPMENT,
+      payload: {
+        equipment_index: index,
+      }
+    });
   }
 
   updateEquipment(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number): void {
-    this.dispatch(updateEquipmentAction(event, index))
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.UPDATE_EQUIPMENT,
+      payload: {
+        name: event.target.name,
+        value: event.target.value,
+        equipment_index: index,
+      },
+    });
   }
 
   swapEquipment(srcIndex: number, dstIndex: number): void {
-    this.dispatch(swapEquipmentAction(srcIndex, dstIndex))
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.SWAP_EQUIPMENT,
+      payload: {
+        equipment_index: srcIndex,
+        swap_index: dstIndex,
+      },
+    });
   }
 
   addInspectionItem(index: number, item: InspectionItem): void {
-    this.dispatch(addInspectionItemAction(index, item))
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM,
+      payload: {
+        equipment_index: index,
+        inspection_item: item,
+      }
+    });
   }
 
   removeInspectionItem(equipmentIndex: number, itemIndex: number): void {
-    this.dispatch(removeInspectionItemAction(equipmentIndex, itemIndex))
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.REMOVE_INSPECTION_ITEM,
+      payload: {
+        equipment_index: equipmentIndex,
+        inspection_item_index: itemIndex,
+      }
+    });
   }
 
   updateInspectionItem(
@@ -69,11 +107,24 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     itemIndex: number,
     item: InspectionItem
   ): void {
-    this.dispatch(updateInspectionItemAction(equipmentIndex, itemIndex, item))
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.UPDATE_INSPECTION_ITEM,
+      payload: {
+        equipment_index: equipmentIndex,
+        inspection_item_index: itemIndex,
+        inspection_item: item,
+      }
+    });
   }
 
   swapInspectionItem(equipmentIndex: number, srcIndex: number, dstIndex: number) {
-    this.dispatch(swapInspectionItemAction(equipmentIndex, srcIndex, dstIndex))
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.SWAP_INSPECTION_ITEM,
+      payload: {
+        equipment_index: equipmentIndex,
+        inspection_item_index: srcIndex,
+        swap_index: dstIndex,
+      }
+    });
   }
-
 }
