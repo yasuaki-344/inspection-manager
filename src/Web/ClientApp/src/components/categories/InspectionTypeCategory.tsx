@@ -20,8 +20,8 @@ const api = new InspectionTypesApi();
 export const InspectionTypeCategory: FC = (): JSX.Element => {
   const [types, setTypes] = useState<InspectionType[]>([]);
   const useCase = new InspectionTypeInteractor(types, setTypes);
-  const presenter = new InspectionTypeController(useCase);
-  const conteroller = new InspectionTypePresenter(useCase);
+  const controller = new InspectionTypeController(useCase);
+  const presenter = new InspectionTypePresenter(useCase);
 
   const [open, setOpen] = useState(false);
 
@@ -34,7 +34,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  useEffect(() => { useCase.get() }, []);
+  useEffect(() => { presenter.get() }, []);
 
   useEffect(() => {
     setDisabled(!target.description.length);
@@ -57,7 +57,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
    * @param id Type ID to be edited.
    */
   const handleUpdateItem = (id: number): void => {
-    const type = useCase.getById(id);
+    const type = presenter.getById(id);
     if (type != null) {
       setTarget(type);
       setIsUpdate(true);
@@ -72,7 +72,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
         inspectionType: target
       })
         .then(res => {
-          useCase.update(res)
+          controller.update(res)
           setSuccessMessage('更新に成功しました');
           setErrorMessage('');
         })
@@ -86,7 +86,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
         'inspectionType': target
       })
         .then(res => {
-          useCase.create(res);
+          controller.create(res);
           setSuccessMessage('追加に成功しました');
           setErrorMessage('');
         })
