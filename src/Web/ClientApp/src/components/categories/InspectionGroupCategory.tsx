@@ -10,7 +10,7 @@ import { InspectionGroupController } from '../../controllers';
 import { InspectionGroupPresenter } from '../../presenters';
 import { InspectionGroupRepository } from '../../infrastructure/InspectionGroupRepository';
 import { ProcessResult } from './ProcessResult';
-import { BottomNavigationAddAction, OkCancelDialogActions, TopPageLink } from '../common';
+import { BottomNavigationAdd, OkCancelDialogActions, TopPageLink } from '../common';
 
 const generate = (hook: [Array<InspectionGroup>, React.Dispatch<React.SetStateAction<Array<InspectionGroup>>>]) => {
   const [types, setTypes] = hook;
@@ -157,12 +157,10 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
           </TableContainer>
         </Grid>
         <Grid item xs={12}>
-          <BottomNavigation showLabels>
-            <BottomNavigationAddAction
-              label='点検グループ追加'
-              onClick={handleAddItem}
-            />
-          </BottomNavigation>
+          <BottomNavigationAdd
+            label='点検グループ追加'
+            onClick={handleAddItem}
+          />
         </Grid>
       </Grid >
       <Dialog open={open} onClose={() => setOpen(false)}>

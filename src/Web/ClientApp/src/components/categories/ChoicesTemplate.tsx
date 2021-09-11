@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import { ChoiceTemplate, Option } from '../../typescript-fetch';
-import { BottomNavigationAddAction, CancelIconButton, OkCancelDialogActions } from '../common';
+import { BottomNavigationAdd, CancelIconButton, OkCancelDialogActions } from '../common';
 import { ChoiceTemplateInteractor } from '../../use-cases';
 import { ChoiceTemplateRepository } from '../../infrastructure';
 import { ChoiceTemplatePresenter } from '../../presenters';
@@ -123,34 +123,32 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
           <h1>選択肢テンプレート</h1>
         </Grid>
         <Grid item xs={12}>
-          <Grid container spacing={1}>
-            {errorMessage !== '' &&
-              <Grid item xs={12}>
-                <MuiAlert elevation={6} variant="filled" severity="error">
-                  {errorMessage}
-                </MuiAlert>
-              </Grid>
-            }
-            {successMessage !== '' &&
-              <Grid item xs={12}>
-                <MuiAlert elevation={6} variant="filled" severity="success">
-                  {successMessage}
-                </MuiAlert>
-              </Grid>
-            }
+          {errorMessage !== '' &&
             <Grid item xs={12}>
-              <TableContainer component={Paper}>
-                {presenter.choiceTemplateTable(
-                  handleUpdateTemplate,
-                  handleDeleteTemplate
-                )}
-              </TableContainer>
+              <MuiAlert elevation={6} variant="filled" severity="error">
+                {errorMessage}
+              </MuiAlert>
             </Grid>
+          }
+          {successMessage !== '' &&
+            <Grid item xs={12}>
+              <MuiAlert elevation={6} variant="filled" severity="success">
+                {successMessage}
+              </MuiAlert>
+            </Grid>
+          }
+          <Grid item xs={12}>
+            <TableContainer component={Paper}>
+              {presenter.choiceTemplateTable(
+                handleUpdateTemplate,
+                handleDeleteTemplate
+              )}
+            </TableContainer>
           </Grid>
         </Grid>
         <Grid item xs={12}>
           <BottomNavigation showLabels>
-            <BottomNavigationAddAction
+            <BottomNavigationAdd
               label='テンプレート追加'
               onClick={handleAddTemplate}
             />
@@ -192,18 +190,16 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
               </Grid>
             )}
             <Grid item xs={12}>
-              <BottomNavigation showLabels>
-                <BottomNavigationAddAction
-                  label='選択肢追加'
-                  onClick={() => setTarget({
-                    ...target,
-                    'choices': target.choices.concat({
-                      option_id: 0,
-                      description: ''
-                    }),
-                  })}
-                />
-              </BottomNavigation>
+              <BottomNavigationAdd
+                label='選択肢追加'
+                onClick={() => setTarget({
+                  ...target,
+                  'choices': target.choices.concat({
+                    option_id: 0,
+                    description: ''
+                  }),
+                })}
+              />
             </Grid>
           </Grid>
         </DialogContent>

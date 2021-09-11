@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core';
 import { InspectionItem } from '../../../entities';
 import { InspectionItemRow } from './InspectionItemRow';
-import { BottomNavigationAddAction } from '../../common';
+import { BottomNavigationAdd } from '../../common';
 
 interface InspectionItemFormProps {
   equipmentIndex: number,
@@ -50,12 +50,10 @@ export const InspectionItemForm: FC<InspectionItemFormProps> = ({
           </TableBody>
         </Table>
       </TableContainer>
-      <BottomNavigation showLabels>
-        <BottomNavigationAddAction
-          label='点検項目追加'
-          onClick={() => addInspectionItem(equipmentIndex)}
-        />
-      </BottomNavigation>
+      <BottomNavigationAdd
+        label='点検項目追加'
+        onClick={() => addInspectionItem(equipmentIndex)}
+      />
     </>
   );
 }

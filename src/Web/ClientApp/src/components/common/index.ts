@@ -2,4 +2,4 @@ export * from './CancelIconButton';
 export * from './EditIconButton';
 export * from './TopPageLink';
 export * from './OkCancelDialogActions';
-export * from './BottomNavigationAddAction';
+export * from './BottomNavigationAdd';

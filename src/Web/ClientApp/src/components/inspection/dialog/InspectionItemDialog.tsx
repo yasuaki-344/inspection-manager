@@ -9,7 +9,7 @@ import { useInputTypes } from '../../../entities/Types';
 import { Choice } from '../../../entities';
 import { InspectionItemContext } from './../../../App';
 import { ChoiceSetSelectDialog } from './ChoiceSetSelectDialog';
-import { BottomNavigationAddAction, CancelIconButton, OkCancelDialogActions } from '../../common';
+import { BottomNavigationAdd, CancelIconButton, OkCancelDialogActions } from '../../common';
 
 interface InspectionDialogProps {
   open: boolean,
@@ -86,11 +86,11 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                   </Grid>
                 )}
                 <Grid item xs={12}>
+                  <BottomNavigationAdd
+                    label='選択肢追加'
+                    onClick={() => useCase.addChoice()}
+                  />
                   <BottomNavigation showLabels>
-                    <BottomNavigationAddAction
-                      label='選択肢追加'
-                      onClick={() => useCase.addChoice()}
-                    />
                     <BottomNavigationAction
                       label='テンプレート選択'
                       icon={<FormatListNumberedIcon />}

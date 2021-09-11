@@ -12,7 +12,7 @@ import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext, InspectionItemContext } from '../../../App';
 import { Equipment, InspectionItem, InspectionSheet } from '../../../entities';
 import { InspectionGroup, InspectionType } from '../../../typescript-fetch';
-import { BottomNavigationAddAction } from '../../common';
+import { BottomNavigationAdd } from '../../common';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -212,11 +212,11 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
                 icon={<UndoIcon />}
                 onClick={getHistory}
               />
-              <BottomNavigationAddAction
-                label="点検機器追加"
-                onClick={() => sheetController.addEquipment()}
-              />
             </BottomNavigation>
+            <BottomNavigationAdd
+              label="点検機器追加"
+              onClick={() => sheetController.addEquipment()}
+            />
           </Grid>
         </Grid>
       </Paper >

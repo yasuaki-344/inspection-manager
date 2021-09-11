@@ -11,7 +11,7 @@ import { InspectionTypeController } from "../../controllers";
 import { InspectionTypePresenter } from "../../presenters";
 import { InspectionTypeRepository } from "../../infrastructure/InspectionTypeRepository";
 import { ProcessResult } from "./ProcessResult";
-import { BottomNavigationAddAction, OkCancelDialogActions, TopPageLink } from "../common";
+import { BottomNavigationAdd, OkCancelDialogActions, TopPageLink } from "../common";
 
 const generate = (hook: [InspectionType[], React.Dispatch<React.SetStateAction<InspectionType[]>>]) => {
   const [types, setTypes] = hook;
@@ -158,12 +158,10 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
           </TableContainer>
         </Grid>
         <Grid item xs={12}>
-          <BottomNavigation showLabels>
-            <BottomNavigationAddAction
-              label="点検タイプ追加"
-              onClick={handleAddItem}
-            />
-          </BottomNavigation>
+          <BottomNavigationAdd
+            label="点検タイプ追加"
+            onClick={handleAddItem}
+          />
         </Grid>
       </Grid >
       <Dialog open={open} onClose={() => setOpen(false)}>
