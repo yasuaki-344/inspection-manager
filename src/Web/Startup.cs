@@ -36,7 +36,8 @@ namespace InspectionManager.Web
                 cfg.AddProfile<AutoMapping>();
             });
             services.AddDbContext<InspectionContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("InspectionContext"))
+                // options.UseNpgsql(Configuration.GetConnectionString("InspectionContext"))
+                options.UseSqlite(Configuration.GetConnectionString("DevelopContext"))
             );
 
             services.AddScoped<IInspectionSheetRepository, InspectionSheetRepository>();
@@ -62,10 +63,10 @@ namespace InspectionManager.Web
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                // app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
