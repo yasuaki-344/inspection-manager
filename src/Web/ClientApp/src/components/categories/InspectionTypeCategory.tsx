@@ -34,6 +34,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  // eslint-disable-next-line
   useEffect(() => { presenter.get() }, []);
 
   useEffect(() => {

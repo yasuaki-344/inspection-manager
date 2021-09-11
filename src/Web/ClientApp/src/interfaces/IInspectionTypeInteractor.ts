@@ -4,7 +4,7 @@ export interface IInspectionTypeInteractor {
   getTypes(): InspectionType[]
   get(): void
   getById(id: number): InspectionType | undefined
-  create(inspectionType: InspectionType): void
-  update(inspectionType: InspectionType): void
-  delete(id: number): void
+  create(inspectionType: InspectionType): Promise<void>
+  update(inspectionType: InspectionType): Promise<void>
+  delete(id: number): Promise<void>
 }

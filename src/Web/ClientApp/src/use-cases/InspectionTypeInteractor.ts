@@ -29,43 +29,29 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
     return this.types.find(x => x.inspection_type_id === id);
   }
 
-  create(inspectionType: InspectionType): void {
-    this.api.inspectionTypesPost({
+  async create(inspectionType: InspectionType): Promise<void> {
+    const res = await this.api.inspectionTypesPost({
       'inspectionType': inspectionType
-    })
-      .then(res => {
-        this.setTypes(this.types.concat(inspectionType));
-      })
-      .catch(error => {
-        console.error(error);
-      })
+    });
+    this.setTypes(this.types.concat(res));
   }
 
-  update(inspectionType: InspectionType): void {
-    this.api.inspectionTypesInspectionTypeIdPut({
+  async update(inspectionType: InspectionType): Promise<void> {
+    const res = await this.api.inspectionTypesInspectionTypeIdPut({
       inspectionTypeId: inspectionType.inspection_type_id,
       inspectionType: inspectionType
-    })
-      .then(res => {
-        this.setTypes(this.types.map(x =>
-          (x.inspection_type_id === res.inspection_type_id) ? res : x
-        ));
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    });
+
+    this.setTypes(this.types.map(x =>
+      (x.inspection_type_id === res.inspection_type_id) ? res : x
+    ));
   }
 
-  delete(id: number): void {
-    this.api.inspectionTypesInspectionTypeIdDelete({
+  async delete(id: number): Promise<void> {
+    await this.api.inspectionTypesInspectionTypeIdDelete({
       'inspectionTypeId': id
     })
-      .then(() => {
-        this.setTypes(this.types.filter((x: InspectionType) =>
-          x.inspection_type_id !== id));
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    this.setTypes(this.types.filter((x: InspectionType) =>
+      x.inspection_type_id !== id));
   }
 }

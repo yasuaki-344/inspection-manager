@@ -9,14 +9,14 @@ export class InspectionTypeController {
   }
 
   async create(inspectionType: InspectionType): Promise<void> {
-    this.useCase.create(inspectionType)
+    await this.useCase.create(inspectionType)
   }
 
   async update(inspectionType: InspectionType): Promise<void> {
-    this.useCase.update(inspectionType)
+    await this.useCase.update(inspectionType)
   }
 
   async delete(id: number): Promise<void> {
-    this.useCase.delete(id)
+    await this.useCase.delete(id)
   }
 }
