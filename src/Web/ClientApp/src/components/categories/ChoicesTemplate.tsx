@@ -1,16 +1,15 @@
 import React, { FC, useState, useEffect } from 'react';
 import {
-  BottomNavigation,
-  Dialog, DialogContent, DialogTitle,
-  TableContainer, Grid, Paper, TextField,
+  BottomNavigation, TableContainer, Grid, Paper,
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
-import { ChoiceTemplate, Option } from '../../typescript-fetch';
-import { BottomNavigationAdd, CancelIconButton, OkCancelDialogActions } from '../common';
+import { ChoiceTemplate } from '../../typescript-fetch';
+import { BottomNavigationAdd } from '../common';
 import { ChoiceTemplateInteractor } from '../../use-cases';
 import { ChoiceTemplateRepository } from '../../infrastructure';
 import { ChoiceTemplatePresenter } from '../../presenters';
 import { ChoiceTemplateController } from '../../controllers';
+import { ChoiceTemplateEditDialog } from './ChoiceTemplateEditDialog';
 
 const generate = (hook: [Array<ChoiceTemplate>, React.Dispatch<React.SetStateAction<Array<ChoiceTemplate>>>]) => {
   const [types, setTypes] = hook;
@@ -155,60 +154,13 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
           </BottomNavigation>
         </Grid>
       </Grid >
-      <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>選択肢テンプレート編集</DialogTitle>
-        <DialogContent>
-          <Grid container spacing={1}>
-            {target.choices.map((choice: Option, index: number) =>
-              <Grid item xs={12} key={index}>
-                <TextField
-                  required
-                  id='outlined-required'
-                  label={`選択肢${index + 1}`}
-                  variant='outlined'
-                  size='small'
-                  name='choice'
-                  value={choice.description}
-                  onChange={(e) => setTarget({
-                    ...target,
-                    'choices': target.choices.map((value: Option, i: number) => {
-                      return i !== index ? value : {
-                        option_id: value.option_id,
-                        description: e.target.value
-                      };
-                    }),
-                  })}
-                />
-                <CancelIconButton
-                  onClick={() => setTarget({
-                    ...target,
-                    'choices': target.choices.filter(
-                      (value: Option, i: number) => i !== index
-                    ),
-                  })}
-                />
-              </Grid>
-            )}
-            <Grid item xs={12}>
-              <BottomNavigationAdd
-                label='選択肢追加'
-                onClick={() => setTarget({
-                  ...target,
-                  'choices': target.choices.concat({
-                    option_id: 0,
-                    description: ''
-                  }),
-                })}
-              />
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <OkCancelDialogActions
-          disabled={disabled}
-          onOkButtonClick={() => handleRegistration()}
-          onCancelButtonClick={() => setOpen(false)}
-        />
-      </Dialog>
+      <ChoiceTemplateEditDialog
+        open={open}
+        target={target}
+        setTarget={setTarget}
+        onOkButtonClick={() => handleRegistration()}
+        onCancelButtonClick={() => setOpen(false)}
+      />
     </>
   );
 }
