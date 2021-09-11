@@ -9,12 +9,24 @@ import {
 import MuiAlert from '@material-ui/lab/Alert';
 import { ChoiceTemplatesApi, ChoiceTemplate, Option } from '../../typescript-fetch';
 import { BottomNavigationAddAction, CancelIconButton, EditIconButton, OkCancelDialogActions } from '../common';
+import { ChoiceTemplateInteractor } from '../../use-cases';
+import { ChoiceTemplateRepository } from '../../infrastructure';
+import { ChoiceTemplateController } from '../../presenters';
+import { ChoiceTemplatePresenter } from '../../controllers';
 
 const api = new ChoiceTemplatesApi();
 
+const generate = (hook: [Array<ChoiceTemplate>, React.Dispatch<React.SetStateAction<Array<ChoiceTemplate>>>]) => {
+  const [types, setTypes] = hook;
+  const useCase = new ChoiceTemplateInteractor(types, setTypes, new ChoiceTemplateRepository());
+  const controller = new ChoiceTemplateController(useCase);
+  const presenter = new ChoiceTemplatePresenter(useCase);
+  return { controller, presenter }
+}
+
 export const ChoicesTemplate: FC = (): JSX.Element => {
   const [open, setOpen] = useState(false);
-  const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
+  const [templates, setTemplates] = useState<Array<ChoiceTemplate>>([]);
   const [disabled, setDisabled] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<ChoiceTemplate>({
