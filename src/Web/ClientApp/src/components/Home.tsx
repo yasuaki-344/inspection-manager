@@ -8,7 +8,6 @@ import {
   Paper, TablePagination
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
-import CancelIcon from '@material-ui/icons/Cancel';
 import DetailsIcon from '@material-ui/icons/Details';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SearchIcon from '@material-ui/icons/Search';
@@ -17,6 +16,7 @@ import {
   InspectionGroup, InspectionGroupsApi,
   InspectionType, InspectionTypesApi
 } from '../typescript-fetch';
+import { CancelIconButton } from './common';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -279,13 +279,7 @@ export const Home: FC = (): JSX.Element => {
                         </Link>
                       </TableCell>
                       <TableCell padding='checkbox'>
-                        <IconButton
-                          size='small'
-                          color='secondary'
-                          onClick={() => handleClickOpen(sheet)}
-                        >
-                          <CancelIcon />
-                        </IconButton>
+                        <CancelIconButton onClick={() => handleClickOpen(sheet)} />
                       </TableCell>
                     </TableRow>
                   )}

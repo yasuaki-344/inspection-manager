@@ -2,15 +2,15 @@ import React, { useContext, useState, useEffect } from 'react';
 import {
   Button, BottomNavigation, BottomNavigationAction,
   Dialog, DialogActions, DialogContent, DialogTitle,
-  IconButton, Grid, TextField, MenuItem,
+  Grid, TextField, MenuItem,
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import CancelIcon from '@material-ui/icons/Cancel';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { useInputTypes } from '../../../entities/Types';
 import { Choice } from '../../../entities';
 import { InspectionItemContext } from './../../../App';
 import { ChoiceSetSelectDialog } from './ChoiceSetSelectDialog';
+import { CancelIconButton } from '../../common';
 
 interface InspectionDialogProps {
   open: boolean,
@@ -25,7 +25,7 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
 
   useEffect(() => {
     setDisabled(!useCase.isValidInspectionItem(state));
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [state]);
 
   return (
@@ -81,11 +81,9 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                       value={choice.description}
                       onChange={(e) => useCase.updateChoice(e, index)}
                     />
-                    <IconButton color='primary' size='small'
+                    <CancelIconButton
                       onClick={() => useCase.removeChoice(index)}
-                    >
-                      <CancelIcon />
-                    </IconButton>
+                    />
                   </Grid>
                 )}
                 <Grid item xs={12}>

@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from 'react';
 import {
-  BottomNavigation, BottomNavigationAction, IconButton, Button,
+  BottomNavigation, BottomNavigationAction, Button,
   Dialog, DialogActions, DialogContent, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Grid, Paper, TextField,
@@ -8,9 +8,8 @@ import {
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import CancelIcon from '@material-ui/icons/Cancel';
-import EditIcon from '@material-ui/icons/Edit';
 import { ChoiceTemplatesApi, ChoiceTemplate, Option } from '../../typescript-fetch';
+import { CancelIconButton, EditIconButton } from '../common';
 
 const api = new ChoiceTemplatesApi();
 
@@ -169,24 +168,14 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                           {template.choices.map(x => x.description).join(',')}
                         </TableCell>
                         <TableCell padding='checkbox'>
-                          <IconButton
-                            data-testid={`edit-template-button-${index}`}
-                            size='small'
-                            color='primary'
+                          <EditIconButton
                             onClick={() => handleUpdateTemplate(template.choice_template_id)}
-                          >
-                            <EditIcon />
-                          </IconButton>
+                          />
                         </TableCell>
                         <TableCell padding='checkbox'>
-                          <IconButton
-                            data-testid={`remove-template-button-${index}`}
-                            size='small'
-                            color='secondary'
+                          <CancelIconButton
                             onClick={() => handleDeleteTemplate(template.choice_template_id)}
-                          >
-                            <CancelIcon />
-                          </IconButton>
+                          />
                         </TableCell>
                       </TableRow>
                     )}
@@ -231,17 +220,14 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
                     }),
                   })}
                 />
-                <IconButton color='primary' size='small'
-                  data-testid={`remove-choice-${index}`}
+                <CancelIconButton
                   onClick={() => setTarget({
                     ...target,
                     'choices': target.choices.filter(
                       (value: Option, i: number) => i !== index
                     ),
                   })}
-                >
-                  <CancelIcon />
-                </IconButton>
+                />
               </Grid>
             )}
             <Grid item xs={12}>

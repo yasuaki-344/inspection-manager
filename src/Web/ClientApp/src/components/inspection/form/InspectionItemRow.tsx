@@ -1,12 +1,12 @@
 import React, { FC, useContext, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { IconButton, TableCell, TableRow } from '@material-ui/core';
-import CancelIcon from '@material-ui/icons/Cancel';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import EditIcon from '@material-ui/icons/Edit';
 import { InspectionSheetContext } from '../../../App';
 import { useInputTypes, ItemType } from '../../../entities/Types';
 import { InspectionItem } from '../../../entities';
+import { CancelIconButton } from '../../common';
 
 interface DragItem {
   equipmentIndex: number,
@@ -80,14 +80,9 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
         {inspectionItem.choices.map(x => x.description).join(',')}
       </TableCell>
       <TableCell padding='checkbox'>
-        <IconButton
-          data-testid='remove-item-button'
-          color='primary'
-          size='small'
+        <CancelIconButton
           onClick={() => sheetController.removeInspectionItem(equipmentIndex, inspectionItemIndex)}
-        >
-          <CancelIcon />
-        </IconButton>
+        />
       </TableCell>
     </TableRow>
   );

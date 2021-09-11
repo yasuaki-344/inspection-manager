@@ -10,7 +10,7 @@ export const CancelIconButton: FC<ICancelIconButtonProps> = (props) => {
   return (
     <IconButton
       size='small'
-      color='primary'
+      color='secondary'
       onClick={props.onClick}
     >
       <CancelIcon />

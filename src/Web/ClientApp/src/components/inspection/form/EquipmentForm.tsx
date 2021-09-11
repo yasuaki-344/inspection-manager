@@ -5,13 +5,13 @@ import {
   Accordion, AccordionSummary, AccordionDetails, IconButton,
   Grid, Paper, TextField,
 } from '@material-ui/core';
-import CancelIcon from '@material-ui/icons/Cancel';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { InspectionItemForm } from './InspectionItemForm';
 import { InspectionSheetContext } from '../../../App';
 import { ItemType } from '../../../entities/Types';
 import { Equipment, InspectionItem } from '../../../entities';
+import { CancelIconButton } from '../../common';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -81,14 +81,9 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
             <DragHandleIcon />
           </IconButton>
           <div>{equipment.equipment_name}</div>
-          <IconButton
-            data-testid='remove-equipment-button'
-            size='small'
-            color='inherit'
+          <CancelIconButton
             onClick={() => sheetController.removeEquipment(index)}
-          >
-            <CancelIcon />
-          </IconButton>
+          />
         </AccordionSummary>
         <AccordionDetails>
           <Grid container>
