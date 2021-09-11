@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import {
-  Button, BottomNavigation, BottomNavigationAction,
-  Dialog, DialogActions, DialogContent, DialogTitle,
+  BottomNavigation, BottomNavigationAction,
+  Dialog, DialogContent, DialogTitle,
   Grid, TextField, MenuItem,
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -10,7 +10,7 @@ import { useInputTypes } from '../../../entities/Types';
 import { Choice } from '../../../entities';
 import { InspectionItemContext } from './../../../App';
 import { ChoiceSetSelectDialog } from './ChoiceSetSelectDialog';
-import { CancelIconButton } from '../../common';
+import { CancelIconButton, OkCancelDialogActions } from '../../common';
 
 interface InspectionDialogProps {
   open: boolean,
@@ -104,18 +104,11 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
             }
           </Grid>
         </DialogContent>
-        <DialogActions>
-          <Button
-            variant='contained'
-            color='primary'
-            disabled={disabled}
-            onClick={props.handleInspectionItem}
-          >OK</Button>
-          <Button
-            variant='contained'
-            onClick={props.handleClose}
-          >キャンセル</Button>
-        </DialogActions>
+        <OkCancelDialogActions
+          disabled={disabled}
+          onOkButtonClick={props.handleInspectionItem}
+          onCancelButtonClick={props.handleClose}
+        />
       </Dialog>
       <ChoiceSetSelectDialog
         open={open}

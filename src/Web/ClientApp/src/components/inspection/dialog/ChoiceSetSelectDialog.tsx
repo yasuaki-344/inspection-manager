@@ -1,10 +1,11 @@
 import React, { FC, useContext, useState, useEffect } from 'react';
 import {
-  Button, Dialog, DialogActions, DialogContent, DialogTitle,
+  Dialog, DialogContent, DialogTitle,
   Radio, RadioGroup, FormControl, FormControlLabel,
 } from '@material-ui/core';
 import { ChoiceTemplate } from '../../../typescript-fetch';
 import { InspectionItemContext } from '../../../App';
+import { OkCancelDialogActions } from '../../common';
 
 interface ChoiceSetSelectDialogProps {
   open: boolean,
@@ -50,17 +51,11 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({ open, ha
           </RadioGroup>
         </FormControl>
       </DialogContent>
-      <DialogActions>
-        <Button
-          variant='contained'
-          color='primary'
-          onClick={handleSelectTemplate}
-        >OK</Button>
-        <Button
-          variant='contained'
-          onClick={handleClose}
-        >キャンセル</Button>
-      </DialogActions>
+      <OkCancelDialogActions
+        disabled={false}
+        onOkButtonClick={handleSelectTemplate}
+        onCancelButtonClick={handleClose}
+      />
     </Dialog>
   );
 }

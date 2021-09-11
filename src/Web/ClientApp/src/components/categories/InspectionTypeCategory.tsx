@@ -1,8 +1,8 @@
 import React, { FC, useState, useEffect } from "react";
 import {
-  Grid, Paper, TextField, Button,
+  Grid, Paper, TextField,
   BottomNavigation, BottomNavigationAction,
-  Dialog, DialogActions, DialogContent, DialogTitle,
+  Dialog, DialogContent, DialogTitle,
   TableContainer
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -12,7 +12,7 @@ import { InspectionTypeController } from "../../controllers";
 import { InspectionTypePresenter } from "../../presenters";
 import { InspectionTypeRepository } from "../../infrastructure/InspectionTypeRepository";
 import { ProcessResult } from "./ProcessResult";
-import { TopPageLink } from "../common";
+import { OkCancelDialogActions, TopPageLink } from "../common";
 
 const generate = (hook: [InspectionType[], React.Dispatch<React.SetStateAction<InspectionType[]>>]) => {
   const [types, setTypes] = hook;
@@ -189,18 +189,11 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions>
-          <Button
-            variant='contained'
-            color='primary'
-            disabled={disabled}
-            onClick={() => handleRegistration()}
-          >OK</Button>
-          <Button
-            variant='contained'
-            onClick={() => setOpen(false)}
-          >キャンセル</Button>
-        </DialogActions>
+        <OkCancelDialogActions
+          disabled={disabled}
+          onOkButtonClick={() => handleRegistration()}
+          onCancelButtonClick={() => setOpen(false)}
+        />
       </Dialog>
     </>
   );

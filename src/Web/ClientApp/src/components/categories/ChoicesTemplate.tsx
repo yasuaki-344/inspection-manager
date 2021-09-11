@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import {
-  BottomNavigation, BottomNavigationAction, Button,
-  Dialog, DialogActions, DialogContent, DialogTitle,
+  BottomNavigation, BottomNavigationAction,
+  Dialog, DialogContent, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Grid, Paper, TextField,
 
@@ -9,7 +9,7 @@ import {
 import MuiAlert from '@material-ui/lab/Alert';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { ChoiceTemplatesApi, ChoiceTemplate, Option } from '../../typescript-fetch';
-import { CancelIconButton, EditIconButton } from '../common';
+import { CancelIconButton, EditIconButton, OkCancelDialogActions } from '../common';
 
 const api = new ChoiceTemplatesApi();
 
@@ -248,18 +248,11 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions>
-          <Button
-            variant='contained'
-            color='primary'
-            disabled={disabled}
-            onClick={() => handleRegistration()}
-          >OK</Button>
-          <Button
-            variant='contained'
-            onClick={() => setOpen(false)}
-          >キャンセル</Button>
-        </DialogActions>
+        <OkCancelDialogActions
+          disabled={disabled}
+          onOkButtonClick={() => handleRegistration()}
+          onCancelButtonClick={() => setOpen(false)}
+        />
       </Dialog>
     </>
   );
