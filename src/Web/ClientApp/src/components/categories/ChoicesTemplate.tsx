@@ -11,8 +11,8 @@ import { ChoiceTemplatesApi, ChoiceTemplate, Option } from '../../typescript-fet
 import { BottomNavigationAddAction, CancelIconButton, EditIconButton, OkCancelDialogActions } from '../common';
 import { ChoiceTemplateInteractor } from '../../use-cases';
 import { ChoiceTemplateRepository } from '../../infrastructure';
-import { ChoiceTemplateController } from '../../presenters';
-import { ChoiceTemplatePresenter } from '../../controllers';
+import { ChoiceTemplatePresenter } from '../../presenters';
+import { ChoiceTemplateController } from '../../controllers';
 
 const api = new ChoiceTemplatesApi();
 
@@ -26,7 +26,10 @@ const generate = (hook: [Array<ChoiceTemplate>, React.Dispatch<React.SetStateAct
 
 export const ChoicesTemplate: FC = (): JSX.Element => {
   const [open, setOpen] = useState(false);
-  const [templates, setTemplates] = useState<Array<ChoiceTemplate>>([]);
+  const hook = useState<Array<ChoiceTemplate>>([]);
+  const [templates, setTemplates] = hook;
+  const { controller, presenter } = generate(hook);
+
   const [disabled, setDisabled] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<ChoiceTemplate>({
@@ -36,11 +39,8 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  useEffect(() => {
-    api.choiceTemplatesGet()
-      .then(res => { setTemplates(res); })
-      .catch(console.error);
-  }, []);
+  // eslint-disable-next-line
+  useEffect(() => { presenter.get() }, []);
 
   useEffect(() => {
     if (!target.choices.length) {

@@ -1,7 +1,7 @@
 import { IChoiceTemplateInteractor } from "../interfaces";
 
-export class ChoiceTemplatePresenter {
-  useCase: IChoiceTemplateInteractor
+export class ChoiceTemplateController {
+  private readonly useCase: IChoiceTemplateInteractor
 
   constructor(useCase: IChoiceTemplateInteractor) {
     this.useCase = useCase

@@ -9,11 +9,23 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
 
   constructor(
     state: Array<ChoiceTemplate>,
-    dispatch:React.Dispatch<React.SetStateAction<Array<ChoiceTemplate>>>,
+    dispatch: React.Dispatch<React.SetStateAction<Array<ChoiceTemplate>>>,
     repository: IChoiceTemplateRepository
   ) {
     this.state = state;
     this.dispatch = dispatch;
     this.repository = repository;
+  }
+
+  getTemplates(): Array<ChoiceTemplate> {
+    return this.state;
+  }
+
+  get(): void {
+    this.repository.get()
+      .then(res => {
+        this.dispatch(res)
+      })
+      .catch(console.error);
   }
 }
