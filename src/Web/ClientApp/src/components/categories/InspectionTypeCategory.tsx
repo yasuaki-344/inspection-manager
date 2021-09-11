@@ -11,11 +11,12 @@ import { InspectionType } from '../../typescript-fetch';
 import { InspectionTypeInteractor } from "../../use-cases";
 import { InspectionTypeController } from "../../controllers";
 import { InspectionTypePresenter } from "../../presenters";
+import { InspectionTypeRepository } from "../../infrastructure/InspectionTypeRepository";
 import { ProcessResult } from "./ProcessResult";
 
 const generate = (hook: [InspectionType[], React.Dispatch<React.SetStateAction<InspectionType[]>>]) => {
   const [types, setTypes] = hook;
-  const useCase = new InspectionTypeInteractor(types, setTypes);
+  const useCase = new InspectionTypeInteractor(types, setTypes, new InspectionTypeRepository());
   const controller = new InspectionTypeController(useCase);
   const presenter = new InspectionTypePresenter(useCase);
   return { controller, presenter }

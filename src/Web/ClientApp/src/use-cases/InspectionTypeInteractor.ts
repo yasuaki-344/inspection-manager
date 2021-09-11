@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from "react";
-import { InspectionTypeRepository } from "../infrastructure/InspectionTypeRepository";
 import { IInspectionTypeInteractor, IInspectionTypeRepository } from "../interfaces";
 import { InspectionType } from "../typescript-fetch";
 
@@ -8,10 +7,14 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
   private readonly setTypes: Dispatch<SetStateAction<InspectionType[]>>
   private readonly repository: IInspectionTypeRepository
 
-  constructor(types: InspectionType[], setTypes: Dispatch<SetStateAction<InspectionType[]>>) {
+  constructor(
+    types: InspectionType[],
+    setTypes: Dispatch<SetStateAction<InspectionType[]>>,
+    repository: IInspectionTypeRepository
+  ) {
     this.types = types;
     this.setTypes = setTypes;
-    this.repository = new InspectionTypeRepository();
+    this.repository = repository;
   }
 
   getTypes(): InspectionType[] {
