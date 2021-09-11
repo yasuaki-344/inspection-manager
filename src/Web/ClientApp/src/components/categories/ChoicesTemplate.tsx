@@ -5,14 +5,12 @@ import {
   TableContainer, Grid, Paper, TextField,
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
-import { ChoiceTemplatesApi, ChoiceTemplate, Option } from '../../typescript-fetch';
+import { ChoiceTemplate, Option } from '../../typescript-fetch';
 import { BottomNavigationAddAction, CancelIconButton, OkCancelDialogActions } from '../common';
 import { ChoiceTemplateInteractor } from '../../use-cases';
 import { ChoiceTemplateRepository } from '../../infrastructure';
 import { ChoiceTemplatePresenter } from '../../presenters';
 import { ChoiceTemplateController } from '../../controllers';
-
-const api = new ChoiceTemplatesApi();
 
 const generate = (hook: [Array<ChoiceTemplate>, React.Dispatch<React.SetStateAction<Array<ChoiceTemplate>>>]) => {
   const [types, setTypes] = hook;
@@ -23,11 +21,8 @@ const generate = (hook: [Array<ChoiceTemplate>, React.Dispatch<React.SetStateAct
 }
 
 export const ChoicesTemplate: FC = (): JSX.Element => {
+  const { controller, presenter } = generate(useState<Array<ChoiceTemplate>>([]));
   const [open, setOpen] = useState(false);
-  const hook = useState<Array<ChoiceTemplate>>([]);
-  const [templates, setTemplates] = hook;
-  const { controller, presenter } = generate(hook);
-
   const [disabled, setDisabled] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<ChoiceTemplate>({
