@@ -4,8 +4,8 @@ import { SHEET_ACTION_TYPE } from '../entities';
 import { IInspectionSheetInteractor } from '../interfaces';
 
 export class InspectionSheetInteractor implements IInspectionSheetInteractor {
-  state: InspectionSheet
-  dispatch: React.Dispatch<any>
+  private readonly state: InspectionSheet
+  private readonly dispatch: React.Dispatch<any>
 
   constructor(state: InspectionSheet, dispatch: React.Dispatch<any>) {
     this.state = state

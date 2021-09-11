@@ -1,7 +1,7 @@
 import { IInspectionSheetInteractor } from "../interfaces";
 
 export class InspectionSheetPresenter {
-  useCase: IInspectionSheetInteractor
+  private readonly useCase: IInspectionSheetInteractor
 
   constructor(useCase: IInspectionSheetInteractor) {
     this.useCase = useCase

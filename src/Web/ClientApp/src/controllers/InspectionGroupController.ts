@@ -2,7 +2,7 @@ import { IInspectionGroupInteractor } from "../interfaces";
 import { InspectionGroup } from "../typescript-fetch";
 
 export class InspectionGroupController {
-  useCase: IInspectionGroupInteractor
+  private readonly useCase: IInspectionGroupInteractor
 
   constructor(useCase: IInspectionGroupInteractor) {
     this.useCase = useCase

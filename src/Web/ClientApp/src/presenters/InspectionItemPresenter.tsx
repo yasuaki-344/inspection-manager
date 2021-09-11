@@ -1,7 +1,7 @@
 import { IInspectionItemInteractor } from "../interfaces";
 
 export class InspectionItemPresenter {
-  useCase: IInspectionItemInteractor
+  private readonly useCase: IInspectionItemInteractor
 
   constructor(useCase: IInspectionItemInteractor) {
     this.useCase = useCase

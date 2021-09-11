@@ -6,7 +6,7 @@ import {
 import { CancelIconButton, EditIconButton } from "../components/common";
 
 export class InspectionGroupPresenter {
-  useCase: IInspectionGroupInteractor
+  private readonly useCase: IInspectionGroupInteractor
 
   constructor(useCase: IInspectionGroupInteractor) {
     this.useCase = useCase
