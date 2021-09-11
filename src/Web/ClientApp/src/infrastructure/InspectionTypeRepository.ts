@@ -12,14 +12,14 @@ export class InspectionTypeRepository implements IInspectionTypeRepository {
     return await this.api.inspectionTypesGet()
   }
 
-  async post(inspectionType: InspectionType): Promise<void> {
-    await this.api.inspectionTypesPost({
+  async post(inspectionType: InspectionType): Promise<InspectionType> {
+    return await this.api.inspectionTypesPost({
       'inspectionType': inspectionType
     });
   }
 
-  async update(inspectionType: InspectionType): Promise<void> {
-    await this.api.inspectionTypesInspectionTypeIdPut({
+  async put(inspectionType: InspectionType): Promise<InspectionType> {
+    return await this.api.inspectionTypesInspectionTypeIdPut({
       inspectionTypeId: inspectionType.inspection_type_id,
       inspectionType: inspectionType
     });
