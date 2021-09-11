@@ -15,13 +15,20 @@ import { InspectionTypeInteractor } from "../../use-cases";
 import { InspectionTypeController } from "../../controllers";
 import { InspectionTypePresenter } from "../../presenters";
 
+const generate = (
+  types: InspectionType[],
+  setTypes: React.Dispatch<React.SetStateAction<InspectionType[]>>) => {
+  const useCase = new InspectionTypeInteractor(types, setTypes);
+  const controller = new InspectionTypeController(useCase);
+  const presenter = new InspectionTypePresenter(useCase);
+  return { controller, presenter }
+}
+
 const api = new InspectionTypesApi();
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
   const [types, setTypes] = useState<InspectionType[]>([]);
-  const useCase = new InspectionTypeInteractor(types, setTypes);
-  const controller = new InspectionTypeController(useCase);
-  const presenter = new InspectionTypePresenter(useCase);
+  const { controller, presenter } = generate(types, setTypes);
 
   const [open, setOpen] = useState(false);
 
@@ -108,7 +115,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
       'inspectionTypeId': id
     })
       .then(() => {
-        useCase.delete(id);
+        controller.delete(id);
         setSuccessMessage('削除に成功しました');
         setErrorMessage('');
       })
