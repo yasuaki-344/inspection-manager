@@ -18,6 +18,13 @@ export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
     })
   }
 
+  async put(choiceTemplate: ChoiceTemplate): Promise<ChoiceTemplate> {
+    return await this.api.choiceTemplatesChoiceTemplateIdPut({
+      'choiceTemplateId': choiceTemplate.choice_template_id,
+      'choiceTemplate': choiceTemplate
+    });
+  }
+
   async delete(id: number): Promise<void> {
     await this.api.choiceTemplatesChoiceTemplateIdDelete({
       'choiceTemplateId': id

@@ -12,6 +12,10 @@ export class ChoiceTemplateController {
     await this.useCase.create(choiceTemplate);
   }
 
+  async update(choiceTemplate: ChoiceTemplate): Promise<void> {
+    await this.useCase.update(choiceTemplate);
+  }
+
   async delete(id:number): Promise<void>{
     await this.useCase.delete(id);
   }

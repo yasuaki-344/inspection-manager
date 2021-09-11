@@ -38,6 +38,13 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
     this.dispatch(this.state.concat(res));
   }
 
+  async update(choiceTemplate: ChoiceTemplate): Promise<void> {
+    const res = await this.repository.put(choiceTemplate);
+    this.dispatch(this.state.map(x =>
+      (x.choice_template_id === res.choice_template_id) ? res : x
+    ));
+  }
+
   async delete(id: number): Promise<void> {
     await this.repository.delete(id);
     this.dispatch(this.state.filter((x: ChoiceTemplate) =>

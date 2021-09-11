@@ -79,18 +79,8 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    */
   const handleRegistration = () => {
     if (isUpdate) {
-      api.choiceTemplatesChoiceTemplateIdPut({
-        'choiceTemplateId': target.choice_template_id,
-        'choiceTemplate': target
-      })
-        .then(res => {
-          setTemplates(templates.map(x => {
-            if (x.choice_template_id === res.choice_template_id) {
-              return res;
-            } else {
-              return x;
-            }
-          }));
+      controller.update(target)
+        .then(() => {
           setSuccessMessage('更新に成功しました');
           setErrorMessage('');
         })
