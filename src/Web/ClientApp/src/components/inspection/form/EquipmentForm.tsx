@@ -10,7 +10,7 @@ import DragHandleIcon from '@material-ui/icons/DragHandle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { InspectionItemForm } from './InspectionItemForm';
 import { InspectionSheetContext } from '../../../App';
-import { ItemType } from '../Types';
+import { ItemType } from '../../../entities/Types';
 import { Equipment, InspectionItem } from '../../../entities';
 
 const useStyles = makeStyles((theme: Theme) =>

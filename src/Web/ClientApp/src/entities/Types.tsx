@@ -1,5 +1,5 @@
-import { ChoiceTemplate } from "../../typescript-fetch";
-import { InspectionItem, InspectionSheet } from "../../entities";
+import { ChoiceTemplate } from "../typescript-fetch";
+import { InspectionItem, InspectionSheet } from ".";
 
 export const ItemType = {
   EQUIPMENT: 'EQUIPMENT',

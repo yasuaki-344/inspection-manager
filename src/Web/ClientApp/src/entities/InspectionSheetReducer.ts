@@ -1,4 +1,4 @@
-import { InspectionSheetAction } from '../components/inspection/Types';
+import { InspectionSheetAction } from './Types';
 import { InspectionSheet } from '.';
 
 /**

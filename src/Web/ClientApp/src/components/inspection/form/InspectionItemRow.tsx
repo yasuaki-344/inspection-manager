@@ -5,7 +5,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import EditIcon from '@material-ui/icons/Edit';
 import { InspectionSheetContext } from '../../../App';
-import { useInputTypes, ItemType } from '../Types';
+import { useInputTypes, ItemType } from '../../../entities/Types';
 import { InspectionItem } from '../../../entities';
 
 interface DragItem {
