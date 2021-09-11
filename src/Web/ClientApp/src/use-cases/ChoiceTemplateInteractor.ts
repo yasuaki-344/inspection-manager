@@ -32,4 +32,10 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
   getById(id: number): ChoiceTemplate | undefined {
     return this.state.find((x: ChoiceTemplate) => x.choice_template_id === id);
   }
+
+  async delete(id: number): Promise<void> {
+    await this.repository.delete(id);
+    this.dispatch(this.state.filter((x: ChoiceTemplate) =>
+      x.choice_template_id !== id));
+  }
 }

@@ -2,13 +2,11 @@ import React, { FC, useState, useEffect } from 'react';
 import {
   BottomNavigation,
   Dialog, DialogContent, DialogTitle,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Grid, Paper, TextField,
-
+  TableContainer, Grid, Paper, TextField,
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import { ChoiceTemplatesApi, ChoiceTemplate, Option } from '../../typescript-fetch';
-import { BottomNavigationAddAction, CancelIconButton, EditIconButton, OkCancelDialogActions } from '../common';
+import { BottomNavigationAddAction, CancelIconButton, OkCancelDialogActions } from '../common';
 import { ChoiceTemplateInteractor } from '../../use-cases';
 import { ChoiceTemplateRepository } from '../../infrastructure';
 import { ChoiceTemplatePresenter } from '../../presenters';
@@ -124,12 +122,8 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    * @param id The template ID to be removed.
    */
   const handleDeleteTemplate = (id: number) => {
-    api.choiceTemplatesChoiceTemplateIdDelete({
-      'choiceTemplateId': id
-    })
+    controller.delete(id)
       .then(() => {
-        setTemplates(templates.filter((x: ChoiceTemplate) =>
-          x.choice_template_id !== id));
         setSuccessMessage('削除に成功しました');
         setErrorMessage('');
       })

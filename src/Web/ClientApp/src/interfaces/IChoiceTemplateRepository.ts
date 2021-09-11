@@ -4,4 +4,5 @@ export interface IChoiceTemplateInteractor {
   getTemplates(): Array<ChoiceTemplate>
   get(): void
   getById(id: number): ChoiceTemplate | undefined
+  delete(id: number): Promise<void>
 }

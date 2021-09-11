@@ -11,4 +11,10 @@ export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
   async get(): Promise<ChoiceTemplate[]> {
     return await this.api.choiceTemplatesGet();
   }
+
+  async delete(id: number): Promise<void> {
+    await this.api.choiceTemplatesChoiceTemplateIdDelete({
+      'choiceTemplateId': id
+    })
+  }
 }
