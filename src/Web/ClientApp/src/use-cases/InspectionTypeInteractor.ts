@@ -17,7 +17,7 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
     this.repository = repository;
   }
 
-  getTypes(): InspectionType[] {
+  getTypes(): Array<InspectionType> {
     return this.types;
   }
 
