@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import MuiAlert from '@material-ui/lab/Alert';
-import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheet } from '../../entities';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
 import { InspectionSheetContext } from '../../App';
+import { TopPageLink } from '../common';
 
 export const Edit = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
@@ -59,7 +59,7 @@ export const Edit = ({ match }: any): JSX.Element => {
         <h1>編集ページ</h1>
       </Grid>
       <Grid item xs={12}>
-        <Link to="/">トップページへ戻る</Link>
+        <TopPageLink />
       </Grid>
       {errorMessage !== '' &&
         <Grid item xs={12}>

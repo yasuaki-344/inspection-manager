@@ -1,5 +1,4 @@
 import React, { FC, useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
 import {
   Grid, Paper, TextField, Button,
   BottomNavigation, BottomNavigationAction,
@@ -13,6 +12,7 @@ import { InspectionTypeController } from "../../controllers";
 import { InspectionTypePresenter } from "../../presenters";
 import { InspectionTypeRepository } from "../../infrastructure/InspectionTypeRepository";
 import { ProcessResult } from "./ProcessResult";
+import { TopPageLink } from "../common";
 
 const generate = (hook: [InspectionType[], React.Dispatch<React.SetStateAction<InspectionType[]>>]) => {
   const [types, setTypes] = hook;
@@ -139,7 +139,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
           <h1>点検タイプ編集</h1>
         </Grid>
         <Grid item xs={12}>
-          <Link to='/'>トップページへ戻る</Link>
+          <TopPageLink />
         </Grid>
         <Grid item xs={12}>
           <ProcessResult

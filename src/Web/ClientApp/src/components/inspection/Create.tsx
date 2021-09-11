@@ -5,11 +5,11 @@ import {
   Paper, TablePagination
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
-import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
 import { InspectionSheet, InspectionSheetInitialState } from '../../entities';
 import { InspectionSheetContext } from '../../App';
+import { TopPageLink } from '../common';
 
 export const Create = (): JSX.Element => {
   const { sheetPresenter, sheetController } = useContext(InspectionSheetContext);
@@ -103,7 +103,7 @@ export const Create = (): JSX.Element => {
           <h1>新規作成ページ</h1>
         </Grid>
         <Grid item xs={12}>
-          <Link to='/'>トップページへ戻る</Link>
+          <TopPageLink />
         </Grid>
         <Grid item xs={12}>
           <Button
