@@ -11,13 +11,27 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import { InspectionGroup, InspectionGroupsApi } from '../../typescript-fetch';
+import { InspectionGroupInteractor } from '../../use-cases';
+import { InspectionGroupController } from '../../controllers';
+import { InspectionGroupPresenter } from '../../presenters';
+import { InspectionTypeRepository } from '../../infrastructure/InspectionTypeRepository';
 
 const api = new InspectionGroupsApi();
 
+const generate = (hook: [Array<InspectionGroup>, React.Dispatch<React.SetStateAction<Array<InspectionGroup>>>]) => {
+  const [types, setTypes] = hook;
+  const useCase = new InspectionGroupInteractor(types, setTypes, new InspectionTypeRepository());
+  const controller = new InspectionGroupController(useCase);
+  const presenter = new InspectionGroupPresenter(useCase);
+  return { controller, presenter }
+}
+
 export const InspectionGroupCategory: FC = (): JSX.Element => {
+  const hook = useState<Array<InspectionGroup>>([]);
+  const { controller, presenter } = generate(hook);
 
   const [open, setOpen] = useState(false);
-  const [groups, setGroups] = useState<InspectionGroup[]>([]);
+  const [groups, setGroups] = useState<Array<InspectionGroup>>([]);
   const [disabled, setDisabled] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<InspectionGroup>({

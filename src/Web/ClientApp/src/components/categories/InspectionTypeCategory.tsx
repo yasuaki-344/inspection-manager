@@ -23,7 +23,7 @@ const generate = (hook: [InspectionType[], React.Dispatch<React.SetStateAction<I
 }
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
-  const { controller, presenter } = generate(useState<InspectionType[]>([]));
+  const { controller, presenter } = generate(useState<Array<InspectionType>>([]));
 
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
