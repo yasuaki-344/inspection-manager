@@ -100,11 +100,8 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
           setErrorMessage('更新に失敗しました');
         })
     } else {
-      api.choiceTemplatesPost({
-        choiceTemplate: target
-      })
-        .then(res => {
-          setTemplates(templates.concat(res));
+      controller.create(target)
+        .then(() => {
           setSuccessMessage('追加に成功しました');
           setErrorMessage('');
         })
