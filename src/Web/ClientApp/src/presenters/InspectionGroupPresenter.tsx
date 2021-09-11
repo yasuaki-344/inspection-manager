@@ -1,10 +1,9 @@
 import { IInspectionGroupInteractor } from "../interfaces";
 import { InspectionGroup } from "../typescript-fetch";
 import {
-  IconButton, Table, TableBody, TableCell, TableHead, TableRow,
+  Table, TableBody, TableCell, TableHead, TableRow,
 } from '@material-ui/core';
-import CancelIcon from '@material-ui/icons/Cancel';
-import EditIcon from '@material-ui/icons/Edit';
+import { CancelIconButton, EditIconButton } from "../components/common";
 
 export class InspectionGroupPresenter {
   useCase: IInspectionGroupInteractor
@@ -41,23 +40,10 @@ export class InspectionGroupPresenter {
                 {type.description}
               </TableCell>
               <TableCell padding='checkbox'>
-                <IconButton
-                  size='small'
-                  color='primary'
-                  onClick={() => updateMethod(type.inspection_group_id)}
-                >
-                  <EditIcon />
-                </IconButton>
+                <EditIconButton onClick={() => updateMethod(type.inspection_group_id)} />
               </TableCell>
               <TableCell padding='checkbox'>
-                <IconButton
-                  data-testid={`remove-type-button-${index}`}
-                  size='small'
-                  color='secondary'
-                  onClick={() => deleteMethod(type.inspection_group_id)}
-                >
-                  <CancelIcon />
-                </IconButton>
+                <CancelIconButton onClick={() => deleteMethod(type.inspection_group_id)} />
               </TableCell>
             </TableRow>
           )}

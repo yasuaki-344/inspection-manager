@@ -1,10 +1,9 @@
 import { IInspectionTypeInteractor } from "../interfaces";
 import { InspectionType } from "../typescript-fetch";
 import {
-  IconButton, Table, TableBody, TableCell, TableHead, TableRow,
+  Table, TableBody, TableCell, TableHead, TableRow,
 } from '@material-ui/core';
-import CancelIcon from '@material-ui/icons/Cancel';
-import EditIcon from '@material-ui/icons/Edit';
+import { CancelIconButton, EditIconButton } from "../components/common";
 
 export class InspectionTypePresenter {
   private readonly useCase: IInspectionTypeInteractor
@@ -35,29 +34,16 @@ export class InspectionTypePresenter {
           </TableRow>
         </TableHead>
         <TableBody>
-          {this.useCase.getTypes().map((type: InspectionType, index: number) =>
+          {this.useCase.getTypes().map((type: InspectionType) =>
             <TableRow key={type.inspection_type_id}>
               <TableCell>
                 {type.description}
               </TableCell>
               <TableCell padding='checkbox'>
-                <IconButton
-                  size='small'
-                  color='primary'
-                  onClick={() => updateMethod(type.inspection_type_id)}
-                >
-                  <EditIcon />
-                </IconButton>
+                <EditIconButton onClick={() => updateMethod(type.inspection_type_id)} />
               </TableCell>
               <TableCell padding='checkbox'>
-                <IconButton
-                  data-testid={`remove-type-button-${index}`}
-                  size="small"
-                  color='secondary'
-                  onClick={() => deleteMethod(type.inspection_type_id)}
-                >
-                  <CancelIcon />
-                </IconButton>
+                <CancelIconButton onClick={() => deleteMethod(type.inspection_type_id)} />
               </TableCell>
             </TableRow>
           )}
