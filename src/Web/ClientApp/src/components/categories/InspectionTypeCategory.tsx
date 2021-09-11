@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { InspectionType, InspectionTypesApi } from '../../typescript-fetch';
+import { InspectionType } from '../../typescript-fetch';
 import { InspectionTypeInteractor } from "../../use-cases";
 import { InspectionTypeController } from "../../controllers";
 import { InspectionTypePresenter } from "../../presenters";
@@ -20,8 +20,6 @@ const generate = (hook: [InspectionType[], React.Dispatch<React.SetStateAction<I
   const presenter = new InspectionTypePresenter(useCase);
   return { controller, presenter }
 }
-
-const api = new InspectionTypesApi();
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
   const { controller, presenter } = generate(useState<InspectionType[]>([]));
@@ -69,12 +67,8 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
 
   const handleRegistration = (): void => {
     if (isUpdate) {
-      api.inspectionTypesInspectionTypeIdPut({
-        inspectionTypeId: target.inspection_type_id,
-        inspectionType: target
-      })
-        .then(res => {
-          controller.update(res)
+      controller.update(target)
+        .then(() => {
           setSuccessMessage('更新に成功しました');
           setErrorMessage('');
         })
@@ -84,11 +78,8 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
           setErrorMessage('更新に失敗しました');
         });
     } else {
-      api.inspectionTypesPost({
-        'inspectionType': target
-      })
-        .then(res => {
-          controller.create(res);
+      controller.create(target)
+        .then(() => {
           setSuccessMessage('追加に成功しました');
           setErrorMessage('');
         })
@@ -106,11 +97,8 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
    * @param id Type ID to be deleted.
    */
   const handleDeleteItem = (id: number): void => {
-    api.inspectionTypesInspectionTypeIdDelete({
-      'inspectionTypeId': id
-    })
+    controller.delete(id)
       .then(() => {
-        controller.delete(id);
         setSuccessMessage('削除に成功しました');
         setErrorMessage('');
       })
