@@ -13,9 +13,15 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
     this.api = new InspectionTypesApi();
   }
 
+  getTypes(): InspectionType[] {
+    return this.types;
+  }
+
   get(): void {
     this.api.inspectionTypesGet()
-      .then(res => this.setTypes(res))
+      .then(res => {
+        this.setTypes(res)
+      })
       .catch(console.error);
   }
 

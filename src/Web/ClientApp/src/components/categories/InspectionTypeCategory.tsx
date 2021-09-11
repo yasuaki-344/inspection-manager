@@ -1,23 +1,20 @@
 import React, { FC, useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import {
-  IconButton, Grid, Paper, TextField, Button,
+  Grid, Paper, TextField, Button,
   BottomNavigation, BottomNavigationAction,
   Dialog, DialogActions, DialogContent, DialogTitle,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  TableContainer,
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import CancelIcon from '@material-ui/icons/Cancel';
-import EditIcon from '@material-ui/icons/Edit';
 import { InspectionType, InspectionTypesApi } from '../../typescript-fetch';
 import { InspectionTypeInteractor } from "../../use-cases";
 import { InspectionTypeController } from "../../controllers";
 import { InspectionTypePresenter } from "../../presenters";
 
-const generate = (
-  types: InspectionType[],
-  setTypes: React.Dispatch<React.SetStateAction<InspectionType[]>>) => {
+const generate = (hook: [InspectionType[], React.Dispatch<React.SetStateAction<InspectionType[]>>]) => {
+  const [types, setTypes] = hook;
   const useCase = new InspectionTypeInteractor(types, setTypes);
   const controller = new InspectionTypeController(useCase);
   const presenter = new InspectionTypePresenter(useCase);
@@ -27,11 +24,9 @@ const generate = (
 const api = new InspectionTypesApi();
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
-  const [types, setTypes] = useState<InspectionType[]>([]);
-  const { controller, presenter } = generate(types, setTypes);
+  const { controller, presenter } = generate(useState<InspectionType[]>([]));
 
   const [open, setOpen] = useState(false);
-
   const [disabled, setDisabled] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<InspectionType>({
@@ -153,43 +148,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <TableContainer component={Paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>点検タイプ</TableCell>
-                      <TableCell>&nbsp;</TableCell>
-                      <TableCell>&nbsp;</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {types.map((type: InspectionType, index: number) =>
-                      <TableRow key={type.inspection_type_id}>
-                        <TableCell>
-                          {type.description}
-                        </TableCell>
-                        <TableCell padding='checkbox'>
-                          <IconButton
-                            size='small'
-                            color='primary'
-                            onClick={() => handleUpdateItem(type.inspection_type_id)}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                        </TableCell>
-                        <TableCell padding='checkbox'>
-                          <IconButton
-                            data-testid={`remove-type-button-${index}`}
-                            size="small"
-                            color='secondary'
-                            onClick={() => handleDeleteItem(type.inspection_type_id)}
-                          >
-                            <CancelIcon />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
+                {presenter.inspectionTypeTable(handleUpdateItem, handleDeleteItem)}
               </TableContainer>
             </Grid>
             <Grid item xs={12}>
