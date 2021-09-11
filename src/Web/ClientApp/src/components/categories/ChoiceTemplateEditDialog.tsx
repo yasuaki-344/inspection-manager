@@ -24,6 +24,37 @@ export const ChoiceTemplateEditDialog: FC<IChoiceTemplateEditDialogProps> = (pro
     }
   }, [props.target]);
 
+  const addChoice = (): void => {
+    props.setTarget({
+      ...props.target,
+      'choices': props.target.choices.concat({
+        option_id: 0,
+        description: ''
+      }),
+    })
+  }
+
+  const updateChoice = (index: number, input: string): void => {
+    props.setTarget({
+      ...props.target,
+      'choices': props.target.choices.map((value: Option, i: number) => {
+        return i !== index ? value : {
+          option_id: value.option_id,
+          description: input
+        };
+      }),
+    })
+  }
+
+  const deleteChoice = (index: number): void => {
+    props.setTarget({
+      ...props.target,
+      'choices': props.target.choices.filter(
+        (value: Option, i: number) => i !== index
+      ),
+    });
+  }
+
   return (
     <Dialog open={props.open} onClose={props.onCancelButtonClick}>
       <DialogTitle>選択肢テンプレート編集</DialogTitle>
@@ -39,36 +70,15 @@ export const ChoiceTemplateEditDialog: FC<IChoiceTemplateEditDialogProps> = (pro
                 size='small'
                 name='choice'
                 value={choice.description}
-                onChange={(e) => props.setTarget({
-                  ...props.target,
-                  'choices': props.target.choices.map((value: Option, i: number) => {
-                    return i !== index ? value : {
-                      option_id: value.option_id,
-                      description: e.target.value
-                    };
-                  }),
-                })}
+                onChange={(e) => updateChoice(index, e.target.value)}
               />
-              <CancelIconButton
-                onClick={() => props.setTarget({
-                  ...props.target,
-                  'choices': props.target.choices.filter(
-                    (value: Option, i: number) => i !== index
-                  ),
-                })}
-              />
+              <CancelIconButton onClick={() => deleteChoice(index)} />
             </Grid>
           )}
           <Grid item xs={12}>
             <BottomNavigationAdd
               label='選択肢追加'
-              onClick={() => props.setTarget({
-                ...props.target,
-                'choices': props.target.choices.concat({
-                  option_id: 0,
-                  description: ''
-                }),
-              })}
+              onClick={addChoice}
             />
           </Grid>
         </Grid>
