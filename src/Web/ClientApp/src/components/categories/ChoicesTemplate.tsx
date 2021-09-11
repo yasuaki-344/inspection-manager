@@ -164,34 +164,10 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
             }
             <Grid item xs={12}>
               <TableContainer component={Paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>選択肢</TableCell>
-                      <TableCell>&nbsp;</TableCell>
-                      <TableCell>&nbsp;</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {templates.map((template: ChoiceTemplate, index: number) =>
-                      <TableRow key={template.choice_template_id}>
-                        <TableCell>
-                          {template.choices.map(x => x.description).join(',')}
-                        </TableCell>
-                        <TableCell padding='checkbox'>
-                          <EditIconButton
-                            onClick={() => handleUpdateTemplate(template.choice_template_id)}
-                          />
-                        </TableCell>
-                        <TableCell padding='checkbox'>
-                          <CancelIconButton
-                            onClick={() => handleDeleteTemplate(template.choice_template_id)}
-                          />
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
+                {presenter.choiceTemplateTable(
+                  handleUpdateTemplate,
+                  handleDeleteTemplate
+                )}
               </TableContainer>
             </Grid>
           </Grid>
