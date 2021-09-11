@@ -1,22 +1,18 @@
 import React, { FC, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  IconButton, Grid, Paper, TextField, Button,
+  Grid, Paper, TextField, Button,
   BottomNavigation, BottomNavigationAction,
   Dialog, DialogActions, DialogContent, DialogTitle,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  TableContainer
 } from '@material-ui/core';
-import MuiAlert from '@material-ui/lab/Alert';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import CancelIcon from '@material-ui/icons/Cancel';
-import EditIcon from '@material-ui/icons/Edit';
-import { InspectionGroup, InspectionGroupsApi } from '../../typescript-fetch';
+import { InspectionGroup } from '../../typescript-fetch';
 import { InspectionGroupInteractor } from '../../use-cases';
 import { InspectionGroupController } from '../../controllers';
 import { InspectionGroupPresenter } from '../../presenters';
 import { InspectionGroupRepository } from '../../infrastructure/InspectionGroupRepository';
-
-const api = new InspectionGroupsApi();
+import { ProcessResult } from './ProcessResult';
 
 const generate = (hook: [Array<InspectionGroup>, React.Dispatch<React.SetStateAction<Array<InspectionGroup>>>]) => {
   const [types, setTypes] = hook;
@@ -27,25 +23,23 @@ const generate = (hook: [Array<InspectionGroup>, React.Dispatch<React.SetStateAc
 }
 
 export const InspectionGroupCategory: FC = (): JSX.Element => {
-  const hook = useState<Array<InspectionGroup>>([]);
-  const { controller, presenter } = generate(hook);
+  const { controller, presenter } = generate(useState<Array<InspectionGroup>>([]));
 
   const [open, setOpen] = useState(false);
-  const [groups, setGroups] = useState<Array<InspectionGroup>>([]);
   const [disabled, setDisabled] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<InspectionGroup>({
     inspection_group_id: 0,
     description: ''
   });
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [processResult, setProcessResult] = useState({
+    severity: 'success',
+    message: '',
+    isVisible: false,
+  });
 
-  useEffect(() => {
-    api.inspectionGroupsGet()
-      .then(res => setGroups(res))
-      .catch(console.error);
-  }, []);
+  // eslint-disable-next-line
+  useEffect(() => { presenter.get() }, []);
 
   useEffect(() => {
     setDisabled(!target.description.length);
@@ -68,7 +62,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
    * @param id Group ID to be edited.
    */
   const handleUpdateItem = (id: number): void => {
-    const group = groups.find(x => x.inspection_group_id === id);
+    const group = presenter.getById(id);
     if (group != null) {
       setTarget(group);
       setIsUpdate(true);
@@ -80,24 +74,36 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
     if (isUpdate) {
       controller.update(target)
         .then(() => {
-          setSuccessMessage('更新に成功しました');
-          setErrorMessage('');
+          setProcessResult({
+            severity: 'success',
+            message: '更新に成功しました',
+            isVisible: true,
+          });
         })
         .catch(error => {
           console.error(error);
-          setSuccessMessage('');
-          setErrorMessage('更新に失敗しました');
+          setProcessResult({
+            severity: 'error',
+            message: '更新に失敗しました',
+            isVisible: true,
+          });
         });
     } else {
       controller.create(target)
         .then(() => {
-          setSuccessMessage('追加に成功しました');
-          setErrorMessage('');
+          setProcessResult({
+            severity: 'success',
+            message: '追加に成功しました',
+            isVisible: true,
+          });
         })
         .catch(error => {
           console.error(error);
-          setSuccessMessage('');
-          setErrorMessage('追加に失敗しました');
+          setProcessResult({
+            severity: 'error',
+            message: '追加に失敗しました',
+            isVisible: true,
+          });
         });
     }
     setOpen(false);
@@ -110,13 +116,19 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
   const handleDeleteItem = (id: number): void => {
     controller.delete(id)
       .then(() => {
-        setSuccessMessage('削除に成功しました');
-        setErrorMessage('');
+        setProcessResult({
+          severity: 'success',
+          message: '削除に成功しました',
+          isVisible: true,
+        });
       })
       .catch(error => {
         console.error(error);
-        setSuccessMessage('');
-        setErrorMessage('削除に失敗しました');
+        setProcessResult({
+          severity: 'error',
+          message: '削除に失敗しました',
+          isVisible: true,
+        });
       });
   }
 
@@ -129,74 +141,32 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
         <Grid item xs={12}>
           <Link to='/'>トップページへ戻る</Link>
         </Grid>
-        {errorMessage !== '' &&
-          <Grid item xs={12}>
-            <MuiAlert elevation={6} variant="filled" severity="error">
-              {errorMessage}
-            </MuiAlert>
-          </Grid>
-        }
-        {successMessage !== '' &&
-          <Grid item xs={12}>
-            <MuiAlert elevation={6} variant="filled" severity="success">
-              {successMessage}
-            </MuiAlert>
-          </Grid>
-        }
         <Grid item xs={12}>
-          <Grid container spacing={1}>
-            <Grid item xs={12}>
-              <TableContainer component={Paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>点検グループ</TableCell>
-                      <TableCell>&nbsp;</TableCell>
-                      <TableCell>&nbsp;</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {groups.map((group: InspectionGroup, index: number) =>
-                      <TableRow key={group.inspection_group_id}>
-                        <TableCell>
-                          {group.description}
-                        </TableCell>
-                        <TableCell padding='checkbox'>
-                          <IconButton
-                            size='small'
-                            color='primary'
-                            onClick={() => handleUpdateItem(group.inspection_group_id)}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                        </TableCell>
-                        <TableCell padding='checkbox'>
-                          <IconButton
-                            data-testid={`remove-group-button-${index}`}
-                            size='small'
-                            color='secondary'
-                            onClick={() => handleDeleteItem(group.inspection_group_id)}
-                          >
-                            <CancelIcon />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Grid>
-            <Grid item xs={12}>
-              <BottomNavigation showLabels>
-                <BottomNavigationAction
-                  data-testid='add-group-button'
-                  label='点検グループ追加'
-                  icon={<AddCircleIcon />}
-                  onClick={handleAddItem}
-                />
-              </BottomNavigation>
-            </Grid>
-          </Grid>
+          <ProcessResult
+            message={processResult.message}
+            severity={processResult.severity}
+            isVisible={processResult.isVisible}
+            close={() => setProcessResult({
+              severity: 'success',
+              message: '',
+              isVisible: false,
+            })}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TableContainer component={Paper}>
+            {presenter.inspectionGroupTable(handleUpdateItem, handleDeleteItem)}
+          </TableContainer>
+        </Grid>
+        <Grid item xs={12}>
+          <BottomNavigation showLabels>
+            <BottomNavigationAction
+              data-testid='add-group-button'
+              label='点検グループ追加'
+              icon={<AddCircleIcon />}
+              onClick={handleAddItem}
+            />
+          </BottomNavigation>
         </Grid>
       </Grid >
       <Dialog open={open} onClose={() => setOpen(false)}>
