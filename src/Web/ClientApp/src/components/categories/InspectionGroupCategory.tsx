@@ -78,18 +78,8 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
 
   const handleRegistration = (): void => {
     if (isUpdate) {
-      api.inspectionGroupsInspectionGroupIdPut({
-        'inspectionGroupId': target.inspection_group_id,
-        'inspectionGroup': target
-      })
-        .then(res => {
-          setGroups(groups.map(x => {
-            if (x.inspection_group_id === res.inspection_group_id) {
-              return res;
-            } else {
-              return x;
-            }
-          }));
+      controller.update(target)
+        .then(() => {
           setSuccessMessage('更新に成功しました');
           setErrorMessage('');
         })
@@ -99,11 +89,8 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
           setErrorMessage('更新に失敗しました');
         });
     } else {
-      api.inspectionGroupsPost({
-        'inspectionGroup': target
-      })
-        .then(res => {
-          setGroups(groups.concat(res));
+      controller.create(target)
+        .then(() => {
           setSuccessMessage('追加に成功しました');
           setErrorMessage('');
         })
@@ -121,12 +108,8 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
    * @param id Group ID to be deleted.
    */
   const handleDeleteItem = (id: number): void => {
-    api.inspectionGroupsInspectionGroupIdDelete({
-      'inspectionGroupId': id
-    })
+    controller.delete(id)
       .then(() => {
-        setGroups(groups.filter((x: InspectionGroup) =>
-          x.inspection_group_id !== id));
         setSuccessMessage('削除に成功しました');
         setErrorMessage('');
       })
