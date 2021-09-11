@@ -1,5 +1,5 @@
-import { IChoiceTemplateInteractor } from "../interfaces";
+import { IChoiceTemplateRepository } from "../interfaces";
 
-export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
+export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
 
 }
