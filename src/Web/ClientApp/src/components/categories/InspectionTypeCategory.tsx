@@ -4,14 +4,14 @@ import {
   Grid, Paper, TextField, Button,
   BottomNavigation, BottomNavigationAction,
   Dialog, DialogActions, DialogContent, DialogTitle,
-  TableContainer,
+  TableContainer
 } from '@material-ui/core';
-import MuiAlert from '@material-ui/lab/Alert';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { InspectionType } from '../../typescript-fetch';
 import { InspectionTypeInteractor } from "../../use-cases";
 import { InspectionTypeController } from "../../controllers";
 import { InspectionTypePresenter } from "../../presenters";
+import { ProcessResult } from "./ProcessResult";
 
 const generate = (hook: [InspectionType[], React.Dispatch<React.SetStateAction<InspectionType[]>>]) => {
   const [types, setTypes] = hook;
@@ -31,8 +31,11 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
     inspection_type_id: 0,
     description: ''
   });
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [processResult, setProcessResult] = useState({
+    severity: 'success',
+    message: '',
+    isVisible: false,
+  });
 
   // eslint-disable-next-line
   useEffect(() => { presenter.get() }, []);
@@ -70,24 +73,36 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
     if (isUpdate) {
       controller.update(target)
         .then(() => {
-          setSuccessMessage('更新に成功しました');
-          setErrorMessage('');
+          setProcessResult({
+            severity: 'success',
+            message: '更新に成功しました',
+            isVisible: true,
+          });
         })
         .catch(error => {
           console.log(error);
-          setSuccessMessage('');
-          setErrorMessage('更新に失敗しました');
+          setProcessResult({
+            severity: 'error',
+            message: '更新に失敗しました',
+            isVisible: true,
+          });
         });
     } else {
       controller.create(target)
         .then(() => {
-          setSuccessMessage('追加に成功しました');
-          setErrorMessage('');
+          setProcessResult({
+            severity: 'success',
+            message: '追加に成功しました',
+            isVisible: true,
+          });
         })
         .catch(error => {
           console.error(error);
-          setSuccessMessage('');
-          setErrorMessage('追加に失敗しました');
+          setProcessResult({
+            severity: 'error',
+            message: '追加に失敗しました',
+            isVisible: true,
+          });
         })
     }
     setOpen(false);
@@ -100,13 +115,19 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
   const handleDeleteItem = (id: number): void => {
     controller.delete(id)
       .then(() => {
-        setSuccessMessage('削除に成功しました');
-        setErrorMessage('');
+        setProcessResult({
+          severity: 'success',
+          message: '削除に成功しました',
+          isVisible: true,
+        });
       })
       .catch(error => {
         console.error(error);
-        setSuccessMessage('');
-        setErrorMessage('削除に失敗しました');
+        setProcessResult({
+          severity: 'error',
+          message: '削除に失敗しました',
+          isVisible: true,
+        });
       });
   }
 
@@ -119,38 +140,32 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
         <Grid item xs={12}>
           <Link to='/'>トップページへ戻る</Link>
         </Grid>
-        {errorMessage !== '' &&
-          <Grid item xs={12}>
-            <MuiAlert elevation={6} variant="filled" severity="error">
-              {errorMessage}
-            </MuiAlert>
-          </Grid>
-        }
-        {successMessage !== '' &&
-          <Grid item xs={12}>
-            <MuiAlert elevation={6} variant="filled" severity="success">
-              {successMessage}
-            </MuiAlert>
-          </Grid>
-        }
         <Grid item xs={12}>
-          <Grid container spacing={1}>
-            <Grid item xs={12}>
-              <TableContainer component={Paper}>
-                {presenter.inspectionTypeTable(handleUpdateItem, handleDeleteItem)}
-              </TableContainer>
-            </Grid>
-            <Grid item xs={12}>
-              <BottomNavigation showLabels>
-                <BottomNavigationAction
-                  data-testid='add-type-button'
-                  label="点検タイプ追加"
-                  icon={<AddCircleIcon />}
-                  onClick={handleAddItem}
-                />
-              </BottomNavigation>
-            </Grid>
-          </Grid>
+          <ProcessResult
+            message={processResult.message}
+            severity={processResult.severity}
+            isVisible={processResult.isVisible}
+            close={() => setProcessResult({
+              severity: 'success',
+              message: '',
+              isVisible: false,
+            })}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TableContainer component={Paper}>
+            {presenter.inspectionTypeTable(handleUpdateItem, handleDeleteItem)}
+          </TableContainer>
+        </Grid>
+        <Grid item xs={12}>
+          <BottomNavigation showLabels>
+            <BottomNavigationAction
+              data-testid='add-type-button'
+              label="点検タイプ追加"
+              icon={<AddCircleIcon />}
+              onClick={handleAddItem}
+            />
+          </BottomNavigation>
         </Grid>
       </Grid >
       <Dialog open={open} onClose={() => setOpen(false)}>
