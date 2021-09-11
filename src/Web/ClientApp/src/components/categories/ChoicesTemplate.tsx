@@ -22,7 +22,6 @@ const generate = (hook: [Array<ChoiceTemplate>, React.Dispatch<React.SetStateAct
 export const ChoicesTemplate: FC = (): JSX.Element => {
   const { controller, presenter } = generate(useState<Array<ChoiceTemplate>>([]));
   const [open, setOpen] = useState(false);
-  const [disabled, setDisabled] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<ChoiceTemplate>({
     choice_template_id: 0,
@@ -33,15 +32,6 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
 
   // eslint-disable-next-line
   useEffect(() => { presenter.get() }, []);
-
-  useEffect(() => {
-    if (!target.choices.length) {
-      setDisabled(true);
-    } else {
-      const index = target.choices.findIndex(x => x.description === '');
-      setDisabled(index !== -1);
-    }
-  }, [target]);
 
   /**
    * Creates new template set.
