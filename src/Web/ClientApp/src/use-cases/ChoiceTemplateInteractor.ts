@@ -28,4 +28,8 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
       })
       .catch(console.error);
   }
+
+  getById(id: number): ChoiceTemplate | undefined {
+    return this.state.find((x: ChoiceTemplate) => x.choice_template_id === id);
+  }
 }

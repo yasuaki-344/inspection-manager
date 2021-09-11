@@ -68,7 +68,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    * @param id The template ID to be edited.
    */
   const handleUpdateTemplate = (id: number) => {
-    const template = templates.find((x: ChoiceTemplate) => x.choice_template_id === id);
+    const template = presenter.getById(id);
     if (template != null) {
       setTarget(template);
       setIsUpdate(true);

@@ -16,6 +16,10 @@ export class ChoiceTemplatePresenter {
     this.useCase.get();
   }
 
+  getById(id: number): ChoiceTemplate | undefined {
+    return this.useCase.getById(id)
+  }
+
   choiceTemplateTable(
     updateMethod: (id: number) => void,
     deleteMethod: (id: number) => void,
