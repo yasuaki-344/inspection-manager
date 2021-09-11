@@ -14,13 +14,13 @@ import { InspectionGroup, InspectionGroupsApi } from '../../typescript-fetch';
 import { InspectionGroupInteractor } from '../../use-cases';
 import { InspectionGroupController } from '../../controllers';
 import { InspectionGroupPresenter } from '../../presenters';
-import { InspectionTypeRepository } from '../../infrastructure/InspectionTypeRepository';
+import { InspectionGroupRepository } from '../../infrastructure/InspectionGroupRepository';
 
 const api = new InspectionGroupsApi();
 
 const generate = (hook: [Array<InspectionGroup>, React.Dispatch<React.SetStateAction<Array<InspectionGroup>>>]) => {
   const [types, setTypes] = hook;
-  const useCase = new InspectionGroupInteractor(types, setTypes, new InspectionTypeRepository());
+  const useCase = new InspectionGroupInteractor(types, setTypes, new InspectionGroupRepository());
   const controller = new InspectionGroupController(useCase);
   const presenter = new InspectionGroupPresenter(useCase);
   return { controller, presenter }
