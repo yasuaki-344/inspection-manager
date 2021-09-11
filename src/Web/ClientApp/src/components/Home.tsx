@@ -303,7 +303,7 @@ export const Home: FC = (): JSX.Element => {
             nextIconButtonText={'次のぺージ'}
             // onChangePage={handleChangePage}
             onPageChange={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Grid>
       </Grid>

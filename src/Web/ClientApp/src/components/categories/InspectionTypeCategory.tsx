@@ -11,12 +11,20 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import { InspectionType, InspectionTypesApi } from '../../typescript-fetch';
+import { InspectionTypeInteractor } from "../../use-cases";
+import { InspectionTypeController } from "../../controllers";
+import { InspectionTypePresenter } from "../../presenters";
 
 const api = new InspectionTypesApi();
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
-  const [open, setOpen] = useState(false);
   const [types, setTypes] = useState<InspectionType[]>([]);
+  const useCase = new InspectionTypeInteractor(types, setTypes);
+  const presenter = new InspectionTypeController(useCase);
+  const conteroller = new InspectionTypePresenter(useCase);
+
+  const [open, setOpen] = useState(false);
+
   const [disabled, setDisabled] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<InspectionType>({
@@ -26,11 +34,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  useEffect(() => {
-    api.inspectionTypesGet()
-      .then(res => setTypes(res))
-      .catch(console.error);
-  }, []);
+  useEffect(() => { useCase.get() }, []);
 
   useEffect(() => {
     setDisabled(!target.description.length);
@@ -53,7 +57,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
    * @param id Type ID to be edited.
    */
   const handleUpdateItem = (id: number): void => {
-    const type = types.find(x => x.inspection_type_id === id);
+    const type = useCase.getById(id);
     if (type != null) {
       setTarget(type);
       setIsUpdate(true);
@@ -68,13 +72,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
         inspectionType: target
       })
         .then(res => {
-          setTypes(types.map(x => {
-            if (x.inspection_type_id === res.inspection_type_id) {
-              return res;
-            } else {
-              return x;
-            }
-          }));
+          useCase.update(res)
           setSuccessMessage('更新に成功しました');
           setErrorMessage('');
         })
@@ -88,7 +86,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
         'inspectionType': target
       })
         .then(res => {
-          setTypes(types.concat(res));
+          useCase.create(res);
           setSuccessMessage('追加に成功しました');
           setErrorMessage('');
         })
@@ -110,8 +108,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
       'inspectionTypeId': id
     })
       .then(() => {
-        setTypes(types.filter((x: InspectionType) =>
-          x.inspection_type_id !== id));
+        useCase.delete(id);
         setSuccessMessage('削除に成功しました');
         setErrorMessage('');
       })
