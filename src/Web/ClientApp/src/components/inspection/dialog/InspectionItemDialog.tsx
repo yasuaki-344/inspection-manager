@@ -4,13 +4,12 @@ import {
   Dialog, DialogContent, DialogTitle,
   Grid, TextField, MenuItem,
 } from '@material-ui/core';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { useInputTypes } from '../../../entities/Types';
 import { Choice } from '../../../entities';
 import { InspectionItemContext } from './../../../App';
 import { ChoiceSetSelectDialog } from './ChoiceSetSelectDialog';
-import { CancelIconButton, OkCancelDialogActions } from '../../common';
+import { BottomNavigationAddAction, CancelIconButton, OkCancelDialogActions } from '../../common';
 
 interface InspectionDialogProps {
   open: boolean,
@@ -88,9 +87,8 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                 )}
                 <Grid item xs={12}>
                   <BottomNavigation showLabels>
-                    <BottomNavigationAction
+                    <BottomNavigationAddAction
                       label='選択肢追加'
-                      icon={<AddCircleIcon />}
                       onClick={() => useCase.addChoice()}
                     />
                     <BottomNavigationAction

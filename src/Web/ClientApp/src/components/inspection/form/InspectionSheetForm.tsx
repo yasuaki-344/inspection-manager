@@ -6,13 +6,13 @@ import {
   BottomNavigation, BottomNavigationAction,
   MenuItem, Grid, Paper, TextField
 } from '@material-ui/core';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import UndoIcon from '@material-ui/icons/Undo';
 import { EquipmentForm } from './EquipmentForm';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext, InspectionItemContext } from '../../../App';
 import { Equipment, InspectionItem, InspectionSheet } from '../../../entities';
 import { InspectionGroup, InspectionType } from '../../../typescript-fetch';
+import { BottomNavigationAddAction } from '../../common';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -212,9 +212,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
                 icon={<UndoIcon />}
                 onClick={getHistory}
               />
-              <BottomNavigationAction
+              <BottomNavigationAddAction
                 label="点検機器追加"
-                icon={<AddCircleIcon />}
                 onClick={() => sheetController.addEquipment()}
               />
             </BottomNavigation>

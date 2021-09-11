@@ -1,17 +1,16 @@
 import React, { FC, useState, useEffect } from 'react';
 import {
-  Grid, Paper, TextField, BottomNavigation, BottomNavigationAction,
+  Grid, Paper, TextField, BottomNavigation,
   Dialog, DialogContent, DialogTitle,
   TableContainer
 } from '@material-ui/core';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { InspectionGroup } from '../../typescript-fetch';
 import { InspectionGroupInteractor } from '../../use-cases';
 import { InspectionGroupController } from '../../controllers';
 import { InspectionGroupPresenter } from '../../presenters';
 import { InspectionGroupRepository } from '../../infrastructure/InspectionGroupRepository';
 import { ProcessResult } from './ProcessResult';
-import { OkCancelDialogActions, TopPageLink } from '../common';
+import { BottomNavigationAddAction, OkCancelDialogActions, TopPageLink } from '../common';
 
 const generate = (hook: [Array<InspectionGroup>, React.Dispatch<React.SetStateAction<Array<InspectionGroup>>>]) => {
   const [types, setTypes] = hook;
@@ -159,10 +158,8 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <BottomNavigation showLabels>
-            <BottomNavigationAction
-              data-testid='add-group-button'
+            <BottomNavigationAddAction
               label='点検グループ追加'
-              icon={<AddCircleIcon />}
               onClick={handleAddItem}
             />
           </BottomNavigation>

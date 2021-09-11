@@ -1,18 +1,17 @@
 import React, { FC, useState, useEffect } from "react";
 import {
   Grid, Paper, TextField,
-  BottomNavigation, BottomNavigationAction,
+  BottomNavigation,
   Dialog, DialogContent, DialogTitle,
   TableContainer
 } from '@material-ui/core';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { InspectionType } from '../../typescript-fetch';
 import { InspectionTypeInteractor } from "../../use-cases";
 import { InspectionTypeController } from "../../controllers";
 import { InspectionTypePresenter } from "../../presenters";
 import { InspectionTypeRepository } from "../../infrastructure/InspectionTypeRepository";
 import { ProcessResult } from "./ProcessResult";
-import { OkCancelDialogActions, TopPageLink } from "../common";
+import { BottomNavigationAddAction, OkCancelDialogActions, TopPageLink } from "../common";
 
 const generate = (hook: [InspectionType[], React.Dispatch<React.SetStateAction<InspectionType[]>>]) => {
   const [types, setTypes] = hook;
@@ -160,10 +159,8 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <BottomNavigation showLabels>
-            <BottomNavigationAction
-              data-testid='add-type-button'
+            <BottomNavigationAddAction
               label="点検タイプ追加"
-              icon={<AddCircleIcon />}
               onClick={handleAddItem}
             />
           </BottomNavigation>

@@ -1,15 +1,14 @@
 import React, { FC, useState, useEffect } from 'react';
 import {
-  BottomNavigation, BottomNavigationAction,
+  BottomNavigation,
   Dialog, DialogContent, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Grid, Paper, TextField,
 
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { ChoiceTemplatesApi, ChoiceTemplate, Option } from '../../typescript-fetch';
-import { CancelIconButton, EditIconButton, OkCancelDialogActions } from '../common';
+import { BottomNavigationAddAction, CancelIconButton, EditIconButton, OkCancelDialogActions } from '../common';
 
 const api = new ChoiceTemplatesApi();
 
@@ -187,10 +186,8 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <BottomNavigation showLabels>
-            <BottomNavigationAction
-              data-testid='add-template-button'
+            <BottomNavigationAddAction
               label='テンプレート追加'
-              icon={<AddCircleIcon />}
               onClick={handleAddTemplate}
             />
           </BottomNavigation>
@@ -232,10 +229,8 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
             )}
             <Grid item xs={12}>
               <BottomNavigation showLabels>
-                <BottomNavigationAction
-                  data-testid='add-choice-button'
+                <BottomNavigationAddAction
                   label='選択肢追加'
-                  icon={<AddCircleIcon />}
                   onClick={() => setTarget({
                     ...target,
                     'choices': target.choices.concat({

@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import {
-  BottomNavigation, BottomNavigationAction, Paper,
+  BottomNavigation, Paper,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@material-ui/core';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { InspectionItem } from '../../../entities';
 import { InspectionItemRow } from './InspectionItemRow';
+import { BottomNavigationAddAction } from '../../common';
 
 interface InspectionItemFormProps {
   equipmentIndex: number,
@@ -51,10 +51,8 @@ export const InspectionItemForm: FC<InspectionItemFormProps> = ({
         </Table>
       </TableContainer>
       <BottomNavigation showLabels>
-        <BottomNavigationAction
-          data-testid='add-item-button'
+        <BottomNavigationAddAction
           label='点検項目追加'
-          icon={<AddCircleIcon />}
           onClick={() => addInspectionItem(equipmentIndex)}
         />
       </BottomNavigation>
