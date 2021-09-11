@@ -1,3 +1,3 @@
-export interface IChoiceTemplateInteractor {
+export interface IChoiceTemplateRepository {
 
 }
