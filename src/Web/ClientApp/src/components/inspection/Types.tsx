@@ -42,27 +42,3 @@ export type InspectionSheetAction = {
     inspection_item?: InspectionItem;
   };
 };
-
-export interface InspectionItemContextType {
-  inspectionItem: InspectionItem;
-  setItem: (item: InspectionItem) => void;
-  updateField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  setChoices: (choices: ChoiceTemplate) => void;
-  addChoice: () => void;
-  removeChoice: (index: number) => void;
-  updateChoice: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => void;
-};
-
-export interface InspectionSheetContextType {
-  inspectionSheet: InspectionSheet;
-  setSheet: (sheet: InspectionSheet) => void;
-  updateField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  addEquipment: () => void;
-  removeEquipment: (index: number) => void;
-  updateEquipment: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => void;
-  swapEquipment: (srdIndex: number, dstIndex: number) => void,
-  addInspectionItem: (index: number, item: InspectionItem) => void;
-  removeInspectionItem: (equipmentIndex: number, itemIndex: number) => void;
-  updateInspectionItem: (equipmentIndex: number, itemIndex: number, item: InspectionItem) => void;
-  swapInspectionItem: (equipmentId: number, srdIndex: number, dstIndex: number) => void;
-};
