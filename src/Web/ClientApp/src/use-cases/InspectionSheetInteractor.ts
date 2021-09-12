@@ -19,6 +19,11 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     return await this.repository.get();
   }
 
+  async getInspectionSheetById(id: number): Promise<void> {
+    const sheet = await this.repository.getById(id);
+    this.setSheet(sheet);
+  };
+
   setSheet(sheet: InspectionSheet): void {
     this.dispatch({
       type: SHEET_ACTION_TYPE.SET_SHEET,

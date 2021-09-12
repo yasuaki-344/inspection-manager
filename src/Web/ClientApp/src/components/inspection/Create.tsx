@@ -48,12 +48,7 @@ export const Create = (): JSX.Element => {
    * @param sheetId Sheet ID of inspection sheet to set.
    */
   const handleSelectSheet = (sheetId: number) => {
-    fetch(`inspectionsheet/${sheetId}`)
-      .then(res => res.json())
-      .then((json: InspectionSheet) => {
-        console.log(json);
-        sheetController.setSheet(json);
-      })
+    sheetController.getInspectionSheetById(sheetId)
       .catch((error) => {
         setSuccessMessage('');
         setErrorMessage(`データの取得に失敗しました (ID:${sheetId})`);

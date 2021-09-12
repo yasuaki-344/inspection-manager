@@ -2,6 +2,7 @@ import { InspectionSheet, InspectionItem } from "../entities";
 
 export interface IInspectionSheetInteractor {
   getAllInspectionSheet(): Promise<Array<InspectionSheet>>
+  getInspectionSheetById(id: number): Promise<void>
 
   setSheet(sheet: InspectionSheet): void
   updateField(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
