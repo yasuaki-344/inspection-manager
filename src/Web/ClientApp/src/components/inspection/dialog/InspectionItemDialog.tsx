@@ -18,14 +18,14 @@ interface InspectionDialogProps {
 };
 
 export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element => {
-  const { state, useCase } = useContext(InspectionItemContext);
+  const { itemPresenter, itemController } = useContext(InspectionItemContext);
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
-    setDisabled(!useCase.isValidInspectionItem(state));
+    setDisabled(!itemController.isValidInspectionItem(itemPresenter));
     // eslint-disable-next-line
-  }, [state]);
+  }, [itemPresenter]);
 
   return (
     <>
@@ -43,8 +43,8 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                 variant='outlined'
                 size='small'
                 name='inspection_content'
-                value={state.inspection_content}
-                onChange={(e) => useCase.updateField(e)}
+                value={itemPresenter.inspection_content}
+                onChange={(e) => itemController.updateField(e)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -56,8 +56,8 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                 variant='outlined'
                 size='small'
                 name='input_type'
-                value={state.input_type}
-                onChange={(e) => { useCase.updateField(e); }}
+                value={itemPresenter.input_type}
+                onChange={(e) => { itemController.updateField(e); }}
               >
                 {useInputTypes.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -66,10 +66,10 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                 ))}
               </TextField>
             </Grid>
-            {(state.input_type !== 3) ? <></> :
+            {(itemPresenter.input_type !== 3) ? <></> :
               <>
-                {state.choices.map((choice: Choice, index: number) =>
-                  <Grid item xs={12} key={`${state.inspection_item_id}_${index}`}>
+                {itemPresenter.choices.map((choice: Choice, index: number) =>
+                  <Grid item xs={12} key={`${itemPresenter.inspection_item_id}_${index}`}>
                     <TextField
                       required
                       id='outlined-required'
@@ -78,17 +78,17 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                       size='small'
                       name='choice'
                       value={choice.description}
-                      onChange={(e) => useCase.updateChoice(e, index)}
+                      onChange={(e) => itemController.updateChoice(e, index)}
                     />
                     <CancelIconButton
-                      onClick={() => useCase.removeChoice(index)}
+                      onClick={() => itemController.removeChoice(index)}
                     />
                   </Grid>
                 )}
                 <Grid item xs={12}>
                   <BottomNavigationAdd
                     label='選択肢追加'
-                    onClick={() => useCase.addChoice()}
+                    onClick={() => itemController.addChoice()}
                   />
                   <BottomNavigation showLabels>
                     <BottomNavigationAction

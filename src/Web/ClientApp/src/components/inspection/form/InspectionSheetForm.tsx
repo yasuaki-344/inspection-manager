@@ -41,7 +41,7 @@ interface InspectionSheetFormProps {
 export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): JSX.Element => {
   const classes = useStyles();
   const { sheetPresenter, sheetController } = useContext(InspectionSheetContext);
-  const { state, useCase } = useContext(InspectionItemContext);
+  const { itemPresenter, itemController } = useContext(InspectionItemContext);
   const [groups, setGroups] = useState<InspectionGroup[]>([]);
   const [types, setTypes] = useState<InspectionType[]>([]);
   const [open, setOpen] = useState(false);
@@ -80,9 +80,9 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
    */
   const handleInspectionItem = () => {
     if (additional) {
-      sheetController.addInspectionItem(equipmentIndex, state);
+      sheetController.addInspectionItem(equipmentIndex, itemPresenter);
     } else {
-      sheetController.updateInspectionItem(equipmentIndex, inspectionItemIndex, state);
+      sheetController.updateInspectionItem(equipmentIndex, inspectionItemIndex, itemPresenter);
     }
     storeHistory();
     setOpen(false);
@@ -94,7 +94,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   const handleAddItem = (equipmentId: number) => {
     setEquipmentIndex(equipmentId);
     setAdditional(true);
-    useCase.setItem({
+    itemController.setItem({
       inspection_item_id: 0,
       inspection_content: '',
       input_type: 1,
@@ -110,7 +110,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
     setEquipmentIndex(equipmentIndex);
     setInspectionItemIndex(inspectionItemIndex);
     setAdditional(false);
-    useCase.setItem(inspectionItem);
+    itemController.setItem(inspectionItem);
     setOpen(true);
   }
 

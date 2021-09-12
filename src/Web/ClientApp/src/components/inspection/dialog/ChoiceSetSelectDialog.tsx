@@ -13,7 +13,7 @@ interface ChoiceSetSelectDialogProps {
 };
 
 export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({ open, handleClose }): JSX.Element => {
-  const { useCase } = useContext(InspectionItemContext);
+  const { itemController } = useContext(InspectionItemContext);
   const [value, setValue] = useState(0);
   const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
 
@@ -31,7 +31,7 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({ open, ha
   };
 
   const handleSelectTemplate = () => {
-    useCase.setChoices(templates[value]);
+    itemController.setChoices(templates[value]);
     handleClose();
   };
 

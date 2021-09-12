@@ -7,7 +7,7 @@ import { TopPageLink } from '../common';
 
 export const Edit = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
-  const { sheetPresenter, sheetController } = useContext(InspectionSheetContext);
+  const { sheetController } = useContext(InspectionSheetContext);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 

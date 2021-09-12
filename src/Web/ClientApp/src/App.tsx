@@ -17,7 +17,7 @@ import {
 import { IInspectionItemInteractor, IInspectionSheetInteractor } from './interfaces';
 import './custom.css'
 
-export const InspectionItemContext = createContext({} as { state: InspectionItem, useCase: IInspectionItemInteractor })
+export const InspectionItemContext = createContext({} as { itemPresenter: InspectionItem, itemController: IInspectionItemInteractor })
 export const InspectionSheetContext = createContext({} as { sheetPresenter: InspectionSheet, sheetController: IInspectionSheetInteractor })
 
 const App = (): JSX.Element => {
@@ -37,8 +37,8 @@ const App = (): JSX.Element => {
         sheetController: inspectionSheetInteractor
       }}>
         <InspectionItemContext.Provider value={{
-          state: inspectionItem,
-          useCase: inspectionItemInteractor
+          itemPresenter: inspectionItem,
+          itemController: inspectionItemInteractor
         }}>
           <Route path='/create' component={Create} />
           <Route path='/edit/:id' component={Edit} />
