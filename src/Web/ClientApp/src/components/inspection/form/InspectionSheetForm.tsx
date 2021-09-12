@@ -63,7 +63,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   }, []);
 
   const storeHistory = () => {
-    setHistory(history.concat(sheetPresenter));
+    setHistory(history.concat(sheetPresenter.getState()));
     setUndoDisabled(false);
   }
 
@@ -119,7 +119,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
         variant="outlined"
         size="small"
         name="sheet_id"
-        defaultValue={sheetPresenter.sheet_id}
+        defaultValue={sheetPresenter.getState().sheet_id}
         InputProps={{ readOnly: true, }}
       />
     </Grid>
@@ -143,7 +143,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
               variant="outlined"
               size="small"
               name="sheet_name"
-              value={sheetPresenter.sheet_name}
+              value={sheetPresenter.getState().sheet_name}
               onChange={e => sheetController.updateField(e)}
             />
           </Grid>
@@ -156,7 +156,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
               variant='outlined'
               size='small'
               name='inspection_group_id'
-              value={sheetPresenter.inspection_group_id}
+              value={sheetPresenter.getState().inspection_group_id}
               onChange={e => sheetController.updateField(e)}
             >
               {groups.map((option: InspectionGroup) => (
@@ -175,7 +175,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
               variant='outlined'
               size='small'
               name='inspection_type_id'
-              value={sheetPresenter.inspection_type_id}
+              value={sheetPresenter.getState().inspection_type_id}
               onChange={e => sheetController.updateField(e)}
             >
               {types.map((option: InspectionType) => (
@@ -185,7 +185,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
               ))}
             </TextField>
           </Grid>
-          {sheetPresenter.equipments.map((equipment: Equipment, index: number) =>
+          {sheetPresenter.getState().equipments.map((equipment: Equipment, index: number) =>
             <Grid item xs={12} key={`equipment-${index}`}>
               <EquipmentForm
                 index={index}

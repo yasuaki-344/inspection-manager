@@ -10,7 +10,6 @@ import { InspectionTypeCategory } from './components/categories/InspectionTypeCa
 import { ChoicesTemplate } from './components/categories/ChoicesTemplate';
 import { InspectionSheetInteractor, InspectionItemInteractor } from './use-cases';
 import {
-  InspectionSheet,
   InspectionItemReducer, InspectionItemInitialState,
   InspectionSheetReducer, InspectionSheetInitialState
 } from './entities';
@@ -19,7 +18,7 @@ import { InspectionItemPresenter, InspectionSheetPresenter } from './presenters'
 import { InspectionItemController, InspectionSheetController } from './controllers';
 
 export const InspectionItemContext = createContext({} as { itemPresenter: InspectionItemPresenter, itemController: InspectionItemController })
-export const InspectionSheetContext = createContext({} as { sheetPresenter: InspectionSheet, sheetController: InspectionSheetController })
+export const InspectionSheetContext = createContext({} as { sheetPresenter: InspectionSheetPresenter, sheetController: InspectionSheetController })
 
 const App = (): JSX.Element => {
   const [inspectionItem, dispatch] = useReducer(InspectionItemReducer, InspectionItemInitialState);
@@ -38,7 +37,7 @@ const App = (): JSX.Element => {
       <Route path='/types' component={InspectionTypeCategory} />
       <Route path='/choices-template' component={ChoicesTemplate} />
       <InspectionSheetContext.Provider value={{
-        sheetPresenter: inspectionSheet,
+        sheetPresenter: inspectionSheetPresenter,
         sheetController: inspectionSheetController
       }}>
         <InspectionItemContext.Provider value={{

@@ -1,6 +1,7 @@
 import { InspectionSheet, InspectionItem } from "../entities";
 
 export interface IInspectionSheetInteractor {
+  getState(): InspectionSheet
   getAllInspectionSheet(): Promise<Array<InspectionSheet>>
   getInspectionSheetById(id: number): Promise<void>
   createInspectionSheet(): Promise<void>

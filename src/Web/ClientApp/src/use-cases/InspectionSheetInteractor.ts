@@ -15,6 +15,10 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.repository = new InspectionSheetRepository();
   }
 
+  getState(): InspectionSheet {
+    return this.state;
+  }
+
   async getAllInspectionSheet(): Promise<Array<InspectionSheet>> {
     return await this.repository.get();
   }
