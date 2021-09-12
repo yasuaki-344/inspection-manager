@@ -14,13 +14,12 @@ import {
   InspectionItemReducer, InspectionItemInitialState,
   InspectionSheetReducer, InspectionSheetInitialState
 } from './entities';
-import { IInspectionSheetInteractor } from './interfaces';
 import './custom.css'
 import { InspectionItemPresenter, InspectionSheetPresenter } from './presenters';
 import { InspectionItemController, InspectionSheetController } from './controllers';
 
 export const InspectionItemContext = createContext({} as { itemPresenter: InspectionItemPresenter, itemController: InspectionItemController })
-export const InspectionSheetContext = createContext({} as { sheetPresenter: InspectionSheet, sheetController: IInspectionSheetInteractor })
+export const InspectionSheetContext = createContext({} as { sheetPresenter: InspectionSheet, sheetController: InspectionSheetController })
 
 const App = (): JSX.Element => {
   const [inspectionItem, dispatch] = useReducer(InspectionItemReducer, InspectionItemInitialState);
@@ -40,7 +39,7 @@ const App = (): JSX.Element => {
       <Route path='/choices-template' component={ChoicesTemplate} />
       <InspectionSheetContext.Provider value={{
         sheetPresenter: inspectionSheet,
-        sheetController: inspectionSheetInteractor
+        sheetController: inspectionSheetController
       }}>
         <InspectionItemContext.Provider value={{
           itemPresenter: inspectionItemPresenter,
