@@ -4,7 +4,7 @@ import { IconButton, TableCell, TableRow } from '@material-ui/core';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import EditIcon from '@material-ui/icons/Edit';
 import { InspectionSheetContext } from '../../../App';
-import { useInputTypes, ItemType } from '../../../entities/Types';
+import { useInputTypes, ItemType } from '../../../entities';
 import { InspectionItem } from '../../../entities';
 import { CancelIconButton } from '../../common';
 

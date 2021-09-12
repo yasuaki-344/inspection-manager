@@ -5,7 +5,7 @@ import {
   Grid, TextField, MenuItem,
 } from '@material-ui/core';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
-import { useInputTypes } from '../../../entities/Types';
+import { useInputTypes } from '../../../entities';
 import { Choice } from '../../../entities';
 import { InspectionItemContext } from './../../../App';
 import { ChoiceSetSelectDialog } from './ChoiceSetSelectDialog';

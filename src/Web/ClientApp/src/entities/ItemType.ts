@@ -1,0 +1,4 @@
+export const ItemType = {
+  EQUIPMENT: 'EQUIPMENT',
+  INSPECTION_ITEM: 'INSPECTION_ITEM',
+};

@@ -1,5 +1,16 @@
-import { InspectionItemAction } from './Types';
 import { InspectionItem } from '.';
+import { ChoiceTemplate } from '../typescript-fetch';
+
+export type InspectionItemAction = {
+  type: string;
+  payload?: {
+    name?: string;
+    value?: string;
+    choice_index?: number;
+    choices?: ChoiceTemplate;
+    item?: InspectionItem;
+  };
+};
 
 /**
  * Initial state of InspectionItem object.

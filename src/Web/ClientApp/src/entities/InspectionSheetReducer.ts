@@ -1,5 +1,17 @@
-import { InspectionSheetAction } from './Types';
-import { InspectionSheet } from '.';
+import { InspectionItem, InspectionSheet } from '.';
+
+export type InspectionSheetAction = {
+  type: string;
+  payload?: {
+    name?: string;
+    value?: string;
+    equipment_index?: number;
+    inspection_item_index?: number;
+    swap_index?: number;
+    sheet?: InspectionSheet;
+    inspection_item?: InspectionItem;
+  };
+};
 
 /**
  * Initial state of InspectionSheet object.

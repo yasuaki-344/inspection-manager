@@ -9,7 +9,7 @@ import DragHandleIcon from '@material-ui/icons/DragHandle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { InspectionItemForm } from './InspectionItemForm';
 import { InspectionSheetContext } from '../../../App';
-import { ItemType } from '../../../entities/Types';
+import { ItemType } from '../../../entities';
 import { Equipment, InspectionItem } from '../../../entities';
 import { CancelIconButton } from '../../common';
 
