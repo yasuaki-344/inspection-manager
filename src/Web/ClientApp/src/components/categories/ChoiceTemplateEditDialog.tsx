@@ -1,14 +1,12 @@
 import React, { FC, useState, useEffect } from 'react';
-import {
-  Dialog, DialogContent, DialogTitle, Grid, TextField,
-} from '@material-ui/core';
+import { Dialog, DialogContent, DialogTitle, Grid, TextField } from '@material-ui/core';
 import { ChoiceTemplate, Option } from '../../typescript-fetch';
 import { BottomNavigationAdd, CancelIconButton, OkCancelDialogActions } from '../common';
 
 interface IChoiceTemplateEditDialogProps {
   open: boolean,
   target: ChoiceTemplate,
-  setTarget: any,
+  setTarget: React.Dispatch<React.SetStateAction<ChoiceTemplate>>,
   onOkButtonClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
   onCancelButtonClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }

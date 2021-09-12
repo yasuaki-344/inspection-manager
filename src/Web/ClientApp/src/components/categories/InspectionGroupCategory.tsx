@@ -1,16 +1,13 @@
 import React, { FC, useState, useEffect } from 'react';
-import {
-  Grid, Paper, TextField, BottomNavigation,
-  Dialog, DialogContent, DialogTitle,
-  TableContainer
-} from '@material-ui/core';
+import { Grid, Paper, TableContainer } from '@material-ui/core';
 import { InspectionGroup } from '../../typescript-fetch';
 import { InspectionGroupInteractor } from '../../use-cases';
 import { InspectionGroupController } from '../../controllers';
 import { InspectionGroupPresenter } from '../../presenters';
 import { InspectionGroupRepository } from '../../infrastructure/InspectionGroupRepository';
 import { ProcessResult } from './ProcessResult';
-import { BottomNavigationAdd, OkCancelDialogActions, TopPageLink } from '../common';
+import { BottomNavigationAdd, TopPageLink } from '../common';
+import { EditDialog } from './EditDialog';
 
 const generate = (hook: [Array<InspectionGroup>, React.Dispatch<React.SetStateAction<Array<InspectionGroup>>>]) => {
   const [types, setTypes] = hook;
@@ -24,7 +21,6 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
   const { controller, presenter } = generate(useState<Array<InspectionGroup>>([]));
 
   const [open, setOpen] = useState(false);
-  const [disabled, setDisabled] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<InspectionGroup>({
     inspection_group_id: 0,
@@ -38,10 +34,6 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
 
   // eslint-disable-next-line
   useEffect(() => { presenter.get() }, []);
-
-  useEffect(() => {
-    setDisabled(!target.description.length);
-  }, [target]);
 
   /**
    * Implement the process to add new group
@@ -163,32 +155,18 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
           />
         </Grid>
       </Grid >
-      <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>点検グループ編集</DialogTitle>
-        <DialogContent>
-          <Grid container spacing={1}>
-            <Grid item xs={12}>
-              <TextField
-                required
-                label='点検グループ名'
-                variant='outlined'
-                size='small'
-                name='description'
-                value={target.description}
-                onChange={(e) => setTarget({
-                  ...target,
-                  [e.target.name]: e.target.value,
-                })}
-              />
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <OkCancelDialogActions
-          disabled={disabled}
-          onOkButtonClick={() => handleRegistration()}
-          onCancelButtonClick={() => setOpen(false)}
-        />
-      </Dialog>
+      <EditDialog
+        open={open}
+        title="点検グループ編集"
+        label="点検グループ名"
+        target={target}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTarget({
+          ...target,
+          [e.target.name]: e.target.value,
+        })}
+        onOkButtonClick={() => handleRegistration()}
+        onCancelButtonClick={() => setOpen(false)}
+      />
     </>
   );
 }

@@ -1,17 +1,13 @@
 import React, { FC, useState, useEffect } from "react";
-import {
-  Grid, Paper, TextField,
-  BottomNavigation,
-  Dialog, DialogContent, DialogTitle,
-  TableContainer
-} from '@material-ui/core';
+import { Grid, Paper, TableContainer } from '@material-ui/core';
 import { InspectionType } from '../../typescript-fetch';
 import { InspectionTypeInteractor } from "../../use-cases";
 import { InspectionTypeController } from "../../controllers";
 import { InspectionTypePresenter } from "../../presenters";
 import { InspectionTypeRepository } from "../../infrastructure/InspectionTypeRepository";
 import { ProcessResult } from "./ProcessResult";
-import { BottomNavigationAdd, OkCancelDialogActions, TopPageLink } from "../common";
+import { BottomNavigationAdd, TopPageLink } from "../common";
+import { EditDialog } from "./EditDialog";
 
 const generate = (hook: [InspectionType[], React.Dispatch<React.SetStateAction<InspectionType[]>>]) => {
   const [types, setTypes] = hook;
@@ -25,7 +21,6 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
   const { controller, presenter } = generate(useState<Array<InspectionType>>([]));
 
   const [open, setOpen] = useState(false);
-  const [disabled, setDisabled] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<InspectionType>({
     inspection_type_id: 0,
@@ -39,10 +34,6 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
 
   // eslint-disable-next-line
   useEffect(() => { presenter.get() }, []);
-
-  useEffect(() => {
-    setDisabled(!target.description.length);
-  }, [target]);
 
   /**
    * Implement the process to add new type
@@ -164,32 +155,18 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
           />
         </Grid>
       </Grid >
-      <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>点検タイプ編集</DialogTitle>
-        <DialogContent>
-          <Grid container spacing={1}>
-            <Grid item xs={12}>
-              <TextField
-                required
-                label='点検タイプ名'
-                variant='outlined'
-                size='small'
-                name='description'
-                value={target.description}
-                onChange={(e) => setTarget({
-                  ...target,
-                  [e.target.name]: e.target.value,
-                })}
-              />
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <OkCancelDialogActions
-          disabled={disabled}
-          onOkButtonClick={() => handleRegistration()}
-          onCancelButtonClick={() => setOpen(false)}
-        />
-      </Dialog>
+      <EditDialog
+        open={open}
+        title="点検タイプ編集"
+        label="点検タイプ名"
+        target={target}
+        onChange={(e:React.ChangeEvent<HTMLInputElement>) => setTarget({
+          ...target,
+          [e.target.name]: e.target.value,
+        })}
+        onOkButtonClick={() => handleRegistration()}
+        onCancelButtonClick={() => setOpen(false)}
+      />
     </>
   );
 }
