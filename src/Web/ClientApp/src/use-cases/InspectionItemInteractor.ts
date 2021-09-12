@@ -1,5 +1,5 @@
 import React from 'react';
-import { TYPES } from '../entities';
+import { Choice, TYPES } from '../entities';
 import { ChoiceTemplate } from '../typescript-fetch';
 import { InspectionItem } from "../entities";
 import { IInspectionItemInteractor } from "../interfaces";
@@ -75,19 +75,18 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
 
   /**
    * Checks if the given InspectionItem object is valid or not.
-   * @param item InspectionItem object to check.
    * @returns Return true if the item is valid, otherwise false.
    */
-  isValidInspectionItem(item: InspectionItem): boolean {
-    if (item.inspection_content === '') {
+  isValidInspectionItem(): boolean {
+    if (this.state.inspection_content === '') {
       return false;
     }
 
-    if (item.input_type === 3) {
-      if (!item.choices.length) {
+    if (this.state.input_type === 3) {
+      if (!this.state.choices.length) {
         return false;
       } else {
-        const descriptions = item.choices.map(x => x.description);
+        const descriptions = this.state.choices.map((x: Choice) => x.description);
         return !descriptions.includes('');
       }
     }

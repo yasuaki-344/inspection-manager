@@ -94,12 +94,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   const handleAddItem = (equipmentId: number) => {
     setEquipmentIndex(equipmentId);
     setAdditional(true);
-    itemController.setItem({
-      inspection_item_id: 0,
-      inspection_content: '',
-      input_type: 1,
-      choices: [],
-    })
+    itemController.initialize();
     setOpen(true);
   }
 

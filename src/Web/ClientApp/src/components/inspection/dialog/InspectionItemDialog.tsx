@@ -11,12 +11,12 @@ interface InspectionDialogProps {
 };
 
 export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element => {
-  const { itemPresenter, itemController } = useContext(InspectionItemContext);
+  const { itemPresenter } = useContext(InspectionItemContext);
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
-    setDisabled(!itemController.isValidInspectionItem(itemPresenter.getState()));
+    setDisabled(!itemPresenter.isValidInspectionItem());
     // eslint-disable-next-line
   }, [itemPresenter.getState()]);
 

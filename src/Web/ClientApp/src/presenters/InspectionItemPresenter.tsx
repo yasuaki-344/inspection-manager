@@ -19,6 +19,10 @@ export class InspectionItemPresenter {
     return this.useCase.getState();
   }
 
+  isValidInspectionItem(): boolean {
+    return this.useCase.isValidInspectionItem();
+  };
+
   getEditContent(
     onTemplateSelectClick: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void
   ): JSX.Element {

@@ -9,6 +9,15 @@ export class InspectionItemController {
     this.useCase = useCase
   }
 
+  initialize(): void {
+    this.useCase.setItem({
+      inspection_item_id: 0,
+      inspection_content: '',
+      input_type: 1,
+      choices: [],
+    });
+  }
+
   setItem(item: InspectionItem): void {
     this.useCase.setItem(item)
   }
@@ -16,8 +25,4 @@ export class InspectionItemController {
   setChoices(choices: ChoiceTemplate): void {
     this.useCase.setChoices(choices)
   }
-
-  isValidInspectionItem(item: InspectionItem): boolean {
-    return this.useCase.isValidInspectionItem(item);
-  };
 }
