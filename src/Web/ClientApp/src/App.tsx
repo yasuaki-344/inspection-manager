@@ -14,12 +14,12 @@ import {
   InspectionItemReducer, InspectionItemInitialState,
   InspectionSheetReducer, InspectionSheetInitialState
 } from './entities';
-import { IInspectionItemInteractor, IInspectionSheetInteractor } from './interfaces';
+import { IInspectionSheetInteractor } from './interfaces';
 import './custom.css'
 import { InspectionItemPresenter, InspectionSheetPresenter } from './presenters';
 import { InspectionItemController, InspectionSheetController } from './controllers';
 
-export const InspectionItemContext = createContext({} as { itemPresenter: InspectionItemPresenter, itemController: IInspectionItemInteractor })
+export const InspectionItemContext = createContext({} as { itemPresenter: InspectionItemPresenter, itemController: InspectionItemController })
 export const InspectionSheetContext = createContext({} as { sheetPresenter: InspectionSheet, sheetController: IInspectionSheetInteractor })
 
 const App = (): JSX.Element => {

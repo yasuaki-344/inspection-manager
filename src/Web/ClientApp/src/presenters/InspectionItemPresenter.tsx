@@ -48,7 +48,7 @@ export class InspectionItemPresenter {
             size='small'
             name='input_type'
             value={inspectionItem.input_type}
-            onChange={(e) => { this.useCase.updateField(e); }}
+            onChange={(e) => this.useCase.updateField(e)}
           >
             {useInputTypes.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -73,7 +73,7 @@ export class InspectionItemPresenter {
                   onChange={(e) => this.useCase.updateChoice(e, index)}
                 />
                 <CancelIconButton
-                  onClick={(e) => this.useCase.removeChoice(index)}
+                  onClick={() => this.useCase.removeChoice(index)}
                 />
               </Grid>
             )}
