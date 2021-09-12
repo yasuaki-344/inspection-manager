@@ -44,7 +44,7 @@ const App = (): JSX.Element => {
       }}>
         <InspectionItemContext.Provider value={{
           itemPresenter: inspectionItemPresenter,
-          itemController: inspectionItemInteractor
+          itemController: inspectionItemController
         }}>
           <Route path='/create' component={Create} />
           <Route path='/edit/:id' component={Edit} />
