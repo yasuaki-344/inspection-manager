@@ -1,5 +1,5 @@
 import React from 'react';
-import { InspectionItem, InspectionSheet } from '../entities';
+import { InspectionItem, InspectionSheet, InspectionSheetInitialState } from '../entities';
 import { SHEET_ACTION_TYPE } from '../entities';
 import { InspectionSheetRepository } from '../infrastructure';
 import { IInspectionSheetInteractor, IInspectionSheetRepository } from '../interfaces';
@@ -23,6 +23,11 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     const sheet = await this.repository.getById(id);
     this.setSheet(sheet);
   };
+
+  async createInspectionSheet(): Promise<void> {
+    await this.repository.post(this.state);
+    this.setSheet(InspectionSheetInitialState);
+  }
 
   setSheet(sheet: InspectionSheet): void {
     this.dispatch({

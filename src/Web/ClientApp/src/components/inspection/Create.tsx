@@ -60,34 +60,16 @@ export const Create = (): JSX.Element => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.debug(sheetPresenter);
-    fetch('inspectionsheet', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(sheetPresenter)
-    })
-      .then((res) => {
-        if (res.ok) {
-          setSuccessMessage('登録に成功しました');
-          setErrorMessage('');
-          sheetController.setSheet({
-            sheet_id: 0,
-            sheet_name: '',
-            inspection_type_id: 0,
-            inspection_group_id: 0,
-            inspection_type: '',
-            inspection_group: '',
-            equipments: [],
-          });
-        } else {
-          setSuccessMessage('');
-          setErrorMessage('登録に失敗しました');
-        }
-        return res.json();
+    sheetController.createInspectionSheet()
+      .then(() => {
+        setSuccessMessage('登録に成功しました');
+        setErrorMessage('');
       })
-      .then(console.log)
-      .catch(console.error);
+      .catch(error => {
+        console.error(error);
+        setSuccessMessage('');
+        setErrorMessage('登録に失敗しました');
+      });
   }
 
   return (
