@@ -1,15 +1,18 @@
 import React from 'react';
 import { InspectionItem, InspectionSheet } from '../entities';
 import { SHEET_ACTION_TYPE } from '../entities';
-import { IInspectionSheetInteractor } from '../interfaces';
+import { InspectionSheetRepository } from '../infrastructure';
+import { IInspectionSheetInteractor, IInspectionSheetRepository } from '../interfaces';
 
 export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   private readonly state: InspectionSheet
   private readonly dispatch: React.Dispatch<any>
+  private readonly repository: IInspectionSheetRepository
 
   constructor(state: InspectionSheet, dispatch: React.Dispatch<any>) {
     this.state = state
     this.dispatch = dispatch
+    this.repository = new InspectionSheetRepository();
   }
 
   setSheet(sheet: InspectionSheet): void {
