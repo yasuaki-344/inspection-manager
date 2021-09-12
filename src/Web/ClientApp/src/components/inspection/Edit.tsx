@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import MuiAlert from '@material-ui/lab/Alert';
 import { Button, Grid } from '@material-ui/core';
-import { InspectionSheet } from '../../entities';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
 import { InspectionSheetContext } from '../../App';
 import { TopPageLink } from '../common';
@@ -13,12 +12,7 @@ export const Edit = ({ match }: any): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    fetch(`inspectionsheet/${sheetId}`)
-      .then(res => res.json())
-      .then((json: InspectionSheet) => {
-        console.log(json);
-        sheetController.setSheet(json);
-      })
+    sheetController.getInspectionSheetById(sheetId)
       .catch((error) => {
         setSuccessMessage('');
         setErrorMessage(`データの取得に失敗しました (ID:${sheetId})`);
@@ -29,28 +23,16 @@ export const Edit = ({ match }: any): JSX.Element => {
 
   const handleUpdate = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    fetch(`inspectionsheet/${sheetId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(sheetPresenter)
-    })
-      .then((res) => {
-        if (res.ok) {
-          setSuccessMessage('更新に成功しました');
-          setErrorMessage('');
-        } else {
-          setSuccessMessage('');
-          setErrorMessage('更新に失敗しました');
-        }
-        return res.json();
+    sheetController.updateInspectionSheet()
+      .then(() => {
+        setSuccessMessage('更新に成功しました');
+        setErrorMessage('');
       })
-      .then((json: InspectionSheet) => {
-        console.log(json);
-        sheetController.setSheet(json);
-      })
-      .catch(console.error);
+      .catch(error => {
+        console.error(error)
+        setSuccessMessage('');
+        setErrorMessage('更新に失敗しました');
+      });
   }
 
   return (

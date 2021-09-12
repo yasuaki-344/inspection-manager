@@ -29,6 +29,11 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.setSheet(InspectionSheetInitialState);
   }
 
+  async updateInspectionSheet(): Promise<void> {
+    const sheet = await this.repository.put(this.state);
+    this.setSheet(sheet);
+  }
+
   setSheet(sheet: InspectionSheet): void {
     this.dispatch({
       type: SHEET_ACTION_TYPE.SET_SHEET,

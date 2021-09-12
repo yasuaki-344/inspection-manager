@@ -4,6 +4,7 @@ export interface IInspectionSheetInteractor {
   getAllInspectionSheet(): Promise<Array<InspectionSheet>>
   getInspectionSheetById(id: number): Promise<void>
   createInspectionSheet(): Promise<void>
+  updateInspectionSheet(): Promise<void>
 
   setSheet(sheet: InspectionSheet): void
   updateField(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
