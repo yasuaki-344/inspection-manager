@@ -3,14 +3,12 @@ import { DndProvider } from "react-dnd"
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
-  BottomNavigation, BottomNavigationAction,
-  MenuItem, Grid, Paper, TextField
+  BottomNavigation, BottomNavigationAction, Grid, Paper
 } from '@material-ui/core';
 import UndoIcon from '@material-ui/icons/Undo';
-import { EquipmentForm } from './EquipmentForm';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext, InspectionItemContext } from '../../../App';
-import { Equipment, InspectionItem, InspectionSheet } from '../../../entities';
+import { InspectionItem, InspectionSheet } from '../../../entities';
 import { InspectionGroup, InspectionType } from '../../../typescript-fetch';
 import { BottomNavigationAdd } from '../../common';
 import { InspectionGroupRepository, InspectionTypeRepository } from '../../../infrastructure';
@@ -39,7 +37,6 @@ interface InspectionSheetFormProps {
 };
 
 export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): JSX.Element => {
-  const classes = useStyles();
   const { sheetPresenter, sheetController } = useContext(InspectionSheetContext);
   const { itemPresenter, itemController } = useContext(InspectionItemContext);
   const [groups, setGroups] = useState<InspectionGroup[]>([]);
@@ -109,93 +106,14 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
     setOpen(true);
   }
 
-  const contents = isEdit
-    ? <Grid item xs={12}>
-      <TextField
-        className={classes.sheetIdElement}
-        disabled
-        id="outlined-required"
-        label="点検シートID"
-        variant="outlined"
-        size="small"
-        name="sheet_id"
-        defaultValue={sheetPresenter.getState().sheet_id}
-        InputProps={{ readOnly: true, }}
-      />
-    </Grid>
-    : <></>;
-
   return (
     <DndProvider backend={HTML5Backend}>
       <Paper variant="outlined">
+        {sheetPresenter.getEditContent(
+          isEdit, groups, types,
+          handleAddItem, handleEditItem, storeHistory
+        )}
         <Grid container spacing={1}>
-          <Grid item xs={12}>
-            <div className={classes.sheetLabel}>点検シート情報</div>
-          </Grid>
-          {contents}
-          <Grid item xs={12}>
-            <TextField
-              className={classes.sheetElement}
-              required
-              autoFocus
-              id="outlined-required"
-              label="点検シート名"
-              variant="outlined"
-              size="small"
-              name="sheet_name"
-              value={sheetPresenter.getState().sheet_name}
-              onChange={e => sheetController.updateField(e)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              className={classes.sheetElement}
-              select
-              id='outlined-required'
-              label='点検グループ'
-              variant='outlined'
-              size='small'
-              name='inspection_group_id'
-              value={sheetPresenter.getState().inspection_group_id}
-              onChange={e => sheetController.updateField(e)}
-            >
-              {groups.map((option: InspectionGroup) => (
-                <MenuItem key={option.inspection_group_id} value={option.inspection_group_id}>
-                  {option.description}
-                </MenuItem >
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              className={classes.sheetElement}
-              select
-              id='outlined-required'
-              label='点検タイプ'
-              variant='outlined'
-              size='small'
-              name='inspection_type_id'
-              value={sheetPresenter.getState().inspection_type_id}
-              onChange={e => sheetController.updateField(e)}
-            >
-              {types.map((option: InspectionType) => (
-                <MenuItem key={option.inspection_type_id} value={option.inspection_type_id}>
-                  {option.description}
-                </MenuItem >
-              ))}
-            </TextField>
-          </Grid>
-          {sheetPresenter.getState().equipments.map((equipment: Equipment, index: number) =>
-            <Grid item xs={12} key={`equipment-${index}`}>
-              <EquipmentForm
-                index={index}
-                equipment={equipment}
-                handleAddItem={handleAddItem}
-                handleEditItem={handleEditItem}
-                storeHistory={storeHistory}
-              />
-            </Grid>
-          )}
           <Grid item xs={12}>
             <BottomNavigation showLabels>
               <BottomNavigationAction
