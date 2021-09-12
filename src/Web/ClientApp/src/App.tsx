@@ -10,21 +10,27 @@ import { InspectionTypeCategory } from './components/categories/InspectionTypeCa
 import { ChoicesTemplate } from './components/categories/ChoicesTemplate';
 import { InspectionSheetInteractor, InspectionItemInteractor } from './use-cases';
 import {
-  InspectionItem, InspectionSheet,
+  InspectionSheet,
   InspectionItemReducer, InspectionItemInitialState,
   InspectionSheetReducer, InspectionSheetInitialState
 } from './entities';
 import { IInspectionItemInteractor, IInspectionSheetInteractor } from './interfaces';
 import './custom.css'
+import { InspectionItemPresenter, InspectionSheetPresenter } from './presenters';
+import { InspectionItemController, InspectionSheetController } from './controllers';
 
-export const InspectionItemContext = createContext({} as { itemPresenter: InspectionItem, itemController: IInspectionItemInteractor })
+export const InspectionItemContext = createContext({} as { itemPresenter: InspectionItemPresenter, itemController: IInspectionItemInteractor })
 export const InspectionSheetContext = createContext({} as { sheetPresenter: InspectionSheet, sheetController: IInspectionSheetInteractor })
 
 const App = (): JSX.Element => {
   const [inspectionItem, dispatch] = useReducer(InspectionItemReducer, InspectionItemInitialState);
   const inspectionItemInteractor = new InspectionItemInteractor(inspectionItem, dispatch)
+  const inspectionItemPresenter = new InspectionItemPresenter(inspectionItemInteractor);
+  const inspectionItemController = new InspectionItemController(inspectionItemInteractor);
   const [inspectionSheet, sheetDispatch] = useReducer(InspectionSheetReducer, InspectionSheetInitialState);
-  const inspectionSheetInteractor = new InspectionSheetInteractor(inspectionSheet, sheetDispatch)
+  const inspectionSheetInteractor = new InspectionSheetInteractor(inspectionSheet, sheetDispatch);
+  const inspectionSheetPresenter = new InspectionSheetPresenter(inspectionSheetInteractor);
+  const inspectionSheetController = new InspectionSheetController(inspectionSheetInteractor);
 
   return (
     <Layout>
@@ -37,7 +43,7 @@ const App = (): JSX.Element => {
         sheetController: inspectionSheetInteractor
       }}>
         <InspectionItemContext.Provider value={{
-          itemPresenter: inspectionItem,
+          itemPresenter: inspectionItemPresenter,
           itemController: inspectionItemInteractor
         }}>
           <Route path='/create' component={Create} />
