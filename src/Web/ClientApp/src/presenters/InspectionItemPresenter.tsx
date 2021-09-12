@@ -1,3 +1,4 @@
+import { InspectionItem } from "../entities";
 import { IInspectionItemInteractor } from "../interfaces";
 
 export class InspectionItemPresenter {
@@ -5,5 +6,9 @@ export class InspectionItemPresenter {
 
   constructor(useCase: IInspectionItemInteractor) {
     this.useCase = useCase
+  }
+
+  getState(): InspectionItem {
+    return this.useCase.getState();
   }
 }

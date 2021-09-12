@@ -80,9 +80,9 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
    */
   const handleInspectionItem = () => {
     if (additional) {
-      sheetController.addInspectionItem(equipmentIndex, itemPresenter);
+      sheetController.addInspectionItem(equipmentIndex, itemPresenter.getState());
     } else {
-      sheetController.updateInspectionItem(equipmentIndex, inspectionItemIndex, itemPresenter);
+      sheetController.updateInspectionItem(equipmentIndex, inspectionItemIndex, itemPresenter.getState());
     }
     storeHistory();
     setOpen(false);

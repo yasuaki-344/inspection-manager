@@ -13,6 +13,10 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
     this.dispatch = dispatch;
   }
 
+  getState(): InspectionItem {
+    return this.state;
+  }
+
   setItem(item: InspectionItem): void {
     this.dispatch({
       type: TYPES.SET_ITEM,

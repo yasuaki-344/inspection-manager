@@ -23,9 +23,9 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
-    setDisabled(!itemController.isValidInspectionItem(itemPresenter));
+    setDisabled(!itemController.isValidInspectionItem(itemPresenter.getState()));
     // eslint-disable-next-line
-  }, [itemPresenter]);
+  }, [itemPresenter.getState()]);
 
   return (
     <>
@@ -43,7 +43,7 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                 variant='outlined'
                 size='small'
                 name='inspection_content'
-                value={itemPresenter.inspection_content}
+                value={itemPresenter.getState().inspection_content}
                 onChange={(e) => itemController.updateField(e)}
               />
             </Grid>
@@ -56,7 +56,7 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                 variant='outlined'
                 size='small'
                 name='input_type'
-                value={itemPresenter.input_type}
+                value={itemPresenter.getState().input_type}
                 onChange={(e) => { itemController.updateField(e); }}
               >
                 {useInputTypes.map((option) => (
@@ -66,10 +66,10 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
                 ))}
               </TextField>
             </Grid>
-            {(itemPresenter.input_type !== 3) ? <></> :
+            {(itemPresenter.getState().input_type !== 3) ? <></> :
               <>
-                {itemPresenter.choices.map((choice: Choice, index: number) =>
-                  <Grid item xs={12} key={`${itemPresenter.inspection_item_id}_${index}`}>
+                {itemPresenter.getState().choices.map((choice: Choice, index: number) =>
+                  <Grid item xs={12} key={`${itemPresenter.getState().inspection_item_id}_${index}`}>
                     <TextField
                       required
                       id='outlined-required'
