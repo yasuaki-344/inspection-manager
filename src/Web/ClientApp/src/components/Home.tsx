@@ -8,16 +8,15 @@ import {
   Paper, TablePagination
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
-import CancelIcon from '@material-ui/icons/Cancel';
 import DetailsIcon from '@material-ui/icons/Details';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SearchIcon from '@material-ui/icons/Search';
-import { InspectionSheet } from '../inspection/Types';
-import { initialState } from '../inspection/operator/InspectionSheetOperator';
+import { InspectionSheet, InspectionSheetInitialState } from '../entities';
 import {
   InspectionGroup, InspectionGroupsApi,
   InspectionType, InspectionTypesApi
 } from '../typescript-fetch';
+import { CancelIconButton } from './common';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,7 +37,7 @@ export const Home: FC = (): JSX.Element => {
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>([]);
   const [filteredInspectionSheets, setFilteredInspectionSheets] = useState<InspectionSheet[]>([]);
   const [open, setOpen] = useState(false);
-  const [targetSheet, setTargetSheet] = useState<InspectionSheet>(initialState());
+  const [targetSheet, setTargetSheet] = useState<InspectionSheet>(InspectionSheetInitialState);
   const [searchOption, setSearchOption] = useState({
     sheet_name: '',
     inspection_group: '',
@@ -67,7 +66,7 @@ export const Home: FC = (): JSX.Element => {
   }, []);
 
   /**
-   * Updates search option setting with given change event paramter.
+   * Updates search option setting with given change event parameter.
    * @param e Change event which contains search option member name and its value.
    */
   const handleSearchOption = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -280,13 +279,7 @@ export const Home: FC = (): JSX.Element => {
                         </Link>
                       </TableCell>
                       <TableCell padding='checkbox'>
-                        <IconButton
-                          size='small'
-                          color='secondary'
-                          onClick={() => handleClickOpen(sheet)}
-                        >
-                          <CancelIcon />
-                        </IconButton>
+                        <CancelIconButton onClick={() => handleClickOpen(sheet)} />
                       </TableCell>
                     </TableRow>
                   )}
@@ -302,8 +295,9 @@ export const Home: FC = (): JSX.Element => {
             labelRowsPerPage={'1ページあたりの件数:'}
             backIconButtonText={'前のぺージ'}
             nextIconButtonText={'次のぺージ'}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
+            // onChangePage={handleChangePage}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Grid>
       </Grid>
