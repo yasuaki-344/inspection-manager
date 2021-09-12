@@ -21,8 +21,7 @@ export const Create = (): JSX.Element => {
 
   useEffect(() => {
     sheetController.setSheet(InspectionSheetInitialState);
-    fetch('inspectionsheet')
-      .then(res => res.json())
+    sheetController.getAllInspectionSheet()
       .then((json: InspectionSheet[]) => {
         console.log(json);
         setInspectionSheets(json);
