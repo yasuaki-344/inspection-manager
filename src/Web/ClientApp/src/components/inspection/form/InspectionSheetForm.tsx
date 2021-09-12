@@ -13,6 +13,7 @@ import { InspectionSheetContext, InspectionItemContext } from '../../../App';
 import { Equipment, InspectionItem, InspectionSheet } from '../../../entities';
 import { InspectionGroup, InspectionType } from '../../../typescript-fetch';
 import { BottomNavigationAdd } from '../../common';
+import { InspectionGroupRepository, InspectionTypeRepository } from '../../../infrastructure';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,17 +52,13 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
   const [history, setHistory] = useState<InspectionSheet[]>([]);
 
   useEffect(() => {
-    fetch('inspectiongroup')
-      .then(res => res.json())
-      .then((json: InspectionGroup[]) => {
-        setGroups(json);
-      })
+    const groupApi = new InspectionGroupRepository();
+    groupApi.get()
+      .then(res => setGroups(res))
       .catch(console.error);
-    fetch('inspectiontype')
-      .then(res => res.json())
-      .then((json: InspectionType[]) => {
-        setTypes(json);
-      })
+    const typeApi = new InspectionTypeRepository();
+    typeApi.get()
+      .then(res => setTypes(res))
       .catch(console.error);
   }, []);
 
