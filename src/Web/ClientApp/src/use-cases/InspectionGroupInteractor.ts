@@ -2,7 +2,7 @@ import { IInspectionGroupInteractor, IInspectionGroupRepository } from "../inter
 import { InspectionGroup } from "../typescript-fetch";
 
 export class InspectionGroupInteractor implements IInspectionGroupInteractor {
-  private readonly groups: Array<InspectionGroup>;
+  readonly groups: Array<InspectionGroup>;
   private readonly setGroups: React.Dispatch<React.SetStateAction<Array<InspectionGroup>>>
   private readonly repository: IInspectionGroupRepository
 
@@ -14,10 +14,6 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
     this.groups = groups;
     this.setGroups = setGroups;
     this.repository = repository;
-  }
-
-  getGroups(): Array<InspectionGroup> {
-    return this.groups;
   }
 
   get(): void {
