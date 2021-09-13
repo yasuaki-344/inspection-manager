@@ -34,7 +34,7 @@ export class InspectionTypePresenter {
           </TableRow>
         </TableHead>
         <TableBody>
-          {this.useCase.getTypes().map((type: InspectionType) =>
+          {this.useCase.types.map((type: InspectionType) =>
             <TableRow key={type.inspection_type_id}>
               <TableCell>
                 {type.description}
