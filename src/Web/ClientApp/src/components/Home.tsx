@@ -12,11 +12,9 @@ import DetailsIcon from '@material-ui/icons/Details';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SearchIcon from '@material-ui/icons/Search';
 import { InspectionSheet, InspectionSheetInitialState } from '../entities';
-import {
-  InspectionGroup, InspectionGroupsApi,
-  InspectionType, InspectionTypesApi
-} from '../typescript-fetch';
+import { InspectionGroup, InspectionType } from '../typescript-fetch';
 import { CancelIconButton } from './common';
+import { InspectionGroupRepository, InspectionTypeRepository } from '../infrastructure';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,8 +24,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const groupApi = new InspectionGroupsApi();
-const typeApi = new InspectionTypesApi();
 
 export const Home: FC = (): JSX.Element => {
   const classes = useStyles();
@@ -46,12 +42,15 @@ export const Home: FC = (): JSX.Element => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  const groupRepository =  new InspectionGroupRepository();
+  const typeRepository = new InspectionTypeRepository();
+
   useEffect(() => {
-    groupApi.inspectionGroupsGet()
+    groupRepository.get()
       .then(res => { setGroups(res); })
       .catch(console.error);
 
-    typeApi.inspectionTypesGet()
+      typeRepository.get()
       .then(res => { setTypes(res); })
       .catch(console.error);
 
