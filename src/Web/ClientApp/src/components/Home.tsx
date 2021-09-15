@@ -14,8 +14,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import { InspectionSheet, InspectionSheetInitialState } from '../entities';
 import { InspectionGroup, InspectionType } from '../typescript-fetch';
 import { CancelIconButton } from './common';
-import { InspectionGroupRepository, InspectionTypeRepository } from '../infrastructure';
 import { IInspectionGroupRepository, IInspectionTypeRepository } from '../interfaces';
+import { inject } from '../container';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,16 +24,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-function inject<T>(key: string): T {
-  if (key === 'InspectionGroupRepository') {
-    return new InspectionGroupRepository() as unknown as T;
-  } else if (key === 'InspectionTypeRepository') {
-    return new InspectionTypeRepository() as unknown as T;
-  } else {
-    throw new Error(`{key} is not registered as dependency`);
-  }
-}
 
 export const Home: FC = (): JSX.Element => {
   const classes = useStyles();
