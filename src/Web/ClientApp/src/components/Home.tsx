@@ -15,6 +15,7 @@ import { InspectionSheet, InspectionSheetInitialState } from '../entities';
 import { InspectionGroup, InspectionType } from '../typescript-fetch';
 import { CancelIconButton } from './common';
 import { InspectionGroupRepository, InspectionTypeRepository } from '../infrastructure';
+import { IInspectionGroupRepository, IInspectionTypeRepository } from '../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,6 +25,15 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+export const inject = (key: string): any => {
+  if (key === 'InspectionGroupRepository') {
+    return new InspectionGroupRepository();
+  } else if (key === 'InspectionTypeRepository') {
+    return new InspectionTypeRepository();
+  } else {
+    throw new Error(`{key} is not registered as dependency`);
+  }
+}
 
 export const Home: FC = (): JSX.Element => {
   const classes = useStyles();
@@ -42,8 +52,8 @@ export const Home: FC = (): JSX.Element => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const groupRepository =  new InspectionGroupRepository();
-  const typeRepository = new InspectionTypeRepository();
+  const groupRepository = inject('InspectionGroupRepository') as IInspectionGroupRepository;
+  const typeRepository = inject('InspectionTypeRepository') as IInspectionTypeRepository;
 
   useEffect(() => {
     groupRepository.get()
