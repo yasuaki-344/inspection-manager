@@ -15,7 +15,7 @@ import { InspectionSheet, InspectionSheetInitialState } from '../entities';
 import { InspectionGroup, InspectionType } from '../typescript-fetch';
 import { CancelIconButton } from './common';
 import { IInspectionGroupRepository, IInspectionTypeRepository } from '../interfaces';
-import { inject } from '../container';
+import { DIContainer } from '../container';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,8 +42,9 @@ export const Home: FC = (): JSX.Element => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const groupRepository = inject<IInspectionGroupRepository>('InspectionGroupRepository');
-  const typeRepository = inject<IInspectionTypeRepository>('InspectionTypeRepository');
+  const container = new DIContainer();
+  const groupRepository = container.inject<IInspectionGroupRepository>('InspectionGroupRepository');
+  const typeRepository = container.inject<IInspectionTypeRepository>('InspectionTypeRepository');
 
   useEffect(() => {
     groupRepository.get()
