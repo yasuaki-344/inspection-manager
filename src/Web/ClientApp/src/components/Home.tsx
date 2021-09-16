@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
@@ -15,7 +15,7 @@ import { InspectionSheet, InspectionSheetInitialState } from '../entities';
 import { InspectionGroup, InspectionType } from '../typescript-fetch';
 import { CancelIconButton } from './common';
 import { IInspectionGroupRepository, IInspectionTypeRepository } from '../interfaces';
-import { DIContainer } from '../container';
+import { DIContainerContext } from '../App';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,7 +42,7 @@ export const Home: FC = (): JSX.Element => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const container = new DIContainer();
+  const container = useContext(DIContainerContext);
   const groupRepository = container.inject<IInspectionGroupRepository>('InspectionGroupRepository');
   const typeRepository = container.inject<IInspectionTypeRepository>('InspectionTypeRepository');
 

@@ -16,9 +16,12 @@ import {
 import './custom.css'
 import { InspectionItemPresenter, InspectionSheetPresenter } from './presenters';
 import { InspectionItemController, InspectionSheetController } from './controllers';
+import { DIContainer } from './container';
 
 export const InspectionItemContext = createContext({} as { itemPresenter: InspectionItemPresenter, itemController: InspectionItemController })
 export const InspectionSheetContext = createContext({} as { sheetPresenter: InspectionSheetPresenter, sheetController: InspectionSheetController })
+
+export const DIContainerContext = createContext<DIContainer>({} as DIContainer);
 
 const App = (): JSX.Element => {
   const [inspectionItem, dispatch] = useReducer(InspectionItemReducer, InspectionItemInitialState);
@@ -30,26 +33,30 @@ const App = (): JSX.Element => {
   const inspectionSheetPresenter = new InspectionSheetPresenter(inspectionSheetInteractor);
   const inspectionSheetController = new InspectionSheetController(inspectionSheetInteractor);
 
+  const container = new DIContainer();
+
   return (
-    <Layout>
-      <Route exact path='/' component={Home} />
-      <Route path='/group' component={InspectionGroupCategory} />
-      <Route path='/types' component={InspectionTypeCategory} />
-      <Route path='/choices-template' component={ChoicesTemplate} />
-      <InspectionSheetContext.Provider value={{
-        sheetPresenter: inspectionSheetPresenter,
-        sheetController: inspectionSheetController
-      }}>
-        <InspectionItemContext.Provider value={{
-          itemPresenter: inspectionItemPresenter,
-          itemController: inspectionItemController
+    <DIContainerContext.Provider value={container}>
+      <Layout>
+        <Route exact path='/' component={Home} />
+        <Route path='/group' component={InspectionGroupCategory} />
+        <Route path='/types' component={InspectionTypeCategory} />
+        <Route path='/choices-template' component={ChoicesTemplate} />
+        <InspectionSheetContext.Provider value={{
+          sheetPresenter: inspectionSheetPresenter,
+          sheetController: inspectionSheetController
         }}>
-          <Route path='/create' component={Create} />
-          <Route path='/edit/:id' component={Edit} />
-        </InspectionItemContext.Provider>
-      </InspectionSheetContext.Provider>
-      <Route path='/details/:id' component={Details} />
-    </Layout>
+          <InspectionItemContext.Provider value={{
+            itemPresenter: inspectionItemPresenter,
+            itemController: inspectionItemController
+          }}>
+            <Route path='/create' component={Create} />
+            <Route path='/edit/:id' component={Edit} />
+          </InspectionItemContext.Provider>
+        </InspectionSheetContext.Provider>
+        <Route path='/details/:id' component={Details} />
+      </Layout>
+    </DIContainerContext.Provider>
   );
 }
 App.displayName = App.name;
