@@ -16,6 +16,7 @@ import { InspectionGroup, InspectionType } from '../typescript-fetch';
 import { CancelIconButton } from './common';
 import { IInspectionGroupRepository, IInspectionTypeRepository } from '../interfaces';
 import { DIContainerContext } from '../App';
+import nameof from 'ts-nameof.macro';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,8 +44,8 @@ export const Home: FC = (): JSX.Element => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const container = useContext(DIContainerContext);
-  const groupRepository = container.inject<IInspectionGroupRepository>('InspectionGroupRepository');
-  const typeRepository = container.inject<IInspectionTypeRepository>('InspectionTypeRepository');
+  const groupRepository: IInspectionGroupRepository = container.inject(nameof<IInspectionGroupRepository>());
+  const typeRepository: IInspectionTypeRepository = container.inject(nameof<IInspectionTypeRepository>());
 
   useEffect(() => {
     groupRepository.get()

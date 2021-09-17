@@ -1,11 +1,12 @@
 import { InspectionGroupRepository, InspectionTypeRepository } from '../infrastructure';
 
 export class DIContainer {
-  inject<T>(key: string): T {
-    if (key === 'InspectionGroupRepository') {
-      return new InspectionGroupRepository() as unknown as T;
-    } else if (key === 'InspectionTypeRepository') {
-      return new InspectionTypeRepository() as unknown as T;
+  inject(key: string): any {
+    console.log(key);
+    if (key === 'IInspectionGroupRepository') {
+      return new InspectionGroupRepository();
+    } else if (key === 'IInspectionTypeRepository') {
+      return new InspectionTypeRepository();
     } else {
       throw new Error(`{key} is not registered as dependency`);
     }
