@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import { Route } from 'react-router';
-import { Layout } from './components/Layout';
+import { Layout } from './components';
 import { Home } from './components/Home';
 import { Create } from './components/inspection/Create';
 import { Details } from './components/inspection/Details';
