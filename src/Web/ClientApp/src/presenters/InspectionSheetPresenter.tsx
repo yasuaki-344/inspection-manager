@@ -55,7 +55,6 @@ export class InspectionSheetPresenter {
             // className={classes.sheetElement}
             required
             autoFocus
-            id="outlined-required"
             label="点検シート名"
             variant="outlined"
             size="small"
@@ -68,7 +67,6 @@ export class InspectionSheetPresenter {
           <TextField
             // className={classes.sheetElement}
             select
-            id='outlined-required'
             label='点検グループ'
             variant='outlined'
             size='small'
