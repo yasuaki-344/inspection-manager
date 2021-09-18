@@ -12,7 +12,7 @@ export class InspectionSheetPresenter {
   }
 
   getState(): InspectionSheet {
-    return this.useCase.getState();
+    return this.useCase.sheet;
   }
 
   getEditContent(
@@ -23,7 +23,7 @@ export class InspectionSheetPresenter {
     handleEditItem: any,
     storeHistory: any
   ): JSX.Element {
-    const sheet = this.useCase.getState();
+    const sheet = this.useCase.sheet;
 
     const contents = isEdit
       ? <Grid item xs={12}>
@@ -55,7 +55,6 @@ export class InspectionSheetPresenter {
             // className={classes.sheetElement}
             required
             autoFocus
-            id="outlined-required"
             label="点検シート名"
             variant="outlined"
             size="small"
@@ -68,7 +67,6 @@ export class InspectionSheetPresenter {
           <TextField
             // className={classes.sheetElement}
             select
-            id='outlined-required'
             label='点検グループ'
             variant='outlined'
             size='small'

@@ -5,18 +5,14 @@ import { InspectionSheetRepository } from '../infrastructure';
 import { IInspectionSheetInteractor, IInspectionSheetRepository } from '../interfaces';
 
 export class InspectionSheetInteractor implements IInspectionSheetInteractor {
-  private readonly state: InspectionSheet
+  readonly sheet: InspectionSheet
   private readonly dispatch: React.Dispatch<any>
   private readonly repository: IInspectionSheetRepository
 
   constructor(state: InspectionSheet, dispatch: React.Dispatch<any>) {
-    this.state = state
+    this.sheet = state
     this.dispatch = dispatch
     this.repository = new InspectionSheetRepository();
-  }
-
-  getState(): InspectionSheet {
-    return this.state;
   }
 
   async getAllInspectionSheet(): Promise<Array<InspectionSheet>> {
@@ -29,12 +25,12 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   };
 
   async createInspectionSheet(): Promise<void> {
-    await this.repository.post(this.state);
+    await this.repository.post(this.sheet);
     this.setSheet(InspectionSheetInitialState);
   }
 
   async updateInspectionSheet(): Promise<void> {
-    const sheet = await this.repository.put(this.state);
+    const sheet = await this.repository.put(this.sheet);
     this.setSheet(sheet);
   }
 

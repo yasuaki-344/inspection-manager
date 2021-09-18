@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Container } from '@material-ui/core';
 import { NavMenu } from './NavMenu';
 
-export const Layout = (props: any): JSX.Element => {
+interface LayoutProps {
+  children: React.ReactElement[]
+}
+
+export const Layout: FC<LayoutProps> = (props): JSX.Element => {
   return (
     <div>
       <NavMenu />

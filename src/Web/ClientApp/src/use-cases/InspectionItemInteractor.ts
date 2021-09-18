@@ -5,16 +5,12 @@ import { InspectionItem } from "../entities";
 import { IInspectionItemInteractor } from "../interfaces";
 
 export class InspectionItemInteractor implements IInspectionItemInteractor {
-  private readonly state: any;
+  readonly inspectionItem: InspectionItem;
   private readonly dispatch: React.Dispatch<any>;
 
-  constructor(state: any, dispatch: React.Dispatch<any>) {
-    this.state = state;
+  constructor(state: InspectionItem, dispatch: React.Dispatch<any>) {
+    this.inspectionItem = state;
     this.dispatch = dispatch;
-  }
-
-  getState(): InspectionItem {
-    return this.state;
   }
 
   setItem(item: InspectionItem): void {
@@ -78,15 +74,15 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
    * @returns Return true if the item is valid, otherwise false.
    */
   isValidInspectionItem(): boolean {
-    if (this.state.inspection_content === '') {
+    if (this.inspectionItem.inspection_content === '') {
       return false;
     }
 
-    if (this.state.input_type === 3) {
-      if (!this.state.choices.length) {
+    if (this.inspectionItem.input_type === 3) {
+      if (!this.inspectionItem.choices.length) {
         return false;
       } else {
-        const descriptions = this.state.choices.map((x: Choice) => x.description);
+        const descriptions = this.inspectionItem.choices.map((x: Choice) => x.description);
         return !descriptions.includes('');
       }
     }

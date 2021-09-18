@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
@@ -12,11 +12,11 @@ import DetailsIcon from '@material-ui/icons/Details';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import SearchIcon from '@material-ui/icons/Search';
 import { InspectionSheet, InspectionSheetInitialState } from '../entities';
-import {
-  InspectionGroup, InspectionGroupsApi,
-  InspectionType, InspectionTypesApi
-} from '../typescript-fetch';
+import { InspectionGroup, InspectionType } from '../typescript-fetch';
 import { CancelIconButton } from './common';
+import { IInspectionGroupRepository, IInspectionTypeRepository } from '../interfaces';
+import { DIContainerContext } from '../App';
+import nameof from 'ts-nameof.macro';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,9 +25,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-const groupApi = new InspectionGroupsApi();
-const typeApi = new InspectionTypesApi();
 
 export const Home: FC = (): JSX.Element => {
   const classes = useStyles();
@@ -46,12 +43,16 @@ export const Home: FC = (): JSX.Element => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  const container = useContext(DIContainerContext);
+  const groupRepository: IInspectionGroupRepository = container.inject(nameof<IInspectionGroupRepository>());
+  const typeRepository: IInspectionTypeRepository = container.inject(nameof<IInspectionTypeRepository>());
+
   useEffect(() => {
-    groupApi.inspectionGroupsGet()
+    groupRepository.get()
       .then(res => { setGroups(res); })
       .catch(console.error);
 
-    typeApi.inspectionTypesGet()
+    typeRepository.get()
       .then(res => { setTypes(res); })
       .catch(console.error);
 

@@ -1,7 +1,7 @@
 import { InspectionGroup } from "../typescript-fetch";
 
 export interface IInspectionGroupInteractor {
-  getGroups(): Array<InspectionGroup>
+  groups: Array<InspectionGroup>
   get(): void
   getById(id: number): InspectionGroup | undefined
   create(inspectionGroup: InspectionGroup): Promise<void>
