@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   Button, ButtonGroup, Grid,
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
@@ -17,19 +16,18 @@ import {
 import { CancelIconButton } from './common';
 import { SheetSearchMenu } from './SheetSearchMenu';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    searchItem: {
-      margin: 2,
-    },
-  })
-);
+// const useStyles = makeStyles((theme: Theme) =>
+//   createStyles({
+//     searchItem: {
+//       margin: 2,
+//     },
+//   })
+// );
 
 const groupApi = new InspectionGroupsApi();
 const typeApi = new InspectionTypesApi();
 
 export const Home: FC = (): JSX.Element => {
-  const classes = useStyles();
 
   const [groups, setGroups] = useState<InspectionGroup[]>([]);
   const [types, setTypes] = useState<InspectionType[]>([]);

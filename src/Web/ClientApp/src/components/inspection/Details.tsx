@@ -3,7 +3,6 @@ import {
   Box, Collapse, Paper, List, ListItem, IconButton,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@mui/material';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { useInputTypes } from '../../entities';
@@ -11,16 +10,16 @@ import { InspectionSheet, Equipment, InspectionItem, InspectionSheetInitialState
 import { InspectionGroup, InspectionType } from '../../typescript-fetch';
 import { TopPageLink } from '../common';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    itemTableHead: {
-      backgroundColor: theme.palette.primary.main,
-    },
-    itemTableHeadCell: {
-      color: "#FFFFFF",
-    },
-  })
-);
+// const useStyles = makeStyles((theme: Theme) =>
+//   createStyles({
+//     itemTableHead: {
+//       backgroundColor: theme.palette.primary.main,
+//     },
+//     itemTableHeadCell: {
+//       color: "#FFFFFF",
+//     },
+//   })
+// );
 
 const TableHeadCell = {
   color: "#FFFFFF",

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import MuiAlert from '@material-ui/lab/Alert';
+import { Alert } from '@mui/material';
 import { Button, Grid } from '@mui/material';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
 import { InspectionSheetContext } from '../../App';
@@ -45,16 +45,16 @@ export const Edit = ({ match }: any): JSX.Element => {
       </Grid>
       {errorMessage !== '' &&
         <Grid item xs={12}>
-          <MuiAlert elevation={6} variant="filled" severity="error">
+          <Alert elevation={6} variant="filled" severity="error">
             {errorMessage}
-          </MuiAlert>
+          </Alert>
         </Grid>
       }
       {successMessage !== '' &&
         <Grid item xs={12}>
-          <MuiAlert elevation={6} variant="filled" severity="success">
+          <Alert elevation={6} variant="filled" severity="success">
             {successMessage}
-          </MuiAlert>
+          </Alert>
         </Grid>
       }
       <Grid item xs={12}>

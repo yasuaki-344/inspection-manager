@@ -1,6 +1,5 @@
 import React, { FC, useRef, useContext } from 'react';
 import { useDrag, useDrop } from "react-dnd";
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   Accordion, AccordionSummary, AccordionDetails, IconButton,
   Grid, Paper, TextField,
@@ -13,21 +12,21 @@ import { ItemType } from '../../../entities';
 import { Equipment, InspectionItem } from '../../../entities';
 import { CancelIconButton } from '../../common';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    equipmentLabel: {
-      backgroundColor: theme.palette.primary.main,
-      color: '#FFFFFF',
-      fontSize: 20,
-    },
-    paperElement: {
-      margin: 4
-    },
-    menuIcon: {
-      color: '#FFFFFF',
-    },
-  })
-);
+// const useStyles = makeStyles((theme: Theme) =>
+//   createStyles({
+//     equipmentLabel: {
+//       backgroundColor: theme.palette.primary.main,
+//       color: '#FFFFFF',
+//       fontSize: 20,
+//     },
+//     paperElement: {
+//       margin: 4
+//     },
+//     menuIcon: {
+//       color: '#FFFFFF',
+//     },
+//   })
+// );
 
 interface DragItem {
   index: number,
@@ -48,7 +47,6 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
   handleEditItem,
   storeHistory
 }): JSX.Element => {
-  const classes = useStyles();
   const { sheetController } = useContext(InspectionSheetContext);
   const dropRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<HTMLButtonElement>(null);
@@ -73,8 +71,10 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
     <Paper variant='outlined' >
       <Accordion>
         <AccordionSummary
-          className={classes.equipmentLabel}
-          expandIcon={<ExpandMoreIcon className={classes.menuIcon} />}
+          // className={classes.equipmentLabel}
+          expandIcon={<ExpandMoreIcon
+            // className={classes.menuIcon}
+            />}
           ref={dropRef}
         >
           <IconButton size='small' color='inherit' ref={dragRef}>
@@ -87,7 +87,9 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
         </AccordionSummary>
         <AccordionDetails>
           <Grid container>
-            <Grid item xs={12} className={classes.paperElement}>
+            <Grid item xs={12}
+            // className={classes.paperElement}
+            >
               <TextField
                 required
                 label='点検機器名'

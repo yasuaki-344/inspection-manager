@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import Alert from '@material-ui/lab/Alert';
+import { Alert } from '@mui/material';
 
 interface IProcessResultProps {
   message: string;

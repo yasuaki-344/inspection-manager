@@ -1,8 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import {
-  BottomNavigation, TableContainer, Grid, Paper,
+  Alert, BottomNavigation, TableContainer, Grid, Paper,
 } from '@mui/material';
-import MuiAlert from '@material-ui/lab/Alert';
 import { ChoiceTemplate } from '../../typescript-fetch';
 import { BottomNavigationAdd } from '../common';
 import { ChoiceTemplateInteractor } from '../../use-cases';
@@ -114,16 +113,16 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
         <Grid item xs={12}>
           {errorMessage !== '' &&
             <Grid item xs={12}>
-              <MuiAlert elevation={6} variant="filled" severity="error">
+              <Alert elevation={6} variant="filled" severity="error">
                 {errorMessage}
-              </MuiAlert>
+              </Alert>
             </Grid>
           }
           {successMessage !== '' &&
             <Grid item xs={12}>
-              <MuiAlert elevation={6} variant="filled" severity="success">
+              <Alert elevation={6} variant="filled" severity="success">
                 {successMessage}
-              </MuiAlert>
+              </Alert>
             </Grid>
           }
           <Grid item xs={12}>
