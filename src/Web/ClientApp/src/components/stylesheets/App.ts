@@ -17,7 +17,7 @@ export const LabelStyle = {
 }
 export const InputStyle = {
   ml: 1,
-  mt: 1,
+  mt: 0.5,
   width: 330,
 };
 export const equipmentLabel = {
