@@ -5,7 +5,7 @@ import { InspectionTypeInteractor } from "../../use-cases";
 import { InspectionTypeController } from "../../controllers";
 import { InspectionTypePresenter } from "../../presenters";
 import { InspectionTypeRepository } from "../../infrastructure/InspectionTypeRepository";
-import { FeedbackMessage } from "../common/FeedbackMessage";
+import { Notification } from "../common/Notification";
 import { BottomNavigationAdd, TopPageLink } from "../common";
 import { EditDialog } from "./EditDialog";
 
