@@ -7,14 +7,14 @@ export type NotificationState = {
   isOpen: boolean;
 };
 
-export const ProcessResultInit: NotificationState = {
+export const NotificationInitState: NotificationState = {
   severity: 'success',
   message: '',
   isOpen: false,
 }
 
 export class NotificationStateInteractor {
-  private readonly state: NotificationState
+  readonly state: NotificationState
   private readonly setState: React.Dispatch<React.SetStateAction<NotificationState>>
 
   constructor(useState: [NotificationState, React.Dispatch<React.SetStateAction<NotificationState>>]) {

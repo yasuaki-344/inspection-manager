@@ -5,7 +5,7 @@ import { InspectionTypeInteractor } from "../../use-cases";
 import { InspectionTypeController } from "../../controllers";
 import { InspectionTypePresenter } from "../../presenters";
 import { InspectionTypeRepository } from "../../infrastructure/InspectionTypeRepository";
-import { Notification } from "../common/Notification";
+import { Notification, NotificationInitState, NotificationStateInteractor } from "../common/Notification";
 import { BottomNavigationAdd, TopPageLink } from "../common";
 import { EditDialog } from "./EditDialog";
 
@@ -26,11 +26,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
     inspection_type_id: 0,
     description: ''
   });
-  const [processResult, setProcessResult] = useState({
-    severity: 'success',
-    message: '',
-    isVisible: false,
-  });
+  const notification = new NotificationStateInteractor(useState(NotificationInitState));
 
   // eslint-disable-next-line
   useEffect(() => { presenter.get() }, []);
@@ -64,36 +60,20 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
     if (isUpdate) {
       controller.update(target)
         .then(() => {
-          setProcessResult({
-            severity: 'success',
-            message: '更新に成功しました',
-            isVisible: true,
-          });
+          notification.setMessageState('success', '更新に成功しました');
         })
         .catch(error => {
           console.log(error);
-          setProcessResult({
-            severity: 'error',
-            message: '更新に失敗しました',
-            isVisible: true,
-          });
+          notification.setMessageState('error', '更新に失敗しました');
         });
     } else {
       controller.create(target)
         .then(() => {
-          setProcessResult({
-            severity: 'success',
-            message: '追加に成功しました',
-            isVisible: true,
-          });
+          notification.setMessageState('success', '追加に成功しました');
         })
         .catch(error => {
           console.error(error);
-          setProcessResult({
-            severity: 'error',
-            message: '追加に失敗しました',
-            isVisible: true,
-          });
+          notification.setMessageState('error', '追加に失敗しました');
         })
     }
     setOpen(false);
@@ -106,19 +86,11 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
   const handleDeleteItem = (id: number): void => {
     controller.delete(id)
       .then(() => {
-        setProcessResult({
-          severity: 'success',
-          message: '削除に成功しました',
-          isVisible: true,
-        });
+        notification.setMessageState('success', '削除に成功しました');
       })
       .catch(error => {
         console.error(error);
-        setProcessResult({
-          severity: 'error',
-          message: '削除に失敗しました',
-          isVisible: true,
-        });
+        notification.setMessageState('error', '削除に失敗しました');
       });
   }
 
@@ -132,15 +104,12 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
           <TopPageLink />
         </Grid>
         <Grid item xs={12}>
-          {/* <SuccessResult
-            open={processResult.isVisible}
-            message={processResult.message}
-            onClose={() => setProcessResult({
-              severity: 'success',
-              message: '',
-              isVisible: false,
-            })}
-          /> */}
+          <Notification
+            open={notification.state.isOpen}
+            severity={notification.state.severity}
+            message={notification.state.message}
+            onClose={() => { notification.hideDisplay(); }}
+          />
         </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper}>
@@ -159,7 +128,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
         title="点検タイプ編集"
         label="点検タイプ名"
         target={target}
-        onChange={(e:React.ChangeEvent<HTMLInputElement>) => setTarget({
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTarget({
           ...target,
           [e.target.name]: e.target.value,
         })}
