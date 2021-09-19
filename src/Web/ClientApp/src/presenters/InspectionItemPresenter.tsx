@@ -28,7 +28,7 @@ export class InspectionItemPresenter {
   ): JSX.Element {
     const inspectionItem = this.useCase.inspectionItem;
     return (
-      <Grid container spacing={1}>
+      <Grid container spacing={1} sx={{ pt: 1.5 }}>
         <Grid item xs={12}>
           <TextField
             required

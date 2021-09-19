@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { InspectionItemContext } from './../../../App';
 import { ChoiceSetSelectDialog } from './ChoiceSetSelectDialog';
 import { OkCancelDialogActions } from '../../common';
+import { DialogTitleDesign } from '../../stylesheets';
 
 interface InspectionDialogProps {
   open: boolean,
@@ -23,7 +24,7 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
   return (
     <>
       <Dialog open={props.open} onClose={props.handleClose}>
-        <DialogTitle>点検項目編集</DialogTitle>
+        <DialogTitle sx={DialogTitleDesign}>点検項目編集</DialogTitle>
         <DialogContent>
           {itemPresenter.getEditContent(() => setOpen(true))}
         </DialogContent>
