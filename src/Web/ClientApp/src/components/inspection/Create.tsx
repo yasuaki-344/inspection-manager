@@ -65,6 +65,7 @@ export const Create: FC = (): JSX.Element => {
         <Grid item xs={12}>
           <Button
             variant='contained'
+            color='inherit'
             onClick={() => setOpen(true)}
           >既存のデータをコピー</Button>
         </Grid>
