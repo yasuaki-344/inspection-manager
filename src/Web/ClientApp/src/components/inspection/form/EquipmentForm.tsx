@@ -11,22 +11,7 @@ import { InspectionSheetContext } from '../../../App';
 import { ItemType } from '../../../entities';
 import { Equipment, InspectionItem } from '../../../entities';
 import { CancelIconButton } from '../../common';
-
-// const useStyles = makeStyles((theme: Theme) =>
-//   createStyles({
-//     equipmentLabel: {
-//       backgroundColor: theme.palette.primary.main,
-//       color: '#FFFFFF',
-//       fontSize: 20,
-//     },
-//     paperElement: {
-//       margin: 4
-//     },
-//     menuIcon: {
-//       color: '#FFFFFF',
-//     },
-//   })
-// );
+import { equipmentLabel, MenuIcon, paperElement } from '../../stylesheets';
 
 interface DragItem {
   index: number,
@@ -71,10 +56,8 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
     <Paper variant='outlined' >
       <Accordion>
         <AccordionSummary
-          // className={classes.equipmentLabel}
-          expandIcon={<ExpandMoreIcon
-            // className={classes.menuIcon}
-            />}
+          sx={equipmentLabel}
+          expandIcon={<ExpandMoreIcon sx={MenuIcon} />}
           ref={dropRef}
         >
           <IconButton size='small' color='inherit' ref={dragRef}>
@@ -87,9 +70,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
         </AccordionSummary>
         <AccordionDetails>
           <Grid container>
-            <Grid item xs={12}
-            // className={classes.paperElement}
-            >
+            <Grid item xs={12} sx={paperElement}>
               <TextField
                 required
                 label='点検機器名'

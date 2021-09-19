@@ -20,3 +20,14 @@ export const InputStyle = {
   mt: 1,
   width: 330,
 };
+export const equipmentLabel = {
+  backgroundColor: 'primary.main',
+  color: '#FFFFFF',
+  fontSize: 20,
+}
+export const paperElement = {
+  margin: 1
+};
+export const MenuIcon = {
+  color: '#FFFFFF',
+};
