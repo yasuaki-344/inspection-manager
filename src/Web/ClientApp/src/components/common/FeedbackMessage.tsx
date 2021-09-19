@@ -1,14 +1,14 @@
 import React, { FC } from "react";
 import { Alert, Snackbar } from '@mui/material';
 
-interface IProcessResultProps {
+interface IFeedbackMessage {
   open: boolean;
   severity: string;
   message: string;
   onClose: (event: React.SyntheticEvent<Element, Event>) => void;
 }
 
-export const ProcessResult: FC<IProcessResultProps> = (props): JSX.Element => {
+export const FeedbackMessage: FC<IFeedbackMessage> = (props): JSX.Element => {
   const duration = 3000;
   const vertical = 'bottom';
   const horizontal = 'right';

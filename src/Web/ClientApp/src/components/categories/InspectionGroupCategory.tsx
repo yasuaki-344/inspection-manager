@@ -5,7 +5,7 @@ import { InspectionGroupInteractor } from '../../use-cases';
 import { InspectionGroupController } from '../../controllers';
 import { InspectionGroupPresenter } from '../../presenters';
 import { InspectionGroupRepository } from '../../infrastructure/InspectionGroupRepository';
-import { ProcessResult } from '../common/ProcessResult';
+import { FeedbackMessage } from '../common/FeedbackMessage';
 import { BottomNavigationAdd, TopPageLink } from '../common';
 import { EditDialog } from './EditDialog';
 
@@ -132,7 +132,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
           <TopPageLink />
         </Grid>
         <Grid item xs={12}>
-          <ProcessResult
+          <FeedbackMessage
             open={processResult.open}
             severity={processResult.severity}
             message={processResult.severity}
