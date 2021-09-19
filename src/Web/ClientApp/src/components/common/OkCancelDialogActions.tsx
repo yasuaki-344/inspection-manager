@@ -18,6 +18,7 @@ export const OkCancelDialogActions: FC<IOkCancelDialogActionsProps> = (props): J
       >OK</Button>
       <Button
         variant='contained'
+        color='inherit'
         onClick={props.onCancelButtonClick}
       >キャンセル</Button>
     </DialogActions>
