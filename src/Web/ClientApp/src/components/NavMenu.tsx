@@ -11,15 +11,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import LabelIcon from '@mui/icons-material/Label';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
-
-const textDark = {
-  color: '#000000',
-  textDecoration: 'none',
-}
-const textWhite = {
-  color: '#FFFFFF',
-  textDecoration: 'none',
-}
+import { LinkNavItem, LinkNavTitle } from './stylesheets';
 
 export const NavMenu: FC = (): JSX.Element => {
   const [open, setOpen] = useState(false);
@@ -48,24 +40,24 @@ export const NavMenu: FC = (): JSX.Element => {
               <List>
                 <ListItem button>
                   <ListItemIcon><HomeIcon /></ListItemIcon>
-                  <Link style={textDark} to='/'>ホーム</Link>
+                  <Link style={LinkNavItem} to='/'>ホーム</Link>
                 </ListItem>
                 <ListItem button>
                   <ListItemIcon><CreateIcon /></ListItemIcon>
-                  <Link style={textDark} to='/create'>新規作成</Link>
+                  <Link style={LinkNavItem} to='/create'>新規作成</Link>
                 </ListItem>
                 <Divider />
                 <ListItem button>
                   <ListItemIcon><CategoryIcon /></ListItemIcon>
-                  <Link style={textDark} to='/group'>点検グループ</Link>
+                  <Link style={LinkNavItem} to='/group'>点検グループ</Link>
                 </ListItem>
                 <ListItem button>
                   <ListItemIcon><LabelIcon /></ListItemIcon>
-                  <Link style={textDark} to='/types'>点検種別</Link>
+                  <Link style={LinkNavItem} to='/types'>点検種別</Link>
                 </ListItem>
                 <ListItem button>
                   <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
-                  <Link style={textDark} to='/choices-template'>
+                  <Link style={LinkNavItem} to='/choices-template'>
                     選択肢テンプレート
                   </Link>
                 </ListItem>
@@ -73,7 +65,7 @@ export const NavMenu: FC = (): JSX.Element => {
             </div>
           </SwipeableDrawer>
           <Typography variant='h6' noWrap color='inherit'>
-            <Link style={textWhite} to='/' color='primary'>
+            <Link style={LinkNavTitle} to='/' color='primary'>
               Inspection Manager
             </Link>
           </Typography>

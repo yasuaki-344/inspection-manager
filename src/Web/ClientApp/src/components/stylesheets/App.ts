@@ -18,3 +18,12 @@ export const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+
+export const LinkNavItem = {
+  color: '#000000',
+  textDecoration: 'none',
+}
+export const LinkNavTitle = {
+  color: '#FFFFFF',
+  textDecoration: 'none',
+}
