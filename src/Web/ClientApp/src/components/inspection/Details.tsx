@@ -9,21 +9,7 @@ import { useInputTypes } from '../../entities';
 import { InspectionSheet, Equipment, InspectionItem, InspectionSheetInitialState } from '../../entities';
 import { InspectionGroup, InspectionType } from '../../typescript-fetch';
 import { TopPageLink } from '../common';
-
-// const useStyles = makeStyles((theme: Theme) =>
-//   createStyles({
-//     itemTableHead: {
-//       backgroundColor: theme.palette.primary.main,
-//     },
-//     itemTableHeadCell: {
-//       color: "#FFFFFF",
-//     },
-//   })
-// );
-
-const TableHeadCell = {
-  color: "#FFFFFF",
-}
+import { itemTableHead, TableHeadCell } from '../stylesheets';
 
 interface RowProps {
   equipment: Equipment,
@@ -48,8 +34,7 @@ const Row: FC<RowProps> = ({ equipment }): JSX.Element => {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Table>
-                {/* <TableHead sx={TableHeadCell}> */}
-                <TableHead>
+                <TableHead sx={itemTableHead}>
                   <TableCell sx={TableHeadCell}>ID</TableCell>
                   <TableCell sx={TableHeadCell}>点検項目</TableCell>
                   <TableCell sx={TableHeadCell}>点検タイプ</TableCell>

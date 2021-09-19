@@ -31,3 +31,9 @@ export const paperElement = {
 export const MenuIcon = {
   color: '#FFFFFF',
 };
+export const itemTableHead = {
+  bgcolor: 'primary.main',
+}
+export const TableHeadCell = {
+  color: "#FFFFFF",
+}
