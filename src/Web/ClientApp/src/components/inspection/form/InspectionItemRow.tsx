@@ -1,8 +1,8 @@
 import React, { FC, useContext, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { IconButton, TableCell, TableRow } from '@material-ui/core';
-import DragHandleIcon from '@material-ui/icons/DragHandle';
-import EditIcon from '@material-ui/icons/Edit';
+import { IconButton, TableCell, TableRow } from '@mui/material';
+import DragHandleIcon from '@mui/icons-material/DragHandle';
+import EditIcon from '@mui/icons-material/Edit';
 import { InspectionSheetContext } from '../../../App';
 import { useInputTypes, ItemType } from '../../../entities';
 import { InspectionItem } from '../../../entities';

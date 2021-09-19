@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Container, IconButton, TextField } from '@mui/material';
-import RotateLeftIcon from '@material-ui/icons/RotateLeft';
-import SearchIcon from '@material-ui/icons/Search';
+import RotateLeftIcon from '@mui/icons-material/RotateLeft';
+import SearchIcon from '@mui/icons-material/Search';
 import { SearchField } from './stylesheets';
 
 interface SheetSearchMenuProps {

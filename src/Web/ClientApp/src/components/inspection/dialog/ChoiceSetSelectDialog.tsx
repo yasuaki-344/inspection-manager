@@ -2,7 +2,7 @@ import React, { FC, useContext, useState, useEffect } from 'react';
 import {
   Dialog, DialogContent, DialogTitle,
   Radio, RadioGroup, FormControl, FormControlLabel,
-} from '@material-ui/core';
+} from '@mui/material';
 import { ChoiceTemplate } from '../../../typescript-fetch';
 import { InspectionItemContext } from '../../../App';
 import { OkCancelDialogActions } from '../../common';

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogTitle } from '@material-ui/core';
+import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { InspectionItemContext } from './../../../App';
 import { ChoiceSetSelectDialog } from './ChoiceSetSelectDialog';
 import { OkCancelDialogActions } from '../../common';

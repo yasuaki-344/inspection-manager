@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import {
   Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
-} from '@material-ui/core';
+} from '@mui/material';
 import { InspectionItem } from '../../../entities';
 import { InspectionItemRow } from './InspectionItemRow';
 import { BottomNavigationAdd } from '../../common';

@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
-  Dialog, DialogActions, DialogContent, DialogTitle,
+  Alert, Dialog, DialogActions, DialogContent, DialogTitle, Button, Grid,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Paper, TablePagination
-} from '@material-ui/core';
-import MuiAlert from '@material-ui/lab/Alert';
-import { Button, Grid } from '@material-ui/core';
+} from '@mui/material';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
 import { InspectionSheet, InspectionSheetInitialState } from '../../entities';
 import { InspectionSheetContext } from '../../App';
@@ -39,6 +37,7 @@ export const Create = (): JSX.Element => {
    * @param event Page number change event.
    * @param newPage New page number.
    */
+  // eslint-disable-next-line
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -89,16 +88,16 @@ export const Create = (): JSX.Element => {
         </Grid>
         {errorMessage !== '' &&
           <Grid item xs={12}>
-            <MuiAlert elevation={6} variant="filled" severity="error">
+            <Alert elevation={6} variant="filled" severity="error">
               {errorMessage}
-            </MuiAlert>
+            </Alert>
           </Grid>
         }
         {successMessage !== '' &&
           <Grid item xs={12}>
-            <MuiAlert elevation={6} variant="filled" severity="success">
+            <Alert elevation={6} variant="filled" severity="success">
               {successMessage}
-            </MuiAlert>
+            </Alert>
           </Grid>
         }
         <Grid item xs={12}>
@@ -148,18 +147,14 @@ export const Create = (): JSX.Element => {
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[5]}
             component="div"
             count={inspectionSheets.length}
-            rowsPerPage={5}
             page={page}
-            labelRowsPerPage={'1ページあたりの件数:'}
-            backIconButtonText={'前のぺージ'}
-            nextIconButtonText={'次のぺージ'}
-            // onChangePage={handleChangePage}
             onPageChange={handleChangePage}
+            rowsPerPage={5}
+            rowsPerPageOptions={[5]}
+            labelRowsPerPage={'1ページあたりの件数:'}
           />
-
         </DialogContent>
         <DialogActions>
           <Button

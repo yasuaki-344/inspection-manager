@@ -4,9 +4,9 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   Accordion, AccordionSummary, AccordionDetails, IconButton,
   Grid, Paper, TextField,
-} from '@material-ui/core';
-import DragHandleIcon from '@material-ui/icons/DragHandle';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+} from '@mui/material';
+import DragHandleIcon from '@mui/icons-material/DragHandle';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { InspectionItemForm } from './InspectionItemForm';
 import { InspectionSheetContext } from '../../../App';
 import { ItemType } from '../../../entities';

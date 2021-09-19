@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import {
   Grid, TextField, Dialog, DialogContent, DialogTitle,
-} from '@material-ui/core';
+} from '@mui/material';
 import { InspectionGroup, InspectionType } from '../../typescript-fetch';
 import { OkCancelDialogActions } from '../common';
 

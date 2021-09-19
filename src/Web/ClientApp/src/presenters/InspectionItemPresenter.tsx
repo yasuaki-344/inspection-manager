@@ -3,8 +3,8 @@ import { IInspectionItemInteractor } from "../interfaces";
 import {
   BottomNavigation, BottomNavigationAction,
   Grid, TextField, MenuItem,
-} from '@material-ui/core';
-import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
+} from '@mui/material';
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import { BottomNavigationAdd, CancelIconButton } from "../components/common";
 
 

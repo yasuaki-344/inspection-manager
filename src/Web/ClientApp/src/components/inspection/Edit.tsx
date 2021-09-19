@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import MuiAlert from '@material-ui/lab/Alert';
-import { Button, Grid } from '@material-ui/core';
+import { Button, Grid } from '@mui/material';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
 import { InspectionSheetContext } from '../../App';
 import { TopPageLink } from '../common';

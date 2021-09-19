@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from 'react';
-import { Grid, Paper, TableContainer } from '@material-ui/core';
+import { Grid, Paper, TableContainer } from '@mui/material';
 import { InspectionGroup } from '../../typescript-fetch';
 import { InspectionGroupInteractor } from '../../use-cases';
 import { InspectionGroupController } from '../../controllers';

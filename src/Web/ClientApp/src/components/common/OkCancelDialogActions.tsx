@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Button, DialogActions } from '@material-ui/core';
+import { Button, DialogActions } from '@mui/material';
 
 interface IOkCancelDialogActionsProps {
   disabled: boolean,

@@ -3,8 +3,8 @@ import { DndProvider } from "react-dnd"
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {
   BottomNavigation, BottomNavigationAction, Grid, Paper
-} from '@material-ui/core';
-import UndoIcon from '@material-ui/icons/Undo';
+} from '@mui/material';
+import UndoIcon from '@mui/icons-material/Undo';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext, InspectionItemContext } from '../../../App';
 import { InspectionItem, InspectionSheet } from '../../../entities';

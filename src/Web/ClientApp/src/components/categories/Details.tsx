@@ -22,10 +22,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const TableHeadCell = {
-  color: "#FFFFFF",
-}
-
 interface RowProps {
   equipment: Equipment,
 };
@@ -49,12 +45,11 @@ const Row: FC<RowProps> = ({ equipment }): JSX.Element => {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Table>
-                {/* <TableHead sx={TableHeadCell}> */}
                 <TableHead>
-                  <TableCell sx={TableHeadCell}>ID</TableCell>
-                  <TableCell sx={TableHeadCell}>点検項目</TableCell>
-                  <TableCell sx={TableHeadCell}>点検タイプ</TableCell>
-                  <TableCell sx={TableHeadCell}>選択肢</TableCell>
+                  <TableCell>ID</TableCell>
+                  <TableCell>点検項目</TableCell>
+                  <TableCell>点検タイプ</TableCell>
+                  <TableCell>選択肢</TableCell>
                 </TableHead>
                 <TableBody>
                   {equipment.inspection_items.map((item: InspectionItem) =>

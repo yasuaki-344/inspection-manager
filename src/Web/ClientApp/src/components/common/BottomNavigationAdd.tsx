@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { BottomNavigation, BottomNavigationAction } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 interface IBottomNavigationAddProps {
   label: string,

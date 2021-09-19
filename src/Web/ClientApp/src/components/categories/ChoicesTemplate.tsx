@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import {
   BottomNavigation, TableContainer, Grid, Paper,
-} from '@material-ui/core';
+} from '@mui/material';
 import MuiAlert from '@material-ui/lab/Alert';
 import { ChoiceTemplate } from '../../typescript-fetch';
 import { BottomNavigationAdd } from '../common';

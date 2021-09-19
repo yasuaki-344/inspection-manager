@@ -1,6 +1,6 @@
 import { Equipment, InspectionSheet } from "../entities";
 import { IInspectionSheetInteractor } from "../interfaces";
-import { MenuItem, Grid, TextField } from '@material-ui/core';
+import { MenuItem, Grid, TextField } from '@mui/material';
 import { InspectionGroup, InspectionType } from "../typescript-fetch";
 import { EquipmentForm } from "../components/inspection/form/EquipmentForm";
 

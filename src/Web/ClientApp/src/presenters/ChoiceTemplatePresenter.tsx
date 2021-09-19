@@ -1,6 +1,6 @@
 import {
   Table, TableBody, TableCell, TableHead, TableRow
-} from '@material-ui/core';
+} from '@mui/material';
 import { CancelIconButton, EditIconButton } from '../components/common';
 import { IChoiceTemplateInteractor } from "../interfaces";
 import { ChoiceTemplate } from '../typescript-fetch';
