@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
-  Alert, Dialog, DialogActions, DialogContent, DialogTitle, Button, Grid,
+  Dialog, DialogActions, DialogContent, DialogTitle, Button, Grid,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Paper, TablePagination
 } from '@mui/material';
@@ -8,14 +8,14 @@ import { InspectionSheetForm } from './form/InspectionSheetForm';
 import { InspectionSheet, InspectionSheetInitialState } from '../../entities';
 import { InspectionSheetContext } from '../../App';
 import { TopPageLink } from '../common';
+import { Notification, NotificationInitState, NotificationStateInteractor } from '../common/Notification';
 
 export const Create = (): JSX.Element => {
   const { sheetPresenter, sheetController } = useContext(InspectionSheetContext);
   const [open, setOpen] = useState(false);
   const [page, setPage] = React.useState(0);
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>([]);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const notification = new NotificationStateInteractor(useState(NotificationInitState));
 
   useEffect(() => {
     sheetController.setSheet(InspectionSheetInitialState);
@@ -25,8 +25,7 @@ export const Create = (): JSX.Element => {
         setInspectionSheets(json);
       })
       .catch((error) => {
-        setSuccessMessage('');
-        setErrorMessage('データの取得に失敗しました');
+        notification.setMessageState('error', 'データの取得に失敗しました');
         console.error(error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -49,8 +48,7 @@ export const Create = (): JSX.Element => {
   const handleSelectSheet = (sheetId: number) => {
     sheetController.getInspectionSheetById(sheetId)
       .catch((error) => {
-        setSuccessMessage('');
-        setErrorMessage(`データの取得に失敗しました (ID:${sheetId})`);
+        notification.setMessageState('error', `データの取得に失敗しました (ID:${sheetId})`);
         console.error(error);
       });
     setOpen(false);
@@ -61,13 +59,11 @@ export const Create = (): JSX.Element => {
     console.debug(sheetPresenter);
     sheetController.createInspectionSheet()
       .then(() => {
-        setSuccessMessage('登録に成功しました');
-        setErrorMessage('');
+        notification.setMessageState('success', '登録に成功しました');
       })
       .catch(error => {
         console.error(error);
-        setSuccessMessage('');
-        setErrorMessage('登録に失敗しました');
+        notification.setMessageState('error', '登録に失敗しました');
       });
   }
 
@@ -86,20 +82,14 @@ export const Create = (): JSX.Element => {
             onClick={() => setOpen(true)}
           >既存のデータをコピー</Button>
         </Grid>
-        {errorMessage !== '' &&
-          <Grid item xs={12}>
-            <Alert elevation={6} variant="filled" severity="error">
-              {errorMessage}
-            </Alert>
-          </Grid>
-        }
-        {successMessage !== '' &&
-          <Grid item xs={12}>
-            <Alert elevation={6} variant="filled" severity="success">
-              {successMessage}
-            </Alert>
-          </Grid>
-        }
+        <Grid item xs={12}>
+          <Notification
+            open={notification.state.isOpen}
+            severity={notification.state.severity}
+            message={notification.state.message}
+            onClose={() => { notification.hideDisplay() }}
+          />
+        </Grid>
         <Grid item xs={12}>
           <form data-testid='form' onSubmit={handleSubmit}>
             <Grid container spacing={1}>
