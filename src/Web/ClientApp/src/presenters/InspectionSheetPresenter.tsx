@@ -1,8 +1,10 @@
+import { MenuItem, Grid, TextField } from '@mui/material';
+import { Box } from "@mui/system";
 import { Equipment, InspectionSheet } from "../entities";
 import { IInspectionSheetInteractor } from "../interfaces";
-import { MenuItem, Grid, TextField } from '@mui/material';
-import { InspectionGroup, InspectionType } from "../typescript-fetch";
 import { EquipmentForm } from "../components/inspection/form/EquipmentForm";
+import { InspectionGroup, InspectionType } from "../typescript-fetch";
+import { LabelStyle, InputStyle } from './../components/stylesheets';
 
 export class InspectionSheetPresenter {
   private readonly useCase: IInspectionSheetInteractor
@@ -28,9 +30,8 @@ export class InspectionSheetPresenter {
     const contents = isEdit
       ? <Grid item xs={12}>
         <TextField
-          // className={classes.sheetIdElement}
+          sx={InputStyle}
           disabled
-          id="outlined-required"
           label="点検シートID"
           variant="outlined"
           size="small"
@@ -44,18 +45,16 @@ export class InspectionSheetPresenter {
     return (
       <Grid container spacing={1}>
         <Grid item xs={12}>
-          {/* <div className={classes.sheetLabel}> */}
-          <div>
+          <Box sx={LabelStyle}>
             点検シート情報
-          </div>
+          </Box>
         </Grid>
         {contents}
         <Grid item xs={12}>
           <TextField
-            // className={classes.sheetElement}
+            sx={InputStyle}
             required
             autoFocus
-            id="outlined-required"
             label="点検シート名"
             variant="outlined"
             size="small"
@@ -66,9 +65,8 @@ export class InspectionSheetPresenter {
         </Grid>
         <Grid item xs={12}>
           <TextField
-            // className={classes.sheetElement}
+            sx={InputStyle}
             select
-            id='outlined-required'
             label='点検グループ'
             variant='outlined'
             size='small'
@@ -85,9 +83,8 @@ export class InspectionSheetPresenter {
         </Grid>
         <Grid item xs={12}>
           <TextField
-            // className={classes.sheetElement}
+            sx={InputStyle}
             select
-            id='outlined-required'
             label='点検タイプ'
             variant='outlined'
             size='small'

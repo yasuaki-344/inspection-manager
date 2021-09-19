@@ -34,7 +34,7 @@ export class ChoiceTemplatePresenter {
           </TableRow>
         </TableHead>
         <TableBody>
-          {this.useCase.getTemplates().map((template: ChoiceTemplate, index: number) =>
+          {this.useCase.getTemplates().map((template: ChoiceTemplate) =>
             <TableRow key={template.choice_template_id}>
               <TableCell>
                 {template.choices.map(x => x.description).join(',')}

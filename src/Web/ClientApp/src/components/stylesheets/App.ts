@@ -1,22 +1,3 @@
-// export const useStyles = makeStyles((theme: Theme) =>
-//   createStyles({
-//     sheetLabel: {
-//       backgroundColor: theme.palette.primary.main,
-//       color: "#FFFFFF",
-//       fontSize: 24,
-//       padding: 4,
-//     },
-//     sheetElement: {
-//       margin: 4,
-//       width: 250,
-//     },
-//     sheetIdElement: {
-//       margin: 4,
-//       width: 330,
-//     },
-//   })
-// );
-
 export const LinkNavItem = {
   color: '#000000',
   textDecoration: 'none',
@@ -28,3 +9,14 @@ export const LinkNavTitle = {
 export const SearchField = {
   mr: 1
 }
+export const LabelStyle = {
+  bgcolor: '#4791db',
+  color: '#FFFFFF',
+  fontSize: 24,
+  padding: 1,
+}
+export const InputStyle = {
+  ml: 1,
+  mt: 1,
+  width: 330,
+};
