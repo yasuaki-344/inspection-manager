@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { IconButton } from '@material-ui/core';
-import CancelIcon from '@material-ui/icons/Cancel';
+import { IconButton } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 interface ICancelIconButtonProps {
   onClick: React.MouseEventHandler<HTMLButtonElement> | undefined

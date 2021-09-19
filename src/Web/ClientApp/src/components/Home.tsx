@@ -2,21 +2,20 @@ import React, { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
-  Button, ButtonGroup, Container, IconButton, Grid, TextField,
+  Button, ButtonGroup, Grid,
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Paper, TablePagination
-} from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
-import DetailsIcon from '@material-ui/icons/Details';
-import RotateLeftIcon from '@material-ui/icons/RotateLeft';
-import SearchIcon from '@material-ui/icons/Search';
+} from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DetailsIcon from '@mui/icons-material/Details';
 import { InspectionSheet, InspectionSheetInitialState } from '../entities';
 import {
   InspectionGroup, InspectionGroupsApi,
   InspectionType, InspectionTypesApi
 } from '../typescript-fetch';
 import { CancelIconButton } from './common';
+import { SheetSearchMenu } from './SheetSearchMenu';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -200,41 +199,12 @@ export const Home: FC = (): JSX.Element => {
           <Link to='/create'>新規作成</Link>
         </Grid>
         <Grid item xs={12}>
-          <Container fixed={true}>
-            <TextField
-              className={classes.searchItem}
-              label='点検シート名'
-              variant='outlined'
-              size='small'
-              name='sheet_name'
-              value={searchOption.sheet_name}
-              onChange={(e) => handleSearchOption(e)}
-            />
-            <TextField
-              className={classes.searchItem}
-              label='点検グループ'
-              variant='outlined'
-              size='small'
-              name='inspection_group'
-              value={searchOption.inspection_group}
-              onChange={(e) => handleSearchOption(e)}
-            />
-            <TextField
-              className={classes.searchItem}
-              label='点検種別'
-              variant='outlined'
-              size='small'
-              name='inspection_type'
-              value={searchOption.inspection_type}
-              onChange={(e) => handleSearchOption(e)}
-            />
-            <IconButton onClick={handleSearch}>
-              <SearchIcon />
-            </IconButton>
-            <IconButton edge='end' onClick={handleResetSearchOption}>
-              <RotateLeftIcon />
-            </IconButton>
-          </Container>
+          <SheetSearchMenu
+            searchOption={searchOption}
+            handleSearchOption={handleSearchOption}
+            handleSearch={handleSearch}
+            handleResetSearchOption={handleResetSearchOption}
+          />
         </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper}>
@@ -256,7 +226,7 @@ export const Home: FC = (): JSX.Element => {
                   .map((sheet: InspectionSheet) =>
                     <TableRow key={sheet.sheet_id}>
                       <TableCell padding='checkbox'>
-                        <ButtonGroup color="primary" aria-label="outlined primary button group">
+                        <ButtonGroup variant='outlined' aria-label="outlined button group">
                           <Button onClick={() => handleDownload(sheet)}>Excel</Button>
                           <Button onClick={() => handleExportJson(sheet)}>JSON</Button>
                         </ButtonGroup>
@@ -287,17 +257,14 @@ export const Home: FC = (): JSX.Element => {
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[10, 25, 50]}
             component='div'
             count={inspectionSheets.length}
-            rowsPerPage={rowsPerPage}
             page={page}
-            labelRowsPerPage={'1ページあたりの件数:'}
-            backIconButtonText={'前のぺージ'}
-            nextIconButtonText={'次のぺージ'}
-            // onChangePage={handleChangePage}
             onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
             onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[10, 25, 50]}
+            labelRowsPerPage={'1ページあたりの件数:'}
           />
         </Grid>
       </Grid>
@@ -306,9 +273,9 @@ export const Home: FC = (): JSX.Element => {
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id='alert-dialog-title'>{'点検シートを削除しますか?'}</DialogTitle>
+        <DialogTitle>{'点検シートを削除しますか?'}</DialogTitle>
         <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
+          <DialogContentText>
             <p>次の点検シートを削除します。（この操作は取り消せません）</p>
             <p>シート名：{targetSheet.sheet_name}</p>
             <p>点検グループ：{groups.find(x => x.inspection_group_id === targetSheet.inspection_group_id)?.description}</p>
@@ -322,13 +289,13 @@ export const Home: FC = (): JSX.Element => {
             onClick={handleDelete}
           >削除</Button>
           <Button
-            variant='contained'
+            variant='outlined'
             onClick={() => setOpen(false)}
             autoFocus
           >キャンセル</Button>
         </DialogActions>
       </Dialog>
-    </div >
+    </div>
   );
 }
 Home.displayName = Home.name;

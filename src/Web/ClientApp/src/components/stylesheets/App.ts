@@ -27,3 +27,6 @@ export const LinkNavTitle = {
   color: '#FFFFFF',
   textDecoration: 'none',
 }
+export const SearchField = {
+  mr: 1
+}
