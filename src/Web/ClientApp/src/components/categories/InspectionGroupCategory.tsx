@@ -5,7 +5,7 @@ import { InspectionGroupInteractor } from '../../use-cases';
 import { InspectionGroupController } from '../../controllers';
 import { InspectionGroupPresenter } from '../../presenters';
 import { InspectionGroupRepository } from '../../infrastructure/InspectionGroupRepository';
-import { Notification } from '../common/Notification';
+import { Notification, NotificationInitState, NotificationStateInteractor } from '../common/Notification';
 import { BottomNavigationAdd, TopPageLink } from '../common';
 import { EditDialog } from './EditDialog';
 
@@ -26,11 +26,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
     inspection_group_id: 0,
     description: ''
   });
-  const [processResult, setProcessResult] = useState({
-    severity: 'success',
-    open: false,
-    message: '',
-  });
+  const notification = new NotificationStateInteractor(useState(NotificationInitState));
 
   // eslint-disable-next-line
   useEffect(() => { presenter.get() }, []);
@@ -64,36 +60,20 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
     if (isUpdate) {
       controller.update(target)
         .then(() => {
-          setProcessResult({
-            severity: 'success',
-            message: '更新に成功しました',
-            open: true,
-          });
+          notification.setMessageState('success', '更新に成功しました');
         })
         .catch(error => {
           console.error(error);
-          setProcessResult({
-            severity: 'error',
-            message: '更新に失敗しました',
-            open: true,
-          });
+          notification.setMessageState('error', '更新に失敗しました');
         });
     } else {
       controller.create(target)
         .then(() => {
-          setProcessResult({
-            severity: 'success',
-            message: '追加に成功しました',
-            open: true,
-          });
+          notification.setMessageState('success', '追加に成功しました');
         })
         .catch(error => {
           console.error(error);
-          setProcessResult({
-            severity: 'error',
-            message: '追加に失敗しました',
-            open: true,
-          });
+          notification.setMessageState('error', '追加に失敗しました');
         });
     }
     setOpen(false);
@@ -106,19 +86,11 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
   const handleDeleteItem = (id: number): void => {
     controller.delete(id)
       .then(() => {
-        setProcessResult({
-          severity: 'success',
-          message: '削除に成功しました',
-          open: true,
-        });
+        notification.setMessageState('success', '削除に成功しました');
       })
       .catch(error => {
         console.error(error);
-        setProcessResult({
-          severity: 'error',
-          message: '削除に失敗しました',
-          open: true,
-        });
+        notification.setMessageState('error', '削除に失敗しました');
       });
   }
 
@@ -133,10 +105,10 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <Notification
-            open={processResult.open}
-            severity={processResult.severity}
-            message={processResult.severity}
-            onClose={() => setProcessResult({...processResult, open: false})}
+            open={notification.state.isOpen}
+            severity={notification.state.severity}
+            message={notification.state.message}
+            onClose={() => { notification.hideDisplay() }}
           />
         </Grid>
         <Grid item xs={12}>
