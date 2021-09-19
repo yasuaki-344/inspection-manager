@@ -1,19 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
-import {
-  Dialog, DialogActions, DialogContent, DialogTitle, Button, Grid,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Paper, TablePagination
-} from '@mui/material';
+import React, { FC, useContext, useEffect, useState } from 'react';
+import { Button, Grid } from '@mui/material';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
 import { InspectionSheet, InspectionSheetInitialState } from '../../entities';
 import { InspectionSheetContext } from '../../App';
 import { TopPageLink } from '../common';
 import { Notification, NotificationInitState, NotificationStateInteractor } from '../common/Notification';
+import { OriginalSheetSelectDialog } from './OriginalSheetSelectDialog';
 
-export const Create = (): JSX.Element => {
+export const Create: FC = (): JSX.Element => {
   const { sheetPresenter, sheetController } = useContext(InspectionSheetContext);
   const [open, setOpen] = useState(false);
-  const [page, setPage] = React.useState(0);
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>([]);
   const notification = new NotificationStateInteractor(useState(NotificationInitState));
 
@@ -30,16 +26,6 @@ export const Create = (): JSX.Element => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  /**
-   * Changes page number to display.
-   * @param event Page number change event.
-   * @param newPage New page number.
-   */
-  // eslint-disable-next-line
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
 
   /**
    * Set the specified inspection sheet.
@@ -101,56 +87,12 @@ export const Create = (): JSX.Element => {
         message={notification.state.message}
         onClose={() => { notification.hideDisplay() }}
       />
-      <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>コピーする点検シートを選択</DialogTitle>
-        <DialogContent>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>点検シート名</TableCell>
-                  <TableCell>点検グループ</TableCell>
-                  <TableCell>点検種別</TableCell>
-                  <TableCell>&nbsp;</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {inspectionSheets
-                  .slice(page * 5, page * 5 + 5)
-                  .map((sheet: InspectionSheet) =>
-                    <TableRow key={sheet.sheet_id}>
-                      <TableCell>{sheet.sheet_name}</TableCell>
-                      <TableCell>{sheet.inspection_group}</TableCell>
-                      <TableCell>{sheet.inspection_type}</TableCell>
-                      <TableCell>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() => handleSelectSheet(sheet.sheet_id)}
-                        >選択</Button>
-                      </TableCell>
-                    </TableRow>
-                  )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            component="div"
-            count={inspectionSheets.length}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={5}
-            rowsPerPageOptions={[5]}
-            labelRowsPerPage={'1ページあたりの件数:'}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant='contained'
-            onClick={() => setOpen(false)}
-          >キャンセル</Button>
-        </DialogActions>
-      </Dialog>
+      <OriginalSheetSelectDialog
+        open={open}
+        inspectionSheets={inspectionSheets}
+        onSelectClick={handleSelectSheet}
+        onCancelClick={() => setOpen(false)}
+      />
     </>
   );
 }
