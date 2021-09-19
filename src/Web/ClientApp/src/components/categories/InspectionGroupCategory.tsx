@@ -28,8 +28,8 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
   });
   const [processResult, setProcessResult] = useState({
     severity: 'success',
+    open: false,
     message: '',
-    isVisible: false,
   });
 
   // eslint-disable-next-line
@@ -67,7 +67,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
           setProcessResult({
             severity: 'success',
             message: '更新に成功しました',
-            isVisible: true,
+            open: true,
           });
         })
         .catch(error => {
@@ -75,7 +75,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
           setProcessResult({
             severity: 'error',
             message: '更新に失敗しました',
-            isVisible: true,
+            open: true,
           });
         });
     } else {
@@ -84,7 +84,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
           setProcessResult({
             severity: 'success',
             message: '追加に成功しました',
-            isVisible: true,
+            open: true,
           });
         })
         .catch(error => {
@@ -92,7 +92,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
           setProcessResult({
             severity: 'error',
             message: '追加に失敗しました',
-            isVisible: true,
+            open: true,
           });
         });
     }
@@ -109,7 +109,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
         setProcessResult({
           severity: 'success',
           message: '削除に成功しました',
-          isVisible: true,
+          open: true,
         });
       })
       .catch(error => {
@@ -117,7 +117,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
         setProcessResult({
           severity: 'error',
           message: '削除に失敗しました',
-          isVisible: true,
+          open: true,
         });
       });
   }
@@ -133,14 +133,10 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <ProcessResult
-            message={processResult.message}
+            open={processResult.open}
             severity={processResult.severity}
-            isVisible={processResult.isVisible}
-            close={() => setProcessResult({
-              severity: 'success',
-              message: '',
-              isVisible: false,
-            })}
+            message={processResult.severity}
+            onClose={() => setProcessResult({...processResult, open: false})}
           />
         </Grid>
         <Grid item xs={12}>

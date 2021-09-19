@@ -132,16 +132,15 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
           <TopPageLink />
         </Grid>
         <Grid item xs={12}>
-          <ProcessResult
+          {/* <SuccessResult
+            open={processResult.isVisible}
             message={processResult.message}
-            severity={processResult.severity}
-            isVisible={processResult.isVisible}
-            close={() => setProcessResult({
+            onClose={() => setProcessResult({
               severity: 'success',
               message: '',
               isVisible: false,
             })}
-          />
+          /> */}
         </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper}>
