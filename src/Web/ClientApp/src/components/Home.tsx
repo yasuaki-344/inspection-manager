@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Button, ButtonGroup, Grid,
-  Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Paper, TablePagination
 } from '@mui/material';
@@ -15,14 +14,7 @@ import {
 } from '../typescript-fetch';
 import { CancelIconButton } from './common';
 import { SheetSearchMenu } from './SheetSearchMenu';
-
-// const useStyles = makeStyles((theme: Theme) =>
-//   createStyles({
-//     searchItem: {
-//       margin: 2,
-//     },
-//   })
-// );
+import { SheetDeleteConfirmationDialog } from './SheetDeleteConfirmationDialog';
 
 const groupApi = new InspectionGroupsApi();
 const typeApi = new InspectionTypesApi();
@@ -266,33 +258,14 @@ export const Home: FC = (): JSX.Element => {
           />
         </Grid>
       </Grid>
-      <Dialog
+      <SheetDeleteConfirmationDialog
         open={open}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
-      >
-        <DialogTitle>{'点検シートを削除しますか?'}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            <p>次の点検シートを削除します。（この操作は取り消せません）</p>
-            <p>シート名：{targetSheet.sheet_name}</p>
-            <p>点検グループ：{groups.find(x => x.inspection_group_id === targetSheet.inspection_group_id)?.description}</p>
-            <p>点検種別：{types.find(x => x.inspection_type_id === targetSheet.inspection_type_id)?.description}</p>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant='contained'
-            color='primary'
-            onClick={handleDelete}
-          >削除</Button>
-          <Button
-            variant='outlined'
-            onClick={() => setOpen(false)}
-            autoFocus
-          >キャンセル</Button>
-        </DialogActions>
-      </Dialog>
+        sheetName={targetSheet.sheet_name}
+        groupName={groups.find(x => x.inspection_group_id === targetSheet.inspection_group_id)?.description}
+        typeName={types.find(x => x.inspection_type_id === targetSheet.inspection_type_id)?.description}
+        onDeleteClick={handleDelete}
+        onCancelClick={() => setOpen(false)}
+      />
     </div>
   );
 }
