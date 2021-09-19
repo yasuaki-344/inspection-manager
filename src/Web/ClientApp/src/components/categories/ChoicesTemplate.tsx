@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from 'react';
 import {
-  Alert, BottomNavigation, TableContainer, Grid, Paper,
+  BottomNavigation, TableContainer, Grid, Paper,
 } from '@mui/material';
 import { ChoiceTemplate } from '../../typescript-fetch';
 import { BottomNavigationAdd } from '../common';
@@ -9,6 +9,7 @@ import { ChoiceTemplateRepository } from '../../infrastructure';
 import { ChoiceTemplatePresenter } from '../../presenters';
 import { ChoiceTemplateController } from '../../controllers';
 import { ChoiceTemplateEditDialog } from './ChoiceTemplateEditDialog';
+import { Notification, NotificationInitState, NotificationStateInteractor } from '../common/Notification';
 
 const generate = (hook: [Array<ChoiceTemplate>, React.Dispatch<React.SetStateAction<Array<ChoiceTemplate>>>]) => {
   const [types, setTypes] = hook;
@@ -26,8 +27,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
     choice_template_id: 0,
     choices: []
   });
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const notification = new NotificationStateInteractor(useState(NotificationInitState));
 
   // eslint-disable-next-line
   useEffect(() => { presenter.get() }, []);
@@ -64,24 +64,20 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
     if (isUpdate) {
       controller.update(target)
         .then(() => {
-          setSuccessMessage('更新に成功しました');
-          setErrorMessage('');
+          notification.setMessageState('success', '更新に成功しました');
         })
         .catch(error => {
           console.error(error);
-          setSuccessMessage('');
-          setErrorMessage('更新に失敗しました');
+          notification.setMessageState('error', '更新に失敗しました');
         })
     } else {
       controller.create(target)
         .then(() => {
-          setSuccessMessage('追加に成功しました');
-          setErrorMessage('');
+          notification.setMessageState('success', '追加に成功しました');
         })
         .catch(error => {
           console.error(error);
-          setSuccessMessage('');
-          setErrorMessage('追加に失敗しました');
+          notification.setMessageState('error', '追加に失敗しました');
         });
     }
     setOpen(false);
@@ -94,13 +90,11 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
   const handleDeleteTemplate = (id: number) => {
     controller.delete(id)
       .then(() => {
-        setSuccessMessage('削除に成功しました');
-        setErrorMessage('');
+        notification.setMessageState('success', '削除に成功しました');
       })
       .catch(error => {
         console.error(error);
-        setSuccessMessage('');
-        setErrorMessage('削除に失敗しました');
+        notification.setMessageState('error', '削除に失敗しました');
       });
   };
 
@@ -111,28 +105,20 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
           <h1>選択肢テンプレート</h1>
         </Grid>
         <Grid item xs={12}>
-          {errorMessage !== '' &&
-            <Grid item xs={12}>
-              <Alert elevation={6} variant="filled" severity="error">
-                {errorMessage}
-              </Alert>
-            </Grid>
-          }
-          {successMessage !== '' &&
-            <Grid item xs={12}>
-              <Alert elevation={6} variant="filled" severity="success">
-                {successMessage}
-              </Alert>
-            </Grid>
-          }
-          <Grid item xs={12}>
-            <TableContainer component={Paper}>
-              {presenter.choiceTemplateTable(
-                handleUpdateTemplate,
-                handleDeleteTemplate
-              )}
-            </TableContainer>
-          </Grid>
+          <Notification
+            open={notification.state.isOpen}
+            severity={notification.state.severity}
+            message={notification.state.message}
+            onClose={() => { notification.hideDisplay() }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TableContainer component={Paper}>
+            {presenter.choiceTemplateTable(
+              handleUpdateTemplate,
+              handleDeleteTemplate
+            )}
+          </TableContainer>
         </Grid>
         <Grid item xs={12}>
           <BottomNavigation showLabels>
