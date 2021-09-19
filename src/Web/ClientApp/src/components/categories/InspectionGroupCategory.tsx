@@ -5,7 +5,7 @@ import { InspectionGroupInteractor } from '../../use-cases';
 import { InspectionGroupController } from '../../controllers';
 import { InspectionGroupPresenter } from '../../presenters';
 import { InspectionGroupRepository } from '../../infrastructure/InspectionGroupRepository';
-import { ProcessResult } from './ProcessResult';
+import { ProcessResult } from '../common/ProcessResult';
 import { BottomNavigationAdd, TopPageLink } from '../common';
 import { EditDialog } from './EditDialog';
 
