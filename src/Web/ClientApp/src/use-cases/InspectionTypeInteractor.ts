@@ -3,7 +3,7 @@ import { IInspectionTypeInteractor, IInspectionTypeRepository } from "../interfa
 import { InspectionType } from "../typescript-fetch";
 
 export class InspectionTypeInteractor implements IInspectionTypeInteractor {
-  private readonly types: InspectionType[]
+  readonly types: Array<InspectionType>
   private readonly setTypes: Dispatch<SetStateAction<InspectionType[]>>
   private readonly repository: IInspectionTypeRepository
 
@@ -15,10 +15,6 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
     this.types = types;
     this.setTypes = setTypes;
     this.repository = repository;
-  }
-
-  getTypes(): Array<InspectionType> {
-    return this.types;
   }
 
   get(): void {

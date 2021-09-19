@@ -34,7 +34,7 @@ export class InspectionGroupPresenter {
           </TableRow>
         </TableHead>
         <TableBody>
-          {this.useCase.getGroups().map((type: InspectionGroup) =>
+          {this.useCase.groups.map((type: InspectionGroup) =>
             <TableRow key={type.inspection_group_id}>
               <TableCell>
                 {type.description}

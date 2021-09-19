@@ -2,7 +2,7 @@ import { InspectionItem } from "../entities";
 import { ChoiceTemplate } from '../typescript-fetch';
 
 export interface IInspectionItemInteractor {
-  getState(): InspectionItem
+  inspectionItem: InspectionItem
   setItem(item: InspectionItem): void
   updateField(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
   setChoices(choices: ChoiceTemplate): void

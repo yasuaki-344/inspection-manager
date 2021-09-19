@@ -14,7 +14,7 @@ export class InspectionSheetPresenter {
   }
 
   getState(): InspectionSheet {
-    return this.useCase.getState();
+    return this.useCase.sheet;
   }
 
   getEditContent(
@@ -25,7 +25,7 @@ export class InspectionSheetPresenter {
     handleEditItem: any,
     storeHistory: any
   ): JSX.Element {
-    const sheet = this.useCase.getState();
+    const sheet = this.useCase.sheet;
 
     const contents = isEdit
       ? <Grid item xs={12}>

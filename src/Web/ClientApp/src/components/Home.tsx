@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Button, ButtonGroup, Grid,
@@ -8,19 +8,15 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import DetailsIcon from '@mui/icons-material/Details';
 import { InspectionSheet, InspectionSheetInitialState } from '../entities';
-import {
-  InspectionGroup, InspectionGroupsApi,
-  InspectionType, InspectionTypesApi
-} from '../typescript-fetch';
+import { InspectionGroup, InspectionType } from '../typescript-fetch';
 import { CancelIconButton } from './common';
 import { SheetSearchMenu } from './SheetSearchMenu';
 import { SheetDeleteConfirmationDialog } from './SheetDeleteConfirmationDialog';
-
-const groupApi = new InspectionGroupsApi();
-const typeApi = new InspectionTypesApi();
+import { IInspectionGroupRepository, IInspectionTypeRepository } from '../interfaces';
+import { DIContainerContext } from '../App';
+import nameof from 'ts-nameof.macro';
 
 export const Home: FC = (): JSX.Element => {
-
   const [groups, setGroups] = useState<InspectionGroup[]>([]);
   const [types, setTypes] = useState<InspectionType[]>([]);
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>([]);
@@ -35,12 +31,16 @@ export const Home: FC = (): JSX.Element => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  const container = useContext(DIContainerContext);
+  const groupRepository: IInspectionGroupRepository = container.inject(nameof<IInspectionGroupRepository>());
+  const typeRepository: IInspectionTypeRepository = container.inject(nameof<IInspectionTypeRepository>());
+
   useEffect(() => {
-    groupApi.inspectionGroupsGet()
+    groupRepository.get()
       .then(res => { setGroups(res); })
       .catch(console.error);
 
-    typeApi.inspectionTypesGet()
+    typeRepository.get()
       .then(res => { setTypes(res); })
       .catch(console.error);
 

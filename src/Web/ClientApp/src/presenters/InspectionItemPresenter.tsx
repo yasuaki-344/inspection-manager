@@ -16,7 +16,7 @@ export class InspectionItemPresenter {
   }
 
   getState(): InspectionItem {
-    return this.useCase.getState();
+    return this.useCase.inspectionItem;
   }
 
   isValidInspectionItem(): boolean {
@@ -26,7 +26,7 @@ export class InspectionItemPresenter {
   getEditContent(
     onTemplateSelectClick: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void
   ): JSX.Element {
-    const inspectionItem = this.useCase.getState();
+    const inspectionItem = this.useCase.inspectionItem;
     return (
       <Grid container spacing={1}>
         <Grid item xs={12}>
