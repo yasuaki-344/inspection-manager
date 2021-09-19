@@ -10,17 +10,6 @@ import { InspectionSheet, Equipment, InspectionItem, InspectionSheetInitialState
 import { InspectionGroup, InspectionType } from '../../typescript-fetch';
 import { TopPageLink } from '../common';
 
-// const useStyles = makeStyles((theme: Theme) =>
-//   createStyles({
-//     itemTableHead: {
-//       backgroundColor: theme.palette.primary.main,
-//     },
-//     itemTableHeadCell: {
-//       color: "#FFFFFF",
-//     },
-//   })
-// );
-
 interface RowProps {
   equipment: Equipment,
 };
