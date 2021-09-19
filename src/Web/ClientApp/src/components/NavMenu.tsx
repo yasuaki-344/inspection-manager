@@ -11,7 +11,6 @@ import HomeIcon from '@mui/icons-material/Home';
 import LabelIcon from '@mui/icons-material/Label';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
-import './NavMenu.css';
 
 const textDark = {
   color: '#000000',
