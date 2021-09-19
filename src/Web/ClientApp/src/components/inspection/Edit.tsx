@@ -32,40 +32,40 @@ export const Edit = ({ match }: any): JSX.Element => {
   }
 
   return (
-    <Grid container spacing={1}>
-      <Grid item xs={12}>
-        <h1>編集ページ</h1>
-      </Grid>
-      <Grid item xs={12}>
-        <TopPageLink />
-      </Grid>
-      <Grid item xs={12}>
-        <Notification
-          open={notification.state.isOpen}
-          severity={notification.state.severity}
-          message={notification.state.message}
-          onClose={() => { notification.hideDisplay() }}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <form data-testid='form' onSubmit={handleUpdate}>
-          <Grid container spacing={1}>
-            <Grid item xs={12}>
-              <InspectionSheetForm isEdit={true} />
+    <>
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <h1>編集ページ</h1>
+        </Grid>
+        <Grid item xs={12}>
+          <TopPageLink />
+        </Grid>
+        <Grid item xs={12}>
+          <form data-testid='form' onSubmit={handleUpdate}>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <InspectionSheetForm isEdit={true} />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  type='submit'
+                  variant='contained'
+                  color='primary'
+                >
+                  更新
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Button
-                type='submit'
-                variant='contained'
-                color='primary'
-              >
-                更新
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
+          </form>
+        </Grid>
       </Grid>
-    </Grid>
+      <Notification
+        open={notification.state.isOpen}
+        severity={notification.state.severity}
+        message={notification.state.message}
+        onClose={() => { notification.hideDisplay() }}
+      />
+    </>
   );
 }
 Edit.displayName = Edit.name;

@@ -105,14 +105,6 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
           <h1>選択肢テンプレート</h1>
         </Grid>
         <Grid item xs={12}>
-          <Notification
-            open={notification.state.isOpen}
-            severity={notification.state.severity}
-            message={notification.state.message}
-            onClose={() => { notification.hideDisplay() }}
-          />
-        </Grid>
-        <Grid item xs={12}>
           <TableContainer component={Paper}>
             {presenter.choiceTemplateTable(
               handleUpdateTemplate,
@@ -135,6 +127,12 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
         setTarget={setTarget}
         onOkButtonClick={() => handleRegistration()}
         onCancelButtonClick={() => setOpen(false)}
+      />
+      <Notification
+        open={notification.state.isOpen}
+        severity={notification.state.severity}
+        message={notification.state.message}
+        onClose={() => { notification.hideDisplay() }}
       />
     </>
   );

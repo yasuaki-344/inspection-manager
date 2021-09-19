@@ -104,14 +104,6 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
           <TopPageLink />
         </Grid>
         <Grid item xs={12}>
-          <Notification
-            open={notification.state.isOpen}
-            severity={notification.state.severity}
-            message={notification.state.message}
-            onClose={() => { notification.hideDisplay(); }}
-          />
-        </Grid>
-        <Grid item xs={12}>
           <TableContainer component={Paper}>
             {presenter.inspectionTypeTable(handleUpdateItem, handleDeleteItem)}
           </TableContainer>
@@ -123,6 +115,12 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
           />
         </Grid>
       </Grid >
+      <Notification
+        open={notification.state.isOpen}
+        severity={notification.state.severity}
+        message={notification.state.message}
+        onClose={() => { notification.hideDisplay() }}
+      />
       <EditDialog
         open={open}
         title="点検タイプ編集"

@@ -83,14 +83,6 @@ export const Create = (): JSX.Element => {
           >既存のデータをコピー</Button>
         </Grid>
         <Grid item xs={12}>
-          <Notification
-            open={notification.state.isOpen}
-            severity={notification.state.severity}
-            message={notification.state.message}
-            onClose={() => { notification.hideDisplay() }}
-          />
-        </Grid>
-        <Grid item xs={12}>
           <form data-testid='form' onSubmit={handleSubmit}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
@@ -103,6 +95,12 @@ export const Create = (): JSX.Element => {
           </form>
         </Grid>
       </Grid>
+      <Notification
+        open={notification.state.isOpen}
+        severity={notification.state.severity}
+        message={notification.state.message}
+        onClose={() => { notification.hideDisplay() }}
+      />
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>コピーする点検シートを選択</DialogTitle>
         <DialogContent>
