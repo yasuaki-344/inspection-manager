@@ -37,3 +37,7 @@ export const itemTableHead = {
 export const TableHeadCell = {
   color: "#FFFFFF",
 }
+export const DialogTitleDesign = {
+  bgcolor: 'primary.main',
+  color: '#FFFFFF',
+}

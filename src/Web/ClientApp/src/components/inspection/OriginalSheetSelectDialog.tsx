@@ -5,6 +5,7 @@ import {
   Paper, TablePagination
 } from '@mui/material';
 import { InspectionSheet } from '../../entities';
+import { DialogTitleDesign } from '../stylesheets';
 
 interface OriginalSheetSelectDialogProp {
   open: boolean,
@@ -30,7 +31,7 @@ export const OriginalSheetSelectDialog: FC<OriginalSheetSelectDialogProp> = (pro
 
   return (
     <Dialog open={props.open} onClose={props.onCancelClick}>
-      <DialogTitle>コピーする点検シートを選択</DialogTitle>
+      <DialogTitle sx={DialogTitleDesign}>コピーする点検シートを選択</DialogTitle>
       <DialogContent>
         <TableContainer component={Paper}>
           <Table>
@@ -75,6 +76,7 @@ export const OriginalSheetSelectDialog: FC<OriginalSheetSelectDialogProp> = (pro
       <DialogActions>
         <Button
           variant='contained'
+          color='inherit'
           onClick={props.onCancelClick}
         >キャンセル</Button>
       </DialogActions>
