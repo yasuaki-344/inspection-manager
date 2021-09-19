@@ -1,33 +1,17 @@
 import React, { FC, useRef, useContext } from 'react';
 import { useDrag, useDrop } from "react-dnd";
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   Accordion, AccordionSummary, AccordionDetails, IconButton,
   Grid, Paper, TextField,
-} from '@material-ui/core';
-import DragHandleIcon from '@material-ui/icons/DragHandle';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+} from '@mui/material';
+import DragHandleIcon from '@mui/icons-material/DragHandle';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { InspectionItemForm } from './InspectionItemForm';
 import { InspectionSheetContext } from '../../../App';
 import { ItemType } from '../../../entities';
 import { Equipment, InspectionItem } from '../../../entities';
 import { CancelIconButton } from '../../common';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    equipmentLabel: {
-      backgroundColor: theme.palette.primary.main,
-      color: '#FFFFFF',
-      fontSize: 20,
-    },
-    paperElement: {
-      margin: 4
-    },
-    menuIcon: {
-      color: '#FFFFFF',
-    },
-  })
-);
+import { equipmentLabel, MenuIcon, paperElement } from '../../stylesheets';
 
 interface DragItem {
   index: number,
@@ -48,7 +32,6 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
   handleEditItem,
   storeHistory
 }): JSX.Element => {
-  const classes = useStyles();
   const { sheetController } = useContext(InspectionSheetContext);
   const dropRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<HTMLButtonElement>(null);
@@ -73,8 +56,8 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
     <Paper variant='outlined' >
       <Accordion>
         <AccordionSummary
-          className={classes.equipmentLabel}
-          expandIcon={<ExpandMoreIcon className={classes.menuIcon} />}
+          sx={equipmentLabel}
+          expandIcon={<ExpandMoreIcon sx={MenuIcon} />}
           ref={dropRef}
         >
           <IconButton size='small' color='inherit' ref={dragRef}>
@@ -87,7 +70,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
         </AccordionSummary>
         <AccordionDetails>
           <Grid container>
-            <Grid item xs={12} className={classes.paperElement}>
+            <Grid item xs={12} sx={paperElement}>
               <TextField
                 required
                 label='点検機器名'

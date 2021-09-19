@@ -1,6 +1,6 @@
 import {
   Table, TableBody, TableCell, TableHead, TableRow
-} from '@material-ui/core';
+} from '@mui/material';
 import { CancelIconButton, EditIconButton } from '../components/common';
 import { IChoiceTemplateInteractor } from "../interfaces";
 import { ChoiceTemplate } from '../typescript-fetch';
@@ -34,7 +34,7 @@ export class ChoiceTemplatePresenter {
           </TableRow>
         </TableHead>
         <TableBody>
-          {this.useCase.templates.map((template: ChoiceTemplate, index: number) =>
+          {this.useCase.templates.map((template: ChoiceTemplate) =>
             <TableRow key={template.choice_template_id}>
               <TableCell>
                 {template.choices.map(x => x.description).join(',')}

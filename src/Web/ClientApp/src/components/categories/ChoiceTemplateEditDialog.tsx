@@ -1,7 +1,8 @@
 import React, { FC, useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogTitle, Grid, TextField } from '@material-ui/core';
+import { Dialog, DialogContent, DialogTitle, Grid, TextField } from '@mui/material';
 import { ChoiceTemplate, Option } from '../../typescript-fetch';
 import { BottomNavigationAdd, CancelIconButton, OkCancelDialogActions } from '../common';
+import { DialogTitleDesign, InputStyle } from '../stylesheets';
 
 interface IChoiceTemplateEditDialogProps {
   open: boolean,
@@ -55,11 +56,11 @@ export const ChoiceTemplateEditDialog: FC<IChoiceTemplateEditDialogProps> = (pro
 
   return (
     <Dialog open={props.open} onClose={props.onCancelButtonClick}>
-      <DialogTitle>選択肢テンプレート編集</DialogTitle>
+      <DialogTitle sx={DialogTitleDesign}>選択肢テンプレート編集</DialogTitle>
       <DialogContent>
-        <Grid container spacing={1}>
+        <Grid container spacing={1} sx={{ pt: 1.5 }}>
           {props.target.choices.map((choice: Option, index: number) =>
-            <Grid item xs={12} key={index}>
+            <Grid item xs={12} sx={InputStyle} key={index}>
               <TextField
                 required
                 id='outlined-required'

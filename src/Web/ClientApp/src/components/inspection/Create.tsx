@@ -1,23 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
-import {
-  Dialog, DialogActions, DialogContent, DialogTitle,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Paper, TablePagination
-} from '@material-ui/core';
-import MuiAlert from '@material-ui/lab/Alert';
-import { Button, Grid } from '@material-ui/core';
+import React, { FC, useContext, useEffect, useState } from 'react';
+import { Button, Grid } from '@mui/material';
 import { InspectionSheetForm } from './form/InspectionSheetForm';
 import { InspectionSheet, InspectionSheetInitialState } from '../../entities';
 import { InspectionSheetContext } from '../../App';
 import { TopPageLink } from '../common';
+import { Notification, NotificationInitState, NotificationStateInteractor } from '../common/Notification';
+import { OriginalSheetSelectDialog } from './OriginalSheetSelectDialog';
 
-export const Create = (): JSX.Element => {
+export const Create: FC = (): JSX.Element => {
   const { sheetPresenter, sheetController } = useContext(InspectionSheetContext);
   const [open, setOpen] = useState(false);
-  const [page, setPage] = React.useState(0);
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>([]);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const notification = new NotificationStateInteractor(useState(NotificationInitState));
 
   useEffect(() => {
     sheetController.setSheet(InspectionSheetInitialState);
@@ -27,21 +21,11 @@ export const Create = (): JSX.Element => {
         setInspectionSheets(json);
       })
       .catch((error) => {
-        setSuccessMessage('');
-        setErrorMessage('データの取得に失敗しました');
+        notification.setMessageState('error', 'データの取得に失敗しました');
         console.error(error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  /**
-   * Changes page number to display.
-   * @param event Page number change event.
-   * @param newPage New page number.
-   */
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
 
   /**
    * Set the specified inspection sheet.
@@ -50,8 +34,7 @@ export const Create = (): JSX.Element => {
   const handleSelectSheet = (sheetId: number) => {
     sheetController.getInspectionSheetById(sheetId)
       .catch((error) => {
-        setSuccessMessage('');
-        setErrorMessage(`データの取得に失敗しました (ID:${sheetId})`);
+        notification.setMessageState('error', `データの取得に失敗しました (ID:${sheetId})`);
         console.error(error);
       });
     setOpen(false);
@@ -62,13 +45,11 @@ export const Create = (): JSX.Element => {
     console.debug(sheetPresenter);
     sheetController.createInspectionSheet()
       .then(() => {
-        setSuccessMessage('登録に成功しました');
-        setErrorMessage('');
+        notification.setMessageState('success', '登録に成功しました');
       })
       .catch(error => {
         console.error(error);
-        setSuccessMessage('');
-        setErrorMessage('登録に失敗しました');
+        notification.setMessageState('error', '登録に失敗しました');
       });
   }
 
@@ -84,23 +65,10 @@ export const Create = (): JSX.Element => {
         <Grid item xs={12}>
           <Button
             variant='contained'
+            color='inherit'
             onClick={() => setOpen(true)}
           >既存のデータをコピー</Button>
         </Grid>
-        {errorMessage !== '' &&
-          <Grid item xs={12}>
-            <MuiAlert elevation={6} variant="filled" severity="error">
-              {errorMessage}
-            </MuiAlert>
-          </Grid>
-        }
-        {successMessage !== '' &&
-          <Grid item xs={12}>
-            <MuiAlert elevation={6} variant="filled" severity="success">
-              {successMessage}
-            </MuiAlert>
-          </Grid>
-        }
         <Grid item xs={12}>
           <form data-testid='form' onSubmit={handleSubmit}>
             <Grid container spacing={1}>
@@ -114,60 +82,18 @@ export const Create = (): JSX.Element => {
           </form>
         </Grid>
       </Grid>
-      <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>コピーする点検シートを選択</DialogTitle>
-        <DialogContent>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>点検シート名</TableCell>
-                  <TableCell>点検グループ</TableCell>
-                  <TableCell>点検種別</TableCell>
-                  <TableCell>&nbsp;</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {inspectionSheets
-                  .slice(page * 5, page * 5 + 5)
-                  .map((sheet: InspectionSheet) =>
-                    <TableRow key={sheet.sheet_id}>
-                      <TableCell>{sheet.sheet_name}</TableCell>
-                      <TableCell>{sheet.inspection_group}</TableCell>
-                      <TableCell>{sheet.inspection_type}</TableCell>
-                      <TableCell>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() => handleSelectSheet(sheet.sheet_id)}
-                        >選択</Button>
-                      </TableCell>
-                    </TableRow>
-                  )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[5]}
-            component="div"
-            count={inspectionSheets.length}
-            rowsPerPage={5}
-            page={page}
-            labelRowsPerPage={'1ページあたりの件数:'}
-            backIconButtonText={'前のぺージ'}
-            nextIconButtonText={'次のぺージ'}
-            // onChangePage={handleChangePage}
-            onPageChange={handleChangePage}
-          />
-
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant='contained'
-            onClick={() => setOpen(false)}
-          >キャンセル</Button>
-        </DialogActions>
-      </Dialog>
+      <Notification
+        open={notification.state.isOpen}
+        severity={notification.state.severity}
+        message={notification.state.message}
+        onClose={() => { notification.hideDisplay() }}
+      />
+      <OriginalSheetSelectDialog
+        open={open}
+        inspectionSheets={inspectionSheets}
+        onSelectClick={handleSelectSheet}
+        onCancelClick={() => setOpen(false)}
+      />
     </>
   );
 }

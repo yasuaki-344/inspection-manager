@@ -2,10 +2,11 @@ import React, { FC, useContext, useState, useEffect } from 'react';
 import {
   Dialog, DialogContent, DialogTitle,
   Radio, RadioGroup, FormControl, FormControlLabel,
-} from '@material-ui/core';
+} from '@mui/material';
 import { ChoiceTemplate } from '../../../typescript-fetch';
 import { InspectionItemContext } from '../../../App';
 import { OkCancelDialogActions } from '../../common';
+import { DialogTitleDesign } from '../../stylesheets';
 
 interface ChoiceSetSelectDialogProps {
   open: boolean,
@@ -37,7 +38,7 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({ open, ha
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>テンプレート選択</DialogTitle>
+      <DialogTitle sx={DialogTitleDesign}>テンプレート選択</DialogTitle>
       <DialogContent>
         <FormControl component="fieldset">
           <RadioGroup value={value} onChange={handleChange}>

@@ -3,14 +3,14 @@ import { DndProvider } from "react-dnd"
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {
   BottomNavigation, BottomNavigationAction, Grid, Paper
-} from '@material-ui/core';
-import UndoIcon from '@material-ui/icons/Undo';
+} from '@mui/material';
+import UndoIcon from '@mui/icons-material/Undo';
 import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
 import { InspectionSheetContext, InspectionItemContext } from '../../../App';
 import { InspectionItem, InspectionSheet } from '../../../entities';
 import { InspectionGroup, InspectionType } from '../../../typescript-fetch';
-import { BottomNavigationAdd } from '../../common';
 import { InspectionGroupRepository, InspectionTypeRepository } from '../../../infrastructure';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 interface InspectionSheetFormProps {
   isEdit: boolean,
@@ -102,11 +102,12 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
                 icon={<UndoIcon />}
                 onClick={getHistory}
               />
+              <BottomNavigationAction
+                label="点検機器追加"
+                icon={<AddCircleIcon />}
+                onClick={() => sheetController.addEquipment()}
+              />
             </BottomNavigation>
-            <BottomNavigationAdd
-              label="点検機器追加"
-              onClick={() => sheetController.addEquipment()}
-            />
           </Grid>
         </Grid>
       </Paper >

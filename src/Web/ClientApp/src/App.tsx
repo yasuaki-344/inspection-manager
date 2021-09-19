@@ -1,8 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 import { Route } from 'react-router';
-import { Layout } from './components/Layout';
-import { Home } from './components/Home';
-import { Create } from './components/inspection/Create';
+import { Layout, Home } from './components';
+import { Create } from './components/inspection';
 import { Details } from './components/inspection/Details';
 import { Edit } from './components/inspection/Edit';
 import { InspectionGroupCategory } from './components/categories/InspectionGroupCategory';

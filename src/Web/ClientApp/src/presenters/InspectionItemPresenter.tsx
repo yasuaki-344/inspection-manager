@@ -3,9 +3,12 @@ import { IInspectionItemInteractor } from "../interfaces";
 import {
   BottomNavigation, BottomNavigationAction,
   Grid, TextField, MenuItem,
-} from '@material-ui/core';
-import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
-import { BottomNavigationAdd, CancelIconButton } from "../components/common";
+} from '@mui/material';
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+import { CancelIconButton } from "../components/common";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { InputStyle } from "../components/stylesheets";
+import { Box } from "@mui/system";
 
 
 export class InspectionItemPresenter {
@@ -28,9 +31,10 @@ export class InspectionItemPresenter {
   ): JSX.Element {
     const inspectionItem = this.useCase.inspectionItem;
     return (
-      <Grid container spacing={1}>
+      <Grid container spacing={1} sx={{ pt: 1.5 }}>
         <Grid item xs={12}>
           <TextField
+            sx={InputStyle}
             required
             fullWidth
             autoFocus
@@ -44,6 +48,7 @@ export class InspectionItemPresenter {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            sx={InputStyle}
             required
             fullWidth
             select
@@ -66,27 +71,30 @@ export class InspectionItemPresenter {
           <>
             {inspectionItem.choices.map((choice: Choice, index: number) =>
               <Grid item xs={12} key={`${inspectionItem.inspection_item_id}_${index}`}>
-                <TextField
-                  required
-                  id='outlined-required'
-                  label={`選択肢${index + 1}`}
-                  variant='outlined'
-                  size='small'
-                  name='choice'
-                  value={choice.description}
-                  onChange={(e) => this.useCase.updateChoice(e, index)}
-                />
-                <CancelIconButton
-                  onClick={() => this.useCase.removeChoice(index)}
-                />
+                <Box sx={InputStyle}>
+                  <TextField
+                    required
+                    id='outlined-required'
+                    label={`選択肢${index + 1}`}
+                    variant='outlined'
+                    size='small'
+                    name='choice'
+                    value={choice.description}
+                    onChange={(e) => this.useCase.updateChoice(e, index)}
+                  />
+                  <CancelIconButton
+                    onClick={() => this.useCase.removeChoice(index)}
+                  />
+                </Box>
               </Grid>
             )}
             <Grid item xs={12}>
-              <BottomNavigationAdd
-                label='選択肢追加'
-                onClick={() => this.useCase.addChoice()}
-              />
               <BottomNavigation showLabels>
+                <BottomNavigationAction
+                  label='選択肢追加'
+                  icon={<AddCircleIcon />}
+                  onClick={() => this.useCase.addChoice()}
+                />
                 <BottomNavigationAction
                   label='テンプレート選択'
                   icon={<FormatListNumberedIcon />}

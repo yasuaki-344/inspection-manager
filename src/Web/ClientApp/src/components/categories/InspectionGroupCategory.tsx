@@ -1,11 +1,11 @@
 import React, { FC, useState, useEffect } from 'react';
-import { Grid, Paper, TableContainer } from '@material-ui/core';
+import { Grid, Paper, TableContainer } from '@mui/material';
 import { InspectionGroup } from '../../typescript-fetch';
 import { InspectionGroupInteractor } from '../../use-cases';
 import { InspectionGroupController } from '../../controllers';
 import { InspectionGroupPresenter } from '../../presenters';
 import { InspectionGroupRepository } from '../../infrastructure/InspectionGroupRepository';
-import { ProcessResult } from './ProcessResult';
+import { Notification, NotificationInitState, NotificationStateInteractor } from '../common/Notification';
 import { BottomNavigationAdd, TopPageLink } from '../common';
 import { EditDialog } from './EditDialog';
 
@@ -26,11 +26,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
     inspection_group_id: 0,
     description: ''
   });
-  const [processResult, setProcessResult] = useState({
-    severity: 'success',
-    message: '',
-    isVisible: false,
-  });
+  const notification = new NotificationStateInteractor(useState(NotificationInitState));
 
   // eslint-disable-next-line
   useEffect(() => { presenter.get() }, []);
@@ -64,36 +60,20 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
     if (isUpdate) {
       controller.update(target)
         .then(() => {
-          setProcessResult({
-            severity: 'success',
-            message: '更新に成功しました',
-            isVisible: true,
-          });
+          notification.setMessageState('success', '更新に成功しました');
         })
         .catch(error => {
           console.error(error);
-          setProcessResult({
-            severity: 'error',
-            message: '更新に失敗しました',
-            isVisible: true,
-          });
+          notification.setMessageState('error', '更新に失敗しました');
         });
     } else {
       controller.create(target)
         .then(() => {
-          setProcessResult({
-            severity: 'success',
-            message: '追加に成功しました',
-            isVisible: true,
-          });
+          notification.setMessageState('success', '追加に成功しました');
         })
         .catch(error => {
           console.error(error);
-          setProcessResult({
-            severity: 'error',
-            message: '追加に失敗しました',
-            isVisible: true,
-          });
+          notification.setMessageState('error', '追加に失敗しました');
         });
     }
     setOpen(false);
@@ -106,19 +86,11 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
   const handleDeleteItem = (id: number): void => {
     controller.delete(id)
       .then(() => {
-        setProcessResult({
-          severity: 'success',
-          message: '削除に成功しました',
-          isVisible: true,
-        });
+        notification.setMessageState('success', '削除に成功しました');
       })
       .catch(error => {
         console.error(error);
-        setProcessResult({
-          severity: 'error',
-          message: '削除に失敗しました',
-          isVisible: true,
-        });
+        notification.setMessageState('error', '削除に失敗しました');
       });
   }
 
@@ -130,18 +102,6 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <TopPageLink />
-        </Grid>
-        <Grid item xs={12}>
-          <ProcessResult
-            message={processResult.message}
-            severity={processResult.severity}
-            isVisible={processResult.isVisible}
-            close={() => setProcessResult({
-              severity: 'success',
-              message: '',
-              isVisible: false,
-            })}
-          />
         </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper}>
@@ -166,6 +126,12 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
         })}
         onOkButtonClick={() => handleRegistration()}
         onCancelButtonClick={() => setOpen(false)}
+      />
+      <Notification
+        open={notification.state.isOpen}
+        severity={notification.state.severity}
+        message={notification.state.message}
+        onClose={() => { notification.hideDisplay() }}
       />
     </>
   );

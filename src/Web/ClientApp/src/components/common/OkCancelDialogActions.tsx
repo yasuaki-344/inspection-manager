@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Button, DialogActions } from '@material-ui/core';
+import { Button, DialogActions } from '@mui/material';
 
 interface IOkCancelDialogActionsProps {
   disabled: boolean,
@@ -18,6 +18,7 @@ export const OkCancelDialogActions: FC<IOkCancelDialogActionsProps> = (props): J
       >OK</Button>
       <Button
         variant='contained'
+        color='inherit'
         onClick={props.onCancelButtonClick}
       >キャンセル</Button>
     </DialogActions>

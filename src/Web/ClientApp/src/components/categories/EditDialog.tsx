@@ -1,9 +1,10 @@
 import React, { FC, useState, useEffect } from 'react';
 import {
   Grid, TextField, Dialog, DialogContent, DialogTitle,
-} from '@material-ui/core';
+} from '@mui/material';
 import { InspectionGroup, InspectionType } from '../../typescript-fetch';
 import { OkCancelDialogActions } from '../common';
+import { DialogTitleDesign } from '../stylesheets';
 
 interface IEditDialogProps {
   open: boolean,
@@ -23,9 +24,9 @@ export const EditDialog: FC<IEditDialogProps> = (props): JSX.Element => {
 
   return (
     <Dialog open={props.open} onClose={props.onCancelButtonClick}>
-      <DialogTitle>{props.title}</DialogTitle>
+      <DialogTitle sx={DialogTitleDesign}>{props.title}</DialogTitle>
       <DialogContent>
-        <Grid container spacing={1}>
+        <Grid container spacing={1} sx={{ pt: 1.5 }}>
           <Grid item xs={12}>
             <TextField
               required

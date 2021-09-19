@@ -2,7 +2,7 @@ import { IInspectionTypeInteractor } from "../interfaces";
 import { InspectionType } from "../typescript-fetch";
 import {
   Table, TableBody, TableCell, TableHead, TableRow,
-} from '@material-ui/core';
+} from '@mui/material';
 import { CancelIconButton, EditIconButton } from "../components/common";
 
 export class InspectionTypePresenter {

@@ -2,7 +2,7 @@ import { IInspectionGroupInteractor } from "../interfaces";
 import { InspectionGroup } from "../typescript-fetch";
 import {
   Table, TableBody, TableCell, TableHead, TableRow,
-} from '@material-ui/core';
+} from '@mui/material';
 import { CancelIconButton, EditIconButton } from "../components/common";
 
 export class InspectionGroupPresenter {
@@ -34,7 +34,7 @@ export class InspectionGroupPresenter {
           </TableRow>
         </TableHead>
         <TableBody>
-          {this.useCase.groups.map((type: InspectionGroup, index: number) =>
+          {this.useCase.groups.map((type: InspectionGroup) =>
             <TableRow key={type.inspection_group_id}>
               <TableCell>
                 {type.description}
