@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DetailsIcon from "@mui/icons-material/Details";
+import nameof from "ts-nameof.macro";
 import { InspectionSheet, InspectionSheetInitialState } from "../entities";
 import { InspectionGroup, InspectionType } from "../typescript-fetch";
 import { CancelIconButton } from "./common";
@@ -25,7 +26,6 @@ import {
   IInspectionTypeRepository,
 } from "../interfaces";
 import { DIContainerContext } from "../App";
-import nameof from "ts-nameof.macro";
 
 export const Home: FC = (): JSX.Element => {
   const [groups, setGroups] = useState<InspectionGroup[]>([]);
@@ -281,12 +281,12 @@ export const Home: FC = (): JSX.Element => {
                         }
                       </TableCell>
                       <TableCell padding="checkbox">
-                        <Link to={"/edit/" + sheet.sheet_id}>
+                        <Link to={`/edit/${sheet.sheet_id}`}>
                           <EditIcon />
                         </Link>
                       </TableCell>
                       <TableCell padding="checkbox">
-                        <Link to={"/details/" + sheet.sheet_id}>
+                        <Link to={`/details/${sheet.sheet_id}`}>
                           <DetailsIcon />
                         </Link>
                       </TableCell>
@@ -308,7 +308,7 @@ export const Home: FC = (): JSX.Element => {
             rowsPerPage={rowsPerPage}
             onRowsPerPageChange={handleChangeRowsPerPage}
             rowsPerPageOptions={[10, 25, 50]}
-            labelRowsPerPage={"1ページあたりの件数:"}
+            labelRowsPerPage="1ページあたりの件数:"
           />
         </Grid>
       </Grid>
