@@ -13,20 +13,23 @@ export class InspectionGroupRepository implements IInspectionGroupRepository {
   }
 
   async get(): Promise<Array<InspectionGroup>> {
-    return await this.api.inspectionGroupsGet();
+    const res = await this.api.inspectionGroupsGet();
+    return res;
   }
 
   async post(inspectionGroup: InspectionGroup): Promise<InspectionGroup> {
-    return await this.api.inspectionGroupsPost({
-      inspectionGroup: inspectionGroup,
+    const res = await this.api.inspectionGroupsPost({
+      inspectionGroup,
     });
+    return res;
   }
 
   async put(inspectionGroup: InspectionGroup): Promise<InspectionGroup> {
-    return await this.api.inspectionGroupsInspectionGroupIdPut({
+    const res = await this.api.inspectionGroupsInspectionGroupIdPut({
       inspectionGroupId: inspectionGroup.inspection_group_id,
-      inspectionGroup: inspectionGroup,
+      inspectionGroup,
     });
+    return res;
   }
 
   async delete(id: number): Promise<void> {
