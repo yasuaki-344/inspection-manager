@@ -1,3 +1,4 @@
+import React from "react";
 import { InspectionItem } from "../entities";
 import { ChoiceTemplate } from "../typescript-fetch";
 
