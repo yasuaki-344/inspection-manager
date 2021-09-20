@@ -81,12 +81,11 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
     if (this.inspectionItem.input_type === 3) {
       if (!this.inspectionItem.choices.length) {
         return false;
-      } else {
-        const descriptions = this.inspectionItem.choices.map(
-          (x: Choice) => x.description
-        );
-        return !descriptions.includes("");
       }
+      const descriptions = this.inspectionItem.choices.map(
+        (x: Choice) => x.description
+      );
+      return !descriptions.includes("");
     }
     return true;
   }
