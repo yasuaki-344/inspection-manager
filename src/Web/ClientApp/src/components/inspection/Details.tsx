@@ -60,22 +60,24 @@ const Row: FC<RowProps> = (props: RowProps): JSX.Element => {
                   <TableCell sx={TableHeadCell}>選択肢</TableCell>
                 </TableHead>
                 <TableBody>
-                  {props.equipment.inspection_items.map((item: InspectionItem) => (
-                    <TableRow key={item.inspection_item_id}>
-                      <TableCell>{item.inspection_item_id}</TableCell>
-                      <TableCell>{item.inspection_content}</TableCell>
-                      <TableCell>
-                        {
-                          useInputTypes.filter(
-                            (e) => e.value === item.input_type
-                          )[0].label
-                        }
-                      </TableCell>
-                      <TableCell>
-                        {item.choices.map((x) => x.description).join(",")}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {props.equipment.inspection_items.map(
+                    (item: InspectionItem) => (
+                      <TableRow key={item.inspection_item_id}>
+                        <TableCell>{item.inspection_item_id}</TableCell>
+                        <TableCell>{item.inspection_content}</TableCell>
+                        <TableCell>
+                          {
+                            useInputTypes.filter(
+                              (e) => e.value === item.input_type
+                            )[0].label
+                          }
+                        </TableCell>
+                        <TableCell>
+                          {item.choices.map((x) => x.description).join(",")}
+                        </TableCell>
+                      </TableRow>
+                    )
+                  )}
                 </TableBody>
               </Table>
             </Box>
