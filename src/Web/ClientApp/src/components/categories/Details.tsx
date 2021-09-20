@@ -15,8 +15,8 @@ import {
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { useInputTypes } from "../../entities";
 import {
+  useInputTypes,
   InspectionSheet,
   Equipment,
   InspectionItem,
@@ -29,11 +29,11 @@ interface RowProps {
   equipment: Equipment;
 }
 
-const Row: FC<RowProps> = ({ equipment }): JSX.Element => {
+const Row: FC<RowProps> = (props: RowProps): JSX.Element => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Fragment key={equipment.equipment_id}>
+    <Fragment key={props.equipment.equipment_id}>
       <TableRow>
         <TableCell>
           <IconButton
@@ -44,8 +44,8 @@ const Row: FC<RowProps> = ({ equipment }): JSX.Element => {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell>{equipment.equipment_id}</TableCell>
-        <TableCell>{equipment.equipment_name}</TableCell>
+        <TableCell>{props.equipment.equipment_id}</TableCell>
+        <TableCell>{props.equipment.equipment_name}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -59,22 +59,24 @@ const Row: FC<RowProps> = ({ equipment }): JSX.Element => {
                   <TableCell>選択肢</TableCell>
                 </TableHead>
                 <TableBody>
-                  {equipment.inspection_items.map((item: InspectionItem) => (
-                    <TableRow key={item.inspection_item_id}>
-                      <TableCell>{item.inspection_item_id}</TableCell>
-                      <TableCell>{item.inspection_content}</TableCell>
-                      <TableCell>
-                        {
-                          useInputTypes.filter(
-                            (e) => e.value === item.input_type
-                          )[0].label
-                        }
-                      </TableCell>
-                      <TableCell>
-                        {item.choices.map((x) => x.description).join(",")}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {props.equipment.inspection_items.map(
+                    (item: InspectionItem) => (
+                      <TableRow key={item.inspection_item_id}>
+                        <TableCell>{item.inspection_item_id}</TableCell>
+                        <TableCell>{item.inspection_content}</TableCell>
+                        <TableCell>
+                          {
+                            useInputTypes.filter(
+                              (e) => e.value === item.input_type
+                            )[0].label
+                          }
+                        </TableCell>
+                        <TableCell>
+                          {item.choices.map((x) => x.description).join(",")}
+                        </TableCell>
+                      </TableRow>
+                    )
+                  )}
                 </TableBody>
               </Table>
             </Box>
