@@ -70,7 +70,7 @@ export class InspectionSheetPresenter {
             variant="outlined"
             size="small"
             name="inspection_group_id"
-            value={this.useCase.sheet..inspection_group_id}
+            value={this.useCase.sheet.inspection_group_id}
             onChange={(e) => this.useCase.updateField(e)}
           >
             {groups.map((option: InspectionGroup) => (
@@ -105,6 +105,7 @@ export class InspectionSheetPresenter {
           </TextField>
         </Grid>
         {this.useCase.sheet.equipments.map((equipment: Equipment, index: number) => (
+          // eslint-disable-next-line
           <Grid item xs={12} key={`equipment-${index}`}>
             <EquipmentForm
               index={index}
