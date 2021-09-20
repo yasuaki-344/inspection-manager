@@ -25,7 +25,6 @@ export class InspectionSheetPresenter {
     handleEditItem: any,
     storeHistory: any
   ): JSX.Element {
-
     const contents = isEdit ? (
       <Grid item xs={12}>
         <TextField
@@ -104,18 +103,20 @@ export class InspectionSheetPresenter {
             ))}
           </TextField>
         </Grid>
-        {this.useCase.sheet.equipments.map((equipment: Equipment, index: number) => (
-          // eslint-disable-next-line
-          <Grid item xs={12} key={`equipment-${index}`}>
-            <EquipmentForm
-              index={index}
-              equipment={equipment}
-              handleAddItem={handleAddItem}
-              handleEditItem={handleEditItem}
-              storeHistory={storeHistory}
-            />
-          </Grid>
-        ))}
+        {this.useCase.sheet.equipments.map(
+          (equipment: Equipment, index: number) => (
+            // eslint-disable-next-line
+            <Grid item xs={12} key={`equipment-${index}`}>
+              <EquipmentForm
+                index={index}
+                equipment={equipment}
+                handleAddItem={handleAddItem}
+                handleEditItem={handleEditItem}
+                storeHistory={storeHistory}
+              />
+            </Grid>
+          )
+        )}
       </Grid>
     );
   }
