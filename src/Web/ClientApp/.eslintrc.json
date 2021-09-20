@@ -50,7 +50,8 @@
       "error"
     ],
     "class-methods-use-this": "off",
-    "arrow-body-style": "off"
+    "arrow-body-style": "off",
+    "react/destructuring-assignment": "off"
   },
   "globals": {
     "JSX": true

@@ -8,6 +8,7 @@ import {
   Paper,
 } from "@mui/material";
 import UndoIcon from "@mui/icons-material/Undo";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { InspectionItemDialog } from "../dialog/InspectionItemDialog";
 import { InspectionSheetContext, InspectionItemContext } from "../../../App";
 import { InspectionItem, InspectionSheet } from "../../../entities";
@@ -16,15 +17,12 @@ import {
   InspectionGroupRepository,
   InspectionTypeRepository,
 } from "../../../infrastructure";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 interface InspectionSheetFormProps {
   isEdit: boolean;
 }
 
-export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({
-  isEdit,
-}): JSX.Element => {
+export const InspectionSheetForm: FC<InspectionSheetFormProps> = (props): JSX.Element => {
   const { sheetPresenter, sheetController } = useContext(
     InspectionSheetContext
   );
@@ -98,12 +96,12 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({
    * Implements the process for editing inspection item.
    */
   const handleEditItem = (
-    equipmentIndex: number,
-    inspectionItemIndex: number,
+    equipIndex: number,
+    itemIndex: number,
     inspectionItem: InspectionItem
   ) => {
-    setEquipmentIndex(equipmentIndex);
-    setInspectionItemIndex(inspectionItemIndex);
+    setEquipmentIndex(equipIndex);
+    setInspectionItemIndex(itemIndex);
     setAdditional(false);
     itemController.setItem(inspectionItem);
     setOpen(true);
@@ -113,7 +111,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({
     <DndProvider backend={HTML5Backend}>
       <Paper variant="outlined">
         {sheetPresenter.getEditContent(
-          isEdit,
+          props.isEdit,
           groups,
           types,
           handleAddItem,
