@@ -1,3 +1,4 @@
+import React from "react";
 import { InspectionItem, InspectionSheet } from "../entities";
 import { IInspectionSheetInteractor } from "../interfaces";
 
@@ -9,7 +10,8 @@ export class InspectionSheetController {
   }
 
   async getAllInspectionSheet(): Promise<Array<InspectionSheet>> {
-    return await this.useCase.getAllInspectionSheet();
+    const res = await this.useCase.getAllInspectionSheet();
+    return res;
   }
 
   async getInspectionSheetById(id: number): Promise<void> {

@@ -18,14 +18,14 @@ interface SheetDeleteConfirmationDialogProp {
 }
 
 export const SheetDeleteConfirmationDialog: FC<SheetDeleteConfirmationDialogProp> =
-  (props): JSX.Element => {
+  (props: SheetDeleteConfirmationDialogProp): JSX.Element => {
     return (
       <Dialog
         open={props.open}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle>{"点検シートを削除しますか?"}</DialogTitle>
+        <DialogTitle>点検シートを削除しますか?</DialogTitle>
         <DialogContent>
           <DialogContentText>
             <p>次の点検シートを削除します。（この操作は取り消せません）</p>

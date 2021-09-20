@@ -8,8 +8,7 @@ export class DIContainer {
   inject(key: string): any {
     if (key in this.container) {
       return this.container[key];
-    } else {
-      throw new Error(`{key} is not registered as dependency`);
     }
+    throw new Error(`{key} is not registered as dependency`);
   }
 }

@@ -24,7 +24,7 @@ export const Edit = ({ match }: any): JSX.Element => {
         `データの取得に失敗しました (ID:${sheetId})`
       );
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
   }, [sheetId]);
 
   const handleUpdate = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -53,7 +53,7 @@ export const Edit = ({ match }: any): JSX.Element => {
           <form data-testid="form" onSubmit={handleUpdate}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
-                <InspectionSheetForm isEdit={true} />
+                <InspectionSheetForm isEdit />
               </Grid>
               <Grid item xs={12}>
                 <Button type="submit" variant="contained" color="primary">

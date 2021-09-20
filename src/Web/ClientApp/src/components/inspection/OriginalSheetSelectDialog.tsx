@@ -25,7 +25,7 @@ interface OriginalSheetSelectDialogProp {
 }
 
 export const OriginalSheetSelectDialog: FC<OriginalSheetSelectDialogProp> = (
-  props
+  props: OriginalSheetSelectDialogProp
 ): JSX.Element => {
   const [page, setPage] = useState(0);
 
@@ -69,7 +69,7 @@ export const OriginalSheetSelectDialog: FC<OriginalSheetSelectDialogProp> = (
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={(e) => {
+                        onClick={() => {
                           props.onSelectClick(sheet.sheet_id);
                         }}
                       >
@@ -88,7 +88,7 @@ export const OriginalSheetSelectDialog: FC<OriginalSheetSelectDialogProp> = (
           onPageChange={handlePageChange}
           rowsPerPage={5}
           rowsPerPageOptions={[5]}
-          labelRowsPerPage={"1ページあたりの件数:"}
+          labelRowsPerPage="1ページあたりの件数:"
         />
       </DialogContent>
       <DialogActions>

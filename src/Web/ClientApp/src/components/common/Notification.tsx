@@ -15,6 +15,7 @@ export const NotificationInitState: NotificationState = {
 
 export class NotificationStateInteractor {
   readonly state: NotificationState;
+
   private readonly setState: React.Dispatch<
     React.SetStateAction<NotificationState>
   >;
@@ -33,8 +34,8 @@ export class NotificationStateInteractor {
     message: string
   ) {
     this.setState({
-      severity: severity,
-      message: message,
+      severity,
+      message,
       isOpen: true,
     });
   }
@@ -54,23 +55,29 @@ interface NotificationProps {
   onClose: (event: React.SyntheticEvent<Element, Event>) => void;
 }
 
-export const Notification: FC<NotificationProps> = (props): JSX.Element => {
+export const Notification: FC<NotificationProps> = (
+  props: NotificationProps
+): JSX.Element => {
   const duration = 3000;
   const vertical = "bottom";
   const horizontal = "right";
 
-  const alert =
-    props.severity === "success" ? (
+  let alert;
+  if (props.severity === "success") {
+    alert = (
       <Alert severity="success" onClose={props.onClose}>
         {props.message}
       </Alert>
-    ) : props.severity === "error" ? (
+    );
+  } else if (props.severity === "error") {
+    alert = (
       <Alert severity="error" onClose={props.onClose}>
         {props.message}
       </Alert>
-    ) : (
-      <></>
     );
+  } else {
+    alert = <></>;
+  }
 
   return (
     <Snackbar

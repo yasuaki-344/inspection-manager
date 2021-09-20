@@ -6,6 +6,7 @@ export type InspectionItemAction = {
   payload?: {
     name?: string;
     value?: string;
+    // eslint-disable-next-line
     choice_index?: number;
     choices?: ChoiceTemplate;
     item?: InspectionItem;
@@ -40,30 +41,30 @@ export function InspectionItemReducer(
       return action.payload?.item;
     case TYPES.UPDATE_FIELD:
       if (action.payload != null) {
-        const payload = action.payload;
-        if (payload.name != null && payload.value != null) {
-          if (payload.name === "input_type" && payload.value !== "2") {
+        if (action.payload.name != null && action.payload.value != null) {
+          if (
+            action.payload.name === "input_type" &&
+            action.payload.value !== "2"
+          ) {
             return {
               ...state,
-              [payload.name]: payload.value,
+              [action.payload.name]: action.payload.value,
               choices: [],
             };
-          } else {
-            return {
-              ...state,
-              [payload.name]: payload.value,
-            };
           }
+          return {
+            ...state,
+            [action.payload.name]: action.payload.value,
+          };
         }
       }
       return state;
     case TYPES.SET_CHOICE:
       if (action.payload != null) {
-        const payload = action.payload;
-        if (payload.choices != null) {
+        if (action.payload.choices != null) {
           return {
             ...state,
-            choices: payload.choices.choices.map((x) => {
+            choices: action.payload.choices.choices.map((x) => {
               return {
                 choice_id: 0,
                 description: x.description,
@@ -84,18 +85,21 @@ export function InspectionItemReducer(
       };
     case TYPES.REMOVE_CHOICE:
       if (action.payload != null) {
-        const payload = action.payload;
-        if (payload.choice_index != null) {
-          state.choices.splice(payload.choice_index, 1);
+        if (action.payload.choice_index != null) {
+          state.choices.splice(action.payload.choice_index, 1);
           return { ...state };
         }
       }
       return state;
     case TYPES.UPDATE_CHOICE:
       if (action.payload != null) {
-        const payload = action.payload;
-        if (payload.choice_index != null && payload.value != null) {
-          state.choices[payload.choice_index].description = payload.value;
+        if (
+          action.payload.choice_index != null &&
+          action.payload.value != null
+        ) {
+          // eslint-disable-next-line
+          state.choices[action.payload.choice_index].description =
+            action.payload.value;
           return { ...state };
         }
       }

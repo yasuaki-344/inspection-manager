@@ -44,10 +44,14 @@
         }
       }
     ],
-    "no-console":"off",
+    "no-console": "off",
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error"],
-    "class-methods-use-this": "off"
+    "@typescript-eslint/no-unused-vars": [
+      "error"
+    ],
+    "class-methods-use-this": "off",
+    "arrow-body-style": "off",
+    "react/destructuring-assignment": "off"
   },
   "globals": {
     "JSX": true

@@ -13,8 +13,7 @@ import DragHandleIcon from "@mui/icons-material/DragHandle";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { InspectionItemForm } from "./InspectionItemForm";
 import { InspectionSheetContext } from "../../../App";
-import { ItemType } from "../../../entities";
-import { Equipment, InspectionItem } from "../../../entities";
+import { ItemType, Equipment, InspectionItem } from "../../../entities";
 import { CancelIconButton } from "../../common";
 import { equipmentLabel, MenuIcon, paperElement } from "../../stylesheets";
 
@@ -34,13 +33,9 @@ interface EquipmentFormProps {
   storeHistory: () => void;
 }
 
-export const EquipmentForm: FC<EquipmentFormProps> = ({
-  index,
-  equipment,
-  handleAddItem,
-  handleEditItem,
-  storeHistory,
-}): JSX.Element => {
+export const EquipmentForm: FC<EquipmentFormProps> = (
+  props: EquipmentFormProps
+): JSX.Element => {
   const { sheetController } = useContext(InspectionSheetContext);
   const dropRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<HTMLButtonElement>(null);
@@ -48,15 +43,15 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
   const [, drop] = useDrop({
     accept: ItemType.EQUIPMENT,
     drop(item: DragItem) {
-      if (!dropRef.current || item.index === index) {
+      if (!dropRef.current || item.index === props.index) {
         return;
       }
-      sheetController.swapEquipment(index, item.index);
+      sheetController.swapEquipment(props.index, item.index);
     },
   });
   const [, drag, preview] = useDrag({
     type: ItemType.EQUIPMENT,
-    item: { index: index },
+    item: { index: props.index },
   });
   preview(drop(dropRef));
   drag(dragRef);
@@ -72,9 +67,9 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
           <IconButton size="small" color="inherit" ref={dragRef}>
             <DragHandleIcon />
           </IconButton>
-          <div>{equipment.equipment_name}</div>
+          <div>{props.equipment.equipment_name}</div>
           <CancelIconButton
-            onClick={() => sheetController.removeEquipment(index)}
+            onClick={() => sheetController.removeEquipment(props.index)}
           />
         </AccordionSummary>
         <AccordionDetails>
@@ -86,17 +81,19 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
                 variant="outlined"
                 size="small"
                 name="equipment_name"
-                value={equipment.equipment_name}
-                onChange={(e) => sheetController.updateEquipment(e, index)}
+                value={props.equipment.equipment_name}
+                onChange={(e) =>
+                  sheetController.updateEquipment(e, props.index)
+                }
               />
             </Grid>
             <Grid item xs={12}>
               <InspectionItemForm
-                equipmentIndex={index}
-                inspectionItems={equipment.inspection_items}
-                editInspectionItem={handleEditItem}
-                addInspectionItem={handleAddItem}
-                storeHistory={storeHistory}
+                equipmentIndex={props.index}
+                inspectionItems={props.equipment.inspection_items}
+                editInspectionItem={props.handleEditItem}
+                addInspectionItem={props.handleAddItem}
+                storeHistory={props.storeHistory}
               />
             </Grid>
           </Grid>

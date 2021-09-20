@@ -14,10 +14,10 @@ interface SheetSearchMenuProps {
 }
 
 export const SheetSearchMenu: FC<SheetSearchMenuProps> = (
-  props
+  props: SheetSearchMenuProps
 ): JSX.Element => {
   return (
-    <Container fixed={true}>
+    <Container fixed>
       <TextField
         sx={SearchField}
         label="点検シート名"
