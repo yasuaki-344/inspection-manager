@@ -1,5 +1,3 @@
-import { IInspectionGroupInteractor } from "../interfaces";
-import { InspectionGroup } from "../typescript-fetch";
 import {
   Table,
   TableBody,
@@ -7,6 +5,8 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { IInspectionGroupInteractor } from "../interfaces";
+import { InspectionGroup } from "../typescript-fetch";
 import { CancelIconButton, EditIconButton } from "../components/common";
 
 export class InspectionGroupPresenter {
