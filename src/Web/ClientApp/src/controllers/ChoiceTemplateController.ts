@@ -2,10 +2,10 @@ import { IChoiceTemplateInteractor } from "../interfaces";
 import { ChoiceTemplate } from "../typescript-fetch";
 
 export class ChoiceTemplateController {
-  private readonly useCase: IChoiceTemplateInteractor
+  private readonly useCase: IChoiceTemplateInteractor;
 
   constructor(useCase: IChoiceTemplateInteractor) {
-    this.useCase = useCase
+    this.useCase = useCase;
   }
 
   async create(choiceTemplate: ChoiceTemplate): Promise<void> {
@@ -16,7 +16,7 @@ export class ChoiceTemplateController {
     await this.useCase.update(choiceTemplate);
   }
 
-  async delete(id:number): Promise<void>{
+  async delete(id: number): Promise<void> {
     await this.useCase.delete(id);
   }
 }

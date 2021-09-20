@@ -1,22 +1,22 @@
-import React from 'react';
-import { act } from 'react-dom/test-utils';
-import { MemoryRouter } from 'react-router-dom';
-import { render, fireEvent, screen } from '@testing-library/react';
-import { InspectionGroupCategory } from '../InspectionGroupCategory';
+import React from "react";
+import { act } from "react-dom/test-utils";
+import { MemoryRouter } from "react-router-dom";
+import { render, fireEvent, screen } from "@testing-library/react";
+import { InspectionGroupCategory } from "../InspectionGroupCategory";
 
 beforeEach(() => {
-  jest.spyOn(global, 'fetch').mockImplementation(() =>
+  jest.spyOn(global, "fetch").mockImplementation(() =>
     Promise.resolve({
-      json: () => Promise.resolve(['group1', 'group2'])
+      json: () => Promise.resolve(["group1", "group2"]),
     })
   );
-  jest.spyOn(window, 'alert').mockImplementation(() => { });
+  jest.spyOn(window, "alert").mockImplementation(() => {});
 });
 afterEach(() => {
   jest.resetAllMocks();
 });
 
-it('renders without crashing', async () => {
+it("renders without crashing", async () => {
   await act(async () => {
     render(
       <MemoryRouter>
@@ -26,7 +26,7 @@ it('renders without crashing', async () => {
   });
 });
 
-it('click add group button', async () => {
+it("click add group button", async () => {
   await act(async () => {
     render(
       <MemoryRouter>
@@ -34,10 +34,10 @@ it('click add group button', async () => {
       </MemoryRouter>
     );
   });
-  fireEvent.click(screen.getByTestId('add-group-button'));
+  fireEvent.click(screen.getByTestId("add-group-button"));
 });
 
-it('update group', async () => {
+it("update group", async () => {
   await act(async () => {
     render(
       <MemoryRouter>
@@ -45,13 +45,12 @@ it('update group', async () => {
       </MemoryRouter>
     );
   });
-  fireEvent.change(
-    screen.getByDisplayValue('group1'),
-    { target: { value: 'new group' } }
-  );
+  fireEvent.change(screen.getByDisplayValue("group1"), {
+    target: { value: "new group" },
+  });
 });
 
-it('click remove group button', async () => {
+it("click remove group button", async () => {
   await act(async () => {
     render(
       <MemoryRouter>
@@ -59,16 +58,16 @@ it('click remove group button', async () => {
       </MemoryRouter>
     );
   });
-  fireEvent.click(screen.getByTestId('remove-group-button-0'));
+  fireEvent.click(screen.getByTestId("remove-group-button-0"));
 });
 
-it('click submit type button', async () => {
+it("click submit type button", async () => {
   await act(async () => {
     render(
       <MemoryRouter>
         <InspectionGroupCategory />
       </MemoryRouter>
     );
-    fireEvent.submit(screen.getByTestId('form'));
+    fireEvent.submit(screen.getByTestId("form"));
   });
 });

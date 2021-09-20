@@ -1,5 +1,5 @@
-import { InspectionItem } from '.';
-import { ChoiceTemplate } from '../typescript-fetch';
+import { InspectionItem } from ".";
+import { ChoiceTemplate } from "../typescript-fetch";
 
 export type InspectionItemAction = {
   type: string;
@@ -17,21 +17,24 @@ export type InspectionItemAction = {
  */
 export const InspectionItemInitialState: InspectionItem = {
   inspection_item_id: 0,
-  inspection_content: '',
+  inspection_content: "",
   input_type: 0,
   choices: [],
 };
 
 export const TYPES = {
-  SET_ITEM: 'SET_ITEM',
-  UPDATE_FIELD: 'UPDATE_FIELD',
-  SET_CHOICE: 'SET_CHOICE',
-  ADD_CHOICE: 'ADD_CHOICE',
-  REMOVE_CHOICE: 'REMOVE_CHOICE',
-  UPDATE_CHOICE: 'UPDATE_CHOICE',
+  SET_ITEM: "SET_ITEM",
+  UPDATE_FIELD: "UPDATE_FIELD",
+  SET_CHOICE: "SET_CHOICE",
+  ADD_CHOICE: "ADD_CHOICE",
+  REMOVE_CHOICE: "REMOVE_CHOICE",
+  UPDATE_CHOICE: "UPDATE_CHOICE",
 };
 
-export function InspectionItemReducer(state: InspectionItem, action: InspectionItemAction): any {
+export function InspectionItemReducer(
+  state: InspectionItem,
+  action: InspectionItemAction
+): any {
   switch (action.type) {
     case TYPES.SET_ITEM:
       return action.payload?.item;
@@ -39,12 +42,12 @@ export function InspectionItemReducer(state: InspectionItem, action: InspectionI
       if (action.payload != null) {
         const payload = action.payload;
         if (payload.name != null && payload.value != null) {
-          if (payload.name === 'input_type' && payload.value !== '2') {
+          if (payload.name === "input_type" && payload.value !== "2") {
             return {
               ...state,
               [payload.name]: payload.value,
               choices: [],
-            }
+            };
           } else {
             return {
               ...state,
@@ -60,24 +63,24 @@ export function InspectionItemReducer(state: InspectionItem, action: InspectionI
         if (payload.choices != null) {
           return {
             ...state,
-            choices: payload.choices.choices.map(x => {
+            choices: payload.choices.choices.map((x) => {
               return {
                 choice_id: 0,
-                description: x.description
-              }
-            })
-          }
+                description: x.description,
+              };
+            }),
+          };
         }
       }
       return state;
     case TYPES.ADD_CHOICE:
-      console.log("check")
+      console.log("check");
       return {
         ...state,
         choices: state.choices.concat({
           choice_id: 0,
-          description: '',
-        })
+          description: "",
+        }),
       };
     case TYPES.REMOVE_CHOICE:
       if (action.payload != null) {

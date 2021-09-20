@@ -1,17 +1,19 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogTitle } from '@mui/material';
-import { InspectionItemContext } from './../../../App';
-import { ChoiceSetSelectDialog } from './ChoiceSetSelectDialog';
-import { OkCancelDialogActions } from '../../common';
-import { DialogTitleDesign } from '../../stylesheets';
+import React, { useContext, useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { InspectionItemContext } from "./../../../App";
+import { ChoiceSetSelectDialog } from "./ChoiceSetSelectDialog";
+import { OkCancelDialogActions } from "../../common";
+import { DialogTitleDesign } from "../../stylesheets";
 
 interface InspectionDialogProps {
-  open: boolean,
-  handleClose: () => void,
-  handleInspectionItem: () => void,
-};
+  open: boolean;
+  handleClose: () => void;
+  handleInspectionItem: () => void;
+}
 
-export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element => {
+export const InspectionItemDialog = (
+  props: InspectionDialogProps
+): JSX.Element => {
   const { itemPresenter } = useContext(InspectionItemContext);
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -34,10 +36,7 @@ export const InspectionItemDialog = (props: InspectionDialogProps): JSX.Element 
           onCancelButtonClick={props.handleClose}
         />
       </Dialog>
-      <ChoiceSetSelectDialog
-        open={open}
-        handleClose={() => setOpen(false)}
-      />
+      <ChoiceSetSelectDialog open={open} handleClose={() => setOpen(false)} />
     </>
   );
-}
+};

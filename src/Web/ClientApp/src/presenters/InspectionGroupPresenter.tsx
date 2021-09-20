@@ -1,28 +1,32 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import { IInspectionGroupInteractor } from "../interfaces";
 import { InspectionGroup } from "../typescript-fetch";
-import {
-  Table, TableBody, TableCell, TableHead, TableRow,
-} from '@mui/material';
 import { CancelIconButton, EditIconButton } from "../components/common";
 
 export class InspectionGroupPresenter {
-  private readonly useCase: IInspectionGroupInteractor
+  private readonly useCase: IInspectionGroupInteractor;
 
   constructor(useCase: IInspectionGroupInteractor) {
-    this.useCase = useCase
+    this.useCase = useCase;
   }
 
   get(): void {
-    this.useCase.get()
+    this.useCase.get();
   }
 
   getById(id: number): InspectionGroup | undefined {
-    return this.useCase.getById(id)
+    return this.useCase.getById(id);
   }
 
   inspectionGroupTable(
     updateMethod: (id: number) => void,
-    deleteMethod: (id: number) => void,
+    deleteMethod: (id: number) => void
   ): JSX.Element {
     return (
       <Table>
@@ -34,22 +38,23 @@ export class InspectionGroupPresenter {
           </TableRow>
         </TableHead>
         <TableBody>
-          {this.useCase.groups.map((type: InspectionGroup) =>
+          {this.useCase.groups.map((type: InspectionGroup) => (
             <TableRow key={type.inspection_group_id}>
-              <TableCell>
-                {type.description}
+              <TableCell>{type.description}</TableCell>
+              <TableCell padding="checkbox">
+                <EditIconButton
+                  onClick={() => updateMethod(type.inspection_group_id)}
+                />
               </TableCell>
-              <TableCell padding='checkbox'>
-                <EditIconButton onClick={() => updateMethod(type.inspection_group_id)} />
-              </TableCell>
-              <TableCell padding='checkbox'>
-                <CancelIconButton onClick={() => deleteMethod(type.inspection_group_id)} />
+              <TableCell padding="checkbox">
+                <CancelIconButton
+                  onClick={() => deleteMethod(type.inspection_group_id)}
+                />
               </TableCell>
             </TableRow>
-          )}
+          ))}
         </TableBody>
       </Table>
-    )
+    );
   }
-
 }

@@ -1,28 +1,38 @@
-import React from 'react';
-import { InspectionItem, InspectionSheet, InspectionSheetInitialState } from '../entities';
-import { SHEET_ACTION_TYPE } from '../entities';
-import { InspectionSheetRepository } from '../infrastructure';
-import { IInspectionSheetInteractor, IInspectionSheetRepository } from '../interfaces';
+import React from "react";
+import {
+  InspectionItem,
+  InspectionSheet,
+  InspectionSheetInitialState,
+  SHEET_ACTION_TYPE,
+} from "../entities";
+import { InspectionSheetRepository } from "../infrastructure";
+import {
+  IInspectionSheetInteractor,
+  IInspectionSheetRepository,
+} from "../interfaces";
 
 export class InspectionSheetInteractor implements IInspectionSheetInteractor {
-  readonly sheet: InspectionSheet
-  private readonly dispatch: React.Dispatch<any>
-  private readonly repository: IInspectionSheetRepository
+  readonly sheet: InspectionSheet;
+
+  private readonly dispatch: React.Dispatch<any>;
+
+  private readonly repository: IInspectionSheetRepository;
 
   constructor(state: InspectionSheet, dispatch: React.Dispatch<any>) {
-    this.sheet = state
-    this.dispatch = dispatch
+    this.sheet = state;
+    this.dispatch = dispatch;
     this.repository = new InspectionSheetRepository();
   }
 
   async getAllInspectionSheet(): Promise<Array<InspectionSheet>> {
-    return await this.repository.get();
+    const inspectionSheets = await this.repository.get();
+    return inspectionSheets;
   }
 
   async getInspectionSheetById(id: number): Promise<void> {
     const sheet = await this.repository.getById(id);
     this.setSheet(sheet);
-  };
+  }
 
   async createInspectionSheet(): Promise<void> {
     await this.repository.post(this.sheet);
@@ -37,26 +47,26 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   setSheet(sheet: InspectionSheet): void {
     this.dispatch({
       type: SHEET_ACTION_TYPE.SET_SHEET,
-      payload: {
-        sheet: sheet
-      },
-    })
+      payload: { sheet },
+    });
   }
 
-  updateField(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
+  updateField(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void {
     this.dispatch({
       type: SHEET_ACTION_TYPE.UPDATE_FIELD,
       payload: {
         name: event.target.name,
         value: event.target.value,
       },
-    })
+    });
   }
 
   addEquipment(): void {
     this.dispatch({
       type: SHEET_ACTION_TYPE.ADD_EQUIPMENT,
-    })
+    });
   }
 
   removeEquipment(index: number): void {
@@ -64,11 +74,14 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
       type: SHEET_ACTION_TYPE.REMOVE_EQUIPMENT,
       payload: {
         equipment_index: index,
-      }
+      },
     });
   }
 
-  updateEquipment(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number): void {
+  updateEquipment(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index: number
+  ): void {
     this.dispatch({
       type: SHEET_ACTION_TYPE.UPDATE_EQUIPMENT,
       payload: {
@@ -95,7 +108,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
       payload: {
         equipment_index: index,
         inspection_item: item,
-      }
+      },
     });
   }
 
@@ -105,7 +118,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
       payload: {
         equipment_index: equipmentIndex,
         inspection_item_index: itemIndex,
-      }
+      },
     });
   }
 
@@ -120,18 +133,22 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
         equipment_index: equipmentIndex,
         inspection_item_index: itemIndex,
         inspection_item: item,
-      }
+      },
     });
   }
 
-  swapInspectionItem(equipmentIndex: number, srcIndex: number, dstIndex: number) {
+  swapInspectionItem(
+    equipmentIndex: number,
+    srcIndex: number,
+    dstIndex: number
+  ) {
     this.dispatch({
       type: SHEET_ACTION_TYPE.SWAP_INSPECTION_ITEM,
       payload: {
         equipment_index: equipmentIndex,
         inspection_item_index: srcIndex,
         swap_index: dstIndex,
-      }
+      },
     });
   }
 }

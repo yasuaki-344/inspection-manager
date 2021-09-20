@@ -1,26 +1,36 @@
-import React, { FC } from 'react';
-import { Button, DialogActions } from '@mui/material';
+import React, { FC } from "react";
+import { Button, DialogActions } from "@mui/material";
 
 interface IOkCancelDialogActionsProps {
-  disabled: boolean,
-  onOkButtonClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
-  onCancelButtonClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
-};
+  disabled: boolean;
+  onOkButtonClick: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
+  onCancelButtonClick: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
+}
 
-export const OkCancelDialogActions: FC<IOkCancelDialogActionsProps> = (props): JSX.Element => {
+export const OkCancelDialogActions: FC<IOkCancelDialogActionsProps> = (
+  props
+): JSX.Element => {
   return (
     <DialogActions>
       <Button
-        variant='contained'
-        color='primary'
+        variant="contained"
+        color="primary"
         disabled={props.disabled}
         onClick={props.onOkButtonClick}
-      >OK</Button>
+      >
+        OK
+      </Button>
       <Button
-        variant='contained'
-        color='inherit'
+        variant="contained"
+        color="inherit"
         onClick={props.onCancelButtonClick}
-      >キャンセル</Button>
+      >
+        キャンセル
+      </Button>
     </DialogActions>
   );
-}
+};

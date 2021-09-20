@@ -1,36 +1,45 @@
-import React, { FC, useRef, useContext } from 'react';
+import React, { FC, useRef, useContext } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import {
-  Accordion, AccordionSummary, AccordionDetails, IconButton,
-  Grid, Paper, TextField,
-} from '@mui/material';
-import DragHandleIcon from '@mui/icons-material/DragHandle';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { InspectionItemForm } from './InspectionItemForm';
-import { InspectionSheetContext } from '../../../App';
-import { ItemType } from '../../../entities';
-import { Equipment, InspectionItem } from '../../../entities';
-import { CancelIconButton } from '../../common';
-import { equipmentLabel, MenuIcon, paperElement } from '../../stylesheets';
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  IconButton,
+  Grid,
+  Paper,
+  TextField,
+} from "@mui/material";
+import DragHandleIcon from "@mui/icons-material/DragHandle";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { InspectionItemForm } from "./InspectionItemForm";
+import { InspectionSheetContext } from "../../../App";
+import { ItemType } from "../../../entities";
+import { Equipment, InspectionItem } from "../../../entities";
+import { CancelIconButton } from "../../common";
+import { equipmentLabel, MenuIcon, paperElement } from "../../stylesheets";
 
 interface DragItem {
-  index: number,
-};
+  index: number;
+}
 
 interface EquipmentFormProps {
-  index: number,
-  equipment: Equipment,
-  handleAddItem: (equipmentIndex: number) => void,
-  handleEditItem: (equipmentIndex: number, inspectionItemIndex: number, inspectionItem: InspectionItem) => void,
-  storeHistory: () => void,
-};
+  index: number;
+  equipment: Equipment;
+  handleAddItem: (equipmentIndex: number) => void;
+  handleEditItem: (
+    equipmentIndex: number,
+    inspectionItemIndex: number,
+    inspectionItem: InspectionItem
+  ) => void;
+  storeHistory: () => void;
+}
 
 export const EquipmentForm: FC<EquipmentFormProps> = ({
   index,
   equipment,
   handleAddItem,
   handleEditItem,
-  storeHistory
+  storeHistory,
 }): JSX.Element => {
   const { sheetController } = useContext(InspectionSheetContext);
   const dropRef = useRef<HTMLDivElement>(null);
@@ -43,24 +52,24 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
         return;
       }
       sheetController.swapEquipment(index, item.index);
-    }
-  })
+    },
+  });
   const [, drag, preview] = useDrag({
     type: ItemType.EQUIPMENT,
     item: { index: index },
-  })
+  });
   preview(drop(dropRef));
   drag(dragRef);
 
   return (
-    <Paper variant='outlined' >
+    <Paper variant="outlined">
       <Accordion>
         <AccordionSummary
           sx={equipmentLabel}
           expandIcon={<ExpandMoreIcon sx={MenuIcon} />}
           ref={dropRef}
         >
-          <IconButton size='small' color='inherit' ref={dragRef}>
+          <IconButton size="small" color="inherit" ref={dragRef}>
             <DragHandleIcon />
           </IconButton>
           <div>{equipment.equipment_name}</div>
@@ -73,12 +82,12 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
             <Grid item xs={12} sx={paperElement}>
               <TextField
                 required
-                label='点検機器名'
-                variant='outlined'
-                size='small'
-                name='equipment_name'
+                label="点検機器名"
+                variant="outlined"
+                size="small"
+                name="equipment_name"
                 value={equipment.equipment_name}
-                onChange={e => sheetController.updateEquipment(e, index)}
+                onChange={(e) => sheetController.updateEquipment(e, index)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -93,6 +102,6 @@ export const EquipmentForm: FC<EquipmentFormProps> = ({
           </Grid>
         </AccordionDetails>
       </Accordion>
-    </Paper >
+    </Paper>
   );
-}
+};

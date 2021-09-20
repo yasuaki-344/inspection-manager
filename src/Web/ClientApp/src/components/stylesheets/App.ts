@@ -1,43 +1,43 @@
 export const LinkNavItem = {
-  color: '#000000',
-  textDecoration: 'none',
-}
+  color: "#000000",
+  textDecoration: "none",
+};
 export const LinkNavTitle = {
-  color: '#FFFFFF',
-  textDecoration: 'none',
-}
+  color: "#FFFFFF",
+  textDecoration: "none",
+};
 export const SearchField = {
-  mr: 1
-}
+  mr: 1,
+};
 export const LabelStyle = {
-  bgcolor: '#4791db',
-  color: '#FFFFFF',
+  bgcolor: "#4791db",
+  color: "#FFFFFF",
   fontSize: 24,
   padding: 1,
-}
+};
 export const InputStyle = {
   ml: 1,
   mt: 0.5,
   width: 330,
 };
 export const equipmentLabel = {
-  backgroundColor: 'primary.main',
-  color: '#FFFFFF',
+  backgroundColor: "primary.main",
+  color: "#FFFFFF",
   fontSize: 20,
-}
+};
 export const paperElement = {
-  margin: 1
+  margin: 1,
 };
 export const MenuIcon = {
-  color: '#FFFFFF',
+  color: "#FFFFFF",
 };
 export const itemTableHead = {
-  bgcolor: 'primary.main',
-}
+  bgcolor: "primary.main",
+};
 export const TableHeadCell = {
   color: "#FFFFFF",
-}
+};
 export const DialogTitleDesign = {
-  bgcolor: 'primary.main',
-  color: '#FFFFFF',
-}
+  bgcolor: "primary.main",
+  color: "#FFFFFF",
+};

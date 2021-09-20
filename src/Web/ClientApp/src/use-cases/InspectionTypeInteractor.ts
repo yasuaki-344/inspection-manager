@@ -1,11 +1,16 @@
 import { Dispatch, SetStateAction } from "react";
-import { IInspectionTypeInteractor, IInspectionTypeRepository } from "../interfaces";
+import {
+  IInspectionTypeInteractor,
+  IInspectionTypeRepository,
+} from "../interfaces";
 import { InspectionType } from "../typescript-fetch";
 
 export class InspectionTypeInteractor implements IInspectionTypeInteractor {
-  readonly types: Array<InspectionType>
-  private readonly setTypes: Dispatch<SetStateAction<InspectionType[]>>
-  private readonly repository: IInspectionTypeRepository
+  readonly types: Array<InspectionType>;
+
+  private readonly setTypes: Dispatch<SetStateAction<InspectionType[]>>;
+
+  private readonly repository: IInspectionTypeRepository;
 
   constructor(
     types: InspectionType[],
@@ -18,15 +23,16 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
   }
 
   get(): void {
-    this.repository.get()
-      .then(res => {
-        this.setTypes(res)
+    this.repository
+      .get()
+      .then((res) => {
+        this.setTypes(res);
       })
-      .catch(console.error);
+      .catch(() => {});
   }
 
   getById(id: number): InspectionType | undefined {
-    return this.types.find(x => x.inspection_type_id === id);
+    return this.types.find((x) => x.inspection_type_id === id);
   }
 
   async create(inspectionType: InspectionType): Promise<void> {
@@ -36,14 +42,17 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
 
   async update(inspectionType: InspectionType): Promise<void> {
     const res = await this.repository.put(inspectionType);
-    this.setTypes(this.types.map(x =>
-      (x.inspection_type_id === res.inspection_type_id) ? res : x
-    ));
+    this.setTypes(
+      this.types.map((x) =>
+        x.inspection_type_id === res.inspection_type_id ? res : x
+      )
+    );
   }
 
   async delete(id: number): Promise<void> {
     await this.repository.delete(id);
-    this.setTypes(this.types.filter((x: InspectionType) =>
-      x.inspection_type_id !== id));
+    this.setTypes(
+      this.types.filter((x: InspectionType) => x.inspection_type_id !== id)
+    );
   }
 }

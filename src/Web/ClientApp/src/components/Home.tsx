@@ -1,52 +1,79 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { FC, useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
-  Button, ButtonGroup, Grid,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Paper, TablePagination
-} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DetailsIcon from '@mui/icons-material/Details';
-import { InspectionSheet, InspectionSheetInitialState } from '../entities';
-import { InspectionGroup, InspectionType } from '../typescript-fetch';
-import { CancelIconButton } from './common';
-import { SheetSearchMenu } from './SheetSearchMenu';
-import { SheetDeleteConfirmationDialog } from './SheetDeleteConfirmationDialog';
-import { IInspectionGroupRepository, IInspectionTypeRepository } from '../interfaces';
-import { DIContainerContext } from '../App';
-import nameof from 'ts-nameof.macro';
+  Button,
+  ButtonGroup,
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  TablePagination,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DetailsIcon from "@mui/icons-material/Details";
+import { InspectionSheet, InspectionSheetInitialState } from "../entities";
+import { InspectionGroup, InspectionType } from "../typescript-fetch";
+import { CancelIconButton } from "./common";
+import { SheetSearchMenu } from "./SheetSearchMenu";
+import { SheetDeleteConfirmationDialog } from "./SheetDeleteConfirmationDialog";
+import {
+  IInspectionGroupRepository,
+  IInspectionTypeRepository,
+} from "../interfaces";
+import { DIContainerContext } from "../App";
+import nameof from "ts-nameof.macro";
 
 export const Home: FC = (): JSX.Element => {
   const [groups, setGroups] = useState<InspectionGroup[]>([]);
   const [types, setTypes] = useState<InspectionType[]>([]);
-  const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>([]);
-  const [filteredInspectionSheets, setFilteredInspectionSheets] = useState<InspectionSheet[]>([]);
+  const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>(
+    []
+  );
+  const [filteredInspectionSheets, setFilteredInspectionSheets] = useState<
+    InspectionSheet[]
+  >([]);
   const [open, setOpen] = useState(false);
-  const [targetSheet, setTargetSheet] = useState<InspectionSheet>(InspectionSheetInitialState);
+  const [targetSheet, setTargetSheet] = useState<InspectionSheet>(
+    InspectionSheetInitialState
+  );
   const [searchOption, setSearchOption] = useState({
-    sheet_name: '',
-    inspection_group: '',
-    inspection_type: '',
-  })
+    sheet_name: "",
+    inspection_group: "",
+    inspection_type: "",
+  });
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const container = useContext(DIContainerContext);
-  const groupRepository: IInspectionGroupRepository = container.inject(nameof<IInspectionGroupRepository>());
-  const typeRepository: IInspectionTypeRepository = container.inject(nameof<IInspectionTypeRepository>());
+  const groupRepository: IInspectionGroupRepository = container.inject(
+    nameof<IInspectionGroupRepository>()
+  );
+  const typeRepository: IInspectionTypeRepository = container.inject(
+    nameof<IInspectionTypeRepository>()
+  );
 
   useEffect(() => {
-    groupRepository.get()
-      .then(res => { setGroups(res); })
+    groupRepository
+      .get()
+      .then((res) => {
+        setGroups(res);
+      })
       .catch(console.error);
 
-    typeRepository.get()
-      .then(res => { setTypes(res); })
+    typeRepository
+      .get()
+      .then((res) => {
+        setTypes(res);
+      })
       .catch(console.error);
 
-    fetch('inspectionsheet')
-      .then(res => res.json())
-      .then(json => {
+    fetch("inspectionsheet")
+      .then((res) => res.json())
+      .then((json) => {
         console.log(json);
         setInspectionSheets(json);
         setFilteredInspectionSheets(json);
@@ -58,7 +85,9 @@ export const Home: FC = (): JSX.Element => {
    * Updates search option setting with given change event parameter.
    * @param e Change event which contains search option member name and its value.
    */
-  const handleSearchOption = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const handleSearchOption = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     setSearchOption({
       ...searchOption,
       [e.target.name]: e.target.value,
@@ -69,18 +98,19 @@ export const Home: FC = (): JSX.Element => {
    * Executes to search inspection sheet based on search options.
    */
   const handleSearch = () => {
-    const filteredGroupIds = groups.filter(x =>
-      x.description.includes(searchOption.inspection_group)
-    ).map(x => x.inspection_group_id);
-    const filteredTypeIds = types.filter(x =>
-      x.description.includes(searchOption.inspection_type)
-    ).map(x => x.inspection_type_id);
+    const filteredGroupIds = groups
+      .filter((x) => x.description.includes(searchOption.inspection_group))
+      .map((x) => x.inspection_group_id);
+    const filteredTypeIds = types
+      .filter((x) => x.description.includes(searchOption.inspection_type))
+      .map((x) => x.inspection_type_id);
 
     setFilteredInspectionSheets(
-      inspectionSheets.filter((x: InspectionSheet) =>
-        x.sheet_name.includes(searchOption.sheet_name) &&
-        filteredGroupIds.includes(x.inspection_group_id) &&
-        filteredTypeIds.includes(x.inspection_type_id)
+      inspectionSheets.filter(
+        (x: InspectionSheet) =>
+          x.sheet_name.includes(searchOption.sheet_name) &&
+          filteredGroupIds.includes(x.inspection_group_id) &&
+          filteredTypeIds.includes(x.inspection_type_id)
       )
     );
     setPage(0);
@@ -91,9 +121,9 @@ export const Home: FC = (): JSX.Element => {
    */
   const handleResetSearchOption = () => {
     setSearchOption({
-      sheet_name: '',
-      inspection_group: '',
-      inspection_type: '',
+      sheet_name: "",
+      inspection_group: "",
+      inspection_type: "",
     });
     setFilteredInspectionSheets(inspectionSheets);
     setPage(0);
@@ -101,10 +131,10 @@ export const Home: FC = (): JSX.Element => {
 
   const handleDownload = (sheet: InspectionSheet) => {
     fetch(`excelsheet/${sheet.sheet_id}`)
-      .then(response => response.blob())
-      .then(blob => {
+      .then((response) => response.blob())
+      .then((blob) => {
         const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         document.body.appendChild(a);
         a.download = `${sheet.sheet_name}.xlsx`;
         a.href = url;
@@ -112,17 +142,17 @@ export const Home: FC = (): JSX.Element => {
         a.remove();
         setTimeout(() => {
           URL.revokeObjectURL(url);
-        }, 1E4);
+        }, 1e4);
       })
       .catch(console.error);
-  }
+  };
 
   const handleExportJson = (sheet: InspectionSheet) => {
     fetch(`jsonexport/${sheet.sheet_id}`)
-      .then(response => response.blob())
-      .then(blob => {
+      .then((response) => response.blob())
+      .then((blob) => {
         const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         document.body.appendChild(a);
         a.download = `${sheet.sheet_name}.json`;
         a.href = url;
@@ -130,10 +160,10 @@ export const Home: FC = (): JSX.Element => {
         a.remove();
         setTimeout(() => {
           URL.revokeObjectURL(url);
-        }, 1E4);
+        }, 1e4);
       })
       .catch(console.error);
-  }
+  };
 
   const handleClickOpen = (sheet: InspectionSheet) => {
     setTargetSheet(sheet);
@@ -144,22 +174,24 @@ export const Home: FC = (): JSX.Element => {
     setOpen(false);
     console.log(`delete ${targetSheet.sheet_id}`);
     fetch(`inspectionsheet/${targetSheet.sheet_id}`, {
-      method: 'DELETE',
+      method: "DELETE",
     })
       .then((res) => res.json())
       .then((json: InspectionSheet) => {
         console.log(json);
         setInspectionSheets(
-          inspectionSheets.filter((x: InspectionSheet) =>
-            x.sheet_id !== json.sheet_id)
+          inspectionSheets.filter(
+            (x: InspectionSheet) => x.sheet_id !== json.sheet_id
+          )
         );
         setFilteredInspectionSheets(
-          inspectionSheets.filter((x: InspectionSheet) =>
-            x.sheet_id !== json.sheet_id)
+          inspectionSheets.filter(
+            (x: InspectionSheet) => x.sheet_id !== json.sheet_id
+          )
         );
       })
       .catch(console.error);
-  }
+  };
 
   /**
    * Changes page number to display.
@@ -174,7 +206,9 @@ export const Home: FC = (): JSX.Element => {
    * Change the number of items to display per page.
    * @param event Change event for the number of items to display per page.
    */
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
@@ -186,7 +220,7 @@ export const Home: FC = (): JSX.Element => {
           <h1>点検シート一覧</h1>
         </Grid>
         <Grid item xs={12}>
-          <Link to='/create'>新規作成</Link>
+          <Link to="/create">新規作成</Link>
         </Grid>
         <Grid item xs={12}>
           <SheetSearchMenu
@@ -213,60 +247,88 @@ export const Home: FC = (): JSX.Element => {
               <TableBody>
                 {filteredInspectionSheets
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((sheet: InspectionSheet) =>
+                  .map((sheet: InspectionSheet) => (
                     <TableRow key={sheet.sheet_id}>
-                      <TableCell padding='checkbox'>
-                        <ButtonGroup variant='outlined' aria-label="outlined button group">
-                          <Button onClick={() => handleDownload(sheet)}>Excel</Button>
-                          <Button onClick={() => handleExportJson(sheet)}>JSON</Button>
+                      <TableCell padding="checkbox">
+                        <ButtonGroup
+                          variant="outlined"
+                          aria-label="outlined button group"
+                        >
+                          <Button onClick={() => handleDownload(sheet)}>
+                            Excel
+                          </Button>
+                          <Button onClick={() => handleExportJson(sheet)}>
+                            JSON
+                          </Button>
                         </ButtonGroup>
                       </TableCell>
                       <TableCell>{sheet.sheet_name}</TableCell>
                       <TableCell>
-                        {groups.find(x => x.inspection_group_id === sheet.inspection_group_id)?.description}
+                        {
+                          groups.find(
+                            (x) =>
+                              x.inspection_group_id ===
+                              sheet.inspection_group_id
+                          )?.description
+                        }
                       </TableCell>
                       <TableCell>
-                        {types.find(x => x.inspection_type_id === sheet.inspection_type_id)?.description}
+                        {
+                          types.find(
+                            (x) =>
+                              x.inspection_type_id === sheet.inspection_type_id
+                          )?.description
+                        }
                       </TableCell>
-                      <TableCell padding='checkbox'>
-                        <Link to={'/edit/' + sheet.sheet_id}>
+                      <TableCell padding="checkbox">
+                        <Link to={"/edit/" + sheet.sheet_id}>
                           <EditIcon />
                         </Link>
                       </TableCell>
-                      <TableCell padding='checkbox'>
-                        <Link to={'/details/' + sheet.sheet_id}>
+                      <TableCell padding="checkbox">
+                        <Link to={"/details/" + sheet.sheet_id}>
                           <DetailsIcon />
                         </Link>
                       </TableCell>
-                      <TableCell padding='checkbox'>
-                        <CancelIconButton onClick={() => handleClickOpen(sheet)} />
+                      <TableCell padding="checkbox">
+                        <CancelIconButton
+                          onClick={() => handleClickOpen(sheet)}
+                        />
                       </TableCell>
                     </TableRow>
-                  )}
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
           <TablePagination
-            component='div'
+            component="div"
             count={inspectionSheets.length}
             page={page}
             onPageChange={handleChangePage}
             rowsPerPage={rowsPerPage}
             onRowsPerPageChange={handleChangeRowsPerPage}
             rowsPerPageOptions={[10, 25, 50]}
-            labelRowsPerPage={'1ページあたりの件数:'}
+            labelRowsPerPage={"1ページあたりの件数:"}
           />
         </Grid>
       </Grid>
       <SheetDeleteConfirmationDialog
         open={open}
         sheetName={targetSheet.sheet_name}
-        groupName={groups.find(x => x.inspection_group_id === targetSheet.inspection_group_id)?.description}
-        typeName={types.find(x => x.inspection_type_id === targetSheet.inspection_type_id)?.description}
+        groupName={
+          groups.find(
+            (x) => x.inspection_group_id === targetSheet.inspection_group_id
+          )?.description
+        }
+        typeName={
+          types.find(
+            (x) => x.inspection_type_id === targetSheet.inspection_type_id
+          )?.description
+        }
         onDeleteClick={handleDelete}
         onCancelClick={() => setOpen(false)}
       />
     </div>
   );
-}
+};
 Home.displayName = Home.name;

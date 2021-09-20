@@ -1,36 +1,53 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from "react";
+import { BottomNavigation, TableContainer, Grid, Paper } from "@mui/material";
+import { ChoiceTemplate } from "../../typescript-fetch";
+import { BottomNavigationAdd } from "../common";
+import { ChoiceTemplateInteractor } from "../../use-cases";
+import { ChoiceTemplateRepository } from "../../infrastructure";
+import { ChoiceTemplatePresenter } from "../../presenters";
+import { ChoiceTemplateController } from "../../controllers";
+import { ChoiceTemplateEditDialog } from "./ChoiceTemplateEditDialog";
 import {
-  BottomNavigation, TableContainer, Grid, Paper,
-} from '@mui/material';
-import { ChoiceTemplate } from '../../typescript-fetch';
-import { BottomNavigationAdd } from '../common';
-import { ChoiceTemplateInteractor } from '../../use-cases';
-import { ChoiceTemplateRepository } from '../../infrastructure';
-import { ChoiceTemplatePresenter } from '../../presenters';
-import { ChoiceTemplateController } from '../../controllers';
-import { ChoiceTemplateEditDialog } from './ChoiceTemplateEditDialog';
-import { Notification, NotificationInitState, NotificationStateInteractor } from '../common/Notification';
+  Notification,
+  NotificationInitState,
+  NotificationStateInteractor,
+} from "../common/Notification";
 
-const generate = (hook: [Array<ChoiceTemplate>, React.Dispatch<React.SetStateAction<Array<ChoiceTemplate>>>]) => {
+const generate = (
+  hook: [
+    Array<ChoiceTemplate>,
+    React.Dispatch<React.SetStateAction<Array<ChoiceTemplate>>>
+  ]
+) => {
   const [types, setTypes] = hook;
-  const useCase = new ChoiceTemplateInteractor(types, setTypes, new ChoiceTemplateRepository());
+  const useCase = new ChoiceTemplateInteractor(
+    types,
+    setTypes,
+    new ChoiceTemplateRepository()
+  );
   const controller = new ChoiceTemplateController(useCase);
   const presenter = new ChoiceTemplatePresenter(useCase);
-  return { controller, presenter }
-}
+  return { controller, presenter };
+};
 
 export const ChoicesTemplate: FC = (): JSX.Element => {
-  const { controller, presenter } = generate(useState<Array<ChoiceTemplate>>([]));
+  const { controller, presenter } = generate(
+    useState<Array<ChoiceTemplate>>([])
+  );
   const [open, setOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<ChoiceTemplate>({
     choice_template_id: 0,
-    choices: []
+    choices: [],
   });
-  const notification = new NotificationStateInteractor(useState(NotificationInitState));
+  const notification = new NotificationStateInteractor(
+    useState(NotificationInitState)
+  );
 
   // eslint-disable-next-line
-  useEffect(() => { presenter.get() }, []);
+  useEffect(() => {
+    presenter.get();
+  }, []);
 
   /**
    * Creates new template set.
@@ -62,22 +79,24 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    */
   const handleRegistration = () => {
     if (isUpdate) {
-      controller.update(target)
+      controller
+        .update(target)
         .then(() => {
-          notification.setMessageState('success', '更新に成功しました');
+          notification.setMessageState("success", "更新に成功しました");
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
-          notification.setMessageState('error', '更新に失敗しました');
-        })
+          notification.setMessageState("error", "更新に失敗しました");
+        });
     } else {
-      controller.create(target)
+      controller
+        .create(target)
         .then(() => {
-          notification.setMessageState('success', '追加に成功しました');
+          notification.setMessageState("success", "追加に成功しました");
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
-          notification.setMessageState('error', '追加に失敗しました');
+          notification.setMessageState("error", "追加に失敗しました");
         });
     }
     setOpen(false);
@@ -88,13 +107,14 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    * @param id The template ID to be removed.
    */
   const handleDeleteTemplate = (id: number) => {
-    controller.delete(id)
+    controller
+      .delete(id)
       .then(() => {
-        notification.setMessageState('success', '削除に成功しました');
+        notification.setMessageState("success", "削除に成功しました");
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
-        notification.setMessageState('error', '削除に失敗しました');
+        notification.setMessageState("error", "削除に失敗しました");
       });
   };
 
@@ -115,12 +135,12 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
         <Grid item xs={12}>
           <BottomNavigation showLabels>
             <BottomNavigationAdd
-              label='テンプレート追加'
+              label="テンプレート追加"
               onClick={handleAddTemplate}
             />
           </BottomNavigation>
         </Grid>
-      </Grid >
+      </Grid>
       <ChoiceTemplateEditDialog
         open={open}
         target={target}
@@ -132,9 +152,11 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
         open={notification.state.isOpen}
         severity={notification.state.severity}
         message={notification.state.message}
-        onClose={() => { notification.hideDisplay() }}
+        onClose={() => {
+          notification.hideDisplay();
+        }}
       />
     </>
   );
-}
+};
 ChoicesTemplate.displayName = ChoicesTemplate.name;

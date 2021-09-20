@@ -1,35 +1,54 @@
 import React, { FC, useState, useEffect } from "react";
-import { Grid, Paper, TableContainer } from '@mui/material';
-import { InspectionType } from '../../typescript-fetch';
+import { Grid, Paper, TableContainer } from "@mui/material";
+import { InspectionType } from "../../typescript-fetch";
 import { InspectionTypeInteractor } from "../../use-cases";
 import { InspectionTypeController } from "../../controllers";
 import { InspectionTypePresenter } from "../../presenters";
 import { InspectionTypeRepository } from "../../infrastructure/InspectionTypeRepository";
-import { Notification, NotificationInitState, NotificationStateInteractor } from "../common/Notification";
+import {
+  Notification,
+  NotificationInitState,
+  NotificationStateInteractor,
+} from "../common/Notification";
 import { BottomNavigationAdd, TopPageLink } from "../common";
 import { EditDialog } from "./EditDialog";
 
-const generate = (hook: [InspectionType[], React.Dispatch<React.SetStateAction<InspectionType[]>>]) => {
+const generate = (
+  hook: [
+    InspectionType[],
+    React.Dispatch<React.SetStateAction<InspectionType[]>>
+  ]
+) => {
   const [types, setTypes] = hook;
-  const useCase = new InspectionTypeInteractor(types, setTypes, new InspectionTypeRepository());
+  const useCase = new InspectionTypeInteractor(
+    types,
+    setTypes,
+    new InspectionTypeRepository()
+  );
   const controller = new InspectionTypeController(useCase);
   const presenter = new InspectionTypePresenter(useCase);
-  return { controller, presenter }
-}
+  return { controller, presenter };
+};
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
-  const { controller, presenter } = generate(useState<Array<InspectionType>>([]));
+  const { controller, presenter } = generate(
+    useState<Array<InspectionType>>([])
+  );
 
   const [open, setOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<InspectionType>({
     inspection_type_id: 0,
-    description: ''
+    description: "",
   });
-  const notification = new NotificationStateInteractor(useState(NotificationInitState));
+  const notification = new NotificationStateInteractor(
+    useState(NotificationInitState)
+  );
 
   // eslint-disable-next-line
-  useEffect(() => { presenter.get() }, []);
+  useEffect(() => {
+    presenter.get();
+  }, []);
 
   /**
    * Implement the process to add new type
@@ -37,11 +56,11 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
   const handleAddItem = (): void => {
     setTarget({
       inspection_type_id: 0,
-      description: 'タイプ'
+      description: "タイプ",
     });
     setIsUpdate(false);
     setOpen(true);
-  }
+  };
 
   /**
    * Implement the process to update type
@@ -54,45 +73,48 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
       setIsUpdate(true);
       setOpen(true);
     }
-  }
+  };
 
   const handleRegistration = (): void => {
     if (isUpdate) {
-      controller.update(target)
+      controller
+        .update(target)
         .then(() => {
-          notification.setMessageState('success', '更新に成功しました');
+          notification.setMessageState("success", "更新に成功しました");
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
-          notification.setMessageState('error', '更新に失敗しました');
+          notification.setMessageState("error", "更新に失敗しました");
         });
     } else {
-      controller.create(target)
+      controller
+        .create(target)
         .then(() => {
-          notification.setMessageState('success', '追加に成功しました');
+          notification.setMessageState("success", "追加に成功しました");
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
-          notification.setMessageState('error', '追加に失敗しました');
-        })
+          notification.setMessageState("error", "追加に失敗しました");
+        });
     }
     setOpen(false);
-  }
+  };
 
   /**
    * Implement the process to delete group
    * @param id Type ID to be deleted.
    */
   const handleDeleteItem = (id: number): void => {
-    controller.delete(id)
+    controller
+      .delete(id)
       .then(() => {
-        notification.setMessageState('success', '削除に成功しました');
+        notification.setMessageState("success", "削除に成功しました");
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
-        notification.setMessageState('error', '削除に失敗しました');
+        notification.setMessageState("error", "削除に失敗しました");
       });
-  }
+  };
 
   return (
     <>
@@ -109,31 +131,32 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
           </TableContainer>
         </Grid>
         <Grid item xs={12}>
-          <BottomNavigationAdd
-            label="点検タイプ追加"
-            onClick={handleAddItem}
-          />
+          <BottomNavigationAdd label="点検タイプ追加" onClick={handleAddItem} />
         </Grid>
-      </Grid >
+      </Grid>
       <Notification
         open={notification.state.isOpen}
         severity={notification.state.severity}
         message={notification.state.message}
-        onClose={() => { notification.hideDisplay() }}
+        onClose={() => {
+          notification.hideDisplay();
+        }}
       />
       <EditDialog
         open={open}
         title="点検タイプ編集"
         label="点検タイプ名"
         target={target}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTarget({
-          ...target,
-          [e.target.name]: e.target.value,
-        })}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setTarget({
+            ...target,
+            [e.target.name]: e.target.value,
+          })
+        }
         onOkButtonClick={() => handleRegistration()}
         onCancelButtonClick={() => setOpen(false)}
       />
     </>
   );
-}
+};
 InspectionTypeCategory.displayName = InspectionTypeCategory.name;

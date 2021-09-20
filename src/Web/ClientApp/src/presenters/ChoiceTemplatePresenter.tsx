@@ -1,15 +1,19 @@
 import {
-  Table, TableBody, TableCell, TableHead, TableRow
-} from '@mui/material';
-import { CancelIconButton, EditIconButton } from '../components/common';
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { CancelIconButton, EditIconButton } from "../components/common";
 import { IChoiceTemplateInteractor } from "../interfaces";
-import { ChoiceTemplate } from '../typescript-fetch';
+import { ChoiceTemplate } from "../typescript-fetch";
 
 export class ChoiceTemplatePresenter {
-  private readonly useCase: IChoiceTemplateInteractor
+  private readonly useCase: IChoiceTemplateInteractor;
 
   constructor(useCase: IChoiceTemplateInteractor) {
-    this.useCase = useCase
+    this.useCase = useCase;
   }
 
   get(): void {
@@ -17,12 +21,12 @@ export class ChoiceTemplatePresenter {
   }
 
   getById(id: number): ChoiceTemplate | undefined {
-    return this.useCase.getById(id)
+    return this.useCase.getById(id);
   }
 
   choiceTemplateTable(
     updateMethod: (id: number) => void,
-    deleteMethod: (id: number) => void,
+    deleteMethod: (id: number) => void
   ): JSX.Element {
     return (
       <Table>
@@ -34,23 +38,25 @@ export class ChoiceTemplatePresenter {
           </TableRow>
         </TableHead>
         <TableBody>
-          {this.useCase.templates.map((template: ChoiceTemplate) =>
+          {this.useCase.templates.map((template: ChoiceTemplate) => (
             <TableRow key={template.choice_template_id}>
               <TableCell>
-                {template.choices.map(x => x.description).join(',')}
+                {template.choices.map((x) => x.description).join(",")}
               </TableCell>
-              <TableCell padding='checkbox'>
-                <EditIconButton onClick={() => updateMethod(template.choice_template_id)}
+              <TableCell padding="checkbox">
+                <EditIconButton
+                  onClick={() => updateMethod(template.choice_template_id)}
                 />
               </TableCell>
-              <TableCell padding='checkbox'>
-                <CancelIconButton onClick={() => deleteMethod(template.choice_template_id)}
+              <TableCell padding="checkbox">
+                <CancelIconButton
+                  onClick={() => deleteMethod(template.choice_template_id)}
                 />
               </TableCell>
             </TableRow>
-          )}
+          ))}
         </TableBody>
       </Table>
-    )
+    );
   }
 }

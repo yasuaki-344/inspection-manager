@@ -2,21 +2,21 @@ import { IInspectionGroupInteractor } from "../interfaces";
 import { InspectionGroup } from "../typescript-fetch";
 
 export class InspectionGroupController {
-  private readonly useCase: IInspectionGroupInteractor
+  private readonly useCase: IInspectionGroupInteractor;
 
   constructor(useCase: IInspectionGroupInteractor) {
-    this.useCase = useCase
+    this.useCase = useCase;
   }
 
   async create(inspectionGroup: InspectionGroup): Promise<void> {
-    await this.useCase.create(inspectionGroup)
+    await this.useCase.create(inspectionGroup);
   }
 
   async update(inspectionGroup: InspectionGroup): Promise<void> {
-    await this.useCase.update(inspectionGroup)
+    await this.useCase.update(inspectionGroup);
   }
 
   async delete(id: number): Promise<void> {
-    await this.useCase.delete(id)
+    await this.useCase.delete(id);
   }
 }

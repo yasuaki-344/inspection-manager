@@ -1,18 +1,33 @@
-import React, { FC, Fragment, useEffect, useState } from 'react';
+import React, { FC, Fragment, useEffect, useState } from "react";
 import {
-  Box, Collapse, Paper, List, ListItem, IconButton,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow
-} from '@mui/material';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { useInputTypes } from '../../entities';
-import { InspectionSheet, Equipment, InspectionItem, InspectionSheetInitialState } from '../../entities';
-import { InspectionGroup, InspectionType } from '../../typescript-fetch';
-import { TopPageLink } from '../common';
+  Box,
+  Collapse,
+  Paper,
+  List,
+  ListItem,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { useInputTypes } from "../../entities";
+import {
+  InspectionSheet,
+  Equipment,
+  InspectionItem,
+  InspectionSheetInitialState,
+} from "../../entities";
+import { InspectionGroup, InspectionType } from "../../typescript-fetch";
+import { TopPageLink } from "../common";
 
 interface RowProps {
-  equipment: Equipment,
-};
+  equipment: Equipment;
+}
 
 const Row: FC<RowProps> = ({ equipment }): JSX.Element => {
   const [open, setOpen] = useState(false);
@@ -21,7 +36,11 @@ const Row: FC<RowProps> = ({ equipment }): JSX.Element => {
     <Fragment key={equipment.equipment_id}>
       <TableRow>
         <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
@@ -40,16 +59,22 @@ const Row: FC<RowProps> = ({ equipment }): JSX.Element => {
                   <TableCell>選択肢</TableCell>
                 </TableHead>
                 <TableBody>
-                  {equipment.inspection_items.map((item: InspectionItem) =>
+                  {equipment.inspection_items.map((item: InspectionItem) => (
                     <TableRow key={item.inspection_item_id}>
                       <TableCell>{item.inspection_item_id}</TableCell>
                       <TableCell>{item.inspection_content}</TableCell>
                       <TableCell>
-                        {useInputTypes.filter(e => e.value === item.input_type)[0].label}
+                        {
+                          useInputTypes.filter(
+                            (e) => e.value === item.input_type
+                          )[0].label
+                        }
                       </TableCell>
-                      <TableCell>{item.choices.map(x => x.description).join(',')}</TableCell>
+                      <TableCell>
+                        {item.choices.map((x) => x.description).join(",")}
+                      </TableCell>
                     </TableRow>
-                  )}
+                  ))}
                 </TableBody>
               </Table>
             </Box>
@@ -57,33 +82,35 @@ const Row: FC<RowProps> = ({ equipment }): JSX.Element => {
         </TableCell>
       </TableRow>
     </Fragment>
-  )
-}
+  );
+};
 
 export const Details = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
-  const [inspectionSheet, setInspectionSheet] = useState<InspectionSheet>(InspectionSheetInitialState);
+  const [inspectionSheet, setInspectionSheet] = useState<InspectionSheet>(
+    InspectionSheetInitialState
+  );
   const [groups, setGroups] = useState<InspectionGroup[]>([]);
   const [types, setTypes] = useState<InspectionType[]>([]);
 
   useEffect(() => {
-    fetch('inspectiongroup')
-      .then(res => res.json())
+    fetch("inspectiongroup")
+      .then((res) => res.json())
       .then((json: InspectionGroup[]) => {
         setGroups(json);
       })
       .catch(console.error);
 
-    fetch('inspectiontype')
-      .then(res => res.json())
+    fetch("inspectiontype")
+      .then((res) => res.json())
       .then((json: InspectionType[]) => {
         setTypes(json);
       })
       .catch(console.error);
 
     fetch(`inspectionsheet/${sheetId}`)
-      .then(res => res.json())
-      .then(json => {
+      .then((res) => res.json())
+      .then((json) => {
         console.log(json);
         setInspectionSheet(json);
       })
@@ -99,11 +126,20 @@ export const Details = ({ match }: any): JSX.Element => {
         <ListItem>シート名:{inspectionSheet.sheet_name}</ListItem>
         <ListItem>
           点検グループ:
-          {groups.find(x => x.inspection_group_id === inspectionSheet.inspection_group_id)?.description}
+          {
+            groups.find(
+              (x) =>
+                x.inspection_group_id === inspectionSheet.inspection_group_id
+            )?.description
+          }
         </ListItem>
         <ListItem>
           点検種別:
-          {types.find(x => x.inspection_type_id === inspectionSheet.inspection_type_id)?.description}
+          {
+            types.find(
+              (x) => x.inspection_type_id === inspectionSheet.inspection_type_id
+            )?.description
+          }
         </ListItem>
       </List>
       <TableContainer component={Paper}>
@@ -116,13 +152,13 @@ export const Details = ({ match }: any): JSX.Element => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {inspectionSheet.equipments.map((equipment: Equipment) =>
+            {inspectionSheet.equipments.map((equipment: Equipment) => (
               <Row key={equipment.equipment_id} equipment={equipment} />
-            )}
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
     </div>
   );
-}
+};
 Details.displayName = Details.name;
