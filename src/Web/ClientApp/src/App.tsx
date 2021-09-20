@@ -1,5 +1,6 @@
 import React, { createContext, useReducer } from "react";
 import { Route } from "react-router";
+import nameof from "ts-nameof.macro";
 import { Layout, Home } from "./components";
 import { Create } from "./components/inspection";
 import { Details } from "./components/inspection/Details";
@@ -27,7 +28,6 @@ import {
   InspectionSheetController,
 } from "./controllers";
 import { DIContainer } from "./container";
-import nameof from "ts-nameof.macro";
 import {
   InspectionGroupRepository,
   InspectionTypeRepository,
