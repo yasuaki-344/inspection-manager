@@ -42,17 +42,20 @@ export function InspectionItemReducer(
     case TYPES.UPDATE_FIELD:
       if (action.payload != null) {
         if (action.payload.name != null && action.payload.value != null) {
-          if (action.payload.name === "input_type" && action.payload.value !== "2") {
+          if (
+            action.payload.name === "input_type" &&
+            action.payload.value !== "2"
+          ) {
             return {
               ...state,
               [action.payload.name]: action.payload.value,
               choices: [],
             };
           }
-            return {
-              ...state,
-              [action.payload.name]: action.payload.value,
-            };
+          return {
+            ...state,
+            [action.payload.name]: action.payload.value,
+          };
         }
       }
       return state;
@@ -90,9 +93,13 @@ export function InspectionItemReducer(
       return state;
     case TYPES.UPDATE_CHOICE:
       if (action.payload != null) {
-        if (action.payload.choice_index != null && action.payload.value != null) {
+        if (
+          action.payload.choice_index != null &&
+          action.payload.value != null
+        ) {
           // eslint-disable-next-line
-          state.choices[action.payload.choice_index].description = action.payload.value;
+          state.choices[action.payload.choice_index].description =
+            action.payload.value;
           return { ...state };
         }
       }

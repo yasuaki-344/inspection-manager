@@ -4,7 +4,7 @@ import { IconButton, TableCell, TableRow } from "@mui/material";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import EditIcon from "@mui/icons-material/Edit";
 import { InspectionSheetContext } from "../../../App";
-import { useInputTypes, ItemType,InspectionItem } from "../../../entities";
+import { useInputTypes, ItemType, InspectionItem } from "../../../entities";
 import { CancelIconButton } from "../../common";
 
 interface DragItem {
@@ -24,7 +24,9 @@ interface InspectionItemRowProps {
   // storeHistory: () => void;
 }
 
-export const InspectionItemRow: FC<InspectionItemRowProps> = (props): JSX.Element => {
+export const InspectionItemRow: FC<InspectionItemRowProps> = (
+  props: InspectionItemRowProps
+): JSX.Element => {
   const { sheetController } = useContext(InspectionSheetContext);
   const dropRef = useRef<HTMLTableRowElement>(null);
   const dragRef = useRef<HTMLTableCellElement>(null);
@@ -85,8 +87,9 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = (props): JSX.Elemen
       </TableCell>
       <TableCell>
         {
-          useInputTypes.filter((e) => e.value === props.inspectionItem.input_type)[0]
-            .label
+          useInputTypes.filter(
+            (e) => e.value === props.inspectionItem.input_type
+          )[0].label
         }
       </TableCell>
       <TableCell>

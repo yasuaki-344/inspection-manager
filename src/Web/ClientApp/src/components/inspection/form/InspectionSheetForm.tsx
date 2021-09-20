@@ -22,7 +22,9 @@ interface InspectionSheetFormProps {
   isEdit: boolean;
 }
 
-export const InspectionSheetForm: FC<InspectionSheetFormProps> = (props): JSX.Element => {
+export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
+  props: InspectionSheetFormProps
+): JSX.Element => {
   const { sheetPresenter, sheetController } = useContext(
     InspectionSheetContext
   );
