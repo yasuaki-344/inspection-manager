@@ -43,7 +43,8 @@
           "tsx": "never"
         }
       }
-    ]
+    ],
+    "no-console":"off"
   },
   "globals": {
     "JSX": true
