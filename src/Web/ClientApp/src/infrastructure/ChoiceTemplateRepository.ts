@@ -13,20 +13,23 @@ export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
   }
 
   async get(): Promise<ChoiceTemplate[]> {
-    return await this.api.choiceTemplatesGet();
+    const res = await this.api.choiceTemplatesGet();
+    return res;
   }
 
   async post(choiceTemplate: ChoiceTemplate): Promise<ChoiceTemplate> {
-    return await this.api.choiceTemplatesPost({
-      choiceTemplate: choiceTemplate,
+    const res = await this.api.choiceTemplatesPost({
+      choiceTemplate,
     });
+    return res;
   }
 
   async put(choiceTemplate: ChoiceTemplate): Promise<ChoiceTemplate> {
-    return await this.api.choiceTemplatesChoiceTemplateIdPut({
+    const res = await this.api.choiceTemplatesChoiceTemplateIdPut({
       choiceTemplateId: choiceTemplate.choice_template_id,
-      choiceTemplate: choiceTemplate,
+      choiceTemplate,
     });
+    return res;
   }
 
   async delete(id: number): Promise<void> {
