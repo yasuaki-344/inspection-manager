@@ -36,7 +36,7 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
     this.dispatch({
       type: TYPES.SET_CHOICE,
       payload: {
-        choices
+        choices,
       },
     });
   }
