@@ -2,10 +2,10 @@ import { InspectionItem, InspectionSheet } from "../entities";
 import { IInspectionSheetInteractor } from "../interfaces";
 
 export class InspectionSheetController {
-  private readonly useCase: IInspectionSheetInteractor
+  private readonly useCase: IInspectionSheetInteractor;
 
   constructor(useCase: IInspectionSheetInteractor) {
-    this.useCase = useCase
+    this.useCase = useCase;
   }
 
   async getAllInspectionSheet(): Promise<Array<InspectionSheet>> {
@@ -14,7 +14,7 @@ export class InspectionSheetController {
 
   async getInspectionSheetById(id: number): Promise<void> {
     await this.useCase.getInspectionSheetById(id);
-  };
+  }
 
   async createInspectionSheet(): Promise<void> {
     await this.useCase.createInspectionSheet();
@@ -28,7 +28,9 @@ export class InspectionSheetController {
     this.useCase.setSheet(sheet);
   }
 
-  updateField(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
+  updateField(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void {
     this.useCase.updateField(event);
   }
 
@@ -40,7 +42,10 @@ export class InspectionSheetController {
     this.useCase.removeEquipment(index);
   }
 
-  updateEquipment(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number): void {
+  updateEquipment(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index: number
+  ): void {
     this.useCase.updateEquipment(event, index);
   }
 
@@ -53,7 +58,7 @@ export class InspectionSheetController {
   }
 
   removeInspectionItem(equipmentIndex: number, itemIndex: number): void {
-    this.useCase.removeInspectionItem(equipmentIndex, itemIndex)
+    this.useCase.removeInspectionItem(equipmentIndex, itemIndex);
   }
 
   updateInspectionItem(
@@ -61,14 +66,14 @@ export class InspectionSheetController {
     itemIndex: number,
     item: InspectionItem
   ): void {
-    this.useCase.updateInspectionItem(
-      equipmentIndex,
-      itemIndex,
-      item
-    );
+    this.useCase.updateInspectionItem(equipmentIndex, itemIndex, item);
   }
 
-  swapInspectionItem(equipmentIndex: number, srcIndex: number, dstIndex: number) {
+  swapInspectionItem(
+    equipmentIndex: number,
+    srcIndex: number,
+    dstIndex: number
+  ) {
     this.useCase.swapInspectionItem(equipmentIndex, srcIndex, dstIndex);
   }
 }

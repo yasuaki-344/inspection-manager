@@ -1,20 +1,32 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState } from "react";
 import {
-  Dialog, DialogActions, DialogContent, DialogTitle, Button,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Paper, TablePagination
-} from '@mui/material';
-import { InspectionSheet } from '../../entities';
-import { DialogTitleDesign } from '../stylesheets';
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  TablePagination,
+} from "@mui/material";
+import { InspectionSheet } from "../../entities";
+import { DialogTitleDesign } from "../stylesheets";
 
 interface OriginalSheetSelectDialogProp {
-  open: boolean,
-  inspectionSheets: Array<InspectionSheet>,
-  onSelectClick: (sheetId: number) => void,
-  onCancelClick: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  open: boolean;
+  inspectionSheets: Array<InspectionSheet>;
+  onSelectClick: (sheetId: number) => void;
+  onCancelClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export const OriginalSheetSelectDialog: FC<OriginalSheetSelectDialogProp> = (props): JSX.Element => {
+export const OriginalSheetSelectDialog: FC<OriginalSheetSelectDialogProp> = (
+  props
+): JSX.Element => {
   const [page, setPage] = useState(0);
 
   /**
@@ -31,7 +43,9 @@ export const OriginalSheetSelectDialog: FC<OriginalSheetSelectDialogProp> = (pro
 
   return (
     <Dialog open={props.open} onClose={props.onCancelClick}>
-      <DialogTitle sx={DialogTitleDesign}>コピーする点検シートを選択</DialogTitle>
+      <DialogTitle sx={DialogTitleDesign}>
+        コピーする点検シートを選択
+      </DialogTitle>
       <DialogContent>
         <TableContainer component={Paper}>
           <Table>
@@ -46,20 +60,24 @@ export const OriginalSheetSelectDialog: FC<OriginalSheetSelectDialogProp> = (pro
             <TableBody>
               {props.inspectionSheets
                 .slice(page * 5, page * 5 + 5)
-                .map((sheet: InspectionSheet) =>
+                .map((sheet: InspectionSheet) => (
                   <TableRow key={sheet.sheet_id}>
                     <TableCell>{sheet.sheet_name}</TableCell>
                     <TableCell>{sheet.inspection_group}</TableCell>
                     <TableCell>{sheet.inspection_type}</TableCell>
                     <TableCell>
                       <Button
-                        variant='contained'
-                        color='primary'
-                        onClick={e => { props.onSelectClick(sheet.sheet_id); }}
-                      >選択</Button>
+                        variant="contained"
+                        color="primary"
+                        onClick={(e) => {
+                          props.onSelectClick(sheet.sheet_id);
+                        }}
+                      >
+                        選択
+                      </Button>
                     </TableCell>
                   </TableRow>
-                )}
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
@@ -70,16 +88,18 @@ export const OriginalSheetSelectDialog: FC<OriginalSheetSelectDialogProp> = (pro
           onPageChange={handlePageChange}
           rowsPerPage={5}
           rowsPerPageOptions={[5]}
-          labelRowsPerPage={'1ページあたりの件数:'}
+          labelRowsPerPage={"1ページあたりの件数:"}
         />
       </DialogContent>
       <DialogActions>
         <Button
-          variant='contained'
-          color='inherit'
+          variant="contained"
+          color="inherit"
           onClick={props.onCancelClick}
-        >キャンセル</Button>
+        >
+          キャンセル
+        </Button>
       </DialogActions>
     </Dialog>
   );
-}
+};

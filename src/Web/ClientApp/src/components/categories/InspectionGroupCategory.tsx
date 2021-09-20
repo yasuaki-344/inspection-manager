@@ -1,35 +1,54 @@
-import React, { FC, useState, useEffect } from 'react';
-import { Grid, Paper, TableContainer } from '@mui/material';
-import { InspectionGroup } from '../../typescript-fetch';
-import { InspectionGroupInteractor } from '../../use-cases';
-import { InspectionGroupController } from '../../controllers';
-import { InspectionGroupPresenter } from '../../presenters';
-import { InspectionGroupRepository } from '../../infrastructure/InspectionGroupRepository';
-import { Notification, NotificationInitState, NotificationStateInteractor } from '../common/Notification';
-import { BottomNavigationAdd, TopPageLink } from '../common';
-import { EditDialog } from './EditDialog';
+import React, { FC, useState, useEffect } from "react";
+import { Grid, Paper, TableContainer } from "@mui/material";
+import { InspectionGroup } from "../../typescript-fetch";
+import { InspectionGroupInteractor } from "../../use-cases";
+import { InspectionGroupController } from "../../controllers";
+import { InspectionGroupPresenter } from "../../presenters";
+import { InspectionGroupRepository } from "../../infrastructure/InspectionGroupRepository";
+import {
+  Notification,
+  NotificationInitState,
+  NotificationStateInteractor,
+} from "../common/Notification";
+import { BottomNavigationAdd, TopPageLink } from "../common";
+import { EditDialog } from "./EditDialog";
 
-const generate = (hook: [Array<InspectionGroup>, React.Dispatch<React.SetStateAction<Array<InspectionGroup>>>]) => {
+const generate = (
+  hook: [
+    Array<InspectionGroup>,
+    React.Dispatch<React.SetStateAction<Array<InspectionGroup>>>
+  ]
+) => {
   const [types, setTypes] = hook;
-  const useCase = new InspectionGroupInteractor(types, setTypes, new InspectionGroupRepository());
+  const useCase = new InspectionGroupInteractor(
+    types,
+    setTypes,
+    new InspectionGroupRepository()
+  );
   const controller = new InspectionGroupController(useCase);
   const presenter = new InspectionGroupPresenter(useCase);
-  return { controller, presenter }
-}
+  return { controller, presenter };
+};
 
 export const InspectionGroupCategory: FC = (): JSX.Element => {
-  const { controller, presenter } = generate(useState<Array<InspectionGroup>>([]));
+  const { controller, presenter } = generate(
+    useState<Array<InspectionGroup>>([])
+  );
 
   const [open, setOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<InspectionGroup>({
     inspection_group_id: 0,
-    description: ''
+    description: "",
   });
-  const notification = new NotificationStateInteractor(useState(NotificationInitState));
+  const notification = new NotificationStateInteractor(
+    useState(NotificationInitState)
+  );
 
   // eslint-disable-next-line
-  useEffect(() => { presenter.get() }, []);
+  useEffect(() => {
+    presenter.get();
+  }, []);
 
   /**
    * Implement the process to add new group
@@ -37,11 +56,11 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
   const handleAddItem = (): void => {
     setTarget({
       inspection_group_id: 0,
-      description: 'グループ'
+      description: "グループ",
     });
     setIsUpdate(false);
     setOpen(true);
-  }
+  };
 
   /**
    * Implement the process to update group
@@ -54,45 +73,48 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
       setIsUpdate(true);
       setOpen(true);
     }
-  }
+  };
 
   const handleRegistration = (): void => {
     if (isUpdate) {
-      controller.update(target)
+      controller
+        .update(target)
         .then(() => {
-          notification.setMessageState('success', '更新に成功しました');
+          notification.setMessageState("success", "更新に成功しました");
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
-          notification.setMessageState('error', '更新に失敗しました');
+          notification.setMessageState("error", "更新に失敗しました");
         });
     } else {
-      controller.create(target)
+      controller
+        .create(target)
         .then(() => {
-          notification.setMessageState('success', '追加に成功しました');
+          notification.setMessageState("success", "追加に成功しました");
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
-          notification.setMessageState('error', '追加に失敗しました');
+          notification.setMessageState("error", "追加に失敗しました");
         });
     }
     setOpen(false);
-  }
+  };
 
   /**
    * Implement the process to delete group
    * @param id Group ID to be deleted.
    */
   const handleDeleteItem = (id: number): void => {
-    controller.delete(id)
+    controller
+      .delete(id)
       .then(() => {
-        notification.setMessageState('success', '削除に成功しました');
+        notification.setMessageState("success", "削除に成功しました");
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
-        notification.setMessageState('error', '削除に失敗しました');
+        notification.setMessageState("error", "削除に失敗しました");
       });
-  }
+  };
 
   return (
     <>
@@ -110,20 +132,22 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <BottomNavigationAdd
-            label='点検グループ追加'
+            label="点検グループ追加"
             onClick={handleAddItem}
           />
         </Grid>
-      </Grid >
+      </Grid>
       <EditDialog
         open={open}
         title="点検グループ編集"
         label="点検グループ名"
         target={target}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTarget({
-          ...target,
-          [e.target.name]: e.target.value,
-        })}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setTarget({
+            ...target,
+            [e.target.name]: e.target.value,
+          })
+        }
         onOkButtonClick={() => handleRegistration()}
         onCancelButtonClick={() => setOpen(false)}
       />
@@ -131,9 +155,11 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
         open={notification.state.isOpen}
         severity={notification.state.severity}
         message={notification.state.message}
-        onClose={() => { notification.hideDisplay() }}
+        onClose={() => {
+          notification.hideDisplay();
+        }}
       />
     </>
   );
-}
+};
 InspectionGroupCategory.displayName = InspectionGroupCategory.name;

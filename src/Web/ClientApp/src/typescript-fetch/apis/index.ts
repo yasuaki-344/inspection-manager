@@ -1,3 +1,3 @@
-export * from './ChoiceTemplatesApi';
-export * from './InspectionGroupsApi';
-export * from './InspectionTypesApi';
+export * from "./ChoiceTemplatesApi";
+export * from "./InspectionGroupsApi";
+export * from "./InspectionTypesApi";

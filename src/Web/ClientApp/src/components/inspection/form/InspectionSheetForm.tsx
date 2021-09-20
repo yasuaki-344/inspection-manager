@@ -1,23 +1,33 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
-import { DndProvider } from "react-dnd"
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import React, { FC, useContext, useEffect, useState } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import {
-  BottomNavigation, BottomNavigationAction, Grid, Paper
-} from '@mui/material';
-import UndoIcon from '@mui/icons-material/Undo';
-import { InspectionItemDialog } from '../dialog/InspectionItemDialog';
-import { InspectionSheetContext, InspectionItemContext } from '../../../App';
-import { InspectionItem, InspectionSheet } from '../../../entities';
-import { InspectionGroup, InspectionType } from '../../../typescript-fetch';
-import { InspectionGroupRepository, InspectionTypeRepository } from '../../../infrastructure';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+  BottomNavigation,
+  BottomNavigationAction,
+  Grid,
+  Paper,
+} from "@mui/material";
+import UndoIcon from "@mui/icons-material/Undo";
+import { InspectionItemDialog } from "../dialog/InspectionItemDialog";
+import { InspectionSheetContext, InspectionItemContext } from "../../../App";
+import { InspectionItem, InspectionSheet } from "../../../entities";
+import { InspectionGroup, InspectionType } from "../../../typescript-fetch";
+import {
+  InspectionGroupRepository,
+  InspectionTypeRepository,
+} from "../../../infrastructure";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 interface InspectionSheetFormProps {
-  isEdit: boolean,
-};
+  isEdit: boolean;
+}
 
-export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): JSX.Element => {
-  const { sheetPresenter, sheetController } = useContext(InspectionSheetContext);
+export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({
+  isEdit,
+}): JSX.Element => {
+  const { sheetPresenter, sheetController } = useContext(
+    InspectionSheetContext
+  );
   const { itemPresenter, itemController } = useContext(InspectionItemContext);
   const [groups, setGroups] = useState<InspectionGroup[]>([]);
   const [types, setTypes] = useState<InspectionType[]>([]);
@@ -30,19 +40,21 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
 
   useEffect(() => {
     const groupApi = new InspectionGroupRepository();
-    groupApi.get()
-      .then(res => setGroups(res))
+    groupApi
+      .get()
+      .then((res) => setGroups(res))
       .catch(console.error);
     const typeApi = new InspectionTypeRepository();
-    typeApi.get()
-      .then(res => setTypes(res))
+    typeApi
+      .get()
+      .then((res) => setTypes(res))
       .catch(console.error);
   }, []);
 
   const storeHistory = () => {
     setHistory(history.concat(sheetPresenter.getState()));
     setUndoDisabled(false);
-  }
+  };
 
   const getHistory = () => {
     const sheet = history.pop();
@@ -57,9 +69,16 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
    */
   const handleInspectionItem = () => {
     if (additional) {
-      sheetController.addInspectionItem(equipmentIndex, itemPresenter.getState());
+      sheetController.addInspectionItem(
+        equipmentIndex,
+        itemPresenter.getState()
+      );
     } else {
-      sheetController.updateInspectionItem(equipmentIndex, inspectionItemIndex, itemPresenter.getState());
+      sheetController.updateInspectionItem(
+        equipmentIndex,
+        inspectionItemIndex,
+        itemPresenter.getState()
+      );
     }
     storeHistory();
     setOpen(false);
@@ -73,25 +92,33 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
     setAdditional(true);
     itemController.initialize();
     setOpen(true);
-  }
+  };
 
   /**
    * Implements the process for editing inspection item.
    */
-  const handleEditItem = (equipmentIndex: number, inspectionItemIndex: number, inspectionItem: InspectionItem) => {
+  const handleEditItem = (
+    equipmentIndex: number,
+    inspectionItemIndex: number,
+    inspectionItem: InspectionItem
+  ) => {
     setEquipmentIndex(equipmentIndex);
     setInspectionItemIndex(inspectionItemIndex);
     setAdditional(false);
     itemController.setItem(inspectionItem);
     setOpen(true);
-  }
+  };
 
   return (
     <DndProvider backend={HTML5Backend}>
       <Paper variant="outlined">
         {sheetPresenter.getEditContent(
-          isEdit, groups, types,
-          handleAddItem, handleEditItem, storeHistory
+          isEdit,
+          groups,
+          types,
+          handleAddItem,
+          handleEditItem,
+          storeHistory
         )}
         <Grid container spacing={1}>
           <Grid item xs={12}>
@@ -110,7 +137,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
             </BottomNavigation>
           </Grid>
         </Grid>
-      </Paper >
+      </Paper>
       <InspectionItemDialog
         open={open}
         handleClose={() => setOpen(false)}
@@ -118,5 +145,5 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = ({ isEdit }): J
       />
     </DndProvider>
   );
-}
+};
 InspectionSheetForm.displayName = InspectionSheetForm.name;

@@ -1,19 +1,27 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from "react";
 import {
-  Grid, TextField, Dialog, DialogContent, DialogTitle,
-} from '@mui/material';
-import { InspectionGroup, InspectionType } from '../../typescript-fetch';
-import { OkCancelDialogActions } from '../common';
-import { DialogTitleDesign } from '../stylesheets';
+  Grid,
+  TextField,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
+import { InspectionGroup, InspectionType } from "../../typescript-fetch";
+import { OkCancelDialogActions } from "../common";
+import { DialogTitleDesign } from "../stylesheets";
 
 interface IEditDialogProps {
-  open: boolean,
-  title: string,
-  label: string,
-  target: InspectionGroup | InspectionType,
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  onOkButtonClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
-  onCancelButtonClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+  open: boolean;
+  title: string;
+  label: string;
+  target: InspectionGroup | InspectionType;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onOkButtonClick: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
+  onCancelButtonClick: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
 }
 
 export const EditDialog: FC<IEditDialogProps> = (props): JSX.Element => {
@@ -31,9 +39,9 @@ export const EditDialog: FC<IEditDialogProps> = (props): JSX.Element => {
             <TextField
               required
               label={props.label}
-              variant='outlined'
-              size='small'
-              name='description'
+              variant="outlined"
+              size="small"
+              name="description"
               value={props.target.description}
               onChange={props.onChange}
             />
@@ -47,4 +55,4 @@ export const EditDialog: FC<IEditDialogProps> = (props): JSX.Element => {
       />
     </Dialog>
   );
-}
+};

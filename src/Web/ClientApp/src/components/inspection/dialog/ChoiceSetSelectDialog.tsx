@@ -1,26 +1,34 @@
-import React, { FC, useContext, useState, useEffect } from 'react';
+import React, { FC, useContext, useState, useEffect } from "react";
 import {
-  Dialog, DialogContent, DialogTitle,
-  Radio, RadioGroup, FormControl, FormControlLabel,
-} from '@mui/material';
-import { ChoiceTemplate } from '../../../typescript-fetch';
-import { InspectionItemContext } from '../../../App';
-import { OkCancelDialogActions } from '../../common';
-import { DialogTitleDesign } from '../../stylesheets';
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormControlLabel,
+} from "@mui/material";
+import { ChoiceTemplate } from "../../../typescript-fetch";
+import { InspectionItemContext } from "../../../App";
+import { OkCancelDialogActions } from "../../common";
+import { DialogTitleDesign } from "../../stylesheets";
 
 interface ChoiceSetSelectDialogProps {
-  open: boolean,
-  handleClose: () => void,
-};
+  open: boolean;
+  handleClose: () => void;
+}
 
-export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({ open, handleClose }): JSX.Element => {
+export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({
+  open,
+  handleClose,
+}): JSX.Element => {
   const { itemController } = useContext(InspectionItemContext);
   const [value, setValue] = useState(0);
   const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
 
   useEffect(() => {
-    fetch('choicetemplate')
-      .then(res => res.json())
+    fetch("choicetemplate")
+      .then((res) => res.json())
       .then((json: any) => {
         setTemplates(json);
       })
@@ -47,7 +55,8 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({ open, ha
                 key={`label-${index}`}
                 value={index}
                 control={<Radio data-testid={`radio-${index}`} />}
-                label={template.choices.map(x => x.description).join(',')} />
+                label={template.choices.map((x) => x.description).join(",")}
+              />
             ))}
           </RadioGroup>
         </FormControl>
@@ -59,4 +68,4 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({ open, ha
       />
     </Dialog>
   );
-}
+};

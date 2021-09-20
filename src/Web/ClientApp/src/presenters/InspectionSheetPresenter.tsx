@@ -1,16 +1,16 @@
-import { MenuItem, Grid, TextField } from '@mui/material';
+import { MenuItem, Grid, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { Equipment, InspectionSheet } from "../entities";
 import { IInspectionSheetInteractor } from "../interfaces";
 import { EquipmentForm } from "../components/inspection/form/EquipmentForm";
 import { InspectionGroup, InspectionType } from "../typescript-fetch";
-import { LabelStyle, InputStyle } from './../components/stylesheets';
+import { LabelStyle, InputStyle } from "../components/stylesheets";
 
 export class InspectionSheetPresenter {
-  private readonly useCase: IInspectionSheetInteractor
+  private readonly useCase: IInspectionSheetInteractor;
 
   constructor(useCase: IInspectionSheetInteractor) {
-    this.useCase = useCase
+    this.useCase = useCase;
   }
 
   getState(): InspectionSheet {
@@ -25,10 +25,9 @@ export class InspectionSheetPresenter {
     handleEditItem: any,
     storeHistory: any
   ): JSX.Element {
-    const sheet = this.useCase.sheet;
 
-    const contents = isEdit
-      ? <Grid item xs={12}>
+    const contents = isEdit ? (
+      <Grid item xs={12}>
         <TextField
           sx={InputStyle}
           disabled
@@ -36,18 +35,18 @@ export class InspectionSheetPresenter {
           variant="outlined"
           size="small"
           name="sheet_id"
-          defaultValue={sheet.sheet_id}
-          InputProps={{ readOnly: true, }}
+          defaultValue={this.useCase.sheet.sheet_id}
+          InputProps={{ readOnly: true }}
         />
       </Grid>
-      : <></>;
+    ) : (
+      <></>
+    );
 
     return (
       <Grid container spacing={1}>
         <Grid item xs={12}>
-          <Box sx={LabelStyle}>
-            点検シート情報
-          </Box>
+          <Box sx={LabelStyle}>点検シート情報</Box>
         </Grid>
         {contents}
         <Grid item xs={12}>
@@ -59,25 +58,28 @@ export class InspectionSheetPresenter {
             variant="outlined"
             size="small"
             name="sheet_name"
-            value={sheet.sheet_name}
-            onChange={e => this.useCase.updateField(e)}
+            value={this.useCase.sheet.sheet_name}
+            onChange={(e) => this.useCase.updateField(e)}
           />
         </Grid>
         <Grid item xs={12}>
           <TextField
             sx={InputStyle}
             select
-            label='点検グループ'
-            variant='outlined'
-            size='small'
-            name='inspection_group_id'
-            value={sheet.inspection_group_id}
-            onChange={e => this.useCase.updateField(e)}
+            label="点検グループ"
+            variant="outlined"
+            size="small"
+            name="inspection_group_id"
+            value={this.useCase.sheet..inspection_group_id}
+            onChange={(e) => this.useCase.updateField(e)}
           >
             {groups.map((option: InspectionGroup) => (
-              <MenuItem key={option.inspection_group_id} value={option.inspection_group_id}>
+              <MenuItem
+                key={option.inspection_group_id}
+                value={option.inspection_group_id}
+              >
                 {option.description}
-              </MenuItem >
+              </MenuItem>
             ))}
           </TextField>
         </Grid>
@@ -85,21 +87,24 @@ export class InspectionSheetPresenter {
           <TextField
             sx={InputStyle}
             select
-            label='点検タイプ'
-            variant='outlined'
-            size='small'
-            name='inspection_type_id'
-            value={sheet.inspection_type_id}
-            onChange={e => this.useCase.updateField(e)}
+            label="点検タイプ"
+            variant="outlined"
+            size="small"
+            name="inspection_type_id"
+            value={this.useCase.sheet.inspection_type_id}
+            onChange={(e) => this.useCase.updateField(e)}
           >
             {types.map((option: InspectionType) => (
-              <MenuItem key={option.inspection_type_id} value={option.inspection_type_id}>
+              <MenuItem
+                key={option.inspection_type_id}
+                value={option.inspection_type_id}
+              >
                 {option.description}
-              </MenuItem >
+              </MenuItem>
             ))}
           </TextField>
         </Grid>
-        {sheet.equipments.map((equipment: Equipment, index: number) =>
+        {this.useCase.sheet.equipments.map((equipment: Equipment, index: number) => (
           <Grid item xs={12} key={`equipment-${index}`}>
             <EquipmentForm
               index={index}
@@ -109,8 +114,8 @@ export class InspectionSheetPresenter {
               storeHistory={storeHistory}
             />
           </Grid>
-        )}
+        ))}
       </Grid>
-    )
+    );
   }
 }

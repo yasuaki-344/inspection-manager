@@ -3,26 +3,26 @@ import { IInspectionItemInteractor } from "../interfaces";
 import { ChoiceTemplate } from "../typescript-fetch";
 
 export class InspectionItemController {
-  private readonly useCase: IInspectionItemInteractor
+  private readonly useCase: IInspectionItemInteractor;
 
   constructor(useCase: IInspectionItemInteractor) {
-    this.useCase = useCase
+    this.useCase = useCase;
   }
 
   initialize(): void {
     this.useCase.setItem({
       inspection_item_id: 0,
-      inspection_content: '',
+      inspection_content: "",
       input_type: 1,
       choices: [],
     });
   }
 
   setItem(item: InspectionItem): void {
-    this.useCase.setItem(item)
+    this.useCase.setItem(item);
   }
 
   setChoices(choices: ChoiceTemplate): void {
-    this.useCase.setChoices(choices)
+    this.useCase.setChoices(choices);
   }
 }

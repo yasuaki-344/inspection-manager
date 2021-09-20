@@ -1,1 +1,1 @@
-export * from './DIContainer';
+export * from "./DIContainer";

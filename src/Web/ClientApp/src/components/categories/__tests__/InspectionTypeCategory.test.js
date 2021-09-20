@@ -1,22 +1,22 @@
-import React from 'react';
-import { act } from 'react-dom/test-utils';
-import { MemoryRouter } from 'react-router-dom';
-import { render, fireEvent, screen } from '@testing-library/react';
-import { InspectionTypeCategory } from '../InspectionTypeCategory';
+import React from "react";
+import { act } from "react-dom/test-utils";
+import { MemoryRouter } from "react-router-dom";
+import { render, fireEvent, screen } from "@testing-library/react";
+import { InspectionTypeCategory } from "../InspectionTypeCategory";
 
 beforeEach(() => {
-  jest.spyOn(global, 'fetch').mockImplementation(() =>
+  jest.spyOn(global, "fetch").mockImplementation(() =>
     Promise.resolve({
-      json: () => Promise.resolve(['type1', 'type2'])
+      json: () => Promise.resolve(["type1", "type2"]),
     })
   );
-  jest.spyOn(window, 'alert').mockImplementation(() => { });
+  jest.spyOn(window, "alert").mockImplementation(() => {});
 });
 afterEach(() => {
   jest.resetAllMocks();
 });
 
-it('renders without crashing', async () => {
+it("renders without crashing", async () => {
   await act(async () => {
     render(
       <MemoryRouter>
@@ -26,7 +26,7 @@ it('renders without crashing', async () => {
   });
 });
 
-it('click add type button', async () => {
+it("click add type button", async () => {
   await act(async () => {
     render(
       <MemoryRouter>
@@ -34,10 +34,10 @@ it('click add type button', async () => {
       </MemoryRouter>
     );
   });
-  fireEvent.click(screen.getByTestId('add-type-button'));
+  fireEvent.click(screen.getByTestId("add-type-button"));
 });
 
-it('update type', async () => {
+it("update type", async () => {
   await act(async () => {
     render(
       <MemoryRouter>
@@ -45,13 +45,12 @@ it('update type', async () => {
       </MemoryRouter>
     );
   });
-  fireEvent.change(
-    screen.getByDisplayValue('type1'),
-    { target: { value: 'new type' } }
-  );
+  fireEvent.change(screen.getByDisplayValue("type1"), {
+    target: { value: "new type" },
+  });
 });
 
-it('click remove type button', async () => {
+it("click remove type button", async () => {
   await act(async () => {
     render(
       <MemoryRouter>
@@ -59,16 +58,16 @@ it('click remove type button', async () => {
       </MemoryRouter>
     );
   });
-  fireEvent.click(screen.getByTestId('remove-type-button-0'));
+  fireEvent.click(screen.getByTestId("remove-type-button-0"));
 });
 
-it('click submit type button', async () => {
+it("click submit type button", async () => {
   await act(async () => {
     render(
       <MemoryRouter>
         <InspectionTypeCategory />
       </MemoryRouter>
     );
-    fireEvent.submit(screen.getByTestId('form'));
+    fireEvent.submit(screen.getByTestId("form"));
   });
 });

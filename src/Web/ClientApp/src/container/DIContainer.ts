@@ -1,8 +1,8 @@
 export class DIContainer {
-  private readonly container: { [key: string]: any } = {}
+  private readonly container: { [key: string]: any } = {};
 
   register(key: string, object: any) {
-    this.container[key] = object
+    this.container[key] = object;
   }
 
   inject(key: string): any {

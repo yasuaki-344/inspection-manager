@@ -1,17 +1,19 @@
-import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
-import { act } from 'react-dom/test-utils';
-import { Layout } from '../Layout';
+import React from "react";
+import { render, unmountComponentAtNode } from "react-dom";
+import { act } from "react-dom/test-utils";
+import { Layout } from "../Layout";
 
-jest.mock('../NavMenu', () => {
+jest.mock("../NavMenu", () => {
   return {
-    NavMenu: () => { return <></> },
+    NavMenu: () => {
+      return <></>;
+    },
   };
 });
 
 let container = null;
 beforeEach(() => {
-  container = document.createElement('div');
+  container = document.createElement("div");
   document.body.appendChild(container);
 });
 
@@ -21,13 +23,13 @@ afterEach(() => {
   container = null;
 });
 
-it('renders without crashing', async () => {
+it("renders without crashing", async () => {
   await act(async () => {
     render(
       <Layout>
         <div></div>
-      </Layout>
-      , container
+      </Layout>,
+      container
     );
   });
 });

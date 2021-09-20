@@ -1,43 +1,42 @@
-import React from 'react';
-import { act } from 'react-dom/test-utils';
-import { render, fireEvent, screen } from '@testing-library/react';
-import { InspectionItemDialog } from '../InspectionItemDialog';
+import React from "react";
+import { act } from "react-dom/test-utils";
+import { render, fireEvent, screen } from "@testing-library/react";
+import { InspectionItemDialog } from "../InspectionItemDialog";
 
-it('renders without crashing', async () => {
+it("renders without crashing", async () => {
   await act(async () => {
     render(
       <InspectionItemDialog
         open={true}
-        handleClose={() => { }}
-        handleInspectionItem={() => { }}
+        handleClose={() => {}}
+        handleInspectionItem={() => {}}
       />
     );
   });
 });
 
-it('edit button', async () => {
+it("edit button", async () => {
   await act(async () => {
     render(
       <InspectionItemDialog
         open={true}
-        handleClose={() => { }}
-        handleInspectionItem={() => { }}
+        handleClose={() => {}}
+        handleInspectionItem={() => {}}
       />
     );
   });
-  fireEvent.change(
-    screen.getByDisplayValue(''),
-    { target: { value: 'content' } }
-  );
+  fireEvent.change(screen.getByDisplayValue(""), {
+    target: { value: "content" },
+  });
 });
 
-it('click cancel button', async () => {
+it("click cancel button", async () => {
   await act(async () => {
     render(
       <InspectionItemDialog
         open={true}
-        handleClose={() => { }}
-        handleInspectionItem={() => { }}
+        handleClose={() => {}}
+        handleInspectionItem={() => {}}
       />
     );
   });

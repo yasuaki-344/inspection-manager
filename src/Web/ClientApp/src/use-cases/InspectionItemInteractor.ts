@@ -1,11 +1,11 @@
-import React from 'react';
-import { Choice, TYPES } from '../entities';
-import { ChoiceTemplate } from '../typescript-fetch';
-import { InspectionItem } from "../entities";
+import React from "react";
+import { Choice, InspectionItem, TYPES } from "../entities";
+import { ChoiceTemplate } from "../typescript-fetch";
 import { IInspectionItemInteractor } from "../interfaces";
 
 export class InspectionItemInteractor implements IInspectionItemInteractor {
   readonly inspectionItem: InspectionItem;
+
   private readonly dispatch: React.Dispatch<any>;
 
   constructor(state: InspectionItem, dispatch: React.Dispatch<any>) {
@@ -16,13 +16,13 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
   setItem(item: InspectionItem): void {
     this.dispatch({
       type: TYPES.SET_ITEM,
-      payload: {
-        item: item,
-      },
+      payload: { item },
     });
   }
 
-  updateField(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
+  updateField(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void {
     this.dispatch({
       type: TYPES.UPDATE_FIELD,
       payload: {
@@ -36,7 +36,7 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
     this.dispatch({
       type: TYPES.SET_CHOICE,
       payload: {
-        choices: choices,
+        choices
       },
     });
   }
@@ -52,7 +52,7 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
       type: TYPES.REMOVE_CHOICE,
       payload: {
         choice_index: index,
-      }
+      },
     });
   }
 
@@ -65,7 +65,7 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
       payload: {
         value: event.target.value,
         choice_index: index,
-      }
+      },
     });
   }
 
@@ -74,7 +74,7 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
    * @returns Return true if the item is valid, otherwise false.
    */
   isValidInspectionItem(): boolean {
-    if (this.inspectionItem.inspection_content === '') {
+    if (this.inspectionItem.inspection_content === "") {
       return false;
     }
 
@@ -82,10 +82,12 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
       if (!this.inspectionItem.choices.length) {
         return false;
       } else {
-        const descriptions = this.inspectionItem.choices.map((x: Choice) => x.description);
-        return !descriptions.includes('');
+        const descriptions = this.inspectionItem.choices.map(
+          (x: Choice) => x.description
+        );
+        return !descriptions.includes("");
       }
     }
     return true;
-  };
+  }
 }
