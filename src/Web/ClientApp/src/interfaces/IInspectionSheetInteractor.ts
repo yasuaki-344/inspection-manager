@@ -1,3 +1,4 @@
+import React from "react";
 import { InspectionSheet, InspectionItem } from "../entities";
 
 export interface IInspectionSheetInteractor {
