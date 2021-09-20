@@ -1,3 +1,4 @@
+import React from "react";
 import {
   BottomNavigation,
   BottomNavigationAction,
@@ -33,7 +34,6 @@ export class InspectionItemPresenter {
       event: React.MouseEvent<HTMLElement, MouseEvent>
     ) => void
   ): JSX.Element {
-    const inspectionItem = this.useCase.inspectionItem;
     return (
       <Grid container spacing={1} sx={{ pt: 1.5 }}>
         <Grid item xs={12}>
@@ -46,7 +46,7 @@ export class InspectionItemPresenter {
             variant="outlined"
             size="small"
             name="inspection_content"
-            value={inspectionItem.inspection_content}
+            value={this.useCase.inspectionItem.inspection_content}
             onChange={(e) => this.useCase.updateField(e)}
           />
         </Grid>
@@ -60,7 +60,7 @@ export class InspectionItemPresenter {
             variant="outlined"
             size="small"
             name="input_type"
-            value={inspectionItem.input_type}
+            value={this.useCase.inspectionItem.input_type}
             onChange={(e) => this.useCase.updateField(e)}
           >
             {useInputTypes.map((option) => (
@@ -71,33 +71,36 @@ export class InspectionItemPresenter {
           </TextField>
         </Grid>
 
-        {inspectionItem.input_type !== 3 ? (
+        {this.useCase.inspectionItem.input_type !== 3 ? (
           <></>
         ) : (
           <>
-            {inspectionItem.choices.map((choice: Choice, index: number) => (
-              <Grid
-                item
-                xs={12}
-                key={`${inspectionItem.inspection_item_id}_${index}`}
-              >
-                <Box sx={InputStyle}>
-                  <TextField
-                    required
-                    id="outlined-required"
-                    label={`選択肢${index + 1}`}
-                    variant="outlined"
-                    size="small"
-                    name="choice"
-                    value={choice.description}
-                    onChange={(e) => this.useCase.updateChoice(e, index)}
-                  />
-                  <CancelIconButton
-                    onClick={() => this.useCase.removeChoice(index)}
-                  />
-                </Box>
-              </Grid>
-            ))}
+            {this.useCase.inspectionItem.choices.map(
+              (choice: Choice, index: number) => (
+                <Grid
+                  item
+                  xs={12}
+                  // eslint-disable-next-line
+                  key={`${this.useCase.inspectionItem.inspection_item_id}_${index}`}
+                >
+                  <Box sx={InputStyle}>
+                    <TextField
+                      required
+                      id="outlined-required"
+                      label={`選択肢${index + 1}`}
+                      variant="outlined"
+                      size="small"
+                      name="choice"
+                      value={choice.description}
+                      onChange={(e) => this.useCase.updateChoice(e, index)}
+                    />
+                    <CancelIconButton
+                      onClick={() => this.useCase.removeChoice(index)}
+                    />
+                  </Box>
+                </Grid>
+              )
+            )}
             <Grid item xs={12}>
               <BottomNavigation showLabels>
                 <BottomNavigationAction
