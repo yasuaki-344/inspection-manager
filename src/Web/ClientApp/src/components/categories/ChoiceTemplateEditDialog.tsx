@@ -27,7 +27,7 @@ interface IChoiceTemplateEditDialogProps {
 }
 
 export const ChoiceTemplateEditDialog: FC<IChoiceTemplateEditDialogProps> = (
-  props
+  props: IChoiceTemplateEditDialogProps
 ): JSX.Element => {
   const [disabled, setDisabled] = useState(false);
   useEffect(() => {
@@ -78,6 +78,7 @@ export const ChoiceTemplateEditDialog: FC<IChoiceTemplateEditDialogProps> = (
       <DialogContent>
         <Grid container spacing={1} sx={{ pt: 1.5 }}>
           {props.target.choices.map((choice: Option, index: number) => (
+            // eslint-disable-next-line
             <Grid item xs={12} sx={InputStyle} key={index}>
               <TextField
                 required
