@@ -18,10 +18,9 @@ interface ChoiceSetSelectDialogProps {
   handleClose: () => void;
 }
 
-export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({
-  open,
-  handleClose,
-}): JSX.Element => {
+export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
+  props: ChoiceSetSelectDialogProps
+): JSX.Element => {
   const { itemController } = useContext(InspectionItemContext);
   const [value, setValue] = useState(0);
   const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
@@ -41,17 +40,18 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({
 
   const handleSelectTemplate = () => {
     itemController.setChoices(templates[value]);
-    handleClose();
+    props.handleClose();
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={props.open} onClose={props.handleClose}>
       <DialogTitle sx={DialogTitleDesign}>テンプレート選択</DialogTitle>
       <DialogContent>
         <FormControl component="fieldset">
           <RadioGroup value={value} onChange={handleChange}>
             {templates.map((template: ChoiceTemplate, index: number) => (
               <FormControlLabel
+                // eslint-disable-next-line
                 key={`label-${index}`}
                 value={index}
                 control={<Radio data-testid={`radio-${index}`} />}
@@ -64,7 +64,7 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = ({
       <OkCancelDialogActions
         disabled={false}
         onOkButtonClick={handleSelectTemplate}
-        onCancelButtonClick={handleClose}
+        onCancelButtonClick={props.handleClose}
       />
     </Dialog>
   );
