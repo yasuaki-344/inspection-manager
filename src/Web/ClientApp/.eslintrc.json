@@ -5,7 +5,8 @@
   },
   "extends": [
     "plugin:react/recommended",
-    "airbnb"
+    "airbnb",
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -19,5 +20,44 @@
     "react",
     "@typescript-eslint"
   ],
-  "rules": {}
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "no-use-before-define": "off",
+    "import/prefer-default-export": "off",
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [
+          ".jsx",
+          ".tsx"
+        ]
+      }
+    ],
+    "import/extensions": [
+      "error",
+      {
+        "ignorePackage": {
+          "js": "never",
+          "jsx": "never",
+          "ts": "never",
+          "tsx": "never"
+        }
+      }
+    ]
+  },
+  "globals": {
+    "JSX": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    }
+  }
 }
