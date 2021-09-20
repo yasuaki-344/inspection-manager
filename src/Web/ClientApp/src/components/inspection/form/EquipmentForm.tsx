@@ -82,7 +82,9 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
                 size="small"
                 name="equipment_name"
                 value={props.equipment.equipment_name}
-                onChange={(e) => sheetController.updateEquipment(e, props.index)}
+                onChange={(e) =>
+                  sheetController.updateEquipment(e, props.index)
+                }
               />
             </Grid>
             <Grid item xs={12}>
