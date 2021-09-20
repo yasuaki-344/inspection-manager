@@ -4,8 +4,7 @@ import { IconButton, TableCell, TableRow } from "@mui/material";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import EditIcon from "@mui/icons-material/Edit";
 import { InspectionSheetContext } from "../../../App";
-import { useInputTypes, ItemType } from "../../../entities";
-import { InspectionItem } from "../../../entities";
+import { useInputTypes, ItemType,InspectionItem } from "../../../entities";
 import { CancelIconButton } from "../../common";
 
 interface DragItem {
@@ -22,16 +21,10 @@ interface InspectionItemRowProps {
     inspectionItemIndex: number,
     item: InspectionItem
   ) => void;
-  storeHistory: () => void;
+  // storeHistory: () => void;
 }
 
-export const InspectionItemRow: FC<InspectionItemRowProps> = ({
-  equipmentIndex,
-  inspectionItemIndex,
-  inspectionItem,
-  editInspectionItem,
-  storeHistory,
-}): JSX.Element => {
+export const InspectionItemRow: FC<InspectionItemRowProps> = (props): JSX.Element => {
   const { sheetController } = useContext(InspectionSheetContext);
   const dropRef = useRef<HTMLTableRowElement>(null);
   const dragRef = useRef<HTMLTableCellElement>(null);
@@ -41,14 +34,14 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
     drop(item: DragItem) {
       if (
         !dropRef.current ||
-        item.equipmentIndex !== equipmentIndex ||
-        item.inspectionItemIndex === inspectionItemIndex
+        item.equipmentIndex !== props.equipmentIndex ||
+        item.inspectionItemIndex === props.inspectionItemIndex
       ) {
         return;
       }
       sheetController.swapInspectionItem(
-        equipmentIndex,
-        inspectionItemIndex,
+        props.equipmentIndex,
+        props.inspectionItemIndex,
         item.inspectionItemIndex
       );
     },
@@ -57,8 +50,8 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
   const [, drag, preview] = useDrag({
     type: ItemType.INSPECTION_ITEM,
     item: {
-      equipmentIndex: equipmentIndex,
-      inspectionItemIndex: inspectionItemIndex,
+      equipmentIndex: props.equipmentIndex,
+      inspectionItemIndex: props.inspectionItemIndex,
     },
   });
 
@@ -66,7 +59,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
   drag(dragRef);
 
   return (
-    <TableRow key={inspectionItem.inspection_item_id} ref={dropRef}>
+    <TableRow key={props.inspectionItem.inspection_item_id} ref={dropRef}>
       <TableCell padding="checkbox" ref={dragRef}>
         <IconButton size="small">
           <DragHandleIcon />
@@ -77,10 +70,10 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
           data-testid="edit-item-button"
           size="small"
           onClick={() =>
-            editInspectionItem(
-              equipmentIndex,
-              inspectionItemIndex,
-              inspectionItem
+            props.editInspectionItem(
+              props.equipmentIndex,
+              props.inspectionItemIndex,
+              props.inspectionItem
             )
           }
         >
@@ -88,23 +81,23 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = ({
         </IconButton>
       </TableCell>
       <TableCell component="th" scope="row">
-        {inspectionItem.inspection_content}
+        {props.inspectionItem.inspection_content}
       </TableCell>
       <TableCell>
         {
-          useInputTypes.filter((e) => e.value === inspectionItem.input_type)[0]
+          useInputTypes.filter((e) => e.value === props.inspectionItem.input_type)[0]
             .label
         }
       </TableCell>
       <TableCell>
-        {inspectionItem.choices.map((x) => x.description).join(",")}
+        {props.inspectionItem.choices.map((x) => x.description).join(",")}
       </TableCell>
       <TableCell padding="checkbox">
         <CancelIconButton
           onClick={() =>
             sheetController.removeInspectionItem(
-              equipmentIndex,
-              inspectionItemIndex
+              props.equipmentIndex,
+              props.inspectionItemIndex
             )
           }
         />
