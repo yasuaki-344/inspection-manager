@@ -78,8 +78,7 @@ export const ChoiceTemplateEditDialog: FC<IChoiceTemplateEditDialogProps> = (
       <DialogContent>
         <Grid container spacing={1} sx={{ pt: 1.5 }}>
           {props.target.choices.map((choice: Option, index: number) => (
-            // eslint-disable-next-line
-            <Grid item xs={12} sx={InputStyle} key={index}>
+            <Grid item xs={12} sx={InputStyle} key={choice.option_id}>
               <TextField
                 required
                 id="outlined-required"
