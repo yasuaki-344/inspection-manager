@@ -45,7 +45,6 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
     useState(NotificationInitState)
   );
 
-  // eslint-disable-next-line
   useEffect(() => {
     presenter.get();
   }, []);
