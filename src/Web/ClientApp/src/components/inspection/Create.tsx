@@ -35,7 +35,6 @@ export const Create: FC = (): JSX.Element => {
         notification.setMessageState("error", "データの取得に失敗しました");
         console.error(error);
       });
-    // eslint-disable-next-line
   }, []);
 
   /**
