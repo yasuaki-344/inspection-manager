@@ -42,10 +42,13 @@ export const SHEET_ACTION_TYPE = {
 export function InspectionSheetReducer(
   state: InspectionSheet,
   action: InspectionSheetAction
-): any {
+): InspectionSheet {
   switch (action.type) {
     case SHEET_ACTION_TYPE.SET_SHEET:
-      return action.payload?.sheet;
+      if (action.payload?.sheet != null) {
+        return action.payload.sheet;
+      }
+      return state;
     case SHEET_ACTION_TYPE.UPDATE_FIELD:
       if (action.payload?.name != null) {
         return {
