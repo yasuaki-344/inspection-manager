@@ -1,4 +1,4 @@
-import { InspectionItem, InspectionSheet } from ".";
+import { Equipment, InspectionItem, InspectionSheet } from ".";
 
 export type InspectionSheetAction = {
   type: string;
@@ -91,25 +91,20 @@ export function InspectionSheetReducer(
           })
         };
       }
-    case SHEET_ACTION_TYPE.SWAP_EQUIPMENT:
-      if (action.payload != null) {
-        if (
-          action.payload.equipmentIndex != null &&
-          action.payload.swapIndex != null
-        ) {
-          [
-            // eslint-disable-next-line
-            state.equipments[action.payload.equipmentIndex],
-            // eslint-disable-next-line
-            state.equipments[action.payload.swapIndex],
-          ] = [
-            state.equipments[action.payload.swapIndex],
-            state.equipments[action.payload.equipmentIndex],
-          ];
-          return { ...state };
+    case SHEET_ACTION_TYPE.SWAP_EQUIPMENT: {
+      const srcIndex = action.payload?.equipmentIndex ?? -1
+      const dstIndex = action.payload?.swapIndex ?? -1
+      if (srcIndex >= 0 && dstIndex >= 0) {
+        const { equipments } = state;
+        [ equipments[srcIndex], equipments[dstIndex],] =
+        [ equipments[dstIndex], equipments[srcIndex],];
+        return {
+          ...state,
+          equipments
         }
       }
-      return state;
+      return state
+      }
     case SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM:
       if (action.payload != null) {
         if (
@@ -161,20 +156,20 @@ export function InspectionSheetReducer(
           [
             // eslint-disable-next-line
             state.equipments[action.payload.equipmentIndex].inspection_items[
-              action.payload.inspectionItemIndex
+            action.payload.inspectionItemIndex
             ],
             // eslint-disable-next-line
             state.equipments[action.payload.equipmentIndex].inspection_items[
-              action.payload.swapIndex
+            action.payload.swapIndex
             ],
           ] = [
-            state.equipments[action.payload.equipmentIndex].inspection_items[
+              state.equipments[action.payload.equipmentIndex].inspection_items[
               action.payload.swapIndex
-            ],
-            state.equipments[action.payload.equipmentIndex].inspection_items[
+              ],
+              state.equipments[action.payload.equipmentIndex].inspection_items[
               action.payload.inspectionItemIndex
-            ],
-          ];
+              ],
+            ];
           return { ...state };
         }
       }
