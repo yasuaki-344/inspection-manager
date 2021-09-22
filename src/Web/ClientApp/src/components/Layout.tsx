@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import { NavMenu } from "./NavMenu";
 
 interface LayoutProps {
-  children: React.ReactNodeArray;
+  children: React.ReactNodeArray | React.ReactNode;
 }
 
 export const Layout: FC<LayoutProps> = (props): JSX.Element => {
