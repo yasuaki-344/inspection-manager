@@ -153,24 +153,24 @@ export function InspectionSheetReducer(
           action.payload.inspectionItemIndex != null &&
           action.payload.swapIndex != null
         ) {
+          const {equipments} = state;
+
           [
-            // eslint-disable-next-line
-            state.equipments[action.payload.equipmentIndex].inspection_items[
+            equipments[action.payload.equipmentIndex].inspection_items[
             action.payload.inspectionItemIndex
             ],
-            // eslint-disable-next-line
-            state.equipments[action.payload.equipmentIndex].inspection_items[
+            equipments[action.payload.equipmentIndex].inspection_items[
             action.payload.swapIndex
             ],
           ] = [
-              state.equipments[action.payload.equipmentIndex].inspection_items[
+              equipments[action.payload.equipmentIndex].inspection_items[
               action.payload.swapIndex
               ],
-              state.equipments[action.payload.equipmentIndex].inspection_items[
+              equipments[action.payload.equipmentIndex].inspection_items[
               action.payload.inspectionItemIndex
               ],
             ];
-          return { ...state };
+          return { ...state, equipments };
         }
       }
       return state;
