@@ -51,7 +51,7 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
     this.dispatch({
       type: TYPES.REMOVE_CHOICE,
       payload: {
-        choice_index: index,
+        choiceIndex: index,
       },
     });
   }
@@ -64,7 +64,7 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
       type: TYPES.UPDATE_CHOICE,
       payload: {
         value: event.target.value,
-        choice_index: index,
+        choiceIndex: index,
       },
     });
   }

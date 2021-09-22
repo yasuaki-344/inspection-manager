@@ -6,8 +6,7 @@ export type InspectionItemAction = {
   payload?: {
     name?: string;
     value?: string;
-    // eslint-disable-next-line
-    choice_index?: number;
+    choiceIndex?: number;
     choices?: ChoiceTemplate;
     item?: InspectionItem;
   };
@@ -85,8 +84,8 @@ export function InspectionItemReducer(
       };
     case TYPES.REMOVE_CHOICE:
       if (action.payload != null) {
-        if (action.payload.choice_index != null) {
-          state.choices.splice(action.payload.choice_index, 1);
+        if (action.payload.choiceIndex != null) {
+          state.choices.splice(action.payload.choiceIndex, 1);
           return { ...state };
         }
       }
@@ -94,13 +93,13 @@ export function InspectionItemReducer(
     case TYPES.UPDATE_CHOICE:
       if (action.payload != null) {
         if (
-          action.payload.choice_index != null &&
+          action.payload.choiceIndex != null &&
           action.payload.value != null
         ) {
-          // eslint-disable-next-line
-          state.choices[action.payload.choice_index].description =
+          const { choices } = state;
+          choices[action.payload.choiceIndex].description =
             action.payload.value;
-          return { ...state };
+          return { ...state, choices };
         }
       }
       return state;
