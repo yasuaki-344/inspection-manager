@@ -23,7 +23,7 @@ export class InspectionSheetPresenter {
     types: Array<InspectionType>,
     handleAddItem: any,
     handleEditItem: any,
-    storeHistory: any
+    // storeHistory: any
   ): JSX.Element {
     const contents = isEdit ? (
       <Grid item xs={12}>
@@ -112,7 +112,7 @@ export class InspectionSheetPresenter {
                 equipment={equipment}
                 handleAddItem={handleAddItem}
                 handleEditItem={handleEditItem}
-                storeHistory={storeHistory}
+                // storeHistory={storeHistory}
               />
             </Grid>
           )

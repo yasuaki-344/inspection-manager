@@ -30,7 +30,7 @@ interface EquipmentFormProps {
     inspectionItemIndex: number,
     inspectionItem: InspectionItem
   ) => void;
-  storeHistory: () => void;
+  // storeHistory: () => void;
 }
 
 export const EquipmentForm: FC<EquipmentFormProps> = (
@@ -93,7 +93,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
                 inspectionItems={props.equipment.inspection_items}
                 editInspectionItem={props.handleEditItem}
                 addInspectionItem={props.handleAddItem}
-                storeHistory={props.storeHistory}
+                // storeHistory={props.storeHistory}
               />
             </Grid>
           </Grid>

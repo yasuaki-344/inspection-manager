@@ -117,8 +117,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
           groups,
           types,
           handleAddItem,
-          handleEditItem,
-          storeHistory
+          handleEditItem
+          // storeHistory
         )}
         <Grid container spacing={1}>
           <Grid item xs={12}>
