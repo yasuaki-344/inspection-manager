@@ -73,7 +73,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.dispatch({
       type: SHEET_ACTION_TYPE.REMOVE_EQUIPMENT,
       payload: {
-        equipment_index: index,
+        equipmentIndex: index,
       },
     });
   }
@@ -87,7 +87,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
       payload: {
         name: event.target.name,
         value: event.target.value,
-        equipment_index: index,
+        equipmentIndex: index,
       },
     });
   }
@@ -96,7 +96,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.dispatch({
       type: SHEET_ACTION_TYPE.SWAP_EQUIPMENT,
       payload: {
-        equipment_index: srcIndex,
+        equipmentIndex: srcIndex,
         swap_index: dstIndex,
       },
     });
@@ -106,7 +106,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.dispatch({
       type: SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM,
       payload: {
-        equipment_index: index,
+        equipmentIndex: index,
         inspection_item: item,
       },
     });
@@ -116,7 +116,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.dispatch({
       type: SHEET_ACTION_TYPE.REMOVE_INSPECTION_ITEM,
       payload: {
-        equipment_index: equipmentIndex,
+        equipmentIndex,
         inspection_item_index: itemIndex,
       },
     });
@@ -130,7 +130,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.dispatch({
       type: SHEET_ACTION_TYPE.UPDATE_INSPECTION_ITEM,
       payload: {
-        equipment_index: equipmentIndex,
+        equipmentIndex,
         inspection_item_index: itemIndex,
         inspection_item: item,
       },
@@ -145,7 +145,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.dispatch({
       type: SHEET_ACTION_TYPE.SWAP_INSPECTION_ITEM,
       payload: {
-        equipment_index: equipmentIndex,
+        equipmentIndex,
         inspection_item_index: srcIndex,
         swap_index: dstIndex,
       },

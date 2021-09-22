@@ -5,8 +5,7 @@ export type InspectionSheetAction = {
   payload?: {
     name?: string;
     value?: string;
-    // eslint-disable-next-line
-    equipment_index?: number;
+    equipmentIndex?: number;
     // eslint-disable-next-line
     inspection_item_index?: number;
     // eslint-disable-next-line
@@ -69,8 +68,8 @@ export function InspectionSheetReducer(
       };
     case SHEET_ACTION_TYPE.REMOVE_EQUIPMENT:
       if (action.payload != null) {
-        if (action.payload.equipment_index != null) {
-          state.equipments.splice(action.payload.equipment_index, 1);
+        if (action.payload.equipmentIndex != null) {
+          state.equipments.splice(action.payload.equipmentIndex, 1);
           return { ...state };
         }
       }
@@ -78,12 +77,12 @@ export function InspectionSheetReducer(
     case SHEET_ACTION_TYPE.UPDATE_EQUIPMENT:
       if (action.payload != null) {
         if (
-          action.payload.equipment_index != null &&
+          action.payload.equipmentIndex != null &&
           action.payload.name != null
         ) {
           // eslint-disable-next-line
-          state.equipments[action.payload.equipment_index] = {
-            ...state.equipments[action.payload.equipment_index],
+          state.equipments[action.payload.equipmentIndex] = {
+            ...state.equipments[action.payload.equipmentIndex],
             [action.payload.name]: action.payload.value,
           };
           return { ...state };
@@ -93,17 +92,17 @@ export function InspectionSheetReducer(
     case SHEET_ACTION_TYPE.SWAP_EQUIPMENT:
       if (action.payload != null) {
         if (
-          action.payload.equipment_index != null &&
+          action.payload.equipmentIndex != null &&
           action.payload.swap_index != null
         ) {
           [
             // eslint-disable-next-line
-            state.equipments[action.payload.equipment_index],
+            state.equipments[action.payload.equipmentIndex],
             // eslint-disable-next-line
             state.equipments[action.payload.swap_index],
           ] = [
             state.equipments[action.payload.swap_index],
-            state.equipments[action.payload.equipment_index],
+            state.equipments[action.payload.equipmentIndex],
           ];
           return { ...state };
         }
@@ -112,11 +111,11 @@ export function InspectionSheetReducer(
     case SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM:
       if (action.payload != null) {
         if (
-          action.payload.equipment_index != null &&
+          action.payload.equipmentIndex != null &&
           action.payload.inspection_item != null
         ) {
           state.equipments[
-            action.payload.equipment_index
+            action.payload.equipmentIndex
           ].inspection_items.push(action.payload.inspection_item);
           return { ...state };
         }
@@ -125,11 +124,11 @@ export function InspectionSheetReducer(
     case SHEET_ACTION_TYPE.REMOVE_INSPECTION_ITEM:
       if (action.payload != null) {
         if (
-          action.payload.equipment_index != null &&
+          action.payload.equipmentIndex != null &&
           action.payload.inspection_item_index != null
         ) {
           state.equipments[
-            action.payload.equipment_index
+            action.payload.equipmentIndex
           ].inspection_items.splice(action.payload.inspection_item_index, 1);
           return { ...state };
         }
@@ -138,12 +137,12 @@ export function InspectionSheetReducer(
     case SHEET_ACTION_TYPE.UPDATE_INSPECTION_ITEM:
       if (action.payload != null) {
         if (
-          action.payload.equipment_index != null &&
+          action.payload.equipmentIndex != null &&
           action.payload.inspection_item_index != null &&
           action.payload.inspection_item != null
         ) {
           // eslint-disable-next-line
-          state.equipments[action.payload.equipment_index].inspection_items[
+          state.equipments[action.payload.equipmentIndex].inspection_items[
             action.payload.inspection_item_index
           ] = action.payload.inspection_item;
           return { ...state };
@@ -153,25 +152,25 @@ export function InspectionSheetReducer(
     case SHEET_ACTION_TYPE.SWAP_INSPECTION_ITEM:
       if (action.payload != null) {
         if (
-          action.payload.equipment_index != null &&
+          action.payload.equipmentIndex != null &&
           action.payload.inspection_item_index != null &&
           action.payload.swap_index != null
         ) {
           [
             // eslint-disable-next-line
-            state.equipments[action.payload.equipment_index].inspection_items[
+            state.equipments[action.payload.equipmentIndex].inspection_items[
               action.payload.inspection_item_index
             ],
             // eslint-disable-next-line
-            state.equipments[action.payload.equipment_index].inspection_items[
+            state.equipments[action.payload.equipmentIndex].inspection_items[
               action.payload.swap_index
             ],
           ] = [
-            state.equipments[action.payload.equipment_index].inspection_items[
+            state.equipments[action.payload.equipmentIndex].inspection_items[
               action.payload.swap_index
             ],
-            state.equipments[action.payload.equipment_index].inspection_items[
-              action.payload.equipment_index
+            state.equipments[action.payload.equipmentIndex].inspection_items[
+              action.payload.equipmentIndex
             ],
           ];
           return { ...state };
