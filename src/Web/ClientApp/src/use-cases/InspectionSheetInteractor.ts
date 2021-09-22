@@ -107,7 +107,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
       type: SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM,
       payload: {
         equipmentIndex: index,
-        inspection_item: item,
+        inspectionItem: item,
       },
     });
   }
@@ -132,7 +132,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
       payload: {
         equipmentIndex,
         inspectionItemIndex: itemIndex,
-        inspection_item: item,
+        inspectionItem: item,
       },
     });
   }

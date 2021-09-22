@@ -9,8 +9,7 @@ export type InspectionSheetAction = {
     inspectionItemIndex?: number;
     swapIndex?: number;
     sheet?: InspectionSheet;
-    // eslint-disable-next-line
-    inspection_item?: InspectionItem;
+    inspectionItem?: InspectionItem;
   };
 };
 
@@ -110,11 +109,11 @@ export function InspectionSheetReducer(
       if (action.payload != null) {
         if (
           action.payload.equipmentIndex != null &&
-          action.payload.inspection_item != null
+          action.payload.inspectionItem != null
         ) {
           state.equipments[
             action.payload.equipmentIndex
-          ].inspection_items.push(action.payload.inspection_item);
+          ].inspection_items.push(action.payload.inspectionItem);
           return { ...state };
         }
       }
@@ -137,12 +136,12 @@ export function InspectionSheetReducer(
         if (
           action.payload.equipmentIndex != null &&
           action.payload.inspectionItemIndex != null &&
-          action.payload.inspection_item != null
+          action.payload.inspectionItem != null
         ) {
           // eslint-disable-next-line
           state.equipments[action.payload.equipmentIndex].inspection_items[
             action.payload.inspectionItemIndex
-          ] = action.payload.inspection_item;
+          ] = action.payload.inspectionItem;
           return { ...state };
         }
       }
