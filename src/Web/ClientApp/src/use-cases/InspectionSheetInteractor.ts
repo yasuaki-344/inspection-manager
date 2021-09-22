@@ -97,7 +97,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
       type: SHEET_ACTION_TYPE.SWAP_EQUIPMENT,
       payload: {
         equipmentIndex: srcIndex,
-        swap_index: dstIndex,
+        swapIndex: dstIndex,
       },
     });
   }
@@ -147,7 +147,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
       payload: {
         equipmentIndex,
         inspection_item_index: srcIndex,
-        swap_index: dstIndex,
+        swapIndex: dstIndex,
       },
     });
   }
