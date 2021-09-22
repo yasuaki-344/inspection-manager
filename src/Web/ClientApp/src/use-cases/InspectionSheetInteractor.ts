@@ -117,7 +117,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
       type: SHEET_ACTION_TYPE.REMOVE_INSPECTION_ITEM,
       payload: {
         equipmentIndex,
-        inspection_item_index: itemIndex,
+        inspectionItemIndex: itemIndex,
       },
     });
   }
@@ -131,7 +131,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
       type: SHEET_ACTION_TYPE.UPDATE_INSPECTION_ITEM,
       payload: {
         equipmentIndex,
-        inspection_item_index: itemIndex,
+        inspectionItemIndex: itemIndex,
         inspection_item: item,
       },
     });
@@ -146,7 +146,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
       type: SHEET_ACTION_TYPE.SWAP_INSPECTION_ITEM,
       payload: {
         equipmentIndex,
-        inspection_item_index: srcIndex,
+        inspectionItemIndex: srcIndex,
         swapIndex: dstIndex,
       },
     });
