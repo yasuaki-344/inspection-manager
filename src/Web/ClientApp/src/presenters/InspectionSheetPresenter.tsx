@@ -22,7 +22,7 @@ export class InspectionSheetPresenter {
     groups: Array<InspectionGroup>,
     types: Array<InspectionType>,
     handleAddItem: any,
-    handleEditItem: any,
+    handleEditItem: any
     // storeHistory: any
   ): JSX.Element {
     const contents = isEdit ? (

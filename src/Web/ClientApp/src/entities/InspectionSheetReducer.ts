@@ -74,46 +74,47 @@ export function InspectionSheetReducer(
         }
       }
       return state;
-    case SHEET_ACTION_TYPE.UPDATE_EQUIPMENT:
-      {
-        const equipmentIndex = action.payload?.equipmentIndex ?? -1;
-        const targetName = action.payload?.name ?? "";
-        return {
-          ...state,
-          equipments: state.equipments.map((value: Equipment, index: number) => {
-            if (index === equipmentIndex) {
-              return {
-                ...value,
-                [targetName]: action.payload?.value,
-              }
-            }
-            return value
-          })
-        };
-      }
+    case SHEET_ACTION_TYPE.UPDATE_EQUIPMENT: {
+      const equipmentIndex = action.payload?.equipmentIndex ?? -1;
+      const targetName = action.payload?.name ?? "";
+      return {
+        ...state,
+        equipments: state.equipments.map((value: Equipment, index: number) => {
+          if (index === equipmentIndex) {
+            return {
+              ...value,
+              [targetName]: action.payload?.value,
+            };
+          }
+          return value;
+        }),
+      };
+    }
     case SHEET_ACTION_TYPE.SWAP_EQUIPMENT: {
-      const srcIndex = action.payload?.equipmentIndex ?? -1
-      const dstIndex = action.payload?.swapIndex ?? -1
+      const srcIndex = action.payload?.equipmentIndex ?? -1;
+      const dstIndex = action.payload?.swapIndex ?? -1;
       if (srcIndex >= 0 && dstIndex >= 0) {
         const { equipments } = state;
-        [ equipments[srcIndex], equipments[dstIndex],] =
-        [ equipments[dstIndex], equipments[srcIndex],];
+        [equipments[srcIndex], equipments[dstIndex]] = [
+          equipments[dstIndex],
+          equipments[srcIndex],
+        ];
         return {
           ...state,
-          equipments
-        }
+          equipments,
+        };
       }
-      return state
-      }
+      return state;
+    }
     case SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM:
       if (action.payload != null) {
         if (
           action.payload.equipmentIndex != null &&
           action.payload.inspectionItem != null
         ) {
-          state.equipments[
-            action.payload.equipmentIndex
-          ].inspection_items.push(action.payload.inspectionItem);
+          state.equipments[action.payload.equipmentIndex].inspection_items.push(
+            action.payload.inspectionItem
+          );
           return { ...state };
         }
       }
@@ -138,7 +139,7 @@ export function InspectionSheetReducer(
           action.payload.inspectionItemIndex != null &&
           action.payload.inspectionItem != null
         ) {
-          const {equipments} = state;
+          const { equipments } = state;
           equipments[action.payload.equipmentIndex].inspection_items[
             action.payload.inspectionItemIndex
           ] = action.payload.inspectionItem;
@@ -153,23 +154,23 @@ export function InspectionSheetReducer(
           action.payload.inspectionItemIndex != null &&
           action.payload.swapIndex != null
         ) {
-          const {equipments} = state;
+          const { equipments } = state;
 
           [
             equipments[action.payload.equipmentIndex].inspection_items[
-            action.payload.inspectionItemIndex
+              action.payload.inspectionItemIndex
             ],
             equipments[action.payload.equipmentIndex].inspection_items[
-            action.payload.swapIndex
+              action.payload.swapIndex
             ],
           ] = [
-              equipments[action.payload.equipmentIndex].inspection_items[
+            equipments[action.payload.equipmentIndex].inspection_items[
               action.payload.swapIndex
-              ],
-              equipments[action.payload.equipmentIndex].inspection_items[
+            ],
+            equipments[action.payload.equipmentIndex].inspection_items[
               action.payload.inspectionItemIndex
-              ],
-            ];
+            ],
+          ];
           return { ...state, equipments };
         }
       }
