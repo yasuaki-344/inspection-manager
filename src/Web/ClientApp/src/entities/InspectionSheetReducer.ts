@@ -75,20 +75,22 @@ export function InspectionSheetReducer(
       }
       return state;
     case SHEET_ACTION_TYPE.UPDATE_EQUIPMENT:
-      if (action.payload != null) {
-        if (
-          action.payload.equipmentIndex != null &&
-          action.payload.name != null
-        ) {
-          // eslint-disable-next-line
-          state.equipments[action.payload.equipmentIndex] = {
-            ...state.equipments[action.payload.equipmentIndex],
-            [action.payload.name]: action.payload.value,
-          };
-          return { ...state };
-        }
+      {
+        const equipmentIndex = action.payload?.equipmentIndex ?? -1;
+        const targetName = action.payload?.name ?? "";
+        return {
+          ...state,
+          equipments: state.equipments.map((value: Equipment, index: number) => {
+            if (index === equipmentIndex) {
+              return {
+                ...value,
+                [targetName]: action.payload?.value,
+              }
+            }
+            return value
+          })
+        };
       }
-      return state;
     case SHEET_ACTION_TYPE.SWAP_EQUIPMENT:
       if (action.payload != null) {
         if (
