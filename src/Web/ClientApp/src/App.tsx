@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from "react";
-import { Route } from "react-router";
+import { Route } from "react-router-dom";
 import nameof from "ts-nameof.macro";
 import { Layout, Home } from "./components";
 import { Create } from "./components/inspection";
@@ -105,8 +105,8 @@ const App = (): JSX.Element => {
   return (
     <DIContainerContext.Provider value={container}>
       <Layout>
-        <Route exact path="/" component={Home} />
         <Route path="/group" component={InspectionGroupCategory} />
+        <Route exact path="/" component={Home} />
         <Route path="/types" component={InspectionTypeCategory} />
         <Route path="/choices-template" component={ChoicesTemplate} />
         <InspectionSheetContext.Provider
