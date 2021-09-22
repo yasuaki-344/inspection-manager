@@ -138,11 +138,11 @@ export function InspectionSheetReducer(
           action.payload.inspectionItemIndex != null &&
           action.payload.inspectionItem != null
         ) {
-          // eslint-disable-next-line
-          state.equipments[action.payload.equipmentIndex].inspection_items[
+          const {equipments} = state;
+          equipments[action.payload.equipmentIndex].inspection_items[
             action.payload.inspectionItemIndex
           ] = action.payload.inspectionItem;
-          return { ...state };
+          return { ...state, equipments };
         }
       }
       return state;
