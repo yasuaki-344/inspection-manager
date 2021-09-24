@@ -6,8 +6,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import { InspectionGroup } from "../../entities";
-import { InspectionType } from "../../typescript-fetch";
+import { InspectionGroup, InspectionType } from "../../entities";
 import { OkCancelDialogActions } from "../common";
 import { DialogTitleDesign } from "../stylesheets";
 

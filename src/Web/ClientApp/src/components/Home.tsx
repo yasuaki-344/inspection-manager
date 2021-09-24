@@ -20,8 +20,8 @@ import {
   InspectionSheet,
   InspectionSheetInitialState,
   InspectionGroup,
+  InspectionType,
 } from "../entities";
-import { InspectionType } from "../typescript-fetch";
 import { CancelIconButton } from "./common";
 import { SheetSearchMenu } from "./SheetSearchMenu";
 import { SheetDeleteConfirmationDialog } from "./SheetDeleteConfirmationDialog";
@@ -107,7 +107,7 @@ export const Home: FC = (): JSX.Element => {
       .map((x) => x.inspectionGroupId);
     const filteredTypeIds = types
       .filter((x) => x.description.includes(searchOption.inspection_type))
-      .map((x) => x.inspection_type_id);
+      .map((x) => x.inspectionTypeId);
 
     setFilteredInspectionSheets(
       inspectionSheets.filter(
@@ -279,7 +279,7 @@ export const Home: FC = (): JSX.Element => {
                         {
                           types.find(
                             (x) =>
-                              x.inspection_type_id === sheet.inspection_type_id
+                              x.inspectionTypeId === sheet.inspection_type_id
                           )?.description
                         }
                       </TableCell>
@@ -325,7 +325,7 @@ export const Home: FC = (): JSX.Element => {
         }
         typeName={
           types.find(
-            (x) => x.inspection_type_id === targetSheet.inspection_type_id
+            (x) => x.inspectionTypeId === targetSheet.inspection_type_id
           )?.description
         }
         onDeleteClick={handleDelete}

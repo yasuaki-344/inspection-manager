@@ -1,5 +1,5 @@
 import { IInspectionTypeInteractor } from "../interfaces";
-import { InspectionType } from "../typescript-fetch";
+import { InspectionType } from "../entities";
 
 export class InspectionTypeController {
   private readonly useCase: IInspectionTypeInteractor;

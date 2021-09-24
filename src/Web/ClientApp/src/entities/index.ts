@@ -8,3 +8,4 @@ export * from "./ItemType";
 export * from "./InputTypes";
 export * from "./JsonKeyNameConverter";
 export * from "./InspectionGroup";
+export * from "./InspectionType";

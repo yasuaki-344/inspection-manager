@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from "react";
 import { Grid, Paper, TableContainer } from "@mui/material";
-import { InspectionType } from "../../typescript-fetch";
+import { InspectionType } from "../../entities";
 import { InspectionTypeInteractor } from "../../use-cases";
 import { InspectionTypeController } from "../../controllers";
 import { InspectionTypePresenter } from "../../presenters";
@@ -38,7 +38,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<InspectionType>({
-    inspection_type_id: 0,
+    inspectionTypeId: 0,
     description: "",
   });
   const notification = new NotificationStateInteractor(
@@ -54,7 +54,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
    */
   const handleAddItem = (): void => {
     setTarget({
-      inspection_type_id: 0,
+      inspectionTypeId: 0,
       description: "タイプ",
     });
     setIsUpdate(false);

@@ -1,4 +1,4 @@
-import { InspectionType } from "../typescript-fetch";
+import { InspectionType } from "../entities";
 
 export interface IInspectionTypeRepository {
   get(): Promise<Array<InspectionType>>;

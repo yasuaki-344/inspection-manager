@@ -21,8 +21,9 @@ import {
   Equipment,
   InspectionItem,
   InspectionSheetInitialState,
+  InspectionGroup,
+  InspectionType,
 } from "../../entities";
-import { InspectionGroup, InspectionType } from "../../typescript-fetch";
 import { TopPageLink } from "../common";
 
 interface RowProps {
@@ -130,8 +131,7 @@ export const Details = ({ match }: any): JSX.Element => {
           点検グループ:
           {
             groups.find(
-              (x) =>
-                x.inspection_group_id === inspectionSheet.inspection_group_id
+              (x) => x.inspectionGroupId === inspectionSheet.inspection_group_id
             )?.description
           }
         </ListItem>
@@ -139,7 +139,7 @@ export const Details = ({ match }: any): JSX.Element => {
           点検種別:
           {
             types.find(
-              (x) => x.inspection_type_id === inspectionSheet.inspection_type_id
+              (x) => x.inspectionTypeId === inspectionSheet.inspection_type_id
             )?.description
           }
         </ListItem>

@@ -3,7 +3,7 @@ import {
   IInspectionTypeInteractor,
   IInspectionTypeRepository,
 } from "../interfaces";
-import { InspectionType } from "../typescript-fetch";
+import { InspectionType } from "../entities";
 
 export class InspectionTypeInteractor implements IInspectionTypeInteractor {
   readonly types: Array<InspectionType>;
@@ -32,7 +32,7 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
   }
 
   getById(id: number): InspectionType | undefined {
-    return this.types.find((x) => x.inspection_type_id === id);
+    return this.types.find((x) => x.inspectionTypeId === id);
   }
 
   async create(inspectionType: InspectionType): Promise<void> {
@@ -44,7 +44,7 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
     const res = await this.repository.put(inspectionType);
     this.setTypes(
       this.types.map((x) =>
-        x.inspection_type_id === res.inspection_type_id ? res : x
+        x.inspectionTypeId === res.inspectionTypeId ? res : x
       )
     );
   }
@@ -52,7 +52,7 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
   async delete(id: number): Promise<void> {
     await this.repository.delete(id);
     this.setTypes(
-      this.types.filter((x: InspectionType) => x.inspection_type_id !== id)
+      this.types.filter((x: InspectionType) => x.inspectionTypeId !== id)
     );
   }
 }

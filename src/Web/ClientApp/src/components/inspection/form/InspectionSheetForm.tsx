@@ -15,8 +15,8 @@ import {
   InspectionItem,
   InspectionSheet,
   InspectionGroup,
+  InspectionType,
 } from "../../../entities";
-import { InspectionType } from "../../../typescript-fetch";
 import {
   InspectionGroupRepository,
   InspectionTypeRepository,
