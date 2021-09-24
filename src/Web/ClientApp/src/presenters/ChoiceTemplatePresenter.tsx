@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { CancelIconButton, EditIconButton } from "../components/common";
 import { IChoiceTemplateInteractor } from "../interfaces";
-import { ChoiceTemplate } from "../typescript-fetch";
+import { ChoiceTemplate } from "../entities";
 
 export class ChoiceTemplatePresenter {
   private readonly useCase: IChoiceTemplateInteractor;
@@ -39,18 +39,18 @@ export class ChoiceTemplatePresenter {
         </TableHead>
         <TableBody>
           {this.useCase.templates.map((template: ChoiceTemplate) => (
-            <TableRow key={template.choice_template_id}>
+            <TableRow key={template.choiceTemplateId}>
               <TableCell>
                 {template.choices.map((x) => x.description).join(",")}
               </TableCell>
               <TableCell padding="checkbox">
                 <EditIconButton
-                  onClick={() => updateMethod(template.choice_template_id)}
+                  onClick={() => updateMethod(template.choiceTemplateId)}
                 />
               </TableCell>
               <TableCell padding="checkbox">
                 <CancelIconButton
-                  onClick={() => deleteMethod(template.choice_template_id)}
+                  onClick={() => deleteMethod(template.choiceTemplateId)}
                 />
               </TableCell>
             </TableRow>

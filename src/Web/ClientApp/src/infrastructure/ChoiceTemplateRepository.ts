@@ -1,6 +1,6 @@
 import { IChoiceTemplateRepository } from "../interfaces";
+import { ChoiceTemplate, toCamelCase, toSnakeCase } from "../entities";
 import {
-  ChoiceTemplate,
   ChoiceTemplatesApi,
   ChoiceTemplatesApiInterface,
 } from "../typescript-fetch";
@@ -14,22 +14,24 @@ export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
 
   async get(): Promise<ChoiceTemplate[]> {
     const res = await this.api.choiceTemplatesGet();
-    return res;
+    return toCamelCase(res);
   }
 
   async post(choiceTemplate: ChoiceTemplate): Promise<ChoiceTemplate> {
+    const req = toSnakeCase(choiceTemplate);
     const res = await this.api.choiceTemplatesPost({
-      choiceTemplate,
+      choiceTemplate: req,
     });
-    return res;
+    return toCamelCase(res);
   }
 
   async put(choiceTemplate: ChoiceTemplate): Promise<ChoiceTemplate> {
+    const req = toSnakeCase(choiceTemplate);
     const res = await this.api.choiceTemplatesChoiceTemplateIdPut({
-      choiceTemplateId: choiceTemplate.choice_template_id,
-      choiceTemplate,
+      choiceTemplateId: req.choice_template_id,
+      choiceTemplate: req,
     });
-    return res;
+    return toCamelCase(res);
   }
 
   async delete(id: number): Promise<void> {

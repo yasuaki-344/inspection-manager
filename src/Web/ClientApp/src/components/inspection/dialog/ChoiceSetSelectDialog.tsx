@@ -8,7 +8,7 @@ import {
   FormControl,
   FormControlLabel,
 } from "@mui/material";
-import { ChoiceTemplate } from "../../../typescript-fetch";
+import { ChoiceTemplate } from "../../../entities";
 import { InspectionItemContext } from "../../../App";
 import { OkCancelDialogActions } from "../../common";
 import { DialogTitleDesign } from "../../stylesheets";

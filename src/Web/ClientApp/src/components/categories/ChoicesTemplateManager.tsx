@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from "react";
 import { BottomNavigation, TableContainer, Grid, Paper } from "@mui/material";
-import { ChoiceTemplate } from "../../typescript-fetch";
+import { ChoiceTemplate } from "../../entities";
 import { BottomNavigationAdd } from "../common";
 import { ChoiceTemplateInteractor } from "../../use-cases";
 import { ChoiceTemplateRepository } from "../../infrastructure";
@@ -30,14 +30,14 @@ const generate = (
   return { controller, presenter };
 };
 
-export const ChoicesTemplate: FC = (): JSX.Element => {
+export const ChoicesTemplateManager: FC = (): JSX.Element => {
   const { controller, presenter } = generate(
     useState<Array<ChoiceTemplate>>([])
   );
   const [open, setOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<ChoiceTemplate>({
-    choice_template_id: 0,
+    choiceTemplateId: 0,
     choices: [],
   });
   const notification = new NotificationStateInteractor(
@@ -53,7 +53,7 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
    */
   const handleAddTemplate = () => {
     setTarget({
-      choice_template_id: 0,
+      choiceTemplateId: 0,
       choices: [],
     });
     setIsUpdate(false);
@@ -158,4 +158,4 @@ export const ChoicesTemplate: FC = (): JSX.Element => {
     </>
   );
 };
-ChoicesTemplate.displayName = ChoicesTemplate.name;
+ChoicesTemplateManager.displayName = ChoicesTemplateManager.name;

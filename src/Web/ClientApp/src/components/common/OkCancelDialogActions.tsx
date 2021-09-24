@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Button, DialogActions } from "@mui/material";
 
-interface IOkCancelDialogActionsProps {
+interface OkCancelDialogActionsProps {
   disabled: boolean;
   onOkButtonClick: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -11,7 +11,7 @@ interface IOkCancelDialogActionsProps {
   ) => void;
 }
 
-export const OkCancelDialogActions: FC<IOkCancelDialogActionsProps> = (
+export const OkCancelDialogActions: FC<OkCancelDialogActionsProps> = (
   props
 ): JSX.Element => {
   return (

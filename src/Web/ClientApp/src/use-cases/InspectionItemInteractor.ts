@@ -1,6 +1,5 @@
 import React from "react";
-import { Choice, InspectionItem, TYPES } from "../entities";
-import { ChoiceTemplate } from "../typescript-fetch";
+import { Choice, ChoiceTemplate, InspectionItem, TYPES } from "../entities";
 import { IInspectionItemInteractor } from "../interfaces";
 
 export class InspectionItemInteractor implements IInspectionItemInteractor {

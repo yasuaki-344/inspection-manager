@@ -6,7 +6,7 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
-import { ChoiceTemplate, Option } from "../../typescript-fetch";
+import { ChoiceTemplate, Option } from "../../entities";
 import {
   BottomNavigationAdd,
   CancelIconButton,
@@ -14,7 +14,7 @@ import {
 } from "../common";
 import { DialogTitleDesign, InputStyle } from "../stylesheets";
 
-interface IChoiceTemplateEditDialogProps {
+interface ChoiceTemplateEditDialogProps {
   open: boolean;
   target: ChoiceTemplate;
   setTarget: React.Dispatch<React.SetStateAction<ChoiceTemplate>>;
@@ -26,8 +26,8 @@ interface IChoiceTemplateEditDialogProps {
   ) => void;
 }
 
-export const ChoiceTemplateEditDialog: FC<IChoiceTemplateEditDialogProps> = (
-  props: IChoiceTemplateEditDialogProps
+export const ChoiceTemplateEditDialog: FC<ChoiceTemplateEditDialogProps> = (
+  props: ChoiceTemplateEditDialogProps
 ): JSX.Element => {
   const [disabled, setDisabled] = useState(false);
   useEffect(() => {
@@ -43,7 +43,7 @@ export const ChoiceTemplateEditDialog: FC<IChoiceTemplateEditDialogProps> = (
     props.setTarget({
       ...props.target,
       choices: props.target.choices.concat({
-        option_id: 0,
+        optionId: 0,
         description: "",
       }),
     });
@@ -56,7 +56,7 @@ export const ChoiceTemplateEditDialog: FC<IChoiceTemplateEditDialogProps> = (
         return i !== index
           ? value
           : {
-              option_id: value.option_id,
+              optionId: value.optionId,
               description: input,
             };
       }),
@@ -78,7 +78,7 @@ export const ChoiceTemplateEditDialog: FC<IChoiceTemplateEditDialogProps> = (
       <DialogContent>
         <Grid container spacing={1} sx={{ pt: 1.5 }}>
           {props.target.choices.map((choice: Option, index: number) => (
-            <Grid item xs={12} sx={InputStyle} key={choice.option_id}>
+            <Grid item xs={12} sx={InputStyle} key={choice.optionId}>
               <TextField
                 required
                 id="outlined-required"

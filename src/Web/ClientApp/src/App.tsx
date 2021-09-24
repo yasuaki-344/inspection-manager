@@ -7,7 +7,7 @@ import { Details } from "./components/inspection/Details";
 import { Edit } from "./components/inspection/Edit";
 import { InspectionGroupCategory } from "./components/categories/InspectionGroupCategory";
 import { InspectionTypeCategory } from "./components/categories/InspectionTypeCategory";
-import { ChoicesTemplate } from "./components/categories/ChoicesTemplate";
+import { ChoicesTemplateManager } from "./components/categories/ChoicesTemplateManager";
 import {
   InspectionSheetInteractor,
   InspectionItemInteractor,
@@ -108,7 +108,7 @@ const App = (): JSX.Element => {
         <Route path="/group" component={InspectionGroupCategory} />
         <Route exact path="/" component={Home} />
         <Route path="/types" component={InspectionTypeCategory} />
-        <Route path="/choices-template" component={ChoicesTemplate} />
+        <Route path="/choices-template" component={ChoicesTemplateManager} />
         <InspectionSheetContext.Provider
           value={{
             sheetPresenter: inspectionSheetPresenter,

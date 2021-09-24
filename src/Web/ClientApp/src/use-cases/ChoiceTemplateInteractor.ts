@@ -3,7 +3,7 @@ import {
   IChoiceTemplateInteractor,
   IChoiceTemplateRepository,
 } from "../interfaces";
-import { ChoiceTemplate } from "../typescript-fetch";
+import { ChoiceTemplate } from "../entities";
 
 export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
   readonly templates: Array<ChoiceTemplate>;
@@ -39,7 +39,7 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
 
   getById(id: number): ChoiceTemplate | undefined {
     return this.templates.find(
-      (x: ChoiceTemplate) => x.choice_template_id === id
+      (x: ChoiceTemplate) => x.choiceTemplateId === id
     );
   }
 
@@ -52,7 +52,7 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
     const res = await this.repository.put(choiceTemplate);
     this.dispatch(
       this.templates.map((x) =>
-        x.choice_template_id === res.choice_template_id ? res : x
+        x.choiceTemplateId === res.choiceTemplateId ? res : x
       )
     );
   }
@@ -60,7 +60,7 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
   async delete(id: number): Promise<void> {
     await this.repository.delete(id);
     this.dispatch(
-      this.templates.filter((x: ChoiceTemplate) => x.choice_template_id !== id)
+      this.templates.filter((x: ChoiceTemplate) => x.choiceTemplateId !== id)
     );
   }
 }

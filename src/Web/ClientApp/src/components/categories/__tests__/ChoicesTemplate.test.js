@@ -2,7 +2,7 @@ import React from "react";
 import { act } from "react-dom/test-utils";
 import { MemoryRouter } from "react-router-dom";
 import { render, fireEvent, screen } from "@testing-library/react";
-import { ChoicesTemplate } from "../ChoicesTemplate";
+import { ChoicesTemplateManager } from "../ChoicesTemplateManager";
 
 beforeEach(() => {
   jest.spyOn(global, "fetch").mockImplementation(() =>
@@ -25,7 +25,7 @@ it("renders without crashing", async () => {
   await act(async () => {
     render(
       <MemoryRouter>
-        <ChoicesTemplate />
+        <ChoicesTemplateManager />
       </MemoryRouter>
     );
   });
@@ -35,7 +35,7 @@ it("click add template button", async () => {
   await act(async () => {
     render(
       <MemoryRouter>
-        <ChoicesTemplate />
+        <ChoicesTemplateManager />
       </MemoryRouter>
     );
   });
@@ -59,7 +59,7 @@ it("click edit template button", async () => {
   await act(async () => {
     render(
       <MemoryRouter>
-        <ChoicesTemplate />
+        <ChoicesTemplateManager />
       </MemoryRouter>
     );
   });
@@ -71,7 +71,7 @@ it("click remove template button", async () => {
   await act(async () => {
     render(
       <MemoryRouter>
-        <ChoicesTemplate />
+        <ChoicesTemplateManager />
       </MemoryRouter>
     );
   });
@@ -82,7 +82,7 @@ it("click submit type button", async () => {
   await act(async () => {
     render(
       <MemoryRouter>
-        <ChoicesTemplate />
+        <ChoicesTemplateManager />
       </MemoryRouter>
     );
     fireEvent.submit(screen.getByTestId("form"));

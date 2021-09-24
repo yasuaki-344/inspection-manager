@@ -1,6 +1,5 @@
-import { InspectionItem } from "../entities";
+import { InspectionItem, ChoiceTemplate } from "../entities";
 import { IInspectionItemInteractor } from "../interfaces";
-import { ChoiceTemplate } from "../typescript-fetch";
 
 export class InspectionItemController {
   private readonly useCase: IInspectionItemInteractor;
