@@ -1,9 +1,9 @@
 import { MenuItem, Grid, TextField } from "@mui/material";
 import { Box } from "@mui/system";
-import { Equipment, InspectionSheet } from "../entities";
+import { Equipment, InspectionSheet, InspectionGroup } from "../entities";
 import { IInspectionSheetInteractor } from "../interfaces";
 import { EquipmentForm } from "../components/inspection/form/EquipmentForm";
-import { InspectionGroup, InspectionType } from "../typescript-fetch";
+import { InspectionType } from "../typescript-fetch";
 import { LabelStyle, InputStyle } from "../components/stylesheets";
 
 export class InspectionSheetPresenter {
@@ -74,8 +74,8 @@ export class InspectionSheetPresenter {
           >
             {groups.map((option: InspectionGroup) => (
               <MenuItem
-                key={option.inspection_group_id}
-                value={option.inspection_group_id}
+                key={option.inspectionGroupId}
+                value={option.inspectionGroupId}
               >
                 {option.description}
               </MenuItem>

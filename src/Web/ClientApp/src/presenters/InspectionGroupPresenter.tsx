@@ -6,7 +6,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { IInspectionGroupInteractor } from "../interfaces";
-import { InspectionGroup } from "../typescript-fetch";
+import { InspectionGroup } from "../entities";
 import { CancelIconButton, EditIconButton } from "../components/common";
 
 export class InspectionGroupPresenter {
@@ -39,16 +39,16 @@ export class InspectionGroupPresenter {
         </TableHead>
         <TableBody>
           {this.useCase.groups.map((type: InspectionGroup) => (
-            <TableRow key={type.inspection_group_id}>
+            <TableRow key={type.inspectionGroupId}>
               <TableCell>{type.description}</TableCell>
               <TableCell padding="checkbox">
                 <EditIconButton
-                  onClick={() => updateMethod(type.inspection_group_id)}
+                  onClick={() => updateMethod(type.inspectionGroupId)}
                 />
               </TableCell>
               <TableCell padding="checkbox">
                 <CancelIconButton
-                  onClick={() => deleteMethod(type.inspection_group_id)}
+                  onClick={() => deleteMethod(type.inspectionGroupId)}
                 />
               </TableCell>
             </TableRow>

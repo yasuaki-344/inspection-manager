@@ -1,4 +1,4 @@
-import { InspectionGroup } from "../typescript-fetch";
+import { InspectionGroup } from "../entities";
 
 export interface IInspectionGroupInteractor {
   groups: Array<InspectionGroup>;

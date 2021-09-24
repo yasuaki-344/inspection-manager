@@ -11,8 +11,12 @@ import UndoIcon from "@mui/icons-material/Undo";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { InspectionItemDialog } from "../dialog/InspectionItemDialog";
 import { InspectionSheetContext, InspectionItemContext } from "../../../App";
-import { InspectionItem, InspectionSheet } from "../../../entities";
-import { InspectionGroup, InspectionType } from "../../../typescript-fetch";
+import {
+  InspectionItem,
+  InspectionSheet,
+  InspectionGroup,
+} from "../../../entities";
+import { InspectionType } from "../../../typescript-fetch";
 import {
   InspectionGroupRepository,
   InspectionTypeRepository,

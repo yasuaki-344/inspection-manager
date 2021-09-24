@@ -16,8 +16,12 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DetailsIcon from "@mui/icons-material/Details";
 import nameof from "ts-nameof.macro";
-import { InspectionSheet, InspectionSheetInitialState } from "../entities";
-import { InspectionGroup, InspectionType } from "../typescript-fetch";
+import {
+  InspectionSheet,
+  InspectionSheetInitialState,
+  InspectionGroup,
+} from "../entities";
+import { InspectionType } from "../typescript-fetch";
 import { CancelIconButton } from "./common";
 import { SheetSearchMenu } from "./SheetSearchMenu";
 import { SheetDeleteConfirmationDialog } from "./SheetDeleteConfirmationDialog";
@@ -100,7 +104,7 @@ export const Home: FC = (): JSX.Element => {
   const handleSearch = () => {
     const filteredGroupIds = groups
       .filter((x) => x.description.includes(searchOption.inspection_group))
-      .map((x) => x.inspection_group_id);
+      .map((x) => x.inspectionGroupId);
     const filteredTypeIds = types
       .filter((x) => x.description.includes(searchOption.inspection_type))
       .map((x) => x.inspection_type_id);
@@ -267,8 +271,7 @@ export const Home: FC = (): JSX.Element => {
                         {
                           groups.find(
                             (x) =>
-                              x.inspection_group_id ===
-                              sheet.inspection_group_id
+                              x.inspectionGroupId === sheet.inspection_group_id
                           )?.description
                         }
                       </TableCell>
@@ -317,7 +320,7 @@ export const Home: FC = (): JSX.Element => {
         sheetName={targetSheet.sheet_name}
         groupName={
           groups.find(
-            (x) => x.inspection_group_id === targetSheet.inspection_group_id
+            (x) => x.inspectionGroupId === targetSheet.inspection_group_id
           )?.description
         }
         typeName={

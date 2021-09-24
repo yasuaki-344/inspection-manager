@@ -1,6 +1,6 @@
+import { toCamelCase, InspectionGroup, toSnakeCase } from "../entities";
 import { IInspectionGroupRepository } from "../interfaces";
 import {
-  InspectionGroup,
   InspectionGroupsApi,
   InspectionGroupsApiInterface,
 } from "../typescript-fetch";
@@ -14,22 +14,24 @@ export class InspectionGroupRepository implements IInspectionGroupRepository {
 
   async get(): Promise<Array<InspectionGroup>> {
     const res = await this.api.inspectionGroupsGet();
-    return res;
+    return toCamelCase(res);
   }
 
   async post(inspectionGroup: InspectionGroup): Promise<InspectionGroup> {
+    const req = toSnakeCase(inspectionGroup);
     const res = await this.api.inspectionGroupsPost({
-      inspectionGroup,
+      inspectionGroup: req,
     });
-    return res;
+    return toCamelCase(res);
   }
 
   async put(inspectionGroup: InspectionGroup): Promise<InspectionGroup> {
+    const req = toSnakeCase(inspectionGroup);
     const res = await this.api.inspectionGroupsInspectionGroupIdPut({
-      inspectionGroupId: inspectionGroup.inspection_group_id,
-      inspectionGroup,
+      inspectionGroupId: inspectionGroup.inspectionGroupId,
+      inspectionGroup: req,
     });
-    return res;
+    return toCamelCase(res);
   }
 
   async delete(id: number): Promise<void> {
