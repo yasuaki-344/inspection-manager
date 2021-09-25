@@ -5,9 +5,9 @@ import { Layout, Home } from "./components";
 import { Create } from "./components/inspection";
 import { Details } from "./components/inspection/Details";
 import { Edit } from "./components/inspection/Edit";
-import { InspectionGroupCategory } from "./components/categories/InspectionGroupCategory";
-import { InspectionTypeCategory } from "./components/categories/InspectionTypeCategory";
-import { ChoicesTemplateManager } from "./components/categories/ChoicesTemplateManager";
+import { InspectionGroupCategory } from "./components/pages/InspectionGroupCategory";
+import { InspectionTypeCategory } from "./components/pages/InspectionTypeCategory";
+import { ChoicesTemplateManager } from "./components/pages/ChoicesTemplateManager";
 import {
   InspectionSheetInteractor,
   InspectionItemInteractor,

@@ -13,11 +13,11 @@ import nameof from "ts-nameof.macro";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { InspectionItemForm } from "./InspectionItemForm";
-import { DIContainerContext } from "../../../App";
-import { ItemType, Equipment, InspectionItem } from "../../../entities";
-import { CancelIconButton } from "../../common";
-import { equipmentLabel, MenuIcon, paperElement } from "../../stylesheets";
-import { IInspectionSheetController } from "../../../interfaces";
+import { DIContainerContext } from "../../App";
+import { ItemType, Equipment, InspectionItem } from "../../entities";
+import { CancelIconButton } from "../common";
+import { equipmentLabel, MenuIcon, paperElement } from "../stylesheets";
+import { IInspectionSheetController } from "../../interfaces";
 
 interface DragItem {
   index: number;

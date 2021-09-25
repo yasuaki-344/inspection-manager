@@ -3,7 +3,7 @@ import ReactTestUtils from "react-dom/test-utils";
 import { MemoryRouter } from "react-router-dom";
 import { render, unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
-import { NavMenu } from "../NavMenu";
+import { NavMenu } from "../../NavMenu";
 
 let container = null;
 beforeEach(() => {

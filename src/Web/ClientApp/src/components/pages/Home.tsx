@@ -16,17 +16,17 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DetailsIcon from "@mui/icons-material/Details";
 import nameof from "ts-nameof.macro";
-import { DIContainerContext } from "../App";
-import { InspectionSheet, InspectionSheetInitialState } from "../entities";
+import { DIContainerContext } from "../../App";
+import { InspectionSheet, InspectionSheetInitialState } from "../../entities";
 import {
   IInspectionGroupPresenter,
   IInspectionSheetPresenter,
   IInspectionTypePresenter,
-} from "../interfaces/presenter";
-import { IInspectionSheetController } from "../interfaces/controller";
-import { CancelIconButton } from "./common";
-import { SheetSearchMenu } from "./SheetSearchMenu";
-import { SheetDeleteConfirmationDialog } from "./dialog/SheetDeleteConfirmationDialog";
+} from "../../interfaces/presenter";
+import { IInspectionSheetController } from "../../interfaces/controller";
+import { CancelIconButton } from "../common";
+import { SheetSearchMenu } from "../SheetSearchMenu";
+import { SheetDeleteConfirmationDialog } from "../dialog/SheetDeleteConfirmationDialog";
 
 export const Home: FC = (): JSX.Element => {
   const container = useContext(DIContainerContext);
