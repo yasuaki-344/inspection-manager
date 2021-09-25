@@ -10,11 +10,14 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import { Box } from "@mui/system";
 import { Choice, InspectionItem, useInputTypes } from "../entities";
-import { IInspectionItemInteractor } from "../interfaces";
+import {
+  IInspectionItemInteractor,
+  IInspectionItemPresenter,
+} from "../interfaces";
 import { CancelIconButton } from "../components/common";
 import { InputStyle } from "../components/stylesheets";
 
-export class InspectionItemPresenter {
+export class InspectionItemPresenter implements IInspectionItemPresenter {
   private readonly useCase: IInspectionItemInteractor;
 
   constructor(useCase: IInspectionItemInteractor) {

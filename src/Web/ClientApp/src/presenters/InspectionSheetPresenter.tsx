@@ -6,11 +6,14 @@ import {
   InspectionGroup,
   InspectionType,
 } from "../entities";
-import { IInspectionSheetInteractor } from "../interfaces";
+import {
+  IInspectionSheetInteractor,
+  IInspectionSheetPresenter,
+} from "../interfaces";
 import { EquipmentForm } from "../components/inspection/form/EquipmentForm";
 import { LabelStyle, InputStyle } from "../components/stylesheets";
 
-export class InspectionSheetPresenter {
+export class InspectionSheetPresenter implements IInspectionSheetPresenter {
   private readonly useCase: IInspectionSheetInteractor;
 
   constructor(useCase: IInspectionSheetInteractor) {
