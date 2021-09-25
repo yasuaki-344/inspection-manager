@@ -10,7 +10,7 @@ import { InspectionGroup, InspectionType } from "../../entities";
 import { OkCancelDialogActions } from "../utilities";
 import { DialogTitleDesign } from "../stylesheets";
 
-interface IEditDialogProps {
+interface EditDialogProps {
   open: boolean;
   title: string;
   label: string;
@@ -24,7 +24,7 @@ interface IEditDialogProps {
   ) => void;
 }
 
-export const EditDialog: FC<IEditDialogProps> = (props): JSX.Element => {
+export const EditDialog: FC<EditDialogProps> = (props): JSX.Element => {
   const [disabled, setDisabled] = useState(false);
   useEffect(() => {
     setDisabled(!props.target.description.length);
