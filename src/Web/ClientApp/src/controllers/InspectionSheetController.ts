@@ -1,8 +1,11 @@
 import React from "react";
 import { InspectionItem, InspectionSheet } from "../entities";
-import { IInspectionSheetInteractor } from "../interfaces";
+import {
+  IInspectionSheetController,
+  IInspectionSheetInteractor,
+} from "../interfaces";
 
-export class InspectionSheetController {
+export class InspectionSheetController implements IInspectionSheetController {
   private readonly useCase: IInspectionSheetInteractor;
 
   constructor(useCase: IInspectionSheetInteractor) {
