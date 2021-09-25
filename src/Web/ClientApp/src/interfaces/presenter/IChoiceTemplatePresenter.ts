@@ -1,8 +1,8 @@
 import { ChoiceTemplate } from "../../entities";
 
 export interface IChoiceTemplatePresenter {
+  readonly state: Array<ChoiceTemplate>;
   get(): void;
-  getTemplates(): Array<ChoiceTemplate>;
   getById(id: number): ChoiceTemplate | undefined;
   getByIndex(index: number): ChoiceTemplate | undefined;
   choiceTemplateTable(

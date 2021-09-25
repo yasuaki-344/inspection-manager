@@ -20,7 +20,7 @@ import {
 
 interface ChoiceSetSelectDialogProps {
   open: boolean;
-  handleClose: () => void;
+  onClose: () => void;
 }
 
 export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
@@ -39,41 +39,49 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
     templatePresenter.get();
   }, []);
 
+  /**
+   * Change selected template choices .
+   * @param event Radio button change event
+   */
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(Number((event.target as HTMLInputElement).value));
   };
 
+  /**
+   * Sets selected template choices to the inspection item object
+   * and closes this dialog.
+   */
   const handleSelectTemplate = () => {
     const template = templatePresenter.getByIndex(value);
     if (template != null) {
       itemController.setChoices(template);
     }
-    props.handleClose();
+    props.onClose();
   };
 
   return (
-    <Dialog open={props.open} onClose={props.handleClose}>
+    <Dialog open={props.open} onClose={props.onClose}>
       <DialogTitle sx={DialogTitleDesign}>テンプレート選択</DialogTitle>
       <DialogContent>
         <FormControl component="fieldset">
           <RadioGroup value={value} onChange={handleChange}>
-            {templatePresenter
-              .getTemplates()
-              .map((template: ChoiceTemplate, index: number) => (
+            {templatePresenter.state.map(
+              (template: ChoiceTemplate, index: number) => (
                 <FormControlLabel
                   key={template.choiceTemplateId}
                   value={index}
                   control={<Radio data-testid={`radio-${index}`} />}
                   label={template.choices.map((x) => x.description).join(",")}
                 />
-              ))}
+              )
+            )}
           </RadioGroup>
         </FormControl>
       </DialogContent>
       <OkCancelDialogActions
         disabled={false}
         onOkButtonClick={handleSelectTemplate}
-        onCancelButtonClick={props.handleClose}
+        onCancelButtonClick={props.onClose}
       />
     </Dialog>
   );

@@ -15,16 +15,15 @@ import { ChoiceTemplate } from "../entities";
 export class ChoiceTemplatePresenter implements IChoiceTemplatePresenter {
   private readonly useCase: IChoiceTemplateInteractor;
 
+  readonly state: Array<ChoiceTemplate>;
+
   constructor(useCase: IChoiceTemplateInteractor) {
     this.useCase = useCase;
+    this.state = useCase.templates;
   }
 
   get(): void {
     this.useCase.get();
-  }
-
-  getTemplates(): Array<ChoiceTemplate> {
-    return this.useCase.templates;
   }
 
   getById(id: number): ChoiceTemplate | undefined {

@@ -22,13 +22,13 @@ afterEach(() => {
 
 it("renders without crashing", async () => {
   await act(async () => {
-    render(<ChoiceSetSelectDialog open={true} handleClose={() => {}} />);
+    render(<ChoiceSetSelectDialog open={true} onClose={() => {}} />);
   });
 });
 
 it("select template", async () => {
   await act(async () => {
-    render(<ChoiceSetSelectDialog open={true} handleClose={() => {}} />);
+    render(<ChoiceSetSelectDialog open={true} onClose={() => {}} />);
   });
   fireEvent.click(screen.getByTestId("radio-0"));
   fireEvent.click(screen.getByTestId("radio-1"));
@@ -37,7 +37,7 @@ it("select template", async () => {
 
 it("click cancel button", async () => {
   await act(async () => {
-    render(<ChoiceSetSelectDialog open={true} handleClose={() => {}} />);
+    render(<ChoiceSetSelectDialog open={true} onClose={() => {}} />);
   });
   fireEvent.click(screen.getByText(/キャンセル/i));
 });

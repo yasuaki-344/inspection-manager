@@ -40,7 +40,7 @@ export const InspectionItemDialog = (
           onCancelButtonClick={props.handleClose}
         />
       </Dialog>
-      <ChoiceSetSelectDialog open={open} handleClose={() => setOpen(false)} />
+      <ChoiceSetSelectDialog open={open} onClose={() => setOpen(false)} />
     </>
   );
 };
