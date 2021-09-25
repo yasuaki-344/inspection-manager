@@ -34,8 +34,12 @@ import {
 } from "./infrastructure";
 import {
   IInspectionGroupRepository,
+  IInspectionItemController,
   IInspectionItemInteractor,
+  IInspectionItemPresenter,
+  IInspectionSheetController,
   IInspectionSheetInteractor,
+  IInspectionSheetPresenter,
   IInspectionTypeRepository,
 } from "./interfaces";
 
@@ -101,12 +105,32 @@ const App = (): JSX.Element => {
     nameof<IInspectionSheetInteractor>(),
     new InspectionSheetInteractor(inspectionSheet, sheetDispatch)
   );
+  container.register(
+    nameof<IInspectionSheetPresenter>(),
+    inspectionSheetPresenter
+  )
+  container.register(
+    nameof<IInspectionSheetPresenter>(),
+    inspectionSheetPresenter
+  )
+  container.register(
+    nameof<IInspectionItemPresenter>(),
+    inspectionItemPresenter
+  )
+  container.register(
+    nameof<IInspectionSheetController>(),
+    inspectionSheetController
+  )
+  container.register(
+    nameof<IInspectionItemController>(),
+    inspectionItemController
+  )
 
   return (
     <DIContainerContext.Provider value={container}>
       <Layout>
-        <Route path="/group" component={InspectionGroupCategory} />
         <Route exact path="/" component={Home} />
+        <Route path="/group" component={InspectionGroupCategory} />
         <Route path="/types" component={InspectionTypeCategory} />
         <Route path="/choices-template" component={ChoicesTemplateManager} />
         <InspectionSheetContext.Provider
