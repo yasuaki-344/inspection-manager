@@ -36,18 +36,18 @@ interface InspectionSheetFormProps {
 export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   props: InspectionSheetFormProps
 ): JSX.Element => {
-  const { inject } = useContext(DIContainerContext);
+  const container = useContext(DIContainerContext);
 
-  const sheetPresenter: IInspectionSheetPresenter = inject(
+  const sheetPresenter: IInspectionSheetPresenter = container.inject(
     nameof<IInspectionSheetPresenter>()
   );
-  const sheetController: IInspectionSheetController = inject(
+  const sheetController: IInspectionSheetController = container.inject(
     nameof<IInspectionSheetController>()
   );
-  const itemPresenter: IInspectionItemPresenter = inject(
+  const itemPresenter: IInspectionItemPresenter = container.inject(
     nameof<IInspectionItemPresenter>()
   );
-  const itemController: IInspectionItemController = inject(
+  const itemController: IInspectionItemController = container.inject(
     nameof<IInspectionItemController>()
   );
 

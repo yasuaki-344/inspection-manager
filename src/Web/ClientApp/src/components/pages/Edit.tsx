@@ -3,19 +3,19 @@ import { Button, Grid } from "@mui/material";
 import nameof from "ts-nameof.macro";
 import { InspectionSheetForm } from "./InspectionSheetForm";
 import { DIContainerContext } from "../../App";
-import { TopPageLink } from "../common";
 import {
   Notification,
   NotificationInitState,
   NotificationStateInteractor,
-} from "../common/Notification";
+  TopPageLink,
+} from "../common";
 import { IInspectionSheetController } from "../../interfaces/controller";
 
 export const Edit = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
 
-  const { inject } = useContext(DIContainerContext);
-  const sheetController: IInspectionSheetController = inject(
+  const container = useContext(DIContainerContext);
+  const sheetController: IInspectionSheetController = container.inject(
     nameof<IInspectionSheetController>()
   );
 

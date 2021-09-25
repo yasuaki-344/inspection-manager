@@ -23,8 +23,8 @@ interface ChoiceSetSelectDialogProps {
 export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
   props: ChoiceSetSelectDialogProps
 ): JSX.Element => {
-  const { inject } = useContext(DIContainerContext);
-  const itemController: IInspectionItemController = inject(
+  const container = useContext(DIContainerContext);
+  const itemController: IInspectionItemController = container.inject(
     nameof<IInspectionItemController>()
   );
 

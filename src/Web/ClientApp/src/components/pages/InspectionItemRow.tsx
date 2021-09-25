@@ -29,8 +29,8 @@ interface InspectionItemRowProps {
 export const InspectionItemRow: FC<InspectionItemRowProps> = (
   props: InspectionItemRowProps
 ): JSX.Element => {
-  const { inject } = useContext(DIContainerContext);
-  const sheetController: IInspectionSheetController = inject(
+  const container = useContext(DIContainerContext);
+  const sheetController: IInspectionSheetController = container.inject(
     nameof<IInspectionSheetController>()
   );
 

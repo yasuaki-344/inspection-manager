@@ -38,8 +38,8 @@ interface EquipmentFormProps {
 export const EquipmentForm: FC<EquipmentFormProps> = (
   props: EquipmentFormProps
 ): JSX.Element => {
-  const { inject } = useContext(DIContainerContext);
-  const sheetController: IInspectionSheetController = inject(
+  const container = useContext(DIContainerContext);
+  const sheetController: IInspectionSheetController = container.inject(
     nameof<IInspectionSheetController>()
   );
 

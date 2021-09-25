@@ -16,8 +16,8 @@ interface InspectionDialogProps {
 export const InspectionItemDialog = (
   props: InspectionDialogProps
 ): JSX.Element => {
-  const { inject } = useContext(DIContainerContext);
-  const itemPresenter: IInspectionItemPresenter = inject(
+  const container = useContext(DIContainerContext);
+  const itemPresenter: IInspectionItemPresenter = container.inject(
     nameof<IInspectionItemPresenter>()
   );
   const [open, setOpen] = useState(false);

@@ -17,11 +17,11 @@ import {
 } from "../../interfaces";
 
 export const Create: FC = (): JSX.Element => {
-  const { inject } = useContext(DIContainerContext);
-  const sheetPresenter: IInspectionSheetPresenter = inject(
+  const container = useContext(DIContainerContext);
+  const sheetPresenter: IInspectionSheetPresenter = container.inject(
     nameof<IInspectionSheetPresenter>()
   );
-  const sheetController: IInspectionSheetController = inject(
+  const sheetController: IInspectionSheetController = container.inject(
     nameof<IInspectionSheetController>()
   );
   const [open, setOpen] = useState(false);
