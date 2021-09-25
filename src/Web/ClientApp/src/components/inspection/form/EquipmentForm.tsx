@@ -9,13 +9,15 @@ import {
   Paper,
   TextField,
 } from "@mui/material";
+import nameof from "ts-nameof.macro";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { InspectionItemForm } from "./InspectionItemForm";
-import { InspectionSheetContext } from "../../../App";
+import { DIContainerContext } from "../../../App";
 import { ItemType, Equipment, InspectionItem } from "../../../entities";
 import { CancelIconButton } from "../../common";
 import { equipmentLabel, MenuIcon, paperElement } from "../../stylesheets";
+import { IInspectionSheetController } from "../../../interfaces";
 
 interface DragItem {
   index: number;
@@ -36,7 +38,11 @@ interface EquipmentFormProps {
 export const EquipmentForm: FC<EquipmentFormProps> = (
   props: EquipmentFormProps
 ): JSX.Element => {
-  const { sheetController } = useContext(InspectionSheetContext);
+  const { inject } = useContext(DIContainerContext);
+  const sheetController: IInspectionSheetController = inject(
+    nameof<IInspectionSheetController>()
+  );
+
   const dropRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<HTMLButtonElement>(null);
 

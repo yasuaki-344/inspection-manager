@@ -1,17 +1,24 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Button, Grid } from "@mui/material";
+import nameof from "ts-nameof.macro";
 import { InspectionSheetForm } from "./form/InspectionSheetForm";
-import { InspectionSheetContext } from "../../App";
+import { DIContainerContext } from "../../App";
 import { TopPageLink } from "../common";
 import {
   Notification,
   NotificationInitState,
   NotificationStateInteractor,
 } from "../common/Notification";
+import { IInspectionSheetController } from "../../interfaces";
 
 export const Edit = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
-  const { sheetController } = useContext(InspectionSheetContext);
+
+  const { inject } = useContext(DIContainerContext);
+  const sheetController: IInspectionSheetController = inject(
+    nameof<IInspectionSheetController>()
+  );
+
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)
   );

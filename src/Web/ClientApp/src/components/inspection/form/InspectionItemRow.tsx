@@ -3,9 +3,11 @@ import { useDrag, useDrop } from "react-dnd";
 import { IconButton, TableCell, TableRow } from "@mui/material";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import EditIcon from "@mui/icons-material/Edit";
-import { InspectionSheetContext } from "../../../App";
+import nameof from "ts-nameof.macro";
+import { DIContainerContext } from "../../../App";
 import { useInputTypes, ItemType, InspectionItem } from "../../../entities";
 import { CancelIconButton } from "../../common";
+import { IInspectionSheetController } from "../../../interfaces";
 
 interface DragItem {
   equipmentIndex: number;
@@ -27,7 +29,11 @@ interface InspectionItemRowProps {
 export const InspectionItemRow: FC<InspectionItemRowProps> = (
   props: InspectionItemRowProps
 ): JSX.Element => {
-  const { sheetController } = useContext(InspectionSheetContext);
+  const { inject } = useContext(DIContainerContext);
+  const sheetController: IInspectionSheetController = inject(
+    nameof<IInspectionSheetController>()
+  );
+
   const dropRef = useRef<HTMLTableRowElement>(null);
   const dragRef = useRef<HTMLTableCellElement>(null);
 

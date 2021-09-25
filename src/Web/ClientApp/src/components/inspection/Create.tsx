@@ -1,8 +1,9 @@
 import React, { FC, useContext, useEffect, useState } from "react";
 import { Button, Grid } from "@mui/material";
+import nameof from "ts-nameof.macro";
 import { InspectionSheetForm } from "./form/InspectionSheetForm";
 import { InspectionSheet, InspectionSheetInitialState } from "../../entities";
-import { InspectionSheetContext } from "../../App";
+import { DIContainerContext } from "../../App";
 import { TopPageLink } from "../common";
 import {
   Notification,
@@ -10,10 +11,18 @@ import {
   NotificationStateInteractor,
 } from "../common/Notification";
 import { OriginalSheetSelectDialog } from "./OriginalSheetSelectDialog";
+import {
+  IInspectionSheetController,
+  IInspectionSheetPresenter,
+} from "../../interfaces";
 
 export const Create: FC = (): JSX.Element => {
-  const { sheetPresenter, sheetController } = useContext(
-    InspectionSheetContext
+  const { inject } = useContext(DIContainerContext);
+  const sheetPresenter: IInspectionSheetPresenter = inject(
+    nameof<IInspectionSheetPresenter>()
+  );
+  const sheetController: IInspectionSheetController = inject(
+    nameof<IInspectionSheetController>()
   );
   const [open, setOpen] = useState(false);
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>(

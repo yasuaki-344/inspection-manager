@@ -43,13 +43,6 @@ import {
   IInspectionTypeRepository,
 } from "./interfaces";
 
-export const InspectionSheetContext = createContext(
-  {} as {
-    sheetPresenter: InspectionSheetPresenter;
-    sheetController: InspectionSheetController;
-  }
-);
-
 export const DIContainerContext = createContext<DIContainer>({} as DIContainer);
 
 const App = (): JSX.Element => {
@@ -127,15 +120,8 @@ const App = (): JSX.Element => {
         <Route path="/group" component={InspectionGroupCategory} />
         <Route path="/types" component={InspectionTypeCategory} />
         <Route path="/choices-template" component={ChoicesTemplateManager} />
-        <InspectionSheetContext.Provider
-          value={{
-            sheetPresenter: inspectionSheetPresenter,
-            sheetController: inspectionSheetController,
-          }}
-        >
-          <Route path="/create" component={Create} />
-          <Route path="/edit/:id" component={Edit} />
-        </InspectionSheetContext.Provider>
+        <Route path="/create" component={Create} />
+        <Route path="/edit/:id" component={Edit} />
         <Route path="/details/:id" component={Details} />
       </Layout>
     </DIContainerContext.Provider>

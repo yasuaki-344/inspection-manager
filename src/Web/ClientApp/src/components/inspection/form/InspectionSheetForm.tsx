@@ -11,7 +11,7 @@ import UndoIcon from "@mui/icons-material/Undo";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import nameof from "ts-nameof.macro";
 import { InspectionItemDialog } from "../dialog/InspectionItemDialog";
-import { InspectionSheetContext, DIContainerContext } from "../../../App";
+import { DIContainerContext } from "../../../App";
 import {
   InspectionItem,
   InspectionSheet,
@@ -25,6 +25,8 @@ import {
 import {
   IInspectionItemController,
   IInspectionItemPresenter,
+  IInspectionSheetController,
+  IInspectionSheetPresenter,
 } from "../../../interfaces";
 
 interface InspectionSheetFormProps {
@@ -34,10 +36,14 @@ interface InspectionSheetFormProps {
 export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   props: InspectionSheetFormProps
 ): JSX.Element => {
-  const { sheetPresenter, sheetController } = useContext(
-    InspectionSheetContext
-  );
   const { inject } = useContext(DIContainerContext);
+
+  const sheetPresenter: IInspectionSheetPresenter = inject(
+    nameof<IInspectionSheetPresenter>()
+  );
+  const sheetController: IInspectionSheetController = inject(
+    nameof<IInspectionSheetController>()
+  );
   const itemPresenter: IInspectionItemPresenter = inject(
     nameof<IInspectionItemPresenter>()
   );
