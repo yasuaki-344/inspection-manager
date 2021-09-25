@@ -24,10 +24,12 @@ import {
 } from "../../../infrastructure";
 import {
   IInspectionItemController,
-  IInspectionItemPresenter,
   IInspectionSheetController,
-  IInspectionSheetPresenter,
 } from "../../../interfaces";
+import {
+  IInspectionItemPresenter,
+  IInspectionSheetPresenter,
+} from "../../../interfaces/presenter";
 
 interface InspectionSheetFormProps {
   isEdit: boolean;

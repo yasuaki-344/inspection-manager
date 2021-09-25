@@ -7,7 +7,5 @@ export * from "./IInspectionTypeRepository";
 export * from "./IChoiceTemplateRepository";
 export * from "./IInspectionSheetRepository";
 export * from "./IInspectionGroupRepository";
-export * from "./IInspectionItemPresenter";
-export * from "./IInspectionSheetPresenter";
 export * from "./IInspectionItemController";
 export * from "./IInspectionSheetController";

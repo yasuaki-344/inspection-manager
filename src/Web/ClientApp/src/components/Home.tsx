@@ -16,30 +16,32 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DetailsIcon from "@mui/icons-material/Details";
 import nameof from "ts-nameof.macro";
+import { DIContainerContext } from "../App";
 import {
   InspectionSheet,
   InspectionSheetInitialState,
-  InspectionGroup,
   InspectionType,
   toCamelCase,
 } from "../entities";
+import {
+  IInspectionTypeRepository,
+} from "../interfaces";
+ import { IInspectionGroupPresenter} from "../interfaces/presenter";
 import { CancelIconButton } from "./common";
 import { SheetSearchMenu } from "./SheetSearchMenu";
 import { SheetDeleteConfirmationDialog } from "./SheetDeleteConfirmationDialog";
-import {
-  IInspectionGroupRepository,
-  IInspectionTypeRepository,
-} from "../interfaces";
-import { DIContainerContext } from "../App";
 
 export const Home: FC = (): JSX.Element => {
-  const [groups, setGroups] = useState<InspectionGroup[]>([]);
-  const [types, setTypes] = useState<InspectionType[]>([]);
-  const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>(
-    []
-  );
+  const container = useContext(DIContainerContext);
+  const groupPresenter: IInspectionGroupPresenter = container.inject(
+    nameof<IInspectionGroupPresenter>()
+  )
+  const [types, setTypes] = useState<Array<InspectionType>>([]);
+  const [inspectionSheets, setInspectionSheets] = useState<
+    Array<InspectionSheet>
+  >([]);
   const [filteredInspectionSheets, setFilteredInspectionSheets] = useState<
-    InspectionSheet[]
+    Array<InspectionSheet>
   >([]);
   const [open, setOpen] = useState(false);
   const [targetSheet, setTargetSheet] = useState<InspectionSheet>(
@@ -53,22 +55,12 @@ export const Home: FC = (): JSX.Element => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const container = useContext(DIContainerContext);
-  const groupRepository: IInspectionGroupRepository = container.inject(
-    nameof<IInspectionGroupRepository>()
-  );
   const typeRepository: IInspectionTypeRepository = container.inject(
     nameof<IInspectionTypeRepository>()
   );
 
   useEffect(() => {
-    groupRepository
-      .get()
-      .then((res) => {
-        setGroups(res);
-      })
-      .catch(console.error);
-
+    groupPresenter.get()
     typeRepository
       .get()
       .then((res) => {
@@ -104,9 +96,7 @@ export const Home: FC = (): JSX.Element => {
    * Executes to search inspection sheet based on search options.
    */
   const handleSearch = () => {
-    const filteredGroupIds = groups
-      .filter((x) => x.description.includes(searchOption.inspectionGroup))
-      .map((x) => x.inspectionGroupId);
+    const filteredGroupIds = groupPresenter.getByIds(searchOption.inspectionGroup);
     const filteredTypeIds = types
       .filter((x) => x.description.includes(searchOption.inspectionType))
       .map((x) => x.inspectionTypeId);
@@ -270,12 +260,7 @@ export const Home: FC = (): JSX.Element => {
                       </TableCell>
                       <TableCell>{sheet.sheetName}</TableCell>
                       <TableCell>
-                        {
-                          groups.find(
-                            (x) =>
-                              x.inspectionGroupId === sheet.inspectionGroupId
-                          )?.description
-                        }
+                        {groupPresenter.getGroupName(sheet.inspectionGroupId)}
                       </TableCell>
                       <TableCell>
                         {
@@ -319,11 +304,7 @@ export const Home: FC = (): JSX.Element => {
       <SheetDeleteConfirmationDialog
         open={open}
         sheetName={targetSheet.sheetName}
-        groupName={
-          groups.find(
-            (x) => x.inspectionGroupId === targetSheet.inspectionGroupId
-          )?.description
-        }
+        groupName={groupPresenter.getGroupName(targetSheet.inspectionGroupId)}
         typeName={
           types.find((x) => x.inspectionTypeId === targetSheet.inspectionTypeId)
             ?.description

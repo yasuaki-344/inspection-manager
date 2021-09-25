@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer, useState } from "react";
 import { Route } from "react-router-dom";
 import nameof from "ts-nameof.macro";
 import { Layout, Home } from "./components";
@@ -11,15 +11,18 @@ import { ChoicesTemplateManager } from "./components/categories/ChoicesTemplateM
 import {
   InspectionSheetInteractor,
   InspectionItemInteractor,
+  InspectionGroupInteractor,
 } from "./use-cases";
 import {
   InspectionItemReducer,
   InspectionItemInitialState,
   InspectionSheetReducer,
   InspectionSheetInitialState,
+  InspectionGroup,
 } from "./entities";
 import "./custom.css";
 import {
+  InspectionGroupPresenter,
   InspectionItemPresenter,
   InspectionSheetPresenter,
 } from "./presenters";
@@ -33,19 +36,24 @@ import {
   InspectionTypeRepository,
 } from "./infrastructure";
 import {
+  IInspectionGroupInteractor,
   IInspectionGroupRepository,
   IInspectionItemController,
   IInspectionItemInteractor,
-  IInspectionItemPresenter,
   IInspectionSheetController,
   IInspectionSheetInteractor,
-  IInspectionSheetPresenter,
   IInspectionTypeRepository,
 } from "./interfaces";
+import {
+  IInspectionGroupPresenter,
+  IInspectionItemPresenter,
+  IInspectionSheetPresenter,
+} from "./interfaces/presenter";
 
 export const DIContainerContext = createContext<DIContainer>({} as DIContainer);
 
 const App = (): JSX.Element => {
+  const [groups, setGroups] = useState<Array<InspectionGroup>>([]);
   const [inspectionItem, dispatch] = useReducer(
     InspectionItemReducer,
     InspectionItemInitialState
@@ -80,6 +88,21 @@ const App = (): JSX.Element => {
     nameof<IInspectionGroupRepository>(),
     new InspectionGroupRepository()
   );
+  container.register(
+    nameof<IInspectionGroupInteractor>(),
+    new InspectionGroupInteractor(
+      groups,
+      setGroups,
+      container.inject(nameof<IInspectionGroupRepository>()) as IInspectionGroupRepository
+    )
+  );
+  container.register(
+    nameof<IInspectionGroupPresenter>(),
+    new InspectionGroupPresenter(
+      container.inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor
+    )
+  );
+
   container.register(
     nameof<IInspectionTypeRepository>(),
     new InspectionTypeRepository()

@@ -1,5 +1,5 @@
 import React from "react";
-import { InspectionItem } from "../entities";
+import { InspectionItem } from "../../entities";
 
 export interface IInspectionItemPresenter {
   getState(): InspectionItem;

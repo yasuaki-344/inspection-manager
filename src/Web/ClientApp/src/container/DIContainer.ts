@@ -9,6 +9,6 @@ export class DIContainer {
     if (key in this.container) {
       return this.container[key];
     }
-    throw new Error(`{key} is not registered as dependency`);
+    throw new Error(`${key} is not registered as dependency`);
   }
 }

@@ -13,8 +13,10 @@ import {
 import { OriginalSheetSelectDialog } from "./OriginalSheetSelectDialog";
 import {
   IInspectionSheetController,
-  IInspectionSheetPresenter,
 } from "../../interfaces";
+import {
+  IInspectionSheetPresenter,
+} from "../../interfaces/presenter";
 
 export const Create: FC = (): JSX.Element => {
   const { inject } = useContext(DIContainerContext);

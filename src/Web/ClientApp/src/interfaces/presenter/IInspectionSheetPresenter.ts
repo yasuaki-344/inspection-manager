@@ -1,4 +1,8 @@
-import { InspectionSheet, InspectionGroup, InspectionType } from "../entities";
+import {
+  InspectionSheet,
+  InspectionGroup,
+  InspectionType,
+} from "../../entities";
 
 export interface IInspectionSheetPresenter {
   getState(): InspectionSheet;

@@ -8,8 +8,9 @@ import {
 import { IInspectionGroupInteractor } from "../interfaces";
 import { InspectionGroup } from "../entities";
 import { CancelIconButton, EditIconButton } from "../components/common";
+import { IInspectionGroupPresenter } from "../interfaces/presenter";
 
-export class InspectionGroupPresenter {
+export class InspectionGroupPresenter implements IInspectionGroupPresenter {
   private readonly useCase: IInspectionGroupInteractor;
 
   constructor(useCase: IInspectionGroupInteractor) {
@@ -22,6 +23,18 @@ export class InspectionGroupPresenter {
 
   getById(id: number): InspectionGroup | undefined {
     return this.useCase.getById(id);
+  }
+
+  getByIds(keyword: string): Array<number> {
+    return this.useCase.groups
+    .filter((x) => x.description.includes(keyword))
+    .map((x) => x.inspectionGroupId);
+  }
+
+  getGroupName(id: number): string | undefined {
+    return this.useCase.groups.find((x: InspectionGroup) =>
+        x.inspectionGroupId === id
+    )?.description
   }
 
   inspectionGroupTable(
