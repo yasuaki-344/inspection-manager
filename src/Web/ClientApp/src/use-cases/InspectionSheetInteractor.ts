@@ -2,6 +2,7 @@ import React from "react";
 import {
   InspectionItem,
   InspectionSheet,
+  InspectionSheetAction,
   InspectionSheetInitialState,
   SHEET_ACTION_TYPE,
 } from "../entities";
@@ -14,11 +15,14 @@ import {
 export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   readonly sheet: InspectionSheet;
 
-  private readonly dispatch: React.Dispatch<any>;
+  private readonly dispatch: React.Dispatch<InspectionSheetAction>;
 
   private readonly repository: IInspectionSheetRepository;
 
-  constructor(state: InspectionSheet, dispatch: React.Dispatch<any>) {
+  constructor(
+    state: InspectionSheet,
+    dispatch: React.Dispatch<InspectionSheetAction>
+  ) {
     this.sheet = state;
     this.dispatch = dispatch;
     this.repository = new InspectionSheetRepository();
@@ -73,7 +77,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.dispatch({
       type: SHEET_ACTION_TYPE.REMOVE_EQUIPMENT,
       payload: {
-        equipment_index: index,
+        equipmentIndex: index,
       },
     });
   }
@@ -87,7 +91,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
       payload: {
         name: event.target.name,
         value: event.target.value,
-        equipment_index: index,
+        equipmentIndex: index,
       },
     });
   }
@@ -96,8 +100,8 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.dispatch({
       type: SHEET_ACTION_TYPE.SWAP_EQUIPMENT,
       payload: {
-        equipment_index: srcIndex,
-        swap_index: dstIndex,
+        equipmentIndex: srcIndex,
+        swapIndex: dstIndex,
       },
     });
   }
@@ -106,8 +110,8 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.dispatch({
       type: SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM,
       payload: {
-        equipment_index: index,
-        inspection_item: item,
+        equipmentIndex: index,
+        inspectionItem: item,
       },
     });
   }
@@ -116,8 +120,8 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.dispatch({
       type: SHEET_ACTION_TYPE.REMOVE_INSPECTION_ITEM,
       payload: {
-        equipment_index: equipmentIndex,
-        inspection_item_index: itemIndex,
+        equipmentIndex,
+        inspectionItemIndex: itemIndex,
       },
     });
   }
@@ -130,9 +134,9 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.dispatch({
       type: SHEET_ACTION_TYPE.UPDATE_INSPECTION_ITEM,
       payload: {
-        equipment_index: equipmentIndex,
-        inspection_item_index: itemIndex,
-        inspection_item: item,
+        equipmentIndex,
+        inspectionItemIndex: itemIndex,
+        inspectionItem: item,
       },
     });
   }
@@ -145,9 +149,9 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.dispatch({
       type: SHEET_ACTION_TYPE.SWAP_INSPECTION_ITEM,
       payload: {
-        equipment_index: equipmentIndex,
-        inspection_item_index: srcIndex,
-        swap_index: dstIndex,
+        equipmentIndex,
+        inspectionItemIndex: srcIndex,
+        swapIndex: dstIndex,
       },
     });
   }

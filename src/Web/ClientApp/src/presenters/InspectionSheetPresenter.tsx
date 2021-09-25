@@ -1,9 +1,13 @@
 import { MenuItem, Grid, TextField } from "@mui/material";
 import { Box } from "@mui/system";
-import { Equipment, InspectionSheet } from "../entities";
+import {
+  Equipment,
+  InspectionSheet,
+  InspectionGroup,
+  InspectionType,
+} from "../entities";
 import { IInspectionSheetInteractor } from "../interfaces";
 import { EquipmentForm } from "../components/inspection/form/EquipmentForm";
-import { InspectionGroup, InspectionType } from "../typescript-fetch";
 import { LabelStyle, InputStyle } from "../components/stylesheets";
 
 export class InspectionSheetPresenter {
@@ -22,8 +26,8 @@ export class InspectionSheetPresenter {
     groups: Array<InspectionGroup>,
     types: Array<InspectionType>,
     handleAddItem: any,
-    handleEditItem: any,
-    storeHistory: any
+    handleEditItem: any
+    // storeHistory: any
   ): JSX.Element {
     const contents = isEdit ? (
       <Grid item xs={12}>
@@ -33,8 +37,8 @@ export class InspectionSheetPresenter {
           label="点検シートID"
           variant="outlined"
           size="small"
-          name="sheet_id"
-          defaultValue={this.useCase.sheet.sheet_id}
+          name="sheetId"
+          defaultValue={this.useCase.sheet.sheetId}
           InputProps={{ readOnly: true }}
         />
       </Grid>
@@ -56,8 +60,8 @@ export class InspectionSheetPresenter {
             label="点検シート名"
             variant="outlined"
             size="small"
-            name="sheet_name"
-            value={this.useCase.sheet.sheet_name}
+            name="sheetName"
+            value={this.useCase.sheet.sheetName}
             onChange={(e) => this.useCase.updateField(e)}
           />
         </Grid>
@@ -68,14 +72,14 @@ export class InspectionSheetPresenter {
             label="点検グループ"
             variant="outlined"
             size="small"
-            name="inspection_group_id"
-            value={this.useCase.sheet.inspection_group_id}
+            name="inspectionGroupId"
+            value={this.useCase.sheet.inspectionGroupId}
             onChange={(e) => this.useCase.updateField(e)}
           >
             {groups.map((option: InspectionGroup) => (
               <MenuItem
-                key={option.inspection_group_id}
-                value={option.inspection_group_id}
+                key={option.inspectionGroupId}
+                value={option.inspectionGroupId}
               >
                 {option.description}
               </MenuItem>
@@ -89,14 +93,14 @@ export class InspectionSheetPresenter {
             label="点検タイプ"
             variant="outlined"
             size="small"
-            name="inspection_type_id"
-            value={this.useCase.sheet.inspection_type_id}
+            name="inspectionTypeId"
+            value={this.useCase.sheet.inspectionTypeId}
             onChange={(e) => this.useCase.updateField(e)}
           >
             {types.map((option: InspectionType) => (
               <MenuItem
-                key={option.inspection_type_id}
-                value={option.inspection_type_id}
+                key={option.inspectionTypeId}
+                value={option.inspectionTypeId}
               >
                 {option.description}
               </MenuItem>
@@ -112,7 +116,7 @@ export class InspectionSheetPresenter {
                 equipment={equipment}
                 handleAddItem={handleAddItem}
                 handleEditItem={handleEditItem}
-                storeHistory={storeHistory}
+                // storeHistory={storeHistory}
               />
             </Grid>
           )

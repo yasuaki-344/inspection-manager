@@ -20,7 +20,6 @@ export const InspectionItemDialog = (
 
   useEffect(() => {
     setDisabled(!itemPresenter.isValidInspectionItem());
-    // eslint-disable-next-line
   }, [itemPresenter.getState()]);
 
   return (

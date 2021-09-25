@@ -1,6 +1,5 @@
 import React from "react";
-import { Choice, InspectionItem, TYPES } from "../entities";
-import { ChoiceTemplate } from "../typescript-fetch";
+import { Choice, ChoiceTemplate, InspectionItem, TYPES } from "../entities";
 import { IInspectionItemInteractor } from "../interfaces";
 
 export class InspectionItemInteractor implements IInspectionItemInteractor {
@@ -51,7 +50,7 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
     this.dispatch({
       type: TYPES.REMOVE_CHOICE,
       payload: {
-        choice_index: index,
+        choiceIndex: index,
       },
     });
   }
@@ -64,7 +63,7 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
       type: TYPES.UPDATE_CHOICE,
       payload: {
         value: event.target.value,
-        choice_index: index,
+        choiceIndex: index,
       },
     });
   }
@@ -74,11 +73,11 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
    * @returns Return true if the item is valid, otherwise false.
    */
   isValidInspectionItem(): boolean {
-    if (this.inspectionItem.inspection_content === "") {
+    if (this.inspectionItem.inspectionContent === "") {
       return false;
     }
 
-    if (this.inspectionItem.input_type === 3) {
+    if (this.inspectionItem.inputType === 3) {
       if (!this.inspectionItem.choices.length) {
         return false;
       }

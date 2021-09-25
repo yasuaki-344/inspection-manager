@@ -30,7 +30,7 @@ interface EquipmentFormProps {
     inspectionItemIndex: number,
     inspectionItem: InspectionItem
   ) => void;
-  storeHistory: () => void;
+  // storeHistory: () => void;
 }
 
 export const EquipmentForm: FC<EquipmentFormProps> = (
@@ -67,7 +67,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
           <IconButton size="small" color="inherit" ref={dragRef}>
             <DragHandleIcon />
           </IconButton>
-          <div>{props.equipment.equipment_name}</div>
+          <div>{props.equipment.equipmentName}</div>
           <CancelIconButton
             onClick={() => sheetController.removeEquipment(props.index)}
           />
@@ -80,8 +80,8 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
                 label="点検機器名"
                 variant="outlined"
                 size="small"
-                name="equipment_name"
-                value={props.equipment.equipment_name}
+                name="equipmentName"
+                value={props.equipment.equipmentName}
                 onChange={(e) =>
                   sheetController.updateEquipment(e, props.index)
                 }
@@ -90,10 +90,10 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
             <Grid item xs={12}>
               <InspectionItemForm
                 equipmentIndex={props.index}
-                inspectionItems={props.equipment.inspection_items}
+                inspectionItems={props.equipment.inspectionItems}
                 editInspectionItem={props.handleEditItem}
                 addInspectionItem={props.handleAddItem}
-                storeHistory={props.storeHistory}
+                // storeHistory={props.storeHistory}
               />
             </Grid>
           </Grid>

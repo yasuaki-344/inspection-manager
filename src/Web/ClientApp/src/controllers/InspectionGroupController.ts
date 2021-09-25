@@ -1,5 +1,5 @@
 import { IInspectionGroupInteractor } from "../interfaces";
-import { InspectionGroup } from "../typescript-fetch";
+import { InspectionGroup } from "../entities";
 
 export class InspectionGroupController {
   private readonly useCase: IInspectionGroupInteractor;

@@ -24,7 +24,6 @@ export const Edit = ({ match }: any): JSX.Element => {
         `データの取得に失敗しました (ID:${sheetId})`
       );
     });
-    // eslint-disable-next-line
   }, [sheetId]);
 
   const handleUpdate = (event: React.FormEvent<HTMLFormElement>): void => {

@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from "react";
 import { Grid, Paper, TableContainer } from "@mui/material";
-import { InspectionGroup } from "../../typescript-fetch";
+import { InspectionGroup } from "../../entities";
 import { InspectionGroupInteractor } from "../../use-cases";
 import { InspectionGroupController } from "../../controllers";
 import { InspectionGroupPresenter } from "../../presenters";
@@ -38,14 +38,13 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<InspectionGroup>({
-    inspection_group_id: 0,
+    inspectionGroupId: 0,
     description: "",
   });
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)
   );
 
-  // eslint-disable-next-line
   useEffect(() => {
     presenter.get();
   }, []);
@@ -55,7 +54,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
    */
   const handleAddItem = (): void => {
     setTarget({
-      inspection_group_id: 0,
+      inspectionGroupId: 0,
       description: "グループ",
     });
     setIsUpdate(false);

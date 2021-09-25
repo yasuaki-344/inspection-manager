@@ -16,8 +16,13 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DetailsIcon from "@mui/icons-material/Details";
 import nameof from "ts-nameof.macro";
-import { InspectionSheet, InspectionSheetInitialState } from "../entities";
-import { InspectionGroup, InspectionType } from "../typescript-fetch";
+import {
+  InspectionSheet,
+  InspectionSheetInitialState,
+  InspectionGroup,
+  InspectionType,
+  toCamelCase,
+} from "../entities";
 import { CancelIconButton } from "./common";
 import { SheetSearchMenu } from "./SheetSearchMenu";
 import { SheetDeleteConfirmationDialog } from "./SheetDeleteConfirmationDialog";
@@ -41,9 +46,9 @@ export const Home: FC = (): JSX.Element => {
     InspectionSheetInitialState
   );
   const [searchOption, setSearchOption] = useState({
-    sheet_name: "",
-    inspection_group: "",
-    inspection_type: "",
+    sheetName: "",
+    inspectionGroup: "",
+    inspectionType: "",
   });
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -74,9 +79,10 @@ export const Home: FC = (): JSX.Element => {
     fetch("inspectionsheet")
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
-        setInspectionSheets(json);
-        setFilteredInspectionSheets(json);
+        const data = toCamelCase(json);
+        console.log(JSON.stringify(data));
+        setInspectionSheets(data);
+        setFilteredInspectionSheets(data);
       })
       .catch(console.error);
   }, []);
@@ -99,18 +105,18 @@ export const Home: FC = (): JSX.Element => {
    */
   const handleSearch = () => {
     const filteredGroupIds = groups
-      .filter((x) => x.description.includes(searchOption.inspection_group))
-      .map((x) => x.inspection_group_id);
+      .filter((x) => x.description.includes(searchOption.inspectionGroup))
+      .map((x) => x.inspectionGroupId);
     const filteredTypeIds = types
-      .filter((x) => x.description.includes(searchOption.inspection_type))
-      .map((x) => x.inspection_type_id);
+      .filter((x) => x.description.includes(searchOption.inspectionType))
+      .map((x) => x.inspectionTypeId);
 
     setFilteredInspectionSheets(
       inspectionSheets.filter(
         (x: InspectionSheet) =>
-          x.sheet_name.includes(searchOption.sheet_name) &&
-          filteredGroupIds.includes(x.inspection_group_id) &&
-          filteredTypeIds.includes(x.inspection_type_id)
+          x.sheetName.includes(searchOption.sheetName) &&
+          filteredGroupIds.includes(x.inspectionGroupId) &&
+          filteredTypeIds.includes(x.inspectionTypeId)
       )
     );
     setPage(0);
@@ -121,22 +127,22 @@ export const Home: FC = (): JSX.Element => {
    */
   const handleResetSearchOption = () => {
     setSearchOption({
-      sheet_name: "",
-      inspection_group: "",
-      inspection_type: "",
+      sheetName: "",
+      inspectionGroup: "",
+      inspectionType: "",
     });
     setFilteredInspectionSheets(inspectionSheets);
     setPage(0);
   };
 
   const handleDownload = (sheet: InspectionSheet) => {
-    fetch(`excelsheet/${sheet.sheet_id}`)
+    fetch(`excelsheet/${sheet.sheetId}`)
       .then((response) => response.blob())
       .then((blob) => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         document.body.appendChild(a);
-        a.download = `${sheet.sheet_name}.xlsx`;
+        a.download = `${sheet.sheetName}.xlsx`;
         a.href = url;
         a.click();
         a.remove();
@@ -148,13 +154,13 @@ export const Home: FC = (): JSX.Element => {
   };
 
   const handleExportJson = (sheet: InspectionSheet) => {
-    fetch(`jsonexport/${sheet.sheet_id}`)
+    fetch(`jsonexport/${sheet.sheetId}`)
       .then((response) => response.blob())
       .then((blob) => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         document.body.appendChild(a);
-        a.download = `${sheet.sheet_name}.json`;
+        a.download = `${sheet.sheetName}.json`;
         a.href = url;
         a.click();
         a.remove();
@@ -172,21 +178,21 @@ export const Home: FC = (): JSX.Element => {
 
   const handleDelete = () => {
     setOpen(false);
-    console.log(`delete ${targetSheet.sheet_id}`);
-    fetch(`inspectionsheet/${targetSheet.sheet_id}`, {
+    console.log(`delete ${targetSheet.sheetId}`);
+    fetch(`inspectionsheet/${targetSheet.sheetId}`, {
       method: "DELETE",
     })
-      .then((res) => res.json())
+      .then((res) => toCamelCase(res.json()))
       .then((json: InspectionSheet) => {
         console.log(json);
         setInspectionSheets(
           inspectionSheets.filter(
-            (x: InspectionSheet) => x.sheet_id !== json.sheet_id
+            (x: InspectionSheet) => x.sheetId !== json.sheetId
           )
         );
         setFilteredInspectionSheets(
           inspectionSheets.filter(
-            (x: InspectionSheet) => x.sheet_id !== json.sheet_id
+            (x: InspectionSheet) => x.sheetId !== json.sheetId
           )
         );
       })
@@ -248,7 +254,7 @@ export const Home: FC = (): JSX.Element => {
                 {filteredInspectionSheets
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((sheet: InspectionSheet) => (
-                    <TableRow key={sheet.sheet_id}>
+                    <TableRow key={sheet.sheetId}>
                       <TableCell padding="checkbox">
                         <ButtonGroup
                           variant="outlined"
@@ -262,31 +268,29 @@ export const Home: FC = (): JSX.Element => {
                           </Button>
                         </ButtonGroup>
                       </TableCell>
-                      <TableCell>{sheet.sheet_name}</TableCell>
+                      <TableCell>{sheet.sheetName}</TableCell>
                       <TableCell>
                         {
                           groups.find(
                             (x) =>
-                              x.inspection_group_id ===
-                              sheet.inspection_group_id
+                              x.inspectionGroupId === sheet.inspectionGroupId
                           )?.description
                         }
                       </TableCell>
                       <TableCell>
                         {
                           types.find(
-                            (x) =>
-                              x.inspection_type_id === sheet.inspection_type_id
+                            (x) => x.inspectionTypeId === sheet.inspectionTypeId
                           )?.description
                         }
                       </TableCell>
                       <TableCell padding="checkbox">
-                        <Link to={`/edit/${sheet.sheet_id}`}>
+                        <Link to={`/edit/${sheet.sheetId}`}>
                           <EditIcon />
                         </Link>
                       </TableCell>
                       <TableCell padding="checkbox">
-                        <Link to={`/details/${sheet.sheet_id}`}>
+                        <Link to={`/details/${sheet.sheetId}`}>
                           <DetailsIcon />
                         </Link>
                       </TableCell>
@@ -314,16 +318,15 @@ export const Home: FC = (): JSX.Element => {
       </Grid>
       <SheetDeleteConfirmationDialog
         open={open}
-        sheetName={targetSheet.sheet_name}
+        sheetName={targetSheet.sheetName}
         groupName={
           groups.find(
-            (x) => x.inspection_group_id === targetSheet.inspection_group_id
+            (x) => x.inspectionGroupId === targetSheet.inspectionGroupId
           )?.description
         }
         typeName={
-          types.find(
-            (x) => x.inspection_type_id === targetSheet.inspection_type_id
-          )?.description
+          types.find((x) => x.inspectionTypeId === targetSheet.inspectionTypeId)
+            ?.description
         }
         onDeleteClick={handleDelete}
         onCancelClick={() => setOpen(false)}

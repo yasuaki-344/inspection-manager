@@ -1,5 +1,5 @@
 import { IChoiceTemplateInteractor } from "../interfaces";
-import { ChoiceTemplate } from "../typescript-fetch";
+import { ChoiceTemplate } from "../entities";
 
 export class ChoiceTemplateController {
   private readonly useCase: IChoiceTemplateInteractor;

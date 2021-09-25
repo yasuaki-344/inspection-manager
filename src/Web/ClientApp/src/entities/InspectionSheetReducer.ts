@@ -1,19 +1,15 @@
-import { InspectionItem, InspectionSheet } from ".";
+import { Equipment, InspectionItem, InspectionSheet } from ".";
 
 export type InspectionSheetAction = {
   type: string;
   payload?: {
     name?: string;
     value?: string;
-    // eslint-disable-next-line
-    equipment_index?: number;
-    // eslint-disable-next-line
-    inspection_item_index?: number;
-    // eslint-disable-next-line
-    swap_index?: number;
+    equipmentIndex?: number;
+    inspectionItemIndex?: number;
+    swapIndex?: number;
     sheet?: InspectionSheet;
-    // eslint-disable-next-line
-    inspection_item?: InspectionItem;
+    inspectionItem?: InspectionItem;
   };
 };
 
@@ -21,12 +17,12 @@ export type InspectionSheetAction = {
  * Initial state of InspectionSheet object.
  */
 export const InspectionSheetInitialState: InspectionSheet = {
-  sheet_id: 0,
-  sheet_name: "",
-  inspection_group_id: 0,
-  inspection_type_id: 0,
-  inspection_group: "",
-  inspection_type: "",
+  sheetId: 0,
+  sheetName: "",
+  inspectionGroupId: 0,
+  inspectionTypeId: 0,
+  inspectionGroup: "",
+  inspectionType: "",
   equipments: [],
 };
 
@@ -46,10 +42,13 @@ export const SHEET_ACTION_TYPE = {
 export function InspectionSheetReducer(
   state: InspectionSheet,
   action: InspectionSheetAction
-): any {
+): InspectionSheet {
   switch (action.type) {
     case SHEET_ACTION_TYPE.SET_SHEET:
-      return action.payload?.sheet;
+      if (action.payload?.sheet != null) {
+        return action.payload.sheet;
+      }
+      return state;
     case SHEET_ACTION_TYPE.UPDATE_FIELD:
       if (action.payload?.name != null) {
         return {
@@ -62,62 +61,60 @@ export function InspectionSheetReducer(
       return {
         ...state,
         equipments: state.equipments.concat({
-          equipment_id: 0,
-          equipment_name: "",
-          inspection_items: [],
+          equipmentId: 0,
+          equipmentName: "",
+          inspectionItems: [],
         }),
       };
     case SHEET_ACTION_TYPE.REMOVE_EQUIPMENT:
       if (action.payload != null) {
-        if (action.payload.equipment_index != null) {
-          state.equipments.splice(action.payload.equipment_index, 1);
+        if (action.payload.equipmentIndex != null) {
+          state.equipments.splice(action.payload.equipmentIndex, 1);
           return { ...state };
         }
       }
       return state;
-    case SHEET_ACTION_TYPE.UPDATE_EQUIPMENT:
-      if (action.payload != null) {
-        if (
-          action.payload.equipment_index != null &&
-          action.payload.name != null
-        ) {
-          // eslint-disable-next-line
-          state.equipments[action.payload.equipment_index] = {
-            ...state.equipments[action.payload.equipment_index],
-            [action.payload.name]: action.payload.value,
-          };
-          return { ...state };
-        }
+    case SHEET_ACTION_TYPE.UPDATE_EQUIPMENT: {
+      const equipmentIndex = action.payload?.equipmentIndex ?? -1;
+      const targetName = action.payload?.name ?? "";
+      return {
+        ...state,
+        equipments: state.equipments.map((value: Equipment, index: number) => {
+          if (index === equipmentIndex) {
+            return {
+              ...value,
+              [targetName]: action.payload?.value,
+            };
+          }
+          return value;
+        }),
+      };
+    }
+    case SHEET_ACTION_TYPE.SWAP_EQUIPMENT: {
+      const srcIndex = action.payload?.equipmentIndex ?? -1;
+      const dstIndex = action.payload?.swapIndex ?? -1;
+      if (srcIndex >= 0 && dstIndex >= 0) {
+        const { equipments } = state;
+        [equipments[srcIndex], equipments[dstIndex]] = [
+          equipments[dstIndex],
+          equipments[srcIndex],
+        ];
+        return {
+          ...state,
+          equipments,
+        };
       }
       return state;
-    case SHEET_ACTION_TYPE.SWAP_EQUIPMENT:
-      if (action.payload != null) {
-        if (
-          action.payload.equipment_index != null &&
-          action.payload.swap_index != null
-        ) {
-          [
-            // eslint-disable-next-line
-            state.equipments[action.payload.equipment_index],
-            // eslint-disable-next-line
-            state.equipments[action.payload.swap_index],
-          ] = [
-            state.equipments[action.payload.swap_index],
-            state.equipments[action.payload.equipment_index],
-          ];
-          return { ...state };
-        }
-      }
-      return state;
+    }
     case SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM:
       if (action.payload != null) {
         if (
-          action.payload.equipment_index != null &&
-          action.payload.inspection_item != null
+          action.payload.equipmentIndex != null &&
+          action.payload.inspectionItem != null
         ) {
-          state.equipments[
-            action.payload.equipment_index
-          ].inspection_items.push(action.payload.inspection_item);
+          state.equipments[action.payload.equipmentIndex].inspectionItems.push(
+            action.payload.inspectionItem
+          );
           return { ...state };
         }
       }
@@ -125,12 +122,12 @@ export function InspectionSheetReducer(
     case SHEET_ACTION_TYPE.REMOVE_INSPECTION_ITEM:
       if (action.payload != null) {
         if (
-          action.payload.equipment_index != null &&
-          action.payload.inspection_item_index != null
+          action.payload.equipmentIndex != null &&
+          action.payload.inspectionItemIndex != null
         ) {
           state.equipments[
-            action.payload.equipment_index
-          ].inspection_items.splice(action.payload.inspection_item_index, 1);
+            action.payload.equipmentIndex
+          ].inspectionItems.splice(action.payload.inspectionItemIndex, 1);
           return { ...state };
         }
       }
@@ -138,43 +135,43 @@ export function InspectionSheetReducer(
     case SHEET_ACTION_TYPE.UPDATE_INSPECTION_ITEM:
       if (action.payload != null) {
         if (
-          action.payload.equipment_index != null &&
-          action.payload.inspection_item_index != null &&
-          action.payload.inspection_item != null
+          action.payload.equipmentIndex != null &&
+          action.payload.inspectionItemIndex != null &&
+          action.payload.inspectionItem != null
         ) {
-          // eslint-disable-next-line
-          state.equipments[action.payload.equipment_index].inspection_items[
-            action.payload.inspection_item_index
-          ] = action.payload.inspection_item;
-          return { ...state };
+          const { equipments } = state;
+          equipments[action.payload.equipmentIndex].inspectionItems[
+            action.payload.inspectionItemIndex
+          ] = action.payload.inspectionItem;
+          return { ...state, equipments };
         }
       }
       return state;
     case SHEET_ACTION_TYPE.SWAP_INSPECTION_ITEM:
       if (action.payload != null) {
         if (
-          action.payload.equipment_index != null &&
-          action.payload.inspection_item_index != null &&
-          action.payload.swap_index != null
+          action.payload.equipmentIndex != null &&
+          action.payload.inspectionItemIndex != null &&
+          action.payload.swapIndex != null
         ) {
+          const { equipments } = state;
+
           [
-            // eslint-disable-next-line
-            state.equipments[action.payload.equipment_index].inspection_items[
-              action.payload.inspection_item_index
+            equipments[action.payload.equipmentIndex].inspectionItems[
+              action.payload.inspectionItemIndex
             ],
-            // eslint-disable-next-line
-            state.equipments[action.payload.equipment_index].inspection_items[
-              action.payload.swap_index
+            equipments[action.payload.equipmentIndex].inspectionItems[
+              action.payload.swapIndex
             ],
           ] = [
-            state.equipments[action.payload.equipment_index].inspection_items[
-              action.payload.swap_index
+            equipments[action.payload.equipmentIndex].inspectionItems[
+              action.payload.swapIndex
             ],
-            state.equipments[action.payload.equipment_index].inspection_items[
-              action.payload.equipment_index
+            equipments[action.payload.equipmentIndex].inspectionItems[
+              action.payload.inspectionItemIndex
             ],
           ];
-          return { ...state };
+          return { ...state, equipments };
         }
       }
       return state;

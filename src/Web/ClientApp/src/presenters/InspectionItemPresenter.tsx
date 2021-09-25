@@ -45,8 +45,8 @@ export class InspectionItemPresenter {
             label="点検項目"
             variant="outlined"
             size="small"
-            name="inspection_content"
-            value={this.useCase.inspectionItem.inspection_content}
+            name="inspectionContent"
+            value={this.useCase.inspectionItem.inspectionContent}
             onChange={(e) => this.useCase.updateField(e)}
           />
         </Grid>
@@ -59,8 +59,8 @@ export class InspectionItemPresenter {
             label="点検タイプ"
             variant="outlined"
             size="small"
-            name="input_type"
-            value={this.useCase.inspectionItem.input_type}
+            name="inputType"
+            value={this.useCase.inspectionItem.inputType}
             onChange={(e) => this.useCase.updateField(e)}
           >
             {useInputTypes.map((option) => (
@@ -71,7 +71,7 @@ export class InspectionItemPresenter {
           </TextField>
         </Grid>
 
-        {this.useCase.inspectionItem.input_type !== 3 ? (
+        {this.useCase.inspectionItem.inputType !== 3 ? (
           <></>
         ) : (
           <>
@@ -81,7 +81,7 @@ export class InspectionItemPresenter {
                   item
                   xs={12}
                   // eslint-disable-next-line
-                  key={`${this.useCase.inspectionItem.inspection_item_id}_${index}`}
+                  key={`${this.useCase.inspectionItem.inspectionItemId}_${index}`}
                 >
                   <Box sx={InputStyle}>
                     <TextField

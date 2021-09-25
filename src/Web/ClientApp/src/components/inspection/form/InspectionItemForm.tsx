@@ -21,7 +21,7 @@ interface InspectionItemFormProps {
     inspectionItem: InspectionItem
   ) => void;
   addInspectionItem: (equipmentIndex: number) => void;
-  storeHistory: () => void;
+  // storeHistory: () => void;
 }
 
 export const InspectionItemForm: FC<InspectionItemFormProps> = ({
@@ -29,7 +29,7 @@ export const InspectionItemForm: FC<InspectionItemFormProps> = ({
   inspectionItems,
   editInspectionItem,
   addInspectionItem,
-  storeHistory,
+  // storeHistory,
 }): JSX.Element => {
   return (
     <>
@@ -48,12 +48,12 @@ export const InspectionItemForm: FC<InspectionItemFormProps> = ({
           <TableBody>
             {inspectionItems.map((item: InspectionItem, index: number) => (
               <InspectionItemRow
-                key={item.inspection_item_id}
+                key={item.inspectionItemId}
                 equipmentIndex={equipmentIndex}
                 inspectionItemIndex={index}
                 inspectionItem={item}
                 editInspectionItem={editInspectionItem}
-                storeHistory={storeHistory}
+                // storeHistory={storeHistory}
               />
             ))}
           </TableBody>

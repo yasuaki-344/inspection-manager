@@ -23,8 +23,8 @@ export const SheetSearchMenu: FC<SheetSearchMenuProps> = (
         label="点検シート名"
         variant="outlined"
         size="small"
-        name="sheet_name"
-        value={props.searchOption.sheet_name}
+        name="sheetName"
+        value={props.searchOption.sheetName}
         onChange={props.handleSearchOption}
       />
       <TextField
@@ -32,8 +32,8 @@ export const SheetSearchMenu: FC<SheetSearchMenuProps> = (
         label="点検グループ"
         variant="outlined"
         size="small"
-        name="inspection_group"
-        value={props.searchOption.inspection_group}
+        name="inspectionGroup"
+        value={props.searchOption.inspectionGroup}
         onChange={props.handleSearchOption}
       />
       <TextField
@@ -41,8 +41,8 @@ export const SheetSearchMenu: FC<SheetSearchMenuProps> = (
         label="点検種別"
         variant="outlined"
         size="small"
-        name="inspection_type"
-        value={props.searchOption.inspection_type}
+        name="inspectionType"
+        value={props.searchOption.inspectionType}
         onChange={props.handleSearchOption}
       />
       <IconButton onClick={props.handleSearch}>

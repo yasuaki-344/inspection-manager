@@ -3,7 +3,7 @@ import {
   IInspectionGroupInteractor,
   IInspectionGroupRepository,
 } from "../interfaces";
-import { InspectionGroup } from "../typescript-fetch";
+import { InspectionGroup } from "../entities";
 
 export class InspectionGroupInteractor implements IInspectionGroupInteractor {
   readonly groups: Array<InspectionGroup>;
@@ -34,7 +34,7 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
   }
 
   getById(id: number): InspectionGroup | undefined {
-    return this.groups.find((x) => x.inspection_group_id === id);
+    return this.groups.find((x) => x.inspectionGroupId === id);
   }
 
   async create(inspectionGroup: InspectionGroup): Promise<void> {
@@ -46,7 +46,7 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
     const res = await this.repository.put(inspectionGroup);
     this.setGroups(
       this.groups.map((x) =>
-        x.inspection_group_id === res.inspection_group_id ? res : x
+        x.inspectionGroupId === res.inspectionGroupId ? res : x
       )
     );
   }
@@ -54,7 +54,7 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
   async delete(id: number): Promise<void> {
     await this.repository.delete(id);
     this.setGroups(
-      this.groups.filter((x: InspectionGroup) => x.inspection_group_id !== id)
+      this.groups.filter((x: InspectionGroup) => x.inspectionGroupId !== id)
     );
   }
 }

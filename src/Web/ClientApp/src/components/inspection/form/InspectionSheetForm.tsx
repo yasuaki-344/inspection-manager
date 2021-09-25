@@ -11,8 +11,12 @@ import UndoIcon from "@mui/icons-material/Undo";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { InspectionItemDialog } from "../dialog/InspectionItemDialog";
 import { InspectionSheetContext, InspectionItemContext } from "../../../App";
-import { InspectionItem, InspectionSheet } from "../../../entities";
-import { InspectionGroup, InspectionType } from "../../../typescript-fetch";
+import {
+  InspectionItem,
+  InspectionSheet,
+  InspectionGroup,
+  InspectionType,
+} from "../../../entities";
 import {
   InspectionGroupRepository,
   InspectionTypeRepository,
@@ -117,8 +121,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
           groups,
           types,
           handleAddItem,
-          handleEditItem,
-          storeHistory
+          handleEditItem
+          // storeHistory
         )}
         <Grid container spacing={1}>
           <Grid item xs={12}>

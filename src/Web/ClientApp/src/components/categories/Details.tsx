@@ -21,8 +21,10 @@ import {
   Equipment,
   InspectionItem,
   InspectionSheetInitialState,
+  InspectionGroup,
+  InspectionType,
+  toCamelCase,
 } from "../../entities";
-import { InspectionGroup, InspectionType } from "../../typescript-fetch";
 import { TopPageLink } from "../common";
 
 interface RowProps {
@@ -33,7 +35,7 @@ const Row: FC<RowProps> = (props: RowProps): JSX.Element => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Fragment key={props.equipment.equipment_id}>
+    <Fragment key={props.equipment.equipmentId}>
       <TableRow>
         <TableCell>
           <IconButton
@@ -44,8 +46,8 @@ const Row: FC<RowProps> = (props: RowProps): JSX.Element => {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell>{props.equipment.equipment_id}</TableCell>
-        <TableCell>{props.equipment.equipment_name}</TableCell>
+        <TableCell>{props.equipment.equipmentId}</TableCell>
+        <TableCell>{props.equipment.equipmentName}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -59,15 +61,15 @@ const Row: FC<RowProps> = (props: RowProps): JSX.Element => {
                   <TableCell>選択肢</TableCell>
                 </TableHead>
                 <TableBody>
-                  {props.equipment.inspection_items.map(
+                  {props.equipment.inspectionItems.map(
                     (item: InspectionItem) => (
-                      <TableRow key={item.inspection_item_id}>
-                        <TableCell>{item.inspection_item_id}</TableCell>
-                        <TableCell>{item.inspection_content}</TableCell>
+                      <TableRow key={item.inspectionItemId}>
+                        <TableCell>{item.inspectionItemId}</TableCell>
+                        <TableCell>{item.inspectionContent}</TableCell>
                         <TableCell>
                           {
                             useInputTypes.filter(
-                              (e) => e.value === item.input_type
+                              (e) => e.value === item.inputType
                             )[0].label
                           }
                         </TableCell>
@@ -111,9 +113,9 @@ export const Details = ({ match }: any): JSX.Element => {
       .catch(console.error);
 
     fetch(`inspectionsheet/${sheetId}`)
-      .then((res) => res.json())
+      .then((res) => toCamelCase(res.json()))
       .then((json) => {
-        console.log(json);
+        console.log(JSON.stringify(json));
         setInspectionSheet(json);
       })
       .catch(console.error);
@@ -124,14 +126,13 @@ export const Details = ({ match }: any): JSX.Element => {
       <h1>詳細ページ</h1>
       <TopPageLink />
       <List>
-        <ListItem>点検シートID:{inspectionSheet.sheet_id}</ListItem>
-        <ListItem>シート名:{inspectionSheet.sheet_name}</ListItem>
+        <ListItem>点検シートID:{inspectionSheet.sheetId}</ListItem>
+        <ListItem>シート名:{inspectionSheet.sheetName}</ListItem>
         <ListItem>
           点検グループ:
           {
             groups.find(
-              (x) =>
-                x.inspection_group_id === inspectionSheet.inspection_group_id
+              (x) => x.inspectionGroupId === inspectionSheet.inspectionGroupId
             )?.description
           }
         </ListItem>
@@ -139,7 +140,7 @@ export const Details = ({ match }: any): JSX.Element => {
           点検種別:
           {
             types.find(
-              (x) => x.inspection_type_id === inspectionSheet.inspection_type_id
+              (x) => x.inspectionTypeId === inspectionSheet.inspectionTypeId
             )?.description
           }
         </ListItem>
@@ -155,7 +156,7 @@ export const Details = ({ match }: any): JSX.Element => {
           </TableHead>
           <TableBody>
             {inspectionSheet.equipments.map((equipment: Equipment) => (
-              <Row key={equipment.equipment_id} equipment={equipment} />
+              <Row key={equipment.equipmentId} equipment={equipment} />
             ))}
           </TableBody>
         </Table>

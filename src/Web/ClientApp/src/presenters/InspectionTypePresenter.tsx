@@ -6,7 +6,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { IInspectionTypeInteractor } from "../interfaces";
-import { InspectionType } from "../typescript-fetch";
+import { InspectionType } from "../entities";
 import { CancelIconButton, EditIconButton } from "../components/common";
 
 export class InspectionTypePresenter {
@@ -39,16 +39,16 @@ export class InspectionTypePresenter {
         </TableHead>
         <TableBody>
           {this.useCase.types.map((type: InspectionType) => (
-            <TableRow key={type.inspection_type_id}>
+            <TableRow key={type.inspectionTypeId}>
               <TableCell>{type.description}</TableCell>
               <TableCell padding="checkbox">
                 <EditIconButton
-                  onClick={() => updateMethod(type.inspection_type_id)}
+                  onClick={() => updateMethod(type.inspectionTypeId)}
                 />
               </TableCell>
               <TableCell padding="checkbox">
                 <CancelIconButton
-                  onClick={() => deleteMethod(type.inspection_type_id)}
+                  onClick={() => deleteMethod(type.inspectionTypeId)}
                 />
               </TableCell>
             </TableRow>

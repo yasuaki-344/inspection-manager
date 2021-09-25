@@ -1,13 +1,11 @@
-import { InspectionItem } from ".";
-import { ChoiceTemplate } from "../typescript-fetch";
+import { ChoiceTemplate, InspectionItem } from ".";
 
 export type InspectionItemAction = {
   type: string;
   payload?: {
     name?: string;
     value?: string;
-    // eslint-disable-next-line
-    choice_index?: number;
+    choiceIndex?: number;
     choices?: ChoiceTemplate;
     item?: InspectionItem;
   };
@@ -17,9 +15,9 @@ export type InspectionItemAction = {
  * Initial state of InspectionItem object.
  */
 export const InspectionItemInitialState: InspectionItem = {
-  inspection_item_id: 0,
-  inspection_content: "",
-  input_type: 0,
+  inspectionItemId: 0,
+  inspectionContent: "",
+  inputType: 0,
   choices: [],
 };
 
@@ -43,7 +41,7 @@ export function InspectionItemReducer(
       if (action.payload != null) {
         if (action.payload.name != null && action.payload.value != null) {
           if (
-            action.payload.name === "input_type" &&
+            action.payload.name === "inputType" &&
             action.payload.value !== "2"
           ) {
             return {
@@ -66,7 +64,7 @@ export function InspectionItemReducer(
             ...state,
             choices: action.payload.choices.choices.map((x) => {
               return {
-                choice_id: 0,
+                choiceId: 0,
                 description: x.description,
               };
             }),
@@ -79,14 +77,14 @@ export function InspectionItemReducer(
       return {
         ...state,
         choices: state.choices.concat({
-          choice_id: 0,
+          choiceId: 0,
           description: "",
         }),
       };
     case TYPES.REMOVE_CHOICE:
       if (action.payload != null) {
-        if (action.payload.choice_index != null) {
-          state.choices.splice(action.payload.choice_index, 1);
+        if (action.payload.choiceIndex != null) {
+          state.choices.splice(action.payload.choiceIndex, 1);
           return { ...state };
         }
       }
@@ -94,13 +92,13 @@ export function InspectionItemReducer(
     case TYPES.UPDATE_CHOICE:
       if (action.payload != null) {
         if (
-          action.payload.choice_index != null &&
+          action.payload.choiceIndex != null &&
           action.payload.value != null
         ) {
-          // eslint-disable-next-line
-          state.choices[action.payload.choice_index].description =
+          const { choices } = state;
+          choices[action.payload.choiceIndex].description =
             action.payload.value;
-          return { ...state };
+          return { ...state, choices };
         }
       }
       return state;
