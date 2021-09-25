@@ -9,8 +9,9 @@ import {
 } from "@mui/material";
 import UndoIcon from "@mui/icons-material/Undo";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import nameof from "ts-nameof.macro";
 import { InspectionItemDialog } from "../dialog/InspectionItemDialog";
-import { InspectionSheetContext, InspectionItemContext } from "../../../App";
+import { InspectionSheetContext, DIContainerContext } from "../../../App";
 import {
   InspectionItem,
   InspectionSheet,
@@ -21,6 +22,10 @@ import {
   InspectionGroupRepository,
   InspectionTypeRepository,
 } from "../../../infrastructure";
+import {
+  IInspectionItemController,
+  IInspectionItemPresenter,
+} from "../../../interfaces";
 
 interface InspectionSheetFormProps {
   isEdit: boolean;
@@ -32,7 +37,14 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   const { sheetPresenter, sheetController } = useContext(
     InspectionSheetContext
   );
-  const { itemPresenter, itemController } = useContext(InspectionItemContext);
+  const { inject } = useContext(DIContainerContext);
+  const itemPresenter: IInspectionItemPresenter = inject(
+    nameof<IInspectionItemPresenter>()
+  );
+  const itemController: IInspectionItemController = inject(
+    nameof<IInspectionItemController>()
+  );
+
   const [groups, setGroups] = useState<InspectionGroup[]>([]);
   const [types, setTypes] = useState<InspectionType[]>([]);
   const [open, setOpen] = useState(false);

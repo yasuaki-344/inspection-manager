@@ -43,12 +43,6 @@ import {
   IInspectionTypeRepository,
 } from "./interfaces";
 
-export const InspectionItemContext = createContext(
-  {} as {
-    itemPresenter: InspectionItemPresenter;
-    itemController: InspectionItemController;
-  }
-);
 export const InspectionSheetContext = createContext(
   {} as {
     sheetPresenter: InspectionSheetPresenter;
@@ -108,23 +102,23 @@ const App = (): JSX.Element => {
   container.register(
     nameof<IInspectionSheetPresenter>(),
     inspectionSheetPresenter
-  )
+  );
   container.register(
     nameof<IInspectionSheetPresenter>(),
     inspectionSheetPresenter
-  )
+  );
   container.register(
     nameof<IInspectionItemPresenter>(),
     inspectionItemPresenter
-  )
+  );
   container.register(
     nameof<IInspectionSheetController>(),
     inspectionSheetController
-  )
+  );
   container.register(
     nameof<IInspectionItemController>(),
     inspectionItemController
-  )
+  );
 
   return (
     <DIContainerContext.Provider value={container}>
@@ -139,15 +133,8 @@ const App = (): JSX.Element => {
             sheetController: inspectionSheetController,
           }}
         >
-          <InspectionItemContext.Provider
-            value={{
-              itemPresenter: inspectionItemPresenter,
-              itemController: inspectionItemController,
-            }}
-          >
-            <Route path="/create" component={Create} />
-            <Route path="/edit/:id" component={Edit} />
-          </InspectionItemContext.Provider>
+          <Route path="/create" component={Create} />
+          <Route path="/edit/:id" component={Edit} />
         </InspectionSheetContext.Provider>
         <Route path="/details/:id" component={Details} />
       </Layout>

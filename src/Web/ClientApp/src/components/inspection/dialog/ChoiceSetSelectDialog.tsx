@@ -8,10 +8,12 @@ import {
   FormControl,
   FormControlLabel,
 } from "@mui/material";
+import nameof from "ts-nameof.macro";
 import { ChoiceTemplate, toCamelCase } from "../../../entities";
-import { InspectionItemContext } from "../../../App";
+import { DIContainerContext } from "../../../App";
 import { OkCancelDialogActions } from "../../common";
 import { DialogTitleDesign } from "../../stylesheets";
+import { IInspectionItemController } from "../../../interfaces";
 
 interface ChoiceSetSelectDialogProps {
   open: boolean;
@@ -21,7 +23,11 @@ interface ChoiceSetSelectDialogProps {
 export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
   props: ChoiceSetSelectDialogProps
 ): JSX.Element => {
-  const { itemController } = useContext(InspectionItemContext);
+  const { inject } = useContext(DIContainerContext);
+  const itemController: IInspectionItemController = inject(
+    nameof<IInspectionItemController>()
+  );
+
   const [value, setValue] = useState(0);
   const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
 

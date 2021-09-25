@@ -1,9 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
-import { InspectionItemContext } from "../../../App";
+import nameof from "ts-nameof.macro";
+import { DIContainerContext } from "../../../App";
 import { ChoiceSetSelectDialog } from "./ChoiceSetSelectDialog";
 import { OkCancelDialogActions } from "../../common";
 import { DialogTitleDesign } from "../../stylesheets";
+import { IInspectionItemPresenter } from "../../../interfaces";
 
 interface InspectionDialogProps {
   open: boolean;
@@ -14,7 +16,10 @@ interface InspectionDialogProps {
 export const InspectionItemDialog = (
   props: InspectionDialogProps
 ): JSX.Element => {
-  const { itemPresenter } = useContext(InspectionItemContext);
+  const { inject } = useContext(DIContainerContext);
+  const itemPresenter: IInspectionItemPresenter = inject(
+    nameof<IInspectionItemPresenter>()
+  );
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
