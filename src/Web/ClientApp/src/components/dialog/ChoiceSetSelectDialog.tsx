@@ -11,7 +11,7 @@ import {
 import nameof from "ts-nameof.macro";
 import { ChoiceTemplate } from "../../entities";
 import { DIContainerContext } from "../../App";
-import { OkCancelDialogActions } from "../common";
+import { OkCancelDialogActions } from "../utilities";
 import { DialogTitleDesign } from "../stylesheets";
 import {
   IChoiceTemplatePresenter,

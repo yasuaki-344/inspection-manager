@@ -17,7 +17,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import nameof from "ts-nameof.macro";
 import { useInputTypes, Equipment, InspectionItem } from "../../entities";
-import { TopPageLink } from "../common";
+import { TopPageLink } from "../utilities";
 import { itemTableHead, TableHeadCell } from "../stylesheets";
 import { DIContainerContext } from "../../App";
 import {

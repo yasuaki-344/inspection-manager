@@ -9,8 +9,8 @@ import {
   Notification,
   NotificationInitState,
   NotificationStateInteractor,
-} from "../common/Notification";
-import { BottomNavigationAdd, TopPageLink } from "../common";
+} from "../utilities/Notification";
+import { BottomNavigationAdd, TopPageLink } from "../utilities";
 import { EditDialog } from "../dialog/EditDialog";
 
 const generate = (

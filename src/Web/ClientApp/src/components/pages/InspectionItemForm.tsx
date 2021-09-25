@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { InspectionItem } from "../../entities";
 import { InspectionItemRow } from "./InspectionItemRow";
-import { BottomNavigationAdd } from "../common";
+import { BottomNavigationAdd } from "../utilities";
 
 interface InspectionItemFormProps {
   equipmentIndex: number;

@@ -12,7 +12,7 @@ import { Box } from "@mui/system";
 import { Choice, InspectionItem, useInputTypes } from "../entities";
 import { IInspectionItemInteractor } from "../interfaces";
 import { IInspectionItemPresenter } from "../interfaces/presenter";
-import { CancelIconButton } from "../components/common";
+import { CancelIconButton } from "../components/utilities";
 import { InputStyle } from "../components/stylesheets";
 
 export class InspectionItemPresenter implements IInspectionItemPresenter {

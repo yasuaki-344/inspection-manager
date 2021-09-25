@@ -13,7 +13,7 @@ import nameof from "ts-nameof.macro";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { InspectionItemForm } from "./InspectionItemForm";
-import { CancelIconButton } from "../common";
+import { CancelIconButton } from "../utilities";
 import { equipmentLabel, MenuIcon, paperElement } from "../stylesheets";
 import { DIContainerContext } from "../../App";
 import { ItemType, Equipment, InspectionItem } from "../../entities";

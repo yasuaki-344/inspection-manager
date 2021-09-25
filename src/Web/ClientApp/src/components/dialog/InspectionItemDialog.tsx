@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import nameof from "ts-nameof.macro";
 import { DIContainerContext } from "../../App";
 import { ChoiceSetSelectDialog } from "./ChoiceSetSelectDialog";
-import { OkCancelDialogActions } from "../common";
+import { OkCancelDialogActions } from "../utilities";
 import { DialogTitleDesign } from "../stylesheets";
 import { IInspectionItemPresenter } from "../../interfaces/presenter";
 

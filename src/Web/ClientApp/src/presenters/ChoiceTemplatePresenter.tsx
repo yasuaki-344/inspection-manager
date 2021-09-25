@@ -5,7 +5,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { CancelIconButton, EditIconButton } from "../components/common";
+import { CancelIconButton, EditIconButton } from "../components/utilities";
 import {
   IChoiceTemplateInteractor,
   IChoiceTemplatePresenter,

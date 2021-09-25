@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { IInspectionGroupInteractor } from "../interfaces";
 import { InspectionGroup } from "../entities";
-import { CancelIconButton, EditIconButton } from "../components/common";
+import { CancelIconButton, EditIconButton } from "../components/utilities";
 import { IInspectionGroupPresenter } from "../interfaces/presenter";
 
 export class InspectionGroupPresenter implements IInspectionGroupPresenter {

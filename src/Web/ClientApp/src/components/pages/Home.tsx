@@ -24,7 +24,7 @@ import {
   IInspectionTypePresenter,
 } from "../../interfaces/presenter";
 import { IInspectionSheetController } from "../../interfaces/controller";
-import { CancelIconButton } from "../common";
+import { CancelIconButton } from "../utilities";
 import { SheetSearchMenu } from "../SheetSearchMenu";
 import { SheetDeleteConfirmationDialog } from "../dialog/SheetDeleteConfirmationDialog";
 

@@ -2,12 +2,12 @@ import React, { FC } from "react";
 import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
-interface IBottomNavigationAddProps {
+interface BottomNavigationAddProps {
   label: string;
   onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
-export const BottomNavigationAdd: FC<IBottomNavigationAddProps> = (
+export const BottomNavigationAdd: FC<BottomNavigationAddProps> = (
   props
 ): JSX.Element => {
   return (

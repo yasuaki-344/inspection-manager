@@ -8,7 +8,7 @@ import {
   NotificationInitState,
   NotificationStateInteractor,
   TopPageLink,
-} from "../common";
+} from "../utilities";
 import { IInspectionSheetController } from "../../interfaces/controller";
 
 export const Edit = ({ match }: any): JSX.Element => {

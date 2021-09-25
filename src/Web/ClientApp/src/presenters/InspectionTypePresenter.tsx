@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { IInspectionTypeInteractor } from "../interfaces";
 import { InspectionType } from "../entities";
-import { CancelIconButton, EditIconButton } from "../components/common";
+import { CancelIconButton, EditIconButton } from "../components/utilities";
 
 export class InspectionTypePresenter {
   private readonly useCase: IInspectionTypeInteractor;

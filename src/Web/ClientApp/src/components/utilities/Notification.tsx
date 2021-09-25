@@ -62,7 +62,7 @@ export const Notification: FC<NotificationProps> = (
   const vertical = "bottom";
   const horizontal = "right";
 
-  let alert;
+  let alert: JSX.Element = <></>;
   if (props.severity === "success") {
     alert = (
       <Alert severity="success" onClose={props.onClose}>
@@ -75,8 +75,6 @@ export const Notification: FC<NotificationProps> = (
         {props.message}
       </Alert>
     );
-  } else {
-    alert = <></>;
   }
 
   return (

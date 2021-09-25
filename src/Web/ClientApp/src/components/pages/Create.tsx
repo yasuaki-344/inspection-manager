@@ -7,7 +7,7 @@ import {
   Notification,
   NotificationInitState,
   NotificationStateInteractor,
-} from "../common";
+} from "../utilities";
 import { OriginalSheetSelectDialog } from "../dialog";
 import { DIContainerContext } from "../../App";
 import { InspectionSheet, InspectionSheetInitialState } from "../../entities";

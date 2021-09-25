@@ -11,7 +11,7 @@ import {
   BottomNavigationAdd,
   CancelIconButton,
   OkCancelDialogActions,
-} from "../common";
+} from "../utilities";
 import { DialogTitleDesign, InputStyle } from "../stylesheets";
 
 interface ChoiceTemplateEditDialogProps {

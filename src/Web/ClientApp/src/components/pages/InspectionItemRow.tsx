@@ -6,7 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import nameof from "ts-nameof.macro";
 import { DIContainerContext } from "../../App";
 import { useInputTypes, ItemType, InspectionItem } from "../../entities";
-import { CancelIconButton } from "../common";
+import { CancelIconButton } from "../utilities";
 import { IInspectionSheetController } from "../../interfaces";
 
 interface DragItem {

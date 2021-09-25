@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { InspectionGroup, InspectionType } from "../../entities";
-import { OkCancelDialogActions } from "../common";
+import { OkCancelDialogActions } from "../utilities";
 import { DialogTitleDesign } from "../stylesheets";
 
 interface IEditDialogProps {

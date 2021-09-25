@@ -6,7 +6,7 @@ import {
   Notification,
   NotificationInitState,
   NotificationStateInteractor,
-} from "../common";
+} from "../utilities";
 import { ChoiceTemplateInteractor } from "../../use-cases";
 import { ChoiceTemplateRepository } from "../../infrastructure";
 import { ChoiceTemplatePresenter } from "../../presenters";
