@@ -61,7 +61,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = (
   drag(dragRef);
 
   return (
-    <TableRow key={props.inspectionItem.inspection_item_id} ref={dropRef}>
+    <TableRow key={props.inspectionItem.inspectionItemId} ref={dropRef}>
       <TableCell padding="checkbox" ref={dragRef}>
         <IconButton size="small">
           <DragHandleIcon />
@@ -83,12 +83,12 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = (
         </IconButton>
       </TableCell>
       <TableCell component="th" scope="row">
-        {props.inspectionItem.inspection_content}
+        {props.inspectionItem.inspectionContent}
       </TableCell>
       <TableCell>
         {
           useInputTypes.filter(
-            (e) => e.value === props.inspectionItem.input_type
+            (e) => e.value === props.inspectionItem.inputType
           )[0].label
         }
       </TableCell>

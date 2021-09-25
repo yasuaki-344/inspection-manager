@@ -8,7 +8,7 @@ import {
   FormControl,
   FormControlLabel,
 } from "@mui/material";
-import { ChoiceTemplate } from "../../../entities";
+import { ChoiceTemplate, toCamelCase } from "../../../entities";
 import { InspectionItemContext } from "../../../App";
 import { OkCancelDialogActions } from "../../common";
 import { DialogTitleDesign } from "../../stylesheets";
@@ -27,7 +27,7 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
 
   useEffect(() => {
     fetch("choicetemplate")
-      .then((res) => res.json())
+      .then((res) => toCamelCase(res.json()))
       .then((json: any) => {
         setTemplates(json);
       })

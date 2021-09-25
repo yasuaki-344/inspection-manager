@@ -17,12 +17,12 @@ export type InspectionSheetAction = {
  * Initial state of InspectionSheet object.
  */
 export const InspectionSheetInitialState: InspectionSheet = {
-  sheet_id: 0,
-  sheet_name: "",
-  inspection_group_id: 0,
-  inspection_type_id: 0,
-  inspection_group: "",
-  inspection_type: "",
+  sheetId: 0,
+  sheetName: "",
+  inspectionGroupId: 0,
+  inspectionTypeId: 0,
+  inspectionGroup: "",
+  inspectionType: "",
   equipments: [],
 };
 
@@ -61,9 +61,9 @@ export function InspectionSheetReducer(
       return {
         ...state,
         equipments: state.equipments.concat({
-          equipment_id: 0,
-          equipment_name: "",
-          inspection_items: [],
+          equipmentId: 0,
+          equipmentName: "",
+          inspectionItems: [],
         }),
       };
     case SHEET_ACTION_TYPE.REMOVE_EQUIPMENT:
@@ -112,7 +112,7 @@ export function InspectionSheetReducer(
           action.payload.equipmentIndex != null &&
           action.payload.inspectionItem != null
         ) {
-          state.equipments[action.payload.equipmentIndex].inspection_items.push(
+          state.equipments[action.payload.equipmentIndex].inspectionItems.push(
             action.payload.inspectionItem
           );
           return { ...state };
@@ -127,7 +127,7 @@ export function InspectionSheetReducer(
         ) {
           state.equipments[
             action.payload.equipmentIndex
-          ].inspection_items.splice(action.payload.inspectionItemIndex, 1);
+          ].inspectionItems.splice(action.payload.inspectionItemIndex, 1);
           return { ...state };
         }
       }
@@ -140,7 +140,7 @@ export function InspectionSheetReducer(
           action.payload.inspectionItem != null
         ) {
           const { equipments } = state;
-          equipments[action.payload.equipmentIndex].inspection_items[
+          equipments[action.payload.equipmentIndex].inspectionItems[
             action.payload.inspectionItemIndex
           ] = action.payload.inspectionItem;
           return { ...state, equipments };
@@ -157,17 +157,17 @@ export function InspectionSheetReducer(
           const { equipments } = state;
 
           [
-            equipments[action.payload.equipmentIndex].inspection_items[
+            equipments[action.payload.equipmentIndex].inspectionItems[
               action.payload.inspectionItemIndex
             ],
-            equipments[action.payload.equipmentIndex].inspection_items[
+            equipments[action.payload.equipmentIndex].inspectionItems[
               action.payload.swapIndex
             ],
           ] = [
-            equipments[action.payload.equipmentIndex].inspection_items[
+            equipments[action.payload.equipmentIndex].inspectionItems[
               action.payload.swapIndex
             ],
-            equipments[action.payload.equipmentIndex].inspection_items[
+            equipments[action.payload.equipmentIndex].inspectionItems[
               action.payload.inspectionItemIndex
             ],
           ];

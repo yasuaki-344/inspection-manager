@@ -10,9 +10,9 @@ export class InspectionItemController {
 
   initialize(): void {
     this.useCase.setItem({
-      inspection_item_id: 0,
-      inspection_content: "",
-      input_type: 1,
+      inspectionItemId: 0,
+      inspectionContent: "",
+      inputType: 1,
       choices: [],
     });
   }

@@ -15,7 +15,10 @@ export class InspectionSheetController {
   }
 
   async getInspectionSheetById(id: number): Promise<void> {
+    console.log("load check")
     await this.useCase.getInspectionSheetById(id);
+
+    console.log(JSON.stringify(this.useCase.sheet));
   }
 
   async createInspectionSheet(): Promise<void> {

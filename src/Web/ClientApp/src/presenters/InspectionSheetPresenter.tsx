@@ -37,8 +37,8 @@ export class InspectionSheetPresenter {
           label="点検シートID"
           variant="outlined"
           size="small"
-          name="sheet_id"
-          defaultValue={this.useCase.sheet.sheet_id}
+          name="sheetId"
+          defaultValue={this.useCase.sheet.sheetId}
           InputProps={{ readOnly: true }}
         />
       </Grid>
@@ -60,8 +60,8 @@ export class InspectionSheetPresenter {
             label="点検シート名"
             variant="outlined"
             size="small"
-            name="sheet_name"
-            value={this.useCase.sheet.sheet_name}
+            name="sheetName"
+            value={this.useCase.sheet.sheetName}
             onChange={(e) => this.useCase.updateField(e)}
           />
         </Grid>
@@ -72,8 +72,8 @@ export class InspectionSheetPresenter {
             label="点検グループ"
             variant="outlined"
             size="small"
-            name="inspection_group_id"
-            value={this.useCase.sheet.inspection_group_id}
+            name="inspectionGroupId"
+            value={this.useCase.sheet.inspectionGroupId}
             onChange={(e) => this.useCase.updateField(e)}
           >
             {groups.map((option: InspectionGroup) => (
@@ -93,8 +93,8 @@ export class InspectionSheetPresenter {
             label="点検タイプ"
             variant="outlined"
             size="small"
-            name="inspection_type_id"
-            value={this.useCase.sheet.inspection_type_id}
+            name="inspectionTypeId"
+            value={this.useCase.sheet.inspectionTypeId}
             onChange={(e) => this.useCase.updateField(e)}
           >
             {types.map((option: InspectionType) => (

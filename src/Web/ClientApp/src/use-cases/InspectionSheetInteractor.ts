@@ -2,6 +2,7 @@ import React from "react";
 import {
   InspectionItem,
   InspectionSheet,
+  InspectionSheetAction,
   InspectionSheetInitialState,
   SHEET_ACTION_TYPE,
 } from "../entities";
@@ -14,11 +15,11 @@ import {
 export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   readonly sheet: InspectionSheet;
 
-  private readonly dispatch: React.Dispatch<any>;
+  private readonly dispatch: React.Dispatch<InspectionSheetAction>;
 
   private readonly repository: IInspectionSheetRepository;
 
-  constructor(state: InspectionSheet, dispatch: React.Dispatch<any>) {
+  constructor(state: InspectionSheet, dispatch: React.Dispatch<InspectionSheetAction>) {
     this.sheet = state;
     this.dispatch = dispatch;
     this.repository = new InspectionSheetRepository();

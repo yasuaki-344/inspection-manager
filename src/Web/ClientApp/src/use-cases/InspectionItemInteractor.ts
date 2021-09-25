@@ -73,11 +73,11 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
    * @returns Return true if the item is valid, otherwise false.
    */
   isValidInspectionItem(): boolean {
-    if (this.inspectionItem.inspection_content === "") {
+    if (this.inspectionItem.inspectionContent === "") {
       return false;
     }
 
-    if (this.inspectionItem.input_type === 3) {
+    if (this.inspectionItem.inputType === 3) {
       if (!this.inspectionItem.choices.length) {
         return false;
       }

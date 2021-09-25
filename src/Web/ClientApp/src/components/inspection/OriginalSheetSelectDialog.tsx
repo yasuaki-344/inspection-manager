@@ -61,16 +61,16 @@ export const OriginalSheetSelectDialog: FC<OriginalSheetSelectDialogProp> = (
               {props.inspectionSheets
                 .slice(page * 5, page * 5 + 5)
                 .map((sheet: InspectionSheet) => (
-                  <TableRow key={sheet.sheet_id}>
-                    <TableCell>{sheet.sheet_name}</TableCell>
-                    <TableCell>{sheet.inspection_group}</TableCell>
-                    <TableCell>{sheet.inspection_type}</TableCell>
+                  <TableRow key={sheet.sheetId}>
+                    <TableCell>{sheet.sheetName}</TableCell>
+                    <TableCell>{sheet.inspectionGroup}</TableCell>
+                    <TableCell>{sheet.inspectionType}</TableCell>
                     <TableCell>
                       <Button
                         variant="contained"
                         color="primary"
                         onClick={() => {
-                          props.onSelectClick(sheet.sheet_id);
+                          props.onSelectClick(sheet.sheetId);
                         }}
                       >
                         選択
