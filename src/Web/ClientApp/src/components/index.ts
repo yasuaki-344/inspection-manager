@@ -1,2 +1,2 @@
 export * from "./Layout";
-export * from "./pages/Home";
+export * from "./pages";

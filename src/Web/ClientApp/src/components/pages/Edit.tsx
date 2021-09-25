@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Button, Grid } from "@mui/material";
 import nameof from "ts-nameof.macro";
-import { InspectionSheetForm } from "./form/InspectionSheetForm";
+import { InspectionSheetForm } from "./InspectionSheetForm";
 import { DIContainerContext } from "../../App";
 import { TopPageLink } from "../common";
 import {

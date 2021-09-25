@@ -1,13 +1,16 @@
 import React, { createContext, useReducer, useState } from "react";
 import { Route } from "react-router-dom";
 import nameof from "ts-nameof.macro";
-import { Layout, Home } from "./components";
-import { Create } from "./components/inspection";
-import { Details } from "./components/inspection/Details";
-import { Edit } from "./components/inspection/Edit";
-import { InspectionGroupCategory } from "./components/pages/InspectionGroupCategory";
-import { InspectionTypeCategory } from "./components/pages/InspectionTypeCategory";
-import { ChoicesTemplateManager } from "./components/pages/ChoicesTemplateManager";
+import { Layout } from "./components";
+import {
+  Home,
+  Create,
+  Details,
+  Edit,
+  InspectionGroupCategory,
+  InspectionTypeCategory,
+  ChoicesTemplateManager,
+} from "./components/pages";
 import {
   InspectionSheetInteractor,
   InspectionItemInteractor,
@@ -52,7 +55,7 @@ import {
   IInspectionSheetPresenter,
   IInspectionTypePresenter,
   IInspectionSheetController,
-  IInspectionTypeController
+  IInspectionTypeController,
 } from "./interfaces";
 
 export const DIContainerContext = createContext<DIContainer>({} as DIContainer);

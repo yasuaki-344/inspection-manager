@@ -10,12 +10,19 @@ import {
 import { BottomNavigationAdd, TopPageLink } from "../common";
 import { EditDialog } from "../dialog/EditDialog";
 import { DIContainerContext } from "../../App";
-import { IInspectionTypeController, IInspectionTypePresenter } from "../../interfaces";
+import {
+  IInspectionTypeController,
+  IInspectionTypePresenter,
+} from "../../interfaces";
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
-  const container = useContext(DIContainerContext)
-  const presenter: IInspectionTypePresenter = container.inject(nameof<IInspectionTypePresenter>())
-  const controller: IInspectionTypeController = container.inject(nameof<IInspectionTypeController>());
+  const container = useContext(DIContainerContext);
+  const presenter: IInspectionTypePresenter = container.inject(
+    nameof<IInspectionTypePresenter>()
+  );
+  const controller: IInspectionTypeController = container.inject(
+    nameof<IInspectionTypeController>()
+  );
 
   const [open, setOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);

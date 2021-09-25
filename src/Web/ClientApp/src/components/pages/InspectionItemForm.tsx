@@ -8,9 +8,9 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { InspectionItem } from "../../../entities";
+import { InspectionItem } from "../../entities";
 import { InspectionItemRow } from "./InspectionItemRow";
-import { BottomNavigationAdd } from "../../common";
+import { BottomNavigationAdd } from "../common";
 
 interface InspectionItemFormProps {
   equipmentIndex: number;

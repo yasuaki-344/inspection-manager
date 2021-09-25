@@ -10,24 +10,24 @@ import {
 import UndoIcon from "@mui/icons-material/Undo";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import nameof from "ts-nameof.macro";
-import { InspectionItemDialog } from "../../dialog/InspectionItemDialog";
-import { DIContainerContext } from "../../../App";
+import { InspectionItemDialog } from "../dialog";
+import { DIContainerContext } from "../../App";
 import {
   InspectionItem,
   InspectionSheet,
   InspectionGroup,
   InspectionType,
-} from "../../../entities";
+} from "../../entities";
 import {
   InspectionGroupRepository,
   InspectionTypeRepository,
-} from "../../../infrastructure";
+} from "../../infrastructure";
 import {
   IInspectionItemController,
   IInspectionItemPresenter,
   IInspectionSheetPresenter,
-  IInspectionSheetController
-} from "../../../interfaces";
+  IInspectionSheetController,
+} from "../../interfaces";
 
 interface InspectionSheetFormProps {
   isEdit: boolean;
