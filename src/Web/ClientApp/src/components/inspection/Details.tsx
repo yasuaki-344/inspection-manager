@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useEffect, useState } from "react";
+import React, { FC, Fragment, useContext, useEffect, useState } from "react";
 import {
   Box,
   Collapse,
@@ -15,18 +15,16 @@ import {
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import {
-  useInputTypes,
-  InspectionSheet,
-  Equipment,
-  InspectionItem,
-  InspectionSheetInitialState,
-  InspectionGroup,
-  InspectionType,
-  toCamelCase,
-} from "../../entities";
+import nameof from "ts-nameof.macro";
+import { useInputTypes, Equipment, InspectionItem } from "../../entities";
 import { TopPageLink } from "../common";
 import { itemTableHead, TableHeadCell } from "../stylesheets";
+import { DIContainerContext } from "../../App";
+import {
+  IInspectionGroupPresenter,
+  IInspectionSheetPresenter,
+  IInspectionTypePresenter,
+} from "../../interfaces/presenter";
 
 interface RowProps {
   equipment: Equipment;
@@ -92,35 +90,21 @@ const Row: FC<RowProps> = (props: RowProps): JSX.Element => {
 
 export const Details = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
-  const [inspectionSheet, setInspectionSheet] = useState<InspectionSheet>(
-    InspectionSheetInitialState
+  const container = useContext(DIContainerContext);
+  const groupPresenter: IInspectionGroupPresenter = container.inject(
+    nameof<IInspectionGroupPresenter>()
   );
-  const [groups, setGroups] = useState<InspectionGroup[]>([]);
-  const [types, setTypes] = useState<InspectionType[]>([]);
+  const typePresenter: IInspectionTypePresenter = container.inject(
+    nameof<IInspectionTypePresenter>()
+  );
+  const sheetPresenter: IInspectionSheetPresenter = container.inject(
+    nameof<IInspectionSheetPresenter>()
+  );
 
   useEffect(() => {
-    fetch("inspectiongroup")
-      .then((res) => res.json())
-      .then((json: InspectionGroup[]) => {
-        setGroups(json);
-      })
-      .catch(console.error);
-
-    fetch("inspectiontype")
-      .then((res) => res.json())
-      .then((json: InspectionType[]) => {
-        setTypes(json);
-      })
-      .catch(console.error);
-
-    fetch(`inspectionsheet/${sheetId}`)
-      .then((res) => res.json())
-      .then((json) => {
-        const data = toCamelCase(json);
-        console.log(JSON.stringify(data));
-        setInspectionSheet(data);
-      })
-      .catch(console.error);
+    groupPresenter.get();
+    typePresenter.get();
+    sheetPresenter.getInspectionSheetById(sheetId);
   }, [sheetId]);
 
   return (
@@ -128,23 +112,19 @@ export const Details = ({ match }: any): JSX.Element => {
       <h1>詳細ページ</h1>
       <TopPageLink />
       <List>
-        <ListItem>点検シートID:{inspectionSheet.sheetId}</ListItem>
-        <ListItem>シート名:{inspectionSheet.sheetName}</ListItem>
+        <ListItem>点検シートID:{sheetPresenter.getState().sheetId}</ListItem>
+        <ListItem>シート名:{sheetPresenter.getState().sheetName}</ListItem>
         <ListItem>
           点検グループ:
-          {
-            groups.find(
-              (x) => x.inspectionGroupId === inspectionSheet.inspectionGroupId
-            )?.description
-          }
+          {groupPresenter.getGroupName(
+            sheetPresenter.getState().inspectionGroupId
+          )}
         </ListItem>
         <ListItem>
           点検種別:
-          {
-            types.find(
-              (x) => x.inspectionTypeId === inspectionSheet.inspectionTypeId
-            )?.description
-          }
+          {typePresenter.getTypeName(
+            sheetPresenter.getState().inspectionTypeId
+          )}
         </ListItem>
       </List>
       <TableContainer component={Paper}>
@@ -157,9 +137,11 @@ export const Details = ({ match }: any): JSX.Element => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {inspectionSheet.equipments.map((equipment: Equipment) => (
-              <Row key={equipment.equipmentId} equipment={equipment} />
-            ))}
+            {sheetPresenter
+              .getState()
+              .equipments.map((equipment: Equipment) => (
+                <Row key={equipment.equipmentId} equipment={equipment} />
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

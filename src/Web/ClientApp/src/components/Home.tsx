@@ -17,10 +17,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DetailsIcon from "@mui/icons-material/Details";
 import nameof from "ts-nameof.macro";
 import { DIContainerContext } from "../App";
-import {
-  InspectionSheet,
-  InspectionSheetInitialState
-} from "../entities";
+import { InspectionSheet, InspectionSheetInitialState } from "../entities";
 import {
   IInspectionGroupPresenter,
   IInspectionSheetPresenter,
@@ -69,7 +66,7 @@ export const Home: FC = (): JSX.Element => {
     sheetPresenter
       .getAllInspectionSheet()
       .then((res: Array<InspectionSheet>) => {
-        console.log(JSON.stringify(res))
+        console.log(JSON.stringify(res));
         setInspectionSheets(res);
         setFilteredInspectionSheets(res);
       })
@@ -164,7 +161,8 @@ export const Home: FC = (): JSX.Element => {
 
   const handleDelete = () => {
     setOpen(false);
-    sheetController.removeInspectionSheet(targetSheet.sheetId)
+    sheetController
+      .removeInspectionSheet(targetSheet.sheetId)
       .then(() => {
         setInspectionSheets(
           inspectionSheets.filter(

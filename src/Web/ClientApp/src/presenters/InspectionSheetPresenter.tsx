@@ -23,6 +23,10 @@ export class InspectionSheetPresenter implements IInspectionSheetPresenter {
     return sheets;
   }
 
+  async getInspectionSheetById(id: number): Promise<void> {
+    await this.useCase.getInspectionSheetById(id);
+  }
+
   getState(): InspectionSheet {
     return this.useCase.sheet;
   }

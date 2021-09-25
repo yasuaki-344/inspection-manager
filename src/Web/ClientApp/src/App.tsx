@@ -53,9 +53,7 @@ import {
   IInspectionSheetPresenter,
   IInspectionTypePresenter,
 } from "./interfaces/presenter";
-import {
-  IInspectionSheetController
-} from "./interfaces/controller";
+import { IInspectionSheetController } from "./interfaces/controller";
 
 export const DIContainerContext = createContext<DIContainer>({} as DIContainer);
 
