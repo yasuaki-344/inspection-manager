@@ -1,17 +1,17 @@
 import React, { FC, useState, useEffect } from "react";
 import { BottomNavigation, TableContainer, Grid, Paper } from "@mui/material";
 import { ChoiceTemplate } from "../../entities";
-import { BottomNavigationAdd } from "../common";
+import {
+  BottomNavigationAdd,
+  Notification,
+  NotificationInitState,
+  NotificationStateInteractor,
+} from "../common";
 import { ChoiceTemplateInteractor } from "../../use-cases";
 import { ChoiceTemplateRepository } from "../../infrastructure";
 import { ChoiceTemplatePresenter } from "../../presenters";
 import { ChoiceTemplateController } from "../../controllers";
 import { ChoiceTemplateEditDialog } from "./ChoiceTemplateEditDialog";
-import {
-  Notification,
-  NotificationInitState,
-  NotificationStateInteractor,
-} from "../common/Notification";
 
 const generate = (
   hook: [

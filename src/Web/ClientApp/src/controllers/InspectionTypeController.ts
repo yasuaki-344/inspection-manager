@@ -1,7 +1,7 @@
-import { IInspectionTypeInteractor } from "../interfaces";
+import { IInspectionTypeController, IInspectionTypeInteractor } from "../interfaces";
 import { InspectionType } from "../entities";
 
-export class InspectionTypeController {
+export class InspectionTypeController implements IInspectionTypeController {
   private readonly useCase: IInspectionTypeInteractor;
 
   constructor(useCase: IInspectionTypeInteractor) {

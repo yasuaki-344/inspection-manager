@@ -22,12 +22,12 @@ import {
   InspectionGroupRepository,
   InspectionTypeRepository,
 } from "../../../infrastructure";
-import { IInspectionItemController } from "../../../interfaces";
 import {
+  IInspectionItemController,
   IInspectionItemPresenter,
   IInspectionSheetPresenter,
-} from "../../../interfaces/presenter";
-import { IInspectionSheetController } from "../../../interfaces/controller";
+  IInspectionSheetController
+} from "../../../interfaces";
 
 interface InspectionSheetFormProps {
   isEdit: boolean;

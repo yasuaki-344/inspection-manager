@@ -1,10 +1,7 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useContext } from "react";
 import { Grid, Paper, TableContainer } from "@mui/material";
+import nameof from "ts-nameof.macro";
 import { InspectionType } from "../../entities";
-import { InspectionTypeInteractor } from "../../use-cases";
-import { InspectionTypeController } from "../../controllers";
-import { InspectionTypePresenter } from "../../presenters";
-import { InspectionTypeRepository } from "../../infrastructure/InspectionTypeRepository";
 import {
   Notification,
   NotificationInitState,
@@ -12,28 +9,13 @@ import {
 } from "../common/Notification";
 import { BottomNavigationAdd, TopPageLink } from "../common";
 import { EditDialog } from "./EditDialog";
-
-const generate = (
-  hook: [
-    InspectionType[],
-    React.Dispatch<React.SetStateAction<InspectionType[]>>
-  ]
-) => {
-  const [types, setTypes] = hook;
-  const useCase = new InspectionTypeInteractor(
-    types,
-    setTypes,
-    new InspectionTypeRepository()
-  );
-  const controller = new InspectionTypeController(useCase);
-  const presenter = new InspectionTypePresenter(useCase);
-  return { controller, presenter };
-};
+import { DIContainerContext } from "../../App";
+import { IInspectionTypeController, IInspectionTypePresenter } from "../../interfaces";
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
-  const { controller, presenter } = generate(
-    useState<Array<InspectionType>>([])
-  );
+  const container = useContext(DIContainerContext)
+  const presenter: IInspectionTypePresenter = container.inject(nameof<IInspectionTypePresenter>())
+  const controller: IInspectionTypeController = container.inject(nameof<IInspectionTypeController>());
 
   const [open, setOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);

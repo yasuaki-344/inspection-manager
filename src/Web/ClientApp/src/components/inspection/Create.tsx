@@ -11,8 +11,8 @@ import {
   NotificationStateInteractor,
 } from "../common/Notification";
 import { OriginalSheetSelectDialog } from "./OriginalSheetSelectDialog";
-import { IInspectionSheetController } from "../../interfaces/controller";
-import { IInspectionSheetPresenter } from "../../interfaces/presenter";
+import { IInspectionSheetController ,
+ IInspectionSheetPresenter } from "../../interfaces";
 
 export const Create: FC = (): JSX.Element => {
   const { inject } = useContext(DIContainerContext);

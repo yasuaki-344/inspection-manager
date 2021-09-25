@@ -32,6 +32,7 @@ import {
 import {
   InspectionItemController,
   InspectionSheetController,
+  InspectionTypeController,
 } from "./controllers";
 import { DIContainer } from "./container";
 import {
@@ -46,14 +47,13 @@ import {
   IInspectionSheetInteractor,
   IInspectionTypeInteractor,
   IInspectionTypeRepository,
-} from "./interfaces";
-import {
   IInspectionGroupPresenter,
   IInspectionItemPresenter,
   IInspectionSheetPresenter,
   IInspectionTypePresenter,
-} from "./interfaces/presenter";
-import { IInspectionSheetController } from "./interfaces/controller";
+  IInspectionSheetController,
+  IInspectionTypeController
+} from "./interfaces";
 
 export const DIContainerContext = createContext<DIContainer>({} as DIContainer);
 
@@ -118,6 +118,14 @@ const App = (): JSX.Element => {
   container.register(
     nameof<IInspectionTypePresenter>(),
     new InspectionTypePresenter(
+      container.inject(
+        nameof<IInspectionTypeInteractor>()
+      ) as IInspectionTypeInteractor
+    )
+  );
+  container.register(
+    nameof<IInspectionTypeController>(),
+    new InspectionTypeController(
       container.inject(
         nameof<IInspectionTypeInteractor>()
       ) as IInspectionTypeInteractor
