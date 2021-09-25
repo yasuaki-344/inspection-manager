@@ -20,13 +20,12 @@ import { DIContainerContext } from "../App";
 import {
   InspectionSheet,
   InspectionSheetInitialState,
-  InspectionType,
   toCamelCase,
 } from "../entities";
 import {
-  IInspectionTypeRepository,
-} from "../interfaces";
- import { IInspectionGroupPresenter} from "../interfaces/presenter";
+  IInspectionGroupPresenter,
+  IInspectionTypePresenter,
+} from "../interfaces/presenter";
 import { CancelIconButton } from "./common";
 import { SheetSearchMenu } from "./SheetSearchMenu";
 import { SheetDeleteConfirmationDialog } from "./SheetDeleteConfirmationDialog";
@@ -35,8 +34,10 @@ export const Home: FC = (): JSX.Element => {
   const container = useContext(DIContainerContext);
   const groupPresenter: IInspectionGroupPresenter = container.inject(
     nameof<IInspectionGroupPresenter>()
-  )
-  const [types, setTypes] = useState<Array<InspectionType>>([]);
+  );
+  const typePresenter: IInspectionTypePresenter = container.inject(
+    nameof<IInspectionTypePresenter>()
+  );
   const [inspectionSheets, setInspectionSheets] = useState<
     Array<InspectionSheet>
   >([]);
@@ -55,18 +56,9 @@ export const Home: FC = (): JSX.Element => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const typeRepository: IInspectionTypeRepository = container.inject(
-    nameof<IInspectionTypeRepository>()
-  );
-
   useEffect(() => {
-    groupPresenter.get()
-    typeRepository
-      .get()
-      .then((res) => {
-        setTypes(res);
-      })
-      .catch(console.error);
+    groupPresenter.get();
+    typePresenter.get();
 
     fetch("inspectionsheet")
       .then((res) => res.json())
@@ -96,11 +88,10 @@ export const Home: FC = (): JSX.Element => {
    * Executes to search inspection sheet based on search options.
    */
   const handleSearch = () => {
-    const filteredGroupIds = groupPresenter.getByIds(searchOption.inspectionGroup);
-    const filteredTypeIds = types
-      .filter((x) => x.description.includes(searchOption.inspectionType))
-      .map((x) => x.inspectionTypeId);
-
+    const filteredGroupIds = groupPresenter.getIds(
+      searchOption.inspectionGroup
+    );
+    const filteredTypeIds = typePresenter.getIds(searchOption.inspectionType);
     setFilteredInspectionSheets(
       inspectionSheets.filter(
         (x: InspectionSheet) =>
@@ -263,11 +254,7 @@ export const Home: FC = (): JSX.Element => {
                         {groupPresenter.getGroupName(sheet.inspectionGroupId)}
                       </TableCell>
                       <TableCell>
-                        {
-                          types.find(
-                            (x) => x.inspectionTypeId === sheet.inspectionTypeId
-                          )?.description
-                        }
+                        {typePresenter.getTypeName(sheet.inspectionTypeId)}
                       </TableCell>
                       <TableCell padding="checkbox">
                         <Link to={`/edit/${sheet.sheetId}`}>
@@ -305,10 +292,7 @@ export const Home: FC = (): JSX.Element => {
         open={open}
         sheetName={targetSheet.sheetName}
         groupName={groupPresenter.getGroupName(targetSheet.inspectionGroupId)}
-        typeName={
-          types.find((x) => x.inspectionTypeId === targetSheet.inspectionTypeId)
-            ?.description
-        }
+        typeName={typePresenter.getTypeName(targetSheet.inspectionTypeId)}
         onDeleteClick={handleDelete}
         onCancelClick={() => setOpen(false)}
       />

@@ -12,6 +12,7 @@ import {
   InspectionSheetInteractor,
   InspectionItemInteractor,
   InspectionGroupInteractor,
+  InspectionTypeInteractor,
 } from "./use-cases";
 import {
   InspectionItemReducer,
@@ -19,12 +20,14 @@ import {
   InspectionSheetReducer,
   InspectionSheetInitialState,
   InspectionGroup,
+  InspectionType,
 } from "./entities";
 import "./custom.css";
 import {
   InspectionGroupPresenter,
   InspectionItemPresenter,
   InspectionSheetPresenter,
+  InspectionTypePresenter,
 } from "./presenters";
 import {
   InspectionItemController,
@@ -42,18 +45,21 @@ import {
   IInspectionItemInteractor,
   IInspectionSheetController,
   IInspectionSheetInteractor,
+  IInspectionTypeInteractor,
   IInspectionTypeRepository,
 } from "./interfaces";
 import {
   IInspectionGroupPresenter,
   IInspectionItemPresenter,
   IInspectionSheetPresenter,
+  IInspectionTypePresenter,
 } from "./interfaces/presenter";
 
 export const DIContainerContext = createContext<DIContainer>({} as DIContainer);
 
 const App = (): JSX.Element => {
   const [groups, setGroups] = useState<Array<InspectionGroup>>([]);
+  const [types, setTypes] = useState<Array<InspectionType>>([]);
   const [inspectionItem, dispatch] = useReducer(
     InspectionItemReducer,
     InspectionItemInitialState
@@ -89,24 +95,46 @@ const App = (): JSX.Element => {
     new InspectionGroupRepository()
   );
   container.register(
+    nameof<IInspectionTypeRepository>(),
+    new InspectionTypeRepository()
+  );
+  container.register(
     nameof<IInspectionGroupInteractor>(),
     new InspectionGroupInteractor(
       groups,
       setGroups,
-      container.inject(nameof<IInspectionGroupRepository>()) as IInspectionGroupRepository
+      container.inject(
+        nameof<IInspectionGroupRepository>()
+      ) as IInspectionGroupRepository
+    )
+  );
+  container.register(
+    nameof<IInspectionTypeInteractor>(),
+    new InspectionTypeInteractor(
+      types,
+      setTypes,
+      container.inject(
+        nameof<IInspectionTypeRepository>()
+      ) as IInspectionTypeRepository
     )
   );
   container.register(
     nameof<IInspectionGroupPresenter>(),
     new InspectionGroupPresenter(
-      container.inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor
+      container.inject(
+        nameof<IInspectionGroupInteractor>()
+      ) as IInspectionGroupInteractor
+    )
+  );
+  container.register(
+    nameof<IInspectionTypePresenter>(),
+    new InspectionTypePresenter(
+      container.inject(
+        nameof<IInspectionTypeInteractor>()
+      ) as IInspectionTypeInteractor
     )
   );
 
-  container.register(
-    nameof<IInspectionTypeRepository>(),
-    new InspectionTypeRepository()
-  );
   container.register(
     nameof<IInspectionItemInteractor>(),
     new InspectionItemInteractor(inspectionItem, dispatch)

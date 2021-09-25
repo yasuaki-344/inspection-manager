@@ -25,16 +25,16 @@ export class InspectionGroupPresenter implements IInspectionGroupPresenter {
     return this.useCase.getById(id);
   }
 
-  getByIds(keyword: string): Array<number> {
+  getIds(keyword: string): Array<number> {
     return this.useCase.groups
-    .filter((x) => x.description.includes(keyword))
-    .map((x) => x.inspectionGroupId);
+      .filter((x: InspectionGroup) => x.description.includes(keyword))
+      .map((x: InspectionGroup) => x.inspectionGroupId);
   }
 
   getGroupName(id: number): string | undefined {
-    return this.useCase.groups.find((x: InspectionGroup) =>
-        x.inspectionGroupId === id
-    )?.description
+    return this.useCase.groups.find(
+      (x: InspectionGroup) => x.inspectionGroupId === id
+    )?.description;
   }
 
   inspectionGroupTable(

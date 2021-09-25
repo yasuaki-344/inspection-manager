@@ -6,10 +6,8 @@ import {
   InspectionGroup,
   InspectionType,
 } from "../entities";
-import {
-  IInspectionSheetInteractor,
-} from "../interfaces";
-import {  IInspectionSheetPresenter} from "../interfaces/presenter";
+import { IInspectionSheetInteractor } from "../interfaces";
+import { IInspectionSheetPresenter } from "../interfaces/presenter";
 import { EquipmentForm } from "../components/inspection/form/EquipmentForm";
 import { LabelStyle, InputStyle } from "../components/stylesheets";
 

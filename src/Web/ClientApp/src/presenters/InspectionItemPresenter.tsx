@@ -10,8 +10,8 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import { Box } from "@mui/system";
 import { Choice, InspectionItem, useInputTypes } from "../entities";
-import { IInspectionItemInteractor} from "../interfaces";
-import { IInspectionItemPresenter} from "../interfaces/presenter";
+import { IInspectionItemInteractor } from "../interfaces";
+import { IInspectionItemPresenter } from "../interfaces/presenter";
 import { CancelIconButton } from "../components/common";
 import { InputStyle } from "../components/stylesheets";
 

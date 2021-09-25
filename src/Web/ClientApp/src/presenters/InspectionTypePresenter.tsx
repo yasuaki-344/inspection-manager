@@ -24,6 +24,18 @@ export class InspectionTypePresenter {
     return this.useCase.getById(id);
   }
 
+  getIds(keyword: string): Array<number> {
+    return this.useCase.types
+      .filter((x: InspectionType) => x.description.includes(keyword))
+      .map((x: InspectionType) => x.inspectionTypeId);
+  }
+
+  getTypeName(id: number): string | undefined {
+    return this.useCase.types.find(
+      (x: InspectionType) => x.inspectionTypeId === id
+    )?.description;
+  }
+
   inspectionTypeTable(
     updateMethod: (id: number) => void,
     deleteMethod: (id: number) => void
