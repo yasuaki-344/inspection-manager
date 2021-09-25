@@ -9,7 +9,11 @@ export const toCamelCase = (data: any): any => {
   if (keys.length > 0) {
     const r: { [key: string]: any } = {};
     keys.forEach((key: string) => {
-      r[camelCase(key)] = data[key];
+      if (Array.isArray(data[key])) {
+        r[camelCase(key)] = toCamelCase(data[key]);
+      } else {
+        r[camelCase(key)] = data[key];
+      }
     });
     return r;
   }
@@ -24,7 +28,11 @@ export const toSnakeCase = (data: any): any => {
   if (keys.length > 0) {
     const r: { [key: string]: any } = {};
     keys.forEach((key: string) => {
-      r[snakeCase(key)] = data[key];
+      if (Array.isArray(data[key])) {
+        r[snakeCase(key)] = toSnakeCase(data[key]);
+      } else {
+        r[snakeCase(key)] = data[key];
+      }
     });
     return r;
   }
