@@ -26,7 +26,7 @@ import {
 import { IInspectionSheetController } from "../interfaces/controller";
 import { CancelIconButton } from "./common";
 import { SheetSearchMenu } from "./SheetSearchMenu";
-import { SheetDeleteConfirmationDialog } from "./SheetDeleteConfirmationDialog";
+import { SheetDeleteConfirmationDialog } from "./dialog/SheetDeleteConfirmationDialog";
 
 export const Home: FC = (): JSX.Element => {
   const container = useContext(DIContainerContext);

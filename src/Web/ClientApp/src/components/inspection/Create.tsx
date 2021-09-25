@@ -10,7 +10,7 @@ import {
   NotificationInitState,
   NotificationStateInteractor,
 } from "../common/Notification";
-import { OriginalSheetSelectDialog } from "./OriginalSheetSelectDialog";
+import { OriginalSheetSelectDialog } from "../dialog/OriginalSheetSelectDialog";
 import { IInspectionSheetController ,
  IInspectionSheetPresenter } from "../../interfaces";
 

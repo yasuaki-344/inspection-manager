@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import nameof from "ts-nameof.macro";
-import { DIContainerContext } from "../../../App";
+import { DIContainerContext } from "../../App";
 import { ChoiceSetSelectDialog } from "./ChoiceSetSelectDialog";
-import { OkCancelDialogActions } from "../../common";
-import { DialogTitleDesign } from "../../stylesheets";
-import { IInspectionItemPresenter } from "../../../interfaces/presenter";
+import { OkCancelDialogActions } from "../common";
+import { DialogTitleDesign } from "../stylesheets";
+import { IInspectionItemPresenter } from "../../interfaces/presenter";
 
 interface InspectionDialogProps {
   open: boolean;

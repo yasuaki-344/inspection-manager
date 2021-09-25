@@ -10,7 +10,7 @@ import {
 import UndoIcon from "@mui/icons-material/Undo";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import nameof from "ts-nameof.macro";
-import { InspectionItemDialog } from "../dialog/InspectionItemDialog";
+import { InspectionItemDialog } from "../../dialog/InspectionItemDialog";
 import { DIContainerContext } from "../../../App";
 import {
   InspectionItem,

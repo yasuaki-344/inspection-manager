@@ -11,7 +11,7 @@ import {
   NotificationStateInteractor,
 } from "../common/Notification";
 import { BottomNavigationAdd, TopPageLink } from "../common";
-import { EditDialog } from "./EditDialog";
+import { EditDialog } from "../dialog/EditDialog";
 
 const generate = (
   hook: [

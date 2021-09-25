@@ -9,11 +9,11 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import nameof from "ts-nameof.macro";
-import { ChoiceTemplate, toCamelCase } from "../../../entities";
-import { DIContainerContext } from "../../../App";
-import { OkCancelDialogActions } from "../../common";
-import { DialogTitleDesign } from "../../stylesheets";
-import { IInspectionItemController } from "../../../interfaces";
+import { ChoiceTemplate, toCamelCase } from "../../entities";
+import { DIContainerContext } from "../../App";
+import { OkCancelDialogActions } from "../common";
+import { DialogTitleDesign } from "../stylesheets";
+import { IInspectionItemController } from "../../interfaces";
 
 interface ChoiceSetSelectDialogProps {
   open: boolean;

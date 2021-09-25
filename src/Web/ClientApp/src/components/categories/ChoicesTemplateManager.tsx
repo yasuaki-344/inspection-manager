@@ -11,7 +11,7 @@ import { ChoiceTemplateInteractor } from "../../use-cases";
 import { ChoiceTemplateRepository } from "../../infrastructure";
 import { ChoiceTemplatePresenter } from "../../presenters";
 import { ChoiceTemplateController } from "../../controllers";
-import { ChoiceTemplateEditDialog } from "./ChoiceTemplateEditDialog";
+import { ChoiceTemplateEditDialog } from "../dialog/ChoiceTemplateEditDialog";
 
 const generate = (
   hook: [
