@@ -6,10 +6,13 @@ import {
   TableRow,
 } from "@mui/material";
 import { CancelIconButton, EditIconButton } from "../components/common";
-import { IChoiceTemplateInteractor } from "../interfaces";
+import {
+  IChoiceTemplateInteractor,
+  IChoiceTemplatePresenter,
+} from "../interfaces";
 import { ChoiceTemplate } from "../entities";
 
-export class ChoiceTemplatePresenter {
+export class ChoiceTemplatePresenter implements IChoiceTemplatePresenter {
   private readonly useCase: IChoiceTemplateInteractor;
 
   constructor(useCase: IChoiceTemplateInteractor) {
@@ -20,8 +23,16 @@ export class ChoiceTemplatePresenter {
     this.useCase.get();
   }
 
+  getTemplates(): Array<ChoiceTemplate> {
+    return this.useCase.templates;
+  }
+
   getById(id: number): ChoiceTemplate | undefined {
     return this.useCase.getById(id);
+  }
+
+  getByIndex(index: number): ChoiceTemplate | undefined {
+    return this.useCase.templates[index];
   }
 
   choiceTemplateTable(

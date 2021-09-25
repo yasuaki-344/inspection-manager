@@ -16,6 +16,7 @@ import {
   InspectionItemInteractor,
   InspectionGroupInteractor,
   InspectionTypeInteractor,
+  ChoiceTemplateInteractor,
 } from "./use-cases";
 import {
   InspectionItemReducer,
@@ -24,9 +25,11 @@ import {
   InspectionSheetInitialState,
   InspectionGroup,
   InspectionType,
+  ChoiceTemplate,
 } from "./entities";
 import "./custom.css";
 import {
+  ChoiceTemplatePresenter,
   InspectionGroupPresenter,
   InspectionItemPresenter,
   InspectionSheetPresenter,
@@ -39,6 +42,7 @@ import {
 } from "./controllers";
 import { DIContainer } from "./container";
 import {
+  ChoiceTemplateRepository,
   InspectionGroupRepository,
   InspectionTypeRepository,
 } from "./infrastructure";
@@ -56,6 +60,7 @@ import {
   IInspectionTypePresenter,
   IInspectionSheetController,
   IInspectionTypeController,
+  IChoiceTemplatePresenter,
 } from "./interfaces";
 
 export const DIContainerContext = createContext<DIContainer>({} as DIContainer);
@@ -169,6 +174,17 @@ const App = (): JSX.Element => {
   container.register(
     nameof<IInspectionItemController>(),
     inspectionItemController
+  );
+  const [templates, setTemplates] = useState<Array<ChoiceTemplate>>([]);
+  container.register(
+    nameof<IChoiceTemplatePresenter>(),
+    new ChoiceTemplatePresenter(
+      new ChoiceTemplateInteractor(
+        templates,
+        setTemplates,
+        new ChoiceTemplateRepository()
+      )
+    )
   );
 
   return (

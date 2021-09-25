@@ -9,11 +9,14 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import nameof from "ts-nameof.macro";
-import { ChoiceTemplate, toCamelCase } from "../../entities";
+import { ChoiceTemplate } from "../../entities";
 import { DIContainerContext } from "../../App";
 import { OkCancelDialogActions } from "../common";
 import { DialogTitleDesign } from "../stylesheets";
-import { IInspectionItemController } from "../../interfaces";
+import {
+  IChoiceTemplatePresenter,
+  IInspectionItemController,
+} from "../../interfaces";
 
 interface ChoiceSetSelectDialogProps {
   open: boolean;
@@ -27,17 +30,13 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
   const itemController: IInspectionItemController = container.inject(
     nameof<IInspectionItemController>()
   );
-
+  const templatePresenter: IChoiceTemplatePresenter = container.inject(
+    nameof<IChoiceTemplatePresenter>()
+  );
   const [value, setValue] = useState(0);
-  const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
 
   useEffect(() => {
-    fetch("choicetemplate")
-      .then((res) => toCamelCase(res.json()))
-      .then((json: any) => {
-        setTemplates(json);
-      })
-      .catch(console.error);
+    templatePresenter.get();
   }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +44,10 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
   };
 
   const handleSelectTemplate = () => {
-    itemController.setChoices(templates[value]);
+    const template = templatePresenter.getByIndex(value);
+    if (template != null) {
+      itemController.setChoices(template);
+    }
     props.handleClose();
   };
 
@@ -55,14 +57,16 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
       <DialogContent>
         <FormControl component="fieldset">
           <RadioGroup value={value} onChange={handleChange}>
-            {templates.map((template: ChoiceTemplate, index: number) => (
-              <FormControlLabel
-                key={template.choiceTemplateId}
-                value={index}
-                control={<Radio data-testid={`radio-${index}`} />}
-                label={template.choices.map((x) => x.description).join(",")}
-              />
-            ))}
+            {templatePresenter
+              .getTemplates()
+              .map((template: ChoiceTemplate, index: number) => (
+                <FormControlLabel
+                  key={template.choiceTemplateId}
+                  value={index}
+                  control={<Radio data-testid={`radio-${index}`} />}
+                  label={template.choices.map((x) => x.description).join(",")}
+                />
+              ))}
           </RadioGroup>
         </FormControl>
       </DialogContent>
