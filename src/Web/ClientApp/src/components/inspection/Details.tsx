@@ -116,7 +116,7 @@ export const Details = ({ match }: any): JSX.Element => {
     fetch(`inspectionsheet/${sheetId}`)
       .then((res) => res.json())
       .then((json) => {
-        const data = toCamelCase(json)
+        const data = toCamelCase(json);
         console.log(JSON.stringify(data));
         setInspectionSheet(data);
       })

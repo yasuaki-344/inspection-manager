@@ -79,7 +79,7 @@ export const Home: FC = (): JSX.Element => {
     fetch("inspectionsheet")
       .then((res) => res.json())
       .then((json) => {
-        const data = toCamelCase(json)
+        const data = toCamelCase(json);
         console.log(JSON.stringify(data));
         setInspectionSheets(data);
         setFilteredInspectionSheets(data);
@@ -280,8 +280,7 @@ export const Home: FC = (): JSX.Element => {
                       <TableCell>
                         {
                           types.find(
-                            (x) =>
-                              x.inspectionTypeId === sheet.inspectionTypeId
+                            (x) => x.inspectionTypeId === sheet.inspectionTypeId
                           )?.description
                         }
                       </TableCell>
@@ -326,9 +325,8 @@ export const Home: FC = (): JSX.Element => {
           )?.description
         }
         typeName={
-          types.find(
-            (x) => x.inspectionTypeId === targetSheet.inspectionTypeId
-          )?.description
+          types.find((x) => x.inspectionTypeId === targetSheet.inspectionTypeId)
+            ?.description
         }
         onDeleteClick={handleDelete}
         onCancelClick={() => setOpen(false)}

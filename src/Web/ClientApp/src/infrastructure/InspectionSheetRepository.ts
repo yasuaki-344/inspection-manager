@@ -10,8 +10,8 @@ export class InspectionSheetRepository implements IInspectionSheetRepository {
 
   async getById(id: number): Promise<InspectionSheet> {
     const data = await fetch(`inspectionsheet/${id}`)
-      .then(res => res.json())
-      .then(json => toCamelCase(json));
+      .then((res) => res.json())
+      .then((json) => toCamelCase(json));
     return data;
   }
 
@@ -23,8 +23,8 @@ export class InspectionSheetRepository implements IInspectionSheetRepository {
       },
       body: JSON.stringify(toSnakeCase(inspectionSheet)),
     })
-      .then(res => res.json())
-      .then(json => toCamelCase(json));
+      .then((res) => res.json())
+      .then((json) => toCamelCase(json));
     return data;
   }
 
@@ -36,8 +36,8 @@ export class InspectionSheetRepository implements IInspectionSheetRepository {
       },
       body: JSON.stringify(toSnakeCase(inspectionSheet)),
     })
-      .then(res => res.json())
-      .then(json => toCamelCase(json));
+      .then((res) => res.json())
+      .then((json) => toCamelCase(json));
     return data;
   }
 

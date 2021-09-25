@@ -19,7 +19,10 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
 
   private readonly repository: IInspectionSheetRepository;
 
-  constructor(state: InspectionSheet, dispatch: React.Dispatch<InspectionSheetAction>) {
+  constructor(
+    state: InspectionSheet,
+    dispatch: React.Dispatch<InspectionSheetAction>
+  ) {
     this.sheet = state;
     this.dispatch = dispatch;
     this.repository = new InspectionSheetRepository();
