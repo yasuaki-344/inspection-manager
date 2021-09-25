@@ -112,19 +112,15 @@ export const Details = ({ match }: any): JSX.Element => {
       <h1>詳細ページ</h1>
       <TopPageLink />
       <List>
-        <ListItem>点検シートID:{sheetPresenter.getState().sheetId}</ListItem>
-        <ListItem>シート名:{sheetPresenter.getState().sheetName}</ListItem>
+        <ListItem>点検シートID:{sheetPresenter.state.sheetId}</ListItem>
+        <ListItem>シート名:{sheetPresenter.state.sheetName}</ListItem>
         <ListItem>
           点検グループ:
-          {groupPresenter.getGroupName(
-            sheetPresenter.getState().inspectionGroupId
-          )}
+          {groupPresenter.getGroupName(sheetPresenter.state.inspectionGroupId)}
         </ListItem>
         <ListItem>
           点検種別:
-          {typePresenter.getTypeName(
-            sheetPresenter.getState().inspectionTypeId
-          )}
+          {typePresenter.getTypeName(sheetPresenter.state.inspectionTypeId)}
         </ListItem>
       </List>
       <TableContainer component={Paper}>
@@ -137,11 +133,9 @@ export const Details = ({ match }: any): JSX.Element => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sheetPresenter
-              .getState()
-              .equipments.map((equipment: Equipment) => (
-                <Row key={equipment.equipmentId} equipment={equipment} />
-              ))}
+            {sheetPresenter.state.equipments.map((equipment: Equipment) => (
+              <Row key={equipment.equipmentId} equipment={equipment} />
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

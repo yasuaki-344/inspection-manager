@@ -74,7 +74,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   }, []);
 
   const storeHistory = () => {
-    setHistory(history.concat(sheetPresenter.getState()));
+    setHistory(history.concat(sheetPresenter.state));
     setUndoDisabled(false);
   };
 

@@ -5,9 +5,9 @@ import {
 } from "../../entities";
 
 export interface IInspectionSheetPresenter {
+  readonly state: InspectionSheet;
   getAllInspectionSheet(): Promise<Array<InspectionSheet>>;
   getInspectionSheetById(id: number): Promise<void>;
-  getState(): InspectionSheet;
   getEditContent(
     isEdit: boolean,
     groups: Array<InspectionGroup>,

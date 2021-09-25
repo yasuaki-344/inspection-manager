@@ -14,8 +14,11 @@ import { LabelStyle, InputStyle } from "../components/stylesheets";
 export class InspectionSheetPresenter implements IInspectionSheetPresenter {
   private readonly useCase: IInspectionSheetInteractor;
 
+  readonly state: InspectionSheet;
+
   constructor(useCase: IInspectionSheetInteractor) {
     this.useCase = useCase;
+    this.state = useCase.sheet;
   }
 
   async getAllInspectionSheet(): Promise<Array<InspectionSheet>> {
@@ -25,10 +28,6 @@ export class InspectionSheetPresenter implements IInspectionSheetPresenter {
 
   async getInspectionSheetById(id: number): Promise<void> {
     await this.useCase.getInspectionSheetById(id);
-  }
-
-  getState(): InspectionSheet {
-    return this.useCase.sheet;
   }
 
   getEditContent(
