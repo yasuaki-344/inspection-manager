@@ -1,4 +1,4 @@
-import { InspectionGroup } from "../entities";
+import { InspectionGroup } from "../../entities";
 
 export interface IInspectionGroupRepository {
   get(): Promise<Array<InspectionGroup>>;

@@ -1,5 +1,5 @@
 import React from "react";
-import { InspectionSheet, InspectionItem } from "../entities";
+import { InspectionSheet, InspectionItem } from "../../entities";
 
 export interface IInspectionSheetInteractor {
   sheet: InspectionSheet;

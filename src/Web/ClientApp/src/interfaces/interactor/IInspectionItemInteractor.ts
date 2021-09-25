@@ -1,5 +1,5 @@
 import React from "react";
-import { InspectionItem, ChoiceTemplate } from "../entities";
+import { InspectionItem, ChoiceTemplate } from "../../entities";
 
 export interface IInspectionItemInteractor {
   inspectionItem: InspectionItem;

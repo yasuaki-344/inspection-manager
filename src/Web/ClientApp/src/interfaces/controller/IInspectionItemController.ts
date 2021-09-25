@@ -1,4 +1,4 @@
-import { InspectionItem, ChoiceTemplate } from "../entities";
+import { InspectionItem, ChoiceTemplate } from "../../entities";
 
 export interface IInspectionItemController {
   initialize(): void;

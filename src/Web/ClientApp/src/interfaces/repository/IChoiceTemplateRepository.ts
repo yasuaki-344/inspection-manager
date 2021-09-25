@@ -1,4 +1,4 @@
-import { ChoiceTemplate } from "../entities";
+import { ChoiceTemplate } from "../../entities";
 
 export interface IChoiceTemplateInteractor {
   templates: Array<ChoiceTemplate>;
