@@ -18,6 +18,11 @@ export class InspectionSheetPresenter implements IInspectionSheetPresenter {
     this.useCase = useCase;
   }
 
+  async getAllInspectionSheet(): Promise<Array<InspectionSheet>> {
+    const sheets = await this.useCase.getAllInspectionSheet();
+    return sheets;
+  }
+
   getState(): InspectionSheet {
     return this.useCase.sheet;
   }

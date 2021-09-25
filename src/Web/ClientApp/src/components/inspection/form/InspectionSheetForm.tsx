@@ -24,12 +24,14 @@ import {
 } from "../../../infrastructure";
 import {
   IInspectionItemController,
-  IInspectionSheetController,
 } from "../../../interfaces";
 import {
   IInspectionItemPresenter,
   IInspectionSheetPresenter,
 } from "../../../interfaces/presenter";
+import {
+  IInspectionSheetController,
+} from "../../../interfaces/controller";
 
 interface InspectionSheetFormProps {
   isEdit: boolean;

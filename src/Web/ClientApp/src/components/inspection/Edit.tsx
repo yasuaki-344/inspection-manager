@@ -9,7 +9,7 @@ import {
   NotificationInitState,
   NotificationStateInteractor,
 } from "../common/Notification";
-import { IInspectionSheetController } from "../../interfaces";
+import { IInspectionSheetController } from "../../interfaces/controller";
 
 export const Edit = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;

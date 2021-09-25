@@ -17,7 +17,7 @@ import { DIContainerContext } from "../../../App";
 import { ItemType, Equipment, InspectionItem } from "../../../entities";
 import { CancelIconButton } from "../../common";
 import { equipmentLabel, MenuIcon, paperElement } from "../../stylesheets";
-import { IInspectionSheetController } from "../../../interfaces";
+import { IInspectionSheetController } from "../../../interfaces/controller";
 
 interface DragItem {
   index: number;

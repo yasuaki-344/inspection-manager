@@ -19,13 +19,14 @@ import nameof from "ts-nameof.macro";
 import { DIContainerContext } from "../App";
 import {
   InspectionSheet,
-  InspectionSheetInitialState,
-  toCamelCase,
+  InspectionSheetInitialState
 } from "../entities";
 import {
   IInspectionGroupPresenter,
+  IInspectionSheetPresenter,
   IInspectionTypePresenter,
 } from "../interfaces/presenter";
+import { IInspectionSheetController } from "../interfaces/controller";
 import { CancelIconButton } from "./common";
 import { SheetSearchMenu } from "./SheetSearchMenu";
 import { SheetDeleteConfirmationDialog } from "./SheetDeleteConfirmationDialog";
@@ -37,6 +38,12 @@ export const Home: FC = (): JSX.Element => {
   );
   const typePresenter: IInspectionTypePresenter = container.inject(
     nameof<IInspectionTypePresenter>()
+  );
+  const sheetPresenter: IInspectionSheetPresenter = container.inject(
+    nameof<IInspectionSheetPresenter>()
+  );
+  const sheetController: IInspectionSheetController = container.inject(
+    nameof<IInspectionSheetController>()
   );
   const [inspectionSheets, setInspectionSheets] = useState<
     Array<InspectionSheet>
@@ -59,14 +66,12 @@ export const Home: FC = (): JSX.Element => {
   useEffect(() => {
     groupPresenter.get();
     typePresenter.get();
-
-    fetch("inspectionsheet")
-      .then((res) => res.json())
-      .then((json) => {
-        const data = toCamelCase(json);
-        console.log(JSON.stringify(data));
-        setInspectionSheets(data);
-        setFilteredInspectionSheets(data);
+    sheetPresenter
+      .getAllInspectionSheet()
+      .then((res: Array<InspectionSheet>) => {
+        console.log(JSON.stringify(res))
+        setInspectionSheets(res);
+        setFilteredInspectionSheets(res);
       })
       .catch(console.error);
   }, []);
@@ -159,21 +164,16 @@ export const Home: FC = (): JSX.Element => {
 
   const handleDelete = () => {
     setOpen(false);
-    console.log(`delete ${targetSheet.sheetId}`);
-    fetch(`inspectionsheet/${targetSheet.sheetId}`, {
-      method: "DELETE",
-    })
-      .then((res) => toCamelCase(res.json()))
-      .then((json: InspectionSheet) => {
-        console.log(json);
+    sheetController.removeInspectionSheet(targetSheet.sheetId)
+      .then(() => {
         setInspectionSheets(
           inspectionSheets.filter(
-            (x: InspectionSheet) => x.sheetId !== json.sheetId
+            (x: InspectionSheet) => x.sheetId !== targetSheet.sheetId
           )
         );
         setFilteredInspectionSheets(
           inspectionSheets.filter(
-            (x: InspectionSheet) => x.sheetId !== json.sheetId
+            (x: InspectionSheet) => x.sheetId !== targetSheet.sheetId
           )
         );
       })

@@ -7,6 +7,7 @@ export interface IInspectionSheetInteractor {
   getInspectionSheetById(id: number): Promise<void>;
   createInspectionSheet(): Promise<void>;
   updateInspectionSheet(): Promise<void>;
+  removeSheet(id: number): Promise<void>;
 
   setSheet(sheet: InspectionSheet): void;
   updateField(

@@ -43,7 +43,6 @@ import {
   IInspectionGroupRepository,
   IInspectionItemController,
   IInspectionItemInteractor,
-  IInspectionSheetController,
   IInspectionSheetInteractor,
   IInspectionTypeInteractor,
   IInspectionTypeRepository,
@@ -54,6 +53,9 @@ import {
   IInspectionSheetPresenter,
   IInspectionTypePresenter,
 } from "./interfaces/presenter";
+import {
+  IInspectionSheetController
+} from "./interfaces/controller";
 
 export const DIContainerContext = createContext<DIContainer>({} as DIContainer);
 
@@ -78,17 +80,6 @@ const App = (): JSX.Element => {
   const inspectionItemController = new InspectionItemController(
     inspectionItemInteractor
   );
-  const inspectionSheetInteractor = new InspectionSheetInteractor(
-    inspectionSheet,
-    sheetDispatch
-  );
-  const inspectionSheetPresenter = new InspectionSheetPresenter(
-    inspectionSheetInteractor
-  );
-  const inspectionSheetController = new InspectionSheetController(
-    inspectionSheetInteractor
-  );
-
   const container = new DIContainer();
   container.register(
     nameof<IInspectionGroupRepository>(),
@@ -134,10 +125,13 @@ const App = (): JSX.Element => {
       ) as IInspectionTypeInteractor
     )
   );
-
   container.register(
     nameof<IInspectionItemInteractor>(),
     new InspectionItemInteractor(inspectionItem, dispatch)
+  );
+  container.register(
+    nameof<IInspectionItemInteractor>(),
+    new InspectionSheetInteractor(inspectionSheet, sheetDispatch)
   );
   container.register(
     nameof<IInspectionSheetInteractor>(),
@@ -145,11 +139,11 @@ const App = (): JSX.Element => {
   );
   container.register(
     nameof<IInspectionSheetPresenter>(),
-    inspectionSheetPresenter
-  );
-  container.register(
-    nameof<IInspectionSheetPresenter>(),
-    inspectionSheetPresenter
+    new InspectionSheetPresenter(
+      container.inject(
+        nameof<IInspectionSheetInteractor>()
+      ) as IInspectionSheetInteractor
+    )
   );
   container.register(
     nameof<IInspectionItemPresenter>(),
@@ -157,7 +151,11 @@ const App = (): JSX.Element => {
   );
   container.register(
     nameof<IInspectionSheetController>(),
-    inspectionSheetController
+    new InspectionSheetController(
+      container.inject(
+        nameof<IInspectionSheetInteractor>()
+      ) as IInspectionSheetInteractor
+    )
   );
   container.register(
     nameof<IInspectionItemController>(),

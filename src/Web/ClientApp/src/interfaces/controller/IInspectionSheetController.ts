@@ -1,13 +1,14 @@
 import React from "react";
-import { InspectionItem, InspectionSheet } from "../entities";
+import { InspectionItem, InspectionSheet } from "../../entities";
 
 export interface IInspectionSheetController {
   getAllInspectionSheet(): Promise<Array<InspectionSheet>>;
 
   getInspectionSheetById(id: number): Promise<void>;
   createInspectionSheet(): Promise<void>;
-
   updateInspectionSheet(): Promise<void>;
+  removeInspectionSheet(id: number): Promise<void>;
+
   setSheet(sheet: InspectionSheet): void;
   updateField(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

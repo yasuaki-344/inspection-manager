@@ -8,4 +8,3 @@ export * from "./IChoiceTemplateRepository";
 export * from "./IInspectionSheetRepository";
 export * from "./IInspectionGroupRepository";
 export * from "./IInspectionItemController";
-export * from "./IInspectionSheetController";

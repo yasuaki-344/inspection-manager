@@ -48,6 +48,10 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.setSheet(sheet);
   }
 
+  async removeSheet(id: number): Promise<void> {
+    await this.repository.delete(id);
+  }
+
   setSheet(sheet: InspectionSheet): void {
     this.dispatch({
       type: SHEET_ACTION_TYPE.SET_SHEET,

@@ -7,7 +7,7 @@ import nameof from "ts-nameof.macro";
 import { DIContainerContext } from "../../../App";
 import { useInputTypes, ItemType, InspectionItem } from "../../../entities";
 import { CancelIconButton } from "../../common";
-import { IInspectionSheetController } from "../../../interfaces";
+import { IInspectionSheetController } from "../../../interfaces/controller";
 
 interface DragItem {
   equipmentIndex: number;

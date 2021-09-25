@@ -3,9 +3,10 @@ import { IInspectionSheetRepository } from "../interfaces";
 
 export class InspectionSheetRepository implements IInspectionSheetRepository {
   async get(): Promise<Array<InspectionSheet>> {
-    const res = await fetch("inspectionsheet");
-    const data = res.json();
-    return toCamelCase(data);
+    const data = await fetch("inspectionsheet")
+      .then((res) => res.json())
+      .then((json) => toCamelCase(json));
+    return data;
   }
 
   async getById(id: number): Promise<InspectionSheet> {
