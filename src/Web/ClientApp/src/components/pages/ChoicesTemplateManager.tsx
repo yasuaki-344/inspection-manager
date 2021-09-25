@@ -1,5 +1,6 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useContext } from "react";
 import { BottomNavigation, TableContainer, Grid, Paper } from "@mui/material";
+import nameof from "ts-nameof.macro";
 import { ChoiceTemplate } from "../../entities";
 import {
   BottomNavigationAdd,
@@ -7,33 +8,22 @@ import {
   NotificationInitState,
   NotificationStateInteractor,
 } from "../utilities";
-import { ChoiceTemplateInteractor } from "../../use-cases";
-import { ChoiceTemplateRepository } from "../../infrastructure";
-import { ChoiceTemplatePresenter } from "../../presenters";
-import { ChoiceTemplateController } from "../../controllers";
-import { ChoiceTemplateEditDialog } from "../dialog/ChoiceTemplateEditDialog";
-
-const generate = (
-  hook: [
-    Array<ChoiceTemplate>,
-    React.Dispatch<React.SetStateAction<Array<ChoiceTemplate>>>
-  ]
-) => {
-  const [types, setTypes] = hook;
-  const useCase = new ChoiceTemplateInteractor(
-    types,
-    setTypes,
-    new ChoiceTemplateRepository()
-  );
-  const controller = new ChoiceTemplateController(useCase);
-  const presenter = new ChoiceTemplatePresenter(useCase);
-  return { controller, presenter };
-};
+import { ChoiceTemplateEditDialog } from "../dialog";
+import { DIContainerContext } from "../../App";
+import {
+  IChoiceTemplateController,
+  IChoiceTemplatePresenter,
+} from "../../interfaces";
 
 export const ChoicesTemplateManager: FC = (): JSX.Element => {
-  const { controller, presenter } = generate(
-    useState<Array<ChoiceTemplate>>([])
+  const container = useContext(DIContainerContext);
+  const controller: IChoiceTemplateController = container.inject(
+    nameof<IChoiceTemplateController>()
   );
+  const presenter: IChoiceTemplatePresenter = container.inject(
+    nameof<IChoiceTemplatePresenter>()
+  );
+
   const [open, setOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [target, setTarget] = useState<ChoiceTemplate>({

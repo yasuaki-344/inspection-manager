@@ -36,6 +36,7 @@ import {
   InspectionTypePresenter,
 } from "./presenters";
 import {
+  ChoiceTemplateController,
   InspectionItemController,
   InspectionSheetController,
   InspectionTypeController,
@@ -61,6 +62,9 @@ import {
   IInspectionSheetController,
   IInspectionTypeController,
   IChoiceTemplatePresenter,
+  IChoiceTemplateController,
+  IChoiceTemplateRepository,
+  IChoiceTemplateInteractor,
 } from "./interfaces";
 
 export const DIContainerContext = createContext<DIContainer>({} as DIContainer);
@@ -177,13 +181,27 @@ const App = (): JSX.Element => {
   );
   const [templates, setTemplates] = useState<Array<ChoiceTemplate>>([]);
   container.register(
+    nameof<IChoiceTemplateRepository>(),
+    new ChoiceTemplateRepository()
+  );
+  container.register(
+    nameof<IChoiceTemplateInteractor>(),
+    new ChoiceTemplateInteractor(
+      templates,
+      setTemplates,
+      container.inject(nameof<IChoiceTemplateRepository>())
+    )
+  );
+  container.register(
     nameof<IChoiceTemplatePresenter>(),
     new ChoiceTemplatePresenter(
-      new ChoiceTemplateInteractor(
-        templates,
-        setTemplates,
-        new ChoiceTemplateRepository()
-      )
+      container.inject(nameof<IChoiceTemplateInteractor>())
+    )
+  );
+  container.register(
+    nameof<IChoiceTemplateController>(),
+    new ChoiceTemplateController(
+      container.inject(nameof<IChoiceTemplateInteractor>())
     )
   );
 

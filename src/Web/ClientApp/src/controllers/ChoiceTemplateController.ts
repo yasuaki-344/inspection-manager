@@ -1,7 +1,10 @@
-import { IChoiceTemplateInteractor } from "../interfaces";
+import {
+  IChoiceTemplateController,
+  IChoiceTemplateInteractor,
+} from "../interfaces";
 import { ChoiceTemplate } from "../entities";
 
-export class ChoiceTemplateController {
+export class ChoiceTemplateController implements IChoiceTemplateController {
   private readonly useCase: IChoiceTemplateInteractor;
 
   constructor(useCase: IChoiceTemplateInteractor) {
