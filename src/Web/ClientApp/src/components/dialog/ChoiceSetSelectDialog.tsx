@@ -57,8 +57,7 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
           <RadioGroup value={value} onChange={handleChange}>
             {templates.map((template: ChoiceTemplate, index: number) => (
               <FormControlLabel
-                // eslint-disable-next-line
-                key={`label-${index}`}
+                key={template.choiceTemplateId}
                 value={index}
                 control={<Radio data-testid={`radio-${index}`} />}
                 label={template.choices.map((x) => x.description).join(",")}
