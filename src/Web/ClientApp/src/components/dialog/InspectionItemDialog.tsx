@@ -25,7 +25,7 @@ export const InspectionItemDialog = (
 
   useEffect(() => {
     setDisabled(!itemPresenter.isValidInspectionItem());
-  }, [itemPresenter.getState()]);
+  }, [itemPresenter.state]);
 
   return (
     <>

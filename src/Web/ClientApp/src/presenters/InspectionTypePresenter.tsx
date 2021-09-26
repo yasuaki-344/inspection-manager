@@ -5,15 +5,21 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { IInspectionTypeInteractor } from "../interfaces";
+import {
+  IInspectionTypeInteractor,
+  IInspectionTypePresenter,
+} from "../interfaces";
 import { InspectionType } from "../entities";
 import { CancelIconButton, EditIconButton } from "../components/utilities";
 
-export class InspectionTypePresenter {
+export class InspectionTypePresenter implements IInspectionTypePresenter {
   private readonly useCase: IInspectionTypeInteractor;
+
+  readonly state: Array<InspectionType>;
 
   constructor(useCase: IInspectionTypeInteractor) {
     this.useCase = useCase;
+    this.state = useCase.types;
   }
 
   get(): void {

@@ -2,7 +2,7 @@ import React from "react";
 import { InspectionItem } from "../../entities";
 
 export interface IInspectionItemPresenter {
-  getState(): InspectionItem;
+  readonly state: InspectionItem;
   isValidInspectionItem(): boolean;
   getEditContent(
     onTemplateSelectClick: (

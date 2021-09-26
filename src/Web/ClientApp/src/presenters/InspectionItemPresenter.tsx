@@ -18,12 +18,11 @@ import { InputStyle } from "../components/stylesheets";
 export class InspectionItemPresenter implements IInspectionItemPresenter {
   private readonly useCase: IInspectionItemInteractor;
 
+  readonly state: InspectionItem;
+
   constructor(useCase: IInspectionItemInteractor) {
     this.useCase = useCase;
-  }
-
-  getState(): InspectionItem {
-    return this.useCase.inspectionItem;
+    this.state = useCase.inspectionItem;
   }
 
   isValidInspectionItem(): boolean {

@@ -12,21 +12,14 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import nameof from "ts-nameof.macro";
 import { InspectionItemDialog } from "../dialog";
 import { DIContainerContext } from "../../App";
-import {
-  InspectionItem,
-  InspectionSheet,
-  InspectionGroup,
-  InspectionType,
-} from "../../entities";
-import {
-  InspectionGroupRepository,
-  InspectionTypeRepository,
-} from "../../infrastructure";
+import { InspectionItem, InspectionSheet } from "../../entities";
 import {
   IInspectionItemController,
   IInspectionItemPresenter,
   IInspectionSheetPresenter,
   IInspectionSheetController,
+  IInspectionGroupPresenter,
+  IInspectionTypePresenter,
 } from "../../interfaces";
 
 interface InspectionSheetFormProps {
@@ -50,9 +43,12 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   const itemController: IInspectionItemController = container.inject(
     nameof<IInspectionItemController>()
   );
-
-  const [groups, setGroups] = useState<InspectionGroup[]>([]);
-  const [types, setTypes] = useState<InspectionType[]>([]);
+  const groupPresenter: IInspectionGroupPresenter = container.inject(
+    nameof<IInspectionGroupPresenter>()
+  );
+  const typePresenter: IInspectionTypePresenter = container.inject(
+    nameof<IInspectionTypePresenter>()
+  );
   const [open, setOpen] = useState(false);
   const [undoDisabled, setUndoDisabled] = useState(true);
   const [additional, setAdditional] = useState(false);
@@ -61,16 +57,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   const [history, setHistory] = useState<InspectionSheet[]>([]);
 
   useEffect(() => {
-    const groupApi = new InspectionGroupRepository();
-    groupApi
-      .get()
-      .then((res) => setGroups(res))
-      .catch(console.error);
-    const typeApi = new InspectionTypeRepository();
-    typeApi
-      .get()
-      .then((res) => setTypes(res))
-      .catch(console.error);
+    groupPresenter.get();
+    typePresenter.get();
   }, []);
 
   const storeHistory = () => {
@@ -91,15 +79,12 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
    */
   const handleInspectionItem = () => {
     if (additional) {
-      sheetController.addInspectionItem(
-        equipmentIndex,
-        itemPresenter.getState()
-      );
+      sheetController.addInspectionItem(equipmentIndex, itemPresenter.state);
     } else {
       sheetController.updateInspectionItem(
         equipmentIndex,
         inspectionItemIndex,
-        itemPresenter.getState()
+        itemPresenter.state
       );
     }
     storeHistory();
@@ -136,8 +121,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
       <Paper variant="outlined">
         {sheetPresenter.getEditContent(
           props.isEdit,
-          groups,
-          types,
+          groupPresenter.state,
+          typePresenter.state,
           handleAddItem,
           handleEditItem
           // storeHistory

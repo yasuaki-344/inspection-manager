@@ -1,6 +1,7 @@
 import { InspectionGroup } from "../../entities";
 
 export interface IInspectionGroupPresenter {
+  readonly state: Array<InspectionGroup>;
   get(): void;
   getById(id: number): InspectionGroup | undefined;
   getIds(keyword: string): Array<number>;
