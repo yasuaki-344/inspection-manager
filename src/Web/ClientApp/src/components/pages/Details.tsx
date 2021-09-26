@@ -22,9 +22,10 @@ import { itemTableHead, TableHeadCell } from "../stylesheets";
 import { DIContainerContext } from "../../App";
 import {
   IInspectionGroupPresenter,
+  IInspectionSheetController,
   IInspectionSheetPresenter,
   IInspectionTypePresenter,
-} from "../../interfaces/presenter";
+} from "../../interfaces";
 
 interface RowProps {
   equipment: Equipment;
@@ -100,11 +101,14 @@ export const Details = ({ match }: any): JSX.Element => {
   const sheetPresenter: IInspectionSheetPresenter = container.inject(
     nameof<IInspectionSheetPresenter>()
   );
+  const sheetController: IInspectionSheetController = container.inject(
+    nameof<IInspectionSheetController>()
+  );
 
   useEffect(() => {
     groupPresenter.get();
     typePresenter.get();
-    sheetPresenter.getInspectionSheetById(sheetId);
+    sheetController.getInspectionSheetById(sheetId);
   }, [sheetId]);
 
   return (

@@ -26,10 +26,6 @@ export class InspectionSheetPresenter implements IInspectionSheetPresenter {
     return sheets;
   }
 
-  async getInspectionSheetById(id: number): Promise<void> {
-    await this.useCase.getInspectionSheetById(id);
-  }
-
   getEditContent(
     isEdit: boolean,
     groups: Array<InspectionGroup>,

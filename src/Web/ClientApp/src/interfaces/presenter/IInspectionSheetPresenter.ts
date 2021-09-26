@@ -7,7 +7,6 @@ import {
 export interface IInspectionSheetPresenter {
   readonly state: InspectionSheet;
   getAllInspectionSheet(): Promise<Array<InspectionSheet>>;
-  getInspectionSheetById(id: number): Promise<void>;
   getEditContent(
     isEdit: boolean,
     groups: Array<InspectionGroup>,
