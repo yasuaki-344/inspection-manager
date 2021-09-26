@@ -1,7 +1,10 @@
 import { InspectionItem, ChoiceTemplate } from "../entities";
-import { IInspectionItemInteractor } from "../interfaces";
+import {
+  IInspectionItemController,
+  IInspectionItemInteractor,
+} from "../interfaces";
 
-export class InspectionItemController {
+export class InspectionItemController implements IInspectionItemController {
   private readonly useCase: IInspectionItemInteractor;
 
   constructor(useCase: IInspectionItemInteractor) {

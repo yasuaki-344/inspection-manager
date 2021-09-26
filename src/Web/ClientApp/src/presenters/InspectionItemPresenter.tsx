@@ -11,18 +11,18 @@ import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import { Box } from "@mui/system";
 import { Choice, InspectionItem, useInputTypes } from "../entities";
 import { IInspectionItemInteractor } from "../interfaces";
-import { CancelIconButton } from "../components/common";
+import { IInspectionItemPresenter } from "../interfaces/presenter";
+import { CancelIconButton } from "../components/utilities";
 import { InputStyle } from "../components/stylesheets";
 
-export class InspectionItemPresenter {
+export class InspectionItemPresenter implements IInspectionItemPresenter {
   private readonly useCase: IInspectionItemInteractor;
+
+  readonly state: InspectionItem;
 
   constructor(useCase: IInspectionItemInteractor) {
     this.useCase = useCase;
-  }
-
-  getState(): InspectionItem {
-    return this.useCase.inspectionItem;
+    this.state = useCase.inspectionItem;
   }
 
   isValidInspectionItem(): boolean {

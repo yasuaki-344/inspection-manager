@@ -7,13 +7,17 @@ import {
 } from "@mui/material";
 import { IInspectionGroupInteractor } from "../interfaces";
 import { InspectionGroup } from "../entities";
-import { CancelIconButton, EditIconButton } from "../components/common";
+import { CancelIconButton, EditIconButton } from "../components/utilities";
+import { IInspectionGroupPresenter } from "../interfaces/presenter";
 
-export class InspectionGroupPresenter {
+export class InspectionGroupPresenter implements IInspectionGroupPresenter {
   private readonly useCase: IInspectionGroupInteractor;
+
+  readonly state: Array<InspectionGroup>;
 
   constructor(useCase: IInspectionGroupInteractor) {
     this.useCase = useCase;
+    this.state = useCase.groups;
   }
 
   get(): void {
@@ -24,6 +28,18 @@ export class InspectionGroupPresenter {
     return this.useCase.getById(id);
   }
 
+  getIds(keyword: string): Array<number> {
+    return this.useCase.groups
+      .filter((x: InspectionGroup) => x.description.includes(keyword))
+      .map((x: InspectionGroup) => x.inspectionGroupId);
+  }
+
+  getGroupName(id: number): string | undefined {
+    return this.useCase.groups.find(
+      (x: InspectionGroup) => x.inspectionGroupId === id
+    )?.description;
+  }
+
   inspectionGroupTable(
     updateMethod: (id: number) => void,
     deleteMethod: (id: number) => void
@@ -32,6 +48,7 @@ export class InspectionGroupPresenter {
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell>ID</TableCell>
             <TableCell>点検グループ</TableCell>
             <TableCell>&nbsp;</TableCell>
             <TableCell>&nbsp;</TableCell>
@@ -40,6 +57,9 @@ export class InspectionGroupPresenter {
         <TableBody>
           {this.useCase.groups.map((type: InspectionGroup) => (
             <TableRow key={type.inspectionGroupId}>
+              <TableCell padding="checkbox" align="center">
+                {type.inspectionGroupId}
+              </TableCell>
               <TableCell>{type.description}</TableCell>
               <TableCell padding="checkbox">
                 <EditIconButton

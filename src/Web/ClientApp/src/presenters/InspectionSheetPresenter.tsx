@@ -7,18 +7,23 @@ import {
   InspectionType,
 } from "../entities";
 import { IInspectionSheetInteractor } from "../interfaces";
-import { EquipmentForm } from "../components/inspection/form/EquipmentForm";
+import { IInspectionSheetPresenter } from "../interfaces/presenter";
+import { EquipmentForm } from "../components/pages/EquipmentForm";
 import { LabelStyle, InputStyle } from "../components/stylesheets";
 
-export class InspectionSheetPresenter {
+export class InspectionSheetPresenter implements IInspectionSheetPresenter {
   private readonly useCase: IInspectionSheetInteractor;
+
+  readonly state: InspectionSheet;
 
   constructor(useCase: IInspectionSheetInteractor) {
     this.useCase = useCase;
+    this.state = useCase.sheet;
   }
 
-  getState(): InspectionSheet {
-    return this.useCase.sheet;
+  async getAllInspectionSheet(): Promise<Array<InspectionSheet>> {
+    const sheets = await this.useCase.getAllInspectionSheet();
+    return sheets;
   }
 
   getEditContent(

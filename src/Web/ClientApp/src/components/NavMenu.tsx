@@ -8,6 +8,7 @@ import {
   List,
   ListItem,
   ListItemIcon,
+  ListItemText,
   SwipeableDrawer,
 } from "@mui/material";
 import CategoryIcon from "@mui/icons-material/Category";
@@ -21,6 +22,42 @@ import { LinkNavItem, LinkNavTitle } from "./stylesheets";
 
 export const NavMenu: FC = (): JSX.Element => {
   const [open, setOpen] = useState(false);
+
+  const mainMenuList = [
+    {
+      id: 1,
+      path: "/",
+      icon: <HomeIcon />,
+      label: "ホーム",
+    },
+    {
+      id: 2,
+      path: "/create",
+      icon: <CreateIcon />,
+      label: "新規作成",
+    },
+  ];
+
+  const subMenuList = [
+    {
+      id: 1,
+      path: "/group",
+      icon: <CategoryIcon />,
+      label: "点検グループ",
+    },
+    {
+      id: 2,
+      path: "/types",
+      icon: <LabelIcon />,
+      label: "点検種別",
+    },
+    {
+      id: 3,
+      path: "/choices-template",
+      icon: <FormatListNumberedIcon />,
+      label: "選択肢テンプレート",
+    },
+  ];
 
   return (
     <header>
@@ -46,47 +83,23 @@ export const NavMenu: FC = (): JSX.Element => {
               onKeyDown={() => setOpen(false)}
             >
               <List>
-                <ListItem button>
-                  <ListItemIcon>
-                    <HomeIcon />
-                  </ListItemIcon>
-                  <Link style={LinkNavItem} to="/">
-                    ホーム
+                {mainMenuList.map((x) => (
+                  <Link key={x.id} style={LinkNavItem} to={x.path}>
+                    <ListItem button>
+                      <ListItemIcon>{x.icon}</ListItemIcon>
+                      <ListItemText primary={x.label} />
+                    </ListItem>
                   </Link>
-                </ListItem>
-                <ListItem button>
-                  <ListItemIcon>
-                    <CreateIcon />
-                  </ListItemIcon>
-                  <Link style={LinkNavItem} to="/create">
-                    新規作成
-                  </Link>
-                </ListItem>
+                ))}
                 <Divider />
-                <ListItem button>
-                  <ListItemIcon>
-                    <CategoryIcon />
-                  </ListItemIcon>
-                  <Link style={LinkNavItem} to="/group">
-                    点検グループ
+                {subMenuList.map((x) => (
+                  <Link key={x.id} style={LinkNavItem} to={x.path}>
+                    <ListItem button>
+                      <ListItemIcon>{x.icon}</ListItemIcon>
+                      <ListItemText primary={x.label} />
+                    </ListItem>
                   </Link>
-                </ListItem>
-                <ListItem button>
-                  <ListItemIcon>
-                    <LabelIcon />
-                  </ListItemIcon>
-                  <Link style={LinkNavItem} to="/types">
-                    点検種別
-                  </Link>
-                </ListItem>
-                <ListItem button>
-                  <ListItemIcon>
-                    <FormatListNumberedIcon />
-                  </ListItemIcon>
-                  <Link style={LinkNavItem} to="/choices-template">
-                    選択肢テンプレート
-                  </Link>
-                </ListItem>
+                ))}
               </List>
             </div>
           </SwipeableDrawer>

@@ -1,8 +1,9 @@
 import React from "react";
 import { InspectionItem, InspectionSheet } from "../entities";
 import { IInspectionSheetInteractor } from "../interfaces";
+import { IInspectionSheetController } from "../interfaces/controller";
 
-export class InspectionSheetController {
+export class InspectionSheetController implements IInspectionSheetController {
   private readonly useCase: IInspectionSheetInteractor;
 
   constructor(useCase: IInspectionSheetInteractor) {
@@ -26,6 +27,10 @@ export class InspectionSheetController {
 
   async updateInspectionSheet(): Promise<void> {
     await this.useCase.updateInspectionSheet();
+  }
+
+  async removeInspectionSheet(id: number): Promise<void> {
+    await this.useCase.removeSheet(id);
   }
 
   setSheet(sheet: InspectionSheet): void {

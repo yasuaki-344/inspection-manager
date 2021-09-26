@@ -5,15 +5,21 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { IInspectionTypeInteractor } from "../interfaces";
+import {
+  IInspectionTypeInteractor,
+  IInspectionTypePresenter,
+} from "../interfaces";
 import { InspectionType } from "../entities";
-import { CancelIconButton, EditIconButton } from "../components/common";
+import { CancelIconButton, EditIconButton } from "../components/utilities";
 
-export class InspectionTypePresenter {
+export class InspectionTypePresenter implements IInspectionTypePresenter {
   private readonly useCase: IInspectionTypeInteractor;
+
+  readonly state: Array<InspectionType>;
 
   constructor(useCase: IInspectionTypeInteractor) {
     this.useCase = useCase;
+    this.state = useCase.types;
   }
 
   get(): void {
@@ -22,6 +28,18 @@ export class InspectionTypePresenter {
 
   getById(id: number): InspectionType | undefined {
     return this.useCase.getById(id);
+  }
+
+  getIds(keyword: string): Array<number> {
+    return this.useCase.types
+      .filter((x: InspectionType) => x.description.includes(keyword))
+      .map((x: InspectionType) => x.inspectionTypeId);
+  }
+
+  getTypeName(id: number): string | undefined {
+    return this.useCase.types.find(
+      (x: InspectionType) => x.inspectionTypeId === id
+    )?.description;
   }
 
   inspectionTypeTable(

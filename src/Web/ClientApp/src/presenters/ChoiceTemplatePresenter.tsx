@@ -5,15 +5,21 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { CancelIconButton, EditIconButton } from "../components/common";
-import { IChoiceTemplateInteractor } from "../interfaces";
+import { CancelIconButton, EditIconButton } from "../components/utilities";
+import {
+  IChoiceTemplateInteractor,
+  IChoiceTemplatePresenter,
+} from "../interfaces";
 import { ChoiceTemplate } from "../entities";
 
-export class ChoiceTemplatePresenter {
+export class ChoiceTemplatePresenter implements IChoiceTemplatePresenter {
   private readonly useCase: IChoiceTemplateInteractor;
+
+  readonly state: Array<ChoiceTemplate>;
 
   constructor(useCase: IChoiceTemplateInteractor) {
     this.useCase = useCase;
+    this.state = useCase.templates;
   }
 
   get(): void {
@@ -22,6 +28,10 @@ export class ChoiceTemplatePresenter {
 
   getById(id: number): ChoiceTemplate | undefined {
     return this.useCase.getById(id);
+  }
+
+  getByIndex(index: number): ChoiceTemplate | undefined {
+    return this.useCase.templates[index];
   }
 
   choiceTemplateTable(
