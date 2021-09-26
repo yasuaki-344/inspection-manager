@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { FC, useState, useContext, useEffect } from "react";
 import { Button, Grid } from "@mui/material";
 import nameof from "ts-nameof.macro";
 import { InspectionSheetForm } from "./InspectionSheetForm";
@@ -9,9 +9,9 @@ import {
   NotificationStateInteractor,
   TopPageLink,
 } from "../utilities";
-import { IInspectionSheetController } from "../../interfaces/controller";
+import { IInspectionSheetController } from "../../interfaces";
 
-export const Edit = ({ match }: any): JSX.Element => {
+export const Edit: FC = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
 
   const container = useContext(DIContainerContext);

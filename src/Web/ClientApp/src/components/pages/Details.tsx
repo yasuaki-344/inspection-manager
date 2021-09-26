@@ -89,7 +89,7 @@ const Row: FC<RowProps> = (props: RowProps): JSX.Element => {
   );
 };
 
-export const Details = ({ match }: any): JSX.Element => {
+export const Details: FC = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
   const container = useContext(DIContainerContext);
   const groupPresenter: IInspectionGroupPresenter = container.inject(
