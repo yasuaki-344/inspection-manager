@@ -49,6 +49,7 @@ import {
   InspectionTypeRepository,
 } from "./infrastructure";
 import {
+  IInspectionGroupController,
   IInspectionGroupInteractor,
   IInspectionGroupRepository,
   IInspectionItemController,
@@ -67,7 +68,6 @@ import {
   IChoiceTemplateRepository,
   IChoiceTemplateInteractor,
 } from "./interfaces";
-import { IInspectionGroupController } from "./interfaces/controller/IInspectionGroupController";
 
 export const DIContainerContext = createContext<DIContainer>({} as DIContainer);
 
@@ -82,16 +82,7 @@ const App = (): JSX.Element => {
     InspectionSheetReducer,
     InspectionSheetInitialState
   );
-  const inspectionItemInteractor = new InspectionItemInteractor(
-    inspectionItem,
-    dispatch
-  );
-  const inspectionItemPresenter = new InspectionItemPresenter(
-    inspectionItemInteractor
-  );
-  const inspectionItemController = new InspectionItemController(
-    inspectionItemInteractor
-  );
+
   const container = new DIContainer();
   container.register(
     nameof<IInspectionGroupRepository>(),
@@ -158,7 +149,7 @@ const App = (): JSX.Element => {
     new InspectionItemInteractor(inspectionItem, dispatch)
   );
   container.register(
-    nameof<IInspectionItemInteractor>(),
+    nameof<IInspectionSheetInteractor>(),
     new InspectionSheetInteractor(inspectionSheet, sheetDispatch)
   );
   container.register(
@@ -175,7 +166,9 @@ const App = (): JSX.Element => {
   );
   container.register(
     nameof<IInspectionItemPresenter>(),
-    inspectionItemPresenter
+    new InspectionItemPresenter(
+      container.inject(nameof<IInspectionItemInteractor>())
+    )
   );
   container.register(
     nameof<IInspectionSheetController>(),
@@ -187,7 +180,9 @@ const App = (): JSX.Element => {
   );
   container.register(
     nameof<IInspectionItemController>(),
-    inspectionItemController
+    new InspectionItemController(
+      container.inject(nameof<IInspectionItemInteractor>())
+    )
   );
   const [templates, setTemplates] = useState<Array<ChoiceTemplate>>([]);
   container.register(
