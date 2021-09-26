@@ -45,6 +45,7 @@ export class InspectionGroupPresenter implements IInspectionGroupPresenter {
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell>ID</TableCell>
             <TableCell>点検グループ</TableCell>
             <TableCell>&nbsp;</TableCell>
             <TableCell>&nbsp;</TableCell>
@@ -53,6 +54,9 @@ export class InspectionGroupPresenter implements IInspectionGroupPresenter {
         <TableBody>
           {this.useCase.groups.map((type: InspectionGroup) => (
             <TableRow key={type.inspectionGroupId}>
+              <TableCell padding="checkbox" align="center">
+                {type.inspectionGroupId}
+              </TableCell>
               <TableCell>{type.description}</TableCell>
               <TableCell padding="checkbox">
                 <EditIconButton
