@@ -26,33 +26,43 @@ interface ChoiceTemplateEditDialogProps {
   ) => void;
 }
 
-export const ChoiceTemplateEditDialog: FC<ChoiceTemplateEditDialogProps> = (
-  props: ChoiceTemplateEditDialogProps
-): JSX.Element => {
-  const [disabled, setDisabled] = useState(false);
-  useEffect(() => {
-    if (!props.target.choices.length) {
-      setDisabled(true);
-    } else {
-      const index = props.target.choices.findIndex((x) => x.description === "");
-      setDisabled(index !== -1);
-    }
-  }, [props.target]);
+class ChoiceTemplateEditor {
+  readonly state: ChoiceTemplate;
 
-  const addChoice = (): void => {
-    props.setTarget({
-      ...props.target,
-      choices: props.target.choices.concat({
+  private readonly dispatch: React.Dispatch<
+    React.SetStateAction<ChoiceTemplate>
+  >;
+
+  constructor(
+    state: ChoiceTemplate,
+    dispatch: React.Dispatch<React.SetStateAction<ChoiceTemplate>>
+  ) {
+    this.state = state;
+    this.dispatch = dispatch;
+  }
+
+  isValid(): boolean {
+    if (!this.state.choices.length) {
+      return false;
+    }
+    const index = this.state.choices.findIndex((x) => x.description === "");
+    return index === -1;
+  }
+
+  addChoice(): void {
+    this.dispatch({
+      ...this.state,
+      choices: this.state.choices.concat({
         optionId: 0,
         description: "",
       }),
     });
-  };
+  }
 
-  const updateChoice = (index: number, input: string): void => {
-    props.setTarget({
-      ...props.target,
-      choices: props.target.choices.map((value: Option, i: number) => {
+  updateChoice(index: number, input: string): void {
+    this.dispatch({
+      ...this.state,
+      choices: this.state.choices.map((value: Option, i: number) => {
         return i !== index
           ? value
           : {
@@ -61,16 +71,33 @@ export const ChoiceTemplateEditDialog: FC<ChoiceTemplateEditDialogProps> = (
             };
       }),
     });
-  };
+  }
 
-  const deleteChoice = (index: number): void => {
-    props.setTarget({
-      ...props.target,
-      choices: props.target.choices.filter(
+  deleteChoice(index: number): void {
+    this.dispatch({
+      ...this.state,
+      choices: this.state.choices.filter(
         (value: Option, i: number) => i !== index
       ),
     });
-  };
+  }
+}
+
+export const ChoiceTemplateEditDialog: FC<ChoiceTemplateEditDialogProps> = (
+  props: ChoiceTemplateEditDialogProps
+): JSX.Element => {
+  const [disabled, setDisabled] = useState(false);
+  const editor = new ChoiceTemplateEditor(props.target, props.setTarget);
+  useEffect(() => {
+    setDisabled(!editor.isValid());
+  }, [props.target]);
+
+  const addChoice = (): void => editor.addChoice();
+
+  const updateChoice = (index: number, input: string): void =>
+    editor.updateChoice(index, input);
+
+  const deleteChoice = (index: number): void => editor.deleteChoice(index);
 
   return (
     <Dialog open={props.open} onClose={props.onCancelButtonClick}>
