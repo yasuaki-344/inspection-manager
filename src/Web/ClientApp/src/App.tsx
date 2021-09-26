@@ -37,6 +37,7 @@ import {
 } from "./presenters";
 import {
   ChoiceTemplateController,
+  InspectionGroupController,
   InspectionItemController,
   InspectionSheetController,
   InspectionTypeController,
@@ -66,6 +67,7 @@ import {
   IChoiceTemplateRepository,
   IChoiceTemplateInteractor,
 } from "./interfaces";
+import { IInspectionGroupController } from "./interfaces/controller/IInspectionGroupController";
 
 export const DIContainerContext = createContext<DIContainer>({} as DIContainer);
 
@@ -122,6 +124,14 @@ const App = (): JSX.Element => {
   container.register(
     nameof<IInspectionGroupPresenter>(),
     new InspectionGroupPresenter(
+      container.inject(
+        nameof<IInspectionGroupInteractor>()
+      ) as IInspectionGroupInteractor
+    )
+  );
+  container.register(
+    nameof<IInspectionGroupController>(),
+    new InspectionGroupController(
       container.inject(
         nameof<IInspectionGroupInteractor>()
       ) as IInspectionGroupInteractor
