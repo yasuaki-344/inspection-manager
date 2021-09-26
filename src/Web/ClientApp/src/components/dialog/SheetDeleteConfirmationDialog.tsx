@@ -7,6 +7,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
+import { DialogTitleDesign } from "../stylesheets";
 
 interface SheetDeleteConfirmationDialogProp {
   open: boolean;
@@ -25,7 +26,9 @@ export const SheetDeleteConfirmationDialog: FC<SheetDeleteConfirmationDialogProp
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle>点検シートを削除しますか?</DialogTitle>
+        <DialogTitle sx={DialogTitleDesign}>
+          点検シートを削除しますか?
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>
             <p>次の点検シートを削除します。（この操作は取り消せません）</p>

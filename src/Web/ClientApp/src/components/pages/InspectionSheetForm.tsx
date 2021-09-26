@@ -162,8 +162,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
       </Paper>
       <InspectionItemDialog
         open={open}
-        handleClose={() => setOpen(false)}
-        handleInspectionItem={handleInspectionItem}
+        onCancelButtonClick={() => setOpen(false)}
+        onOkButtonClick={handleInspectionItem}
       />
     </DndProvider>
   );

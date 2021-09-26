@@ -9,8 +9,8 @@ import { IInspectionItemPresenter } from "../../interfaces/presenter";
 
 interface InspectionDialogProps {
   open: boolean;
-  handleClose: () => void;
-  handleInspectionItem: () => void;
+  onCancelButtonClick: () => void;
+  onOkButtonClick: () => void;
 }
 
 export const InspectionItemDialog = (
@@ -29,15 +29,15 @@ export const InspectionItemDialog = (
 
   return (
     <>
-      <Dialog open={props.open} onClose={props.handleClose}>
+      <Dialog open={props.open} onClose={props.onCancelButtonClick}>
         <DialogTitle sx={DialogTitleDesign}>点検項目編集</DialogTitle>
         <DialogContent>
           {itemPresenter.getEditContent(() => setOpen(true))}
         </DialogContent>
         <OkCancelDialogActions
           disabled={disabled}
-          onOkButtonClick={props.handleInspectionItem}
-          onCancelButtonClick={props.handleClose}
+          onOkButtonClick={props.onOkButtonClick}
+          onCancelButtonClick={props.onCancelButtonClick}
         />
       </Dialog>
       <ChoiceSetSelectDialog open={open} onClose={() => setOpen(false)} />

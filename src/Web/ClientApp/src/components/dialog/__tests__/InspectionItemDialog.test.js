@@ -8,8 +8,8 @@ it("renders without crashing", async () => {
     render(
       <InspectionItemDialog
         open={true}
-        handleClose={() => {}}
-        handleInspectionItem={() => {}}
+        onCancelButtonClick={() => {}}
+        onOkButtonClick={() => {}}
       />
     );
   });
@@ -20,8 +20,8 @@ it("edit button", async () => {
     render(
       <InspectionItemDialog
         open={true}
-        handleClose={() => {}}
-        handleInspectionItem={() => {}}
+        onCancelButtonClick={() => {}}
+        onOkButtonClick={() => {}}
       />
     );
   });
@@ -35,8 +35,8 @@ it("click cancel button", async () => {
     render(
       <InspectionItemDialog
         open={true}
-        handleClose={() => {}}
-        handleInspectionItem={() => {}}
+        onCancelButtonClick={() => {}}
+        onOkButtonClick={() => {}}
       />
     );
   });
