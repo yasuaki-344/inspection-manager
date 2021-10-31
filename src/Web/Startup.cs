@@ -19,12 +19,14 @@ namespace InspectionManager.Web
         /// Initializes a new instance of Startup class
         /// </summary>
         /// <param name="configuration">Represents a set of key/value application configuration properties.</param>
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
+        private readonly IWebHostEnvironment _env;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -35,10 +37,19 @@ namespace InspectionManager.Web
             {
                 cfg.AddProfile<AutoMapping>();
             });
-            services.AddDbContext<InspectionContext>(options =>
-                // options.UseNpgsql(Configuration.GetConnectionString("InspectionContext"))
-                options.UseSqlite(Configuration.GetConnectionString("DevelopContext"))
-            );
+
+            if (_env.IsProduction())
+            {
+                services.AddDbContext<InspectionContext>(options =>
+                    options.UseNpgsql(Configuration.GetConnectionString("InspectionContext"))
+                );
+            }
+            else if (_env.IsDevelopment())
+            {
+                services.AddDbContext<InspectionContext>(options =>
+                    options.UseSqlite(Configuration.GetConnectionString("DevelopContext"))
+                );
+            }
 
             services.AddScoped<IInspectionSheetRepository, InspectionSheetRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
