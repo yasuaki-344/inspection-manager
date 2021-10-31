@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "arjun.swagger-viewer",
+    "dbaeumer.vscode-eslint",
+    "editorconfig.editorconfig",
+    "ms-dotnettools.csharp",
+    "jebbs.plantuml",
+    "k--kato.docomment",
+    "streetsidesoftware.code-spell-checker",
+  ]
+}
