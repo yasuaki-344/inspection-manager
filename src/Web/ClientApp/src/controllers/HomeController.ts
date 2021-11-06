@@ -19,6 +19,7 @@ export class HomeController implements IHomeController {
   }
 
   async fetchDisplayData(): Promise<void> {
+    await this.typeUseCase.fetchInspectionTypes();
     await this.groupUseCase.fetchInspectionGroup();
   }
 
