@@ -12,7 +12,7 @@ export class InspectionGroupRepository implements IInspectionGroupRepository {
     this.api = new InspectionGroupsApi();
   }
 
-  async get(): Promise<Array<InspectionGroup>> {
+  async get(): Promise<InspectionGroup[]> {
     const res = await this.api.inspectionGroupsGet();
     return toCamelCase(res);
   }
