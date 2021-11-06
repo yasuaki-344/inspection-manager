@@ -18,7 +18,7 @@ describe("InspectionGroupInteractor unit test", () => {
       get: jest.fn(async () => []),
     };
     const target = new InspectionGroupInteractor(repository);
-    await target.fetchInspectionGroup();
+    await target.fetchInspectionGroups();
     expect(setState).toHaveBeenCalled();
   });
 

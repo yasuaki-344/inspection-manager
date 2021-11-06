@@ -2,6 +2,7 @@ import { createContext, useContext, useReducer } from "react";
 import nameof from "ts-nameof.macro";
 import {
   ChoiceTemplateController,
+  DetailController,
   HomeController,
   InspectionGroupController,
   InspectionItemController,
@@ -24,6 +25,8 @@ import {
   IChoiceTemplateInteractor,
   IChoiceTemplatePresenter,
   IChoiceTemplateRepository,
+  IDetailController,
+  IDetailPresenter,
   IHomeController,
   IHomePresenter,
   IInspectionGroupController,
@@ -43,6 +46,7 @@ import {
 } from "../interfaces";
 import {
   ChoiceTemplatePresenter,
+  DetailPresenter,
   HomePresenter,
   InspectionGroupPresenter,
   InspectionItemPresenter,
@@ -138,6 +142,14 @@ export const setUpDIContainer = () => {
     )
   );
   register(
+    nameof<IDetailPresenter>(),
+    new DetailPresenter(
+      inject(nameof<IInspectionGroupInteractor>()),
+      inject(nameof<IInspectionTypeInteractor>()),
+      inject(nameof<IInspectionSheetInteractor>())
+    )
+  );
+  register(
     nameof<IInspectionGroupPresenter>(),
     new InspectionGroupPresenter(
       inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor
@@ -156,6 +168,14 @@ export const setUpDIContainer = () => {
     new HomeController(
       inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor,
       inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor
+    )
+  );
+  register(
+    nameof<IDetailController>(),
+    new DetailController(
+      inject(nameof<IInspectionGroupInteractor>()),
+      inject(nameof<IInspectionTypeInteractor>()),
+      inject(nameof<IInspectionSheetInteractor>())
     )
   );
   register(

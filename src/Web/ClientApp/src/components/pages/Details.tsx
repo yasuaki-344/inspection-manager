@@ -3,8 +3,6 @@ import {
   Box,
   Collapse,
   Paper,
-  List,
-  ListItem,
   IconButton,
   Table,
   TableBody,
@@ -19,12 +17,7 @@ import nameof from "ts-nameof.macro";
 import { useInputTypes, Equipment, InspectionItem } from "../../entities";
 import { TopPageLink } from "../utilities";
 import { itemTableHead, TableHeadCell } from "../stylesheets";
-import {
-  IInspectionGroupPresenter,
-  IInspectionSheetController,
-  IInspectionSheetPresenter,
-  IInspectionTypePresenter,
-} from "../../interfaces";
+import { IDetailController, IDetailPresenter } from "../../interfaces";
 import { useDIContext } from "../../container";
 
 interface RowProps {
@@ -32,7 +25,7 @@ interface RowProps {
 }
 
 const Row: FC<RowProps> = (props: RowProps): JSX.Element => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   return (
     <Fragment key={props.equipment.equipmentId}>
@@ -92,42 +85,18 @@ const Row: FC<RowProps> = (props: RowProps): JSX.Element => {
 export const Details: FC = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
   const inject = useDIContext();
-
-  const groupPresenter: IInspectionGroupPresenter = inject(
-    nameof<IInspectionGroupPresenter>()
-  );
-  const typePresenter: IInspectionTypePresenter = inject(
-    nameof<IInspectionTypePresenter>()
-  );
-  const sheetPresenter: IInspectionSheetPresenter = inject(
-    nameof<IInspectionSheetPresenter>()
-  );
-  const sheetController: IInspectionSheetController = inject(
-    nameof<IInspectionSheetController>()
-  );
+  const presenter: IDetailPresenter = inject(nameof<IDetailPresenter>());
+  const controller: IDetailController = inject(nameof<IDetailController>());
 
   useEffect(() => {
-    // groupPresenter.get();
-    // typePresenter.get();
-    sheetController.getInspectionSheetById(sheetId);
+    controller.fetchDisplayData(sheetId);
   }, [sheetId]);
 
   return (
     <div>
       <h1>詳細ページ</h1>
       <TopPageLink />
-      <List>
-        <ListItem>点検シートID:{sheetPresenter.state.sheetId}</ListItem>
-        <ListItem>シート名:{sheetPresenter.state.sheetName}</ListItem>
-        <ListItem>
-          点検グループ:
-          {groupPresenter.getGroupName(sheetPresenter.state.inspectionGroupId)}
-        </ListItem>
-        <ListItem>
-          点検種別:
-          {typePresenter.getTypeName(sheetPresenter.state.inspectionTypeId)}
-        </ListItem>
-      </List>
+      {presenter.sheetInformationList()}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -138,7 +107,7 @@ export const Details: FC = ({ match }: any): JSX.Element => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sheetPresenter.state.equipments.map((equipment: Equipment) => (
+            {presenter.equipments().map((equipment: Equipment) => (
               <Row key={equipment.equipmentId} equipment={equipment} />
             ))}
           </TableBody>

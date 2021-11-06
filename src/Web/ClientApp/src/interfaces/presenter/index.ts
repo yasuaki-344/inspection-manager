@@ -1,4 +1,5 @@
 export * from "./IChoiceTemplatePresenter";
+export * from "./IDetailPresenter";
 export * from "./IHomeController";
 export * from "./IInspectionItemPresenter";
 export * from "./IInspectionSheetPresenter";
