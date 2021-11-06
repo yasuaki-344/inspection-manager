@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Button,
@@ -16,7 +16,6 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DetailsIcon from "@mui/icons-material/Details";
 import nameof from "ts-nameof.macro";
-import { DIContainerContext } from "../../App";
 import { InspectionSheet, InspectionSheetInitialState } from "../../entities";
 import {
   IInspectionGroupPresenter,
@@ -27,19 +26,20 @@ import { IInspectionSheetController } from "../../interfaces/controller";
 import { CancelIconButton } from "../utilities";
 import { SheetSearchMenu } from "../SheetSearchMenu";
 import { SheetDeleteConfirmationDialog } from "../dialog/SheetDeleteConfirmationDialog";
+import { useDIContext } from "../../container";
 
 export const Home: FC = (): JSX.Element => {
-  const container = useContext(DIContainerContext);
-  const groupPresenter: IInspectionGroupPresenter = container.inject(
+  const inject = useDIContext();
+  const groupPresenter: IInspectionGroupPresenter = inject(
     nameof<IInspectionGroupPresenter>()
   );
-  const typePresenter: IInspectionTypePresenter = container.inject(
+  const typePresenter: IInspectionTypePresenter = inject(
     nameof<IInspectionTypePresenter>()
   );
-  const sheetPresenter: IInspectionSheetPresenter = container.inject(
+  const sheetPresenter: IInspectionSheetPresenter = inject(
     nameof<IInspectionSheetPresenter>()
   );
-  const sheetController: IInspectionSheetController = container.inject(
+  const sheetController: IInspectionSheetController = inject(
     nameof<IInspectionSheetController>()
   );
   const [inspectionSheets, setInspectionSheets] = useState<

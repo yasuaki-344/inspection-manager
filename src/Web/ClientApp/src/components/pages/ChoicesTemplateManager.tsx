@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useContext } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { BottomNavigation, TableContainer, Grid, Paper } from "@mui/material";
 import nameof from "ts-nameof.macro";
 import { ChoiceTemplate } from "../../entities";
@@ -9,18 +9,18 @@ import {
   NotificationStateInteractor,
 } from "../utilities";
 import { ChoiceTemplateEditDialog } from "../dialog";
-import { DIContainerContext } from "../../App";
 import {
   IChoiceTemplateController,
   IChoiceTemplatePresenter,
 } from "../../interfaces";
+import { useDIContext } from "../../container";
 
 export const ChoicesTemplateManager: FC = (): JSX.Element => {
-  const container = useContext(DIContainerContext);
-  const controller: IChoiceTemplateController = container.inject(
+  const inject = useDIContext();
+  const controller: IChoiceTemplateController = inject(
     nameof<IChoiceTemplateController>()
   );
-  const presenter: IChoiceTemplatePresenter = container.inject(
+  const presenter: IChoiceTemplatePresenter = inject(
     nameof<IChoiceTemplatePresenter>()
   );
 

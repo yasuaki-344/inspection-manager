@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useContext, useEffect, useState } from "react";
+import React, { FC, Fragment, useEffect, useState } from "react";
 import {
   Box,
   Collapse,
@@ -19,13 +19,13 @@ import nameof from "ts-nameof.macro";
 import { useInputTypes, Equipment, InspectionItem } from "../../entities";
 import { TopPageLink } from "../utilities";
 import { itemTableHead, TableHeadCell } from "../stylesheets";
-import { DIContainerContext } from "../../App";
 import {
   IInspectionGroupPresenter,
   IInspectionSheetController,
   IInspectionSheetPresenter,
   IInspectionTypePresenter,
 } from "../../interfaces";
+import { useDIContext } from "../../container";
 
 interface RowProps {
   equipment: Equipment;
@@ -91,17 +91,18 @@ const Row: FC<RowProps> = (props: RowProps): JSX.Element => {
 
 export const Details: FC = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
-  const container = useContext(DIContainerContext);
-  const groupPresenter: IInspectionGroupPresenter = container.inject(
+  const inject = useDIContext();
+
+  const groupPresenter: IInspectionGroupPresenter = inject(
     nameof<IInspectionGroupPresenter>()
   );
-  const typePresenter: IInspectionTypePresenter = container.inject(
+  const typePresenter: IInspectionTypePresenter = inject(
     nameof<IInspectionTypePresenter>()
   );
-  const sheetPresenter: IInspectionSheetPresenter = container.inject(
+  const sheetPresenter: IInspectionSheetPresenter = inject(
     nameof<IInspectionSheetPresenter>()
   );
-  const sheetController: IInspectionSheetController = container.inject(
+  const sheetController: IInspectionSheetController = inject(
     nameof<IInspectionSheetController>()
   );
 

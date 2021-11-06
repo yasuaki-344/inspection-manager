@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Button, Grid } from "@mui/material";
 import nameof from "ts-nameof.macro";
 import { InspectionSheetForm } from "./InspectionSheetForm";
@@ -9,19 +9,19 @@ import {
   NotificationStateInteractor,
 } from "../utilities";
 import { OriginalSheetSelectDialog } from "../dialog";
-import { DIContainerContext } from "../../App";
 import { InspectionSheet, InspectionSheetInitialState } from "../../entities";
 import {
   IInspectionSheetController,
   IInspectionSheetPresenter,
 } from "../../interfaces";
+import { useDIContext } from "../../container";
 
 export const Create: FC = (): JSX.Element => {
-  const container = useContext(DIContainerContext);
-  const sheetPresenter: IInspectionSheetPresenter = container.inject(
+  const inject = useDIContext();
+  const sheetPresenter: IInspectionSheetPresenter = inject(
     nameof<IInspectionSheetPresenter>()
   );
-  const sheetController: IInspectionSheetController = container.inject(
+  const sheetController: IInspectionSheetController = inject(
     nameof<IInspectionSheetController>()
   );
   const [open, setOpen] = useState(false);

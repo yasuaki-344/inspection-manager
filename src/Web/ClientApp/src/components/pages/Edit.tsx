@@ -1,8 +1,7 @@
-import React, { FC, useState, useContext, useEffect } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { Button, Grid } from "@mui/material";
 import nameof from "ts-nameof.macro";
 import { InspectionSheetForm } from "./InspectionSheetForm";
-import { DIContainerContext } from "../../App";
 import {
   Notification,
   NotificationInitState,
@@ -10,12 +9,13 @@ import {
   TopPageLink,
 } from "../utilities";
 import { IInspectionSheetController } from "../../interfaces";
+import { useDIContext } from "../../container";
 
 export const Edit: FC = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
 
-  const container = useContext(DIContainerContext);
-  const sheetController: IInspectionSheetController = container.inject(
+  const inject = useDIContext();
+  const sheetController: IInspectionSheetController = inject(
     nameof<IInspectionSheetController>()
   );
 

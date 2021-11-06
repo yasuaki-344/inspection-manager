@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useContext } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { Grid, Paper, TableContainer } from "@mui/material";
 import nameof from "ts-nameof.macro";
 import { InspectionType } from "../../entities";
@@ -9,18 +9,18 @@ import {
 } from "../utilities/Notification";
 import { BottomNavigationAdd, TopPageLink } from "../utilities";
 import { EditDialog } from "../dialog/EditDialog";
-import { DIContainerContext } from "../../App";
 import {
   IInspectionTypeController,
   IInspectionTypePresenter,
 } from "../../interfaces";
+import { useDIContext } from "../../container";
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
-  const container = useContext(DIContainerContext);
-  const presenter: IInspectionTypePresenter = container.inject(
+  const inject = useDIContext();
+  const presenter: IInspectionTypePresenter = inject(
     nameof<IInspectionTypePresenter>()
   );
-  const controller: IInspectionTypeController = container.inject(
+  const controller: IInspectionTypeController = inject(
     nameof<IInspectionTypeController>()
   );
 

@@ -95,6 +95,7 @@ export const setUpDIContainer = () => {
     InspectionSheetInitialState
   );
 
+  // register repositories
   register(
     nameof<IInspectionGroupRepository>(),
     new InspectionGroupRepository()
@@ -113,7 +114,7 @@ export const setUpDIContainer = () => {
     new InspectionTypeInteractor(
       types,
       setTypes,
-      container.inject(
+      inject(
         nameof<IInspectionTypeRepository>()
       ) as IInspectionTypeRepository
     )
@@ -181,7 +182,7 @@ export const setUpDIContainer = () => {
     new ChoiceTemplateInteractor(
       templates,
       setTemplates,
-      container.inject(nameof<IChoiceTemplateRepository>())
+      inject(nameof<IChoiceTemplateRepository>())
     )
   );
   register(
