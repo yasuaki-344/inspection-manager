@@ -4,7 +4,7 @@ export interface IInspectionGroupInteractor {
   groups: Array<InspectionGroup>;
   target: InspectionGroup;
 
-  fetchInspectionGroup(): Promise<void>;
+  fetchInspectionGroups(): Promise<void>;
   createEditItem(): void;
   setEditItem(id: number): void;
   editGroup(name: string, value: string): void;

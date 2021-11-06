@@ -6,11 +6,11 @@ describe("HomeController unit test", () => {
       fetchInspectionTypes: jest.fn(async () => {}),
     };
     const groupUseCase = {
-      fetchInspectionGroup: jest.fn(async () => {}),
+      fetchInspectionGroups: jest.fn(async () => {}),
     };
     const target = new HomeController(typeUseCase, groupUseCase);
     await target.fetchDisplayData();
     expect(typeUseCase.fetchInspectionTypes).toHaveBeenCalledTimes(1);
-    expect(groupUseCase.fetchInspectionGroup).toHaveBeenCalledTimes(1);
+    expect(groupUseCase.fetchInspectionGroups).toHaveBeenCalledTimes(1);
   });
 });

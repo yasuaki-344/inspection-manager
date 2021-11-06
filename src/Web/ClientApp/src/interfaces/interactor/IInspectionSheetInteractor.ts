@@ -4,7 +4,7 @@ import { InspectionSheet, InspectionItem } from "../../entities";
 export interface IInspectionSheetInteractor {
   sheet: InspectionSheet;
   getAllInspectionSheet(): Promise<Array<InspectionSheet>>;
-  getInspectionSheetById(id: number): Promise<void>;
+  fetchInspectionSheetById(id: number): Promise<void>;
   createInspectionSheet(): Promise<void>;
   updateInspectionSheet(): Promise<void>;
   removeSheet(id: number): Promise<void>;

@@ -32,7 +32,7 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
   /**
    * Fetch all inspection groups from database.
    */
-  async fetchInspectionGroup(): Promise<void> {
+  async fetchInspectionGroups(): Promise<void> {
     await this.repository.get().then((res) => {
       this.setGroups(res);
     });

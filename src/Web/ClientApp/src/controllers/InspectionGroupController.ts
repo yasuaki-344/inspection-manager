@@ -13,7 +13,7 @@ export class InspectionGroupController implements IInspectionGroupController {
   }
 
   async fetchInspectionGroups(): Promise<void> {
-    await this.useCase.fetchInspectionGroup();
+    await this.useCase.fetchInspectionGroups();
   }
 
   createEditItem(): void {

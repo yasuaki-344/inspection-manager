@@ -68,6 +68,11 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
     return this.types.find((x) => x.inspectionTypeId === id);
   }
 
+  getName(id: number): string | undefined {
+    return this.types.find((x: InspectionType) => x.inspectionTypeId === id)
+      ?.description;
+  }
+
   async create(inspectionType: InspectionType): Promise<void> {
     await this.repository.post(inspectionType).then((res: InspectionType) => {
       this.setTypes(this.types.concat(res));

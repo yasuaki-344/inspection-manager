@@ -16,9 +16,7 @@ export class InspectionSheetController implements IInspectionSheetController {
   }
 
   async getInspectionSheetById(id: number): Promise<void> {
-    await this.useCase.getInspectionSheetById(id);
-
-    console.log(JSON.stringify(this.useCase.sheet));
+    await this.useCase.fetchInspectionSheetById(id);
   }
 
   async createInspectionSheet(): Promise<void> {

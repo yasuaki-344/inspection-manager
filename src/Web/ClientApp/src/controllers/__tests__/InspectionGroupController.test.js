@@ -3,11 +3,11 @@ import { InspectionGroupController } from "..";
 describe("InspectionGroupController unit test", () => {
   test("Fetch inspection groups correctly", async () => {
     const useCase = {
-      fetchInspectionGroup: jest.fn(async () => {}),
+      fetchInspectionGroups: jest.fn(async () => {}),
     };
     const target = new InspectionGroupController(useCase);
     await target.fetchInspectionGroups();
-    expect(useCase.fetchInspectionGroup).toHaveBeenCalledTimes(1);
+    expect(useCase.fetchInspectionGroups).toHaveBeenCalledTimes(1);
   });
 
   test("Create edit item correctly", () => {

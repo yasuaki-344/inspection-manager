@@ -33,7 +33,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     return inspectionSheets;
   }
 
-  async getInspectionSheetById(id: number): Promise<void> {
+  async fetchInspectionSheetById(id: number): Promise<void> {
     const sheet = await this.repository.getById(id);
     this.setSheet(sheet);
   }
