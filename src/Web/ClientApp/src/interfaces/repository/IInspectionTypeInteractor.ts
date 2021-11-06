@@ -1,8 +1,14 @@
 import { InspectionType } from "../../entities";
 
 export interface IInspectionTypeInteractor {
-  types: Array<InspectionType>;
+  types: InspectionType[];
+  target: InspectionType;
+
   fetchInspectionTypes(): Promise<void>;
+  createEditItem(): void;
+  setEditItem(id: number): void;
+  editType(name: string, value: string): void;
+
   get(): void;
   getById(id: number): InspectionType | undefined;
   create(inspectionType: InspectionType): Promise<void>;

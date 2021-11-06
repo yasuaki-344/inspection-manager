@@ -31,8 +31,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
 
   useEffect(() => {
     controller
-      .fetchInspectionGroup()
-      .then()
+      .fetchInspectionGroups()
       .catch((error) => {
         console.error(error);
         notification.setMessageState("error", "データの取得に失敗しました");

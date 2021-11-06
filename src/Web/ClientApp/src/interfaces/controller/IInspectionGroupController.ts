@@ -2,7 +2,7 @@ import React from "react";
 import { InspectionGroup } from "../../entities";
 
 export interface IInspectionGroupController {
-  fetchInspectionGroup(): Promise<void>;
+  fetchInspectionGroups(): Promise<void>;
   createEditItem(): void;
   setEditItem(id: number): void;
   editGroup(e: React.ChangeEvent<HTMLInputElement>): void;

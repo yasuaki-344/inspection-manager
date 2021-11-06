@@ -34,8 +34,8 @@ import { useDIContext } from "../../container";
 export const Home: FC = (): JSX.Element => {
   const inject = useDIContext();
   const controller: IHomeController = inject(nameof<IHomeController>());
-  /* eslint-disable-next-line */
   const presenter: IHomePresenter = inject(nameof<IHomePresenter>());
+
   const typePresenter: IInspectionTypePresenter = inject(
     nameof<IInspectionTypePresenter>()
   );
@@ -65,7 +65,6 @@ export const Home: FC = (): JSX.Element => {
 
   useEffect(() => {
     controller.fetchDisplayData().then().catch();
-    typePresenter.get();
     sheetPresenter
       .getAllInspectionSheet()
       .then((res: Array<InspectionSheet>) => {

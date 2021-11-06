@@ -57,7 +57,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
 
   useEffect(() => {
     // groupPresenter.get();
-    typePresenter.get();
+    // typePresenter.get();
   }, []);
 
   const storeHistory = () => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import {
   IInspectionGroupInteractor,
   IInspectionGroupRepository,
@@ -8,15 +8,11 @@ import { InspectionGroup } from "../entities";
 export class InspectionGroupInteractor implements IInspectionGroupInteractor {
   readonly groups: InspectionGroup[];
 
-  private readonly setGroups: React.Dispatch<
-    React.SetStateAction<InspectionGroup[]>
-  >;
+  private readonly setGroups: Dispatch<SetStateAction<InspectionGroup[]>>;
 
   readonly target: InspectionGroup;
 
-  private readonly setTarget: React.Dispatch<
-    React.SetStateAction<InspectionGroup>
-  >;
+  private readonly setTarget: Dispatch<SetStateAction<InspectionGroup>>;
 
   private readonly repository: IInspectionGroupRepository;
 
@@ -50,7 +46,9 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
   }
 
   setEditItem(id: number): void {
-    const group = this.groups.find((x) => x.inspectionGroupId === id);
+    const group = this.groups.find(
+      (x: InspectionGroup) => x.inspectionGroupId === id
+    );
     if (group !== undefined) {
       this.setTarget(group);
     }

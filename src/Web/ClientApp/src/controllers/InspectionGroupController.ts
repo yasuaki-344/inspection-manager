@@ -12,7 +12,7 @@ export class InspectionGroupController implements IInspectionGroupController {
     this.useCase = useCase;
   }
 
-  async fetchInspectionGroup(): Promise<void> {
+  async fetchInspectionGroups(): Promise<void> {
     await this.useCase.fetchInspectionGroup();
   }
 

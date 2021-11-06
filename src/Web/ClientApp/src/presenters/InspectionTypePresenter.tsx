@@ -15,15 +15,14 @@ import { CancelIconButton, EditIconButton } from "../components/utilities";
 export class InspectionTypePresenter implements IInspectionTypePresenter {
   private readonly useCase: IInspectionTypeInteractor;
 
-  readonly state: Array<InspectionType>;
+  readonly state: InspectionType[];
+
+  readonly editItem: InspectionType;
 
   constructor(useCase: IInspectionTypeInteractor) {
     this.useCase = useCase;
     this.state = useCase.types;
-  }
-
-  get(): void {
-    this.useCase.get();
+    this.editItem = useCase.target;
   }
 
   getById(id: number): InspectionType | undefined {

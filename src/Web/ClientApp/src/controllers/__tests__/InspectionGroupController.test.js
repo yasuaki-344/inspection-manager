@@ -6,7 +6,7 @@ describe("InspectionGroupController unit test", () => {
       fetchInspectionGroup: jest.fn(async () => {}),
     };
     const target = new InspectionGroupController(useCase);
-    await target.fetchInspectionGroup();
+    await target.fetchInspectionGroups();
     expect(useCase.fetchInspectionGroup).toHaveBeenCalledTimes(1);
   });
 
