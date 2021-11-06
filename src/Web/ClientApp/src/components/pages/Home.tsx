@@ -61,7 +61,7 @@ export const Home: FC = (): JSX.Element => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    groupPresenter.get();
+    // groupPresenter.get();
     typePresenter.get();
     sheetPresenter
       .getAllInspectionSheet()

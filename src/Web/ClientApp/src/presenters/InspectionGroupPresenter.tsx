@@ -20,10 +20,6 @@ export class InspectionGroupPresenter implements IInspectionGroupPresenter {
     this.state = useCase.groups;
   }
 
-  get(): void {
-    this.useCase.fetchInspectionGroup();
-  }
-
   getById(id: number): InspectionGroup | undefined {
     return this.useCase.getById(id);
   }

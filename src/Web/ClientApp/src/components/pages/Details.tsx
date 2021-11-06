@@ -107,7 +107,7 @@ export const Details: FC = ({ match }: any): JSX.Element => {
   );
 
   useEffect(() => {
-    groupPresenter.get();
+    // groupPresenter.get();
     typePresenter.get();
     sheetController.getInspectionSheetById(sheetId);
   }, [sheetId]);

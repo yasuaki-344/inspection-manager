@@ -56,7 +56,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   const [history, setHistory] = useState<InspectionSheet[]>([]);
 
   useEffect(() => {
-    groupPresenter.get();
+    // groupPresenter.get();
     typePresenter.get();
   }, []);
 
