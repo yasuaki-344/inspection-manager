@@ -18,6 +18,40 @@ describe("InspectionGroupRepository unit test", () => {
     ]);
   });
 
+  test("Post inspection group correctly", async () => {
+    const apiSpy = jest
+      .spyOn(InspectionGroupsApi.prototype, "inspectionGroupsPost")
+      .mockReturnValue({ inspection_group_id: 1, description: "group1" });
+    const target = new InspectionGroupRepository();
+    const group = await target.post({
+      inspectionGroupId: 0,
+      description: "group1",
+    });
+    expect(apiSpy).toHaveBeenCalledWith({
+      inspectionGroup: { inspection_group_id: 0, description: "group1" },
+    });
+    expect(group).toEqual({ inspectionGroupId: 1, description: "group1" });
+  });
+
+  test("Post inspection group correctly", async () => {
+    const apiSpy = jest
+      .spyOn(
+        InspectionGroupsApi.prototype,
+        "inspectionGroupsInspectionGroupIdPut"
+      )
+      .mockReturnValue({ inspection_group_id: 1, description: "group1" });
+    const target = new InspectionGroupRepository();
+    const group = await target.put({
+      inspectionGroupId: 1,
+      description: "group1",
+    });
+    expect(apiSpy).toHaveBeenCalledWith({
+      inspectionGroupId: 1,
+      inspectionGroup: { inspection_group_id: 1, description: "group1" },
+    });
+    expect(group).toEqual({ inspectionGroupId: 1, description: "group1" });
+  });
+
   test("Delete inspection groups correctly", async () => {
     const apiSpy = jest
       .spyOn(
