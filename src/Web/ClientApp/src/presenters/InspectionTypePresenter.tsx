@@ -25,16 +25,6 @@ export class InspectionTypePresenter implements IInspectionTypePresenter {
     this.editItem = useCase.target;
   }
 
-  getById(id: number): InspectionType | undefined {
-    return this.useCase.getById(id);
-  }
-
-  getIds(keyword: string): Array<number> {
-    return this.useCase.types
-      .filter((x: InspectionType) => x.description.includes(keyword))
-      .map((x: InspectionType) => x.inspectionTypeId);
-  }
-
   getTypeName(id: number): string | undefined {
     return this.useCase.types.find(
       (x: InspectionType) => x.inspectionTypeId === id

@@ -23,16 +23,6 @@ export class InspectionGroupPresenter implements IInspectionGroupPresenter {
     this.editItem = useCase.target;
   }
 
-  getById(id: number): InspectionGroup | undefined {
-    return this.useCase.getById(id);
-  }
-
-  getIds(keyword: string): Array<number> {
-    return this.useCase.groups
-      .filter((x: InspectionGroup) => x.description.includes(keyword))
-      .map((x: InspectionGroup) => x.inspectionGroupId);
-  }
-
   getGroupName(id: number): string | undefined {
     return this.useCase.groups.find(
       (x: InspectionGroup) => x.inspectionGroupId === id

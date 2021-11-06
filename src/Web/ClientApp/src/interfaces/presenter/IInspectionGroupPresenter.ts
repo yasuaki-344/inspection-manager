@@ -4,8 +4,6 @@ export interface IInspectionGroupPresenter {
   readonly state: InspectionGroup[];
   readonly editItem: InspectionGroup;
 
-  getById(id: number): InspectionGroup | undefined;
-  getIds(keyword: string): Array<number>;
   getGroupName(id: number): string | undefined;
   inspectionGroupTable(
     updateMethod: (id: number) => void,

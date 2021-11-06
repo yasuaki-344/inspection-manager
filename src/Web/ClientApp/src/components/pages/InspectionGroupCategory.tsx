@@ -30,12 +30,10 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
   );
 
   useEffect(() => {
-    controller
-      .fetchInspectionGroups()
-      .catch((error) => {
-        console.error(error);
-        notification.setMessageState("error", "データの取得に失敗しました");
-      });
+    controller.fetchInspectionGroups().catch((error) => {
+      console.error(error);
+      notification.setMessageState("error", "データの取得に失敗しました");
+    });
   }, []);
 
   /**

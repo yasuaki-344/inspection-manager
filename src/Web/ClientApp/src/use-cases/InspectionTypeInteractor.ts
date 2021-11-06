@@ -58,13 +58,10 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
     });
   }
 
-  get(): void {
-    this.repository
-      .get()
-      .then((res) => {
-        this.setTypes(res);
-      })
-      .catch(() => {});
+  getIds(keyword: string): number[] {
+    return this.types
+      .filter((x: InspectionType) => x.description.includes(keyword))
+      .map((x: InspectionType) => x.inspectionTypeId);
   }
 
   getById(id: number): InspectionType | undefined {

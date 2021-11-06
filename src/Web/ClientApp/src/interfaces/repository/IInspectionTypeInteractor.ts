@@ -8,8 +8,8 @@ export interface IInspectionTypeInteractor {
   createEditItem(): void;
   setEditItem(id: number): void;
   editType(name: string, value: string): void;
+  getIds(keyword: string): number[];
 
-  get(): void;
   getById(id: number): InspectionType | undefined;
   create(inspectionType: InspectionType): Promise<void>;
   update(inspectionType: InspectionType): Promise<void>;

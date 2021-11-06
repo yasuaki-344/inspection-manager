@@ -92,10 +92,10 @@ export const Home: FC = (): JSX.Element => {
    * Executes to search inspection sheet based on search options.
    */
   const handleSearch = () => {
-    const filteredGroupIds = presenter.getGroupIds(
+    const filteredGroupIds = controller.getGroupIds(
       searchOption.inspectionGroup
     );
-    const filteredTypeIds = typePresenter.getIds(searchOption.inspectionType);
+    const filteredTypeIds = controller.getTypeIds(searchOption.inspectionType);
     setFilteredInspectionSheets(
       inspectionSheets.filter(
         (x: InspectionSheet) =>
