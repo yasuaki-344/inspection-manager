@@ -46,23 +46,26 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
   }
 
   async create(inspectionGroup: InspectionGroup): Promise<void> {
-    const res = await this.repository.post(inspectionGroup);
-    this.setGroups(this.groups.concat(res));
+    await this.repository.post(inspectionGroup).then((res: InspectionGroup) => {
+      this.setGroups(this.groups.concat(res));
+    });
   }
 
   async update(inspectionGroup: InspectionGroup): Promise<void> {
-    const res = await this.repository.put(inspectionGroup);
-    this.setGroups(
-      this.groups.map((x) =>
-        x.inspectionGroupId === res.inspectionGroupId ? res : x
-      )
-    );
+    await this.repository.put(inspectionGroup).then((res: InspectionGroup) => {
+      this.setGroups(
+        this.groups.map((x) =>
+          x.inspectionGroupId === res.inspectionGroupId ? res : x
+        )
+      );
+    });
   }
 
   async delete(id: number): Promise<void> {
-    await this.repository.delete(id);
-    this.setGroups(
-      this.groups.filter((x: InspectionGroup) => x.inspectionGroupId !== id)
-    );
+    await this.repository.delete(id).then(() => {
+      this.setGroups(
+        this.groups.filter((x: InspectionGroup) => x.inspectionGroupId !== id)
+      );
+    });
   }
 }

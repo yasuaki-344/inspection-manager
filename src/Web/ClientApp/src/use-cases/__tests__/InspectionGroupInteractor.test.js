@@ -21,4 +21,14 @@ describe("InspectionGroupInteractor unit test", () => {
     await target.fetchInspectionGroup();
     expect(setState).toHaveBeenCalledTimes(1);
   });
+
+  test("delete inspection groups correctly", async () => {
+    const repository = {
+      delete: jest.fn(async (id) => {}),
+    };
+    const target = new InspectionGroupInteractor(repository);
+    await target.delete(10);
+    expect(repository.delete).toHaveBeenCalledWith(10);
+    expect(setState).toHaveBeenCalledTimes(1);
+  });
 });
