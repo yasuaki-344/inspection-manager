@@ -17,4 +17,16 @@ describe("InspectionGroupRepository unit test", () => {
       { inspectionGroupId: 2, description: "group2" },
     ]);
   });
+
+  test("Delete inspection groups correctly", async () => {
+    const apiSpy = jest
+      .spyOn(
+        InspectionGroupsApi.prototype,
+        "inspectionGroupsInspectionGroupIdDelete"
+      )
+      .mockReturnValue();
+    const target = new InspectionGroupRepository();
+    await target.delete(10);
+    expect(apiSpy).toHaveBeenCalledWith({ inspectionGroupId: 10 });
+  });
 });
