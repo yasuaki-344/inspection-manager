@@ -1,4 +1,7 @@
-import { IInspectionGroupController, IInspectionGroupInteractor } from "../interfaces";
+import {
+  IInspectionGroupController,
+  IInspectionGroupInteractor,
+} from "../interfaces";
 import { InspectionGroup } from "../entities";
 
 export class InspectionGroupController implements IInspectionGroupController {

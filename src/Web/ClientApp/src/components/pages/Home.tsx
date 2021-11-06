@@ -21,8 +21,12 @@ import {
   IInspectionGroupPresenter,
   IInspectionSheetPresenter,
   IInspectionTypePresenter,
+  IHomePresenter,
 } from "../../interfaces/presenter";
-import { IInspectionSheetController } from "../../interfaces/controller";
+import {
+  IInspectionSheetController,
+  IHomeController,
+} from "../../interfaces/controller";
 import { CancelIconButton } from "../utilities";
 import { SheetSearchMenu } from "../SheetSearchMenu";
 import { SheetDeleteConfirmationDialog } from "../dialog/SheetDeleteConfirmationDialog";
@@ -30,6 +34,10 @@ import { useDIContext } from "../../container";
 
 export const Home: FC = (): JSX.Element => {
   const inject = useDIContext();
+  /* eslint-disable-next-line */
+  const controller: IHomeController = inject(nameof<IHomeController>());
+  /* eslint-disable-next-line */
+  const presenter: IHomePresenter = inject(nameof<IHomePresenter>());
   const groupPresenter: IInspectionGroupPresenter = inject(
     nameof<IInspectionGroupPresenter>()
   );

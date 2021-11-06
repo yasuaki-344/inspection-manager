@@ -2,6 +2,7 @@ import { createContext, useContext, useReducer } from "react";
 import nameof from "ts-nameof.macro";
 import {
   ChoiceTemplateController,
+  HomeController,
   InspectionGroupController,
   InspectionItemController,
   InspectionSheetController,
@@ -23,6 +24,8 @@ import {
   IChoiceTemplateInteractor,
   IChoiceTemplatePresenter,
   IChoiceTemplateRepository,
+  IHomeController,
+  IHomePresenter,
   IInspectionGroupController,
   IInspectionGroupInteractor,
   IInspectionGroupPresenter,
@@ -40,6 +43,7 @@ import {
 } from "../interfaces";
 import {
   ChoiceTemplatePresenter,
+  HomePresenter,
   InspectionGroupPresenter,
   InspectionItemPresenter,
   InspectionSheetPresenter,
@@ -126,6 +130,7 @@ export const setUpDIContainer = () => {
   );
 
   // register presenter
+  register(nameof<IHomePresenter>(), new HomePresenter());
   register(
     nameof<IInspectionGroupPresenter>(),
     new InspectionGroupPresenter(
@@ -140,6 +145,7 @@ export const setUpDIContainer = () => {
   );
 
   // register controller
+  register(nameof<IHomeController>(), new HomeController());
   register(
     nameof<IInspectionGroupController>(),
     new InspectionGroupController(
