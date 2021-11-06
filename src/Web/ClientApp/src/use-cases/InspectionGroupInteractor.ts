@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   IInspectionGroupInteractor,
   IInspectionGroupRepository,
@@ -6,19 +6,16 @@ import {
 import { InspectionGroup } from "../entities";
 
 export class InspectionGroupInteractor implements IInspectionGroupInteractor {
-  readonly groups: Array<InspectionGroup>;
+  readonly groups: InspectionGroup[];
 
   private readonly setGroups: React.Dispatch<
-    React.SetStateAction<Array<InspectionGroup>>
+    React.SetStateAction<InspectionGroup[]>
   >;
 
   private readonly repository: IInspectionGroupRepository;
 
-  constructor(
-    groups: Array<InspectionGroup>,
-    setGroups: React.Dispatch<React.SetStateAction<Array<InspectionGroup>>>,
-    repository: IInspectionGroupRepository
-  ) {
+  constructor(repository: IInspectionGroupRepository) {
+    const [groups, setGroups] = useState<InspectionGroup[]>([]);
     this.groups = groups;
     this.setGroups = setGroups;
     this.repository = repository;

@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useState } from "react";
+import { createContext, useContext, useReducer } from "react";
 import nameof from "ts-nameof.macro";
 import {
   ChoiceTemplateController,
@@ -8,13 +8,10 @@ import {
   InspectionTypeController,
 } from "../controllers";
 import {
-  ChoiceTemplate,
-  InspectionGroup,
   InspectionItemInitialState,
   InspectionItemReducer,
   InspectionSheetInitialState,
   InspectionSheetReducer,
-  InspectionType,
 } from "../entities";
 import {
   ChoiceTemplateRepository,
@@ -84,8 +81,6 @@ export const setUpDIContainer = () => {
   };
 
   // Register objects to DI container.
-  const [groups, setGroups] = useState<Array<InspectionGroup>>([]);
-  const [types, setTypes] = useState<Array<InspectionType>>([]);
   const [inspectionItem, dispatch] = useReducer(
     InspectionItemReducer,
     InspectionItemInitialState
@@ -101,33 +96,39 @@ export const setUpDIContainer = () => {
     new InspectionGroupRepository()
   );
   register(nameof<IInspectionTypeRepository>(), new InspectionTypeRepository());
+  register(nameof<IChoiceTemplateRepository>(), new ChoiceTemplateRepository());
+
+  // register use-case interactor
   register(
     nameof<IInspectionGroupInteractor>(),
     new InspectionGroupInteractor(
-      groups,
-      setGroups,
       inject(nameof<IInspectionGroupRepository>()) as IInspectionGroupRepository
     )
   );
   register(
     nameof<IInspectionTypeInteractor>(),
     new InspectionTypeInteractor(
-      types,
-      setTypes,
-      inject(
-        nameof<IInspectionTypeRepository>()
-      ) as IInspectionTypeRepository
+      inject(nameof<IInspectionTypeRepository>()) as IInspectionTypeRepository
     )
   );
+  register(
+    nameof<IChoiceTemplateInteractor>(),
+    new ChoiceTemplateInteractor(inject(nameof<IChoiceTemplateRepository>()))
+  );
+
+  register(
+    nameof<IInspectionItemInteractor>(),
+    new InspectionItemInteractor(inspectionItem, dispatch)
+  );
+  register(
+    nameof<IInspectionSheetInteractor>(),
+    new InspectionSheetInteractor(inspectionSheet, sheetDispatch)
+  );
+
+  // register presenter
   register(
     nameof<IInspectionGroupPresenter>(),
     new InspectionGroupPresenter(
-      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor
-    )
-  );
-  register(
-    nameof<IInspectionGroupController>(),
-    new InspectionGroupController(
       inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor
     )
   );
@@ -137,24 +138,21 @@ export const setUpDIContainer = () => {
       inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor
     )
   );
+
+  // register controller
+  register(
+    nameof<IInspectionGroupController>(),
+    new InspectionGroupController(
+      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor
+    )
+  );
   register(
     nameof<IInspectionTypeController>(),
     new InspectionTypeController(
       inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor
     )
   );
-  register(
-    nameof<IInspectionItemInteractor>(),
-    new InspectionItemInteractor(inspectionItem, dispatch)
-  );
-  register(
-    nameof<IInspectionSheetInteractor>(),
-    new InspectionSheetInteractor(inspectionSheet, sheetDispatch)
-  );
-  register(
-    nameof<IInspectionSheetInteractor>(),
-    new InspectionSheetInteractor(inspectionSheet, sheetDispatch)
-  );
+
   register(
     nameof<IInspectionSheetPresenter>(),
     new InspectionSheetPresenter(
@@ -175,16 +173,7 @@ export const setUpDIContainer = () => {
     nameof<IInspectionItemController>(),
     new InspectionItemController(inject(nameof<IInspectionItemInteractor>()))
   );
-  const [templates, setTemplates] = useState<Array<ChoiceTemplate>>([]);
-  register(nameof<IChoiceTemplateRepository>(), new ChoiceTemplateRepository());
-  register(
-    nameof<IChoiceTemplateInteractor>(),
-    new ChoiceTemplateInteractor(
-      templates,
-      setTemplates,
-      inject(nameof<IChoiceTemplateRepository>())
-    )
-  );
+
   register(
     nameof<IChoiceTemplatePresenter>(),
     new ChoiceTemplatePresenter(inject(nameof<IChoiceTemplateInteractor>()))

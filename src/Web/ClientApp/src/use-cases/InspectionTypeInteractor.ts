@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import {
   IInspectionTypeInteractor,
   IInspectionTypeRepository,
@@ -6,17 +6,14 @@ import {
 import { InspectionType } from "../entities";
 
 export class InspectionTypeInteractor implements IInspectionTypeInteractor {
-  readonly types: Array<InspectionType>;
+  readonly types: InspectionType[];
 
   private readonly setTypes: Dispatch<SetStateAction<InspectionType[]>>;
 
   private readonly repository: IInspectionTypeRepository;
 
-  constructor(
-    types: InspectionType[],
-    setTypes: Dispatch<SetStateAction<InspectionType[]>>,
-    repository: IInspectionTypeRepository
-  ) {
+  constructor(repository: IInspectionTypeRepository) {
+    const [types, setTypes] = useState<InspectionType[]>([]);
     this.types = types;
     this.setTypes = setTypes;
     this.repository = repository;

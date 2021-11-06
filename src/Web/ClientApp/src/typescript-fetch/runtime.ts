@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-export const BASE_PATH = "http://localhost:5000/v1".replace(/\/+$/, "");
+export const BASE_PATH = "/v1".replace(/\/+$/, "");
 
 const isBlob = (value: any) =>
   typeof Blob !== "undefined" && value instanceof Blob;
