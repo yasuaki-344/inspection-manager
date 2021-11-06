@@ -18,7 +18,6 @@ import DetailsIcon from "@mui/icons-material/Details";
 import nameof from "ts-nameof.macro";
 import { InspectionSheet, InspectionSheetInitialState } from "../../entities";
 import {
-  IInspectionGroupPresenter,
   IInspectionSheetPresenter,
   IInspectionTypePresenter,
   IHomePresenter,
@@ -37,9 +36,6 @@ export const Home: FC = (): JSX.Element => {
   const controller: IHomeController = inject(nameof<IHomeController>());
   /* eslint-disable-next-line */
   const presenter: IHomePresenter = inject(nameof<IHomePresenter>());
-  const groupPresenter: IInspectionGroupPresenter = inject(
-    nameof<IInspectionGroupPresenter>()
-  );
   const typePresenter: IInspectionTypePresenter = inject(
     nameof<IInspectionTypePresenter>()
   );
@@ -68,7 +64,7 @@ export const Home: FC = (): JSX.Element => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    // groupPresenter.get();
+    controller.fetchDisplayData().then().catch();
     typePresenter.get();
     sheetPresenter
       .getAllInspectionSheet()
@@ -97,7 +93,7 @@ export const Home: FC = (): JSX.Element => {
    * Executes to search inspection sheet based on search options.
    */
   const handleSearch = () => {
-    const filteredGroupIds = groupPresenter.getIds(
+    const filteredGroupIds = presenter.getGroupIds(
       searchOption.inspectionGroup
     );
     const filteredTypeIds = typePresenter.getIds(searchOption.inspectionType);
@@ -228,7 +224,7 @@ export const Home: FC = (): JSX.Element => {
                       </TableCell>
                       <TableCell>{sheet.sheetName}</TableCell>
                       <TableCell>
-                        {groupPresenter.getGroupName(sheet.inspectionGroupId)}
+                        {presenter.getGroupName(sheet.inspectionGroupId)}
                       </TableCell>
                       <TableCell>
                         {typePresenter.getTypeName(sheet.inspectionTypeId)}
@@ -268,7 +264,7 @@ export const Home: FC = (): JSX.Element => {
       <SheetDeleteConfirmationDialog
         open={open}
         sheetName={targetSheet.sheetName}
-        groupName={groupPresenter.getGroupName(targetSheet.inspectionGroupId)}
+        groupName={presenter.getGroupName(targetSheet.inspectionGroupId)}
         typeName={typePresenter.getTypeName(targetSheet.inspectionTypeId)}
         onDeleteClick={handleDelete}
         onCancelClick={() => setOpen(false)}

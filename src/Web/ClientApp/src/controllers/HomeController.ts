@@ -1,7 +1,27 @@
 import { InspectionSheet } from "../entities";
-import { IHomeController } from "../interfaces";
+import {
+  IHomeController,
+  IInspectionGroupInteractor,
+  IInspectionTypeInteractor,
+} from "../interfaces";
 
 export class HomeController implements IHomeController {
+  private readonly typeUseCase: IInspectionTypeInteractor;
+
+  private readonly groupUseCase: IInspectionGroupInteractor;
+
+  constructor(
+    typeUseCase: IInspectionTypeInteractor,
+    groupUseCase: IInspectionGroupInteractor
+  ) {
+    this.typeUseCase = typeUseCase;
+    this.groupUseCase = groupUseCase;
+  }
+
+  async fetchDisplayData(): Promise<void> {
+    await this.groupUseCase.fetchInspectionGroup();
+  }
+
   exportExcelInspectionSheet(sheet: InspectionSheet): void {
     fetch(`excelsheet/${sheet.sheetId}`)
       .then((response) => response.blob())

@@ -130,7 +130,13 @@ export const setUpDIContainer = () => {
   );
 
   // register presenter
-  register(nameof<IHomePresenter>(), new HomePresenter());
+  register(
+    nameof<IHomePresenter>(),
+    new HomePresenter(
+      inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor,
+      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor
+    )
+  );
   register(
     nameof<IInspectionGroupPresenter>(),
     new InspectionGroupPresenter(
@@ -145,7 +151,13 @@ export const setUpDIContainer = () => {
   );
 
   // register controller
-  register(nameof<IHomeController>(), new HomeController());
+  register(
+    nameof<IHomeController>(),
+    new HomeController(
+      inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor,
+      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor
+    )
+  );
   register(
     nameof<IInspectionGroupController>(),
     new InspectionGroupController(

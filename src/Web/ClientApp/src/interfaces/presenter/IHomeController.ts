@@ -1,1 +1,4 @@
-export interface IHomePresenter {}
+export interface IHomePresenter {
+  getGroupIds(keyword: string): number[];
+  getGroupName(id: number): string | undefined;
+}

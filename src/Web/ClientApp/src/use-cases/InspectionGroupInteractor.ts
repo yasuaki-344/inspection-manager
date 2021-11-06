@@ -30,6 +30,17 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
     });
   }
 
+  getIds(keyword: string): number[] {
+    return this.groups
+      .filter((x: InspectionGroup) => x.description.includes(keyword))
+      .map((x: InspectionGroup) => x.inspectionGroupId);
+  }
+
+  getName(id: number): string | undefined {
+    return this.groups.find((x: InspectionGroup) => x.inspectionGroupId === id)
+      ?.description;
+  }
+
   getById(id: number): InspectionGroup | undefined {
     return this.groups.find((x) => x.inspectionGroupId === id);
   }
