@@ -51,7 +51,7 @@
     "test": "cross-env CI=true react-scripts test --env=jsdom --coverage",
     "eject": "react-scripts eject",
     "lint": "eslint ./src/**/*.{js,jsx,ts,tsx}",
-    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'"
+    "format": "prettier --write src/**/*.{js,jsx,ts,tsx}"
   },
   "browserslist": {
     "production": [
