@@ -34,7 +34,6 @@ import { useDIContext } from "../../container";
 
 export const Home: FC = (): JSX.Element => {
   const inject = useDIContext();
-  /* eslint-disable-next-line */
   const controller: IHomeController = inject(nameof<IHomeController>());
   /* eslint-disable-next-line */
   const presenter: IHomePresenter = inject(nameof<IHomePresenter>());
@@ -126,42 +125,6 @@ export const Home: FC = (): JSX.Element => {
     setPage(0);
   };
 
-  const handleDownload = (sheet: InspectionSheet) => {
-    fetch(`excelsheet/${sheet.sheetId}`)
-      .then((response) => response.blob())
-      .then((blob) => {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        document.body.appendChild(a);
-        a.download = `${sheet.sheetName}.xlsx`;
-        a.href = url;
-        a.click();
-        a.remove();
-        setTimeout(() => {
-          URL.revokeObjectURL(url);
-        }, 1e4);
-      })
-      .catch(console.error);
-  };
-
-  const handleExportJson = (sheet: InspectionSheet) => {
-    fetch(`jsonexport/${sheet.sheetId}`)
-      .then((response) => response.blob())
-      .then((blob) => {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        document.body.appendChild(a);
-        a.download = `${sheet.sheetName}.json`;
-        a.href = url;
-        a.click();
-        a.remove();
-        setTimeout(() => {
-          URL.revokeObjectURL(url);
-        }, 1e4);
-      })
-      .catch(console.error);
-  };
-
   const handleClickOpen = (sheet: InspectionSheet) => {
     setTargetSheet(sheet);
     setOpen(true);
@@ -247,10 +210,18 @@ export const Home: FC = (): JSX.Element => {
                           variant="outlined"
                           aria-label="outlined button group"
                         >
-                          <Button onClick={() => handleDownload(sheet)}>
+                          <Button
+                            onClick={() =>
+                              controller.exportExcelInspectionSheet(sheet)
+                            }
+                          >
                             Excel
                           </Button>
-                          <Button onClick={() => handleExportJson(sheet)}>
+                          <Button
+                            onClick={() =>
+                              controller.exportJsonInspectionSheet(sheet)
+                            }
+                          >
                             JSON
                           </Button>
                         </ButtonGroup>
