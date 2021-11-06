@@ -12,12 +12,24 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
     React.SetStateAction<InspectionGroup[]>
   >;
 
+  readonly target: InspectionGroup;
+
+  private readonly setTarget: React.Dispatch<
+    React.SetStateAction<InspectionGroup>
+  >;
+
   private readonly repository: IInspectionGroupRepository;
 
   constructor(repository: IInspectionGroupRepository) {
     const [groups, setGroups] = useState<InspectionGroup[]>([]);
     this.groups = groups;
     this.setGroups = setGroups;
+    const [target, setTarget] = useState<InspectionGroup>({
+      inspectionGroupId: 0,
+      description: "",
+    });
+    this.target = target;
+    this.setTarget = setTarget;
     this.repository = repository;
   }
 
@@ -27,6 +39,27 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
   async fetchInspectionGroup(): Promise<void> {
     await this.repository.get().then((res) => {
       this.setGroups(res);
+    });
+  }
+
+  createEditItem(): void {
+    this.setTarget({
+      inspectionGroupId: 0,
+      description: "グループ",
+    });
+  }
+
+  setEditItem(id: number): void {
+    const group = this.groups.find((x) => x.inspectionGroupId === id);
+    if (group !== undefined) {
+      this.setTarget(group);
+    }
+  }
+
+  editGroup(name: string, value: string): void {
+    this.setTarget({
+      ...this.target,
+      [name]: value,
     });
   }
 

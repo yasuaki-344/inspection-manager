@@ -13,11 +13,14 @@ import { IInspectionGroupPresenter } from "../interfaces/presenter";
 export class InspectionGroupPresenter implements IInspectionGroupPresenter {
   private readonly useCase: IInspectionGroupInteractor;
 
-  readonly state: Array<InspectionGroup>;
+  readonly state: InspectionGroup[];
+
+  readonly editItem: InspectionGroup;
 
   constructor(useCase: IInspectionGroupInteractor) {
     this.useCase = useCase;
     this.state = useCase.groups;
+    this.editItem = useCase.target;
   }
 
   getById(id: number): InspectionGroup | undefined {

@@ -1,3 +1,4 @@
+import React from "react";
 import {
   IInspectionGroupController,
   IInspectionGroupInteractor,
@@ -14,6 +15,19 @@ export class InspectionGroupController implements IInspectionGroupController {
   async fetchInspectionGroup(): Promise<void> {
     await this.useCase.fetchInspectionGroup();
   }
+
+  createEditItem(): void {
+    this.useCase.createEditItem();
+  }
+
+  setEditItem(id: number): void {
+    this.useCase.setEditItem(id);
+  }
+
+  editGroup = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    this.useCase.editGroup(name, value);
+  };
 
   async create(inspectionGroup: InspectionGroup): Promise<void> {
     await this.useCase.create(inspectionGroup);
