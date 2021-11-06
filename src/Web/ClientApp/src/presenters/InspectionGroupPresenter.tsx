@@ -21,7 +21,7 @@ export class InspectionGroupPresenter implements IInspectionGroupPresenter {
   }
 
   get(): void {
-    this.useCase.get();
+    this.useCase.fetchInspectionGroup();
   }
 
   getById(id: number): InspectionGroup | undefined {

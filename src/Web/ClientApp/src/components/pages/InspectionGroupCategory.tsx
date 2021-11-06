@@ -35,7 +35,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
   );
 
   useEffect(() => {
-    presenter.get();
+    controller.fetchInspectionGroup().then().catch();
   }, []);
 
   /**

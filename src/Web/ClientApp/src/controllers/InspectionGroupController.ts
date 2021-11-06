@@ -1,11 +1,15 @@
-import { IInspectionGroupInteractor } from "../interfaces";
+import { IInspectionGroupController, IInspectionGroupInteractor } from "../interfaces";
 import { InspectionGroup } from "../entities";
 
-export class InspectionGroupController {
+export class InspectionGroupController implements IInspectionGroupController {
   private readonly useCase: IInspectionGroupInteractor;
 
   constructor(useCase: IInspectionGroupInteractor) {
     this.useCase = useCase;
+  }
+
+  async fetchInspectionGroup(): Promise<void> {
+    await this.useCase.fetchInspectionGroup();
   }
 
   async create(inspectionGroup: InspectionGroup): Promise<void> {

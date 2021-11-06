@@ -21,13 +21,15 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
     this.repository = repository;
   }
 
-  get(): void {
-    this.repository
+  /**
+   * Fetch all inspection groups from database.
+   */
+  async fetchInspectionGroup(): Promise<void> {
+    await this.repository
       .get()
       .then((res) => {
         this.setGroups(res);
       })
-      .catch(console.error);
   }
 
   getById(id: number): InspectionGroup | undefined {
