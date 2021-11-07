@@ -25,6 +25,7 @@ export const Create: FC = (): JSX.Element => {
     nameof<IInspectionSheetController>()
   );
   const [open, setOpen] = useState(false);
+  /* eslint-disable-next-line */
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>(
     []
   );
@@ -34,16 +35,16 @@ export const Create: FC = (): JSX.Element => {
 
   useEffect(() => {
     sheetController.setSheet(InspectionSheetInitialState);
-    sheetController
-      .getAllInspectionSheet()
-      .then((json: InspectionSheet[]) => {
-        console.log(json);
-        setInspectionSheets(json);
-      })
-      .catch((error) => {
-        notification.setMessageState("error", "データの取得に失敗しました");
-        console.error(error);
-      });
+    // sheetController
+    //   .getAllInspectionSheet()
+    //   .then((json: InspectionSheet[]) => {
+    //     console.log(json);
+    //     setInspectionSheets(json);
+    //   })
+    //   .catch((error) => {
+    //     notification.setMessageState("error", "データの取得に失敗しました");
+    //     console.error(error);
+    //   });
   }, []);
 
   /**

@@ -36,6 +36,21 @@ export class HomeController implements IHomeController {
     await this.sheetUseCase.fetchAllInspectionSheets();
   }
 
+  /** @inheritdoc */
+  searchInspectionSheet(
+    groupKeyword: string,
+    typeKeyword: string,
+    sheetKeyword: string
+  ): void {
+    if (groupKeyword === "" && typeKeyword === "" && sheetKeyword === "") {
+      this.sheetUseCase.resetSearchedInspectionSheets();
+    } else {
+      const groupIds = this.groupUseCase.getIds(groupKeyword);
+      const typeIds = this.typeUseCase.getIds(typeKeyword);
+      this.sheetUseCase.searchInspectionSheet(groupIds, typeIds, sheetKeyword);
+    }
+  }
+
   getGroupIds(keyword: string): number[] {
     return this.groupUseCase.getIds(keyword);
   }

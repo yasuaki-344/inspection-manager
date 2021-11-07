@@ -18,7 +18,6 @@ import DetailsIcon from "@mui/icons-material/Details";
 import nameof from "ts-nameof.macro";
 import { InspectionSheet, InspectionSheetInitialState } from "../../entities";
 import {
-  IInspectionSheetPresenter,
   IInspectionTypePresenter,
   IHomePresenter,
 } from "../../interfaces/presenter";
@@ -39,16 +38,10 @@ export const Home: FC = (): JSX.Element => {
   const typePresenter: IInspectionTypePresenter = inject(
     nameof<IInspectionTypePresenter>()
   );
-  const sheetPresenter: IInspectionSheetPresenter = inject(
-    nameof<IInspectionSheetPresenter>()
-  );
   const sheetController: IInspectionSheetController = inject(
     nameof<IInspectionSheetController>()
   );
   const [inspectionSheets, setInspectionSheets] = useState<
-    Array<InspectionSheet>
-  >([]);
-  const [filteredInspectionSheets, setFilteredInspectionSheets] = useState<
     Array<InspectionSheet>
   >([]);
   const [open, setOpen] = useState(false);
@@ -64,15 +57,7 @@ export const Home: FC = (): JSX.Element => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    controller.fetchDisplayData().then().catch();
-    sheetPresenter
-      .getAllInspectionSheet()
-      .then((res: Array<InspectionSheet>) => {
-        console.log(JSON.stringify(res));
-        setInspectionSheets(res);
-        setFilteredInspectionSheets(res);
-      })
-      .catch(console.error);
+    controller.fetchDisplayData().then().catch(console.error);
   }, []);
 
   /**
@@ -92,17 +77,11 @@ export const Home: FC = (): JSX.Element => {
    * Executes to search inspection sheet based on search options.
    */
   const handleSearch = () => {
-    const filteredGroupIds = controller.getGroupIds(
-      searchOption.inspectionGroup
-    );
-    const filteredTypeIds = controller.getTypeIds(searchOption.inspectionType);
-    setFilteredInspectionSheets(
-      inspectionSheets.filter(
-        (x: InspectionSheet) =>
-          x.sheetName.includes(searchOption.sheetName) &&
-          filteredGroupIds.includes(x.inspectionGroupId) &&
-          filteredTypeIds.includes(x.inspectionTypeId)
-      )
+    const { inspectionGroup, inspectionType, sheetName } = searchOption;
+    controller.searchInspectionSheet(
+      inspectionGroup,
+      inspectionType,
+      sheetName
     );
     setPage(0);
   };
@@ -116,7 +95,7 @@ export const Home: FC = (): JSX.Element => {
       inspectionGroup: "",
       inspectionType: "",
     });
-    setFilteredInspectionSheets(inspectionSheets);
+    controller.searchInspectionSheet("", "", "");
     setPage(0);
   };
 
@@ -135,11 +114,11 @@ export const Home: FC = (): JSX.Element => {
             (x: InspectionSheet) => x.sheetId !== targetSheet.sheetId
           )
         );
-        setFilteredInspectionSheets(
-          inspectionSheets.filter(
-            (x: InspectionSheet) => x.sheetId !== targetSheet.sheetId
-          )
-        );
+        // setFilteredInspectionSheets(
+        //   inspectionSheets.filter(
+        //     (x: InspectionSheet) => x.sheetId !== targetSheet.sheetId
+        //   )
+        // );
       })
       .catch(console.error);
   };
@@ -196,7 +175,7 @@ export const Home: FC = (): JSX.Element => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {filteredInspectionSheets
+                {presenter.inspectionSheets
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((sheet: InspectionSheet) => (
                     <TableRow key={sheet.sheetId}>

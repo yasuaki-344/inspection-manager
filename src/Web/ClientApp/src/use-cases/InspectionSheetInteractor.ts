@@ -18,6 +18,12 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
 
   private readonly setSheets: Dispatch<SetStateAction<InspectionSheet[]>>;
 
+  readonly filteredSheets: InspectionSheet[];
+
+  private readonly setFilteredSheets: Dispatch<
+    SetStateAction<InspectionSheet[]>
+  >;
+
   readonly sheet: InspectionSheet;
 
   private readonly dispatch: Dispatch<InspectionSheetAction>;
@@ -31,6 +37,9 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     const [sheets, setSheets] = useState<InspectionSheet[]>([]);
     this.sheets = sheets;
     this.setSheets = setSheets;
+    const [filteredSheets, setFilteredSheets] = useState<InspectionSheet[]>([]);
+    this.filteredSheets = filteredSheets;
+    this.setFilteredSheets = setFilteredSheets;
     const [sheet, sheetDispatch] = useReducer(
       InspectionSheetReducer,
       InspectionSheetInitialState
@@ -44,7 +53,29 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   async fetchAllInspectionSheets(): Promise<void> {
     await this.repository.get().then((res: InspectionSheet[]) => {
       this.setSheets(res);
+      this.setFilteredSheets(res);
     });
+  }
+
+  /** @inheritdoc */
+  searchInspectionSheet(
+    groupIds: number[],
+    typeIds: number[],
+    sheetKeyword: string
+  ): void {
+    this.setFilteredSheets(
+      this.sheets.filter(
+        (x: InspectionSheet) =>
+          x.sheetName.includes(sheetKeyword) &&
+          groupIds.includes(x.inspectionGroupId) &&
+          typeIds.includes(x.inspectionTypeId)
+      )
+    );
+  }
+
+  /** @inheritdoc */
+  resetSearchedInspectionSheets(): void {
+    this.setFilteredSheets(this.sheets);
   }
 
   async fetchInspectionSheetById(id: number): Promise<void> {

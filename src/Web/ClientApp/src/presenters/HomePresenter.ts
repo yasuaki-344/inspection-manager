@@ -1,3 +1,4 @@
+import { InspectionSheet } from "../entities";
 import {
   IHomePresenter,
   IInspectionGroupInteractor,
@@ -6,6 +7,8 @@ import {
 } from "../interfaces";
 
 export class HomePresenter implements IHomePresenter {
+  readonly inspectionSheets: InspectionSheet[];
+
   private readonly typeUseCase: IInspectionTypeInteractor;
 
   private readonly groupUseCase: IInspectionGroupInteractor;
@@ -23,6 +26,7 @@ export class HomePresenter implements IHomePresenter {
     groupUseCase: IInspectionGroupInteractor,
     sheetUseCase: IInspectionSheetInteractor
   ) {
+    this.inspectionSheets = sheetUseCase.filteredSheets;
     this.typeUseCase = typeUseCase;
     this.groupUseCase = groupUseCase;
     this.sheetUseCase = sheetUseCase;
