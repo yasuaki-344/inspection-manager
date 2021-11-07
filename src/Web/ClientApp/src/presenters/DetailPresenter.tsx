@@ -14,6 +14,12 @@ export class DetailPresenter implements IDetailPresenter {
 
   private readonly sheetUseCase: IInspectionSheetInteractor;
 
+  /**
+   * Initializes a new instance of DetailPresenter class
+   * @param typeUseCase IInspectionTypeInteractor object.
+   * @param groupUseCase IInspectionGroupInteractor object.
+   * @param sheetUseCase IInspectionSheetInteractor object.
+   */
   constructor(
     groupUseCase: IInspectionGroupInteractor,
     typeUseCase: IInspectionTypeInteractor,

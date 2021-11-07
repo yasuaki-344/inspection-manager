@@ -8,13 +8,22 @@ import {
   NotificationStateInteractor,
   TopPageLink,
 } from "../utilities";
-import { IInspectionSheetController } from "../../interfaces";
+import {
+  IEditController,
+  IEditPresenter,
+  IInspectionSheetController,
+} from "../../interfaces";
 import { useDIContext } from "../../container";
 
 export const Edit: FC = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
 
   const inject = useDIContext();
+  /* eslint-disable-next-line */
+  const controller: IEditController = inject(nameof<IEditController>());
+  /* eslint-disable-next-line */
+  const presenter: IEditPresenter = inject(nameof<IEditPresenter>());
+
   const sheetController: IInspectionSheetController = inject(
     nameof<IInspectionSheetController>()
   );

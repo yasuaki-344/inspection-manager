@@ -11,6 +11,8 @@ import {
 import { OriginalSheetSelectDialog } from "../dialog";
 import { InspectionSheet, InspectionSheetInitialState } from "../../entities";
 import {
+  ICreateController,
+  ICreatePresenter,
   IInspectionSheetController,
   IInspectionSheetPresenter,
 } from "../../interfaces";
@@ -18,6 +20,10 @@ import { useDIContext } from "../../container";
 
 export const Create: FC = (): JSX.Element => {
   const inject = useDIContext();
+  /* eslint-disable-next-line */
+  const controller: ICreateController = inject(nameof<ICreateController>());
+  /* eslint-disable-next-line */
+  const presenter: ICreatePresenter = inject(nameof<ICreatePresenter>());
   const sheetPresenter: IInspectionSheetPresenter = inject(
     nameof<IInspectionSheetPresenter>()
   );

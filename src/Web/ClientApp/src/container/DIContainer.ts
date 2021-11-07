@@ -2,7 +2,9 @@ import { createContext, useContext, useReducer } from "react";
 import nameof from "ts-nameof.macro";
 import {
   ChoiceTemplateController,
+  CreateController,
   DetailController,
+  EditController,
   HomeController,
   InspectionGroupController,
   InspectionItemController,
@@ -20,8 +22,12 @@ import {
   IChoiceTemplateInteractor,
   IChoiceTemplatePresenter,
   IChoiceTemplateRepository,
+  ICreateController,
+  ICreatePresenter,
   IDetailController,
   IDetailPresenter,
+  IEditController,
+  IEditPresenter,
   IHomeController,
   IHomePresenter,
   IInspectionGroupController,
@@ -42,12 +48,14 @@ import {
 import {
   ChoiceTemplatePresenter,
   DetailPresenter,
+  EditPresenter,
   HomePresenter,
   InspectionGroupPresenter,
   InspectionItemPresenter,
   InspectionSheetPresenter,
   InspectionTypePresenter,
 } from "../presenters";
+import { CreatePresenter } from "../presenters/CreatePresenter";
 import {
   ChoiceTemplateInteractor,
   InspectionGroupInteractor,
@@ -126,6 +134,30 @@ export const setUpDIContainer = () => {
 
   // register presenter
   register(
+    nameof<ICreatePresenter>(),
+    new CreatePresenter(
+      inject(nameof<IInspectionGroupInteractor>()),
+      inject(nameof<IInspectionTypeInteractor>()),
+      inject(nameof<IInspectionSheetInteractor>())
+    )
+  );
+  register(
+    nameof<IDetailPresenter>(),
+    new DetailPresenter(
+      inject(nameof<IInspectionGroupInteractor>()),
+      inject(nameof<IInspectionTypeInteractor>()),
+      inject(nameof<IInspectionSheetInteractor>())
+    )
+  );
+  register(
+    nameof<IEditPresenter>(),
+    new EditPresenter(
+      inject(nameof<IInspectionGroupInteractor>()),
+      inject(nameof<IInspectionTypeInteractor>()),
+      inject(nameof<IInspectionSheetInteractor>())
+    )
+  );
+  register(
     nameof<IHomePresenter>(),
     new HomePresenter(
       inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor,
@@ -133,22 +165,6 @@ export const setUpDIContainer = () => {
         nameof<IInspectionGroupInteractor>()
       ) as IInspectionGroupInteractor,
       inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
-    )
-  );
-  register(
-    nameof<IDetailPresenter>(),
-    new DetailPresenter(
-      inject(nameof<IInspectionGroupInteractor>()),
-      inject(nameof<IInspectionTypeInteractor>()),
-      inject(nameof<IInspectionSheetInteractor>())
-    )
-  );
-  register(
-    nameof<IDetailPresenter>(),
-    new DetailPresenter(
-      inject(nameof<IInspectionGroupInteractor>()),
-      inject(nameof<IInspectionTypeInteractor>()),
-      inject(nameof<IInspectionSheetInteractor>())
     )
   );
   register(
@@ -166,6 +182,30 @@ export const setUpDIContainer = () => {
 
   // register controller
   register(
+    nameof<ICreateController>(),
+    new CreateController(
+      inject(nameof<IInspectionGroupInteractor>()),
+      inject(nameof<IInspectionTypeInteractor>()),
+      inject(nameof<IInspectionSheetInteractor>())
+    )
+  );
+  register(
+    nameof<IDetailController>(),
+    new DetailController(
+      inject(nameof<IInspectionGroupInteractor>()),
+      inject(nameof<IInspectionTypeInteractor>()),
+      inject(nameof<IInspectionSheetInteractor>())
+    )
+  );
+  register(
+    nameof<IEditController>(),
+    new EditController(
+      inject(nameof<IInspectionGroupInteractor>()),
+      inject(nameof<IInspectionTypeInteractor>()),
+      inject(nameof<IInspectionSheetInteractor>())
+    )
+  );
+  register(
     nameof<IHomeController>(),
     new HomeController(
       inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor,
@@ -173,22 +213,6 @@ export const setUpDIContainer = () => {
         nameof<IInspectionGroupInteractor>()
       ) as IInspectionGroupInteractor,
       inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
-    )
-  );
-  register(
-    nameof<IDetailController>(),
-    new DetailController(
-      inject(nameof<IInspectionGroupInteractor>()),
-      inject(nameof<IInspectionTypeInteractor>()),
-      inject(nameof<IInspectionSheetInteractor>())
-    )
-  );
-  register(
-    nameof<IDetailController>(),
-    new DetailController(
-      inject(nameof<IInspectionGroupInteractor>()),
-      inject(nameof<IInspectionTypeInteractor>()),
-      inject(nameof<IInspectionSheetInteractor>())
     )
   );
   register(

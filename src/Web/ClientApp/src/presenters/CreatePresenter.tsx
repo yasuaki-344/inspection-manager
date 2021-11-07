@@ -1,37 +1,30 @@
 import {
-  IDetailController,
+  ICreatePresenter,
   IInspectionGroupInteractor,
   IInspectionSheetInteractor,
   IInspectionTypeInteractor,
 } from "../interfaces";
 
-export class DetailController implements IDetailController {
-  private readonly groupUseCase: IInspectionGroupInteractor;
-
+export class CreatePresenter implements ICreatePresenter {
   private readonly typeUseCase: IInspectionTypeInteractor;
+
+  private readonly groupUseCase: IInspectionGroupInteractor;
 
   private readonly sheetUseCase: IInspectionSheetInteractor;
 
   /**
-   * Initializes a new instance of DetailController class
+   * Initializes a new instance of CreatePresenter class
    * @param typeUseCase IInspectionTypeInteractor object.
    * @param groupUseCase IInspectionGroupInteractor object.
    * @param sheetUseCase IInspectionSheetInteractor object.
    */
   constructor(
-    groupUseCase: IInspectionGroupInteractor,
     typeUseCase: IInspectionTypeInteractor,
+    groupUseCase: IInspectionGroupInteractor,
     sheetUseCase: IInspectionSheetInteractor
   ) {
-    this.groupUseCase = groupUseCase;
     this.typeUseCase = typeUseCase;
+    this.groupUseCase = groupUseCase;
     this.sheetUseCase = sheetUseCase;
-  }
-
-  /** @inheritdoc */
-  async fetchDisplayData(sheetId: number): Promise<void> {
-    await this.groupUseCase.fetchInspectionGroups();
-    await this.typeUseCase.fetchInspectionTypes();
-    await this.sheetUseCase.fetchInspectionSheetById(sheetId);
   }
 }
