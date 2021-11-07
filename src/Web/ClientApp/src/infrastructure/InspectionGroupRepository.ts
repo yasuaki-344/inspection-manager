@@ -8,15 +8,20 @@ import {
 export class InspectionGroupRepository implements IInspectionGroupRepository {
   private readonly api: InspectionGroupsApiInterface;
 
+  /**
+   * Initializes a new instance of InspectionGroupRepository class.
+   */
   constructor() {
     this.api = new InspectionGroupsApi();
   }
 
+  /** @inheritdoc */
   async get(): Promise<InspectionGroup[]> {
     const res = await this.api.inspectionGroupsGet();
     return toCamelCase(res);
   }
 
+  /** @inheritdoc */
   async post(inspectionGroup: InspectionGroup): Promise<InspectionGroup> {
     const req = toSnakeCase(inspectionGroup);
     const res = await this.api.inspectionGroupsPost({
@@ -25,6 +30,7 @@ export class InspectionGroupRepository implements IInspectionGroupRepository {
     return toCamelCase(res);
   }
 
+  /** @inheritdoc */
   async put(inspectionGroup: InspectionGroup): Promise<InspectionGroup> {
     const req = toSnakeCase(inspectionGroup);
     const res = await this.api.inspectionGroupsInspectionGroupIdPut({
@@ -34,6 +40,7 @@ export class InspectionGroupRepository implements IInspectionGroupRepository {
     return toCamelCase(res);
   }
 
+  /** @inheritdoc */
   async delete(id: number): Promise<void> {
     await this.api.inspectionGroupsInspectionGroupIdDelete({
       inspectionGroupId: id,
