@@ -93,8 +93,16 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.setSheet(sheet);
   }
 
-  async removeSheet(id: number): Promise<void> {
-    await this.repository.delete(id);
+  /** @inheritdoc */
+  async removeInspectionSheet(id: number): Promise<void> {
+    await this.repository.delete(id).then(() => {
+      this.setSheets(
+        this.sheets.filter((x: InspectionSheet) => x.sheetId !== id)
+      );
+      this.setFilteredSheets(
+        this.filteredSheets.filter((x: InspectionSheet) => x.sheetId !== id)
+      );
+    });
   }
 
   setSheet(sheet: InspectionSheet): void {

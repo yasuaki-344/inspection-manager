@@ -23,7 +23,7 @@ export class InspectionSheetController implements IInspectionSheetController {
   }
 
   async removeInspectionSheet(id: number): Promise<void> {
-    await this.useCase.removeSheet(id);
+    await this.useCase.removeInspectionSheet(id);
   }
 
   setSheet(sheet: InspectionSheet): void {

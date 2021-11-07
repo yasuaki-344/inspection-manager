@@ -17,14 +17,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DetailsIcon from "@mui/icons-material/Details";
 import nameof from "ts-nameof.macro";
 import { InspectionSheet, InspectionSheetInitialState } from "../../entities";
-import {
-  IInspectionTypePresenter,
-  IHomePresenter,
-} from "../../interfaces/presenter";
-import {
-  IInspectionSheetController,
-  IHomeController,
-} from "../../interfaces/controller";
+import { IHomePresenter, IHomeController } from "../../interfaces";
 import { CancelIconButton } from "../utilities";
 import { SheetSearchMenu } from "../SheetSearchMenu";
 import { SheetDeleteConfirmationDialog } from "../dialog/SheetDeleteConfirmationDialog";
@@ -35,15 +28,6 @@ export const Home: FC = (): JSX.Element => {
   const controller: IHomeController = inject(nameof<IHomeController>());
   const presenter: IHomePresenter = inject(nameof<IHomePresenter>());
 
-  const typePresenter: IInspectionTypePresenter = inject(
-    nameof<IInspectionTypePresenter>()
-  );
-  const sheetController: IInspectionSheetController = inject(
-    nameof<IInspectionSheetController>()
-  );
-  const [inspectionSheets, setInspectionSheets] = useState<
-    Array<InspectionSheet>
-  >([]);
   const [open, setOpen] = useState(false);
   const [targetSheet, setTargetSheet] = useState<InspectionSheet>(
     InspectionSheetInitialState
@@ -106,21 +90,7 @@ export const Home: FC = (): JSX.Element => {
 
   const handleDelete = () => {
     setOpen(false);
-    sheetController
-      .removeInspectionSheet(targetSheet.sheetId)
-      .then(() => {
-        setInspectionSheets(
-          inspectionSheets.filter(
-            (x: InspectionSheet) => x.sheetId !== targetSheet.sheetId
-          )
-        );
-        // setFilteredInspectionSheets(
-        //   inspectionSheets.filter(
-        //     (x: InspectionSheet) => x.sheetId !== targetSheet.sheetId
-        //   )
-        // );
-      })
-      .catch(console.error);
+    controller.removeInspectionSheet(targetSheet.sheetId).catch(console.error);
   };
 
   /**
@@ -205,7 +175,7 @@ export const Home: FC = (): JSX.Element => {
                         {presenter.getGroupName(sheet.inspectionGroupId)}
                       </TableCell>
                       <TableCell>
-                        {typePresenter.getTypeName(sheet.inspectionTypeId)}
+                        {presenter.getTypeName(sheet.inspectionTypeId)}
                       </TableCell>
                       <TableCell padding="checkbox">
                         <Link to={`/edit/${sheet.sheetId}`}>
@@ -229,7 +199,7 @@ export const Home: FC = (): JSX.Element => {
           </TableContainer>
           <TablePagination
             component="div"
-            count={inspectionSheets.length}
+            count={presenter.inspectionSheets.length}
             page={page}
             onPageChange={handleChangePage}
             rowsPerPage={rowsPerPage}
@@ -243,7 +213,7 @@ export const Home: FC = (): JSX.Element => {
         open={open}
         sheetName={targetSheet.sheetName}
         groupName={presenter.getGroupName(targetSheet.inspectionGroupId)}
-        typeName={typePresenter.getTypeName(targetSheet.inspectionTypeId)}
+        typeName={presenter.getTypeName(targetSheet.inspectionTypeId)}
         onDeleteClick={handleDelete}
         onCancelClick={() => setOpen(false)}
       />

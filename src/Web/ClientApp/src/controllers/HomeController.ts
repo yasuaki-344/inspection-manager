@@ -51,12 +51,9 @@ export class HomeController implements IHomeController {
     }
   }
 
-  getGroupIds(keyword: string): number[] {
-    return this.groupUseCase.getIds(keyword);
-  }
-
-  getTypeIds(keyword: string): number[] {
-    return this.typeUseCase.getIds(keyword);
+  /** @inheritdoc */
+  async removeInspectionSheet(id: number): Promise<void> {
+    await this.sheetUseCase.removeInspectionSheet(id);
   }
 
   exportExcelInspectionSheet(sheet: InspectionSheet): void {

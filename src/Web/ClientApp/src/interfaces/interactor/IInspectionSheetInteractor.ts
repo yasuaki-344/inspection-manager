@@ -31,7 +31,12 @@ export interface IInspectionSheetInteractor {
   fetchInspectionSheetById(id: number): Promise<void>;
   createInspectionSheet(): Promise<void>;
   updateInspectionSheet(): Promise<void>;
-  removeSheet(id: number): Promise<void>;
+
+  /**
+   * Removes the specified inspection sheet.
+   * @param id Inspection sheet ID to be removed.
+   */
+  removeInspectionSheet(id: number): Promise<void>;
 
   setSheet(sheet: InspectionSheet): void;
   updateField(

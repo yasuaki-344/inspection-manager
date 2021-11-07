@@ -18,8 +18,12 @@ export interface IHomeController {
     sheetKeyword: string
   ): void;
 
-  getGroupIds(keyword: string): number[];
-  getTypeIds(keyword: string): number[];
+  /**
+   * Removes the specified inspection sheet.
+   * @param id Inspection sheet ID to be removed.
+   */
+  removeInspectionSheet(id: number): Promise<void>;
+
   exportExcelInspectionSheet(sheet: InspectionSheet): void;
   exportJsonInspectionSheet(sheet: InspectionSheet): void;
 }

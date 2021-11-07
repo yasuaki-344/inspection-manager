@@ -32,11 +32,11 @@ export class HomePresenter implements IHomePresenter {
     this.sheetUseCase = sheetUseCase;
   }
 
-  getGroupIds(keyword: string): number[] {
-    return this.groupUseCase.getIds(keyword);
-  }
-
   getGroupName(id: number): string | undefined {
     return this.groupUseCase.getName(id);
+  }
+
+  getTypeName(id: number): string | undefined {
+    return this.typeUseCase.getName(id);
   }
 }
