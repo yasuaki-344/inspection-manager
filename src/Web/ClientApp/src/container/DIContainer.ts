@@ -144,6 +144,14 @@ export const setUpDIContainer = () => {
     )
   );
   register(
+    nameof<IDetailPresenter>(),
+    new DetailPresenter(
+      inject(nameof<IInspectionGroupInteractor>()),
+      inject(nameof<IInspectionTypeInteractor>()),
+      inject(nameof<IInspectionSheetInteractor>())
+    )
+  );
+  register(
     nameof<IInspectionGroupPresenter>(),
     new InspectionGroupPresenter(
       inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor
@@ -165,6 +173,14 @@ export const setUpDIContainer = () => {
         nameof<IInspectionGroupInteractor>()
       ) as IInspectionGroupInteractor,
       inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
+    )
+  );
+  register(
+    nameof<IDetailController>(),
+    new DetailController(
+      inject(nameof<IInspectionGroupInteractor>()),
+      inject(nameof<IInspectionTypeInteractor>()),
+      inject(nameof<IInspectionSheetInteractor>())
     )
   );
   register(
