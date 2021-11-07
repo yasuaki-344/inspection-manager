@@ -21,11 +21,6 @@ export class InspectionSheetPresenter implements IInspectionSheetPresenter {
     this.state = useCase.sheet;
   }
 
-  async getAllInspectionSheet(): Promise<Array<InspectionSheet>> {
-    const sheets = await this.useCase.getAllInspectionSheet();
-    return sheets;
-  }
-
   getEditContent(
     isEdit: boolean,
     groups: Array<InspectionGroup>,

@@ -9,12 +9,7 @@ import {
   InspectionSheetController,
   InspectionTypeController,
 } from "../controllers";
-import {
-  InspectionItemInitialState,
-  InspectionItemReducer,
-  InspectionSheetInitialState,
-  InspectionSheetReducer,
-} from "../entities";
+import { InspectionItemInitialState, InspectionItemReducer } from "../entities";
 import {
   ChoiceTemplateRepository,
   InspectionGroupRepository,
@@ -93,10 +88,6 @@ export const setUpDIContainer = () => {
     InspectionItemReducer,
     InspectionItemInitialState
   );
-  const [inspectionSheet, sheetDispatch] = useReducer(
-    InspectionSheetReducer,
-    InspectionSheetInitialState
-  );
 
   // register repositories
   register(
@@ -130,7 +121,7 @@ export const setUpDIContainer = () => {
   );
   register(
     nameof<IInspectionSheetInteractor>(),
-    new InspectionSheetInteractor(inspectionSheet, sheetDispatch)
+    new InspectionSheetInteractor()
   );
 
   // register presenter
@@ -138,7 +129,9 @@ export const setUpDIContainer = () => {
     nameof<IHomePresenter>(),
     new HomePresenter(
       inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor,
-      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor,
+      inject(
+        nameof<IInspectionGroupInteractor>()
+      ) as IInspectionGroupInteractor,
       inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
     )
   );
@@ -168,7 +161,9 @@ export const setUpDIContainer = () => {
     nameof<IHomeController>(),
     new HomeController(
       inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor,
-      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor,
+      inject(
+        nameof<IInspectionGroupInteractor>()
+      ) as IInspectionGroupInteractor,
       inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
     )
   );

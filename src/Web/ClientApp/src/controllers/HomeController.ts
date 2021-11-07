@@ -22,16 +22,18 @@ export class HomeController implements IHomeController {
   constructor(
     typeUseCase: IInspectionTypeInteractor,
     groupUseCase: IInspectionGroupInteractor,
-    sheetUseCase: IInspectionSheetInteractor,
+    sheetUseCase: IInspectionSheetInteractor
   ) {
     this.typeUseCase = typeUseCase;
     this.groupUseCase = groupUseCase;
     this.sheetUseCase = sheetUseCase;
   }
 
+  /** @inheritdoc */
   async fetchDisplayData(): Promise<void> {
     await this.typeUseCase.fetchInspectionTypes();
     await this.groupUseCase.fetchInspectionGroups();
+    await this.sheetUseCase.fetchAllInspectionSheets();
   }
 
   getGroupIds(keyword: string): number[] {

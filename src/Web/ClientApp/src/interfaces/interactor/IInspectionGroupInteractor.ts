@@ -3,7 +3,6 @@ import { InspectionGroup } from "../../entities";
 export interface IInspectionGroupInteractor {
   groups: Array<InspectionGroup>;
   target: InspectionGroup;
-
   fetchInspectionGroups(): Promise<void>;
   createEditItem(): void;
   setEditItem(id: number): void;

@@ -21,7 +21,7 @@ export class HomePresenter implements IHomePresenter {
   constructor(
     typeUseCase: IInspectionTypeInteractor,
     groupUseCase: IInspectionGroupInteractor,
-    sheetUseCase: IInspectionSheetInteractor,
+    sheetUseCase: IInspectionSheetInteractor
   ) {
     this.typeUseCase = typeUseCase;
     this.groupUseCase = groupUseCase;

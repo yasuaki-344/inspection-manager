@@ -2,8 +2,14 @@ import React from "react";
 import { InspectionSheet, InspectionItem } from "../../entities";
 
 export interface IInspectionSheetInteractor {
+  sheets: InspectionSheet[];
   sheet: InspectionSheet;
-  getAllInspectionSheet(): Promise<Array<InspectionSheet>>;
+
+  /**
+   * Gets all inspection sheets from database.
+   */
+  fetchAllInspectionSheets(): Promise<void>;
+
   fetchInspectionSheetById(id: number): Promise<void>;
   createInspectionSheet(): Promise<void>;
   updateInspectionSheet(): Promise<void>;

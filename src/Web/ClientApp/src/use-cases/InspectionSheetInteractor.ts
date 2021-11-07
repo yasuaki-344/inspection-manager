@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Dispatch, SetStateAction, useReducer, useState } from "react";
 import {
   InspectionItem,
   InspectionSheet,
   InspectionSheetAction,
   InspectionSheetInitialState,
+  InspectionSheetReducer,
   SHEET_ACTION_TYPE,
 } from "../entities";
 import { InspectionSheetRepository } from "../infrastructure";
@@ -13,24 +14,37 @@ import {
 } from "../interfaces";
 
 export class InspectionSheetInteractor implements IInspectionSheetInteractor {
+  readonly sheets: InspectionSheet[];
+
+  private readonly setSheets: Dispatch<SetStateAction<InspectionSheet[]>>;
+
   readonly sheet: InspectionSheet;
 
-  private readonly dispatch: React.Dispatch<InspectionSheetAction>;
+  private readonly dispatch: Dispatch<InspectionSheetAction>;
 
   private readonly repository: IInspectionSheetRepository;
 
-  constructor(
-    state: InspectionSheet,
-    dispatch: React.Dispatch<InspectionSheetAction>
-  ) {
-    this.sheet = state;
-    this.dispatch = dispatch;
+  /**
+   * Initializes a new instance of InspectionSheetInteractor.
+   */
+  constructor() {
+    const [sheets, setSheets] = useState<InspectionSheet[]>([]);
+    this.sheets = sheets;
+    this.setSheets = setSheets;
+    const [sheet, sheetDispatch] = useReducer(
+      InspectionSheetReducer,
+      InspectionSheetInitialState
+    );
+    this.sheet = sheet;
+    this.dispatch = sheetDispatch;
     this.repository = new InspectionSheetRepository();
   }
 
-  async getAllInspectionSheet(): Promise<Array<InspectionSheet>> {
-    const inspectionSheets = await this.repository.get();
-    return inspectionSheets;
+  /** @inheritdoc */
+  async fetchAllInspectionSheets(): Promise<void> {
+    await this.repository.get().then((res: InspectionSheet[]) => {
+      this.setSheets(res);
+    });
   }
 
   async fetchInspectionSheetById(id: number): Promise<void> {

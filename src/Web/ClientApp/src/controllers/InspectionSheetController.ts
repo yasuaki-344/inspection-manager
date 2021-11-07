@@ -10,11 +10,6 @@ export class InspectionSheetController implements IInspectionSheetController {
     this.useCase = useCase;
   }
 
-  async getAllInspectionSheet(): Promise<Array<InspectionSheet>> {
-    const res = await this.useCase.getAllInspectionSheet();
-    return res;
-  }
-
   async getInspectionSheetById(id: number): Promise<void> {
     await this.useCase.fetchInspectionSheetById(id);
   }
