@@ -138,7 +138,8 @@ export const setUpDIContainer = () => {
     nameof<IHomePresenter>(),
     new HomePresenter(
       inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor,
-      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor
+      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor,
+      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
     )
   );
   register(
@@ -167,7 +168,8 @@ export const setUpDIContainer = () => {
     nameof<IHomeController>(),
     new HomeController(
       inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor,
-      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor
+      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor,
+      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
     )
   );
   register(
