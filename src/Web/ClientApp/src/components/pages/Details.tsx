@@ -10,6 +10,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  CircularProgress,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -88,14 +89,17 @@ export const Details: FC = ({ match }: any): JSX.Element => {
   const presenter: IDetailPresenter = inject(nameof<IDetailPresenter>());
   const controller: IDetailController = inject(nameof<IDetailController>());
 
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    controller.fetchDisplayData(sheetId);
+    controller.fetchDisplayData(sheetId).then(() => setLoading(false));
   }, [sheetId]);
 
-  return (
-    <div>
-      <h1>詳細ページ</h1>
-      <TopPageLink />
+  const displayData = loading ? (
+    <Box sx={{ display: "flex" }}>
+      <CircularProgress />
+    </Box>
+  ): (
+    <>
       {presenter.sheetInformationList()}
       <TableContainer component={Paper}>
         <Table>
@@ -113,6 +117,14 @@ export const Details: FC = ({ match }: any): JSX.Element => {
           </TableBody>
         </Table>
       </TableContainer>
+    </>
+  )
+
+  return (
+    <div>
+      <h1>詳細ページ</h1>
+      <TopPageLink />
+      {displayData}
     </div>
   );
 };

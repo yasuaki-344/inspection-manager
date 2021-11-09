@@ -30,6 +30,7 @@ export class DetailPresenter implements IDetailPresenter {
     this.sheetUseCase = sheetUseCase;
   }
 
+  /** @inheritdoc */
   sheetInformationList(): JSX.Element {
     const { sheetId, sheetName, inspectionGroupId, inspectionTypeId } =
       this.sheetUseCase.sheet;
