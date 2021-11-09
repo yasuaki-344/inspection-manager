@@ -124,7 +124,7 @@ export const Home: FC = (): JSX.Element => {
   const table = loading ? (
     <Grid
       container
-      spacing={1}
+      spacing={0}
       direction="column"
       alignItems="center"
       justifyContent="center"

@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
-import { Button, Grid } from "@mui/material";
+import { Button, CircularProgress, Grid } from "@mui/material";
+import { Box } from "@mui/system";
 import nameof from "ts-nameof.macro";
 import { InspectionSheetForm } from "./InspectionSheetForm";
 import {
@@ -35,6 +36,8 @@ export const Create: FC = (): JSX.Element => {
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>(
     []
   );
+  /* eslint-disable-next-line */
+  const [loading, setLoading] = useState(true);
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)
   );
@@ -82,6 +85,48 @@ export const Create: FC = (): JSX.Element => {
       });
   };
 
+  const sheetForm = loading ? (
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Grid item xs={12}>
+        <Box sx={{ display: "flex" }}>
+          <CircularProgress />
+        </Box>
+      </Grid>
+    </Grid>
+  ) : (
+    <>
+      <Grid item xs={12}>
+        <Button
+          variant="contained"
+          color="inherit"
+          onClick={() => setOpen(true)}
+        >
+          既存のデータをコピー
+        </Button>
+      </Grid>
+      <Grid item xs={12}>
+        <form data-testid="form" onSubmit={handleSubmit}>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <InspectionSheetForm isEdit={false} />
+            </Grid>
+            <Grid item xs={12}>
+              <Button type="submit" variant="contained" color="primary">
+                新規作成
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Grid>
+    </>
+  );
+
   return (
     <>
       <Grid container spacing={1}>
@@ -91,29 +136,7 @@ export const Create: FC = (): JSX.Element => {
         <Grid item xs={12}>
           <TopPageLink />
         </Grid>
-        <Grid item xs={12}>
-          <Button
-            variant="contained"
-            color="inherit"
-            onClick={() => setOpen(true)}
-          >
-            既存のデータをコピー
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          <form data-testid="form" onSubmit={handleSubmit}>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                <InspectionSheetForm isEdit={false} />
-              </Grid>
-              <Grid item xs={12}>
-                <Button type="submit" variant="contained" color="primary">
-                  新規作成
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-        </Grid>
+        {sheetForm}
       </Grid>
       <Notification
         open={notification.state.isOpen}
