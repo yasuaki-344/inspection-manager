@@ -12,7 +12,9 @@ import {
   TableRow,
   Paper,
   TablePagination,
+  CircularProgress,
 } from "@mui/material";
+import { Box } from "@mui/system";
 import EditIcon from "@mui/icons-material/Edit";
 import DetailsIcon from "@mui/icons-material/Details";
 import nameof from "ts-nameof.macro";
@@ -37,11 +39,12 @@ export const Home: FC = (): JSX.Element => {
     inspectionGroup: "",
     inspectionType: "",
   });
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    controller.fetchDisplayData().then().catch(console.error);
+    controller.fetchDisplayData().then(() => { setLoading(false) }).catch(console.error);
   }, []);
 
   /**
@@ -113,9 +116,94 @@ export const Home: FC = (): JSX.Element => {
     setPage(0);
   };
 
+  const table = loading ? (
+    <Box sx={{ display: "flex" }}>
+      <CircularProgress />
+    </Box>
+  ) : (
+    <>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>ダウンロード</TableCell>
+              <TableCell>点検シート名</TableCell>
+              <TableCell>点検グループ</TableCell>
+              <TableCell>点検種別</TableCell>
+              <TableCell>&nbsp;</TableCell>
+              <TableCell>&nbsp;</TableCell>
+              <TableCell>&nbsp;</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {presenter.inspectionSheets
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((sheet: InspectionSheet) => (
+                <TableRow key={sheet.sheetId}>
+                  <TableCell padding="checkbox">
+                    <ButtonGroup
+                      variant="outlined"
+                      aria-label="outlined button group"
+                    >
+                      <Button
+                        onClick={() =>
+                          controller.exportExcelInspectionSheet(sheet)
+                        }
+                      >
+                        Excel
+                      </Button>
+                      <Button
+                        onClick={() =>
+                          controller.exportJsonInspectionSheet(sheet)
+                        }
+                      >
+                        JSON
+                      </Button>
+                    </ButtonGroup>
+                  </TableCell>
+                  <TableCell>{sheet.sheetName}</TableCell>
+                  <TableCell>
+                    {presenter.getGroupName(sheet.inspectionGroupId)}
+                  </TableCell>
+                  <TableCell>
+                    {presenter.getTypeName(sheet.inspectionTypeId)}
+                  </TableCell>
+                  <TableCell padding="checkbox">
+                    <Link to={`/edit/${sheet.sheetId}`}>
+                      <EditIcon />
+                    </Link>
+                  </TableCell>
+                  <TableCell padding="checkbox">
+                    <Link to={`/details/${sheet.sheetId}`}>
+                      <DetailsIcon />
+                    </Link>
+                  </TableCell>
+                  <TableCell padding="checkbox">
+                    <CancelIconButton
+                      onClick={() => handleClickOpen(sheet)}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        component="div"
+        count={presenter.inspectionSheets.length}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        rowsPerPageOptions={[10, 25, 50]}
+        labelRowsPerPage="1ページあたりの件数:"
+      />
+    </>
+  );
+
   return (
     <div>
-      <Grid container spacing={1}>
+      <Grid container spacing={1} direction="column" alignItems="center" justifyContent="center">
         <Grid item xs={12}>
           <h1>点検シート一覧</h1>
         </Grid>
@@ -131,82 +219,7 @@ export const Home: FC = (): JSX.Element => {
           />
         </Grid>
         <Grid item xs={12}>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>ダウンロード</TableCell>
-                  <TableCell>点検シート名</TableCell>
-                  <TableCell>点検グループ</TableCell>
-                  <TableCell>点検種別</TableCell>
-                  <TableCell>&nbsp;</TableCell>
-                  <TableCell>&nbsp;</TableCell>
-                  <TableCell>&nbsp;</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {presenter.inspectionSheets
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((sheet: InspectionSheet) => (
-                    <TableRow key={sheet.sheetId}>
-                      <TableCell padding="checkbox">
-                        <ButtonGroup
-                          variant="outlined"
-                          aria-label="outlined button group"
-                        >
-                          <Button
-                            onClick={() =>
-                              controller.exportExcelInspectionSheet(sheet)
-                            }
-                          >
-                            Excel
-                          </Button>
-                          <Button
-                            onClick={() =>
-                              controller.exportJsonInspectionSheet(sheet)
-                            }
-                          >
-                            JSON
-                          </Button>
-                        </ButtonGroup>
-                      </TableCell>
-                      <TableCell>{sheet.sheetName}</TableCell>
-                      <TableCell>
-                        {presenter.getGroupName(sheet.inspectionGroupId)}
-                      </TableCell>
-                      <TableCell>
-                        {presenter.getTypeName(sheet.inspectionTypeId)}
-                      </TableCell>
-                      <TableCell padding="checkbox">
-                        <Link to={`/edit/${sheet.sheetId}`}>
-                          <EditIcon />
-                        </Link>
-                      </TableCell>
-                      <TableCell padding="checkbox">
-                        <Link to={`/details/${sheet.sheetId}`}>
-                          <DetailsIcon />
-                        </Link>
-                      </TableCell>
-                      <TableCell padding="checkbox">
-                        <CancelIconButton
-                          onClick={() => handleClickOpen(sheet)}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            component="div"
-            count={presenter.inspectionSheets.length}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            rowsPerPageOptions={[10, 25, 50]}
-            labelRowsPerPage="1ページあたりの件数:"
-          />
+          {table}
         </Grid>
       </Grid>
       <SheetDeleteConfirmationDialog
