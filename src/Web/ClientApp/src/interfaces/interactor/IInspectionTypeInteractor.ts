@@ -4,7 +4,10 @@ export interface IInspectionTypeInteractor {
   types: InspectionType[];
   target: InspectionType;
 
-  fetchInspectionTypes(): Promise<void>;
+  /**
+   * Gets all inspection types from database.
+   */
+  fetchInspectionTypes(): Promise<InspectionType[]>;
   createEditItem(): void;
   setEditItem(id: number): void;
   editType(name: string, value: string): void;

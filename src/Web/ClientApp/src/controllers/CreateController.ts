@@ -1,4 +1,9 @@
 import {
+  InspectionGroup,
+  InspectionSheetInitialState,
+  InspectionType,
+} from "../entities";
+import {
   ICreateController,
   IInspectionGroupInteractor,
   IInspectionSheetInteractor,
@@ -26,5 +31,24 @@ export class CreateController implements ICreateController {
     this.typeUseCase = typeUseCase;
     this.groupUseCase = groupUseCase;
     this.sheetUseCase = sheetUseCase;
+  }
+
+  /** @inheritdoc */
+  initializeInspectionSheet(): void {
+    this.sheetUseCase.setSheet(InspectionSheetInitialState);
+  }
+
+  /** @inheritdoc */
+  async fetchInspectionMasterData(): Promise<void> {
+    await this.groupUseCase
+      .fetchInspectionGroups()
+      .then((groups: InspectionGroup[]) => {
+        this.sheetUseCase.setGroup(groups[0].inspectionGroupId);
+      });
+    await this.typeUseCase
+      .fetchInspectionTypes()
+      .then((types: InspectionType[]) => {
+        this.sheetUseCase.setType(types[0].inspectionTypeId);
+      });
   }
 }

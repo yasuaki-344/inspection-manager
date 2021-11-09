@@ -137,14 +137,18 @@ export const setUpDIContainer = () => {
     nameof<ICreatePresenter>(),
     new CreatePresenter(
       inject(nameof<IInspectionTypeInteractor>()) as InspectionTypeInteractor,
-      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor,
+      inject(
+        nameof<IInspectionGroupInteractor>()
+      ) as IInspectionGroupInteractor,
       inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
     )
   );
   register(
     nameof<IDetailPresenter>(),
     new DetailPresenter(
-      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor,
+      inject(
+        nameof<IInspectionGroupInteractor>()
+      ) as IInspectionGroupInteractor,
       inject(nameof<IInspectionTypeInteractor>()) as InspectionTypeInteractor,
       inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
     )
@@ -153,7 +157,9 @@ export const setUpDIContainer = () => {
     nameof<IEditPresenter>(),
     new EditPresenter(
       inject(nameof<IInspectionTypeInteractor>()) as InspectionTypeInteractor,
-      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor,
+      inject(
+        nameof<IInspectionGroupInteractor>()
+      ) as IInspectionGroupInteractor,
       inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
     )
   );
@@ -185,14 +191,18 @@ export const setUpDIContainer = () => {
     nameof<ICreateController>(),
     new CreateController(
       inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor,
-      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor,
+      inject(
+        nameof<IInspectionGroupInteractor>()
+      ) as IInspectionGroupInteractor,
       inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
     )
   );
   register(
     nameof<IDetailController>(),
     new DetailController(
-      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor,
+      inject(
+        nameof<IInspectionGroupInteractor>()
+      ) as IInspectionGroupInteractor,
       inject(nameof<IInspectionTypeInteractor>()) as InspectionTypeInteractor,
       inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
     )
@@ -201,7 +211,9 @@ export const setUpDIContainer = () => {
     nameof<IEditController>(),
     new EditController(
       inject(nameof<IInspectionTypeInteractor>()) as InspectionTypeInteractor,
-      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor,
+      inject(
+        nameof<IInspectionGroupInteractor>()
+      ) as IInspectionGroupInteractor,
       inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
     )
   );

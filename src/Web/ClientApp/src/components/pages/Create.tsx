@@ -10,7 +10,7 @@ import {
   NotificationStateInteractor,
 } from "../utilities";
 import { OriginalSheetSelectDialog } from "../dialog";
-import { InspectionSheet, InspectionSheetInitialState } from "../../entities";
+import { InspectionSheet } from "../../entities";
 import {
   ICreateController,
   ICreatePresenter,
@@ -21,7 +21,6 @@ import { useDIContext } from "../../container";
 
 export const Create: FC = (): JSX.Element => {
   const inject = useDIContext();
-  /* eslint-disable-next-line */
   const controller: ICreateController = inject(nameof<ICreateController>());
   /* eslint-disable-next-line */
   const presenter: ICreatePresenter = inject(nameof<ICreatePresenter>());
@@ -36,24 +35,20 @@ export const Create: FC = (): JSX.Element => {
   const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>(
     []
   );
-  /* eslint-disable-next-line */
   const [loading, setLoading] = useState(true);
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)
   );
 
   useEffect(() => {
-    sheetController.setSheet(InspectionSheetInitialState);
-    // sheetController
-    //   .getAllInspectionSheet()
-    //   .then((json: InspectionSheet[]) => {
-    //     console.log(json);
-    //     setInspectionSheets(json);
-    //   })
-    //   .catch((error) => {
-    //     notification.setMessageState("error", "データの取得に失敗しました");
-    //     console.error(error);
-    //   });
+    controller.initializeInspectionSheet();
+    controller
+      .fetchInspectionMasterData()
+      .then(() => setLoading(false))
+      .catch((error) => {
+        notification.setMessageState("error", "データの取得に失敗しました");
+        console.error(error);
+      });
   }, []);
 
   /**

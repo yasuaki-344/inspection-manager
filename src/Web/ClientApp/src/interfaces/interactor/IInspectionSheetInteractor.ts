@@ -38,7 +38,24 @@ export interface IInspectionSheetInteractor {
    */
   removeInspectionSheet(id: number): Promise<void>;
 
+  /**
+   * Sets inspection sheet by using the specified data.
+   * @param sheet Inspection sheet data to set.
+   */
   setSheet(sheet: InspectionSheet): void;
+
+  /**
+   * Sets inspection group ID.
+   * @param groupId Group ID to set.
+   */
+  setGroup(groupId: number): void;
+
+  /**
+   * Sets inspection type ID.
+   * @param typeId Group ID to set.
+   */
+  setType(typeId: number): void;
+
   updateField(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void;

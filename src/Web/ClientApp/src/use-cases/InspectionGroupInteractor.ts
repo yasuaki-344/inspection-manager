@@ -29,13 +29,13 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
     this.repository = repository;
   }
 
-  /**
-   * Fetch all inspection groups from database.
-   */
-  async fetchInspectionGroups(): Promise<void> {
-    await this.repository.get().then((res) => {
+  /** @inheritdoc */
+  async fetchInspectionGroups(): Promise<InspectionGroup[]> {
+    const groups = await this.repository.get().then((res) => {
       this.setGroups(res);
+      return res;
     });
+    return groups;
   }
 
   createEditItem(): void {

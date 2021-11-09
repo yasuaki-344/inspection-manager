@@ -74,8 +74,38 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   }
 
   /** @inheritdoc */
+  setSheet(sheet: InspectionSheet): void {
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.SET_SHEET,
+      payload: { sheet },
+    });
+  }
+
+  /** @inheritdoc */
   resetSearchedInspectionSheets(): void {
     this.setFilteredSheets(this.sheets);
+  }
+
+  /** @inheritdoc */
+  setGroup(groupId: number): void {
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.UPDATE_NUMERIC_FIELD,
+      payload: {
+        name: "inspectionGroupId",
+        numericValue: groupId,
+      },
+    });
+  }
+
+  /** @inheritdoc */
+  setType(typeId: number): void {
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.UPDATE_NUMERIC_FIELD,
+      payload: {
+        name: "inspectionTypeId",
+        numericValue: typeId,
+      },
+    });
   }
 
   async fetchInspectionSheetById(id: number): Promise<void> {
@@ -105,13 +135,6 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     });
   }
 
-  setSheet(sheet: InspectionSheet): void {
-    this.dispatch({
-      type: SHEET_ACTION_TYPE.SET_SHEET,
-      payload: { sheet },
-    });
-  }
-
   updateField(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void {
@@ -127,6 +150,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   addEquipment(): void {
     this.dispatch({
       type: SHEET_ACTION_TYPE.ADD_EQUIPMENT,
+      payload: {},
     });
   }
 

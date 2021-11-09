@@ -29,10 +29,13 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
     this.repository = repository;
   }
 
-  async fetchInspectionTypes(): Promise<void> {
-    await this.repository.get().then((res) => {
+  /** @inheritdoc */
+  async fetchInspectionTypes(): Promise<InspectionType[]> {
+    const types = await this.repository.get().then((res) => {
       this.setTypes(res);
+      return res;
     });
+    return types;
   }
 
   createEditItem(): void {
