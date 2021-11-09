@@ -44,7 +44,12 @@ export const Home: FC = (): JSX.Element => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    controller.fetchDisplayData().then(() => { setLoading(false) }).catch(console.error);
+    controller
+      .fetchDisplayData()
+      .then(() => {
+        setLoading(false);
+      })
+      .catch(console.error);
   }, []);
 
   /**
@@ -117,9 +122,19 @@ export const Home: FC = (): JSX.Element => {
   };
 
   const table = loading ? (
-    <Box sx={{ display: "flex" }}>
-      <CircularProgress />
-    </Box>
+    <Grid
+      container
+      spacing={1}
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Grid item xs={12}>
+        <Box sx={{ display: "flex" }}>
+          <CircularProgress />
+        </Box>
+      </Grid>
+    </Grid>
   ) : (
     <>
       <TableContainer component={Paper}>
@@ -179,9 +194,7 @@ export const Home: FC = (): JSX.Element => {
                     </Link>
                   </TableCell>
                   <TableCell padding="checkbox">
-                    <CancelIconButton
-                      onClick={() => handleClickOpen(sheet)}
-                    />
+                    <CancelIconButton onClick={() => handleClickOpen(sheet)} />
                   </TableCell>
                 </TableRow>
               ))}
@@ -203,7 +216,7 @@ export const Home: FC = (): JSX.Element => {
 
   return (
     <div>
-      <Grid container spacing={1} direction="column" alignItems="center" justifyContent="center">
+      <Grid container spacing={1}>
         <Grid item xs={12}>
           <h1>点検シート一覧</h1>
         </Grid>

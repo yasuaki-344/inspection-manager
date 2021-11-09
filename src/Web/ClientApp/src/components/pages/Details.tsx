@@ -98,7 +98,7 @@ export const Details: FC = ({ match }: any): JSX.Element => {
     <Box sx={{ display: "flex" }}>
       <CircularProgress />
     </Box>
-  ): (
+  ) : (
     <>
       {presenter.sheetInformationList()}
       <TableContainer component={Paper}>
@@ -118,7 +118,7 @@ export const Details: FC = ({ match }: any): JSX.Element => {
         </Table>
       </TableContainer>
     </>
-  )
+  );
 
   return (
     <div>
