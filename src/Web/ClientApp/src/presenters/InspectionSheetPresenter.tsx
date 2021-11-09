@@ -63,6 +63,11 @@ export class InspectionSheetPresenter implements IInspectionSheetPresenter {
             name="sheetName"
             value={this.useCase.sheet.sheetName}
             onChange={(e) => this.useCase.updateField(e)}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+              }
+            }}
           />
         </Grid>
         <Grid item xs={12}>

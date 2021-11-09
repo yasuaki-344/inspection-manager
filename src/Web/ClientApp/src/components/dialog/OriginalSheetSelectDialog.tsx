@@ -19,7 +19,7 @@ import { DialogTitleDesign } from "../stylesheets";
 
 interface OriginalSheetSelectDialogProp {
   open: boolean;
-  inspectionSheets: Array<InspectionSheet>;
+  inspectionSheets: InspectionSheet[];
   onSelectClick: (sheetId: number) => void;
   onCancelClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }

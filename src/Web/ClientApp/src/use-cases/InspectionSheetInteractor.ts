@@ -58,6 +58,13 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   }
 
   /** @inheritdoc */
+  async fetchInspectionSheetById(id: number): Promise<void> {
+    await this.repository.getById(id).then((res: InspectionSheet) => {
+      this.setSheet(res);
+    });
+  }
+
+  /** @inheritdoc */
   searchInspectionSheet(
     groupIds: number[],
     typeIds: number[],
@@ -108,14 +115,11 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     });
   }
 
-  async fetchInspectionSheetById(id: number): Promise<void> {
-    const sheet = await this.repository.getById(id);
-    this.setSheet(sheet);
-  }
-
+  /** @inheritdoc */
   async createInspectionSheet(): Promise<void> {
-    await this.repository.post(this.sheet);
-    this.setSheet(InspectionSheetInitialState);
+    await this.repository.post(this.sheet).then(() => {
+      this.setSheet(InspectionSheetInitialState);
+    });
   }
 
   async updateInspectionSheet(): Promise<void> {

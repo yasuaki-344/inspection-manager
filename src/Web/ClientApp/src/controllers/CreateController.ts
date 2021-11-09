@@ -39,6 +39,16 @@ export class CreateController implements ICreateController {
   }
 
   /** @inheritdoc */
+  async fetchSelectionSheets(): Promise<void> {
+    await this.sheetUseCase.fetchAllInspectionSheets();
+  }
+
+  /** @inheritdoc */
+  async fetchInspectionSheet(id: number): Promise<void> {
+    await this.sheetUseCase.fetchInspectionSheetById(id);
+  }
+
+  /** @inheritdoc */
   async fetchInspectionMasterData(): Promise<void> {
     await this.groupUseCase
       .fetchInspectionGroups()
@@ -50,5 +60,10 @@ export class CreateController implements ICreateController {
       .then((types: InspectionType[]) => {
         this.sheetUseCase.setType(types[0].inspectionTypeId);
       });
+  }
+
+  /** @inheritdoc */
+  async createInspectionSheet(): Promise<void> {
+    await this.sheetUseCase.createInspectionSheet();
   }
 }

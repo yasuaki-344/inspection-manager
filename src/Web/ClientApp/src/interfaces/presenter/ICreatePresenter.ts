@@ -1,1 +1,5 @@
-export interface ICreatePresenter {}
+import { InspectionSheet } from "../../entities";
+
+export interface ICreatePresenter {
+  selectionSheets: InspectionSheet[]
+}

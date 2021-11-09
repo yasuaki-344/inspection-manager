@@ -12,6 +12,12 @@ export interface IInspectionSheetInteractor {
   fetchAllInspectionSheets(): Promise<void>;
 
   /**
+   * Gets the specified inspection sheets from database.
+   * @param id InspectionSheet ID to get.
+   */
+  fetchInspectionSheetById(id: number): Promise<void>;
+
+  /**
    * Filters inspection sheet by using the specified group ID, type ID, and sheet name.
    * @param groupIds Inspection group ID to be filtered.
    * @param typeIds Inspection type ID to be filtered.
@@ -28,7 +34,6 @@ export interface IInspectionSheetInteractor {
    */
   resetSearchedInspectionSheets(): void;
 
-  fetchInspectionSheetById(id: number): Promise<void>;
   createInspectionSheet(): Promise<void>;
   updateInspectionSheet(): Promise<void>;
 

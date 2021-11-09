@@ -10,31 +10,15 @@ import {
   NotificationStateInteractor,
 } from "../utilities";
 import { OriginalSheetSelectDialog } from "../dialog";
-import { InspectionSheet } from "../../entities";
-import {
-  ICreateController,
-  ICreatePresenter,
-  IInspectionSheetController,
-  IInspectionSheetPresenter,
-} from "../../interfaces";
+import { ICreateController, ICreatePresenter } from "../../interfaces";
 import { useDIContext } from "../../container";
 
 export const Create: FC = (): JSX.Element => {
   const inject = useDIContext();
   const controller: ICreateController = inject(nameof<ICreateController>());
-  /* eslint-disable-next-line */
   const presenter: ICreatePresenter = inject(nameof<ICreatePresenter>());
-  const sheetPresenter: IInspectionSheetPresenter = inject(
-    nameof<IInspectionSheetPresenter>()
-  );
-  const sheetController: IInspectionSheetController = inject(
-    nameof<IInspectionSheetController>()
-  );
+
   const [open, setOpen] = useState(false);
-  /* eslint-disable-next-line */
-  const [inspectionSheets, setInspectionSheets] = useState<InspectionSheet[]>(
-    []
-  );
   const [loading, setLoading] = useState(true);
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)
@@ -51,12 +35,18 @@ export const Create: FC = (): JSX.Element => {
       });
   }, []);
 
+  const handleSheetSelectionDialog = () => {
+    controller.fetchSelectionSheets().then(() => {
+      setOpen(true);
+    });
+  };
+
   /**
    * Set the specified inspection sheet.
    * @param sheetId Sheet ID of inspection sheet to set.
    */
   const handleSelectSheet = (sheetId: number) => {
-    sheetController.getInspectionSheetById(sheetId).catch((error) => {
+    controller.fetchInspectionSheet(sheetId).catch((error) => {
       notification.setMessageState(
         "error",
         `データの取得に失敗しました (ID:${sheetId})`
@@ -68,8 +58,7 @@ export const Create: FC = (): JSX.Element => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.debug(sheetPresenter);
-    sheetController
+    controller
       .createInspectionSheet()
       .then(() => {
         notification.setMessageState("success", "登録に成功しました");
@@ -100,7 +89,7 @@ export const Create: FC = (): JSX.Element => {
         <Button
           variant="contained"
           color="inherit"
-          onClick={() => setOpen(true)}
+          onClick={() => handleSheetSelectionDialog()}
         >
           既存のデータをコピー
         </Button>
@@ -143,7 +132,7 @@ export const Create: FC = (): JSX.Element => {
       />
       <OriginalSheetSelectDialog
         open={open}
-        inspectionSheets={inspectionSheets}
+        inspectionSheets={presenter.selectionSheets}
         onSelectClick={handleSelectSheet}
         onCancelClick={() => setOpen(false)}
       />

@@ -1,3 +1,4 @@
+import { InspectionSheet } from "../entities";
 import {
   ICreatePresenter,
   IInspectionGroupInteractor,
@@ -6,6 +7,8 @@ import {
 } from "../interfaces";
 
 export class CreatePresenter implements ICreatePresenter {
+  readonly selectionSheets: InspectionSheet[]
+
   private readonly typeUseCase: IInspectionTypeInteractor;
 
   private readonly groupUseCase: IInspectionGroupInteractor;
@@ -23,6 +26,7 @@ export class CreatePresenter implements ICreatePresenter {
     groupUseCase: IInspectionGroupInteractor,
     sheetUseCase: IInspectionSheetInteractor
   ) {
+    this.selectionSheets = sheetUseCase.sheets;
     this.typeUseCase = typeUseCase;
     this.groupUseCase = groupUseCase;
     this.sheetUseCase = sheetUseCase;
