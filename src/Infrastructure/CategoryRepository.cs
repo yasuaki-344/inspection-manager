@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Entities;
 using InspectionManager.ApplicationCore.Interfaces;
@@ -44,7 +45,7 @@ namespace InspectionManager.Infrastructure
             if (_context.InspectionGroups != null)
             {
                 return _context.InspectionGroups
-                    .Select(x => _mapper.Map<InspectionGroupDto>(x))
+                    .ProjectTo<InspectionGroupDto>(_mapper.ConfigurationProvider)
                     .ToList();
             }
             else
@@ -58,15 +59,11 @@ namespace InspectionManager.Infrastructure
         {
             if (_context.InspectionGroups != null)
             {
-                var entity = _context.InspectionGroups.Single(x => x.InspectionGroupId == id);
-                if (entity != null)
-                {
-                    return _mapper.Map<InspectionGroupDto>(entity);
-                }
-                else
-                {
-                    return null;
-                }
+                var dto = _context.InspectionGroups
+                    .Where(x => x.InspectionGroupId == id)
+                    .ProjectTo<InspectionGroupDto>(_mapper.ConfigurationProvider)
+                    .Single();
+                return dto;
             }
             else
             {
@@ -150,7 +147,7 @@ namespace InspectionManager.Infrastructure
             if (_context.InspectionTypes != null)
             {
                 return _context.InspectionTypes
-                    .Select(x => _mapper.Map<InspectionTypeDto>(x))
+                    .ProjectTo<InspectionTypeDto>(_mapper.ConfigurationProvider)
                     .ToList();
             }
             else
@@ -164,15 +161,11 @@ namespace InspectionManager.Infrastructure
         {
             if (_context.InspectionTypes != null)
             {
-                var entity = _context.InspectionTypes.Single(x => x.InspectionTypeId == id);
-                if (entity != null)
-                {
-                    return _mapper.Map<InspectionTypeDto>(entity);
-                }
-                else
-                {
-                    return null;
-                }
+                var dto = _context.InspectionTypes
+                    .Where(x => x.InspectionTypeId == id)
+                    .ProjectTo<InspectionTypeDto>(_mapper.ConfigurationProvider)
+                    .Single();
+                return dto;
             }
             else
             {
@@ -257,13 +250,7 @@ namespace InspectionManager.Infrastructure
             if (_context.ChoiceTemplates != null)
             {
                 var templates = _context.ChoiceTemplates
-                    .Select(x => new ChoiceTemplateDto
-                    {
-                        ChoiceTemplateId = x.ChoiceTemplateId,
-                        Choices = x.Choices.Select(y =>
-                            _mapper.Map<OptionDto>(y)
-                        ).ToList()
-                    })
+                    .ProjectTo<ChoiceTemplateDto>(_mapper.ConfigurationProvider)
                     .ToList();
                 return templates;
             }
@@ -280,8 +267,8 @@ namespace InspectionManager.Infrastructure
             {
                 return _context.ChoiceTemplates
                     .Where(x => x.ChoiceTemplateId == id)
-                    .Select(x => _mapper.Map<ChoiceTemplateDto>(x))
-                    .First();
+                    .ProjectTo<ChoiceTemplateDto>(_mapper.ConfigurationProvider)
+                    .Single();
             }
             else
             {
