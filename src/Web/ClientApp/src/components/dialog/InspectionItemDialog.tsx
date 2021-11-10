@@ -1,11 +1,11 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import nameof from "ts-nameof.macro";
-import { DIContainerContext } from "../../App";
 import { ChoiceSetSelectDialog } from "./ChoiceSetSelectDialog";
 import { OkCancelDialogActions } from "../utilities";
 import { DialogTitleDesign } from "../stylesheets";
 import { IInspectionItemPresenter } from "../../interfaces/presenter";
+import { useDIContext } from "../../container";
 
 interface InspectionDialogProps {
   open: boolean;
@@ -16,8 +16,8 @@ interface InspectionDialogProps {
 export const InspectionItemDialog = (
   props: InspectionDialogProps
 ): JSX.Element => {
-  const container = useContext(DIContainerContext);
-  const itemPresenter: IInspectionItemPresenter = container.inject(
+  const inject = useDIContext();
+  const itemPresenter: IInspectionItemPresenter = inject(
     nameof<IInspectionItemPresenter>()
   );
   const [open, setOpen] = useState(false);

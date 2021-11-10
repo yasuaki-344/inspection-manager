@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   IChoiceTemplateInteractor,
   IChoiceTemplateRepository,
@@ -14,13 +14,11 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
 
   private readonly repository: IChoiceTemplateRepository;
 
-  constructor(
-    templates: Array<ChoiceTemplate>,
-    dispatch: React.Dispatch<React.SetStateAction<Array<ChoiceTemplate>>>,
-    repository: IChoiceTemplateRepository
-  ) {
+  constructor(repository: IChoiceTemplateRepository) {
+    const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
+
     this.templates = templates;
-    this.dispatch = dispatch;
+    this.dispatch = setTemplates;
     this.repository = repository;
   }
 

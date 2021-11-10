@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import {
@@ -11,7 +11,6 @@ import UndoIcon from "@mui/icons-material/Undo";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import nameof from "ts-nameof.macro";
 import { InspectionItemDialog } from "../dialog";
-import { DIContainerContext } from "../../App";
 import { InspectionItem, InspectionSheet } from "../../entities";
 import {
   IInspectionItemController,
@@ -21,6 +20,7 @@ import {
   IInspectionGroupPresenter,
   IInspectionTypePresenter,
 } from "../../interfaces";
+import { useDIContext } from "../../container";
 
 interface InspectionSheetFormProps {
   isEdit: boolean;
@@ -29,24 +29,23 @@ interface InspectionSheetFormProps {
 export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   props: InspectionSheetFormProps
 ): JSX.Element => {
-  const container = useContext(DIContainerContext);
-
-  const sheetPresenter: IInspectionSheetPresenter = container.inject(
+  const inject = useDIContext();
+  const sheetPresenter: IInspectionSheetPresenter = inject(
     nameof<IInspectionSheetPresenter>()
   );
-  const sheetController: IInspectionSheetController = container.inject(
+  const sheetController: IInspectionSheetController = inject(
     nameof<IInspectionSheetController>()
   );
-  const itemPresenter: IInspectionItemPresenter = container.inject(
+  const itemPresenter: IInspectionItemPresenter = inject(
     nameof<IInspectionItemPresenter>()
   );
-  const itemController: IInspectionItemController = container.inject(
+  const itemController: IInspectionItemController = inject(
     nameof<IInspectionItemController>()
   );
-  const groupPresenter: IInspectionGroupPresenter = container.inject(
+  const groupPresenter: IInspectionGroupPresenter = inject(
     nameof<IInspectionGroupPresenter>()
   );
-  const typePresenter: IInspectionTypePresenter = container.inject(
+  const typePresenter: IInspectionTypePresenter = inject(
     nameof<IInspectionTypePresenter>()
   );
   const [open, setOpen] = useState(false);
@@ -55,11 +54,6 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   const [equipmentIndex, setEquipmentIndex] = useState(0);
   const [inspectionItemIndex, setInspectionItemIndex] = useState(0);
   const [history, setHistory] = useState<InspectionSheet[]>([]);
-
-  useEffect(() => {
-    groupPresenter.get();
-    typePresenter.get();
-  }, []);
 
   const storeHistory = () => {
     setHistory(history.concat(sheetPresenter.state));

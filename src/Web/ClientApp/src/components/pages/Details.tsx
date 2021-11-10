@@ -1,10 +1,8 @@
-import React, { FC, Fragment, useContext, useEffect, useState } from "react";
+import React, { FC, Fragment, useEffect, useState } from "react";
 import {
   Box,
   Collapse,
   Paper,
-  List,
-  ListItem,
   IconButton,
   Table,
   TableBody,
@@ -12,6 +10,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  CircularProgress,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -19,20 +18,15 @@ import nameof from "ts-nameof.macro";
 import { useInputTypes, Equipment, InspectionItem } from "../../entities";
 import { TopPageLink } from "../utilities";
 import { itemTableHead, TableHeadCell } from "../stylesheets";
-import { DIContainerContext } from "../../App";
-import {
-  IInspectionGroupPresenter,
-  IInspectionSheetController,
-  IInspectionSheetPresenter,
-  IInspectionTypePresenter,
-} from "../../interfaces";
+import { IDetailController, IDetailPresenter } from "../../interfaces";
+import { useDIContext } from "../../container";
 
 interface RowProps {
   equipment: Equipment;
 }
 
 const Row: FC<RowProps> = (props: RowProps): JSX.Element => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   return (
     <Fragment key={props.equipment.equipmentId}>
@@ -91,42 +85,22 @@ const Row: FC<RowProps> = (props: RowProps): JSX.Element => {
 
 export const Details: FC = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
-  const container = useContext(DIContainerContext);
-  const groupPresenter: IInspectionGroupPresenter = container.inject(
-    nameof<IInspectionGroupPresenter>()
-  );
-  const typePresenter: IInspectionTypePresenter = container.inject(
-    nameof<IInspectionTypePresenter>()
-  );
-  const sheetPresenter: IInspectionSheetPresenter = container.inject(
-    nameof<IInspectionSheetPresenter>()
-  );
-  const sheetController: IInspectionSheetController = container.inject(
-    nameof<IInspectionSheetController>()
-  );
+  const inject = useDIContext();
+  const presenter: IDetailPresenter = inject(nameof<IDetailPresenter>());
+  const controller: IDetailController = inject(nameof<IDetailController>());
 
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    groupPresenter.get();
-    typePresenter.get();
-    sheetController.getInspectionSheetById(sheetId);
+    controller.fetchDisplayData(sheetId).then(() => setLoading(false));
   }, [sheetId]);
 
-  return (
-    <div>
-      <h1>詳細ページ</h1>
-      <TopPageLink />
-      <List>
-        <ListItem>点検シートID:{sheetPresenter.state.sheetId}</ListItem>
-        <ListItem>シート名:{sheetPresenter.state.sheetName}</ListItem>
-        <ListItem>
-          点検グループ:
-          {groupPresenter.getGroupName(sheetPresenter.state.inspectionGroupId)}
-        </ListItem>
-        <ListItem>
-          点検種別:
-          {typePresenter.getTypeName(sheetPresenter.state.inspectionTypeId)}
-        </ListItem>
-      </List>
+  const displayData = loading ? (
+    <Box sx={{ display: "flex" }}>
+      <CircularProgress />
+    </Box>
+  ) : (
+    <>
+      {presenter.sheetInformationList()}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -137,12 +111,20 @@ export const Details: FC = ({ match }: any): JSX.Element => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sheetPresenter.state.equipments.map((equipment: Equipment) => (
+            {presenter.equipments().map((equipment: Equipment) => (
               <Row key={equipment.equipmentId} equipment={equipment} />
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+    </>
+  );
+
+  return (
+    <div>
+      <h1>詳細ページ</h1>
+      <TopPageLink />
+      {displayData}
     </div>
   );
 };

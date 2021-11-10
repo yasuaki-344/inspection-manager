@@ -13,25 +13,14 @@ import { IInspectionGroupPresenter } from "../interfaces/presenter";
 export class InspectionGroupPresenter implements IInspectionGroupPresenter {
   private readonly useCase: IInspectionGroupInteractor;
 
-  readonly state: Array<InspectionGroup>;
+  readonly state: InspectionGroup[];
+
+  readonly editItem: InspectionGroup;
 
   constructor(useCase: IInspectionGroupInteractor) {
     this.useCase = useCase;
     this.state = useCase.groups;
-  }
-
-  get(): void {
-    this.useCase.get();
-  }
-
-  getById(id: number): InspectionGroup | undefined {
-    return this.useCase.getById(id);
-  }
-
-  getIds(keyword: string): Array<number> {
-    return this.useCase.groups
-      .filter((x: InspectionGroup) => x.description.includes(keyword))
-      .map((x: InspectionGroup) => x.inspectionGroupId);
+    this.editItem = useCase.target;
   }
 
   getGroupName(id: number): string | undefined {

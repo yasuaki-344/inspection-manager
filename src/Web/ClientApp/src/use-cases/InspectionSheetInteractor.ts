@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Dispatch, SetStateAction, useReducer, useState } from "react";
 import {
   InspectionItem,
   InspectionSheet,
   InspectionSheetAction,
   InspectionSheetInitialState,
+  InspectionSheetReducer,
   SHEET_ACTION_TYPE,
 } from "../entities";
 import { InspectionSheetRepository } from "../infrastructure";
@@ -13,34 +14,112 @@ import {
 } from "../interfaces";
 
 export class InspectionSheetInteractor implements IInspectionSheetInteractor {
+  readonly sheets: InspectionSheet[];
+
+  private readonly setSheets: Dispatch<SetStateAction<InspectionSheet[]>>;
+
+  readonly filteredSheets: InspectionSheet[];
+
+  private readonly setFilteredSheets: Dispatch<
+    SetStateAction<InspectionSheet[]>
+  >;
+
   readonly sheet: InspectionSheet;
 
-  private readonly dispatch: React.Dispatch<InspectionSheetAction>;
+  private readonly dispatch: Dispatch<InspectionSheetAction>;
 
   private readonly repository: IInspectionSheetRepository;
 
-  constructor(
-    state: InspectionSheet,
-    dispatch: React.Dispatch<InspectionSheetAction>
-  ) {
-    this.sheet = state;
-    this.dispatch = dispatch;
+  /**
+   * Initializes a new instance of InspectionSheetInteractor.
+   */
+  constructor() {
+    const [sheets, setSheets] = useState<InspectionSheet[]>([]);
+    this.sheets = sheets;
+    this.setSheets = setSheets;
+    const [filteredSheets, setFilteredSheets] = useState<InspectionSheet[]>([]);
+    this.filteredSheets = filteredSheets;
+    this.setFilteredSheets = setFilteredSheets;
+    const [sheet, sheetDispatch] = useReducer(
+      InspectionSheetReducer,
+      InspectionSheetInitialState
+    );
+    this.sheet = sheet;
+    this.dispatch = sheetDispatch;
     this.repository = new InspectionSheetRepository();
   }
 
-  async getAllInspectionSheet(): Promise<Array<InspectionSheet>> {
-    const inspectionSheets = await this.repository.get();
-    return inspectionSheets;
+  /** @inheritdoc */
+  async fetchAllInspectionSheets(): Promise<void> {
+    await this.repository.get().then((res: InspectionSheet[]) => {
+      this.setSheets(res);
+      this.setFilteredSheets(res);
+    });
   }
 
-  async getInspectionSheetById(id: number): Promise<void> {
-    const sheet = await this.repository.getById(id);
-    this.setSheet(sheet);
+  /** @inheritdoc */
+  async fetchInspectionSheetById(id: number): Promise<void> {
+    await this.repository.getById(id).then((res: InspectionSheet) => {
+      this.setSheet(res);
+    });
   }
 
+  /** @inheritdoc */
+  searchInspectionSheet(
+    groupIds: number[],
+    typeIds: number[],
+    sheetKeyword: string
+  ): void {
+    this.setFilteredSheets(
+      this.sheets.filter(
+        (x: InspectionSheet) =>
+          x.sheetName.includes(sheetKeyword) &&
+          groupIds.includes(x.inspectionGroupId) &&
+          typeIds.includes(x.inspectionTypeId)
+      )
+    );
+  }
+
+  /** @inheritdoc */
+  setSheet(sheet: InspectionSheet): void {
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.SET_SHEET,
+      payload: { sheet },
+    });
+  }
+
+  /** @inheritdoc */
+  resetSearchedInspectionSheets(): void {
+    this.setFilteredSheets(this.sheets);
+  }
+
+  /** @inheritdoc */
+  setGroup(groupId: number): void {
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.UPDATE_NUMERIC_FIELD,
+      payload: {
+        name: "inspectionGroupId",
+        numericValue: groupId,
+      },
+    });
+  }
+
+  /** @inheritdoc */
+  setType(typeId: number): void {
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.UPDATE_NUMERIC_FIELD,
+      payload: {
+        name: "inspectionTypeId",
+        numericValue: typeId,
+      },
+    });
+  }
+
+  /** @inheritdoc */
   async createInspectionSheet(): Promise<void> {
-    await this.repository.post(this.sheet);
-    this.setSheet(InspectionSheetInitialState);
+    await this.repository.post(this.sheet).then(() => {
+      this.setSheet(InspectionSheetInitialState);
+    });
   }
 
   async updateInspectionSheet(): Promise<void> {
@@ -48,14 +127,15 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.setSheet(sheet);
   }
 
-  async removeSheet(id: number): Promise<void> {
-    await this.repository.delete(id);
-  }
-
-  setSheet(sheet: InspectionSheet): void {
-    this.dispatch({
-      type: SHEET_ACTION_TYPE.SET_SHEET,
-      payload: { sheet },
+  /** @inheritdoc */
+  async removeInspectionSheet(id: number): Promise<void> {
+    await this.repository.delete(id).then(() => {
+      this.setSheets(
+        this.sheets.filter((x: InspectionSheet) => x.sheetId !== id)
+      );
+      this.setFilteredSheets(
+        this.filteredSheets.filter((x: InspectionSheet) => x.sheetId !== id)
+      );
     });
   }
 
@@ -74,6 +154,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   addEquipment(): void {
     this.dispatch({
       type: SHEET_ACTION_TYPE.ADD_EQUIPMENT,
+      payload: {},
     });
   }
 

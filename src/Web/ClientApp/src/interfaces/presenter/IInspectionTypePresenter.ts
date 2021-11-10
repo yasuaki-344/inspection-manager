@@ -1,10 +1,9 @@
 import { InspectionType } from "../../entities";
 
 export interface IInspectionTypePresenter {
-  readonly state: Array<InspectionType>;
-  get(): void;
-  getById(id: number): InspectionType | undefined;
-  getIds(keyword: string): Array<number>;
+  state: InspectionType[];
+  editItem: InspectionType;
+
   getTypeName(id: number): string | undefined;
   inspectionTypeTable(
     updateMethod: (id: number) => void,

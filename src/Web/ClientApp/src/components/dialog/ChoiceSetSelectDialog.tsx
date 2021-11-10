@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState, useEffect } from "react";
+import React, { FC, useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,13 +10,13 @@ import {
 } from "@mui/material";
 import nameof from "ts-nameof.macro";
 import { ChoiceTemplate } from "../../entities";
-import { DIContainerContext } from "../../App";
 import { OkCancelDialogActions } from "../utilities";
 import { DialogTitleDesign } from "../stylesheets";
 import {
   IChoiceTemplatePresenter,
   IInspectionItemController,
 } from "../../interfaces";
+import { useDIContext } from "../../container";
 
 interface ChoiceSetSelectDialogProps {
   open: boolean;
@@ -26,11 +26,11 @@ interface ChoiceSetSelectDialogProps {
 export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
   props: ChoiceSetSelectDialogProps
 ): JSX.Element => {
-  const container = useContext(DIContainerContext);
-  const itemController: IInspectionItemController = container.inject(
+  const inject = useDIContext();
+  const itemController: IInspectionItemController = inject(
     nameof<IInspectionItemController>()
   );
-  const templatePresenter: IChoiceTemplatePresenter = container.inject(
+  const templatePresenter: IChoiceTemplatePresenter = inject(
     nameof<IChoiceTemplatePresenter>()
   );
   const [value, setValue] = useState(0);

@@ -1,7 +1,6 @@
-import React, { FC, useState, useEffect, useContext } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { Grid, Paper, TableContainer } from "@mui/material";
 import nameof from "ts-nameof.macro";
-import { InspectionType } from "../../entities";
 import {
   Notification,
   NotificationInitState,
@@ -9,43 +8,39 @@ import {
 } from "../utilities/Notification";
 import { BottomNavigationAdd, TopPageLink } from "../utilities";
 import { EditDialog } from "../dialog/EditDialog";
-import { DIContainerContext } from "../../App";
 import {
   IInspectionTypeController,
   IInspectionTypePresenter,
 } from "../../interfaces";
+import { useDIContext } from "../../container";
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
-  const container = useContext(DIContainerContext);
-  const presenter: IInspectionTypePresenter = container.inject(
+  const inject = useDIContext();
+  const presenter: IInspectionTypePresenter = inject(
     nameof<IInspectionTypePresenter>()
   );
-  const controller: IInspectionTypeController = container.inject(
+  const controller: IInspectionTypeController = inject(
     nameof<IInspectionTypeController>()
   );
 
   const [open, setOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
-  const [target, setTarget] = useState<InspectionType>({
-    inspectionTypeId: 0,
-    description: "",
-  });
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)
   );
 
   useEffect(() => {
-    presenter.get();
+    controller.fetchInspectionTypes().catch((error) => {
+      console.error(error);
+      notification.setMessageState("error", "データの取得に失敗しました");
+    });
   }, []);
 
   /**
    * Implement the process to add new type
    */
   const handleAddItem = (): void => {
-    setTarget({
-      inspectionTypeId: 0,
-      description: "タイプ",
-    });
+    controller.createEditItem();
     setIsUpdate(false);
     setOpen(true);
   };
@@ -55,18 +50,15 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
    * @param id Type ID to be edited.
    */
   const handleUpdateItem = (id: number): void => {
-    const type = presenter.getById(id);
-    if (type != null) {
-      setTarget(type);
-      setIsUpdate(true);
-      setOpen(true);
-    }
+    controller.setEditItem(id);
+    setIsUpdate(true);
+    setOpen(true);
   };
 
   const handleRegistration = (): void => {
     if (isUpdate) {
       controller
-        .update(target)
+        .update(presenter.editItem)
         .then(() => {
           notification.setMessageState("success", "更新に成功しました");
         })
@@ -76,7 +68,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
         });
     } else {
       controller
-        .create(target)
+        .create(presenter.editItem)
         .then(() => {
           notification.setMessageState("success", "追加に成功しました");
         })
@@ -134,13 +126,8 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
         open={open}
         title="点検タイプ編集"
         label="点検タイプ名"
-        target={target}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setTarget({
-            ...target,
-            [e.target.name]: e.target.value,
-          })
-        }
+        target={presenter.editItem}
+        onChange={controller.editType}
         onOkButtonClick={() => handleRegistration()}
         onCancelButtonClick={() => setOpen(false)}
       />

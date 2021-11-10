@@ -1,3 +1,4 @@
+import React from "react";
 import {
   IInspectionTypeController,
   IInspectionTypeInteractor,
@@ -10,6 +11,23 @@ export class InspectionTypeController implements IInspectionTypeController {
   constructor(useCase: IInspectionTypeInteractor) {
     this.useCase = useCase;
   }
+
+  async fetchInspectionTypes(): Promise<void> {
+    await this.useCase.fetchInspectionTypes();
+  }
+
+  createEditItem(): void {
+    this.useCase.createEditItem();
+  }
+
+  setEditItem(id: number): void {
+    this.useCase.setEditItem(id);
+  }
+
+  editType = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    this.useCase.editType(name, value);
+  };
 
   async create(inspectionType: InspectionType): Promise<void> {
     await this.useCase.create(inspectionType);

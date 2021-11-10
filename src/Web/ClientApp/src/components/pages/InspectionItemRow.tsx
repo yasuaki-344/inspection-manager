@@ -1,13 +1,13 @@
-import React, { FC, useContext, useRef } from "react";
+import React, { FC, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { IconButton, TableCell, TableRow } from "@mui/material";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import EditIcon from "@mui/icons-material/Edit";
 import nameof from "ts-nameof.macro";
-import { DIContainerContext } from "../../App";
 import { useInputTypes, ItemType, InspectionItem } from "../../entities";
 import { CancelIconButton } from "../utilities";
 import { IInspectionSheetController } from "../../interfaces";
+import { useDIContext } from "../../container";
 
 interface DragItem {
   equipmentIndex: number;
@@ -29,8 +29,8 @@ interface InspectionItemRowProps {
 export const InspectionItemRow: FC<InspectionItemRowProps> = (
   props: InspectionItemRowProps
 ): JSX.Element => {
-  const container = useContext(DIContainerContext);
-  const sheetController: IInspectionSheetController = container.inject(
+  const inject = useDIContext();
+  const sheetController: IInspectionSheetController = inject(
     nameof<IInspectionSheetController>()
   );
 

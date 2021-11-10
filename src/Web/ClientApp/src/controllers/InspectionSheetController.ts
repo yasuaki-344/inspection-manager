@@ -10,15 +10,8 @@ export class InspectionSheetController implements IInspectionSheetController {
     this.useCase = useCase;
   }
 
-  async getAllInspectionSheet(): Promise<Array<InspectionSheet>> {
-    const res = await this.useCase.getAllInspectionSheet();
-    return res;
-  }
-
   async getInspectionSheetById(id: number): Promise<void> {
-    await this.useCase.getInspectionSheetById(id);
-
-    console.log(JSON.stringify(this.useCase.sheet));
+    await this.useCase.fetchInspectionSheetById(id);
   }
 
   async createInspectionSheet(): Promise<void> {
@@ -30,7 +23,7 @@ export class InspectionSheetController implements IInspectionSheetController {
   }
 
   async removeInspectionSheet(id: number): Promise<void> {
-    await this.useCase.removeSheet(id);
+    await this.useCase.removeInspectionSheet(id);
   }
 
   setSheet(sheet: InspectionSheet): void {

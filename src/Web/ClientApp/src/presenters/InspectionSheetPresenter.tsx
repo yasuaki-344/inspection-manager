@@ -21,11 +21,6 @@ export class InspectionSheetPresenter implements IInspectionSheetPresenter {
     this.state = useCase.sheet;
   }
 
-  async getAllInspectionSheet(): Promise<Array<InspectionSheet>> {
-    const sheets = await this.useCase.getAllInspectionSheet();
-    return sheets;
-  }
-
   getEditContent(
     isEdit: boolean,
     groups: Array<InspectionGroup>,
@@ -68,6 +63,11 @@ export class InspectionSheetPresenter implements IInspectionSheetPresenter {
             name="sheetName"
             value={this.useCase.sheet.sheetName}
             onChange={(e) => this.useCase.updateField(e)}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+              }
+            }}
           />
         </Grid>
         <Grid item xs={12}>

@@ -1,4 +1,4 @@
-import React, { FC, useRef, useContext } from "react";
+import React, { FC, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import {
   Accordion,
@@ -15,9 +15,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { InspectionItemForm } from "./InspectionItemForm";
 import { CancelIconButton } from "../utilities";
 import { equipmentLabel, MenuIcon, paperElement } from "../stylesheets";
-import { DIContainerContext } from "../../App";
 import { ItemType, Equipment, InspectionItem } from "../../entities";
 import { IInspectionSheetController } from "../../interfaces";
+import { useDIContext } from "../../container";
 
 interface DragItem {
   index: number;
@@ -38,8 +38,8 @@ interface EquipmentFormProps {
 export const EquipmentForm: FC<EquipmentFormProps> = (
   props: EquipmentFormProps
 ): JSX.Element => {
-  const container = useContext(DIContainerContext);
-  const sheetController: IInspectionSheetController = container.inject(
+  const inject = useDIContext();
+  const sheetController: IInspectionSheetController = inject(
     nameof<IInspectionSheetController>()
   );
 

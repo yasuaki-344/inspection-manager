@@ -13,7 +13,7 @@ export class InspectionTypeRepository implements IInspectionTypeRepository {
     this.api = new InspectionTypesApi();
   }
 
-  async get(): Promise<Array<InspectionType>> {
+  async get(): Promise<InspectionType[]> {
     const res = await this.api.inspectionTypesGet();
     return toCamelCase(res);
   }
