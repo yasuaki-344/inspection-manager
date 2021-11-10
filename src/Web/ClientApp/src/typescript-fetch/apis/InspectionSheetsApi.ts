@@ -20,6 +20,10 @@ import {
     InspectionSheetToJSON,
 } from '../models';
 
+export interface InspectionSheetsPostRequest {
+    inspectionSheet?: InspectionSheet;
+}
+
 export interface InspectionSheetsSheetIdGetRequest {
     sheetId: number;
 }
@@ -44,6 +48,21 @@ export interface InspectionSheetsApiInterface {
      * Get all inspection sheets.
      */
     inspectionSheetsGet(): Promise<Array<InspectionSheet>>;
+
+    /**
+     * 
+     * @summary Create a new InspectionSheet model
+     * @param {InspectionSheet} [inspectionSheet] inspection sheet to create
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InspectionSheetsApiInterface
+     */
+    inspectionSheetsPostRaw(requestParameters: InspectionSheetsPostRequest): Promise<runtime.ApiResponse<InspectionSheet>>;
+
+    /**
+     * Create a new InspectionSheet model
+     */
+    inspectionSheetsPost(requestParameters: InspectionSheetsPostRequest): Promise<InspectionSheet>;
 
     /**
      * 
@@ -90,6 +109,35 @@ export class InspectionSheetsApi extends runtime.BaseAPI implements InspectionSh
      */
     async inspectionSheetsGet(): Promise<Array<InspectionSheet>> {
         const response = await this.inspectionSheetsGetRaw();
+        return await response.value();
+    }
+
+    /**
+     * Create a new InspectionSheet model
+     */
+    async inspectionSheetsPostRaw(requestParameters: InspectionSheetsPostRequest): Promise<runtime.ApiResponse<InspectionSheet>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/inspection-sheets`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: InspectionSheetToJSON(requestParameters.inspectionSheet),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => InspectionSheetFromJSON(jsonValue));
+    }
+
+    /**
+     * Create a new InspectionSheet model
+     */
+    async inspectionSheetsPost(requestParameters: InspectionSheetsPostRequest): Promise<InspectionSheet> {
+        const response = await this.inspectionSheetsPostRaw(requestParameters);
         return await response.value();
     }
 

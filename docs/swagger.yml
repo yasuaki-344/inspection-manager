@@ -25,6 +25,29 @@ paths:
                   $ref: "#/components/schemas/InspectionSheet"
         "500":
           description: システムエラー Internal Server Error
+    post:
+      tags:
+        - inspection sheets
+      summary: Create a new InspectionSheet model
+      description: ""
+      parameters: []
+      requestBody:
+        description: inspection sheet to create
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InspectionSheet"
+      responses:
+        "201":
+          description: Single InspectionSheet model
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InspectionSheet"
+        "400":
+          description: バリデーションエラー or 業務エラー Bad Request
+        "500":
+          description: システムエラー Internal Server Error
   /inspection-sheets/{sheet_id}:
     get:
       tags:
