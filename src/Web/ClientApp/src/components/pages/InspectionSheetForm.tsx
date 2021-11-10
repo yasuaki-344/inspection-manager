@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import {
@@ -54,11 +54,6 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   const [equipmentIndex, setEquipmentIndex] = useState(0);
   const [inspectionItemIndex, setInspectionItemIndex] = useState(0);
   const [history, setHistory] = useState<InspectionSheet[]>([]);
-
-  useEffect(() => {
-    // groupPresenter.get();
-    // typePresenter.get();
-  }, []);
 
   const storeHistory = () => {
     setHistory(history.concat(sheetPresenter.state));
