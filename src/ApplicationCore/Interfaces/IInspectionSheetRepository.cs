@@ -27,6 +27,13 @@ namespace InspectionManager.ApplicationCore.Interfaces
         InspectionSheetDto? GetInspectionSheet(int id);
 
         /// <summary>
+        /// Checks if the specified inspection sheet is valid.
+        /// </summary>
+        /// <param name="dto">Inspection sheet to be checked</param>
+        /// <returns>Returns true if sheet is valid, otherwise false</returns>
+        bool IsValidInspectionSheet(InspectionSheetDto dto);
+
+        /// <summary>
         /// Creates new inspection sheet by using the specified InspectionSheetDto.
         /// </summary>
         /// <param name="dto">Inspection sheet data to be created</param>

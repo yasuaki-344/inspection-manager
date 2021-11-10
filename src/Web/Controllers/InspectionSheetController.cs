@@ -50,6 +50,33 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("/v1/inspection-sheets")]
+        public async Task<ActionResult<InspectionSheetDto>> CreateSheetAsync([FromBody] InspectionSheetDto dto)
+        {
+            try
+            {
+                _logger.LogInformation("try to create inspection sheet");
+                if (!_service.IsValidInspectionSheet(dto))
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    var result = await _service.CreateInspectionSheetAsync(dto);
+                    return CreatedAtAction(nameof(GetInspectionSheet),
+                    new { id = result.SheetId }, result);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error creating new inspection sheet"
+                );
+            }
+        }
+
         [HttpGet]
         [Route("/v1/inspection-sheets/{sheetId}")]
         public ActionResult<InspectionSheetDto> GetInspectionSheet([FromRoute][Required] int? sheetId)
@@ -79,34 +106,6 @@ namespace InspectionManager.Web.Controllers
                 _logger.LogError(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Error retrieving data from the database");
-            }
-        }
-
-
-        [HttpPost]
-        [Route("[controller]")]
-        public async Task<ActionResult<InspectionSheetDto>> CreateSheetAsync(InspectionSheetDto? dto)
-        {
-            try
-            {
-                _logger.LogInformation("try to create inspection sheet");
-                if (dto == null)
-                {
-                    return BadRequest();
-                }
-                else
-                {
-                    var result = await _service.CreateInspectionSheetAsync(dto);
-                    return CreatedAtAction(nameof(GetInspectionSheet),
-                    new { id = result.SheetId }, result);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error creating new inspection sheet"
-                );
             }
         }
 

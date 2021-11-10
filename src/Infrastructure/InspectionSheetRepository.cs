@@ -84,31 +84,29 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
+        public bool IsValidInspectionSheet(InspectionSheetDto dto)
+        {
+            if (_context.InspectionGroups != null &&_context.InspectionTypes != null)
+            {
+                var isGroupIdValid = _context.InspectionGroups
+                    .Any(x => x.InspectionGroupId == dto.InspectionGroupId);
+                var isTypeIdValid = _context.InspectionTypes
+                    .Any(x => x.InspectionTypeId == dto.InspectionTypeId);
+                return isGroupIdValid && isTypeIdValid;
+            }
+            else
+            {
+                throw new NullReferenceException(
+                    $"{nameof(_context.InspectionGroups)} or {nameof(_context.InspectionTypes)}");
+            }
+        }
+
+        /// <inheritdoc/>
         public async Task<InspectionSheetDto> CreateInspectionSheetAsync(InspectionSheetDto dto)
         {
             if (_context.InspectionSheets != null)
             {
                 var entity = _mapper.Map<InspectionSheet>(dto);
-                int equipmentOrder = 0;
-                foreach (var equipment in entity.Equipments)
-                {
-                    equipment.OrderIndex = equipmentOrder;
-
-                    var itemOrder = 0;
-                    foreach (var inspectionItem in equipment.InspectionItems)
-                    {
-                        inspectionItem.OrderIndex = itemOrder;
-                        if (_context.InputTypes != null)
-                        {
-                            inspectionItem.InputType = _context.InputTypes
-                                .Single(x => x.InputTypeId == inspectionItem.InputTypeId);
-                        }
-                        itemOrder++;
-                    }
-
-                    equipmentOrder++;
-                }
-
                 if (_context.InspectionTypes != null && _context.InspectionGroups != null)
                 {
                     entity.InspectionGroup = _context.InspectionGroups
@@ -123,7 +121,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return new InspectionSheetDto();
+                throw new NullReferenceException(nameof(_context.InspectionSheets));
             }
         }
 
