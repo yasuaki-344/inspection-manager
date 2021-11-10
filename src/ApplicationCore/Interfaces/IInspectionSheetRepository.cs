@@ -51,7 +51,6 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// Deletes the specified inspection sheet data.
         /// </summary>
         /// <param name="id">Sheet ID to be deleted</param>
-        /// <returns>Deleted inspection sheet data</returns>
-        Task<InspectionSheetDto> DeleteInspectionSheetAsync(int id);
+        Task DeleteInspectionSheetAsync(int id);
     }
 }

@@ -207,7 +207,7 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public async Task<InspectionSheetDto> DeleteInspectionSheetAsync(int id)
+        public async Task DeleteInspectionSheetAsync(int id)
         {
             if (_context.InspectionSheets != null)
             {
@@ -217,16 +217,11 @@ namespace InspectionManager.Infrastructure
                 {
                     _context.InspectionSheets.Remove(entity);
                     await _context.SaveChangesAsync();
-                    return _mapper.Map<InspectionSheetDto>(entity);
-                }
-                else
-                {
-                    return new InspectionSheetDto();
                 }
             }
             else
             {
-                return new InspectionSheetDto();
+                throw new NullReferenceException(nameof(_context.InspectionSheets));
             }
         }
     }

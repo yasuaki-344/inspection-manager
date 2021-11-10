@@ -130,18 +130,26 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpDelete("{id:int}")]
-        [Route("[controller]")]
-        public async Task<ActionResult<InspectionSheetDto>> DeleteInspectionSheetAsync(int id)
+        [HttpDelete]
+        [Route("/v1/inspection-sheets/{sheetId}")]
+        public async Task<ActionResult<InspectionSheetDto>> DeleteInspectionSheetAsync([FromRoute][Required] int? sheetId)
         {
             try
             {
-                _logger.LogInformation($"try to delete inspection sheet {id}");
-                if (!_service.InspectionSheetExists(id))
+                if (sheetId.HasValue)
                 {
-                    return NotFound($"sheet with Id = {id} not found");
+                    _logger.LogInformation($"try to delete inspection sheet {sheetId}");
+                    if (!_service.InspectionSheetExists(sheetId.Value))
+                    {
+                        return NotFound($"sheet with Id = {sheetId} not found");
+                    }
+                    await _service.DeleteInspectionSheetAsync(sheetId.Value);
+                    return NoContent();
                 }
-                return await _service.DeleteInspectionSheetAsync(id);
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {

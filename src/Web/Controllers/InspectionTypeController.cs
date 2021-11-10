@@ -204,11 +204,11 @@ namespace InspectionManager.Web.Controllers
                         return NotFound($"type with Id = {inspectionTypeId} not found");
                     }
                     await _repository.DeleteInspectionTypeAsync(inspectionTypeId.Value);
-                    return StatusCode(StatusCodes.Status204NoContent);
+                    return NoContent();
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status400BadRequest);
+                    return BadRequest();
                 }
             }
             catch (Exception ex)
