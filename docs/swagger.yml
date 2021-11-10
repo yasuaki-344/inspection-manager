@@ -72,6 +72,37 @@ paths:
           description: IDが設定されていない Bad Request
         "500":
           description: システムエラー Internal Server Error
+    put:
+      tags:
+        - inspection sheets
+      summary: Updates the InspectionSheet model.
+      description: ""
+      parameters:
+        - name: sheet_id
+          in: path
+          description: inspection sheet ID to update
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: inspection sheet to update
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InspectionSheet"
+      responses:
+        "201":
+          description: 正常系（非同期）Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InspectionSheet"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Not found"
+        "500":
+          description: "Internal Server Error"
     delete:
       tags:
         - inspection sheets

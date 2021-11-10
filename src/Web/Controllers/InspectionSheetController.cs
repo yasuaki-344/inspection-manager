@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -109,18 +110,29 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpPut("{id:int}")]
-        [Route("[controller]")]
-        public async Task<ActionResult<InspectionSheetDto>> UpdateInspectionSheet(InspectionSheetDto dto)
+        [HttpPut]
+        [Route("/v1/inspection-sheets/{sheetId}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        public async Task<ActionResult<InspectionSheetDto>> UpdateInspectionSheet([FromRoute][Required] int? sheetId, [FromBody] InspectionSheetDto dto)
         {
             try
             {
-                _logger.LogInformation($"try to update inspection sheet {dto.SheetId}");
-                if (!_service.InspectionSheetExists(dto.SheetId))
+                if (sheetId.HasValue && _service.IsValidInspectionSheet(dto))
                 {
-                    return NotFound($"Sheet with Id = {dto.SheetId} not found");
+                    _logger.LogInformation($"try to update inspection sheet {sheetId.Value}");
+                    if (!_service.InspectionSheetExists(sheetId.Value))
+                    {
+                        return NotFound($"Sheet with Id = {dto.SheetId} not found");
+                    }
+                    dto.SheetId = sheetId.Value;
+                    var result = await _service.UpdateInspectionSheetAsync(dto);
+                    return CreatedAtAction(nameof(GetInspectionSheet),
+                    new { sheetId = result.SheetId }, result);
                 }
-                return await _service.UpdateInspectionSheetAsync(dto);
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {
@@ -132,6 +144,7 @@ namespace InspectionManager.Web.Controllers
 
         [HttpDelete]
         [Route("/v1/inspection-sheets/{sheetId}")]
+        [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<InspectionSheetDto>> DeleteInspectionSheetAsync([FromRoute][Required] int? sheetId)
         {
             try
