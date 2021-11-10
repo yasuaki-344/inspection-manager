@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Entities;
 using InspectionManager.ApplicationCore.Interfaces;
@@ -44,10 +45,10 @@ namespace InspectionManager.Infrastructure
         {
             if (_context.InspectionSheets != null)
             {
-                var entities = _context.InspectionSheets
-                    .Select(x => _mapper.Map<InspectionSheetDto>(x))
+                var dto = _context.InspectionSheets
+                    .ProjectTo<InspectionSheetDto>(_mapper.ConfigurationProvider)
                     .ToList();
-                return entities;
+                return dto;
             }
             else
             {
@@ -60,48 +61,10 @@ namespace InspectionManager.Infrastructure
         {
             if (_context.InspectionSheets != null)
             {
-                var entity = _context.InspectionSheets.Single(x => x.SheetId == id);
-                if (_context.InspectionGroups != null)
-                {
-                    entity.InspectionGroup = _context.InspectionGroups
-                        .Single(x => x.InspectionGroupId == entity.InspectionGroupId);
-                }
-                if (_context.InspectionTypes != null)
-                {
-                    entity.InspectionType = _context.InspectionTypes
-                        .Single(x => x.InspectionTypeId == entity.InspectionTypeId);
-                }
-                if (_context.Equipments != null)
-                {
-                    entity.Equipments = _context.Equipments
-                        .Where(x => x.InspectionSheetId == entity.SheetId)
-                        .OrderBy(x => x.OrderIndex)
-                        .ToList();
-                }
-                if (_context.InspectionItems != null)
-                {
-                    foreach (var equipment in entity.Equipments)
-                    {
-                        equipment.InspectionItems = _context.InspectionItems
-                            .Where(x => x.EquipmentId == equipment.EquipmentId)
-                            .OrderBy(x => x.OrderIndex)
-                            .ToList();
-                    }
-                }
-                if (_context.Choices != null)
-                {
-                    foreach (var equipment in entity.Equipments)
-                    {
-                        foreach (var inspectionItem in equipment.InspectionItems)
-                        {
-                            inspectionItem.Choices = _context.Choices
-                                .Where(x => x.InspectionItemId == inspectionItem.InspectionItemId)
-                                .OrderBy(x => x.OrderIndex)
-                                .ToList();
-                        }
-                    }
-                }
-                var dto = _mapper.Map<InspectionSheetDto>(entity);
+                var dto = _context.InspectionSheets
+                    .Where(x => x.SheetId == id)
+                    .ProjectTo<InspectionSheetDto>(_mapper.ConfigurationProvider)
+                    .Single();
 
                 return dto;
             }
