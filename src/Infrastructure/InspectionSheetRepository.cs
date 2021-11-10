@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -47,12 +48,13 @@ namespace InspectionManager.Infrastructure
             {
                 var dto = _context.InspectionSheets
                     .ProjectTo<InspectionSheetDto>(_mapper.ConfigurationProvider)
+                    .OrderBy(x => x.SheetId)
                     .ToList();
                 return dto;
             }
             else
             {
-                return new List<InspectionSheetDto>();
+                throw new NullReferenceException(nameof(_context.InspectionSheets));
             }
         }
 
@@ -61,16 +63,23 @@ namespace InspectionManager.Infrastructure
         {
             if (_context.InspectionSheets != null)
             {
-                var dto = _context.InspectionSheets
-                    .Where(x => x.SheetId == id)
-                    .ProjectTo<InspectionSheetDto>(_mapper.ConfigurationProvider)
-                    .Single();
+                if (_context.InspectionSheets.Any(x => x.SheetId == id))
+                {
+                    var dto = _context.InspectionSheets
+                        .Where(x => x.SheetId == id)
+                        .ProjectTo<InspectionSheetDto>(_mapper.ConfigurationProvider)
+                        .Single();
 
-                return dto;
+                    return dto;
+                }
+                else
+                {
+                    return null;
+                }
             }
             else
             {
-                return null;
+                throw new NullReferenceException(nameof(_context.InspectionSheets));
             }
         }
 

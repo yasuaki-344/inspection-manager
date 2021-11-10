@@ -68,7 +68,6 @@ namespace InspectionManager.ApplicationCore.Test
                 SheetName = "sheet name",
                 InspectionType = "inspection type",
                 InspectionGroup = "inspection group",
-                Equipments = new List<EquipmentDto>(),
             };
             var mapper = CreateMapper();
             var actual = mapper.Map<InspectionSheetExportDto>(expect);

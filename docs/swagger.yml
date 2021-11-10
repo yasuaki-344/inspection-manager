@@ -45,6 +45,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InspectionSheet"
+        "400":
+          description: IDが設定されていない Bad Request
         "500":
           description: システムエラー Internal Server Error
   /inspection-groups:

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,7 +13,6 @@ using Microsoft.Extensions.Logging;
 namespace InspectionManager.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class InspectionSheetController : ControllerBase
     {
         private readonly IInspectionSheetService _service;
@@ -33,6 +33,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpGet]
+        [Route("/v1/inspection-sheets")]
         public ActionResult<InspectionSheetDto> GetAllInspectionSheets()
         {
             try
@@ -49,21 +50,28 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpGet("{id:int}")]
-        public ActionResult<InspectionSheetDto> GetInspectionSheet(int id)
+        [HttpGet]
+        [Route("/v1/inspection-sheets/{sheetId}")]
+        public ActionResult<InspectionSheetDto> GetInspectionSheet([FromRoute][Required] int? sheetId)
         {
             try
             {
-                _logger.LogInformation($"try to get inspection sheet {id}");
-
-                var result = _service.GetInspectionSheet(id);
-                if (result == null)
+                _logger.LogInformation($"try to get inspection sheet {sheetId}");
+                if (sheetId.HasValue)
                 {
-                    return NotFound();
+                    var result = _service.GetInspectionSheet(sheetId.Value);
+                    if (result == null)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        return result;
+                    }
                 }
                 else
                 {
-                    return result;
+                    return BadRequest();
                 }
             }
             catch (Exception ex)
@@ -76,6 +84,7 @@ namespace InspectionManager.Web.Controllers
 
 
         [HttpPost]
+        [Route("[controller]")]
         public async Task<ActionResult<InspectionSheetDto>> CreateSheetAsync(InspectionSheetDto? dto)
         {
             try
@@ -102,6 +111,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Route("[controller]")]
         public async Task<ActionResult<InspectionSheetDto>> UpdateInspectionSheet(InspectionSheetDto dto)
         {
             try
@@ -122,6 +132,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Route("[controller]")]
         public async Task<ActionResult<InspectionSheetDto>> DeleteInspectionSheetAsync(int id)
         {
             try

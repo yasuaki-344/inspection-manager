@@ -37,10 +37,7 @@ namespace InspectionManager.ApplicationCore.Services
 
         /// <inheritdoc/>
         public IEnumerable<InspectionSheetDto> GetAllInspectionSheets() =>
-            _repository.GetAllInspectionSheets()
-                .OrderBy(x => x.SheetName)
-                .ThenBy(x => x.InspectionGroupId)
-                .ThenBy(x => x.InspectionTypeId);
+            _repository.GetAllInspectionSheets();
 
         /// <inheritdoc/>
         public InspectionSheetDto? GetInspectionSheet(int id) =>
