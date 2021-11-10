@@ -4,9 +4,49 @@ info:
   description: クライアント-サーバー間のデータ通信仕様
   version: "0.4.0"
 servers:
-  - url: /v1
+  - url: http://localhost:5000/v1
     description: Development server
 paths:
+  /inspection-sheets:
+    get:
+      tags:
+        - inspection sheets
+      summary: Get all inspection sheets.
+      description: ""
+      parameters: []
+      responses:
+        "200":
+          description: A JSON array of InspectionSheet model
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InspectionSheet"
+        "500":
+          description: システムエラー Internal Server Error
+  /inspection-sheets/{sheet_id}:
+    get:
+      tags:
+        - inspection sheets
+      summary: Get the specified inspection sheet.
+      description: ""
+      parameters:
+        - name: sheet_id
+          in: path
+          description: inspection sheet ID to get
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A JSON InspectionSheet model
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InspectionSheet"
+        "500":
+          description: システムエラー Internal Server Error
   /inspection-groups:
     get:
       tags:
@@ -458,6 +498,31 @@ paths:
           description: システムエラー Internal Server Error
 components:
   schemas:
+    InspectionSheet:
+      type: object
+      required:
+        - sheet_id
+        - sheet_name
+        - inspection_type_id
+        - inspection_type
+        - inspection_group_id
+        - inspection_group
+      properties:
+        sheet_id:
+          type: integer
+          format: int64
+        sheet_name:
+          type: string
+        inspection_type_id:
+          type: integer
+          format: int64
+        inspection_type:
+          type: string
+        inspection_group_id:
+          type: integer
+          format: int64
+        inspection_group:
+          type: string
     InspectionGroup:
       type: object
       required:
@@ -504,6 +569,7 @@ components:
         description:
           type: string
 tags:
+  - name: inspection sheets
   - name: inspection groups
   - name: inspection types
   - name: choice templates

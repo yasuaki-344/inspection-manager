@@ -1,11 +1,13 @@
 .openapi-generator-ignore
 apis/ChoiceTemplatesApi.ts
 apis/InspectionGroupsApi.ts
+apis/InspectionSheetsApi.ts
 apis/InspectionTypesApi.ts
 apis/index.ts
 index.ts
 models/ChoiceTemplate.ts
 models/InspectionGroup.ts
+models/InspectionSheet.ts
 models/InspectionType.ts
 models/Option.ts
 models/index.ts
