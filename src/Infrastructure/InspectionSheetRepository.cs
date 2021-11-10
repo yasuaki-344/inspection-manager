@@ -86,7 +86,7 @@ namespace InspectionManager.Infrastructure
         /// <inheritdoc/>
         public bool IsValidInspectionSheet(InspectionSheetDto dto)
         {
-            if (_context.InspectionGroups != null &&_context.InspectionTypes != null)
+            if (_context.InspectionGroups != null && _context.InspectionTypes != null)
             {
                 var isGroupIdValid = _context.InspectionGroups
                     .Any(x => x.InspectionGroupId == dto.InspectionGroupId);
