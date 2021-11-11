@@ -19,11 +19,14 @@ export class InspectionSheetRepository implements IInspectionSheetRepository {
     return sheets;
   }
 
+  /** @inheritdoc */
   async getById(id: number): Promise<InspectionSheet> {
-    const data = await fetch(`inspectionsheet/${id}`)
-      .then((res) => res.json())
-      .then((json) => toCamelCase(json));
-    return data;
+    const res = await this.api.inspectionSheetsSheetIdGet({
+      sheetId: id
+    })
+    console.log(res)
+    const sheet = toCamelCase(res);
+    return sheet
   }
 
   async post(inspectionSheet: InspectionSheet): Promise<InspectionSheet> {

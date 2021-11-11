@@ -18,10 +18,13 @@ import {
     InspectionSheet,
     InspectionSheetFromJSON,
     InspectionSheetToJSON,
+    InspectionSheetDetail,
+    InspectionSheetDetailFromJSON,
+    InspectionSheetDetailToJSON,
 } from '../models';
 
 export interface InspectionSheetsPostRequest {
-    inspectionSheet?: InspectionSheet;
+    inspectionSheetDetail?: InspectionSheetDetail;
 }
 
 export interface InspectionSheetsSheetIdDeleteRequest {
@@ -34,7 +37,7 @@ export interface InspectionSheetsSheetIdGetRequest {
 
 export interface InspectionSheetsSheetIdPutRequest {
     sheetId: number;
-    inspectionSheet?: InspectionSheet;
+    inspectionSheetDetail?: InspectionSheetDetail;
 }
 
 /**
@@ -60,18 +63,18 @@ export interface InspectionSheetsApiInterface {
 
     /**
      * 
-     * @summary Create a new InspectionSheet model
-     * @param {InspectionSheet} [inspectionSheet] inspection sheet to create
+     * @summary Create a new InspectionSheetDetail model
+     * @param {InspectionSheetDetail} [inspectionSheetDetail] inspection sheet to create
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof InspectionSheetsApiInterface
      */
-    inspectionSheetsPostRaw(requestParameters: InspectionSheetsPostRequest): Promise<runtime.ApiResponse<InspectionSheet>>;
+    inspectionSheetsPostRaw(requestParameters: InspectionSheetsPostRequest): Promise<runtime.ApiResponse<InspectionSheetDetail>>;
 
     /**
-     * Create a new InspectionSheet model
+     * Create a new InspectionSheetDetail model
      */
-    inspectionSheetsPost(requestParameters: InspectionSheetsPostRequest): Promise<InspectionSheet>;
+    inspectionSheetsPost(requestParameters: InspectionSheetsPostRequest): Promise<InspectionSheetDetail>;
 
     /**
      * 
@@ -96,28 +99,28 @@ export interface InspectionSheetsApiInterface {
      * @throws {RequiredError}
      * @memberof InspectionSheetsApiInterface
      */
-    inspectionSheetsSheetIdGetRaw(requestParameters: InspectionSheetsSheetIdGetRequest): Promise<runtime.ApiResponse<InspectionSheet>>;
+    inspectionSheetsSheetIdGetRaw(requestParameters: InspectionSheetsSheetIdGetRequest): Promise<runtime.ApiResponse<InspectionSheetDetail>>;
 
     /**
      * Get the specified inspection sheet.
      */
-    inspectionSheetsSheetIdGet(requestParameters: InspectionSheetsSheetIdGetRequest): Promise<InspectionSheet>;
+    inspectionSheetsSheetIdGet(requestParameters: InspectionSheetsSheetIdGetRequest): Promise<InspectionSheetDetail>;
 
     /**
      * 
-     * @summary Updates the InspectionSheet model.
+     * @summary Updates the InspectionSheetDetail model.
      * @param {number} sheetId inspection sheet ID to update
-     * @param {InspectionSheet} [inspectionSheet] inspection sheet to update
+     * @param {InspectionSheetDetail} [inspectionSheetDetail] inspection sheet to update
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof InspectionSheetsApiInterface
      */
-    inspectionSheetsSheetIdPutRaw(requestParameters: InspectionSheetsSheetIdPutRequest): Promise<runtime.ApiResponse<InspectionSheet>>;
+    inspectionSheetsSheetIdPutRaw(requestParameters: InspectionSheetsSheetIdPutRequest): Promise<runtime.ApiResponse<InspectionSheetDetail>>;
 
     /**
-     * Updates the InspectionSheet model.
+     * Updates the InspectionSheetDetail model.
      */
-    inspectionSheetsSheetIdPut(requestParameters: InspectionSheetsSheetIdPutRequest): Promise<InspectionSheet>;
+    inspectionSheetsSheetIdPut(requestParameters: InspectionSheetsSheetIdPutRequest): Promise<InspectionSheetDetail>;
 
 }
 
@@ -153,9 +156,9 @@ export class InspectionSheetsApi extends runtime.BaseAPI implements InspectionSh
     }
 
     /**
-     * Create a new InspectionSheet model
+     * Create a new InspectionSheetDetail model
      */
-    async inspectionSheetsPostRaw(requestParameters: InspectionSheetsPostRequest): Promise<runtime.ApiResponse<InspectionSheet>> {
+    async inspectionSheetsPostRaw(requestParameters: InspectionSheetsPostRequest): Promise<runtime.ApiResponse<InspectionSheetDetail>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -167,16 +170,16 @@ export class InspectionSheetsApi extends runtime.BaseAPI implements InspectionSh
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: InspectionSheetToJSON(requestParameters.inspectionSheet),
+            body: InspectionSheetDetailToJSON(requestParameters.inspectionSheetDetail),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => InspectionSheetFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => InspectionSheetDetailFromJSON(jsonValue));
     }
 
     /**
-     * Create a new InspectionSheet model
+     * Create a new InspectionSheetDetail model
      */
-    async inspectionSheetsPost(requestParameters: InspectionSheetsPostRequest): Promise<InspectionSheet> {
+    async inspectionSheetsPost(requestParameters: InspectionSheetsPostRequest): Promise<InspectionSheetDetail> {
         const response = await this.inspectionSheetsPostRaw(requestParameters);
         return await response.value();
     }
@@ -213,7 +216,7 @@ export class InspectionSheetsApi extends runtime.BaseAPI implements InspectionSh
     /**
      * Get the specified inspection sheet.
      */
-    async inspectionSheetsSheetIdGetRaw(requestParameters: InspectionSheetsSheetIdGetRequest): Promise<runtime.ApiResponse<InspectionSheet>> {
+    async inspectionSheetsSheetIdGetRaw(requestParameters: InspectionSheetsSheetIdGetRequest): Promise<runtime.ApiResponse<InspectionSheetDetail>> {
         if (requestParameters.sheetId === null || requestParameters.sheetId === undefined) {
             throw new runtime.RequiredError('sheetId','Required parameter requestParameters.sheetId was null or undefined when calling inspectionSheetsSheetIdGet.');
         }
@@ -229,21 +232,21 @@ export class InspectionSheetsApi extends runtime.BaseAPI implements InspectionSh
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => InspectionSheetFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => InspectionSheetDetailFromJSON(jsonValue));
     }
 
     /**
      * Get the specified inspection sheet.
      */
-    async inspectionSheetsSheetIdGet(requestParameters: InspectionSheetsSheetIdGetRequest): Promise<InspectionSheet> {
+    async inspectionSheetsSheetIdGet(requestParameters: InspectionSheetsSheetIdGetRequest): Promise<InspectionSheetDetail> {
         const response = await this.inspectionSheetsSheetIdGetRaw(requestParameters);
         return await response.value();
     }
 
     /**
-     * Updates the InspectionSheet model.
+     * Updates the InspectionSheetDetail model.
      */
-    async inspectionSheetsSheetIdPutRaw(requestParameters: InspectionSheetsSheetIdPutRequest): Promise<runtime.ApiResponse<InspectionSheet>> {
+    async inspectionSheetsSheetIdPutRaw(requestParameters: InspectionSheetsSheetIdPutRequest): Promise<runtime.ApiResponse<InspectionSheetDetail>> {
         if (requestParameters.sheetId === null || requestParameters.sheetId === undefined) {
             throw new runtime.RequiredError('sheetId','Required parameter requestParameters.sheetId was null or undefined when calling inspectionSheetsSheetIdPut.');
         }
@@ -259,16 +262,16 @@ export class InspectionSheetsApi extends runtime.BaseAPI implements InspectionSh
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: InspectionSheetToJSON(requestParameters.inspectionSheet),
+            body: InspectionSheetDetailToJSON(requestParameters.inspectionSheetDetail),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => InspectionSheetFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => InspectionSheetDetailFromJSON(jsonValue));
     }
 
     /**
-     * Updates the InspectionSheet model.
+     * Updates the InspectionSheetDetail model.
      */
-    async inspectionSheetsSheetIdPut(requestParameters: InspectionSheetsSheetIdPutRequest): Promise<InspectionSheet> {
+    async inspectionSheetsSheetIdPut(requestParameters: InspectionSheetsSheetIdPutRequest): Promise<InspectionSheetDetail> {
         const response = await this.inspectionSheetsSheetIdPutRaw(requestParameters);
         return await response.value();
     }

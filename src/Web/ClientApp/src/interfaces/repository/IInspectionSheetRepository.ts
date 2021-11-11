@@ -5,6 +5,11 @@ export interface IInspectionSheetRepository {
    * Gets all inspection sheets from database.
    */
   get(): Promise<InspectionSheet[]>;
+
+  /**
+   * Gets the specified inspection sheet detail from database
+   * @param id Sheet ID to get
+   */
   getById(id: number): Promise<InspectionSheet>;
   post(inspectionSheet: InspectionSheet): Promise<InspectionSheet>;
   put(inspectionSheet: InspectionSheet): Promise<InspectionSheet>;
