@@ -14,7 +14,10 @@ namespace InspectionManager.ApplicationCore.Test
         [Fact]
         public void MapChoiceDtoToStringCorrectly()
         {
-            var expect = new ChoiceDto { Description = "foo" };
+            var expect = new ChoiceDto
+            {
+                Description = "foo"
+            };
             var mapper = CreateMapper();
             var actual = mapper.Map<string>(expect);
             Assert.Equal(expect.Description, actual);
@@ -141,12 +144,14 @@ namespace InspectionManager.ApplicationCore.Test
                     new Equipment
                     {
                         EquipmentId = 2,
+                        OrderIndex = 30,
                         EquipmentName = "equipment",
                         InspectionItems = new List<InspectionItem>
                         {
                             new InspectionItem
                             {
                                 InspectionItemId = 3,
+                                OrderIndex = 40,
                                 InspectionContent = "inspection",
                                 InputTypeId = 4,
                                 Choices = new List<Choice>
@@ -154,6 +159,7 @@ namespace InspectionManager.ApplicationCore.Test
                                     new Choice
                                     {
                                         ChoiceId = 5,
+                                        OrderIndex = 50,
                                         Description = "choice"
                                     }
                                 }
@@ -172,17 +178,20 @@ namespace InspectionManager.ApplicationCore.Test
             var expectEquipment = entity.Equipments.First();
             var actualEquipment = actual.Equipments.First();
             Assert.Equal(expectEquipment.EquipmentId, actualEquipment.EquipmentId);
+            Assert.Equal(expectEquipment.OrderIndex, actualEquipment.OrderIndex);
             Assert.Equal(expectEquipment.EquipmentName, actualEquipment.EquipmentName);
 
             var expectInspectionItem = expectEquipment.InspectionItems.First();
             var actualInspectionItem = actualEquipment.InspectionItems.First();
             Assert.Equal(expectInspectionItem.InspectionItemId, actualInspectionItem.InspectionItemId);
+            Assert.Equal(expectInspectionItem.OrderIndex, actualInspectionItem.OrderIndex);
             Assert.Equal(expectInspectionItem.InspectionContent, actualInspectionItem.InspectionContent);
             Assert.Equal(expectInspectionItem.InputTypeId, actualInspectionItem.InputTypeId);
 
             var expectChoice = expectInspectionItem.Choices.First();
             var actualChoice = actualInspectionItem.Choices.First();
             Assert.Equal(expectChoice.ChoiceId, actualChoice.ChoiceId);
+            Assert.Equal(expectChoice.OrderIndex, actualChoice.OrderIndex);
             Assert.Equal(expectChoice.Description, actualChoice.Description);
         }
 
@@ -251,11 +260,13 @@ namespace InspectionManager.ApplicationCore.Test
             var expect = new Equipment
             {
                 EquipmentId = 1,
+                OrderIndex = 4,
                 EquipmentName = "equipment name",
             };
             var mapper = CreateMapper();
             var actual = mapper.Map<EquipmentDto>(expect);
             Assert.Equal(expect.EquipmentId, actual.EquipmentId);
+            Assert.Equal(expect.OrderIndex, actual.OrderIndex);
             Assert.Equal(expect.EquipmentName, actual.EquipmentName);
         }
 
@@ -265,12 +276,14 @@ namespace InspectionManager.ApplicationCore.Test
             var expect = new InspectionItem
             {
                 InspectionItemId = 11,
+                OrderIndex = 3,
                 InspectionContent = "inspection content",
                 InputTypeId = 2,
             };
             var mapper = CreateMapper();
             var actual = mapper.Map<InspectionItemDto>(expect);
             Assert.Equal(expect.InspectionItemId, actual.InspectionItemId);
+            Assert.Equal(expect.OrderIndex, actual.OrderIndex);
             Assert.Equal(expect.InspectionContent, actual.InspectionContent);
             Assert.Equal(expect.InputTypeId, actual.InputTypeId);
         }
@@ -281,11 +294,13 @@ namespace InspectionManager.ApplicationCore.Test
             var expect = new Choice
             {
                 ChoiceId = 3,
+                OrderIndex = 1,
                 Description = "choice"
             };
             var mapper = CreateMapper();
             var actual = mapper.Map<ChoiceDto>(expect);
             Assert.Equal(expect.ChoiceId, actual.ChoiceId);
+            Assert.Equal(expect.OrderIndex, actual.OrderIndex);
             Assert.Equal(expect.Description, actual.Description);
         }
 
