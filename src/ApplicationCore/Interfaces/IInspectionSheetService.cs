@@ -24,7 +24,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// </summary>
         /// <param name="id">The ID of inspection sheet to be gotton</param>
         /// <returns>Return The inspection sheet of the specified ID if exist, otherwise null</returns>
-        InspectionSheetDto? GetInspectionSheet(int id);
+        InspectionSheetDetailDto? GetInspectionSheet(int id);
 
         /// <summary>
         /// Checks if the specified inspection sheet is valid.

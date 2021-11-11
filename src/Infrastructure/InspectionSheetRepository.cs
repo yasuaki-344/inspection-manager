@@ -59,7 +59,7 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public InspectionSheetDto? GetInspectionSheet(int id)
+        public InspectionSheetDetailDto? GetInspectionSheet(int id)
         {
             if (_context.InspectionSheets != null)
             {
@@ -67,7 +67,7 @@ namespace InspectionManager.Infrastructure
                 {
                     var dto = _context.InspectionSheets
                         .Where(x => x.SheetId == id)
-                        .ProjectTo<InspectionSheetDto>(_mapper.ConfigurationProvider)
+                        .ProjectTo<InspectionSheetDetailDto>(_mapper.ConfigurationProvider)
                         .Single();
 
                     return dto;

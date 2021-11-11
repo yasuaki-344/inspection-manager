@@ -80,7 +80,7 @@ namespace InspectionManager.Web.Controllers
 
         [HttpGet]
         [Route("/v1/inspection-sheets/{sheetId}")]
-        public ActionResult<InspectionSheetDto> GetInspectionSheet([FromRoute][Required] int? sheetId)
+        public ActionResult<InspectionSheetDetailDto> GetInspectionSheet([FromRoute][Required] int? sheetId)
         {
             try
             {
