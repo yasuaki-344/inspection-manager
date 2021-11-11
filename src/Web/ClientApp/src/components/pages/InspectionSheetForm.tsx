@@ -11,14 +11,13 @@ import UndoIcon from "@mui/icons-material/Undo";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import nameof from "ts-nameof.macro";
 import { InspectionItemDialog } from "../dialog";
-import { InspectionItem, InspectionSheet } from "../../entities";
+import { InspectionItem } from "../../entities";
 import {
   IInspectionItemController,
   IInspectionItemPresenter,
-  IInspectionSheetPresenter,
   IInspectionSheetController,
-  IInspectionGroupPresenter,
-  IInspectionTypePresenter,
+  ICreatePresenter,
+  ICreateController,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
 
@@ -30,9 +29,9 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   props: InspectionSheetFormProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const sheetPresenter: IInspectionSheetPresenter = inject(
-    nameof<IInspectionSheetPresenter>()
-  );
+  const controller: ICreateController = inject(nameof<ICreateController>());
+  const presenter: ICreatePresenter = inject(nameof<ICreatePresenter>());
+
   const sheetController: IInspectionSheetController = inject(
     nameof<IInspectionSheetController>()
   );
@@ -42,30 +41,25 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   const itemController: IInspectionItemController = inject(
     nameof<IInspectionItemController>()
   );
-  const groupPresenter: IInspectionGroupPresenter = inject(
-    nameof<IInspectionGroupPresenter>()
-  );
-  const typePresenter: IInspectionTypePresenter = inject(
-    nameof<IInspectionTypePresenter>()
-  );
+
   const [open, setOpen] = useState(false);
   const [undoDisabled, setUndoDisabled] = useState(true);
   const [additional, setAdditional] = useState(false);
   const [equipmentIndex, setEquipmentIndex] = useState(0);
   const [inspectionItemIndex, setInspectionItemIndex] = useState(0);
-  const [history, setHistory] = useState<InspectionSheet[]>([]);
+  // const [history, setHistory] = useState<InspectionSheet[]>([]);
 
   const storeHistory = () => {
-    setHistory(history.concat(sheetPresenter.state));
+    // setHistory(history.concat(sheetPresenter.state));
     setUndoDisabled(false);
   };
 
   const getHistory = () => {
-    const sheet = history.pop();
-    if (sheet != null) {
-      sheetController.setSheet(sheet);
-      setUndoDisabled(!history.length);
-    }
+    // const sheet = history.pop();
+    // if (sheet != null) {
+    //   sheetController.setSheet(sheet);
+    //   setUndoDisabled(!history.length);
+    // }
   };
 
   /**
@@ -113,10 +107,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   return (
     <DndProvider backend={HTML5Backend}>
       <Paper variant="outlined">
-        {sheetPresenter.getEditContent(
+        {presenter.getEditContent(
           props.isEdit,
-          groupPresenter.state,
-          typePresenter.state,
           handleAddItem,
           handleEditItem
           // storeHistory
@@ -133,7 +125,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
               <BottomNavigationAction
                 label="点検機器追加"
                 icon={<AddCircleIcon />}
-                onClick={() => sheetController.addEquipment()}
+                onClick={() => controller.addEquipment()}
               />
             </BottomNavigation>
           </Grid>

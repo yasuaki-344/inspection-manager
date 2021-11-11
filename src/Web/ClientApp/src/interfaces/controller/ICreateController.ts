@@ -21,6 +21,11 @@ export interface ICreateController {
   fetchInspectionMasterData(): Promise<void>;
 
   /**
+   * Add new equipment to current inspection sheet.
+   */
+  addEquipment(): void;
+
+  /**
    * Create a new inspection sheet data in database
    */
   createInspectionSheet(): Promise<void>;

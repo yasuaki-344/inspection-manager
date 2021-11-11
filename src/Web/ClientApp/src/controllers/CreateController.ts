@@ -63,6 +63,11 @@ export class CreateController implements ICreateController {
   }
 
   /** @inheritdoc */
+  addEquipment(): void {
+    this.sheetUseCase.addEquipment();
+  }
+
+  /** @inheritdoc */
   async createInspectionSheet(): Promise<void> {
     await this.sheetUseCase.createInspectionSheet();
   }
