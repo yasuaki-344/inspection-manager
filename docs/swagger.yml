@@ -297,7 +297,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InspectionType'
+              $ref: "#/components/schemas/InspectionType"
             example:
               id: 0
               name: new type
@@ -361,7 +361,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InspectionType'
+              $ref: "#/components/schemas/InspectionType"
             example:
               id: 1
               name: update type
@@ -417,7 +417,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ChoiceTemplate'
+                  $ref: "#/components/schemas/ChoiceTemplate"
                 example:
                   - choice_template_id: 1
                     choices:
@@ -460,7 +460,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ChoiceTemplate'
+                $ref: "#/components/schemas/ChoiceTemplate"
                 example:
                   choice_template_id: 1
                   choices:
@@ -493,7 +493,7 @@ paths:
               schema:
                 type: object
                 items:
-                  $ref: '#/components/schemas/ChoiceTemplate'
+                  $ref: "#/components/schemas/ChoiceTemplate"
                 example:
                   choice_template_id: 1
                   choices:
@@ -524,7 +524,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ChoiceTemplate'
+              $ref: "#/components/schemas/ChoiceTemplate"
             example:
               choice_template_id: 1
               choices:
@@ -538,7 +538,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ChoiceTemplate'
+                $ref: "#/components/schemas/ChoiceTemplate"
               example:
                 choice_template_id: 1
                 choices:

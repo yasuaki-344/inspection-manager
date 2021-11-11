@@ -1,12 +1,22 @@
 import { InspectionSheet, toCamelCase, toSnakeCase } from "../entities";
 import { IInspectionSheetRepository } from "../interfaces";
+import { InspectionSheetsApi } from "../typescript-fetch";
 
 export class InspectionSheetRepository implements IInspectionSheetRepository {
-  async get(): Promise<Array<InspectionSheet>> {
-    const data = await fetch("inspectionsheet")
-      .then((res) => res.json())
-      .then((json) => toCamelCase(json));
-    return data;
+  private readonly api: InspectionSheetsApi;
+
+  /**
+   * Initializes a new instance of InspectionSheetRepository class.
+   */
+  constructor() {
+    this.api = new InspectionSheetsApi()
+  }
+
+  /** @inheritdoc */
+  async get(): Promise<InspectionSheet[]> {
+    const res = await this.api.inspectionSheetsGet();
+    const sheets = toCamelCase(res);
+    return sheets;
   }
 
   async getById(id: number): Promise<InspectionSheet> {
@@ -42,9 +52,10 @@ export class InspectionSheetRepository implements IInspectionSheetRepository {
     return data;
   }
 
+  /** @inheritdoc */
   async delete(id: number): Promise<void> {
-    await fetch(`inspectionsheet/${id}`, {
-      method: "DELETE",
-    });
+    this.api.inspectionSheetsSheetIdDelete({
+      sheetId: id
+    })
   }
 }
