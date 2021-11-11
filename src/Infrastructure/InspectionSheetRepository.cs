@@ -84,7 +84,7 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public bool IsValidInspectionSheet(InspectionSheetDto dto)
+        public bool IsValidInspectionSheet(InspectionSheetDetailDto dto)
         {
             if (_context.InspectionGroups != null && _context.InspectionTypes != null)
             {
@@ -102,7 +102,7 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public async Task<InspectionSheetDto> CreateInspectionSheetAsync(InspectionSheetDto dto)
+        public async Task<InspectionSheetDetailDto> CreateInspectionSheetAsync(InspectionSheetDetailDto dto)
         {
             if (_context.InspectionSheets != null)
             {
@@ -113,11 +113,15 @@ namespace InspectionManager.Infrastructure
                         .Single(x => x.InspectionGroupId == entity.InspectionGroupId);
                     entity.InspectionType = _context.InspectionTypes
                         .Single(x => x.InspectionTypeId == entity.InspectionTypeId);
-                }
-                await _context.InspectionSheets.AddAsync(entity);
-                await _context.SaveChangesAsync();
+                    await _context.InspectionSheets.AddAsync(entity);
+                    await _context.SaveChangesAsync();
 
-                return _mapper.Map<InspectionSheetDto>(entity);
+                    return _mapper.Map<InspectionSheetDetailDto>(entity);
+                }
+                else
+                {
+                    throw new NullReferenceException();
+                }
             }
             else
             {
@@ -126,7 +130,7 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public async Task<InspectionSheetDto> UpdateInspectionSheetAsync(InspectionSheetDto dto)
+        public async Task<InspectionSheetDetailDto> UpdateInspectionSheetAsync(InspectionSheetDetailDto dto)
         {
             if (_context.InspectionSheets != null)
             {
@@ -141,7 +145,7 @@ namespace InspectionManager.Infrastructure
                 _context.InspectionSheets.Update(entity);
                 await _context.SaveChangesAsync();
 
-                return _mapper.Map<InspectionSheetDto>(entity);
+                return _mapper.Map<InspectionSheetDetailDto>(entity);
             }
             else
             {

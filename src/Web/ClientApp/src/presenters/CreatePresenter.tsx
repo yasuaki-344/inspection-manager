@@ -7,7 +7,7 @@ import {
 } from "../interfaces";
 
 export class CreatePresenter implements ICreatePresenter {
-  readonly selectionSheets: InspectionSheet[]
+  readonly selectionSheets: InspectionSheet[];
 
   private readonly typeUseCase: IInspectionTypeInteractor;
 

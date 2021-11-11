@@ -44,15 +44,15 @@ namespace InspectionManager.ApplicationCore.Services
             _repository.GetInspectionSheet(id);
 
         /// <inheritdoc/>
-        public bool IsValidInspectionSheet(InspectionSheetDto dto) =>
+        public bool IsValidInspectionSheet(InspectionSheetDetailDto dto) =>
             _repository.IsValidInspectionSheet(dto);
 
         /// <inheritdoc/>
-        public async Task<InspectionSheetDto> CreateInspectionSheetAsync(InspectionSheetDto dto) =>
+        public async Task<InspectionSheetDetailDto> CreateInspectionSheetAsync(InspectionSheetDetailDto dto) =>
             await _repository.CreateInspectionSheetAsync(dto);
 
         /// <inheritdoc/>
-        public async Task<InspectionSheetDto> UpdateInspectionSheetAsync(InspectionSheetDto dto) =>
+        public async Task<InspectionSheetDetailDto> UpdateInspectionSheetAsync(InspectionSheetDetailDto dto) =>
             await _repository.UpdateInspectionSheetAsync(dto);
 
         /// <inheritdoc/>

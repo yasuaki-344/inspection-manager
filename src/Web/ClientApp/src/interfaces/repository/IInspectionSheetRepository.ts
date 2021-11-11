@@ -11,7 +11,17 @@ export interface IInspectionSheetRepository {
    * @param id Sheet ID to get
    */
   getById(id: number): Promise<InspectionSheet>;
+
+  /**
+   * Creates a new inspection sheet
+   * @param inspectionSheet Inspection sheet data to create.
+   */
   post(inspectionSheet: InspectionSheet): Promise<InspectionSheet>;
+
+  /**
+   * Updates the specified inspection sheet
+   * @param inspectionSheet Inspection sheet data to update.
+   */
   put(inspectionSheet: InspectionSheet): Promise<InspectionSheet>;
 
   /**

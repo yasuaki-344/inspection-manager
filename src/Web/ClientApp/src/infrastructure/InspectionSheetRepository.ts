@@ -9,7 +9,7 @@ export class InspectionSheetRepository implements IInspectionSheetRepository {
    * Initializes a new instance of InspectionSheetRepository class.
    */
   constructor() {
-    this.api = new InspectionSheetsApi()
+    this.api = new InspectionSheetsApi();
   }
 
   /** @inheritdoc */
@@ -22,43 +22,36 @@ export class InspectionSheetRepository implements IInspectionSheetRepository {
   /** @inheritdoc */
   async getById(id: number): Promise<InspectionSheet> {
     const res = await this.api.inspectionSheetsSheetIdGet({
-      sheetId: id
-    })
-    console.log(res)
+      sheetId: id,
+    });
     const sheet = toCamelCase(res);
-    return sheet
+    return sheet;
   }
 
+  /** @inheritdoc */
   async post(inspectionSheet: InspectionSheet): Promise<InspectionSheet> {
-    const data = await fetch("inspectionsheet", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(toSnakeCase(inspectionSheet)),
-    })
-      .then((res) => res.json())
-      .then((json) => toCamelCase(json));
-    return data;
+    const requestBody = toSnakeCase(inspectionSheet);
+    const res = await this.api.inspectionSheetsPost({
+      inspectionSheetDetail: requestBody,
+    });
+    const sheet = toCamelCase(res);
+    return sheet;
   }
 
   async put(inspectionSheet: InspectionSheet): Promise<InspectionSheet> {
-    const data = await fetch(`inspectionsheet/${inspectionSheet.sheetId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(toSnakeCase(inspectionSheet)),
-    })
-      .then((res) => res.json())
-      .then((json) => toCamelCase(json));
-    return data;
+    const requestBody = toSnakeCase(inspectionSheet);
+    const res = await this.api.inspectionSheetsSheetIdPut({
+      sheetId: requestBody.sheet_id,
+      inspectionSheetDetail: requestBody,
+    });
+    const sheet = toCamelCase(res);
+    return sheet;
   }
 
   /** @inheritdoc */
   async delete(id: number): Promise<void> {
     this.api.inspectionSheetsSheetIdDelete({
-      sheetId: id
-    })
+      sheetId: id,
+    });
   }
 }

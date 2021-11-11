@@ -53,7 +53,7 @@ namespace InspectionManager.Web.Controllers
 
         [HttpPost]
         [Route("/v1/inspection-sheets")]
-        public async Task<ActionResult<InspectionSheetDto>> CreateSheetAsync([FromBody] InspectionSheetDto dto)
+        public async Task<ActionResult<InspectionSheetDetailDto>> CreateSheetAsync([FromBody] InspectionSheetDetailDto dto)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace InspectionManager.Web.Controllers
         [HttpPut]
         [Route("/v1/inspection-sheets/{sheetId}")]
         [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<InspectionSheetDto>> UpdateInspectionSheet([FromRoute][Required] int? sheetId, [FromBody] InspectionSheetDto dto)
+        public async Task<ActionResult<InspectionSheetDetailDto>> UpdateInspectionSheet([FromRoute][Required] int? sheetId, [FromBody] InspectionSheetDetailDto dto)
         {
             try
             {
