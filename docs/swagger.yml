@@ -628,10 +628,14 @@ components:
       type: object
       required:
         - equipment_id
+        - order_index
         - equipment_name
         - inspection_items
       properties:
         equipment_id:
+          type: integer
+          format: int64
+        order_index:
           type: integer
           format: int64
         equipment_name:
@@ -644,11 +648,15 @@ components:
       type: object
       required:
         - inspection_item_id
+        - order_index
         - inspection_content
         - input_type
         - choices"
       properties:
         inspection_item_id:
+          type: integer
+          format: int64
+        order_index:
           type: integer
           format: int64
         inspection_content:
@@ -664,9 +672,13 @@ components:
       type: object
       required:
         - choice_id
+        - order_index
         - description
       properties:
         choice_id:
+          type: integer
+          format: int64
+        order_index:
           type: integer
           format: int64
         description:
