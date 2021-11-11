@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Entities;
@@ -99,21 +100,149 @@ namespace InspectionManager.ApplicationCore.Test
         }
 
         [Fact]
-        public void MapToInspectionSheetDtoCorrectly()
+        public void MapInspectionSheetEntityToDtoCorrectly()
         {
-            var item = new InspectionSheet
+            var entity = new InspectionSheet
+            {
+                SheetId = 1,
+                SheetName = "sheet name",
+                InspectionTypeId = 10,
+                InspectionType = new InspectionType
+                {
+                    Description = "type"
+                },
+                InspectionGroupId = 20,
+                InspectionGroup = new InspectionGroup
+                {
+                    Description = "group"
+                }
+            };
+            var mapper = CreateMapper();
+            var actual = mapper.Map<InspectionSheetDto>(entity);
+            Assert.Equal(entity.SheetId, actual.SheetId);
+            Assert.Equal(entity.SheetName, actual.SheetName);
+            Assert.Equal(entity.InspectionTypeId, actual.InspectionTypeId);
+            Assert.Equal(entity.InspectionType.Description, actual.InspectionType);
+            Assert.Equal(entity.InspectionGroupId, actual.InspectionGroupId);
+            Assert.Equal(entity.InspectionGroup.Description, actual.InspectionGroup);
+        }
+
+        [Fact]
+        public void MapInspectionSheetEntityToDetailDtoCorrectly()
+        {
+            var entity = new InspectionSheet
             {
                 SheetId = 1,
                 SheetName = "sheet name",
                 InspectionTypeId = 10,
                 InspectionGroupId = 20,
+                Equipments = new List<Equipment>
+                {
+                    new Equipment
+                    {
+                        EquipmentId = 2,
+                        EquipmentName = "equipment",
+                        InspectionItems = new List<InspectionItem>
+                        {
+                            new InspectionItem
+                            {
+                                InspectionItemId = 3,
+                                InspectionContent = "inspection",
+                                InputTypeId = 4,
+                                Choices = new List<Choice>
+                                {
+                                    new Choice
+                                    {
+                                        ChoiceId = 5,
+                                        Description = "choice"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             };
             var mapper = CreateMapper();
-            var actual = mapper.Map<InspectionSheetDto>(item);
-            Assert.Equal(1, actual.SheetId);
-            Assert.Equal("sheet name", actual.SheetName);
-            Assert.Equal(10, actual.InspectionTypeId);
-            Assert.Equal(20, actual.InspectionGroupId);
+            var actual = mapper.Map<InspectionSheetDetailDto>(entity);
+            Assert.Equal(entity.SheetId, actual.SheetId);
+            Assert.Equal(entity.SheetName, actual.SheetName);
+            Assert.Equal(entity.InspectionTypeId, actual.InspectionTypeId);
+            Assert.Equal(entity.InspectionGroupId, actual.InspectionGroupId);
+
+            var expectEquipment = entity.Equipments.First();
+            var actualEquipment = actual.Equipments.First();
+            Assert.Equal(expectEquipment.EquipmentId, actualEquipment.EquipmentId);
+            Assert.Equal(expectEquipment.EquipmentName, actualEquipment.EquipmentName);
+
+            var expectInspectionItem = expectEquipment.InspectionItems.First();
+            var actualInspectionItem = actualEquipment.InspectionItems.First();
+            Assert.Equal(expectInspectionItem.InspectionItemId, actualInspectionItem.InspectionItemId);
+            Assert.Equal(expectInspectionItem.InspectionContent, actualInspectionItem.InspectionContent);
+            Assert.Equal(expectInspectionItem.InputTypeId, actualInspectionItem.InputTypeId);
+
+            var expectChoice = expectInspectionItem.Choices.First();
+            var actualChoice = actualInspectionItem.Choices.First();
+            Assert.Equal(expectChoice.ChoiceId, actualChoice.ChoiceId);
+            Assert.Equal(expectChoice.Description, actualChoice.Description);
+        }
+
+        [Fact]
+        public void MapInspectionSheetDetailDtoToEntityCorrectly()
+        {
+            var dto = new InspectionSheetDetailDto
+            {
+                SheetId = 1,
+                SheetName = "sheet name",
+                InspectionTypeId = 10,
+                InspectionGroupId = 20,
+                Equipments = new List<EquipmentDto>
+                {
+                    new EquipmentDto
+                    {
+                        EquipmentId = 2,
+                        EquipmentName = "equipment",
+                        InspectionItems = new List<InspectionItemDto>
+                        {
+                            new InspectionItemDto
+                            {
+                                InspectionItemId = 3,
+                                InspectionContent = "inspection",
+                                InputTypeId = 4,
+                                Choices = new List<ChoiceDto>
+                                {
+                                    new ChoiceDto
+                                    {
+                                        ChoiceId = 5,
+                                        Description = "choice"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            var mapper = CreateMapper();
+            var actual = mapper.Map<InspectionSheet>(dto);
+            Assert.Equal(dto.SheetId, actual.SheetId);
+            Assert.Equal(dto.SheetName, actual.SheetName);
+            Assert.Equal(dto.InspectionTypeId, actual.InspectionTypeId);
+            Assert.Equal(dto.InspectionGroupId, actual.InspectionGroupId);
+
+            var expectEquipment = dto.Equipments.First();
+            var actualEquipment = actual.Equipments.First();
+            Assert.Equal(expectEquipment.EquipmentId, actualEquipment.EquipmentId);
+            Assert.Equal(expectEquipment.EquipmentName, actualEquipment.EquipmentName);
+
+            var expectInspectionItem = expectEquipment.InspectionItems.First();
+            var actualInspectionItem = actualEquipment.InspectionItems.First();
+            Assert.Equal(expectInspectionItem.InspectionItemId, actualInspectionItem.InspectionItemId);
+            Assert.Equal(expectInspectionItem.InspectionContent, actualInspectionItem.InspectionContent);
+            Assert.Equal(expectInspectionItem.InputTypeId, actualInspectionItem.InputTypeId);
+
+            var expectChoice = expectInspectionItem.Choices.First();
+            var actualChoice = actualInspectionItem.Choices.First();
+            Assert.Equal(expectChoice.ChoiceId, actualChoice.ChoiceId);
+            Assert.Equal(expectChoice.Description, actualChoice.Description);
         }
 
         [Fact]

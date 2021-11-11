@@ -35,6 +35,10 @@ namespace InspectionManager.ApplicationCore.Services
             CreateMap<InspectionSheetDto, InspectionSheet>()
                 .ForMember(dst => dst.InspectionGroup, opt => opt.Ignore())
                 .ForMember(dst => dst.InspectionType, opt => opt.Ignore());
+
+            CreateMap<InspectionSheet, InspectionSheetDetailDto>();
+            CreateMap<InspectionSheetDetailDto, InspectionSheet>();
+
             CreateMap<Equipment, EquipmentDto>();
             CreateMap<EquipmentDto, Equipment>();
             CreateMap<InspectionItem, InspectionItemDto>();
