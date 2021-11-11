@@ -28,7 +28,7 @@ paths:
     post:
       tags:
         - inspection sheets
-      summary: Create a new InspectionSheet model
+      summary: Create a new InspectionSheetDetail model
       description: ""
       parameters: []
       requestBody:
@@ -36,14 +36,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InspectionSheet"
+              $ref: "#/components/schemas/InspectionSheetDetail"
       responses:
         "201":
           description: Single InspectionSheet model
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InspectionSheet"
+                $ref: "#/components/schemas/InspectionSheetDetail"
         "400":
           description: バリデーションエラー or 業務エラー Bad Request
         "500":
@@ -63,11 +63,11 @@ paths:
             type: integer
       responses:
         "200":
-          description: A JSON InspectionSheet model
+          description: A JSON InspectionSheetDetail model
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InspectionSheet"
+                $ref: "#/components/schemas/InspectionSheetDetail"
         "400":
           description: IDが設定されていない Bad Request
         "500":
@@ -75,7 +75,7 @@ paths:
     put:
       tags:
         - inspection sheets
-      summary: Updates the InspectionSheet model.
+      summary: Updates the InspectionSheetDetail model.
       description: ""
       parameters:
         - name: sheet_id
@@ -89,14 +89,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InspectionSheet"
+              $ref: "#/components/schemas/InspectionSheetDetail"
       responses:
         "201":
           description: 正常系（非同期）Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InspectionSheet"
+                $ref: "#/components/schemas/InspectionSheetDetails"
         "400":
           description: "Invalid ID supplied"
         "404":
@@ -599,6 +599,77 @@ components:
           type: integer
           format: int64
         inspection_group:
+          type: string
+    InspectionSheetDetail:
+      type: object
+      required:
+        - sheet_id
+        - sheet_name
+        - inspection_type_id
+        - inspection_group_id
+        - equipments
+      properties:
+        sheet_id:
+          type: integer
+          format: int64
+        sheet_name:
+          type: string
+        inspection_type_id:
+          type: integer
+          format: int64
+        inspection_group_id:
+          type: integer
+          format: int64
+        equipments:
+          type: array
+          items:
+            $ref: "#/components/schemas/Equipment"
+    Equipment:
+      type: object
+      required:
+        - equipment_id
+        - equipment_name
+        - inspection_items
+      properties:
+        equipment_id:
+          type: integer
+          format: int64
+        equipment_name:
+          type: string
+        inspection_items:
+          type: array
+          items:
+            $ref: "#/components/schemas/InspectionItem"
+    InspectionItem:
+      type: object
+      required:
+        - inspection_item_id
+        - inspection_content
+        - input_type
+        - choices"
+      properties:
+        inspection_item_id:
+          type: integer
+          format: int64
+        inspection_content:
+          type: string
+        input_type:
+          type: integer
+          format: int64
+        choices:
+          type: array
+          items:
+            $ref: "#/components/schemas/Choice"
+    Choice:
+      type: object
+      required:
+        - choice_id
+        - description
+      properties:
+        choice_id:
+          type: integer
+          format: int64
+        description:
           type: string
     InspectionGroup:
       type: object
