@@ -74,6 +74,7 @@ export function InspectionSheetReducer(
         ...state,
         equipments: state.equipments.concat({
           equipmentId: 0,
+          orderIndex: 0,
           equipmentName: "",
           inspectionItems: [],
         }),

@@ -16,6 +16,7 @@ export type InspectionItemAction = {
  */
 export const InspectionItemInitialState: InspectionItem = {
   inspectionItemId: 0,
+  orderIndex: 0,
   inspectionContent: "",
   inputType: 0,
   choices: [],
@@ -77,6 +78,7 @@ export function InspectionItemReducer(
       return {
         ...state,
         choices: state.choices.concat({
+          orderIndex: 0,
           choiceId: 0,
           description: "",
         }),
