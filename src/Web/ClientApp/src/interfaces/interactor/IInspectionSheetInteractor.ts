@@ -50,16 +50,22 @@ export interface IInspectionSheetInteractor {
   setSheet(sheet: InspectionSheet): void;
 
   /**
+   * Sets inspection sheet name.
+   * @param sheetName sheet name to set.
+   */
+  setSheetName(sheetName: string): void
+
+  /**
    * Sets inspection group ID.
    * @param groupId Group ID to set.
    */
-  setGroup(groupId: number): void;
+  setGroupId(groupId: number): void;
 
   /**
    * Sets inspection type ID.
    * @param typeId Group ID to set.
    */
-  setType(typeId: number): void;
+  setTypeId(typeId: number): void;
 
   updateField(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

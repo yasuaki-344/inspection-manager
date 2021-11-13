@@ -94,9 +94,20 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   }
 
   /** @inheritdoc */
-  setGroup(groupId: number): void {
+  setSheetName(sheetName: string): void {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.UPDATE_NUMERIC_FIELD,
+      type: SHEET_ACTION_TYPE.SET_STRING_FIELD,
+      payload: {
+        name: "sheetName",
+        stringValue: sheetName,
+      },
+    });
+  }
+
+  /** @inheritdoc */
+  setGroupId(groupId: number): void {
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.SET_NUMERIC_FIELD,
       payload: {
         name: "inspectionGroupId",
         numericValue: groupId,
@@ -105,9 +116,9 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   }
 
   /** @inheritdoc */
-  setType(typeId: number): void {
+  setTypeId(typeId: number): void {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.UPDATE_NUMERIC_FIELD,
+      type: SHEET_ACTION_TYPE.SET_NUMERIC_FIELD,
       payload: {
         name: "inspectionTypeId",
         numericValue: typeId,
