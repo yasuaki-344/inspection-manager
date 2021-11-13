@@ -32,11 +32,11 @@ export const SHEET_ACTION_TYPE = {
   SET_STRING_FIELD: "SET_STRING_FIELD",
   SET_NUMERIC_FIELD: "SET_NUMERIC_FIELD",
   ADD_EQUIPMENT: "ADD_EQUIPMENT",
+  REMOVE_EQUIPMENT: "REMOVE_EQUIPMENT",
 
   SET_SHEET: "SET_SHEET",
   UPDATE_NUMERIC_FIELD: "UPDATE_NUMERIC_FIELD",
   UPDATE_FIELD: "UPDATE_FIELD",
-  REMOVE_EQUIPMENT: "REMOVE_EQUIPMENT",
   UPDATE_EQUIPMENT: "UPDATE_EQUIPMENT",
   SWAP_EQUIPMENT: "SWAP_EQUIPMENT",
   ADD_INSPECTION_ITEM: "ADD_INSPECTION_ITEM",
@@ -89,6 +89,18 @@ export function InspectionSheetReducer(
         equipments: equipments.concat(newEquipment),
       };
     }
+    case SHEET_ACTION_TYPE.REMOVE_EQUIPMENT: {
+      const { numericValue } = action.payload;
+      if (numericValue != null) {
+        return {
+          ...state,
+          equipments: state.equipments.filter(
+            (x: Equipment) => x.orderIndex !== numericValue
+          ),
+        };
+      }
+      return state;
+    }
 
     case SHEET_ACTION_TYPE.SET_SHEET:
       if (action.payload?.sheet != null) {
@@ -111,14 +123,6 @@ export function InspectionSheetReducer(
           ...state,
           [action.payload.name]: action.payload.value,
         };
-      }
-      return state;
-    case SHEET_ACTION_TYPE.REMOVE_EQUIPMENT:
-      if (action.payload != null) {
-        if (action.payload.equipmentIndex != null) {
-          state.equipments.splice(action.payload.equipmentIndex, 1);
-          return { ...state };
-        }
       }
       return state;
     case SHEET_ACTION_TYPE.UPDATE_EQUIPMENT: {

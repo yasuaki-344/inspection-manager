@@ -44,6 +44,12 @@ export interface ICreateController {
    * Add new equipment to current inspection sheet.
    */
   addEquipment(): void;
+  removeEquipment(orderIndex: number): void;
+  swapEquipments(srcOrderIndex: number, dstOrderIndex: number): void;
+  changeEquipmentName(
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    orderIndex: number
+  ): void;
 
   /**
    * Create a new inspection sheet data in database

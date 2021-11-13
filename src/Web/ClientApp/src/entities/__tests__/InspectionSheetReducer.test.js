@@ -49,7 +49,7 @@ describe("InspectionSheetReducer unit test", () => {
     expect(actual.inspectionTypeId).toBe(value);
   });
 
-  it("Add equipment correctly", () => {
+  test("Add equipment correctly", () => {
     const action = {
       type: SHEET_ACTION_TYPE.ADD_EQUIPMENT,
       payload: {},
@@ -67,6 +67,20 @@ describe("InspectionSheetReducer unit test", () => {
       expect(o.inspectionItems.length).toBe(0);
     });
   });
+
+  test("Remove equipment correctly", () => {
+    const action = {
+      type: SHEET_ACTION_TYPE.REMOVE_EQUIPMENT,
+      payload: {
+        numericValue: 10,
+      },
+    };
+    const state = {
+      equipments: [{ orderIndex: 10 }],
+    };
+    const actual = InspectionSheetReducer(state, action);
+    expect(actual.equipments.length).toBe(0);
+  });
 });
 
 // import InspectionSheetReducer, {
@@ -81,7 +95,7 @@ describe("InspectionSheetReducer unit test", () => {
 //   TYPES,
 // } from "../InspectionSheetReducer";
 
-// it("set sheet correctly", () => {
+// test("set sheet correctly", () => {
 //   const sheet = {
 //     sheet_id: "sheet_id",
 //     sheet_name: "sheet_name",
@@ -97,7 +111,7 @@ describe("InspectionSheetReducer unit test", () => {
 //   expect(actual).toBe(sheet);
 // });
 
-// it("do not update field if name is null", () => {
+// test("do not update field if name is null", () => {
 //   const event = {
 //     target: {
 //       name: null,
@@ -113,22 +127,7 @@ describe("InspectionSheetReducer unit test", () => {
 //   expect(actual).toStrictEqual({});
 // });
 
-// it("remove equipmentAction correctly", () => {
-//   const id = "equipment_id";
-//   const action = removeEquipmentAction(id);
-//   expect(action.type).toBe(TYPES.REMOVE_EQUIPMENT);
-//   expect(action.payload.equipment_id).toBe(id);
-
-//   const actual = InspectionSheetReducer(
-//     {
-//       equipments: [{ equipment_id: id }],
-//     },
-//     action
-//   );
-//   expect(actual.equipments.length).toBe(0);
-// });
-
-// it("update equipment correctly", () => {
+// test("update equipment correctly", () => {
 //   const event = {
 //     target: {
 //       name: "equipment_name",
@@ -155,7 +154,7 @@ describe("InspectionSheetReducer unit test", () => {
 //   expect(actual.equipments[1].equipment_name).toBe(event.target.value);
 // });
 
-// it("add inspection item correctly", () => {
+// test("add inspection item correctly", () => {
 //   const equipmentId = "equipment_id";
 //   const inspectionItem = {
 //     inspection_item_id: "id",
@@ -180,7 +179,7 @@ describe("InspectionSheetReducer unit test", () => {
 //   expect(actual.equipments[1].inspection_items[0]).toBe(inspectionItem);
 // });
 
-// it("remove inspection item correctly", () => {
+// test("remove inspection item correctly", () => {
 //   const equipmentId = "equipment_id";
 //   const itemId = "item_id";
 //   const action = removeInspectionItemAction(equipmentId, itemId);
@@ -205,7 +204,7 @@ describe("InspectionSheetReducer unit test", () => {
 //   expect(actual.equipments[1].inspection_items.length).toBe(0);
 // });
 
-// it("update inspection item correctly", () => {
+// test("update inspection item correctly", () => {
 //   const equipmentId = "equipment_id";
 //   const inspectionItem = {
 //     inspection_item_id: "item_id",

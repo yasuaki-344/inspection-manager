@@ -156,11 +156,10 @@ export class CreatePresenter implements ICreatePresenter {
     return (
       <>
         {this.sheetUseCase.sheet.equipments.map(
-          (equipment: Equipment, index: number) => (
-            // eslint-disable-next-line
-            <Grid item xs={12} key={`equipment-${index}`}>
+          (equipment: Equipment) => (
+            <Grid item xs={12} key={equipment.orderIndex}>
               <EquipmentForm
-                index={index}
+                orderIndex={equipment.orderIndex}
                 equipment={equipment}
                 handleAddItem={handleAddItem}
                 handleEditItem={handleEditItem}

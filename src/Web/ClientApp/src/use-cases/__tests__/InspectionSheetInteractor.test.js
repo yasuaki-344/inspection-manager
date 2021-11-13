@@ -67,4 +67,16 @@ describe("InspectionSheetInteractor unit test", () => {
       payload: {},
     });
   });
+
+  test("Remove equipment correctly", () => {
+    const repository = {};
+    const target = new InspectionSheetInteractor(repository);
+    target.removeEquipment(10);
+    expect(dispatch).toHaveBeenCalledWith({
+      type: SHEET_ACTION_TYPE.REMOVE_EQUIPMENT,
+      payload: {
+        numericValue: 10,
+      },
+    });
+  });
 });

@@ -72,25 +72,50 @@ export class CreateController implements ICreateController {
   };
 
   /** @inheritdoc */
-  changeGroupId = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+  changeGroupId = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
     const id = parseInt(e.target.value, 10);
     if (!Number.isNaN(id)) {
-      this.sheetUseCase.setGroupId(id)
+      this.sheetUseCase.setGroupId(id);
     }
-  }
+  };
 
   /** @inheritdoc */
-  changeTypeId = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void  => {
+  changeTypeId = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
     const id = parseInt(e.target.value, 10);
     if (!Number.isNaN(id)) {
-      this.sheetUseCase.setTypeId(id)
+      this.sheetUseCase.setTypeId(id);
     }
-  }
+  };
 
   /** @inheritdoc */
   addEquipment(): void {
     this.sheetUseCase.addEquipment();
   }
+
+  /** @inheritdoc */
+  removeEquipment(orderIndex: number): void {
+    this.sheetUseCase.removeEquipment(orderIndex);
+  }
+
+  /** @inheritdoc */
+  swapEquipments(srcOrderIndex: number, dstOrderIndex: number): void {
+    console.log(srcOrderIndex);
+    console.log(dstOrderIndex);
+  }
+
+  /** @inheritdoc */
+  changeEquipmentName = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    orderIndex: number
+  ): void => {
+    const name = e.target.value;
+    console.log(name);
+    console.log(orderIndex);
+  };
 
   /** @inheritdoc */
   async createInspectionSheet(): Promise<void> {

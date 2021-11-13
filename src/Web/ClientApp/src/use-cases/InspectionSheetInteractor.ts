@@ -135,6 +135,16 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   }
 
   /** @inheritdoc */
+  removeEquipment(orderIndex: number): void {
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.REMOVE_EQUIPMENT,
+      payload: {
+        numericValue: orderIndex,
+      },
+    });
+  }
+
+  /** @inheritdoc */
   async createInspectionSheet(): Promise<void> {
     await this.repository.post(this.sheet).then(() => {
       this.setSheet(InspectionSheetInitialState);
@@ -155,15 +165,6 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
       this.setFilteredSheets(
         this.filteredSheets.filter((x: InspectionSheet) => x.sheetId !== id)
       );
-    });
-  }
-
-  removeEquipment(index: number): void {
-    this.dispatch({
-      type: SHEET_ACTION_TYPE.REMOVE_EQUIPMENT,
-      payload: {
-        equipmentIndex: index,
-      },
     });
   }
 

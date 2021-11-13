@@ -72,7 +72,12 @@ export interface IInspectionSheetInteractor {
    */
   addEquipment(): void;
 
-  removeEquipment(index: number): void;
+  /**
+   * Remove the specified equipment.
+   * @param orderIndex Equipment order index to be removed.
+   */
+  removeEquipment(orderIndex: number): void;
+
   updateEquipment(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number
