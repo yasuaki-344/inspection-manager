@@ -61,4 +61,33 @@ describe("CreateController unit test", () => {
     expect(sheetUseCase.addEquipment).toBeCalled();
   });
 
+  test("Remove equipment correctly", () => {
+    const groupUseCase = {};
+    const typeUseCase = {};
+    const sheetUseCase = {
+      removeEquipment: jest.fn(() => {}),
+    };
+    const target = new CreateController(
+      groupUseCase,
+      typeUseCase,
+      sheetUseCase
+    );
+    target.removeEquipment(10);
+    expect(sheetUseCase.removeEquipment).toBeCalledWith(10);
+  });
+
+  test("Change equipment name correctly", () => {
+    const groupUseCase = {};
+    const typeUseCase = {};
+    const sheetUseCase = {
+      setEquipmentName: jest.fn(() => {}),
+    };
+    const target = new CreateController(
+      groupUseCase,
+      typeUseCase,
+      sheetUseCase
+    );
+    target.changeEquipmentName({ target: { value: "test" } }, 10);
+    expect(sheetUseCase.setEquipmentName).toBeCalledWith(10, "test");
+  });
 });

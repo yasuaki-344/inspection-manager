@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useReducer, useState } from "react";
+import { Dispatch, SetStateAction, useReducer, useState } from "react";
 import {
   InspectionItem,
   InspectionSheet,
@@ -145,6 +145,18 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   }
 
   /** @inheritdoc */
+  setEquipmentName(orderIndex: number, name: string): void {
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.SET_EQUIPMENT_STRING_FIELD,
+      payload: {
+        equipmentOrderIndex: orderIndex,
+        name: "equipmentName",
+        stringValue: name,
+      },
+    });
+  }
+
+  /** @inheritdoc */
   async createInspectionSheet(): Promise<void> {
     await this.repository.post(this.sheet).then(() => {
       this.setSheet(InspectionSheetInitialState);
@@ -165,20 +177,6 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
       this.setFilteredSheets(
         this.filteredSheets.filter((x: InspectionSheet) => x.sheetId !== id)
       );
-    });
-  }
-
-  updateEquipment(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
-  ): void {
-    this.dispatch({
-      type: SHEET_ACTION_TYPE.UPDATE_EQUIPMENT,
-      payload: {
-        name: event.target.name,
-        value: event.target.value,
-        equipmentIndex: index,
-      },
     });
   }
 

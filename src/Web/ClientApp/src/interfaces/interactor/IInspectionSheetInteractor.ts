@@ -1,4 +1,3 @@
-import React from "react";
 import { InspectionSheet, InspectionItem } from "../../entities";
 
 export interface IInspectionSheetInteractor {
@@ -78,10 +77,13 @@ export interface IInspectionSheetInteractor {
    */
   removeEquipment(orderIndex: number): void;
 
-  updateEquipment(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
-  ): void;
+  /**
+   * Sets inspection sheet name.
+   * @param orderIndex Order index of equipment to be set.
+   * @param name Equipment name to set.
+   */
+  setEquipmentName(orderIndex: number, name: string): void;
+
   swapEquipment(srcIndex: number, dstIndex: number): void;
   addInspectionItem(index: number, item: InspectionItem): void;
   removeInspectionItem(equipmentIndex: number, itemIndex: number): void;

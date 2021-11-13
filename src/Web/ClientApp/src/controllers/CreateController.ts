@@ -113,8 +113,7 @@ export class CreateController implements ICreateController {
     orderIndex: number
   ): void => {
     const name = e.target.value;
-    console.log(name);
-    console.log(orderIndex);
+    this.sheetUseCase.setEquipmentName(orderIndex, name);
   };
 
   /** @inheritdoc */

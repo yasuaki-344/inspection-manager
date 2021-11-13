@@ -1,4 +1,3 @@
-import React from "react";
 import { InspectionItem, InspectionSheet } from "../entities";
 import { IInspectionSheetInteractor } from "../interfaces";
 import { IInspectionSheetController } from "../interfaces/controller";
@@ -28,17 +27,6 @@ export class InspectionSheetController implements IInspectionSheetController {
 
   setSheet(sheet: InspectionSheet): void {
     this.useCase.setSheet(sheet);
-  }
-
-  removeEquipment(index: number): void {
-    this.useCase.removeEquipment(index);
-  }
-
-  updateEquipment(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
-  ): void {
-    this.useCase.updateEquipment(event, index);
   }
 
   swapEquipment(srcIndex: number, dstIndex: number): void {

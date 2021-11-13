@@ -1,4 +1,3 @@
-import React from "react";
 import { InspectionItem, InspectionSheet } from "../../entities";
 
 export interface IInspectionSheetController {
@@ -8,14 +7,6 @@ export interface IInspectionSheetController {
   removeInspectionSheet(id: number): Promise<void>;
 
   setSheet(sheet: InspectionSheet): void;
-  removeEquipment(index: number): void;
-  updateEquipment(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
-  ): void;
-
-  swapEquipment(srcIndex: number, dstIndex: number): void;
-
   addInspectionItem(index: number, item: InspectionItem): void;
 
   removeInspectionItem(equipmentIndex: number, itemIndex: number): void;

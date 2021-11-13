@@ -81,6 +81,22 @@ describe("InspectionSheetReducer unit test", () => {
     const actual = InspectionSheetReducer(state, action);
     expect(actual.equipments.length).toBe(0);
   });
+
+  test("Update equipment name correctly", () => {
+    const action = {
+      type: SHEET_ACTION_TYPE.SET_EQUIPMENT_STRING_FIELD,
+      payload: {
+        equipmentOrderIndex: 11,
+        name: "equipmentName",
+        stringValue: "test",
+      },
+    };
+    const state = {
+      equipments: [{ orderIndex: 11, equipmentName: "first" }],
+    };
+    const actual = InspectionSheetReducer(state, action);
+    expect(actual.equipments[0].equipmentName).toBe("test");
+  });
 });
 
 // import InspectionSheetReducer, {
@@ -125,33 +141,6 @@ describe("InspectionSheetReducer unit test", () => {
 
 //   const actual = InspectionSheetReducer({}, action);
 //   expect(actual).toStrictEqual({});
-// });
-
-// test("update equipment correctly", () => {
-//   const event = {
-//     target: {
-//       name: "equipment_name",
-//       value: "updated equipment name",
-//     },
-//   };
-//   const id = "equipment_id";
-//   const action = updateEquipmentAction(event, id);
-//   expect(action.type).toBe(TYPES.UPDATE_EQUIPMENT);
-//   expect(action.payload.name).toBe(event.target.name);
-//   expect(action.payload.value).toBe(event.target.value);
-//   expect(action.payload.equipment_id).toBe(id);
-
-//   const actual = InspectionSheetReducer(
-//     {
-//       equipments: [
-//         { equipment_id: id + "1", equipment_name: "before" },
-//         { equipment_id: id, equipment_name: "before" },
-//       ],
-//     },
-//     action
-//   );
-//   expect(actual.equipments[0].equipment_name).not.toBe(event.target.value);
-//   expect(actual.equipments[1].equipment_name).toBe(event.target.value);
 // });
 
 // test("add inspection item correctly", () => {

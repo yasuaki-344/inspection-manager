@@ -6,6 +6,7 @@ export type InspectionSheetAction = {
     name?: string;
     numericValue?: number;
     stringValue?: string;
+    equipmentOrderIndex?: number;
     value?: string;
     equipmentIndex?: number;
     inspectionItemIndex?: number;
@@ -33,11 +34,11 @@ export const SHEET_ACTION_TYPE = {
   SET_NUMERIC_FIELD: "SET_NUMERIC_FIELD",
   ADD_EQUIPMENT: "ADD_EQUIPMENT",
   REMOVE_EQUIPMENT: "REMOVE_EQUIPMENT",
+  SET_EQUIPMENT_STRING_FIELD: "SET_EQUIPMENT_STRING_FIELD",
 
   SET_SHEET: "SET_SHEET",
   UPDATE_NUMERIC_FIELD: "UPDATE_NUMERIC_FIELD",
   UPDATE_FIELD: "UPDATE_FIELD",
-  UPDATE_EQUIPMENT: "UPDATE_EQUIPMENT",
   SWAP_EQUIPMENT: "SWAP_EQUIPMENT",
   ADD_INSPECTION_ITEM: "ADD_INSPECTION_ITEM",
   REMOVE_INSPECTION_ITEM: "REMOVE_INSPECTION_ITEM",
@@ -101,6 +102,24 @@ export function InspectionSheetReducer(
       }
       return state;
     }
+    case SHEET_ACTION_TYPE.SET_EQUIPMENT_STRING_FIELD: {
+      const { equipmentOrderIndex, name, stringValue } = action.payload;
+      if (equipmentOrderIndex != null && name != null && stringValue != null) {
+        const { equipments } = state;
+        return {
+          ...state,
+          equipments: equipments.map((x: Equipment) =>
+            x.orderIndex !== equipmentOrderIndex
+              ? x
+              : {
+                  ...x,
+                  [name]: stringValue,
+                }
+          ),
+        };
+      }
+      return state;
+    }
 
     case SHEET_ACTION_TYPE.SET_SHEET:
       if (action.payload?.sheet != null) {
@@ -125,22 +144,6 @@ export function InspectionSheetReducer(
         };
       }
       return state;
-    case SHEET_ACTION_TYPE.UPDATE_EQUIPMENT: {
-      const equipmentIndex = action.payload?.equipmentIndex ?? -1;
-      const targetName = action.payload?.name ?? "";
-      return {
-        ...state,
-        equipments: state.equipments.map((value: Equipment, index: number) => {
-          if (index === equipmentIndex) {
-            return {
-              ...value,
-              [targetName]: action.payload?.value,
-            };
-          }
-          return value;
-        }),
-      };
-    }
     case SHEET_ACTION_TYPE.SWAP_EQUIPMENT: {
       const srcIndex = action.payload?.equipmentIndex ?? -1;
       const dstIndex = action.payload?.swapIndex ?? -1;
