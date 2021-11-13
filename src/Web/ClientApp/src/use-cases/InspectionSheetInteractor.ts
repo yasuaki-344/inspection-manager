@@ -7,7 +7,6 @@ import {
   InspectionSheetReducer,
   SHEET_ACTION_TYPE,
 } from "../entities";
-import { InspectionSheetRepository } from "../infrastructure";
 import {
   IInspectionSheetInteractor,
   IInspectionSheetRepository,
@@ -32,8 +31,9 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
 
   /**
    * Initializes a new instance of InspectionSheetInteractor.
+   * @param repository IInspectionSheetRepository object.
    */
-  constructor() {
+  constructor(repository: IInspectionSheetRepository) {
     const [sheets, setSheets] = useState<InspectionSheet[]>([]);
     this.sheets = sheets;
     this.setSheets = setSheets;
@@ -46,7 +46,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     );
     this.sheet = sheet;
     this.dispatch = sheetDispatch;
-    this.repository = new InspectionSheetRepository();
+    this.repository = repository;
   }
 
   /** @inheritdoc */

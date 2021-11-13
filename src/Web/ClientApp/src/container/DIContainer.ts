@@ -15,6 +15,7 @@ import { InspectionItemInitialState, InspectionItemReducer } from "../entities";
 import {
   ChoiceTemplateRepository,
   InspectionGroupRepository,
+  InspectionSheetRepository,
   InspectionTypeRepository,
 } from "../infrastructure";
 import {
@@ -39,6 +40,7 @@ import {
   IInspectionItemPresenter,
   IInspectionSheetController,
   IInspectionSheetInteractor,
+  IInspectionSheetRepository,
   IInspectionTypeController,
   IInspectionTypeInteractor,
   IInspectionTypePresenter,
@@ -102,6 +104,10 @@ export const setUpDIContainer = () => {
   );
   register(nameof<IInspectionTypeRepository>(), new InspectionTypeRepository());
   register(nameof<IChoiceTemplateRepository>(), new ChoiceTemplateRepository());
+  register(
+    nameof<IInspectionSheetRepository>(),
+    new InspectionSheetRepository()
+  );
 
   // register use-case interactor
   register(
@@ -127,7 +133,9 @@ export const setUpDIContainer = () => {
   );
   register(
     nameof<IInspectionSheetInteractor>(),
-    new InspectionSheetInteractor()
+    new InspectionSheetInteractor(
+      inject(nameof<IInspectionSheetRepository>())
+    )
   );
 
   // register presenter
