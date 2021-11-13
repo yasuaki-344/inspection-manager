@@ -49,10 +49,12 @@ const Row: FC<RowProps> = (props: RowProps): JSX.Element => {
             <Box margin={1}>
               <Table>
                 <TableHead sx={itemTableHead}>
-                  <TableCell sx={TableHeadCell}>ID</TableCell>
-                  <TableCell sx={TableHeadCell}>点検項目</TableCell>
-                  <TableCell sx={TableHeadCell}>点検タイプ</TableCell>
-                  <TableCell sx={TableHeadCell}>選択肢</TableCell>
+                  <TableRow>
+                    <TableCell sx={TableHeadCell}>ID</TableCell>
+                    <TableCell sx={TableHeadCell}>点検項目</TableCell>
+                    <TableCell sx={TableHeadCell}>点検タイプ</TableCell>
+                    <TableCell sx={TableHeadCell}>選択肢</TableCell>
+                  </TableRow>
                 </TableHead>
                 <TableBody>
                   {props.equipment.inspectionItems.map(
