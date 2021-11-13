@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react";
 import {
   InspectionGroup,
   InspectionSheetInitialState,
@@ -53,13 +54,37 @@ export class CreateController implements ICreateController {
     await this.groupUseCase
       .fetchInspectionGroups()
       .then((groups: InspectionGroup[]) => {
-        this.sheetUseCase.setGroup(groups[0].inspectionGroupId);
+        this.sheetUseCase.setGroupId(groups[0].inspectionGroupId);
       });
     await this.typeUseCase
       .fetchInspectionTypes()
       .then((types: InspectionType[]) => {
-        this.sheetUseCase.setType(types[0].inspectionTypeId);
+        this.sheetUseCase.setTypeId(types[0].inspectionTypeId);
       });
+  }
+
+  /** @inheritdoc */
+  changeSheetName = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    const name = e.target.value;
+    this.sheetUseCase.setSheetName(name);
+  };
+
+  /** @inheritdoc */
+  changeGroupId = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    const id = parseInt(e.target.value, 10);
+    if (!Number.isNaN(id)) {
+      this.sheetUseCase.setGroupId(id)
+    }
+  }
+
+  /** @inheritdoc */
+  changeTypeId = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void  => {
+    const id = parseInt(e.target.value, 10);
+    if (!Number.isNaN(id)) {
+      this.sheetUseCase.setTypeId(id)
+    }
   }
 
   /** @inheritdoc */

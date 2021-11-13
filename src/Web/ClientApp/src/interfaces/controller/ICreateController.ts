@@ -1,3 +1,5 @@
+import { ChangeEvent } from "react";
+
 export interface ICreateController {
   /**
    * Initializes inspection sheet to edit.
@@ -19,6 +21,24 @@ export interface ICreateController {
    * Gets inspection master data from database.
    */
   fetchInspectionMasterData(): Promise<void>;
+
+  /**
+   * Change the inspection sheet name of current inspection sheet.
+   * @param e React change event
+   */
+  changeSheetName(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void;
+
+  /**
+   * Change the inspection group ID of current inspection sheet.
+   * @param e React change event
+   */
+  changeGroupId(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void;
+
+  /**
+   * Change the inspection type ID of current inspection sheet.
+   * @param e React change event
+   */
+  changeTypeId(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void;
 
   /**
    * Add new equipment to current inspection sheet.
