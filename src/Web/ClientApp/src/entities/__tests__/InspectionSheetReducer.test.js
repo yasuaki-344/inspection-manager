@@ -2,7 +2,7 @@ import { InspectionSheetReducer, SHEET_ACTION_TYPE } from "..";
 
 describe("InspectionSheetReducer unit test", () => {
   test("Set sheet name correctly", () => {
-    const expect = "sheet name";
+    const value = "sheet name";
     const state = {
       sheetName: "base",
     };
@@ -10,15 +10,15 @@ describe("InspectionSheetReducer unit test", () => {
       type: SHEET_ACTION_TYPE.SET_STRING_FIELD,
       payload: {
         name: "sheetName",
-        stringValue: expect,
+        stringValue: value,
       },
     };
     const actual = InspectionSheetReducer(state, action);
-    expect(actual.sheetName).toBe(expect);
+    expect(actual.sheetName).toBe(value);
   });
 
   test("Set group ID correctly", () => {
-    const expect = 10;
+    const value = 10;
     const state = {
       inspectionGroupId: 0,
     };
@@ -26,15 +26,15 @@ describe("InspectionSheetReducer unit test", () => {
       type: SHEET_ACTION_TYPE.SET_NUMERIC_FIELD,
       payload: {
         name: "inspectionGroupId",
-        numericValue: expect,
+        numericValue: value,
       },
     };
     const actual = InspectionSheetReducer(state, action);
-    expect(actual.inspectionGroupId).toBe(expect);
+    expect(actual.inspectionGroupId).toBe(value);
   });
 
   test("Set type ID  correctly", () => {
-    const expect = 10;
+    const value = 10;
     const state = {
       inspectionTypeId: 0,
     };
@@ -42,11 +42,11 @@ describe("InspectionSheetReducer unit test", () => {
       type: SHEET_ACTION_TYPE.SET_NUMERIC_FIELD,
       payload: {
         name: "inspectionTypeId",
-        numericValue: expect,
+        numericValue: value,
       },
     };
     const actual = InspectionSheetReducer(state, action);
-    expect(actual.inspectionTypeId).toBe(expect);
+    expect(actual.inspectionTypeId).toBe(value);
   });
 });
 
