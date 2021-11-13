@@ -57,4 +57,14 @@ describe("InspectionSheetInteractor unit test", () => {
       },
     });
   });
+
+  test("Add equipment correctly", () => {
+    const repository = {};
+    const target = new InspectionSheetInteractor(repository);
+    target.addEquipment();
+    expect(dispatch).toHaveBeenCalledWith({
+      type: SHEET_ACTION_TYPE.ADD_EQUIPMENT,
+      payload: {},
+    });
+  });
 });

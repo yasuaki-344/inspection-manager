@@ -67,10 +67,11 @@ export interface IInspectionSheetInteractor {
    */
   setTypeId(typeId: number): void;
 
-  updateField(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void;
+  /**
+   * Add a new equipment to inspection sheet.
+   */
   addEquipment(): void;
+
   removeEquipment(index: number): void;
   updateEquipment(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

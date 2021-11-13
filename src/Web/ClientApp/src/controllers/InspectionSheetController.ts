@@ -30,16 +30,6 @@ export class InspectionSheetController implements IInspectionSheetController {
     this.useCase.setSheet(sheet);
   }
 
-  updateField(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void {
-    this.useCase.updateField(event);
-  }
-
-  addEquipment(): void {
-    this.useCase.addEquipment();
-  }
-
   removeEquipment(index: number): void {
     this.useCase.removeEquipment(index);
   }

@@ -127,6 +127,14 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   }
 
   /** @inheritdoc */
+  addEquipment(): void {
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.ADD_EQUIPMENT,
+      payload: {},
+    });
+  }
+
+  /** @inheritdoc */
   async createInspectionSheet(): Promise<void> {
     await this.repository.post(this.sheet).then(() => {
       this.setSheet(InspectionSheetInitialState);
@@ -147,25 +155,6 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
       this.setFilteredSheets(
         this.filteredSheets.filter((x: InspectionSheet) => x.sheetId !== id)
       );
-    });
-  }
-
-  updateField(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void {
-    this.dispatch({
-      type: SHEET_ACTION_TYPE.UPDATE_FIELD,
-      payload: {
-        name: event.target.name,
-        value: event.target.value,
-      },
-    });
-  }
-
-  addEquipment(): void {
-    this.dispatch({
-      type: SHEET_ACTION_TYPE.ADD_EQUIPMENT,
-      payload: {},
     });
   }
 

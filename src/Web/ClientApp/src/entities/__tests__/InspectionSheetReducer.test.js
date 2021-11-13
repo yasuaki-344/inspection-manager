@@ -48,6 +48,25 @@ describe("InspectionSheetReducer unit test", () => {
     const actual = InspectionSheetReducer(state, action);
     expect(actual.inspectionTypeId).toBe(value);
   });
+
+  it("Add equipment correctly", () => {
+    const action = {
+      type: SHEET_ACTION_TYPE.ADD_EQUIPMENT,
+      payload: {},
+    };
+    const state = {
+      equipments: [],
+    };
+    const actual = InspectionSheetReducer(state, action);
+    const actual2 = InspectionSheetReducer(actual, action);
+    const actual3 = InspectionSheetReducer(actual2, action);
+    actual3.equipments.forEach((o, index) => {
+      expect(o.equipmentId).toBe(0);
+      expect(o.orderIndex).toBe(index + 1);
+      expect(o.equipmentName).toBe("");
+      expect(o.inspectionItems.length).toBe(0);
+    });
+  });
 });
 
 // import InspectionSheetReducer, {
@@ -92,21 +111,6 @@ describe("InspectionSheetReducer unit test", () => {
 
 //   const actual = InspectionSheetReducer({}, action);
 //   expect(actual).toStrictEqual({});
-// });
-
-// it("add equipment correctly", () => {
-//   const action = addEquipmentAction();
-//   expect(action.type).toBe(TYPES.ADD_EQUIPMENT);
-
-//   const actual = InspectionSheetReducer(
-//     {
-//       equipments: [],
-//     },
-//     action
-//   );
-//   expect(actual.equipments[0].equipment_id).not.toBe("");
-//   expect(actual.equipments[0].equipment_name).toBe("");
-//   expect(actual.equipments[0].inspection_items.length).toBe(0);
 // });
 
 // it("remove equipmentAction correctly", () => {

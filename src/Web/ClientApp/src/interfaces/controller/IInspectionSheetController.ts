@@ -8,10 +8,6 @@ export interface IInspectionSheetController {
   removeInspectionSheet(id: number): Promise<void>;
 
   setSheet(sheet: InspectionSheet): void;
-  updateField(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void;
-  addEquipment(): void;
   removeEquipment(index: number): void;
   updateEquipment(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

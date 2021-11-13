@@ -45,4 +45,20 @@ describe("CreateController unit test", () => {
     target.changeTypeId({ target: { value: "20" } });
     expect(sheetUseCase.setTypeId).toBeCalledWith(20);
   });
+
+  test("Add equipment correctly", () => {
+    const groupUseCase = {};
+    const typeUseCase = {};
+    const sheetUseCase = {
+      addEquipment: jest.fn(() => {}),
+    };
+    const target = new CreateController(
+      groupUseCase,
+      typeUseCase,
+      sheetUseCase
+    );
+    target.addEquipment();
+    expect(sheetUseCase.addEquipment).toBeCalled();
+  });
+
 });

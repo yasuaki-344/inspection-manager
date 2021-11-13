@@ -31,11 +31,11 @@ export const InspectionSheetInitialState: InspectionSheet = {
 export const SHEET_ACTION_TYPE = {
   SET_STRING_FIELD: "SET_STRING_FIELD",
   SET_NUMERIC_FIELD: "SET_NUMERIC_FIELD",
+  ADD_EQUIPMENT: "ADD_EQUIPMENT",
 
   SET_SHEET: "SET_SHEET",
   UPDATE_NUMERIC_FIELD: "UPDATE_NUMERIC_FIELD",
   UPDATE_FIELD: "UPDATE_FIELD",
-  ADD_EQUIPMENT: "ADD_EQUIPMENT",
   REMOVE_EQUIPMENT: "REMOVE_EQUIPMENT",
   UPDATE_EQUIPMENT: "UPDATE_EQUIPMENT",
   SWAP_EQUIPMENT: "SWAP_EQUIPMENT",
@@ -70,6 +70,25 @@ export function InspectionSheetReducer(
       }
       return state;
     }
+    case SHEET_ACTION_TYPE.ADD_EQUIPMENT: {
+      const { equipments } = state;
+      const maxOrderIndex = !equipments.length
+        ? 0
+        : equipments
+            .map((o) => o.orderIndex)
+            .reduce((previous, current) => Math.max(previous, current));
+
+      const newEquipment: Equipment = {
+        equipmentId: 0,
+        orderIndex: maxOrderIndex + 1,
+        equipmentName: "",
+        inspectionItems: [],
+      };
+      return {
+        ...state,
+        equipments: equipments.concat(newEquipment),
+      };
+    }
 
     case SHEET_ACTION_TYPE.SET_SHEET:
       if (action.payload?.sheet != null) {
@@ -94,16 +113,6 @@ export function InspectionSheetReducer(
         };
       }
       return state;
-    case SHEET_ACTION_TYPE.ADD_EQUIPMENT:
-      return {
-        ...state,
-        equipments: state.equipments.concat({
-          equipmentId: 0,
-          orderIndex: 0,
-          equipmentName: "",
-          inspectionItems: [],
-        }),
-      };
     case SHEET_ACTION_TYPE.REMOVE_EQUIPMENT:
       if (action.payload != null) {
         if (action.payload.equipmentIndex != null) {
