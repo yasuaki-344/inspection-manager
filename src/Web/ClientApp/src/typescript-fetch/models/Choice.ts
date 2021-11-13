@@ -27,6 +27,12 @@ export interface Choice {
     choice_id: number;
     /**
      * 
+     * @type {number}
+     * @memberof Choice
+     */
+    order_index: number;
+    /**
+     * 
      * @type {string}
      * @memberof Choice
      */
@@ -44,6 +50,7 @@ export function ChoiceFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ch
     return {
         
         'choice_id': json['choice_id'],
+        'order_index': json['order_index'],
         'description': json['description'],
     };
 }
@@ -58,6 +65,7 @@ export function ChoiceToJSON(value?: Choice | null): any {
     return {
         
         'choice_id': value.choice_id,
+        'order_index': value.order_index,
         'description': value.description,
     };
 }
