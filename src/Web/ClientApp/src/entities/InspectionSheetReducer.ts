@@ -4,8 +4,9 @@ export type InspectionSheetAction = {
   type: string;
   payload: {
     name?: string;
-    value?: string;
     numericValue?: number;
+    stringValue?: string;
+    value?: string;
     equipmentIndex?: number;
     inspectionItemIndex?: number;
     swapIndex?: number;
@@ -28,6 +29,9 @@ export const InspectionSheetInitialState: InspectionSheet = {
 };
 
 export const SHEET_ACTION_TYPE = {
+  SET_STRING_FIELD: "SET_STRING_FIELD",
+  SET_NUMERIC_FIELD: "SET_NUMERIC_FIELD",
+
   SET_SHEET: "SET_SHEET",
   UPDATE_NUMERIC_FIELD: "UPDATE_NUMERIC_FIELD",
   UPDATE_FIELD: "UPDATE_FIELD",
@@ -46,6 +50,27 @@ export function InspectionSheetReducer(
   action: InspectionSheetAction
 ): InspectionSheet {
   switch (action.type) {
+    case SHEET_ACTION_TYPE.SET_STRING_FIELD: {
+      const { name, stringValue } = action.payload;
+      if (name != null && stringValue != null) {
+        return {
+          ...state,
+          [name]: stringValue,
+        };
+      }
+      return state;
+    }
+    case SHEET_ACTION_TYPE.SET_NUMERIC_FIELD: {
+      const { name, numericValue } = action.payload;
+      if (name != null && numericValue != null) {
+        return {
+          ...state,
+          [name]: numericValue,
+        };
+      }
+      return state;
+    }
+
     case SHEET_ACTION_TYPE.SET_SHEET:
       if (action.payload?.sheet != null) {
         return action.payload.sheet;
