@@ -7,6 +7,7 @@ import {
   Grid,
   Paper,
 } from "@mui/material";
+import { Box } from "@mui/system";
 import UndoIcon from "@mui/icons-material/Undo";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import nameof from "ts-nameof.macro";
@@ -20,6 +21,7 @@ import {
   ICreateController,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
+import { LabelStyle } from "../stylesheets";
 
 interface InspectionSheetFormProps {
   isEdit: boolean;
@@ -107,12 +109,20 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   return (
     <DndProvider backend={HTML5Backend}>
       <Paper variant="outlined">
-        {presenter.getEditContent(
-          props.isEdit,
-          handleAddItem,
-          handleEditItem
-          // storeHistory
-        )}
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <Box sx={LabelStyle}>点検シート情報</Box>
+          </Grid>
+          {presenter.sheetIdInformation(props.isEdit)}
+          {presenter.sheetNameInput(controller.changeSheetName)}
+          {presenter.groupIdInput(controller.changeGroupId)}
+          {presenter.typeIdInput(controller.changeTypeId)}
+          {presenter.getEditContent(
+            handleAddItem,
+            handleEditItem
+            // storeHistory
+          )}
+        </Grid>
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <BottomNavigation showLabels>
