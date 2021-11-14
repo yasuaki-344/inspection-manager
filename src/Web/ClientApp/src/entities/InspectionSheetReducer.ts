@@ -165,7 +165,7 @@ export function InspectionSheetReducer(
             : inspectionItems
                 .map((o) => o.orderIndex)
                 .reduce((previous, current) => Math.max(previous, current));
-          equipment.inspectionItems.concat({
+          equipment.inspectionItems = equipment.inspectionItems.concat({
             ...inspectionItem,
             orderIndex: maxOrderIndex + 1,
           });
@@ -223,15 +223,17 @@ export function InspectionSheetReducer(
             (x: InspectionItem) => x.orderIndex === dstOrderIndex
           );
           if (src != null && dst != null) {
-            equipment.inspectionItems = inspectionItems.map((x: InspectionItem) => {
-              if (x.orderIndex === srcOrderIndex) {
-                return { ...dst, orderIndex: srcOrderIndex };
+            equipment.inspectionItems = inspectionItems.map(
+              (x: InspectionItem) => {
+                if (x.orderIndex === srcOrderIndex) {
+                  return { ...dst, orderIndex: srcOrderIndex };
+                }
+                if (x.orderIndex === dstOrderIndex) {
+                  return { ...src, orderIndex: dstOrderIndex };
+                }
+                return x;
               }
-              if (x.orderIndex === dstOrderIndex) {
-                return { ...src, orderIndex: dstOrderIndex };
-              }
-              return x;
-            });
+            );
             return {
               ...state,
               equipments: state.equipments.map((x: Equipment) =>
@@ -244,37 +246,27 @@ export function InspectionSheetReducer(
       return state;
     }
     case SHEET_ACTION_TYPE.UPDATE_INSPECTION_ITEM: {
-      const { equipmentOrderIndex, itemOrderIndex, name, stringValue } =
+      const { equipmentOrderIndex, itemOrderIndex, inspectionItem } =
         action.payload;
       if (
         equipmentOrderIndex != null &&
         itemOrderIndex != null &&
-        name != null &&
-        stringValue != null
+        inspectionItem != null
       ) {
         const equipment = state.equipments.find(
           (x: Equipment) => x.orderIndex === equipmentOrderIndex
         );
         if (equipment != null) {
-          const inspectionItem = equipment.inspectionItems.find(
-            (y: InspectionItem) => y.orderIndex === itemOrderIndex
+          equipment.inspectionItems = equipment.inspectionItems.map(
+            (x: InspectionItem) =>
+              x.orderIndex === itemOrderIndex ? inspectionItem : x
           );
-          if (inspectionItem != null) {
-            const newInspectionItem = {
-              ...inspectionItem,
-              [name]: stringValue,
-            };
-            equipment.inspectionItems = equipment.inspectionItems.map(
-              (x: InspectionItem) =>
-                x.orderIndex === itemOrderIndex ? newInspectionItem : x
-            );
-            return {
-              ...state,
-              equipments: state.equipments.map((x: Equipment) =>
-                x.orderIndex === equipmentOrderIndex ? equipment : x
-              ),
-            };
-          }
+          return {
+            ...state,
+            equipments: state.equipments.map((x: Equipment) =>
+              x.orderIndex === equipmentOrderIndex ? equipment : x
+            ),
+          };
         }
       }
       return state;
