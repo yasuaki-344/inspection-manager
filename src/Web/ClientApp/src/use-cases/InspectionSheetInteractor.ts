@@ -195,48 +195,51 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.dispatch({
       type: SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM,
       payload: {
-        equipmentIndex: index,
+        equipmentOrderIndex: index,
         inspectionItem: item,
       },
     });
   }
 
-  removeInspectionItem(equipmentIndex: number, itemIndex: number): void {
+  removeInspectionItem(
+    equipmentOrderIndex: number,
+    itemOrderIndex: number
+  ): void {
     this.dispatch({
       type: SHEET_ACTION_TYPE.REMOVE_INSPECTION_ITEM,
       payload: {
-        equipmentIndex,
-        inspectionItemIndex: itemIndex,
+        equipmentOrderIndex,
+        itemOrderIndex,
       },
     });
   }
 
   updateInspectionItem(
-    equipmentIndex: number,
-    itemIndex: number,
+    equipmentOrderIndex: number,
+    itemOrderIndex: number,
     item: InspectionItem
   ): void {
     this.dispatch({
       type: SHEET_ACTION_TYPE.UPDATE_INSPECTION_ITEM,
       payload: {
-        equipmentIndex,
-        inspectionItemIndex: itemIndex,
+        equipmentOrderIndex,
+        itemOrderIndex,
         inspectionItem: item,
       },
     });
   }
 
   swapInspectionItem(
-    equipmentIndex: number,
-    srcIndex: number,
-    dstIndex: number
+    equipmentOrderIndex: number,
+    srcOrderIndex: number,
+    dstOrderIndex: number
   ) {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.SWAP_INSPECTION_ITEM,
+      type: SHEET_ACTION_TYPE.SWAP_INSPECTION_ITEMS,
       payload: {
-        equipmentIndex,
-        inspectionItemIndex: srcIndex,
-        swapIndex: dstIndex,
+        equipmentOrderIndex,
+        srcOrderIndex,
+        dstOrderIndex,
       },
     });
   }
