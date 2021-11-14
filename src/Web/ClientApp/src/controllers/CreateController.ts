@@ -1,6 +1,7 @@
 import { ChangeEvent } from "react";
 import {
   InspectionGroup,
+  InspectionItem,
   InspectionSheetInitialState,
   InspectionType,
 } from "../entities";
@@ -114,6 +115,29 @@ export class CreateController implements ICreateController {
     const name = e.target.value;
     this.sheetUseCase.setEquipmentName(orderIndex, name);
   };
+
+  addInspectionItem(orderIndex: number, item: InspectionItem): void {
+    this.sheetUseCase.addInspectionItem(orderIndex, item);
+  }
+
+  removeInspectionItem(
+    equipmentOrderIndex: number,
+    itemOrderIndex: number
+  ): void {
+    this.sheetUseCase.removeInspectionItem(equipmentOrderIndex, itemOrderIndex);
+  }
+
+  updateInspectionItem(
+    equipmentOrderIndex: number,
+    itemOrderIndex: number,
+    item: InspectionItem
+  ): void {
+    this.sheetUseCase.updateInspectionItem(
+      equipmentOrderIndex,
+      itemOrderIndex,
+      item
+    );
+  }
 
   /** @inheritdoc */
   async createInspectionSheet(): Promise<void> {

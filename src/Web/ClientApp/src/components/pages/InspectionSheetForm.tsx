@@ -16,7 +16,6 @@ import { InspectionItem } from "../../entities";
 import {
   IInspectionItemController,
   IInspectionItemPresenter,
-  IInspectionSheetController,
   ICreatePresenter,
   ICreateController,
 } from "../../interfaces";
@@ -34,9 +33,6 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   const controller: ICreateController = inject(nameof<ICreateController>());
   const presenter: ICreatePresenter = inject(nameof<ICreatePresenter>());
 
-  const sheetController: IInspectionSheetController = inject(
-    nameof<IInspectionSheetController>()
-  );
   const itemPresenter: IInspectionItemPresenter = inject(
     nameof<IInspectionItemPresenter>()
   );
@@ -69,9 +65,9 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
    */
   const handleInspectionItem = () => {
     if (additional) {
-      sheetController.addInspectionItem(equipmentIndex, itemPresenter.state);
+      controller.addInspectionItem(equipmentIndex, itemPresenter.state);
     } else {
-      sheetController.updateInspectionItem(
+      controller.updateInspectionItem(
         equipmentIndex,
         inspectionItemIndex,
         itemPresenter.state

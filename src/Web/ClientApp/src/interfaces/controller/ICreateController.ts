@@ -1,4 +1,5 @@
 import { ChangeEvent } from "react";
+import { InspectionItem } from "../../entities";
 
 export interface ICreateController {
   /**
@@ -49,6 +50,13 @@ export interface ICreateController {
   changeEquipmentName(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     orderIndex: number
+  ): void;
+
+  addInspectionItem(orderIndex: number, item: InspectionItem): void;
+  updateInspectionItem(
+    equipmentOrderIndex: number,
+    itemOrderIndex: number,
+    item: InspectionItem
   ): void;
 
   /**

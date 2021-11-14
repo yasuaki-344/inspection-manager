@@ -5,9 +5,9 @@ export interface IInspectionSheetController {
   createInspectionSheet(): Promise<void>;
   updateInspectionSheet(): Promise<void>;
   removeInspectionSheet(id: number): Promise<void>;
+  addInspectionItem(index: number, item: InspectionItem): void;
 
   setSheet(sheet: InspectionSheet): void;
-  addInspectionItem(index: number, item: InspectionItem): void;
 
   removeInspectionItem(equipmentIndex: number, itemIndex: number): void;
   updateInspectionItem(

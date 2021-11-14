@@ -46,11 +46,11 @@ export const InspectionItemForm: FC<InspectionItemFormProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {inspectionItems.map((item: InspectionItem, index: number) => (
+            {inspectionItems.map((item: InspectionItem) => (
               <InspectionItemRow
-                key={item.inspectionItemId}
+                key={item.orderIndex}
                 equipmentIndex={equipmentIndex}
-                inspectionItemIndex={index}
+                inspectionItemIndex={item.orderIndex}
                 inspectionItem={item}
                 editInspectionItem={editInspectionItem}
                 // storeHistory={storeHistory}

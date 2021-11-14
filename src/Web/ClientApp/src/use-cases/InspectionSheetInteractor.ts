@@ -191,6 +191,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     });
   }
 
+  /** @inheritdoc */
   addInspectionItem(index: number, item: InspectionItem): void {
     this.dispatch({
       type: SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM,
@@ -201,6 +202,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     });
   }
 
+  /** @inheritdoc */
   removeInspectionItem(
     equipmentOrderIndex: number,
     itemOrderIndex: number
