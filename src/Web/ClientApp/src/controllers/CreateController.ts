@@ -103,8 +103,7 @@ export class CreateController implements ICreateController {
 
   /** @inheritdoc */
   swapEquipments(srcOrderIndex: number, dstOrderIndex: number): void {
-    console.log(srcOrderIndex);
-    console.log(dstOrderIndex);
+    this.sheetUseCase.swapEquipments(srcOrderIndex, dstOrderIndex);
   }
 
   /** @inheritdoc */

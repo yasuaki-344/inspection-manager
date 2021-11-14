@@ -82,6 +82,30 @@ describe("InspectionSheetReducer unit test", () => {
     expect(actual.equipments.length).toBe(0);
   });
 
+  test("Swap equipments correctly", () => {
+    const action = {
+      type: SHEET_ACTION_TYPE.SWAP_EQUIPMENTS,
+      payload: {
+        srcOrderIndex: 10,
+        dstOrderIndex: 30,
+      },
+    };
+    const state = {
+      equipments: [
+        { orderIndex: 10, equipmentName: "first" },
+        { orderIndex: 20, equipmentName: "second" },
+        { orderIndex: 30, equipmentName: "third" },
+      ],
+    };
+    const actual = InspectionSheetReducer(state, action);
+    expect(actual.equipments[0].orderIndex).toBe(10);
+    expect(actual.equipments[0].equipmentName).toBe("third");
+    expect(actual.equipments[1].orderIndex).toBe(20);
+    expect(actual.equipments[1].equipmentName).toBe("second");
+    expect(actual.equipments[2].orderIndex).toBe(30);
+    expect(actual.equipments[2].equipmentName).toBe("first");
+  });
+
   test("Update equipment name correctly", () => {
     const action = {
       type: SHEET_ACTION_TYPE.SET_EQUIPMENT_STRING_FIELD,
@@ -99,18 +123,6 @@ describe("InspectionSheetReducer unit test", () => {
   });
 });
 
-// import InspectionSheetReducer, {
-//   setSheetAction,
-//   updateFieldAction,
-//   addEquipmentAction,
-//   removeEquipmentAction,
-//   updateEquipmentAction,
-//   addInspectionItemAction,
-//   removeInspectionItemAction,
-//   updateInspectionItemAction,
-//   TYPES,
-// } from "../InspectionSheetReducer";
-
 // test("set sheet correctly", () => {
 //   const sheet = {
 //     sheet_id: "sheet_id",
@@ -125,22 +137,6 @@ describe("InspectionSheetReducer unit test", () => {
 
 //   const actual = InspectionSheetReducer({}, action);
 //   expect(actual).toBe(sheet);
-// });
-
-// test("do not update field if name is null", () => {
-//   const event = {
-//     target: {
-//       name: null,
-//       value: "sample sheet name",
-//     },
-//   };
-//   const action = updateFieldAction(event);
-//   expect(action.type).toBe(TYPES.UPDATE_FIELD);
-//   expect(action.payload.name).toBe(event.target.name);
-//   expect(action.payload.value).toBe(event.target.value);
-
-//   const actual = InspectionSheetReducer({}, action);
-//   expect(actual).toStrictEqual({});
 // });
 
 // test("add inspection item correctly", () => {

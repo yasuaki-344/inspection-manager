@@ -7,6 +7,9 @@ export type InspectionSheetAction = {
     numericValue?: number;
     stringValue?: string;
     equipmentOrderIndex?: number;
+    srcOrderIndex?: number;
+    dstOrderIndex?: number;
+
     value?: string;
     equipmentIndex?: number;
     inspectionItemIndex?: number;
@@ -34,12 +37,12 @@ export const SHEET_ACTION_TYPE = {
   SET_NUMERIC_FIELD: "SET_NUMERIC_FIELD",
   ADD_EQUIPMENT: "ADD_EQUIPMENT",
   REMOVE_EQUIPMENT: "REMOVE_EQUIPMENT",
+  SWAP_EQUIPMENTS: "SWAP_EQUIPMENTS",
   SET_EQUIPMENT_STRING_FIELD: "SET_EQUIPMENT_STRING_FIELD",
 
   SET_SHEET: "SET_SHEET",
   UPDATE_NUMERIC_FIELD: "UPDATE_NUMERIC_FIELD",
   UPDATE_FIELD: "UPDATE_FIELD",
-  SWAP_EQUIPMENT: "SWAP_EQUIPMENT",
   ADD_INSPECTION_ITEM: "ADD_INSPECTION_ITEM",
   REMOVE_INSPECTION_ITEM: "REMOVE_INSPECTION_ITEM",
   UPDATE_INSPECTION_ITEM: "UPDATE_INSPECTION_ITEM",
@@ -102,6 +105,34 @@ export function InspectionSheetReducer(
       }
       return state;
     }
+    case SHEET_ACTION_TYPE.SWAP_EQUIPMENTS: {
+      const { srcOrderIndex, dstOrderIndex } = action.payload;
+      if (srcOrderIndex != null && dstOrderIndex != null) {
+        let { equipments } = state;
+        const src = equipments.find(
+          (x: Equipment) => x.orderIndex === srcOrderIndex
+        );
+        const dst = equipments.find(
+          (x: Equipment) => x.orderIndex === dstOrderIndex
+        );
+        if (src != null && dst != null) {
+          equipments = equipments.map((x: Equipment) => {
+            if (x.orderIndex === srcOrderIndex) {
+              return { ...dst, orderIndex: srcOrderIndex };
+            }
+            if (x.orderIndex === dstOrderIndex) {
+              return { ...src, orderIndex: dstOrderIndex };
+            }
+            return x;
+          });
+          return {
+            ...state,
+            equipments,
+          };
+        }
+      }
+      return state;
+    }
     case SHEET_ACTION_TYPE.SET_EQUIPMENT_STRING_FIELD: {
       const { equipmentOrderIndex, name, stringValue } = action.payload;
       if (equipmentOrderIndex != null && name != null && stringValue != null) {
@@ -144,22 +175,6 @@ export function InspectionSheetReducer(
         };
       }
       return state;
-    case SHEET_ACTION_TYPE.SWAP_EQUIPMENT: {
-      const srcIndex = action.payload?.equipmentIndex ?? -1;
-      const dstIndex = action.payload?.swapIndex ?? -1;
-      if (srcIndex >= 0 && dstIndex >= 0) {
-        const { equipments } = state;
-        [equipments[srcIndex], equipments[dstIndex]] = [
-          equipments[dstIndex],
-          equipments[srcIndex],
-        ];
-        return {
-          ...state,
-          equipments,
-        };
-      }
-      return state;
-    }
     case SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM:
       if (action.payload != null) {
         if (

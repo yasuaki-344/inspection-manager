@@ -145,6 +145,17 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   }
 
   /** @inheritdoc */
+  swapEquipments(srcOrderIndex: number, dstOrderIndex: number): void {
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.SWAP_EQUIPMENTS,
+      payload: {
+        srcOrderIndex,
+        dstOrderIndex,
+      },
+    });
+  }
+
+  /** @inheritdoc */
   setEquipmentName(orderIndex: number, name: string): void {
     this.dispatch({
       type: SHEET_ACTION_TYPE.SET_EQUIPMENT_STRING_FIELD,
@@ -177,16 +188,6 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
       this.setFilteredSheets(
         this.filteredSheets.filter((x: InspectionSheet) => x.sheetId !== id)
       );
-    });
-  }
-
-  swapEquipment(srcIndex: number, dstIndex: number): void {
-    this.dispatch({
-      type: SHEET_ACTION_TYPE.SWAP_EQUIPMENT,
-      payload: {
-        equipmentIndex: srcIndex,
-        swapIndex: dstIndex,
-      },
     });
   }
 

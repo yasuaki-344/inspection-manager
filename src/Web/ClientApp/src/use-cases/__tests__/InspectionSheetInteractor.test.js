@@ -79,4 +79,17 @@ describe("InspectionSheetInteractor unit test", () => {
       },
     });
   });
+
+  test("Swap equipments correctly", () => {
+    const repository = {};
+    const target = new InspectionSheetInteractor(repository);
+    target.swapEquipments(10, 20);
+    expect(dispatch).toHaveBeenCalledWith({
+      type: SHEET_ACTION_TYPE.SWAP_EQUIPMENTS,
+      payload: {
+        srcOrderIndex: 10,
+        dstOrderIndex: 20,
+      },
+    });
+  });
 });

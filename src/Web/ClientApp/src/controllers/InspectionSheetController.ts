@@ -29,10 +29,6 @@ export class InspectionSheetController implements IInspectionSheetController {
     this.useCase.setSheet(sheet);
   }
 
-  swapEquipment(srcIndex: number, dstIndex: number): void {
-    this.useCase.swapEquipment(srcIndex, dstIndex);
-  }
-
   addInspectionItem(index: number, item: InspectionItem): void {
     this.useCase.addInspectionItem(index, item);
   }
