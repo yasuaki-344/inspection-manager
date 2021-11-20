@@ -40,9 +40,9 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
     nameof<IInspectionItemController>()
   );
 
-  const [open, setOpen] = useState(false);
   const [undoDisabled, setUndoDisabled] = useState(true);
-  const [additional, setAdditional] = useState(false);
+  const [status, setStatus] = useState({ isOpen: false, isAdditional: false });
+  /* eslint-disable-next-line */
   const [equipmentIndex, setEquipmentIndex] = useState(0);
   const [inspectionItemIndex, setInspectionItemIndex] = useState(0);
   // const [history, setHistory] = useState<InspectionSheet[]>([]);
@@ -64,7 +64,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
    * Implements the process for managing inspection item of equipment.
    */
   const handleInspectionItem = () => {
-    if (additional) {
+    if (status.isAdditional) {
       controller.addInspectionItem(equipmentIndex, itemPresenter.state);
     } else {
       controller.updateInspectionItem(
@@ -74,7 +74,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
       );
     }
     storeHistory();
-    setOpen(false);
+    setStatus({ ...status, isOpen: false });
   };
 
   /**
@@ -82,9 +82,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
    */
   const handleAddItem = (equipmentId: number) => {
     setEquipmentIndex(equipmentId);
-    setAdditional(true);
     itemController.initialize();
-    setOpen(true);
+    setStatus({ isOpen: true, isAdditional: true });
   };
 
   /**
@@ -97,9 +96,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   ) => {
     setEquipmentIndex(equipIndex);
     setInspectionItemIndex(itemIndex);
-    setAdditional(false);
     itemController.setItem(inspectionItem);
-    setOpen(true);
+    setStatus({ isOpen: true, isAdditional: false });
   };
 
   return (
@@ -138,8 +136,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
         </Grid>
       </Paper>
       <InspectionItemDialog
-        open={open}
-        onCancelButtonClick={() => setOpen(false)}
+        open={status.isOpen}
+        onCancelButtonClick={() => setStatus({ ...status, isOpen: false })}
         onOkButtonClick={handleInspectionItem}
       />
     </DndProvider>
