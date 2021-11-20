@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext } from "react";
 import nameof from "ts-nameof.macro";
 import {
   ChoiceTemplateController,
@@ -11,7 +11,6 @@ import {
   InspectionSheetController,
   InspectionTypeController,
 } from "../controllers";
-import { InspectionItemInitialState, InspectionItemReducer } from "../entities";
 import {
   ChoiceTemplateRepository,
   InspectionGroupRepository,
@@ -92,11 +91,6 @@ export const setUpDIContainer = () => {
   };
 
   // Register objects to DI container.
-  const [inspectionItem, dispatch] = useReducer(
-    InspectionItemReducer,
-    InspectionItemInitialState
-  );
-
   // register repositories
   register(
     nameof<IInspectionGroupRepository>(),
@@ -127,15 +121,10 @@ export const setUpDIContainer = () => {
     new ChoiceTemplateInteractor(inject(nameof<IChoiceTemplateRepository>()))
   );
 
-  register(
-    nameof<IInspectionItemInteractor>(),
-    new InspectionItemInteractor(inspectionItem, dispatch)
-  );
+  register(nameof<IInspectionItemInteractor>(), new InspectionItemInteractor());
   register(
     nameof<IInspectionSheetInteractor>(),
-    new InspectionSheetInteractor(
-      inject(nameof<IInspectionSheetRepository>())
-    )
+    new InspectionSheetInteractor(inject(nameof<IInspectionSheetRepository>()))
   );
 
   // register presenter
