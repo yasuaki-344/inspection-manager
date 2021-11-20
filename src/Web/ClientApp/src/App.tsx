@@ -10,11 +10,15 @@ import {
   InspectionTypeCategory,
   ChoicesTemplateManager,
 } from "./components/pages";
-import { DIContainerContext, setUpDIContainer } from "./container";
+import {
+  DIContainerContext,
+  InspectionItemDialogInitialState,
+  InspectionItemDialogStateContext,
+  setUpDIContainer,
+} from "./container";
 
 const App = (): JSX.Element => {
   const container = setUpDIContainer();
-
   return (
     <DIContainerContext.Provider value={container}>
       <Layout>
@@ -22,8 +26,12 @@ const App = (): JSX.Element => {
         <Route path="/group" component={InspectionGroupCategory} />
         <Route path="/types" component={InspectionTypeCategory} />
         <Route path="/choices-template" component={ChoicesTemplateManager} />
-        <Route path="/create" component={Create} />
-        <Route path="/edit/:id" component={Edit} />
+        <InspectionItemDialogStateContext.Provider
+          value={InspectionItemDialogInitialState}
+        >
+          <Route path="/create" component={Create} />
+          <Route path="/edit/:id" component={Edit} />
+        </InspectionItemDialogStateContext.Provider>
         <Route path="/details/:id" component={Details} />
       </Layout>
     </DIContainerContext.Provider>
