@@ -46,8 +46,6 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   const [undoDisabled, setUndoDisabled] = useState(true);
   const [status, setStatus] = useContext(InspectionItemDialogStateContext);
   /* eslint-disable-next-line */
-  const [equipmentIndex, setEquipmentIndex] = useState(0);
-  const [inspectionItemIndex, setInspectionItemIndex] = useState(0);
   // const [history, setHistory] = useState<InspectionSheet[]>([]);
 
   const storeHistory = () => {
@@ -68,11 +66,14 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
    */
   const handleInspectionItem = () => {
     if (status.isAdditional) {
-      controller.addInspectionItem(equipmentIndex, itemPresenter.state);
+      controller.addInspectionItem(
+        status.equipmentOrderIndex,
+        itemPresenter.state
+      );
     } else {
       controller.updateInspectionItem(
-        equipmentIndex,
-        inspectionItemIndex,
+        status.equipmentOrderIndex,
+        status.itemOrderIndex,
         itemPresenter.state
       );
     }
@@ -84,9 +85,13 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
    * Implements the process for adding inspection item.
    */
   const handleAddItem = (equipmentId: number) => {
-    setEquipmentIndex(equipmentId);
     itemController.initialize();
-    setStatus({ isOpen: true, isAdditional: true });
+    setStatus({
+      ...status,
+      isOpen: true,
+      isAdditional: true,
+      equipmentOrderIndex: equipmentId,
+    });
   };
 
   /**
@@ -97,10 +102,13 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
     itemIndex: number,
     inspectionItem: InspectionItem
   ) => {
-    setEquipmentIndex(equipIndex);
-    setInspectionItemIndex(itemIndex);
     itemController.setItem(inspectionItem);
-    setStatus({ isOpen: true, isAdditional: false });
+    setStatus({
+      isOpen: true,
+      isAdditional: false,
+      equipmentOrderIndex: equipIndex,
+      itemOrderIndex: itemIndex,
+    });
   };
 
   return (

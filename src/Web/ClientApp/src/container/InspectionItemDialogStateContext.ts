@@ -1,11 +1,16 @@
-import { createContext, useState } from "react";
+import { createContext, Dispatch, SetStateAction } from "react";
 import { InspectionItemDialogStatus } from "../entities";
 
 export const InspectionItemDialogInitialState: InspectionItemDialogStatus = {
   isOpen: false,
   isAdditional: false,
+  equipmentOrderIndex: 0,
+  itemOrderIndex: 0,
 };
 
 export const InspectionItemDialogStateContext = createContext(
-  useState(InspectionItemDialogInitialState)
+  {} as [
+    InspectionItemDialogStatus,
+    Dispatch<SetStateAction<InspectionItemDialogStatus>>
+  ]
 );
