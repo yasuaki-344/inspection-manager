@@ -8,6 +8,7 @@ import {
 import {
   ICreateController,
   IInspectionGroupInteractor,
+  IInspectionItemInteractor,
   IInspectionSheetInteractor,
   IInspectionTypeInteractor,
 } from "../interfaces";
@@ -19,20 +20,25 @@ export class CreateController implements ICreateController {
 
   private readonly sheetUseCase: IInspectionSheetInteractor;
 
+  private readonly itemUseCase: IInspectionItemInteractor;
+
   /**
    * Initializes a new instance of CreateController class
-   * @param typeUseCase IInspectionTypeInteractor object.
-   * @param groupUseCase IInspectionGroupInteractor object.
-   * @param sheetUseCase IInspectionSheetInteractor object.
+   * @param typeUseCase Object implements IInspectionTypeInteractor interface.
+   * @param groupUseCase Object implements IInspectionGroupInteractor interface.
+   * @param sheetUseCase Object implements  IInspectionSheetInteractor interface.
+   * @param itemUSeCase Object implements IInspectionItemInteractor interface.
    */
   constructor(
     typeUseCase: IInspectionTypeInteractor,
     groupUseCase: IInspectionGroupInteractor,
-    sheetUseCase: IInspectionSheetInteractor
+    sheetUseCase: IInspectionSheetInteractor,
+    itemUseCase: IInspectionItemInteractor
   ) {
     this.typeUseCase = typeUseCase;
     this.groupUseCase = groupUseCase;
     this.sheetUseCase = sheetUseCase;
+    this.itemUseCase = itemUseCase;
   }
 
   /** @inheritdoc */

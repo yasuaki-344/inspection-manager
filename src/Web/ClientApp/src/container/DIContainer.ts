@@ -189,7 +189,8 @@ export const setUpDIContainer = () => {
       inject(
         nameof<IInspectionGroupInteractor>()
       ) as IInspectionGroupInteractor,
-      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
+      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor,
+      inject(nameof<IInspectionItemInteractor>()) as IInspectionItemInteractor
     )
   );
   register(
