@@ -8,6 +8,10 @@ import { InspectionType } from "../entities";
 export class InspectionTypeController implements IInspectionTypeController {
   private readonly useCase: IInspectionTypeInteractor;
 
+  /**
+   * Initializes a new instance of InspectionTypeController class.
+   * @param useCase Object implements IInspectionTypeInteractor interface.
+   */
   constructor(useCase: IInspectionTypeInteractor) {
     this.useCase = useCase;
   }

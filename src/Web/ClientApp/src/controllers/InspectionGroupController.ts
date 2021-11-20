@@ -8,6 +8,10 @@ import { InspectionGroup } from "../entities";
 export class InspectionGroupController implements IInspectionGroupController {
   private readonly useCase: IInspectionGroupInteractor;
 
+  /**
+   * Initializes a new instance of InspectionGroupController class.
+   * @param useCase Object implements IInspectionGroupInteractor interface.
+   */
   constructor(useCase: IInspectionGroupInteractor) {
     this.useCase = useCase;
   }
