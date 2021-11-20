@@ -13,7 +13,7 @@ import nameof from "ts-nameof.macro";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { InspectionItemForm } from "./InspectionItemForm";
-import { CancelIconButton } from "../utilities";
+import { BottomNavigationAdd, CancelIconButton } from "../utilities";
 import { equipmentLabel, MenuIcon, paperElement } from "../stylesheets";
 import { ItemType, Equipment, InspectionItem } from "../../entities";
 import { ICreateController } from "../../interfaces";
@@ -101,8 +101,11 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
                 equipmentIndex={props.orderIndex}
                 inspectionItems={props.equipment.inspectionItems}
                 editInspectionItem={props.handleEditItem}
-                addInspectionItem={props.handleAddItem}
                 // storeHistory={props.storeHistory}
+              />
+              <BottomNavigationAdd
+                label="点検項目追加"
+                onClick={() => props.handleAddItem(props.orderIndex)}
               />
             </Grid>
           </Grid>
