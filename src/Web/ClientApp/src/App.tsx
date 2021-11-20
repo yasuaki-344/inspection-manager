@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route } from "react-router-dom";
 import { Layout } from "./components";
 import {
@@ -27,7 +27,7 @@ const App = (): JSX.Element => {
         <Route path="/types" component={InspectionTypeCategory} />
         <Route path="/choices-template" component={ChoicesTemplateManager} />
         <InspectionItemDialogStateContext.Provider
-          value={InspectionItemDialogInitialState}
+          value={useState(InspectionItemDialogInitialState)}
         >
           <Route path="/create" component={Create} />
           <Route path="/edit/:id" component={Edit} />

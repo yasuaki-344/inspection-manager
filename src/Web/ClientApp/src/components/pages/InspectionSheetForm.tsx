@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import {
@@ -19,7 +19,10 @@ import {
   ICreatePresenter,
   ICreateController,
 } from "../../interfaces";
-import { useDIContext } from "../../container";
+import {
+  InspectionItemDialogStateContext,
+  useDIContext,
+} from "../../container";
 import { LabelStyle } from "../stylesheets";
 
 interface InspectionSheetFormProps {
@@ -41,7 +44,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   );
 
   const [undoDisabled, setUndoDisabled] = useState(true);
-  const [status, setStatus] = useState({ isOpen: false, isAdditional: false });
+  const [status, setStatus] = useContext(InspectionItemDialogStateContext);
   /* eslint-disable-next-line */
   const [equipmentIndex, setEquipmentIndex] = useState(0);
   const [inspectionItemIndex, setInspectionItemIndex] = useState(0);

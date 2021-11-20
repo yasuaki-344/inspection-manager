@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import { InspectionItemDialogStatus } from "../entities";
 
 export const InspectionItemDialogInitialState: InspectionItemDialogStatus = {
@@ -7,5 +7,5 @@ export const InspectionItemDialogInitialState: InspectionItemDialogStatus = {
 };
 
 export const InspectionItemDialogStateContext = createContext(
-  {} as InspectionItemDialogStatus
+  useState(InspectionItemDialogInitialState)
 );
