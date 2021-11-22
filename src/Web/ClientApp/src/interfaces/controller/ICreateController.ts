@@ -70,6 +70,11 @@ export interface ICreateController {
     equipmentOrderIndex: number,
     itemOrderIndex: number
   ): void;
+  swapInspectionItem(
+    equipmentIndex: number,
+    srcIndex: number,
+    dstIndex: number
+  ): void;
   updateInspectionItem(
     equipmentOrderIndex: number,
     itemOrderIndex: number

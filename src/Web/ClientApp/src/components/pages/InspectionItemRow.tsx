@@ -6,10 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import nameof from "ts-nameof.macro";
 import { useInputTypes, ItemType, InspectionItem } from "../../entities";
 import { CancelIconButton } from "../utilities";
-import {
-  ICreateController,
-  IInspectionSheetController,
-} from "../../interfaces";
+import { ICreateController } from "../../interfaces";
 import {
   InspectionItemDialogStateContext,
   useDIContext,
@@ -33,10 +30,6 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = (
   const controller: ICreateController = inject(nameof<ICreateController>());
   const [, setStatus] = useContext(InspectionItemDialogStateContext);
 
-  const sheetController: IInspectionSheetController = inject(
-    nameof<IInspectionSheetController>()
-  );
-
   const dropRef = useRef<HTMLTableRowElement>(null);
   const dragRef = useRef<HTMLTableCellElement>(null);
 
@@ -50,7 +43,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = (
       ) {
         return;
       }
-      sheetController.swapInspectionItem(
+      controller.swapInspectionItem(
         props.equipmentIndex,
         props.inspectionItemIndex,
         item.inspectionItemIndex

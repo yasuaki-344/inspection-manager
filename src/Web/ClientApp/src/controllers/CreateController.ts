@@ -148,6 +148,14 @@ export class CreateController implements ICreateController {
     this.sheetUseCase.removeInspectionItem(equipmentOrderIndex, itemOrderIndex);
   }
 
+  swapInspectionItem(
+    equipmentIndex: number,
+    srcIndex: number,
+    dstIndex: number
+  ): void {
+    this.sheetUseCase.swapInspectionItem(equipmentIndex, srcIndex, dstIndex);
+  }
+
   updateInspectionItem(
     equipmentOrderIndex: number,
     itemOrderIndex: number
