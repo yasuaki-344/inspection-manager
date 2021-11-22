@@ -18,7 +18,7 @@ namespace InspectionManager.ApplicationCore.Services
 
             CreateMap<EquipmentDto, EquipmentExportDto>();
 
-            CreateMap<InspectionSheetDto, InspectionSheetExportDto>();
+            CreateMap<InspectionSheetDetailDto, InspectionSheetExportDto>();
 
             CreateMap<InspectionGroup, InspectionGroupDto>();
             CreateMap<InspectionGroupDto, InspectionGroup>();

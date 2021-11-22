@@ -66,19 +66,15 @@ namespace InspectionManager.ApplicationCore.Test
         [Fact]
         public void MapToInspectionSheetExportDtoCorrectly()
         {
-            var expect = new InspectionSheetDto
+            var expect = new InspectionSheetDetailDto
             {
                 SheetId = 11,
                 SheetName = "sheet name",
-                InspectionType = "inspection type",
-                InspectionGroup = "inspection group",
             };
             var mapper = CreateMapper();
             var actual = mapper.Map<InspectionSheetExportDto>(expect);
             Assert.Equal(expect.SheetId.ToString(), actual.SheetId);
             Assert.Equal(expect.SheetName, actual.SheetName);
-            Assert.Equal(expect.InspectionType, actual.InspectionType);
-            Assert.Equal(expect.InspectionGroup, actual.InspectionGroup);
         }
 
         [Fact]

@@ -16,6 +16,8 @@ export interface IInspectionSheetInteractor {
    */
   fetchInspectionSheetById(id: number): Promise<void>;
 
+  copyInspectionSheetFrom(id: number): Promise<void>;
+
   /**
    * Filters inspection sheet by using the specified group ID, type ID, and sheet name.
    * @param groupIds Inspection group ID to be filtered.

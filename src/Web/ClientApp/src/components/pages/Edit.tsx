@@ -31,11 +31,12 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
   );
 
   useEffect(() => {
+    controller.fetchInspectionMasterData().catch((error: any) => {
+      notification.setMessageState("error", "データの取得に失敗しました");
+      console.error(error);
+    });
     controller
-      .fetchInspectionMasterData()
-      .then(() => {
-        controller.fetchInspectionSheet(sheetId);
-      })
+      .fetchInspectionSheet(sheetId)
       .then(() => setLoading(false))
       .catch((error: any) => {
         notification.setMessageState("error", "データの取得に失敗しました");

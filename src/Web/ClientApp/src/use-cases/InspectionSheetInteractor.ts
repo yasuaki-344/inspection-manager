@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction, useReducer, useState } from "react";
 import {
+  Choice,
+  Equipment,
   InspectionItem,
   InspectionSheet,
   InspectionSheetAction,
@@ -61,6 +63,33 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   async fetchInspectionSheetById(id: number): Promise<void> {
     await this.repository.getById(id).then((res: InspectionSheet) => {
       this.setSheet(res);
+    });
+  }
+
+  async copyInspectionSheetFrom(id: number): Promise<void> {
+    await this.repository.getById(id).then((res: InspectionSheet) => {
+      this.setSheet({
+        ...res,
+        sheetId: 0,
+        equipments: res.equipments.map((x: Equipment) => {
+          return {
+            ...x,
+            equipmentId: 0,
+            inspectionItems: x.inspectionItems.map((y: InspectionItem) => {
+              return {
+                ...y,
+                inspectionItemId: 0,
+                choices: y.choices.map((z: Choice) => {
+                  return {
+                    ...z,
+                    choiceId: 0,
+                  }
+                })
+              }
+            })
+          };
+        }),
+      });
     });
   }
 
@@ -169,9 +198,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
 
   /** @inheritdoc */
   async createInspectionSheet(): Promise<void> {
-    await this.repository.post(this.sheet).then(() => {
-      this.setSheet(InspectionSheetInitialState);
-    });
+    await this.repository.post(this.sheet);
   }
 
   async updateInspectionSheet(): Promise<void> {

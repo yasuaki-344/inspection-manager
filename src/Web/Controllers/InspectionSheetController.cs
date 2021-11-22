@@ -35,7 +35,10 @@ namespace InspectionManager.Web.Controllers
 
         [HttpGet]
         [Route("/v1/inspection-sheets")]
-        public ActionResult<InspectionSheetDto> GetAllInspectionSheets()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetAllInspectionSheets()
         {
             try
             {
@@ -53,7 +56,11 @@ namespace InspectionManager.Web.Controllers
 
         [HttpPost]
         [Route("/v1/inspection-sheets")]
-        public async Task<ActionResult<InspectionSheetDetailDto>> CreateSheetAsync([FromBody] InspectionSheetDetailDto dto)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDetailDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        public async Task<IActionResult> CreateSheetAsync([FromBody] InspectionSheetDetailDto dto)
         {
             try
             {
@@ -80,21 +87,25 @@ namespace InspectionManager.Web.Controllers
 
         [HttpGet]
         [Route("/v1/inspection-sheets/{sheetId}")]
-        public ActionResult<InspectionSheetDetailDto> GetInspectionSheet([FromRoute][Required] int? sheetId)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDetailDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetInspectionSheet([FromRoute][Required] int? sheetId)
         {
             try
             {
                 _logger.LogInformation($"try to get inspection sheet {sheetId}");
-                if (sheetId.HasValue)
+                if (sheetId is not null)
                 {
                     var result = _service.GetInspectionSheet(sheetId.Value);
-                    if (result == null)
+                    if (result is null)
                     {
                         return NotFound();
                     }
                     else
                     {
-                        return result;
+                        return Ok(result);
                     }
                 }
                 else
@@ -112,12 +123,16 @@ namespace InspectionManager.Web.Controllers
 
         [HttpPut]
         [Route("/v1/inspection-sheets/{sheetId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDetailDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<InspectionSheetDetailDto>> UpdateInspectionSheet([FromRoute][Required] int? sheetId, [FromBody] InspectionSheetDetailDto dto)
+        public async Task<IActionResult> UpdateInspectionSheet([FromRoute][Required] int? sheetId, [FromBody] InspectionSheetDetailDto dto)
         {
             try
             {
-                if (sheetId.HasValue && _service.IsValidInspectionSheet(dto))
+                if (sheetId is not null && _service.IsValidInspectionSheet(dto))
                 {
                     _logger.LogInformation($"try to update inspection sheet {sheetId.Value}");
                     if (!_service.InspectionSheetExists(sheetId.Value))
@@ -144,12 +159,15 @@ namespace InspectionManager.Web.Controllers
 
         [HttpDelete]
         [Route("/v1/inspection-sheets/{sheetId}")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<InspectionSheetDto>> DeleteInspectionSheetAsync([FromRoute][Required] int? sheetId)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteInspectionSheetAsync([FromRoute][Required] int? sheetId)
         {
             try
             {
-                if (sheetId.HasValue)
+                if (sheetId is not null)
                 {
                     _logger.LogInformation($"try to delete inspection sheet {sheetId}");
                     if (!_service.InspectionSheetExists(sheetId.Value))

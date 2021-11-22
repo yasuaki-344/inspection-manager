@@ -18,6 +18,8 @@ export interface IInspectionSheetController {
    */
   fetchInspectionSheet(id: number): Promise<void>;
 
+  copyInspectionSheet(id: number): Promise<void>;
+
   /**
    * Gets inspection master data from database.
    */

@@ -38,6 +38,7 @@ export class InspectionSheetRepository implements IInspectionSheetRepository {
     return sheet;
   }
 
+  /** @inheritdoc */
   async put(inspectionSheet: InspectionSheet): Promise<InspectionSheet> {
     const requestBody = toSnakeCase(inspectionSheet);
     const res = await this.api.inspectionSheetsSheetIdPut({
