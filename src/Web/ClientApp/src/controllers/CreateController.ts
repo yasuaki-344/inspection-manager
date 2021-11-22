@@ -136,7 +136,8 @@ export class CreateController implements ICreateController {
     this.itemUseCase.setItem(item);
   }
 
-  addInspectionItem(orderIndex: number, item: InspectionItem): void {
+  addInspectionItem(orderIndex: number): void {
+    const item = this.itemUseCase.inspectionItem;
     this.sheetUseCase.addInspectionItem(orderIndex, item);
   }
 
@@ -149,9 +150,9 @@ export class CreateController implements ICreateController {
 
   updateInspectionItem(
     equipmentOrderIndex: number,
-    itemOrderIndex: number,
-    item: InspectionItem
+    itemOrderIndex: number
   ): void {
+    const item = this.itemUseCase.inspectionItem;
     this.sheetUseCase.updateInspectionItem(
       equipmentOrderIndex,
       itemOrderIndex,

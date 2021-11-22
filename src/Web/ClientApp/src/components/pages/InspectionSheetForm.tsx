@@ -11,11 +11,7 @@ import { Box } from "@mui/system";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import nameof from "ts-nameof.macro";
 import { InspectionItemDialog } from "../dialog";
-import {
-  IInspectionItemPresenter,
-  ICreatePresenter,
-  ICreateController,
-} from "../../interfaces";
+import { ICreatePresenter, ICreateController } from "../../interfaces";
 import {
   InspectionItemDialogStateContext,
   useDIContext,
@@ -32,10 +28,6 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   const inject = useDIContext();
   const controller: ICreateController = inject(nameof<ICreateController>());
   const presenter: ICreatePresenter = inject(nameof<ICreatePresenter>());
-
-  const itemPresenter: IInspectionItemPresenter = inject(
-    nameof<IInspectionItemPresenter>()
-  );
   const [status, setStatus] = useContext(InspectionItemDialogStateContext);
 
   /**
@@ -43,15 +35,11 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
    */
   const handleInspectionItem = () => {
     if (status.isAdditional) {
-      controller.addInspectionItem(
-        status.equipmentOrderIndex,
-        itemPresenter.state
-      );
+      controller.addInspectionItem(status.equipmentOrderIndex);
     } else {
       controller.updateInspectionItem(
         status.equipmentOrderIndex,
-        status.itemOrderIndex,
-        itemPresenter.state
+        status.itemOrderIndex
       );
     }
     setStatus({ ...status, isOpen: false });
