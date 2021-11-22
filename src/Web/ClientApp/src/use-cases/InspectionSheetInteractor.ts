@@ -169,9 +169,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
 
   /** @inheritdoc */
   async createInspectionSheet(): Promise<void> {
-    await this.repository.post(this.sheet).then(() => {
-      this.setSheet(InspectionSheetInitialState);
-    });
+    await this.repository.post(this.sheet);
   }
 
   async updateInspectionSheet(): Promise<void> {

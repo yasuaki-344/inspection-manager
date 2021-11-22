@@ -187,7 +187,7 @@ export class InspectionSheetController implements IInspectionSheetController {
     choiceOrderIndex: number
   ): void => {
     const { value } = e.target;
-    this.itemUseCase.updateChoice(choiceOrderIndex, value)
+    this.itemUseCase.updateChoice(choiceOrderIndex, value);
   };
 
   /** @inheritdoc */
@@ -202,7 +202,17 @@ export class InspectionSheetController implements IInspectionSheetController {
 
   /** @inheritdoc */
   async createInspectionSheet(): Promise<void> {
-    await this.sheetUseCase.createInspectionSheet();
+    await this.sheetUseCase.createInspectionSheet().then(() => {
+      this.sheetUseCase.setSheet({
+        sheetId: 0,
+        sheetName: "",
+        inspectionGroupId: this.groupUseCase.groups[0].inspectionGroupId,
+        inspectionTypeId: this.typeUseCase.types[0].inspectionTypeId,
+        inspectionGroup: "",
+        inspectionType: "",
+        equipments: [],
+      });
+    });
   }
 
   /** @inheritdoc */
