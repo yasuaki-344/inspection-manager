@@ -6,10 +6,8 @@ import {
   TextField,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { ChangeEvent } from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
-import { EquipmentForm } from "../components";
 import { InputStyle } from "../components/stylesheets";
 import { CancelIconButton } from "../components/utilities";
 import {
@@ -32,11 +30,21 @@ import {
 export class InspectionSheetPresenter implements IInspectionSheetPresenter {
   readonly selectionSheets: InspectionSheet[];
 
+  readonly sheetId: number;
+
+  readonly sheetName: string;
+
+  readonly groupId: number;
+
+  readonly groups: InspectionGroup[];
+
+  readonly typeId: number;
+
+  readonly types: InspectionType[];
+
+  readonly equipments: Equipment[];
+
   readonly item: InspectionItem;
-
-  private readonly typeUseCase: IInspectionTypeInteractor;
-
-  private readonly groupUseCase: IInspectionGroupInteractor;
 
   private readonly sheetUseCase: IInspectionSheetInteractor;
 
@@ -55,135 +63,18 @@ export class InspectionSheetPresenter implements IInspectionSheetPresenter {
     sheetUseCase: IInspectionSheetInteractor,
     itemUseCase: IInspectionItemInteractor
   ) {
-    this.selectionSheets = sheetUseCase.sheets;
-    this.item = itemUseCase.inspectionItem;
-    this.typeUseCase = typeUseCase;
-    this.groupUseCase = groupUseCase;
     this.sheetUseCase = sheetUseCase;
     this.itemUseCase = itemUseCase;
-  }
 
-  /** @inheritdoc */
-  sheetIdInformation(isEdit: boolean): JSX.Element {
-    return isEdit ? (
-      <Grid item xs={12}>
-        <TextField
-          sx={InputStyle}
-          disabled
-          label="点検シートID"
-          variant="outlined"
-          size="small"
-          name="sheetId"
-          defaultValue={this.sheetUseCase.sheet.sheetId}
-          InputProps={{ readOnly: true }}
-        />
-      </Grid>
-    ) : (
-      <></>
-    );
-  }
-
-  /** @inheritdoc */
-  sheetNameInput(
-    handleChange: (
-      e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => void
-  ): JSX.Element {
-    return (
-      <Grid item xs={12}>
-        <TextField
-          sx={InputStyle}
-          required
-          autoFocus
-          label="点検シート名"
-          variant="outlined"
-          size="small"
-          name="sheetName"
-          value={this.sheetUseCase.sheet.sheetName}
-          onChange={handleChange}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-            }
-          }}
-        />
-      </Grid>
-    );
-  }
-
-  /** @inheritdoc */
-  groupIdInput(
-    handleChange: (
-      e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => void
-  ): JSX.Element {
-    return (
-      <Grid item xs={12}>
-        <TextField
-          sx={InputStyle}
-          select
-          label="点検グループ"
-          variant="outlined"
-          size="small"
-          name="inspectionGroupId"
-          value={this.sheetUseCase.sheet.inspectionGroupId}
-          onChange={handleChange}
-        >
-          {this.groupUseCase.groups.map((group: InspectionGroup) => (
-            <MenuItem
-              key={group.inspectionGroupId}
-              value={group.inspectionGroupId}
-            >
-              {group.description}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Grid>
-    );
-  }
-
-  /** @inheritdoc */
-  typeIdInput(
-    handleChange: (
-      e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => void
-  ): JSX.Element {
-    return (
-      <Grid item xs={12}>
-        <TextField
-          sx={InputStyle}
-          select
-          label="点検タイプ"
-          variant="outlined"
-          size="small"
-          name="inspectionTypeId"
-          value={this.sheetUseCase.sheet.inspectionTypeId}
-          onChange={handleChange}
-        >
-          {this.typeUseCase.types.map((type: InspectionType) => (
-            <MenuItem key={type.inspectionTypeId} value={type.inspectionTypeId}>
-              {type.description}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Grid>
-    );
-  }
-
-  /** @inheritdoc */
-  getEditContent(): JSX.Element {
-    return (
-      <>
-        {this.sheetUseCase.sheet.equipments.map((equipment: Equipment) => (
-          <Grid item xs={12} key={equipment.orderIndex}>
-            <EquipmentForm
-              orderIndex={equipment.orderIndex}
-              equipment={equipment}
-            />
-          </Grid>
-        ))}
-      </>
-    );
+    this.selectionSheets = sheetUseCase.sheets;
+    this.sheetId = sheetUseCase.sheet.sheetId;
+    this.sheetName = sheetUseCase.sheet.sheetName;
+    this.groupId = sheetUseCase.sheet.inspectionGroupId;
+    this.groups = groupUseCase.groups;
+    this.typeId = sheetUseCase.sheet.inspectionTypeId
+    this.types = typeUseCase.types;
+    this.equipments = sheetUseCase.sheet.equipments;
+    this.item = itemUseCase.inspectionItem;
   }
 
   isValidInspectionItem(): boolean {

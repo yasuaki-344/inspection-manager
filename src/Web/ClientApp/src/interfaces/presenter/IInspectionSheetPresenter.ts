@@ -1,51 +1,29 @@
-import { ChangeEvent } from "react";
-import { InspectionItem, InspectionSheet } from "../../entities";
+import {
+  Equipment,
+  InspectionGroup,
+  InspectionItem,
+  InspectionSheet,
+  InspectionType,
+} from "../../entities";
 
 export interface IInspectionSheetPresenter {
   selectionSheets: InspectionSheet[];
 
+  sheetId: number;
+
+  sheetName: string;
+
+  groupId: number;
+
+  groups: InspectionGroup[];
+
+  typeId: number;
+
+  types: InspectionType[];
+
+  equipments: Equipment[];
+
   item: InspectionItem;
-
-  /**
-   * Returns JSX element for display sheet ID information.
-   * @param isEdit Indicates if edit mode or not
-   */
-  sheetIdInformation(isEdit: boolean): JSX.Element;
-
-  /**
-   * Returns JSX element for sheet name input.
-   * @param handleChange Event handler for input change.
-   */
-  sheetNameInput(
-    handleChange: (
-      e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => void
-  ): JSX.Element;
-
-  /**
-   * Returns JSX element for inspection group input.
-   * @param handleChange Event handler for input change.
-   */
-  groupIdInput(
-    handleChange: (
-      e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => void
-  ): JSX.Element;
-
-  /**
-   * Returns JSX element for inspection type input.
-   * @param handleChange Event handler for input change.
-   */
-  typeIdInput(
-    handleChange: (
-      e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => void
-  ): JSX.Element;
-
-  /**
-   *
-   */
-  getEditContent(): JSX.Element;
 
   isValidInspectionItem(): boolean;
 
