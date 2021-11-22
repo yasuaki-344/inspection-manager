@@ -8,33 +8,38 @@ import {
   NotificationStateInteractor,
   TopPageLink,
 } from "../utilities";
-import { IInspectionSheetController, IInspectionSheetPresenter } from "../../interfaces";
+import {
+  IInspectionSheetController,
+  IInspectionSheetPresenter,
+} from "../../interfaces";
 import { useDIContext } from "../../container";
 
 export const Edit: FC = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
 
   const inject = useDIContext();
-  const controller: IInspectionSheetController = inject(nameof<IInspectionSheetController>());
+  const controller: IInspectionSheetController = inject(
+    nameof<IInspectionSheetController>()
+  );
   /* eslint-disable-next-line */
-  const presenter: IInspectionSheetPresenter = inject(nameof<IInspectionSheetPresenter>());
+  const presenter: IInspectionSheetPresenter = inject(
+    nameof<IInspectionSheetPresenter>()
+  );
 
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)
   );
 
   useEffect(() => {
-    controller.fetchInspectionMasterData().catch((error) => {
-      notification.setMessageState("error", "データの取得に失敗しました");
-      console.error(error);
-    });
-    controller.fetchInspectionSheet(sheetId).catch((error) => {
-      console.error(error);
-      notification.setMessageState(
-        "error",
-        `データの取得に失敗しました (ID:${sheetId})`
-      );
-    });
+    controller
+      .fetchInspectionMasterData()
+      .then(() => {
+        controller.fetchInspectionSheet(sheetId);
+      })
+      .catch((error: any) => {
+        notification.setMessageState("error", "データの取得に失敗しました");
+        console.error(error);
+      });
   }, [sheetId]);
 
   const handleUpdate = (event: React.FormEvent<HTMLFormElement>): void => {
