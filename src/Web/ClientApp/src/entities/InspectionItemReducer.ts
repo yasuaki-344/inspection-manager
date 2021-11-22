@@ -6,7 +6,7 @@ export type InspectionItemAction = {
   payload: {
     name?: string;
     value?: string;
-    choiceIndex?: number;
+    choiceOrderIndex?: number;
     choices?: ChoiceTemplate;
     item?: InspectionItem;
   };
@@ -88,7 +88,7 @@ export function InspectionItemReducer(
       };
     }
     case ITEM_ACTION_TYPES.REMOVE_CHOICE: {
-      const { choiceIndex } = action.payload;
+      const { choiceOrderIndex: choiceIndex } = action.payload;
       if (choiceIndex != null) {
         const choices = state.choices.filter(
           (x: Choice) => x.orderIndex !== choiceIndex
@@ -98,7 +98,7 @@ export function InspectionItemReducer(
       return state;
     }
     case ITEM_ACTION_TYPES.UPDATE_CHOICE: {
-      const { choiceIndex, value } = action.payload;
+      const { choiceOrderIndex: choiceIndex, value } = action.payload;
       if (choiceIndex != null && value != null) {
         const { choices } = state;
         return {

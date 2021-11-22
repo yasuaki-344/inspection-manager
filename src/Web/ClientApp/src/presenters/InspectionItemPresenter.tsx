@@ -77,11 +77,7 @@ export class InspectionItemPresenter implements IInspectionItemPresenter {
           <>
             {this.useCase.inspectionItem.choices.map(
               (choice: Choice, index: number) => (
-                <Grid
-                  item
-                  xs={12}
-                  key={this.useCase.inspectionItem.orderIndex}
-                >
+                <Grid item xs={12} key={choice.orderIndex}>
                   <Box sx={InputStyle}>
                     <TextField
                       required
@@ -91,10 +87,14 @@ export class InspectionItemPresenter implements IInspectionItemPresenter {
                       size="small"
                       name="choice"
                       value={choice.description}
-                      onChange={(e) => this.useCase.updateChoice(e, choice.orderIndex)}
+                      onChange={(e) =>
+                        this.useCase.updateChoice(e, choice.orderIndex)
+                      }
                     />
                     <CancelIconButton
-                      onClick={() => this.useCase.removeChoice(choice.orderIndex)}
+                      onClick={() =>
+                        this.useCase.removeChoice(choice.orderIndex)
+                      }
                     />
                   </Box>
                 </Grid>
