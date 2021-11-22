@@ -117,7 +117,7 @@ namespace InspectionManager.Web.Controllers
             try
             {
                 _logger.LogInformation("try to create inspection group");
-                if (dto == null)
+                if (dto is null)
                 {
                     return BadRequest();
                 }

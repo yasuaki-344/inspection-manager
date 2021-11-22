@@ -149,7 +149,7 @@ namespace InspectionManager.Infrastructure
         /// <inheritdoc/>
         public async Task<InspectionSheetDetailDto> UpdateInspectionSheetAsync(InspectionSheetDetailDto dto)
         {
-            if (_context.InspectionSheets != null)
+            if (_context.InspectionSheets is not null)
             {
                 var entity = _mapper.Map<InspectionSheet>(dto);
                 RemoveUnusedRelationalEntities(entity);

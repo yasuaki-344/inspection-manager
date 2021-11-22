@@ -73,7 +73,7 @@ namespace InspectionManager.Web.Controllers
             try
             {
                 _logger.LogInformation("try to create choice template");
-                if (dto == null)
+                if (dto is null)
                 {
                     return BadRequest();
                 }
