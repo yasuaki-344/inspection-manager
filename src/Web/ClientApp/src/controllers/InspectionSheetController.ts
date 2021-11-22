@@ -177,4 +177,9 @@ export class InspectionSheetController implements IInspectionSheetController {
   async createInspectionSheet(): Promise<void> {
     await this.sheetUseCase.createInspectionSheet();
   }
+
+  /** @inheritdoc */
+  async updateInspectionSheet(): Promise<void> {
+    await this.sheetUseCase.updateInspectionSheet();
+  }
 }

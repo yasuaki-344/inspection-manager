@@ -85,4 +85,5 @@ export interface IInspectionSheetController {
    * Create a new inspection sheet data in database
    */
   createInspectionSheet(): Promise<void>;
+  updateInspectionSheet(): Promise<void>;
 }

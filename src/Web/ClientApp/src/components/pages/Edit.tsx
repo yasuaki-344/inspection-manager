@@ -25,7 +25,7 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
   const presenter: IInspectionSheetPresenter = inject(
     nameof<IInspectionSheetPresenter>()
   );
-
+  const [loading, setLoading] = useState(true);
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)
   );
@@ -36,6 +36,7 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
       .then(() => {
         controller.fetchInspectionSheet(sheetId);
       })
+      .then(() => setLoading(false))
       .catch((error: any) => {
         notification.setMessageState("error", "データの取得に失敗しました");
         console.error(error);
@@ -44,16 +45,18 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
 
   const handleUpdate = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    // sheetController
-    //   .updateInspectionSheet()
-    //   .then(() => {
-    //     notification.setMessageState("success", "更新に成功しました");
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //     notification.setMessageState("error", "更新に失敗しました");
-    //   });
+    controller
+      .updateInspectionSheet()
+      .then(() => {
+        notification.setMessageState("success", "更新に成功しました");
+      })
+      .catch((error) => {
+        console.error(error);
+        notification.setMessageState("error", "更新に失敗しました");
+      });
   };
+
+  const sheetForm = loading ? <></> : <InspectionSheetForm isEdit />;
 
   return (
     <>
@@ -68,7 +71,7 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
           <form data-testid="form" onSubmit={handleUpdate}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
-                <InspectionSheetForm isEdit />
+                {sheetForm}
               </Grid>
               <Grid item xs={12}>
                 <Button type="submit" variant="contained" color="primary">
