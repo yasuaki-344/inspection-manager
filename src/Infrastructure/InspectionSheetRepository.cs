@@ -181,11 +181,10 @@ namespace InspectionManager.Infrastructure
         /// <inheritdoc/>
         public async Task DeleteInspectionSheetAsync(int id)
         {
-            if (_context.InspectionSheets != null)
+            if (_context.InspectionSheets is not null)
             {
-                var entity = _context.InspectionSheets
-                    .Single(s => s.SheetId == id);
-                if (entity != null)
+                var entity = _context.InspectionSheets.First(s => s.SheetId == id);
+                if (entity is not null)
                 {
                     _context.InspectionSheets.Remove(entity);
                     await _context.SaveChangesAsync();
