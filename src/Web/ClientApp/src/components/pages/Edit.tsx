@@ -15,7 +15,6 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
 
   const inject = useDIContext();
-  /* eslint-disable-next-line */
   const controller: ICreateController = inject(nameof<ICreateController>());
   /* eslint-disable-next-line */
   const presenter: ICreatePresenter = inject(nameof<ICreatePresenter>());
@@ -25,13 +24,17 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
   );
 
   useEffect(() => {
-    // sheetController.getInspectionSheetById(sheetId).catch((error) => {
-    //   console.error(error);
-    //   notification.setMessageState(
-    //     "error",
-    //     `データの取得に失敗しました (ID:${sheetId})`
-    //   );
-    // });
+    controller.fetchInspectionMasterData().catch((error) => {
+      notification.setMessageState("error", "データの取得に失敗しました");
+      console.error(error);
+    });
+    controller.fetchInspectionSheet(sheetId).catch((error) => {
+      console.error(error);
+      notification.setMessageState(
+        "error",
+        `データの取得に失敗しました (ID:${sheetId})`
+      );
+    });
   }, [sheetId]);
 
   const handleUpdate = (event: React.FormEvent<HTMLFormElement>): void => {
