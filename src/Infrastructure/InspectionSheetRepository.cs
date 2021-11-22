@@ -107,41 +107,7 @@ namespace InspectionManager.Infrastructure
             if (_context.InspectionSheets is not null)
             {
                 var entity = _mapper.Map<InspectionSheet>(dto);
-                if (_context.InspectionGroups is not null)
-                {
-                    entity.InspectionGroup = _context.InspectionGroups
-                        .First(x => x.InspectionGroupId == entity.InspectionGroupId);
-                }
-                else
-                {
-                    throw new NullReferenceException(nameof(_context.InspectionGroups));
-                }
-
-                if (_context.InspectionTypes is not null)
-                {
-                    entity.InspectionType = _context.InspectionTypes
-                        .First(x => x.InspectionTypeId == entity.InspectionTypeId);
-                }
-                else
-                {
-                    throw new NullReferenceException(nameof(_context.InspectionTypes));
-                }
-
-                if (_context.InputTypes is not null)
-                {
-                    foreach (var equipment in entity.Equipments)
-                    {
-                        foreach (var inspectionItem in equipment.InspectionItems)
-                        {
-                            inspectionItem.InputType = _context.InputTypes
-                                .First(x => x.InputTypeId == inspectionItem.InputTypeId);
-                        }
-                    }
-                }
-                else
-                {
-                    throw new NullReferenceException(nameof(_context.InputTypes));
-                }
+                ReferRelationalEntities(entity);
 
                 await _context.InspectionSheets.AddAsync(entity);
                 await _context.SaveChangesAsync();
@@ -160,13 +126,9 @@ namespace InspectionManager.Infrastructure
             if (_context.InspectionSheets != null)
             {
                 var entity = _mapper.Map<InspectionSheet>(dto);
-                if (_context.InspectionTypes != null && _context.InspectionGroups != null)
-                {
-                    entity.InspectionGroup = _context.InspectionGroups
-                        .First(x => x.InspectionGroupId == entity.InspectionGroupId);
-                    entity.InspectionType = _context.InspectionTypes
-                        .First(x => x.InspectionTypeId == entity.InspectionTypeId);
-                }
+                RemoveUnusedRelationalEntities(entity);
+                ReferRelationalEntities(entity);
+
                 _context.InspectionSheets.Update(entity);
                 await _context.SaveChangesAsync();
 
@@ -193,6 +155,96 @@ namespace InspectionManager.Infrastructure
             else
             {
                 throw new NullReferenceException(nameof(_context.InspectionSheets));
+            }
+        }
+
+        private void ReferRelationalEntities(InspectionSheet entity)
+        {
+            if (_context.InspectionGroups is not null)
+            {
+                entity.InspectionGroup = _context.InspectionGroups
+                    .First(x => x.InspectionGroupId == entity.InspectionGroupId);
+            }
+            else
+            {
+                throw new NullReferenceException(nameof(_context.InspectionGroups));
+            }
+
+            if (_context.InspectionTypes is not null)
+            {
+                entity.InspectionType = _context.InspectionTypes
+                    .First(x => x.InspectionTypeId == entity.InspectionTypeId);
+            }
+            else
+            {
+                throw new NullReferenceException(nameof(_context.InspectionTypes));
+            }
+
+            if (_context.InputTypes is not null)
+            {
+                foreach (var equipment in entity.Equipments)
+                {
+                    foreach (var inspectionItem in equipment.InspectionItems)
+                    {
+                        inspectionItem.InputType = _context.InputTypes
+                            .First(x => x.InputTypeId == inspectionItem.InputTypeId);
+                    }
+                }
+            }
+            else
+            {
+                throw new NullReferenceException(nameof(_context.InputTypes));
+            }
+        }
+
+        private void RemoveUnusedRelationalEntities(InspectionSheet entity)
+        {
+            if (_context.Equipments is not null)
+            {
+                var ids = entity.Equipments.Select(x => x.EquipmentId);
+                var target = _context.Equipments
+                    .Where(x => x.InspectionSheetId == entity.SheetId)
+                    .Where(x => !ids.Contains(x.EquipmentId));
+                _context.Equipments.RemoveRange(target);
+            }
+            else
+            {
+                throw new NullReferenceException(nameof(_context.Equipments));
+            }
+
+            if (_context.InspectionItems is not null)
+            {
+                foreach (var equipment in entity.Equipments)
+                {
+                    var ids = equipment.InspectionItems.Select(x => x.InspectionItemId);
+                    var target = _context.InspectionItems
+                        .Where(x => x.EquipmentId == equipment.EquipmentId)
+                        .Where(x => !ids.Contains(x.InspectionItemId));
+                    _context.InspectionItems.RemoveRange(target);
+                }
+            }
+            else
+            {
+                throw new NullReferenceException(nameof(_context.Equipments));
+            }
+
+            if (_context.Choices is not null)
+            {
+                foreach (var equipment in entity.Equipments)
+                {
+                    foreach (var inspectionItem in equipment.InspectionItems)
+                    {
+                        var ids = inspectionItem.Choices.Select(x => x.ChoiceId);
+                        var target = _context.Choices
+                            .Where(x => x.InspectionItemId == inspectionItem.InspectionItemId)
+                            .Where(x => !ids.Contains(x.ChoiceId));
+                        _context.Choices.RemoveRange(target);
+                    }
+                }
+            }
+            else
+            {
+                throw new NullReferenceException(nameof(_context.Choices));
             }
         }
     }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -123,12 +123,16 @@ namespace InspectionManager.Web.Controllers
 
         [HttpPut]
         [Route("/v1/inspection-sheets/{sheetId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDetailDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<InspectionSheetDetailDto>> UpdateInspectionSheet([FromRoute][Required] int? sheetId, [FromBody] InspectionSheetDetailDto dto)
+        public async Task<IActionResult> UpdateInspectionSheet([FromRoute][Required] int? sheetId, [FromBody] InspectionSheetDetailDto dto)
         {
             try
             {
-                if (sheetId.HasValue && _service.IsValidInspectionSheet(dto))
+                if (sheetId is not null && _service.IsValidInspectionSheet(dto))
                 {
                     _logger.LogInformation($"try to update inspection sheet {sheetId.Value}");
                     if (!_service.InspectionSheetExists(sheetId.Value))
