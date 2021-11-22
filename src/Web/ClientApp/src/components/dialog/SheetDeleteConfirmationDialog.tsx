@@ -31,10 +31,10 @@ export const SheetDeleteConfirmationDialog: FC<SheetDeleteConfirmationDialogProp
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            <p>次の点検シートを削除します。（この操作は取り消せません）</p>
-            <p>シート名：{props.sheetName}</p>
-            <p>点検グループ：{props.groupName}</p>
-            <p>点検種別：{props.typeName}</p>
+            次の点検シートを削除します。（この操作は取り消せません）<br/>
+            シート名：{props.sheetName}<br/>
+            点検グループ：{props.groupName}<br/>
+            点検種別：{props.typeName}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
