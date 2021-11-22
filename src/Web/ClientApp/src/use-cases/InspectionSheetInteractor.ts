@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useReducer, useState } from "react";
+import { Dispatch, SetStateAction, useReducer, useState } from "react";
 import {
   InspectionItem,
   InspectionSheet,
@@ -7,7 +7,6 @@ import {
   InspectionSheetReducer,
   SHEET_ACTION_TYPE,
 } from "../entities";
-import { InspectionSheetRepository } from "../infrastructure";
 import {
   IInspectionSheetInteractor,
   IInspectionSheetRepository,
@@ -32,8 +31,9 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
 
   /**
    * Initializes a new instance of InspectionSheetInteractor.
+   * @param repository IInspectionSheetRepository object.
    */
-  constructor() {
+  constructor(repository: IInspectionSheetRepository) {
     const [sheets, setSheets] = useState<InspectionSheet[]>([]);
     this.sheets = sheets;
     this.setSheets = setSheets;
@@ -46,7 +46,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     );
     this.sheet = sheet;
     this.dispatch = sheetDispatch;
-    this.repository = new InspectionSheetRepository();
+    this.repository = repository;
   }
 
   /** @inheritdoc */
@@ -94,9 +94,20 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   }
 
   /** @inheritdoc */
-  setGroup(groupId: number): void {
+  setSheetName(sheetName: string): void {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.UPDATE_NUMERIC_FIELD,
+      type: SHEET_ACTION_TYPE.SET_STRING_FIELD,
+      payload: {
+        name: "sheetName",
+        stringValue: sheetName,
+      },
+    });
+  }
+
+  /** @inheritdoc */
+  setGroupId(groupId: number): void {
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.SET_NUMERIC_FIELD,
       payload: {
         name: "inspectionGroupId",
         numericValue: groupId,
@@ -105,12 +116,53 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   }
 
   /** @inheritdoc */
-  setType(typeId: number): void {
+  setTypeId(typeId: number): void {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.UPDATE_NUMERIC_FIELD,
+      type: SHEET_ACTION_TYPE.SET_NUMERIC_FIELD,
       payload: {
         name: "inspectionTypeId",
         numericValue: typeId,
+      },
+    });
+  }
+
+  /** @inheritdoc */
+  addEquipment(): void {
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.ADD_EQUIPMENT,
+      payload: {},
+    });
+  }
+
+  /** @inheritdoc */
+  removeEquipment(orderIndex: number): void {
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.REMOVE_EQUIPMENT,
+      payload: {
+        numericValue: orderIndex,
+      },
+    });
+  }
+
+  /** @inheritdoc */
+  swapEquipments(srcOrderIndex: number, dstOrderIndex: number): void {
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.SWAP_EQUIPMENTS,
+      payload: {
+        srcOrderIndex,
+        dstOrderIndex,
+      },
+    });
+  }
+
+  /** @inheritdoc */
+  setEquipmentName(orderIndex: number, name: string): void {
+    this.dispatch({
+      type: SHEET_ACTION_TYPE.SET_EQUIPMENT_STRING_FIELD,
+      payload: {
+        equipmentOrderIndex: orderIndex,
+        name: "equipmentName",
+        stringValue: name,
       },
     });
   }
@@ -139,104 +191,57 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     });
   }
 
-  updateField(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void {
-    this.dispatch({
-      type: SHEET_ACTION_TYPE.UPDATE_FIELD,
-      payload: {
-        name: event.target.name,
-        value: event.target.value,
-      },
-    });
-  }
-
-  addEquipment(): void {
-    this.dispatch({
-      type: SHEET_ACTION_TYPE.ADD_EQUIPMENT,
-      payload: {},
-    });
-  }
-
-  removeEquipment(index: number): void {
-    this.dispatch({
-      type: SHEET_ACTION_TYPE.REMOVE_EQUIPMENT,
-      payload: {
-        equipmentIndex: index,
-      },
-    });
-  }
-
-  updateEquipment(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
-  ): void {
-    this.dispatch({
-      type: SHEET_ACTION_TYPE.UPDATE_EQUIPMENT,
-      payload: {
-        name: event.target.name,
-        value: event.target.value,
-        equipmentIndex: index,
-      },
-    });
-  }
-
-  swapEquipment(srcIndex: number, dstIndex: number): void {
-    this.dispatch({
-      type: SHEET_ACTION_TYPE.SWAP_EQUIPMENT,
-      payload: {
-        equipmentIndex: srcIndex,
-        swapIndex: dstIndex,
-      },
-    });
-  }
-
+  /** @inheritdoc */
   addInspectionItem(index: number, item: InspectionItem): void {
     this.dispatch({
       type: SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM,
       payload: {
-        equipmentIndex: index,
+        equipmentOrderIndex: index,
         inspectionItem: item,
       },
     });
   }
 
-  removeInspectionItem(equipmentIndex: number, itemIndex: number): void {
+  /** @inheritdoc */
+  removeInspectionItem(
+    equipmentOrderIndex: number,
+    itemOrderIndex: number
+  ): void {
     this.dispatch({
       type: SHEET_ACTION_TYPE.REMOVE_INSPECTION_ITEM,
       payload: {
-        equipmentIndex,
-        inspectionItemIndex: itemIndex,
+        equipmentOrderIndex,
+        itemOrderIndex,
       },
     });
   }
 
   updateInspectionItem(
-    equipmentIndex: number,
-    itemIndex: number,
+    equipmentOrderIndex: number,
+    itemOrderIndex: number,
     item: InspectionItem
   ): void {
     this.dispatch({
       type: SHEET_ACTION_TYPE.UPDATE_INSPECTION_ITEM,
       payload: {
-        equipmentIndex,
-        inspectionItemIndex: itemIndex,
+        equipmentOrderIndex,
+        itemOrderIndex,
         inspectionItem: item,
       },
     });
   }
 
   swapInspectionItem(
-    equipmentIndex: number,
-    srcIndex: number,
-    dstIndex: number
+    equipmentOrderIndex: number,
+    srcOrderIndex: number,
+    dstOrderIndex: number
   ) {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.SWAP_INSPECTION_ITEM,
+      type: SHEET_ACTION_TYPE.SWAP_INSPECTION_ITEMS,
       payload: {
-        equipmentIndex,
-        inspectionItemIndex: srcIndex,
-        swapIndex: dstIndex,
+        equipmentOrderIndex,
+        srcOrderIndex,
+        dstOrderIndex,
       },
     });
   }

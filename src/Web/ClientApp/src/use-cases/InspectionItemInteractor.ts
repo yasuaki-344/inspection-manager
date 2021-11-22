@@ -1,29 +1,44 @@
-import React from "react";
-import { Choice, ChoiceTemplate, InspectionItem, TYPES } from "../entities";
+import { ChangeEvent, Dispatch, useReducer } from "react";
+import {
+  Choice,
+  ChoiceTemplate,
+  InspectionItem,
+  InspectionItemAction,
+  InspectionItemInitialState,
+  InspectionItemReducer,
+  ITEM_ACTION_TYPES,
+} from "../entities";
 import { IInspectionItemInteractor } from "../interfaces";
 
 export class InspectionItemInteractor implements IInspectionItemInteractor {
   readonly inspectionItem: InspectionItem;
 
-  private readonly dispatch: React.Dispatch<any>;
+  private readonly dispatch: Dispatch<InspectionItemAction>;
 
-  constructor(state: InspectionItem, dispatch: React.Dispatch<any>) {
+  /**
+   * Initializes a new instance of InspectionItemInteractor class.
+   */
+  constructor() {
+    const [state, dispatch] = useReducer(
+      InspectionItemReducer,
+      InspectionItemInitialState
+    );
     this.inspectionItem = state;
     this.dispatch = dispatch;
   }
 
   setItem(item: InspectionItem): void {
     this.dispatch({
-      type: TYPES.SET_ITEM,
+      type: ITEM_ACTION_TYPES.SET_ITEM,
       payload: { item },
     });
   }
 
   updateField(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void {
     this.dispatch({
-      type: TYPES.UPDATE_FIELD,
+      type: ITEM_ACTION_TYPES.UPDATE_FIELD,
       payload: {
         name: event.target.name,
         value: event.target.value,
@@ -33,7 +48,7 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
 
   setChoices(choices: ChoiceTemplate): void {
     this.dispatch({
-      type: TYPES.SET_CHOICE,
+      type: ITEM_ACTION_TYPES.SET_CHOICE,
       payload: {
         choices,
       },
@@ -42,28 +57,29 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
 
   addChoice(): void {
     this.dispatch({
-      type: TYPES.ADD_CHOICE,
+      type: ITEM_ACTION_TYPES.ADD_CHOICE,
+      payload: {},
     });
   }
 
   removeChoice(index: number): void {
     this.dispatch({
-      type: TYPES.REMOVE_CHOICE,
+      type: ITEM_ACTION_TYPES.REMOVE_CHOICE,
       payload: {
-        choiceIndex: index,
+        choiceOrderIndex: index,
       },
     });
   }
 
   updateChoice(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number
   ): void {
     this.dispatch({
-      type: TYPES.UPDATE_CHOICE,
+      type: ITEM_ACTION_TYPES.UPDATE_CHOICE,
       payload: {
         value: event.target.value,
-        choiceIndex: index,
+        choiceOrderIndex: index,
       },
     });
   }

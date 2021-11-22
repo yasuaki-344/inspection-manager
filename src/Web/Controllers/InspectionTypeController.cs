@@ -142,10 +142,6 @@ namespace InspectionManager.Web.Controllers
         [HttpPut]
         [Route("/v1/inspection-types/{inspectionGroupId}")]
         [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionGroupDto))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateInspectionTypeAsync([FromRoute][Required] int? inspectionGroupId, [FromBody] InspectionTypeDto dto)
         {
             try
@@ -188,10 +184,6 @@ namespace InspectionManager.Web.Controllers
         [HttpDelete]
         [Route("/v1/inspection-types/{inspectionTypeId}")]
         [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteInspectionTypeAsync([FromRoute][Required] int? inspectionTypeId)
         {
             try
@@ -204,11 +196,11 @@ namespace InspectionManager.Web.Controllers
                         return NotFound($"type with Id = {inspectionTypeId} not found");
                     }
                     await _repository.DeleteInspectionTypeAsync(inspectionTypeId.Value);
-                    return StatusCode(StatusCodes.Status204NoContent);
+                    return NoContent();
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status400BadRequest);
+                    return BadRequest();
                 }
             }
             catch (Exception ex)

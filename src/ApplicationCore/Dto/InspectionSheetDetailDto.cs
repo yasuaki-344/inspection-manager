@@ -1,8 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace InspectionManager.ApplicationCore.Dto
 {
-    public class InspectionSheetDto
+    public class InspectionSheetDetailDto
     {
         [JsonPropertyName("sheet_id")]
         public int SheetId { get; set; }
@@ -13,13 +14,10 @@ namespace InspectionManager.ApplicationCore.Dto
         [JsonPropertyName("inspection_type_id")]
         public int InspectionTypeId { get; set; }
 
-        [JsonPropertyName("inspection_type")]
-        public string InspectionType { get; set; } = string.Empty;
-
         [JsonPropertyName("inspection_group_id")]
         public int InspectionGroupId { get; set; }
 
-        [JsonPropertyName("inspection_group")]
-        public string InspectionGroup { get; set; } = string.Empty;
+        [JsonPropertyName("equipments")]
+        public ICollection<EquipmentDto> Equipments { get; set; } = new List<EquipmentDto>();
     }
 }

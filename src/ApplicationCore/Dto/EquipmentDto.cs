@@ -8,6 +8,9 @@ namespace InspectionManager.ApplicationCore.Dto
         [JsonPropertyName("equipment_id")]
         public int EquipmentId { get; set; }
 
+        [JsonPropertyName("order_index")]
+        public int OrderIndex { get; set; }
+
         [JsonPropertyName("equipment_name")]
         public string EquipmentName { get; set; } = string.Empty;
 

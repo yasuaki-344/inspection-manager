@@ -1,148 +1,159 @@
-import InspectionItemReducer, {
-  setItemAction,
-  updateFieldAction,
-  setChoiceAction,
-  addChoiceAction,
-  removeChoiceAction,
-  updateChoiceAction,
-  TYPES,
-} from "../InspectionItemReducer";
+import { InspectionItemReducer, ITEM_ACTION_TYPES } from "..";
 
-it("set inspection item correctly", () => {
-  const item = {
-    inspection_item_id: "id",
-    inspection_content: "content",
-    input_type: "2",
-    choices: ["choice1", "choice2"],
-  };
-  const action = setItemAction(item);
-  expect(action.type).toBe(TYPES.SET_ITEM);
-  expect(action.payload.item).toBe(item);
+describe("InspectionSheetReducer unit test", () => {
+  it("Set inspection item correctly", () => {
+    const state = {
+      sheetName: "base",
+    };
+    const target = {
+      inspectionItemId: 1,
+      orderIndex: 2,
+      inspectionContent: "content",
+      inputType: "2",
+      choices: [
+        {
+          choiceId: 3,
+          orderIndex: 4,
+          description: "choice1",
+        },
+        {
+          choiceId: 4,
+          orderIndex: 5,
+          description: "choice2",
+        },
+      ],
+    };
+    const action = {
+      type: ITEM_ACTION_TYPES.SET_ITEM,
+      payload: {
+        item: target,
+      },
+    };
+    const actual = InspectionItemReducer(state, action);
+    expect(actual).toStrictEqual(target);
+  });
 
-  const actual = InspectionItemReducer(item, action);
-  expect(actual).toStrictEqual(item);
-});
+  it("Update content correctly", () => {
+    const state = {};
+    const action = {
+      type: ITEM_ACTION_TYPES.UPDATE_FIELD,
+      payload: {
+        name: "inspectionContent",
+        value: "update content",
+      },
+    };
+    const actual = InspectionItemReducer(state, action);
+    expect(actual.inspectionContent).toBe("update content");
+  });
 
-it("update field correctly", () => {
-  const event = {
-    target: {
-      name: "inspection_content",
-      value: "update content",
-    },
-  };
-  const action = updateFieldAction(event);
-  expect(action.type).toBe(TYPES.UPDATE_FIELD);
-  expect(action.payload.name).toBe(event.target.name);
-  expect(action.payload.value).toBe(event.target.value);
+  it("Update input type correctly", () => {
+    const state = {
+      inputType: 2,
+      choices: [
+        { choiceId: 0, orderIndex: 1, description: "choice1" },
+        { choiceId: 0, orderIndex: 2, description: "choice2" },
+      ],
+    };
+    let action = {
+      type: ITEM_ACTION_TYPES.UPDATE_FIELD,
+      payload: {
+        name: "inputType",
+        value: "2",
+      },
+    };
+    let actual = InspectionItemReducer(state, action);
+    expect(actual.inputType).toBe("2");
+    expect(actual.choices).toEqual([
+      { choiceId: 0, orderIndex: 1, description: "choice1" },
+      { choiceId: 0, orderIndex: 2, description: "choice2" },
+    ]);
 
-  const item = {
-    inspection_content: "content",
-  };
-  const actual = InspectionItemReducer(item, action);
-  expect(actual.inspection_content).toBe("update content");
-});
+    action = {
+      type: ITEM_ACTION_TYPES.UPDATE_FIELD,
+      payload: {
+        name: "inputType",
+        value: "0",
+      },
+    };
+    actual = InspectionItemReducer(state, action);
+    expect(actual.inputType).toBe("0");
+    expect(actual.choices).toEqual([]);
+  });
 
-it("update field correctly", () => {
-  const event = {
-    target: {
-      name: "input_type",
-      value: "0",
-    },
-  };
-  const action = updateFieldAction(event);
-  expect(action.type).toBe(TYPES.UPDATE_FIELD);
-  expect(action.payload.name).toBe(event.target.name);
-  expect(action.payload.value).toBe(event.target.value);
+  it("Set choices correctly", () => {
+    const state = {
+      choices: [
+        { choiceId: 0, orderIndex: 1, description: "choice1" },
+        { choiceId: 0, orderIndex: 2, description: "choice2" },
+      ],
+    };
+    const action = {
+      type: ITEM_ACTION_TYPES.SET_CHOICE,
+      payload: {
+        choices: {
+          choiceTemplateId: 0,
+          choices: [
+            { optionId: 0, description: "new1" },
+            { optionId: 1, description: "new2" },
+          ],
+        },
+      },
+    };
+    const actual = InspectionItemReducer(state, action);
+    expect(actual.choices).toStrictEqual([
+      { choiceId: 0, orderIndex: 1, description: "new1" },
+      { choiceId: 0, orderIndex: 2, description: "new2" },
+    ]);
+  });
 
-  const item = {
-    inspection_content: "content",
-    input_type: "2",
-    choices: ["choice1", "choice2"],
-  };
-  const actual = InspectionItemReducer(item, action);
-  expect(actual.input_type).toBe("0");
-  expect(actual.choices.length).toBe(0);
-});
+  it("Add choice correctly", () => {
+    const state = {
+      choices: [{ choiceId: 0, orderIndex: 22, description: "new1" }],
+    };
+    const action = {
+      type: ITEM_ACTION_TYPES.ADD_CHOICE,
+      payload: {},
+    };
+    const actual = InspectionItemReducer(state, action);
+    expect(actual.choices).toStrictEqual([
+      { choiceId: 0, orderIndex: 22, description: "new1" },
+      { choiceId: 0, orderIndex: 23, description: "" },
+    ]);
+  });
 
-it("do not update field if name is null", () => {
-  const event = {
-    target: {
-      name: null,
-      value: "update content",
-    },
-  };
-  const action = updateFieldAction(event);
-  expect(action.type).toBe(TYPES.UPDATE_FIELD);
-  expect(action.payload.name).toBe(event.target.name);
-  expect(action.payload.value).toBe(event.target.value);
+  it("Remove choice correctly", () => {
+    const state = {
+      choices: [{ choiceId: 0, orderIndex: 22, description: "new1" }],
+    };
+    const action = {
+      type: ITEM_ACTION_TYPES.REMOVE_CHOICE,
+      payload: { choiceIndex: 22 },
+    };
+    const actual = InspectionItemReducer(state, action);
+    expect(actual.choices.length).toStrictEqual(0);
+  });
 
-  const item = {
-    inspection_content: "content",
-  };
-  const actual = InspectionItemReducer(item, action);
-  expect(actual.inspection_content).toBe("content");
-});
+  it("update choice correctly", () => {
+    const state = {
+      choices: [{ choiceId: 0, orderIndex: 22, description: "new1" }],
+    };
+    const action = {
+      type: ITEM_ACTION_TYPES.UPDATE_CHOICE,
+      payload: { choiceIndex: 22, value: "update choice" },
+    };
+    const actual = InspectionItemReducer(state, action);
+    expect(actual.choices).toStrictEqual([
+      { choiceId: 0, orderIndex: 22, description: "update choice" }
+    ]);
+  });
 
-it("set choice correctly", () => {
-  const choices = ["choice1", "choice2"];
-  const action = setChoiceAction(choices);
-  expect(action.type).toBe(TYPES.SET_CHOICE);
-  expect(action.payload.choices).toBe(choices);
-
-  const item = {
-    choices: ["choice0"],
-  };
-  const actual = InspectionItemReducer(item, action);
-  expect(actual.choices).toStrictEqual(["choice1", "choice2"]);
-});
-
-it("add choice correctly", () => {
-  const action = addChoiceAction();
-  expect(action.type).toBe(TYPES.ADD_CHOICE);
-
-  const item = {
-    choices: ["choice1"],
-  };
-  const actual = InspectionItemReducer(item, action);
-  expect(actual.choices).toStrictEqual(["choice1", ""]);
-});
-
-it("remove choice correctly", () => {
-  const index = 1;
-  const action = removeChoiceAction(index);
-  expect(action.type).toBe(TYPES.REMOVE_CHOICE);
-  expect(action.payload.choice_index).toBe(index);
-
-  const item = {
-    choices: ["choice1", "choice2"],
-  };
-  const actual = InspectionItemReducer(item, action);
-  expect(actual.choices).toStrictEqual(["choice1"]);
-});
-
-it("update choice correctly", () => {
-  const event = {
-    target: {
-      value: "field_value",
-    },
-  };
-  const index = 1;
-  const action = updateChoiceAction(event, index);
-  expect(action.type).toBe(TYPES.UPDATE_CHOICE);
-  expect(action.payload.value).toBe(event.target.value);
-  expect(action.payload.choice_index).toBe(index);
-
-  const item = {
-    choices: ["choice1", "choice2"],
-  };
-  const actual = InspectionItemReducer(item, action);
-  expect(actual.choices).toStrictEqual(["choice1", "field_value"]);
-});
-
-it("unknown action", () => {
-  const action = {
-    type: "",
-  };
-  const item = {};
-  InspectionItemReducer(item, action);
+  it("Unknown action", () => {
+    const action = {
+      type: "",
+      payload: {},
+    };
+    const state = {};
+    const actual = InspectionItemReducer(state, action);
+    expect(actual).toEqual({});
+  });
 });

@@ -16,39 +16,46 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface Option
+ * @interface Choice
  */
-export interface Option {
+export interface Choice {
     /**
      * 
      * @type {number}
-     * @memberof Option
+     * @memberof Choice
      */
-    option_id: number;
+    choice_id: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Choice
+     */
+    order_index: number;
     /**
      * 
      * @type {string}
-     * @memberof Option
+     * @memberof Choice
      */
-    description?: string;
+    description: string;
 }
 
-export function OptionFromJSON(json: any): Option {
-    return OptionFromJSONTyped(json, false);
+export function ChoiceFromJSON(json: any): Choice {
+    return ChoiceFromJSONTyped(json, false);
 }
 
-export function OptionFromJSONTyped(json: any, ignoreDiscriminator: boolean): Option {
+export function ChoiceFromJSONTyped(json: any, ignoreDiscriminator: boolean): Choice {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'option_id': json['option_id'],
-        'description': !exists(json, 'description') ? undefined : json['description'],
+        'choice_id': json['choice_id'],
+        'order_index': json['order_index'],
+        'description': json['description'],
     };
 }
 
-export function OptionToJSON(value?: Option | null): any {
+export function ChoiceToJSON(value?: Choice | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,7 +64,8 @@ export function OptionToJSON(value?: Option | null): any {
     }
     return {
         
-        'option_id': value.option_id,
+        'choice_id': value.choice_id,
+        'order_index': value.order_index,
         'description': value.description,
     };
 }

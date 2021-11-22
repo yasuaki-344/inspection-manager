@@ -1,4 +1,4 @@
-import React, { FC, useRef } from "react";
+import React, { FC, useContext, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import {
   Accordion,
@@ -13,35 +13,30 @@ import nameof from "ts-nameof.macro";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { InspectionItemForm } from "./InspectionItemForm";
-import { CancelIconButton } from "../utilities";
+import { BottomNavigationAdd, CancelIconButton } from "../utilities";
 import { equipmentLabel, MenuIcon, paperElement } from "../stylesheets";
-import { ItemType, Equipment, InspectionItem } from "../../entities";
-import { IInspectionSheetController } from "../../interfaces";
-import { useDIContext } from "../../container";
+import { ItemType, Equipment } from "../../entities";
+import { ICreateController } from "../../interfaces";
+import {
+  InspectionItemDialogStateContext,
+  useDIContext,
+} from "../../container";
 
 interface DragItem {
-  index: number;
+  orderIndex: number;
 }
 
 interface EquipmentFormProps {
-  index: number;
+  orderIndex: number;
   equipment: Equipment;
-  handleAddItem: (equipmentIndex: number) => void;
-  handleEditItem: (
-    equipmentIndex: number,
-    inspectionItemIndex: number,
-    inspectionItem: InspectionItem
-  ) => void;
-  // storeHistory: () => void;
 }
 
 export const EquipmentForm: FC<EquipmentFormProps> = (
   props: EquipmentFormProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const sheetController: IInspectionSheetController = inject(
-    nameof<IInspectionSheetController>()
-  );
+  const controller: ICreateController = inject(nameof<ICreateController>());
+  const [status, setStatus] = useContext(InspectionItemDialogStateContext);
 
   const dropRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<HTMLButtonElement>(null);
@@ -49,18 +44,31 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
   const [, drop] = useDrop({
     accept: ItemType.EQUIPMENT,
     drop(item: DragItem) {
-      if (!dropRef.current || item.index === props.index) {
+      if (!dropRef.current || item.orderIndex === props.orderIndex) {
         return;
       }
-      sheetController.swapEquipment(props.index, item.index);
+      controller.swapEquipments(props.orderIndex, item.orderIndex);
     },
   });
   const [, drag, preview] = useDrag({
     type: ItemType.EQUIPMENT,
-    item: { index: props.index },
+    item: { orderIndex: props.orderIndex },
   });
   preview(drop(dropRef));
   drag(dragRef);
+
+  /**
+   * Implements the process for adding inspection item.
+   */
+  const handleAddInspectionItem = (orderIndex: number) => {
+    controller.setUp();
+    setStatus({
+      ...status,
+      isOpen: true,
+      isAdditional: true,
+      equipmentOrderIndex: orderIndex,
+    });
+  };
 
   return (
     <Paper variant="outlined">
@@ -75,7 +83,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
           </IconButton>
           <div>{props.equipment.equipmentName}</div>
           <CancelIconButton
-            onClick={() => sheetController.removeEquipment(props.index)}
+            onClick={() => controller.removeEquipment(props.orderIndex)}
           />
         </AccordionSummary>
         <AccordionDetails>
@@ -89,17 +97,23 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
                 name="equipmentName"
                 value={props.equipment.equipmentName}
                 onChange={(e) =>
-                  sheetController.updateEquipment(e, props.index)
+                  controller.changeEquipmentName(e, props.orderIndex)
                 }
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={12}>
               <InspectionItemForm
-                equipmentIndex={props.index}
+                equipmentIndex={props.orderIndex}
                 inspectionItems={props.equipment.inspectionItems}
-                editInspectionItem={props.handleEditItem}
-                addInspectionItem={props.handleAddItem}
-                // storeHistory={props.storeHistory}
+              />
+              <BottomNavigationAdd
+                label="点検項目追加"
+                onClick={() => handleAddInspectionItem(props.orderIndex)}
               />
             </Grid>
           </Grid>

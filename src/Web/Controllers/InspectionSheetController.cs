@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using System.Web;
 using InspectionManager.ApplicationCore.Dto;
@@ -12,7 +14,6 @@ using Microsoft.Extensions.Logging;
 namespace InspectionManager.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class InspectionSheetController : ControllerBase
     {
         private readonly IInspectionSheetService _service;
@@ -33,6 +34,7 @@ namespace InspectionManager.Web.Controllers
         }
 
         [HttpGet]
+        [Route("/v1/inspection-sheets")]
         public ActionResult<InspectionSheetDto> GetAllInspectionSheets()
         {
             try
@@ -49,39 +51,14 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpGet("{id:int}")]
-        public ActionResult<InspectionSheetDto> GetInspectionSheet(int id)
-        {
-            try
-            {
-                _logger.LogInformation($"try to get inspection sheet {id}");
-
-                var result = _service.GetInspectionSheet(id);
-                if (result == null)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return result;
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error retrieving data from the database");
-            }
-        }
-
-
         [HttpPost]
-        public async Task<ActionResult<InspectionSheetDto>> CreateSheetAsync(InspectionSheetDto? dto)
+        [Route("/v1/inspection-sheets")]
+        public async Task<ActionResult<InspectionSheetDetailDto>> CreateSheetAsync([FromBody] InspectionSheetDetailDto dto)
         {
             try
             {
                 _logger.LogInformation("try to create inspection sheet");
-                if (dto == null)
+                if (!_service.IsValidInspectionSheet(dto))
                 {
                     return BadRequest();
                 }
@@ -101,17 +78,61 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<ActionResult<InspectionSheetDto>> UpdateInspectionSheet(InspectionSheetDto dto)
+        [HttpGet]
+        [Route("/v1/inspection-sheets/{sheetId}")]
+        public ActionResult<InspectionSheetDetailDto> GetInspectionSheet([FromRoute][Required] int? sheetId)
         {
             try
             {
-                _logger.LogInformation($"try to update inspection sheet {dto.SheetId}");
-                if (!_service.InspectionSheetExists(dto.SheetId))
+                _logger.LogInformation($"try to get inspection sheet {sheetId}");
+                if (sheetId.HasValue)
                 {
-                    return NotFound($"Sheet with Id = {dto.SheetId} not found");
+                    var result = _service.GetInspectionSheet(sheetId.Value);
+                    if (result == null)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        return result;
+                    }
                 }
-                return await _service.UpdateInspectionSheetAsync(dto);
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database");
+            }
+        }
+
+        [HttpPut]
+        [Route("/v1/inspection-sheets/{sheetId}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        public async Task<ActionResult<InspectionSheetDetailDto>> UpdateInspectionSheet([FromRoute][Required] int? sheetId, [FromBody] InspectionSheetDetailDto dto)
+        {
+            try
+            {
+                if (sheetId.HasValue && _service.IsValidInspectionSheet(dto))
+                {
+                    _logger.LogInformation($"try to update inspection sheet {sheetId.Value}");
+                    if (!_service.InspectionSheetExists(sheetId.Value))
+                    {
+                        return NotFound($"Sheet with Id = {dto.SheetId} not found");
+                    }
+                    dto.SheetId = sheetId.Value;
+                    var result = await _service.UpdateInspectionSheetAsync(dto);
+                    return CreatedAtAction(nameof(GetInspectionSheet),
+                    new { sheetId = result.SheetId }, result);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {
@@ -121,17 +142,27 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpDelete("{id:int}")]
-        public async Task<ActionResult<InspectionSheetDto>> DeleteInspectionSheetAsync(int id)
+        [HttpDelete]
+        [Route("/v1/inspection-sheets/{sheetId}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        public async Task<ActionResult<InspectionSheetDto>> DeleteInspectionSheetAsync([FromRoute][Required] int? sheetId)
         {
             try
             {
-                _logger.LogInformation($"try to delete inspection sheet {id}");
-                if (!_service.InspectionSheetExists(id))
+                if (sheetId.HasValue)
                 {
-                    return NotFound($"sheet with Id = {id} not found");
+                    _logger.LogInformation($"try to delete inspection sheet {sheetId}");
+                    if (!_service.InspectionSheetExists(sheetId.Value))
+                    {
+                        return NotFound($"sheet with Id = {sheetId} not found");
+                    }
+                    await _service.DeleteInspectionSheetAsync(sheetId.Value);
+                    return NoContent();
                 }
-                return await _service.DeleteInspectionSheetAsync(id);
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {

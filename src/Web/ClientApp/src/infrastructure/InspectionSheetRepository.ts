@@ -1,50 +1,57 @@
 import { InspectionSheet, toCamelCase, toSnakeCase } from "../entities";
 import { IInspectionSheetRepository } from "../interfaces";
+import { InspectionSheetsApi } from "../typescript-fetch";
 
 export class InspectionSheetRepository implements IInspectionSheetRepository {
-  async get(): Promise<Array<InspectionSheet>> {
-    const data = await fetch("inspectionsheet")
-      .then((res) => res.json())
-      .then((json) => toCamelCase(json));
-    return data;
+  private readonly api: InspectionSheetsApi;
+
+  /**
+   * Initializes a new instance of InspectionSheetRepository class.
+   */
+  constructor() {
+    this.api = new InspectionSheetsApi();
   }
 
+  /** @inheritdoc */
+  async get(): Promise<InspectionSheet[]> {
+    const res = await this.api.inspectionSheetsGet();
+    const sheets = toCamelCase(res);
+    return sheets;
+  }
+
+  /** @inheritdoc */
   async getById(id: number): Promise<InspectionSheet> {
-    const data = await fetch(`inspectionsheet/${id}`)
-      .then((res) => res.json())
-      .then((json) => toCamelCase(json));
-    return data;
+    const res = await this.api.inspectionSheetsSheetIdGet({
+      sheetId: id,
+    });
+    const sheet = toCamelCase(res);
+    return sheet;
   }
 
+  /** @inheritdoc */
   async post(inspectionSheet: InspectionSheet): Promise<InspectionSheet> {
-    const data = await fetch("inspectionsheet", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(toSnakeCase(inspectionSheet)),
-    })
-      .then((res) => res.json())
-      .then((json) => toCamelCase(json));
-    return data;
+    const requestBody = toSnakeCase(inspectionSheet);
+    const res = await this.api.inspectionSheetsPost({
+      inspectionSheetDetail: requestBody,
+    });
+    const sheet = toCamelCase(res);
+    return sheet;
   }
 
   async put(inspectionSheet: InspectionSheet): Promise<InspectionSheet> {
-    const data = await fetch(`inspectionsheet/${inspectionSheet.sheetId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(toSnakeCase(inspectionSheet)),
-    })
-      .then((res) => res.json())
-      .then((json) => toCamelCase(json));
-    return data;
+    const requestBody = toSnakeCase(inspectionSheet);
+    const res = await this.api.inspectionSheetsSheetIdPut({
+      sheetId: requestBody.sheet_id,
+      inspectionSheetDetail: requestBody,
+    });
+    const sheet = toCamelCase(res);
+    return sheet;
   }
 
+  /** @inheritdoc */
   async delete(id: number): Promise<void> {
-    await fetch(`inspectionsheet/${id}`, {
-      method: "DELETE",
+    this.api.inspectionSheetsSheetIdDelete({
+      sheetId: id,
     });
   }
 }

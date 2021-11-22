@@ -37,25 +37,26 @@ namespace InspectionManager.ApplicationCore.Services
 
         /// <inheritdoc/>
         public IEnumerable<InspectionSheetDto> GetAllInspectionSheets() =>
-            _repository.GetAllInspectionSheets()
-                .OrderBy(x => x.SheetName)
-                .ThenBy(x => x.InspectionGroupId)
-                .ThenBy(x => x.InspectionTypeId);
+            _repository.GetAllInspectionSheets();
 
         /// <inheritdoc/>
-        public InspectionSheetDto? GetInspectionSheet(int id) =>
+        public InspectionSheetDetailDto? GetInspectionSheet(int id) =>
             _repository.GetInspectionSheet(id);
 
         /// <inheritdoc/>
-        public async Task<InspectionSheetDto> CreateInspectionSheetAsync(InspectionSheetDto dto) =>
+        public bool IsValidInspectionSheet(InspectionSheetDetailDto dto) =>
+            _repository.IsValidInspectionSheet(dto);
+
+        /// <inheritdoc/>
+        public async Task<InspectionSheetDetailDto> CreateInspectionSheetAsync(InspectionSheetDetailDto dto) =>
             await _repository.CreateInspectionSheetAsync(dto);
 
         /// <inheritdoc/>
-        public async Task<InspectionSheetDto> UpdateInspectionSheetAsync(InspectionSheetDto dto) =>
+        public async Task<InspectionSheetDetailDto> UpdateInspectionSheetAsync(InspectionSheetDetailDto dto) =>
             await _repository.UpdateInspectionSheetAsync(dto);
 
         /// <inheritdoc/>
-        public async Task<InspectionSheetDto> DeleteInspectionSheetAsync(int id) =>
+        public async Task DeleteInspectionSheetAsync(int id) =>
             await _repository.DeleteInspectionSheetAsync(id);
     }
 }

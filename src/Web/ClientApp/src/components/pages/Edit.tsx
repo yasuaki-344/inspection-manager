@@ -11,7 +11,6 @@ import {
 import {
   IEditController,
   IEditPresenter,
-  IInspectionSheetController,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
 
@@ -24,35 +23,31 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
   /* eslint-disable-next-line */
   const presenter: IEditPresenter = inject(nameof<IEditPresenter>());
 
-  const sheetController: IInspectionSheetController = inject(
-    nameof<IInspectionSheetController>()
-  );
-
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)
   );
 
   useEffect(() => {
-    sheetController.getInspectionSheetById(sheetId).catch((error) => {
-      console.error(error);
-      notification.setMessageState(
-        "error",
-        `データの取得に失敗しました (ID:${sheetId})`
-      );
-    });
+    // sheetController.getInspectionSheetById(sheetId).catch((error) => {
+    //   console.error(error);
+    //   notification.setMessageState(
+    //     "error",
+    //     `データの取得に失敗しました (ID:${sheetId})`
+    //   );
+    // });
   }, [sheetId]);
 
   const handleUpdate = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    sheetController
-      .updateInspectionSheet()
-      .then(() => {
-        notification.setMessageState("success", "更新に成功しました");
-      })
-      .catch((error) => {
-        console.error(error);
-        notification.setMessageState("error", "更新に失敗しました");
-      });
+    // sheetController
+    //   .updateInspectionSheet()
+    //   .then(() => {
+    //     notification.setMessageState("success", "更新に成功しました");
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //     notification.setMessageState("error", "更新に失敗しました");
+    //   });
   };
 
   return (

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -47,59 +48,93 @@ namespace InspectionManager.Infrastructure
             {
                 var dto = _context.InspectionSheets
                     .ProjectTo<InspectionSheetDto>(_mapper.ConfigurationProvider)
+                    .OrderBy(x => x.SheetId)
                     .ToList();
                 return dto;
             }
             else
             {
-                return new List<InspectionSheetDto>();
+                throw new NullReferenceException(nameof(_context.InspectionSheets));
             }
         }
 
         /// <inheritdoc/>
-        public InspectionSheetDto? GetInspectionSheet(int id)
+        public InspectionSheetDetailDto? GetInspectionSheet(int id)
         {
             if (_context.InspectionSheets != null)
             {
-                var dto = _context.InspectionSheets
-                    .Where(x => x.SheetId == id)
-                    .ProjectTo<InspectionSheetDto>(_mapper.ConfigurationProvider)
-                    .Single();
+                if (_context.InspectionSheets.Any(x => x.SheetId == id))
+                {
+                    var dto = _context.InspectionSheets
+                        .Where(x => x.SheetId == id)
+                        .ProjectTo<InspectionSheetDetailDto>(_mapper.ConfigurationProvider)
+                        .Single();
 
-                return dto;
+                    return dto;
+                }
+                else
+                {
+                    return null;
+                }
             }
             else
             {
-                return null;
+                throw new NullReferenceException(nameof(_context.InspectionSheets));
             }
         }
 
         /// <inheritdoc/>
-        public async Task<InspectionSheetDto> CreateInspectionSheetAsync(InspectionSheetDto dto)
+        public bool IsValidInspectionSheet(InspectionSheetDetailDto dto)
+        {
+            if (_context.InspectionGroups != null && _context.InspectionTypes != null)
+            {
+                var isGroupIdValid = _context.InspectionGroups
+                    .Any(x => x.InspectionGroupId == dto.InspectionGroupId);
+                var isTypeIdValid = _context.InspectionTypes
+                    .Any(x => x.InspectionTypeId == dto.InspectionTypeId);
+                return isGroupIdValid && isTypeIdValid;
+            }
+            else
+            {
+                throw new NullReferenceException(
+                    $"{nameof(_context.InspectionGroups)} or {nameof(_context.InspectionTypes)}");
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<InspectionSheetDetailDto> CreateInspectionSheetAsync(InspectionSheetDetailDto dto)
         {
             if (_context.InspectionSheets != null)
             {
                 var entity = _mapper.Map<InspectionSheet>(dto);
-                int equipmentOrder = 0;
-                foreach (var equipment in entity.Equipments)
+                if (_context.InspectionTypes != null && _context.InspectionGroups != null)
                 {
-                    equipment.OrderIndex = equipmentOrder;
+                    entity.InspectionGroup = _context.InspectionGroups
+                        .Single(x => x.InspectionGroupId == entity.InspectionGroupId);
+                    entity.InspectionType = _context.InspectionTypes
+                        .Single(x => x.InspectionTypeId == entity.InspectionTypeId);
+                    await _context.InspectionSheets.AddAsync(entity);
+                    await _context.SaveChangesAsync();
 
-                    var itemOrder = 0;
-                    foreach (var inspectionItem in equipment.InspectionItems)
-                    {
-                        inspectionItem.OrderIndex = itemOrder;
-                        if (_context.InputTypes != null)
-                        {
-                            inspectionItem.InputType = _context.InputTypes
-                                .Single(x => x.InputTypeId == inspectionItem.InputTypeId);
-                        }
-                        itemOrder++;
-                    }
-
-                    equipmentOrder++;
+                    return _mapper.Map<InspectionSheetDetailDto>(entity);
                 }
+                else
+                {
+                    throw new NullReferenceException();
+                }
+            }
+            else
+            {
+                throw new NullReferenceException(nameof(_context.InspectionSheets));
+            }
+        }
 
+        /// <inheritdoc/>
+        public async Task<InspectionSheetDetailDto> UpdateInspectionSheetAsync(InspectionSheetDetailDto dto)
+        {
+            if (_context.InspectionSheets != null)
+            {
+                var entity = _mapper.Map<InspectionSheet>(dto);
                 if (_context.InspectionTypes != null && _context.InspectionGroups != null)
                 {
                     entity.InspectionGroup = _context.InspectionGroups
@@ -107,100 +142,19 @@ namespace InspectionManager.Infrastructure
                     entity.InspectionType = _context.InspectionTypes
                         .Single(x => x.InspectionTypeId == entity.InspectionTypeId);
                 }
-                await _context.InspectionSheets.AddAsync(entity);
-                await _context.SaveChangesAsync();
-
-                return _mapper.Map<InspectionSheetDto>(entity);
-            }
-            else
-            {
-                return new InspectionSheetDto();
-            }
-        }
-
-        /// <inheritdoc/>
-        public async Task<InspectionSheetDto> UpdateInspectionSheetAsync(InspectionSheetDto dto)
-        {
-            if (_context.InspectionSheets != null)
-            {
-                var entity = _mapper.Map<InspectionSheet>(dto);
-                int equipmentOrder = 0;
-                foreach (var equipment in entity.Equipments)
-                {
-                    equipment.OrderIndex = equipmentOrder;
-
-                    var itemOrder = 0;
-                    foreach (var inspectionItem in equipment.InspectionItems)
-                    {
-                        inspectionItem.OrderIndex = itemOrder;
-                        if (_context.InputTypes != null)
-                        {
-                            inspectionItem.InputType = _context.InputTypes
-                                .Single(x => x.InputTypeId == inspectionItem.InputTypeId);
-                        }
-                        itemOrder++;
-                    }
-
-                    equipmentOrder++;
-                }
-
-                if (_context.InspectionTypes != null && _context.InspectionGroups != null)
-                {
-                    entity.InspectionGroup = _context.InspectionGroups
-                        .Single(x => x.InspectionGroupId == entity.InspectionGroupId);
-                    entity.InspectionType = _context.InspectionTypes
-                        .Single(x => x.InspectionTypeId == entity.InspectionTypeId);
-                }
-
-                if (_context.Equipments != null)
-                {
-                    var equipmentIds = entity.Equipments.Select(x => x.EquipmentId);
-                    var equipments = _context.Equipments
-                        .Where(x => x.InspectionSheetId == entity.SheetId)
-                        .Where(x => !equipmentIds.Contains(x.EquipmentId));
-                    _context.Equipments.RemoveRange(equipments);
-                }
-
-                if (_context.InspectionItems != null)
-                {
-                    foreach (var equipment in entity.Equipments)
-                    {
-                        var inspectionItemIds = equipment.InspectionItems.Select(x => x.InspectionItemId);
-                        var inspectionItems = _context.InspectionItems
-                            .Where(x => x.EquipmentId == equipment.EquipmentId)
-                            .Where(x => !inspectionItemIds.Contains(x.InspectionItemId));
-                        _context.InspectionItems.RemoveRange(inspectionItems);
-                    }
-                }
-
-                if (_context.Choices != null)
-                {
-                    foreach (var equipment in entity.Equipments)
-                    {
-                        foreach (var inspectionItem in equipment.InspectionItems)
-                        {
-                            var choiceIds = inspectionItem.Choices.Select(x => x.ChoiceId);
-                            var choices = _context.Choices
-                                .Where(x => x.ChoiceId == inspectionItem.InspectionItemId)
-                                .Where(x => !choiceIds.Contains(x.ChoiceId));
-                            _context.Choices.RemoveRange(choices);
-                        }
-                    }
-                }
-
                 _context.InspectionSheets.Update(entity);
                 await _context.SaveChangesAsync();
 
-                return _mapper.Map<InspectionSheetDto>(entity);
+                return _mapper.Map<InspectionSheetDetailDto>(entity);
             }
             else
             {
-                return new InspectionSheetDto();
+                throw new NullReferenceException(nameof(_context.InspectionSheets));
             }
         }
 
         /// <inheritdoc/>
-        public async Task<InspectionSheetDto> DeleteInspectionSheetAsync(int id)
+        public async Task DeleteInspectionSheetAsync(int id)
         {
             if (_context.InspectionSheets != null)
             {
@@ -210,16 +164,11 @@ namespace InspectionManager.Infrastructure
                 {
                     _context.InspectionSheets.Remove(entity);
                     await _context.SaveChangesAsync();
-                    return _mapper.Map<InspectionSheetDto>(entity);
-                }
-                else
-                {
-                    return new InspectionSheetDto();
                 }
             }
             else
             {
-                return new InspectionSheetDto();
+                throw new NullReferenceException(nameof(_context.InspectionSheets));
             }
         }
     }

@@ -1,4 +1,3 @@
-import React from "react";
 import { InspectionSheet, InspectionItem } from "../../entities";
 
 export interface IInspectionSheetInteractor {
@@ -50,27 +49,48 @@ export interface IInspectionSheetInteractor {
   setSheet(sheet: InspectionSheet): void;
 
   /**
+   * Sets inspection sheet name.
+   * @param sheetName sheet name to set.
+   */
+  setSheetName(sheetName: string): void
+
+  /**
    * Sets inspection group ID.
    * @param groupId Group ID to set.
    */
-  setGroup(groupId: number): void;
+  setGroupId(groupId: number): void;
 
   /**
    * Sets inspection type ID.
    * @param typeId Group ID to set.
    */
-  setType(typeId: number): void;
+  setTypeId(typeId: number): void;
 
-  updateField(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void;
+  /**
+   * Add a new equipment to inspection sheet.
+   */
   addEquipment(): void;
-  removeEquipment(index: number): void;
-  updateEquipment(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
-  ): void;
-  swapEquipment(srcIndex: number, dstIndex: number): void;
+
+  /**
+   * Remove the specified equipment.
+   * @param orderIndex Equipment order index to be removed.
+   */
+  removeEquipment(orderIndex: number): void;
+
+  /**
+   * Swaps the specified equipments in inspection sheet.
+   * @param srcOrderIndex Order index of the equipments to be swapped.
+   * @param dstOrderIndex Order index of the equipments to be swapped.
+   */
+  swapEquipments(srcOrderIndex: number, dstOrderIndex: number): void;
+
+  /**
+   * Sets inspection sheet name.
+   * @param orderIndex Order index of equipment to be set.
+   * @param name Equipment name to set.
+   */
+  setEquipmentName(orderIndex: number, name: string): void;
+
   addInspectionItem(index: number, item: InspectionItem): void;
   removeInspectionItem(equipmentIndex: number, itemIndex: number): void;
   updateInspectionItem(

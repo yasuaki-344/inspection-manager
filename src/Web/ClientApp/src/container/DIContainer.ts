@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext } from "react";
 import nameof from "ts-nameof.macro";
 import {
   ChoiceTemplateController,
@@ -7,14 +7,12 @@ import {
   EditController,
   HomeController,
   InspectionGroupController,
-  InspectionItemController,
-  InspectionSheetController,
   InspectionTypeController,
 } from "../controllers";
-import { InspectionItemInitialState, InspectionItemReducer } from "../entities";
 import {
   ChoiceTemplateRepository,
   InspectionGroupRepository,
+  InspectionSheetRepository,
   InspectionTypeRepository,
 } from "../infrastructure";
 import {
@@ -34,12 +32,10 @@ import {
   IInspectionGroupInteractor,
   IInspectionGroupPresenter,
   IInspectionGroupRepository,
-  IInspectionItemController,
   IInspectionItemInteractor,
   IInspectionItemPresenter,
-  IInspectionSheetController,
   IInspectionSheetInteractor,
-  IInspectionSheetPresenter,
+  IInspectionSheetRepository,
   IInspectionTypeController,
   IInspectionTypeInteractor,
   IInspectionTypePresenter,
@@ -52,7 +48,6 @@ import {
   HomePresenter,
   InspectionGroupPresenter,
   InspectionItemPresenter,
-  InspectionSheetPresenter,
   InspectionTypePresenter,
 } from "../presenters";
 import { CreatePresenter } from "../presenters/CreatePresenter";
@@ -92,11 +87,6 @@ export const setUpDIContainer = () => {
   };
 
   // Register objects to DI container.
-  const [inspectionItem, dispatch] = useReducer(
-    InspectionItemReducer,
-    InspectionItemInitialState
-  );
-
   // register repositories
   register(
     nameof<IInspectionGroupRepository>(),
@@ -104,6 +94,10 @@ export const setUpDIContainer = () => {
   );
   register(nameof<IInspectionTypeRepository>(), new InspectionTypeRepository());
   register(nameof<IChoiceTemplateRepository>(), new ChoiceTemplateRepository());
+  register(
+    nameof<IInspectionSheetRepository>(),
+    new InspectionSheetRepository()
+  );
 
   // register use-case interactor
   register(
@@ -123,13 +117,10 @@ export const setUpDIContainer = () => {
     new ChoiceTemplateInteractor(inject(nameof<IChoiceTemplateRepository>()))
   );
 
-  register(
-    nameof<IInspectionItemInteractor>(),
-    new InspectionItemInteractor(inspectionItem, dispatch)
-  );
+  register(nameof<IInspectionItemInteractor>(), new InspectionItemInteractor());
   register(
     nameof<IInspectionSheetInteractor>(),
-    new InspectionSheetInteractor()
+    new InspectionSheetInteractor(inject(nameof<IInspectionSheetRepository>()))
   );
 
   // register presenter
@@ -194,7 +185,8 @@ export const setUpDIContainer = () => {
       inject(
         nameof<IInspectionGroupInteractor>()
       ) as IInspectionGroupInteractor,
-      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
+      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor,
+      inject(nameof<IInspectionItemInteractor>()) as IInspectionItemInteractor
     )
   );
   register(
@@ -240,27 +232,11 @@ export const setUpDIContainer = () => {
     )
   );
 
-  register(
-    nameof<IInspectionSheetPresenter>(),
-    new InspectionSheetPresenter(
-      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
-    )
-  );
+  // register presenter
   register(
     nameof<IInspectionItemPresenter>(),
     new InspectionItemPresenter(inject(nameof<IInspectionItemInteractor>()))
   );
-  register(
-    nameof<IInspectionSheetController>(),
-    new InspectionSheetController(
-      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
-    )
-  );
-  register(
-    nameof<IInspectionItemController>(),
-    new InspectionItemController(inject(nameof<IInspectionItemInteractor>()))
-  );
-
   register(
     nameof<IChoiceTemplatePresenter>(),
     new ChoiceTemplatePresenter(inject(nameof<IChoiceTemplateInteractor>()))

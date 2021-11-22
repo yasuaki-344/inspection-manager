@@ -1,4 +1,4 @@
-import React, { FC, useRef } from "react";
+import React, { FC, useContext, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { IconButton, TableCell, TableRow } from "@mui/material";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
@@ -6,8 +6,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import nameof from "ts-nameof.macro";
 import { useInputTypes, ItemType, InspectionItem } from "../../entities";
 import { CancelIconButton } from "../utilities";
-import { IInspectionSheetController } from "../../interfaces";
-import { useDIContext } from "../../container";
+import { ICreateController } from "../../interfaces";
+import {
+  InspectionItemDialogStateContext,
+  useDIContext,
+} from "../../container";
 
 interface DragItem {
   equipmentIndex: number;
@@ -18,21 +21,14 @@ interface InspectionItemRowProps {
   equipmentIndex: number;
   inspectionItemIndex: number;
   inspectionItem: InspectionItem;
-  editInspectionItem: (
-    equipmentIndex: number,
-    inspectionItemIndex: number,
-    item: InspectionItem
-  ) => void;
-  // storeHistory: () => void;
 }
 
 export const InspectionItemRow: FC<InspectionItemRowProps> = (
   props: InspectionItemRowProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const sheetController: IInspectionSheetController = inject(
-    nameof<IInspectionSheetController>()
-  );
+  const controller: ICreateController = inject(nameof<ICreateController>());
+  const [, setStatus] = useContext(InspectionItemDialogStateContext);
 
   const dropRef = useRef<HTMLTableRowElement>(null);
   const dragRef = useRef<HTMLTableCellElement>(null);
@@ -47,7 +43,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = (
       ) {
         return;
       }
-      sheetController.swapInspectionItem(
+      controller.swapInspectionItem(
         props.equipmentIndex,
         props.inspectionItemIndex,
         item.inspectionItemIndex
@@ -66,8 +62,21 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = (
   preview(drop(dropRef));
   drag(dragRef);
 
+  /**
+   * Implements the process for editing inspection item.
+   */
+  const handleEditInspectionItem = () => {
+    controller.setUpItem(props.inspectionItem);
+    setStatus({
+      isOpen: true,
+      isAdditional: false,
+      equipmentOrderIndex: props.equipmentIndex,
+      itemOrderIndex: props.inspectionItemIndex,
+    });
+  };
+
   return (
-    <TableRow key={props.inspectionItem.inspectionItemId} ref={dropRef}>
+    <TableRow ref={dropRef}>
       <TableCell padding="checkbox" ref={dragRef}>
         <IconButton size="small">
           <DragHandleIcon />
@@ -77,13 +86,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = (
         <IconButton
           data-testid="edit-item-button"
           size="small"
-          onClick={() =>
-            props.editInspectionItem(
-              props.equipmentIndex,
-              props.inspectionItemIndex,
-              props.inspectionItem
-            )
-          }
+          onClick={() => handleEditInspectionItem()}
         >
           <EditIcon />
         </IconButton>
@@ -104,7 +107,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = (
       <TableCell padding="checkbox">
         <CancelIconButton
           onClick={() =>
-            sheetController.removeInspectionItem(
+            controller.removeInspectionItem(
               props.equipmentIndex,
               props.inspectionItemIndex
             )
