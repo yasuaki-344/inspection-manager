@@ -42,10 +42,6 @@ export interface ICreatePresenter {
 
   /**
    *
-   * @param handleAddItem
-   * @param handleEditItem
    */
-  getEditContent(
-    handleEditItem: any
-  ): JSX.Element;
+  getEditContent(): JSX.Element;
 }

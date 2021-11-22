@@ -149,23 +149,17 @@ export class CreatePresenter implements ICreatePresenter {
   }
 
   /** @inheritdoc */
-  getEditContent(
-    handleEditItem: any
-  ): JSX.Element {
+  getEditContent(): JSX.Element {
     return (
       <>
-        {this.sheetUseCase.sheet.equipments.map(
-          (equipment: Equipment) => (
-            <Grid item xs={12} key={equipment.orderIndex}>
-              <EquipmentForm
-                orderIndex={equipment.orderIndex}
-                equipment={equipment}
-                handleEditItem={handleEditItem}
-                // storeHistory={storeHistory}
-              />
-            </Grid>
-          )
-        )}
+        {this.sheetUseCase.sheet.equipments.map((equipment: Equipment) => (
+          <Grid item xs={12} key={equipment.orderIndex}>
+            <EquipmentForm
+              orderIndex={equipment.orderIndex}
+              equipment={equipment}
+            />
+          </Grid>
+        ))}
       </>
     );
   }

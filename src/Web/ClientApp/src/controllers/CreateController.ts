@@ -132,6 +132,10 @@ export class CreateController implements ICreateController {
     });
   }
 
+  setUpItem(item: InspectionItem): void {
+    this.itemUseCase.setItem(item);
+  }
+
   addInspectionItem(orderIndex: number, item: InspectionItem): void {
     this.sheetUseCase.addInspectionItem(orderIndex, item);
   }

@@ -14,19 +14,11 @@ import { InspectionItemRow } from "./InspectionItemRow";
 interface InspectionItemFormProps {
   equipmentIndex: number;
   inspectionItems: InspectionItem[];
-  editInspectionItem: (
-    equipmentIndex: number,
-    inspectionItemIndex: number,
-    inspectionItem: InspectionItem
-  ) => void;
-  // storeHistory: () => void;
 }
 
 export const InspectionItemForm: FC<InspectionItemFormProps> = ({
   equipmentIndex,
-  inspectionItems,
-  editInspectionItem,
-  // storeHistory,
+  inspectionItems
 }): JSX.Element => {
   return (
     <TableContainer component={Paper}>
@@ -48,8 +40,6 @@ export const InspectionItemForm: FC<InspectionItemFormProps> = ({
               equipmentIndex={equipmentIndex}
               inspectionItemIndex={item.orderIndex}
               inspectionItem={item}
-              editInspectionItem={editInspectionItem}
-              // storeHistory={storeHistory}
             />
           ))}
         </TableBody>

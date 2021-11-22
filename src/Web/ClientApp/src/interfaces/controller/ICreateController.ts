@@ -64,6 +64,7 @@ export interface ICreateController {
   ): void;
 
   setUp(): void;
+  setUpItem(item: InspectionItem): void;
   addInspectionItem(orderIndex: number, item: InspectionItem): void;
   removeInspectionItem(
     equipmentOrderIndex: number,

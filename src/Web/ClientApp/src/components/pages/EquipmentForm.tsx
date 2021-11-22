@@ -15,7 +15,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { InspectionItemForm } from "./InspectionItemForm";
 import { BottomNavigationAdd, CancelIconButton } from "../utilities";
 import { equipmentLabel, MenuIcon, paperElement } from "../stylesheets";
-import { ItemType, Equipment, InspectionItem } from "../../entities";
+import { ItemType, Equipment } from "../../entities";
 import { ICreateController } from "../../interfaces";
 import {
   InspectionItemDialogStateContext,
@@ -29,12 +29,6 @@ interface DragItem {
 interface EquipmentFormProps {
   orderIndex: number;
   equipment: Equipment;
-  handleEditItem: (
-    equipmentIndex: number,
-    inspectionItemIndex: number,
-    inspectionItem: InspectionItem
-  ) => void;
-  // storeHistory: () => void;
 }
 
 export const EquipmentForm: FC<EquipmentFormProps> = (
@@ -116,8 +110,6 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
               <InspectionItemForm
                 equipmentIndex={props.orderIndex}
                 inspectionItems={props.equipment.inspectionItems}
-                editInspectionItem={props.handleEditItem}
-                // storeHistory={props.storeHistory}
               />
               <BottomNavigationAdd
                 label="点検項目追加"

@@ -11,9 +11,7 @@ import { Box } from "@mui/system";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import nameof from "ts-nameof.macro";
 import { InspectionItemDialog } from "../dialog";
-import { InspectionItem } from "../../entities";
 import {
-  IInspectionItemController,
   IInspectionItemPresenter,
   ICreatePresenter,
   ICreateController,
@@ -38,9 +36,6 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   const itemPresenter: IInspectionItemPresenter = inject(
     nameof<IInspectionItemPresenter>()
   );
-  const itemController: IInspectionItemController = inject(
-    nameof<IInspectionItemController>()
-  );
   const [status, setStatus] = useContext(InspectionItemDialogStateContext);
 
   /**
@@ -62,23 +57,6 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
     setStatus({ ...status, isOpen: false });
   };
 
-  /**
-   * Implements the process for editing inspection item.
-   */
-  const handleEditItem = (
-    equipIndex: number,
-    itemIndex: number,
-    inspectionItem: InspectionItem
-  ) => {
-    itemController.setItem(inspectionItem);
-    setStatus({
-      isOpen: true,
-      isAdditional: false,
-      equipmentOrderIndex: equipIndex,
-      itemOrderIndex: itemIndex,
-    });
-  };
-
   return (
     <DndProvider backend={HTML5Backend}>
       <Paper variant="outlined">
@@ -90,10 +68,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
           {presenter.sheetNameInput(controller.changeSheetName)}
           {presenter.groupIdInput(controller.changeGroupId)}
           {presenter.typeIdInput(controller.changeTypeId)}
-          {presenter.getEditContent(
-            handleEditItem
-            // storeHistory
-          )}
+          {presenter.getEditContent()}
         </Grid>
         <Grid container spacing={1}>
           <Grid item xs={12}>
