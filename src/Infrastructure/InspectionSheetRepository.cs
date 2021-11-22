@@ -69,7 +69,7 @@ namespace InspectionManager.Infrastructure
                         .Where(x => x.SheetId == id)
                         .ProjectTo<InspectionSheetDetailDto>(_mapper.ConfigurationProvider)
                         .Single();
-
+                    SortRelationalEntities(dto);
                     return dto;
                 }
                 else
@@ -112,7 +112,9 @@ namespace InspectionManager.Infrastructure
                 await _context.InspectionSheets.AddAsync(entity);
                 await _context.SaveChangesAsync();
 
-                return _mapper.Map<InspectionSheetDetailDto>(entity);
+                var result = _mapper.Map<InspectionSheetDetailDto>(entity);
+                SortRelationalEntities(result);
+                return result;
             }
             else
             {
@@ -132,7 +134,9 @@ namespace InspectionManager.Infrastructure
                 _context.InspectionSheets.Update(entity);
                 await _context.SaveChangesAsync();
 
-                return _mapper.Map<InspectionSheetDetailDto>(entity);
+                var result = _mapper.Map<InspectionSheetDetailDto>(entity);
+                SortRelationalEntities(result);
+                return result;
             }
             else
             {
@@ -155,6 +159,16 @@ namespace InspectionManager.Infrastructure
             else
             {
                 throw new NullReferenceException(nameof(_context.InspectionSheets));
+            }
+        }
+
+        private void SortRelationalEntities(InspectionSheetDetailDto dto)
+        {
+            dto.Equipments = dto.Equipments.OrderBy(x => x.OrderIndex).ToArray();
+            foreach (var equipment in dto.Equipments)
+            {
+                equipment.InspectionItems = equipment.InspectionItems
+                    .OrderBy(x => x.OrderIndex).ToList();
             }
         }
 
