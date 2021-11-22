@@ -1,4 +1,3 @@
-import { List, ListItem } from "@mui/material";
 import { Equipment } from "../entities";
 import {
   IDetailPresenter,
@@ -14,6 +13,10 @@ export class DetailPresenter implements IDetailPresenter {
 
   private readonly sheetUseCase: IInspectionSheetInteractor;
 
+  readonly sheetName: string;
+
+  readonly equipments: Equipment[];
+
   /**
    * Initializes a new instance of DetailPresenter class
    * @param typeUseCase IInspectionTypeInteractor object.
@@ -28,29 +31,20 @@ export class DetailPresenter implements IDetailPresenter {
     this.groupUseCase = groupUseCase;
     this.typeUseCase = typeUseCase;
     this.sheetUseCase = sheetUseCase;
+
+    this.sheetName = this.sheetUseCase.sheet.sheetName;
+    this.equipments = sheetUseCase.sheet.equipments;
   }
 
   /** @inheritdoc */
-  sheetInformationList(): JSX.Element {
-    const { sheetId, sheetName, inspectionGroupId, inspectionTypeId } =
-      this.sheetUseCase.sheet;
-    return (
-      <List>
-        <ListItem>点検シートID:{sheetId}</ListItem>
-        <ListItem>シート名:{sheetName}</ListItem>
-        <ListItem>
-          点検グループ:
-          {this.groupUseCase.getName(inspectionGroupId)}
-        </ListItem>
-        <ListItem>
-          点検種別:
-          {this.typeUseCase.getName(inspectionTypeId)}
-        </ListItem>
-      </List>
-    );
+  getInspectionGroup(): string | undefined {
+    const { inspectionGroupId } = this.sheetUseCase.sheet;
+    return this.groupUseCase.getName(inspectionGroupId);
   }
 
-  equipments(): Equipment[] {
-    return this.sheetUseCase.sheet.equipments;
+  /** @inheritdoc */
+  getInspectionType(): string | undefined {
+    const { inspectionGroupId } = this.sheetUseCase.sheet;
+    return this.groupUseCase.getName(inspectionGroupId);
   }
 }
