@@ -1,8 +1,10 @@
 import { ChangeEvent } from "react";
-import { InspectionSheet } from "../../entities";
+import { InspectionItem, InspectionSheet } from "../../entities";
 
 export interface IInspectionSheetPresenter {
   selectionSheets: InspectionSheet[];
+
+  item: InspectionItem;
 
   /**
    * Returns JSX element for display sheet ID information.
@@ -44,4 +46,8 @@ export interface IInspectionSheetPresenter {
    *
    */
   getEditContent(): JSX.Element;
+
+  isValidInspectionItem(): boolean;
+
+  getItemEditContent(onTemplateSelectClick: () => void): JSX.Element;
 }

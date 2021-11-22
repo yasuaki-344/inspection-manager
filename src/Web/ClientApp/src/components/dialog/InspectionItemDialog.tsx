@@ -4,7 +4,9 @@ import nameof from "ts-nameof.macro";
 import { ChoiceSetSelectDialog } from "./ChoiceSetSelectDialog";
 import { OkCancelDialogActions } from "../utilities";
 import { DialogTitleDesign } from "../stylesheets";
-import { IInspectionItemPresenter } from "../../interfaces/presenter";
+import {
+  IInspectionSheetPresenter,
+} from "../../interfaces/presenter";
 import { useDIContext } from "../../container";
 
 interface InspectionDialogProps {
@@ -17,22 +19,22 @@ export const InspectionItemDialog = (
   props: InspectionDialogProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const itemPresenter: IInspectionItemPresenter = inject(
-    nameof<IInspectionItemPresenter>()
+  const presenter: IInspectionSheetPresenter = inject(
+    nameof<IInspectionSheetPresenter>()
   );
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
-    setDisabled(!itemPresenter.isValidInspectionItem());
-  }, [itemPresenter.state]);
+    setDisabled(!presenter.isValidInspectionItem());
+  }, [presenter.item]);
 
   return (
     <>
       <Dialog open={props.open} onClose={props.onCancelButtonClick}>
         <DialogTitle sx={DialogTitleDesign}>点検項目編集</DialogTitle>
         <DialogContent>
-          {itemPresenter.getEditContent(() => setOpen(true))}
+          {presenter.getItemEditContent(() => setOpen(true))}
         </DialogContent>
         <OkCancelDialogActions
           disabled={disabled}

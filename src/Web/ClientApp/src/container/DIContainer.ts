@@ -30,7 +30,6 @@ import {
   IInspectionGroupPresenter,
   IInspectionGroupRepository,
   IInspectionItemInteractor,
-  IInspectionItemPresenter,
   IInspectionSheetInteractor,
   IInspectionSheetRepository,
   IInspectionTypeController,
@@ -43,7 +42,6 @@ import {
   DetailPresenter,
   HomePresenter,
   InspectionGroupPresenter,
-  InspectionItemPresenter,
   InspectionTypePresenter,
 } from "../presenters";
 import { InspectionSheetPresenter } from "../presenters/InspectionSheetPresenter";
@@ -127,7 +125,10 @@ export const setUpDIContainer = () => {
       inject(
         nameof<IInspectionGroupInteractor>()
       ) as IInspectionGroupInteractor,
-      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
+      inject(
+        nameof<IInspectionSheetInteractor>()
+      ) as IInspectionSheetInteractor,
+      inject(nameof<IInspectionItemInteractor>()) as IInspectionItemInteractor
     )
   );
   register(
@@ -211,10 +212,6 @@ export const setUpDIContainer = () => {
   );
 
   // register presenter
-  register(
-    nameof<IInspectionItemPresenter>(),
-    new InspectionItemPresenter(inject(nameof<IInspectionItemInteractor>()))
-  );
   register(
     nameof<IChoiceTemplatePresenter>(),
     new ChoiceTemplatePresenter(inject(nameof<IChoiceTemplateInteractor>()))
