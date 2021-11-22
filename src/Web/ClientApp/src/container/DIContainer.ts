@@ -7,7 +7,6 @@ import {
   EditController,
   HomeController,
   InspectionGroupController,
-  InspectionItemController,
   InspectionTypeController,
 } from "../controllers";
 import {
@@ -33,7 +32,6 @@ import {
   IInspectionGroupInteractor,
   IInspectionGroupPresenter,
   IInspectionGroupRepository,
-  IInspectionItemController,
   IInspectionItemInteractor,
   IInspectionItemPresenter,
   IInspectionSheetInteractor,
@@ -239,11 +237,6 @@ export const setUpDIContainer = () => {
     nameof<IInspectionItemPresenter>(),
     new InspectionItemPresenter(inject(nameof<IInspectionItemInteractor>()))
   );
-  register(
-    nameof<IInspectionItemController>(),
-    new InspectionItemController(inject(nameof<IInspectionItemInteractor>()))
-  );
-
   register(
     nameof<IChoiceTemplatePresenter>(),
     new ChoiceTemplatePresenter(inject(nameof<IChoiceTemplateInteractor>()))

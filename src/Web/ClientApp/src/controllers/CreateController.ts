@@ -1,5 +1,6 @@
 import { ChangeEvent } from "react";
 import {
+  ChoiceTemplate,
   InspectionGroup,
   InspectionItem,
   InspectionSheetInitialState,
@@ -166,6 +167,10 @@ export class CreateController implements ICreateController {
       itemOrderIndex,
       item
     );
+  }
+
+  setChoices(choices: ChoiceTemplate): void {
+    this.itemUseCase.setChoices(choices);
   }
 
   /** @inheritdoc */

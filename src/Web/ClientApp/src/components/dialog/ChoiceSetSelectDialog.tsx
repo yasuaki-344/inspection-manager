@@ -14,7 +14,7 @@ import { OkCancelDialogActions } from "../utilities";
 import { DialogTitleDesign } from "../stylesheets";
 import {
   IChoiceTemplatePresenter,
-  IInspectionItemController,
+  ICreateController,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
 
@@ -27,8 +27,8 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
   props: ChoiceSetSelectDialogProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const itemController: IInspectionItemController = inject(
-    nameof<IInspectionItemController>()
+  const controller: ICreateController = inject(
+    nameof<ICreateController>()
   );
   const templatePresenter: IChoiceTemplatePresenter = inject(
     nameof<IChoiceTemplatePresenter>()
@@ -54,7 +54,7 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
   const handleSelectTemplate = () => {
     const template = templatePresenter.getByIndex(value);
     if (template != null) {
-      itemController.setChoices(template);
+      controller.setChoices(template);
     }
     props.onClose();
   };

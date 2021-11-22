@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import { InspectionItem } from "../../entities";
+import { ChoiceTemplate, InspectionItem } from "../../entities";
 
 export interface ICreateController {
   /**
@@ -79,6 +79,7 @@ export interface ICreateController {
     equipmentOrderIndex: number,
     itemOrderIndex: number
   ): void;
+  setChoices(choices: ChoiceTemplate): void;
 
   /**
    * Create a new inspection sheet data in database
