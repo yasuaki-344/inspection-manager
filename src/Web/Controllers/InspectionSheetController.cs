@@ -38,7 +38,7 @@ namespace InspectionManager.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-         public IActionResult GetAllInspectionSheets()
+        public IActionResult GetAllInspectionSheets()
         {
             try
             {
@@ -87,21 +87,25 @@ namespace InspectionManager.Web.Controllers
 
         [HttpGet]
         [Route("/v1/inspection-sheets/{sheetId}")]
-        public ActionResult<InspectionSheetDetailDto> GetInspectionSheet([FromRoute][Required] int? sheetId)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDetailDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetInspectionSheet([FromRoute][Required] int? sheetId)
         {
             try
             {
                 _logger.LogInformation($"try to get inspection sheet {sheetId}");
-                if (sheetId.HasValue)
+                if (sheetId is not null)
                 {
                     var result = _service.GetInspectionSheet(sheetId.Value);
-                    if (result == null)
+                    if (result is null)
                     {
                         return NotFound();
                     }
                     else
                     {
-                        return result;
+                        return Ok(result);
                     }
                 }
                 else
