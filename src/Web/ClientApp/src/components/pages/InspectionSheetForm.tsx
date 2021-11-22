@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from "react";
+import React, { FC, useContext } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import {
@@ -8,7 +8,6 @@ import {
   Paper,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import UndoIcon from "@mui/icons-material/Undo";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import nameof from "ts-nameof.macro";
 import { InspectionItemDialog } from "../dialog";
@@ -42,24 +41,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   const itemController: IInspectionItemController = inject(
     nameof<IInspectionItemController>()
   );
-
-  const [undoDisabled, setUndoDisabled] = useState(true);
   const [status, setStatus] = useContext(InspectionItemDialogStateContext);
-  /* eslint-disable-next-line */
-  // const [history, setHistory] = useState<InspectionSheet[]>([]);
-
-  const storeHistory = () => {
-    // setHistory(history.concat(sheetPresenter.state));
-    setUndoDisabled(false);
-  };
-
-  const getHistory = () => {
-    // const sheet = history.pop();
-    // if (sheet != null) {
-    //   sheetController.setSheet(sheet);
-    //   setUndoDisabled(!history.length);
-    // }
-  };
 
   /**
    * Implements the process for managing inspection item of equipment.
@@ -77,7 +59,6 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
         itemPresenter.state
       );
     }
-    storeHistory();
     setStatus({ ...status, isOpen: false });
   };
 
@@ -117,12 +98,6 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <BottomNavigation showLabels>
-              <BottomNavigationAction
-                disabled={undoDisabled}
-                label="戻る"
-                icon={<UndoIcon />}
-                onClick={getHistory}
-              />
               <BottomNavigationAction
                 label="点検機器追加"
                 icon={<AddCircleIcon />}
