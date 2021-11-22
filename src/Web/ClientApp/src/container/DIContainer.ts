@@ -4,7 +4,6 @@ import {
   ChoiceTemplateController,
   CreateController,
   DetailController,
-  EditController,
   HomeController,
   InspectionGroupController,
   InspectionTypeController,
@@ -24,8 +23,6 @@ import {
   ICreatePresenter,
   IDetailController,
   IDetailPresenter,
-  IEditController,
-  IEditPresenter,
   IHomeController,
   IHomePresenter,
   IInspectionGroupController,
@@ -44,7 +41,6 @@ import {
 import {
   ChoiceTemplatePresenter,
   DetailPresenter,
-  EditPresenter,
   HomePresenter,
   InspectionGroupPresenter,
   InspectionItemPresenter,
@@ -145,16 +141,6 @@ export const setUpDIContainer = () => {
     )
   );
   register(
-    nameof<IEditPresenter>(),
-    new EditPresenter(
-      inject(nameof<IInspectionTypeInteractor>()) as InspectionTypeInteractor,
-      inject(
-        nameof<IInspectionGroupInteractor>()
-      ) as IInspectionGroupInteractor,
-      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
-    )
-  );
-  register(
     nameof<IHomePresenter>(),
     new HomePresenter(
       inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor,
@@ -196,16 +182,6 @@ export const setUpDIContainer = () => {
         nameof<IInspectionGroupInteractor>()
       ) as IInspectionGroupInteractor,
       inject(nameof<IInspectionTypeInteractor>()) as InspectionTypeInteractor,
-      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
-    )
-  );
-  register(
-    nameof<IEditController>(),
-    new EditController(
-      inject(nameof<IInspectionTypeInteractor>()) as InspectionTypeInteractor,
-      inject(
-        nameof<IInspectionGroupInteractor>()
-      ) as IInspectionGroupInteractor,
       inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
     )
   );

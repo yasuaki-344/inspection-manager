@@ -8,10 +8,7 @@ import {
   NotificationStateInteractor,
   TopPageLink,
 } from "../utilities";
-import {
-  IEditController,
-  IEditPresenter,
-} from "../../interfaces";
+import { ICreateController, ICreatePresenter } from "../../interfaces";
 import { useDIContext } from "../../container";
 
 export const Edit: FC = ({ match }: any): JSX.Element => {
@@ -19,9 +16,9 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
 
   const inject = useDIContext();
   /* eslint-disable-next-line */
-  const controller: IEditController = inject(nameof<IEditController>());
+  const controller: ICreateController = inject(nameof<ICreateController>());
   /* eslint-disable-next-line */
-  const presenter: IEditPresenter = inject(nameof<IEditPresenter>());
+  const presenter: ICreatePresenter = inject(nameof<ICreatePresenter>());
 
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)
