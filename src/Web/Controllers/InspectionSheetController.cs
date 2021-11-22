@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -35,7 +35,10 @@ namespace InspectionManager.Web.Controllers
 
         [HttpGet]
         [Route("/v1/inspection-sheets")]
-        public ActionResult<InspectionSheetDto> GetAllInspectionSheets()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+         public IActionResult GetAllInspectionSheets()
         {
             try
             {
@@ -53,7 +56,11 @@ namespace InspectionManager.Web.Controllers
 
         [HttpPost]
         [Route("/v1/inspection-sheets")]
-        public async Task<ActionResult<InspectionSheetDetailDto>> CreateSheetAsync([FromBody] InspectionSheetDetailDto dto)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDetailDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        public async Task<IActionResult> CreateSheetAsync([FromBody] InspectionSheetDetailDto dto)
         {
             try
             {
