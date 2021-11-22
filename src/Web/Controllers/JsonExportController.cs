@@ -47,7 +47,7 @@ namespace InspectionManager.Web.Controllers
         {
             try
             {
-                _logger.LogInformation($"try to export inspection sheet {id}");
+                _logger.LogInformation($"try to export json inspection sheet {id}");
                 if (!_repository.InspectionSheetExists(id))
                 {
                     return NotFound($"Sheet with Id = {id} not found");
@@ -55,11 +55,15 @@ namespace InspectionManager.Web.Controllers
                 else
                 {
                     var sheet = _repository.GetInspectionSheet(id);
-                    if (sheet != null)
+                    if (sheet is not null)
                     {
                         var options = new JsonSerializerOptions();
                         options.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
                         var dto = _mapper.Map<InspectionSheetExportDto>(sheet);
+
+                        dto.InspectionType = _repository.InspectionTypeName(sheet.InspectionTypeId);
+                        dto.InspectionGroup = _repository.InspectionGroupName(sheet.InspectionGroupId);
+
                         for (var i = 0; i < dto.Equipments.Count; i++)
                         {
                             var isLastEquipment = (i == dto.Equipments.Count - 1);

@@ -6,6 +6,10 @@ namespace InspectionManager.ApplicationCore.Interfaces
 {
     public interface IInspectionSheetRepository
     {
+        string InspectionTypeName(int id);
+
+        string InspectionGroupName(int id);
+
         /// <summary>
         /// Checks if the specified inspection sheet exists.
         /// </summary>

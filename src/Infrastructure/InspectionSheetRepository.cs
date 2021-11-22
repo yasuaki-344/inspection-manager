@@ -27,6 +27,30 @@ namespace InspectionManager.Infrastructure
             _mapper = mapper;
         }
 
+        public string InspectionTypeName(int id)
+        {
+            if (_context.InspectionTypes is not null)
+            {
+                return _context.InspectionTypes.First(x => x.InspectionTypeId == id).Description;
+            }
+            else
+            {
+                throw new NullReferenceException(nameof(_context.InspectionTypes));
+            }
+        }
+
+        public string InspectionGroupName(int id)
+        {
+            if (_context.InspectionGroups is not null)
+            {
+                return _context.InspectionGroups.First(x => x.InspectionGroupId == id).Description;
+            }
+            else
+            {
+                throw new NullReferenceException(nameof(_context.InspectionGroups));
+            }
+        }
+
         /// <inheritdoc/>
         public bool InspectionSheetExists(int id)
         {

@@ -33,7 +33,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
         public IWorkbook CreateXlsx(int id)
         {
             var dto = _repository.GetInspectionSheet(id);
-            if (dto != null)
+            if (dto is not null)
             {
                 var book = new XSSFWorkbook();
                 book.CreateSheet(dto.SheetName);
@@ -57,7 +57,6 @@ namespace InspectionManager.ApplicationCore.Interfaces
                 WriteStyle(sheet, rowIndex, 2, headingStyle);
                 WriteStyle(sheet, rowIndex, 3, headingStyle);
                 rowIndex++;
-                /*
                 foreach (var equipment in dto.Equipments)
                 {
                     WriteCell(sheet, rowIndex, 0, equipment.EquipmentName);
@@ -104,7 +103,6 @@ namespace InspectionManager.ApplicationCore.Interfaces
                         rowIndex++;
                     }
                 }
-                */
                 sheet.SetColumnWidth(0, 256 * 12);
                 sheet.SetColumnWidth(1, 256 * 12);
                 sheet.SetColumnWidth(2, 256 * 12);
