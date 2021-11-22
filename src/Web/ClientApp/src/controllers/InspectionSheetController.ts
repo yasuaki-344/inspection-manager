@@ -7,14 +7,14 @@ import {
   InspectionType,
 } from "../entities";
 import {
-  ICreateController,
+  IInspectionSheetController,
   IInspectionGroupInteractor,
   IInspectionItemInteractor,
   IInspectionSheetInteractor,
   IInspectionTypeInteractor,
 } from "../interfaces";
 
-export class CreateController implements ICreateController {
+export class InspectionSheetController implements IInspectionSheetController {
   private readonly typeUseCase: IInspectionTypeInteractor;
 
   private readonly groupUseCase: IInspectionGroupInteractor;
@@ -169,12 +169,44 @@ export class CreateController implements ICreateController {
     );
   }
 
+  /** @inheritdoc */
+  updateInspectionItemField = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    const { name, value } = e.target;
+    this.itemUseCase.updateField(name, value);
+  };
+
   setChoices(choices: ChoiceTemplate): void {
     this.itemUseCase.setChoices(choices);
   }
 
   /** @inheritdoc */
+  updateInspectionItemChoiceField = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    choiceOrderIndex: number
+  ): void => {
+    const { value } = e.target;
+    this.itemUseCase.updateChoice(choiceOrderIndex, value)
+  };
+
+  /** @inheritdoc */
+  addInspectionItemChoice(): void {
+    this.itemUseCase.addChoice();
+  }
+
+  /** @inheritdoc */
+  removeInspectionItemChoice(choiceOrderIndex: number): void {
+    this.itemUseCase.removeChoice(choiceOrderIndex);
+  }
+
+  /** @inheritdoc */
   async createInspectionSheet(): Promise<void> {
     await this.sheetUseCase.createInspectionSheet();
+  }
+
+  /** @inheritdoc */
+  async updateInspectionSheet(): Promise<void> {
+    await this.sheetUseCase.updateInspectionSheet();
   }
 }

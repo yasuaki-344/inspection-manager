@@ -16,7 +16,7 @@ import { InspectionItemForm } from "./InspectionItemForm";
 import { BottomNavigationAdd, CancelIconButton } from "../utilities";
 import { equipmentLabel, MenuIcon, paperElement } from "../stylesheets";
 import { ItemType, Equipment } from "../../entities";
-import { ICreateController } from "../../interfaces";
+import { IInspectionSheetController } from "../../interfaces";
 import {
   InspectionItemDialogStateContext,
   useDIContext,
@@ -35,7 +35,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
   props: EquipmentFormProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const controller: ICreateController = inject(nameof<ICreateController>());
+  const controller: IInspectionSheetController = inject(nameof<IInspectionSheetController>());
   const [status, setStatus] = useContext(InspectionItemDialogStateContext);
 
   const dropRef = useRef<HTMLDivElement>(null);

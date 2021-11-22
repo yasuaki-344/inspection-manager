@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
   Box,
   Collapse,
@@ -11,6 +11,8 @@ import {
   TableHead,
   TableRow,
   CircularProgress,
+  List,
+  ListItem,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -21,11 +23,44 @@ import { itemTableHead, TableHeadCell } from "../stylesheets";
 import { IDetailController, IDetailPresenter } from "../../interfaces";
 import { useDIContext } from "../../container";
 
-interface RowProps {
+interface InspectionItemTableProps {
+  inspectionItems: InspectionItem[];
+}
+
+interface EquipmentRowProps {
   equipment: Equipment;
 }
 
-const Row: FC<RowProps> = (props: RowProps): JSX.Element => {
+const InspectionItemTable = (props: InspectionItemTableProps): JSX.Element => {
+  return (
+    <Table>
+      <TableHead sx={itemTableHead}>
+        <TableRow>
+          <TableCell sx={TableHeadCell}>ID</TableCell>
+          <TableCell sx={TableHeadCell}>点検項目</TableCell>
+          <TableCell sx={TableHeadCell}>点検タイプ</TableCell>
+          <TableCell sx={TableHeadCell}>選択肢</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {props.inspectionItems.map((item: InspectionItem) => (
+          <TableRow key={item.inspectionItemId}>
+            <TableCell>{item.inspectionItemId}</TableCell>
+            <TableCell>{item.inspectionContent}</TableCell>
+            <TableCell>
+              {useInputTypes.filter((e) => e.value === item.inputType)[0].label}
+            </TableCell>
+            <TableCell>
+              {item.choices.map((x) => x.description).join(",")}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
+};
+
+const EquipmentRow = (props: EquipmentRowProps): JSX.Element => {
   const [open, setOpen] = useState(true);
 
   return (
@@ -47,36 +82,9 @@ const Row: FC<RowProps> = (props: RowProps): JSX.Element => {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <Table>
-                <TableHead sx={itemTableHead}>
-                  <TableRow>
-                    <TableCell sx={TableHeadCell}>ID</TableCell>
-                    <TableCell sx={TableHeadCell}>点検項目</TableCell>
-                    <TableCell sx={TableHeadCell}>点検タイプ</TableCell>
-                    <TableCell sx={TableHeadCell}>選択肢</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {props.equipment.inspectionItems.map(
-                    (item: InspectionItem) => (
-                      <TableRow key={item.inspectionItemId}>
-                        <TableCell>{item.inspectionItemId}</TableCell>
-                        <TableCell>{item.inspectionContent}</TableCell>
-                        <TableCell>
-                          {
-                            useInputTypes.filter(
-                              (e) => e.value === item.inputType
-                            )[0].label
-                          }
-                        </TableCell>
-                        <TableCell>
-                          {item.choices.map((x) => x.description).join(",")}
-                        </TableCell>
-                      </TableRow>
-                    )
-                  )}
-                </TableBody>
-              </Table>
+              <InspectionItemTable
+                inspectionItems={props.equipment.inspectionItems}
+              />
             </Box>
           </Collapse>
         </TableCell>
@@ -85,7 +93,7 @@ const Row: FC<RowProps> = (props: RowProps): JSX.Element => {
   );
 };
 
-export const Details: FC = ({ match }: any): JSX.Element => {
+export const Details = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
   const inject = useDIContext();
   const presenter: IDetailPresenter = inject(nameof<IDetailPresenter>());
@@ -102,7 +110,12 @@ export const Details: FC = ({ match }: any): JSX.Element => {
     </Box>
   ) : (
     <>
-      {presenter.sheetInformationList()}
+      <List>
+        <ListItem>点検シートID:{sheetId}</ListItem>
+        <ListItem>シート名:{presenter.sheetName}</ListItem>
+        <ListItem>点検グループ:{presenter.getInspectionGroup()}</ListItem>
+        <ListItem>点検種別:{presenter.getInspectionType()}</ListItem>
+      </List>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -113,15 +126,14 @@ export const Details: FC = ({ match }: any): JSX.Element => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {presenter.equipments().map((equipment: Equipment) => (
-              <Row key={equipment.equipmentId} equipment={equipment} />
+            {presenter.equipments.map((equipment: Equipment) => (
+              <EquipmentRow key={equipment.equipmentId} equipment={equipment} />
             ))}
           </TableBody>
         </Table>
       </TableContainer>
     </>
   );
-
   return (
     <div>
       <h1>詳細ページ</h1>

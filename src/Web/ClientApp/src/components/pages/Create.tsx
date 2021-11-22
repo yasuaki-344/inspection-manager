@@ -10,13 +10,13 @@ import {
   NotificationStateInteractor,
 } from "../utilities";
 import { OriginalSheetSelectDialog } from "../dialog";
-import { ICreateController, ICreatePresenter } from "../../interfaces";
+import { IInspectionSheetController, IInspectionSheetPresenter } from "../../interfaces";
 import { useDIContext } from "../../container";
 
 export const Create: FC = (): JSX.Element => {
   const inject = useDIContext();
-  const controller: ICreateController = inject(nameof<ICreateController>());
-  const presenter: ICreatePresenter = inject(nameof<ICreatePresenter>());
+  const controller: IInspectionSheetController = inject(nameof<IInspectionSheetController>());
+  const presenter: IInspectionSheetPresenter = inject(nameof<IInspectionSheetPresenter>());
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);

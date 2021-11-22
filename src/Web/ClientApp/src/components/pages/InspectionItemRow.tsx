@@ -6,7 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import nameof from "ts-nameof.macro";
 import { useInputTypes, ItemType, InspectionItem } from "../../entities";
 import { CancelIconButton } from "../utilities";
-import { ICreateController } from "../../interfaces";
+import { IInspectionSheetController } from "../../interfaces";
 import {
   InspectionItemDialogStateContext,
   useDIContext,
@@ -27,7 +27,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = (
   props: InspectionItemRowProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const controller: ICreateController = inject(nameof<ICreateController>());
+  const controller: IInspectionSheetController = inject(nameof<IInspectionSheetController>());
   const [, setStatus] = useContext(InspectionItemDialogStateContext);
 
   const dropRef = useRef<HTMLTableRowElement>(null);

@@ -1,9 +1,17 @@
 import { Equipment } from "../../entities";
 
 export interface IDetailPresenter {
+  sheetName: string;
+
+  equipments: Equipment[];
+
   /**
-   * Returns inspection sheet information element.
+   * Returns inspection group which inspection sheet belong to.
    */
-  sheetInformationList(): JSX.Element;
-  equipments(): Equipment[];
+  getInspectionGroup(): string | undefined;
+
+  /**
+   * Returns inspection type which inspection sheet belong to.
+   */
+  getInspectionType(): string | undefined;
 }

@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react";
 import { ChoiceTemplate, InspectionItem } from "../../entities";
 
-export interface ICreateController {
+export interface IInspectionSheetController {
   /**
    * Initializes inspection sheet to edit.
    */
@@ -79,10 +79,41 @@ export interface ICreateController {
     equipmentOrderIndex: number,
     itemOrderIndex: number
   ): void;
+
+  /**
+   * Update inspection item field value.
+   * @param e React change event.
+   */
+  updateInspectionItemField(
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void;
+
+  /**
+   * Updates the specified choice field.
+   * @param e React change event.
+   * @param choiceOrderIndex Order index of choice to be updated.
+   */
+  updateInspectionItemChoiceField(
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    choiceOrderIndex: number
+  ): void;
+
+  /**
+   * Adds new choice to inspection item.
+   */
+  addInspectionItemChoice(): void;
+
+  /**
+   * Removes the specified choice.
+   * @param choiceOrderIndex Order index of choice to be removed.
+   */
+  removeInspectionItemChoice(choiceOrderIndex: number): void;
+
   setChoices(choices: ChoiceTemplate): void;
 
   /**
    * Create a new inspection sheet data in database
    */
   createInspectionSheet(): Promise<void>;
+  updateInspectionSheet(): Promise<void>;
 }
