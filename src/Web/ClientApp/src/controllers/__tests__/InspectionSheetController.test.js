@@ -1,4 +1,4 @@
-import { CreateController } from "..";
+import { InspectionSheetController } from "..";
 
 describe("CreateController unit test", () => {
   test("Change sheet name correctly", () => {
@@ -7,7 +7,7 @@ describe("CreateController unit test", () => {
     const sheetUseCase = {
       setSheetName: jest.fn(() => {}),
     };
-    const target = new CreateController(
+    const target = new InspectionSheetController(
       groupUseCase,
       typeUseCase,
       sheetUseCase
@@ -22,7 +22,7 @@ describe("CreateController unit test", () => {
     const sheetUseCase = {
       setGroupId: jest.fn(() => {}),
     };
-    const target = new CreateController(
+    const target = new InspectionSheetController(
       groupUseCase,
       typeUseCase,
       sheetUseCase
@@ -37,7 +37,7 @@ describe("CreateController unit test", () => {
     const sheetUseCase = {
       setTypeId: jest.fn(() => {}),
     };
-    const target = new CreateController(
+    const target = new InspectionSheetController(
       groupUseCase,
       typeUseCase,
       sheetUseCase
@@ -52,7 +52,7 @@ describe("CreateController unit test", () => {
     const sheetUseCase = {
       addEquipment: jest.fn(() => {}),
     };
-    const target = new CreateController(
+    const target = new InspectionSheetController(
       groupUseCase,
       typeUseCase,
       sheetUseCase
@@ -67,7 +67,7 @@ describe("CreateController unit test", () => {
     const sheetUseCase = {
       removeEquipment: jest.fn(() => {}),
     };
-    const target = new CreateController(
+    const target = new InspectionSheetController(
       groupUseCase,
       typeUseCase,
       sheetUseCase
@@ -82,7 +82,7 @@ describe("CreateController unit test", () => {
     const sheetUseCase = {
       setEquipmentName: jest.fn(() => {}),
     };
-    const target = new CreateController(
+    const target = new InspectionSheetController(
       groupUseCase,
       typeUseCase,
       sheetUseCase

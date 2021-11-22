@@ -2,7 +2,7 @@ import { createContext, useContext } from "react";
 import nameof from "ts-nameof.macro";
 import {
   ChoiceTemplateController,
-  CreateController,
+  InspectionSheetController,
   DetailController,
   HomeController,
   InspectionGroupController,
@@ -19,8 +19,8 @@ import {
   IChoiceTemplateInteractor,
   IChoiceTemplatePresenter,
   IChoiceTemplateRepository,
-  ICreateController,
-  ICreatePresenter,
+  IInspectionSheetController,
+  IInspectionSheetPresenter,
   IDetailController,
   IDetailPresenter,
   IHomeController,
@@ -46,7 +46,7 @@ import {
   InspectionItemPresenter,
   InspectionTypePresenter,
 } from "../presenters";
-import { CreatePresenter } from "../presenters/CreatePresenter";
+import { InspectionSheetPresenter } from "../presenters/InspectionSheetPresenter";
 import {
   ChoiceTemplateInteractor,
   InspectionGroupInteractor,
@@ -121,8 +121,8 @@ export const setUpDIContainer = () => {
 
   // register presenter
   register(
-    nameof<ICreatePresenter>(),
-    new CreatePresenter(
+    nameof<IInspectionSheetPresenter>(),
+    new InspectionSheetPresenter(
       inject(nameof<IInspectionTypeInteractor>()) as InspectionTypeInteractor,
       inject(
         nameof<IInspectionGroupInteractor>()
@@ -165,13 +165,15 @@ export const setUpDIContainer = () => {
 
   // register controller
   register(
-    nameof<ICreateController>(),
-    new CreateController(
+    nameof<IInspectionSheetController>(),
+    new InspectionSheetController(
       inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor,
       inject(
         nameof<IInspectionGroupInteractor>()
       ) as IInspectionGroupInteractor,
-      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor,
+      inject(
+        nameof<IInspectionSheetInteractor>()
+      ) as IInspectionSheetInteractor,
       inject(nameof<IInspectionItemInteractor>()) as IInspectionItemInteractor
     )
   );

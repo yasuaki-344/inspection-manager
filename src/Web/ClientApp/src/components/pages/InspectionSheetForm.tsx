@@ -11,7 +11,7 @@ import { Box } from "@mui/system";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import nameof from "ts-nameof.macro";
 import { InspectionItemDialog } from "../dialog";
-import { ICreatePresenter, ICreateController } from "../../interfaces";
+import { IInspectionSheetPresenter, IInspectionSheetController } from "../../interfaces";
 import {
   InspectionItemDialogStateContext,
   useDIContext,
@@ -26,8 +26,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   props: InspectionSheetFormProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const controller: ICreateController = inject(nameof<ICreateController>());
-  const presenter: ICreatePresenter = inject(nameof<ICreatePresenter>());
+  const controller: IInspectionSheetController = inject(nameof<IInspectionSheetController>());
+  const presenter: IInspectionSheetPresenter = inject(nameof<IInspectionSheetPresenter>());
   const [status, setStatus] = useContext(InspectionItemDialogStateContext);
 
   /**

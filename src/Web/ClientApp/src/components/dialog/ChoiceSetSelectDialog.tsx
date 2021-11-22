@@ -14,7 +14,7 @@ import { OkCancelDialogActions } from "../utilities";
 import { DialogTitleDesign } from "../stylesheets";
 import {
   IChoiceTemplatePresenter,
-  ICreateController,
+  IInspectionSheetController,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
 
@@ -27,8 +27,8 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
   props: ChoiceSetSelectDialogProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const controller: ICreateController = inject(
-    nameof<ICreateController>()
+  const controller: IInspectionSheetController = inject(
+    nameof<IInspectionSheetController>()
   );
   const templatePresenter: IChoiceTemplatePresenter = inject(
     nameof<IChoiceTemplatePresenter>()

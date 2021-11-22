@@ -9,13 +9,13 @@ import {
   InspectionType,
 } from "../entities";
 import {
-  ICreatePresenter,
+  IInspectionSheetPresenter,
   IInspectionGroupInteractor,
   IInspectionSheetInteractor,
   IInspectionTypeInteractor,
 } from "../interfaces";
 
-export class CreatePresenter implements ICreatePresenter {
+export class InspectionSheetPresenter implements IInspectionSheetPresenter {
   readonly selectionSheets: InspectionSheet[];
 
   private readonly typeUseCase: IInspectionTypeInteractor;

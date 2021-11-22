@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react";
 import { ChoiceTemplate, InspectionItem } from "../../entities";
 
-export interface ICreateController {
+export interface IInspectionSheetController {
   /**
    * Initializes inspection sheet to edit.
    */

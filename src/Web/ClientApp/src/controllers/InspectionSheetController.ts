@@ -7,14 +7,14 @@ import {
   InspectionType,
 } from "../entities";
 import {
-  ICreateController,
+  IInspectionSheetController,
   IInspectionGroupInteractor,
   IInspectionItemInteractor,
   IInspectionSheetInteractor,
   IInspectionTypeInteractor,
 } from "../interfaces";
 
-export class CreateController implements ICreateController {
+export class InspectionSheetController implements IInspectionSheetController {
   private readonly typeUseCase: IInspectionTypeInteractor;
 
   private readonly groupUseCase: IInspectionGroupInteractor;

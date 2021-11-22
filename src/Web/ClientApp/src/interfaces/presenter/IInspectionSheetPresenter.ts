@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react";
 import { InspectionSheet } from "../../entities";
 
-export interface ICreatePresenter {
+export interface IInspectionSheetPresenter {
   selectionSheets: InspectionSheet[];
 
   /**
