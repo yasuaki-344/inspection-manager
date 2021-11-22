@@ -122,6 +122,16 @@ export class CreateController implements ICreateController {
     this.sheetUseCase.setEquipmentName(orderIndex, name);
   };
 
+  setUp(): void {
+    this.itemUseCase.setItem({
+      inspectionItemId: 0,
+      orderIndex: 0,
+      inspectionContent: "",
+      inputType: 1,
+      choices: [],
+    });
+  }
+
   addInspectionItem(orderIndex: number, item: InspectionItem): void {
     this.sheetUseCase.addInspectionItem(orderIndex, item);
   }

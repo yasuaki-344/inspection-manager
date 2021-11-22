@@ -11,16 +11,6 @@ export class InspectionItemController implements IInspectionItemController {
     this.useCase = useCase;
   }
 
-  initialize(): void {
-    this.useCase.setItem({
-      inspectionItemId: 0,
-      orderIndex: 0,
-      inspectionContent: "",
-      inputType: 1,
-      choices: [],
-    });
-  }
-
   setItem(item: InspectionItem): void {
     this.useCase.setItem(item);
   }

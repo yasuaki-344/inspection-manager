@@ -1,4 +1,4 @@
-import React, { FC, useRef } from "react";
+import React, { FC, useContext, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import {
   Accordion,
@@ -17,7 +17,10 @@ import { BottomNavigationAdd, CancelIconButton } from "../utilities";
 import { equipmentLabel, MenuIcon, paperElement } from "../stylesheets";
 import { ItemType, Equipment, InspectionItem } from "../../entities";
 import { ICreateController } from "../../interfaces";
-import { useDIContext } from "../../container";
+import {
+  InspectionItemDialogStateContext,
+  useDIContext,
+} from "../../container";
 
 interface DragItem {
   orderIndex: number;
@@ -26,7 +29,6 @@ interface DragItem {
 interface EquipmentFormProps {
   orderIndex: number;
   equipment: Equipment;
-  handleAddItem: (equipmentIndex: number) => void;
   handleEditItem: (
     equipmentIndex: number,
     inspectionItemIndex: number,
@@ -40,6 +42,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
 ): JSX.Element => {
   const inject = useDIContext();
   const controller: ICreateController = inject(nameof<ICreateController>());
+  const [status, setStatus] = useContext(InspectionItemDialogStateContext);
 
   const dropRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<HTMLButtonElement>(null);
@@ -59,6 +62,19 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
   });
   preview(drop(dropRef));
   drag(dragRef);
+
+  /**
+   * Implements the process for adding inspection item.
+   */
+  const handleAddInspectionItem = (orderIndex: number) => {
+    controller.setUp();
+    setStatus({
+      ...status,
+      isOpen: true,
+      isAdditional: true,
+      equipmentOrderIndex: orderIndex,
+    });
+  };
 
   return (
     <Paper variant="outlined">
@@ -105,7 +121,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
               />
               <BottomNavigationAdd
                 label="点検項目追加"
-                onClick={() => props.handleAddItem(props.orderIndex)}
+                onClick={() => handleAddInspectionItem(props.orderIndex)}
               />
             </Grid>
           </Grid>

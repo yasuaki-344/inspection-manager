@@ -82,19 +82,6 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   };
 
   /**
-   * Implements the process for adding inspection item.
-   */
-  const handleAddItem = (equipmentId: number) => {
-    itemController.initialize();
-    setStatus({
-      ...status,
-      isOpen: true,
-      isAdditional: true,
-      equipmentOrderIndex: equipmentId,
-    });
-  };
-
-  /**
    * Implements the process for editing inspection item.
    */
   const handleEditItem = (
@@ -123,7 +110,6 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
           {presenter.groupIdInput(controller.changeGroupId)}
           {presenter.typeIdInput(controller.changeTypeId)}
           {presenter.getEditContent(
-            handleAddItem,
             handleEditItem
             // storeHistory
           )}

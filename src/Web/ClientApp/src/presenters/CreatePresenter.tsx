@@ -150,7 +150,6 @@ export class CreatePresenter implements ICreatePresenter {
 
   /** @inheritdoc */
   getEditContent(
-    handleAddItem: any,
     handleEditItem: any
   ): JSX.Element {
     return (
@@ -161,7 +160,6 @@ export class CreatePresenter implements ICreatePresenter {
               <EquipmentForm
                 orderIndex={equipment.orderIndex}
                 equipment={equipment}
-                handleAddItem={handleAddItem}
                 handleEditItem={handleEditItem}
                 // storeHistory={storeHistory}
               />

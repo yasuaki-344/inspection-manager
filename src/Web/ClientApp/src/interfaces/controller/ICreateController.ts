@@ -52,7 +52,12 @@ export interface ICreateController {
     orderIndex: number
   ): void;
 
+  setUp(): void;
   addInspectionItem(orderIndex: number, item: InspectionItem): void;
+  removeInspectionItem(
+    equipmentOrderIndex: number,
+    itemOrderIndex: number
+  ): void;
   updateInspectionItem(
     equipmentOrderIndex: number,
     itemOrderIndex: number,
