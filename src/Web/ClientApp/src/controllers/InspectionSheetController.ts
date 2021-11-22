@@ -169,8 +169,35 @@ export class InspectionSheetController implements IInspectionSheetController {
     );
   }
 
+  /** @inheritdoc */
+  updateInspectionItemField = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    const { name, value } = e.target;
+    this.itemUseCase.updateField(name, value);
+  };
+
   setChoices(choices: ChoiceTemplate): void {
     this.itemUseCase.setChoices(choices);
+  }
+
+  /** @inheritdoc */
+  updateInspectionItemChoiceField = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    choiceOrderIndex: number
+  ): void => {
+    const { value } = e.target;
+    this.itemUseCase.updateChoice(choiceOrderIndex, value)
+  };
+
+  /** @inheritdoc */
+  addInspectionItemChoice(): void {
+    this.itemUseCase.addChoice();
+  }
+
+  /** @inheritdoc */
+  removeInspectionItemChoice(choiceOrderIndex: number): void {
+    this.itemUseCase.removeChoice(choiceOrderIndex);
   }
 
   /** @inheritdoc */

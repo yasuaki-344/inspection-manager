@@ -13,8 +13,6 @@ export class HomePresenter implements IHomePresenter {
 
   private readonly groupUseCase: IInspectionGroupInteractor;
 
-  private readonly sheetUseCase: IInspectionSheetInteractor;
-
   /**
    * Initializes a new instance of HomeController class
    * @param typeUseCase IInspectionTypeInteractor object.
@@ -29,13 +27,14 @@ export class HomePresenter implements IHomePresenter {
     this.inspectionSheets = sheetUseCase.filteredSheets;
     this.typeUseCase = typeUseCase;
     this.groupUseCase = groupUseCase;
-    this.sheetUseCase = sheetUseCase;
   }
 
+  /** @inheritdoc */
   getGroupName(id: number): string | undefined {
     return this.groupUseCase.getName(id);
   }
 
+  /** @inheritdoc */
   getTypeName(id: number): string | undefined {
     return this.typeUseCase.getName(id);
   }

@@ -26,6 +26,4 @@ export interface IInspectionSheetPresenter {
   item: InspectionItem;
 
   isValidInspectionItem(): boolean;
-
-  getItemEditContent(onTemplateSelectClick: () => void): JSX.Element;
 }

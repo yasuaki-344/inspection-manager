@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, useReducer } from "react";
+import { Dispatch, useReducer } from "react";
 import {
   Choice,
   ChoiceTemplate,
@@ -34,15 +34,11 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
     });
   }
 
-  updateField(
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void {
+  /** @inheritdoc */
+  updateField(name: string, value: string): void {
     this.dispatch({
       type: ITEM_ACTION_TYPES.UPDATE_FIELD,
-      payload: {
-        name: event.target.name,
-        value: event.target.value,
-      },
+      payload: { name, value },
     });
   }
 
@@ -71,16 +67,11 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
     });
   }
 
-  updateChoice(
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
-  ): void {
+  /** @inheritdoc */
+  updateChoice(choiceOrderIndex: number, value: string): void {
     this.dispatch({
       type: ITEM_ACTION_TYPES.UPDATE_CHOICE,
-      payload: {
-        value: event.target.value,
-        choiceOrderIndex: index,
-      },
+      payload: { value, choiceOrderIndex },
     });
   }
 

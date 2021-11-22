@@ -79,6 +79,36 @@ export interface IInspectionSheetController {
     equipmentOrderIndex: number,
     itemOrderIndex: number
   ): void;
+
+  /**
+   * Update inspection item field value.
+   * @param e React change event.
+   */
+  updateInspectionItemField(
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void;
+
+  /**
+   * Updates the specified choice field.
+   * @param e React change event.
+   * @param choiceOrderIndex Order index of choice to be updated.
+   */
+  updateInspectionItemChoiceField(
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    choiceOrderIndex: number
+  ): void;
+
+  /**
+   * Adds new choice to inspection item.
+   */
+  addInspectionItemChoice(): void;
+
+  /**
+   * Removes the specified choice.
+   * @param choiceOrderIndex Order index of choice to be removed.
+   */
+  removeInspectionItemChoice(choiceOrderIndex: number): void;
+
   setChoices(choices: ChoiceTemplate): void;
 
   /**
