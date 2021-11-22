@@ -151,12 +151,15 @@ namespace InspectionManager.Web.Controllers
 
         [HttpDelete]
         [Route("/v1/inspection-sheets/{sheetId}")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<InspectionSheetDto>> DeleteInspectionSheetAsync([FromRoute][Required] int? sheetId)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteInspectionSheetAsync([FromRoute][Required] int? sheetId)
         {
             try
             {
-                if (sheetId.HasValue)
+                if (sheetId is not null)
                 {
                     _logger.LogInformation($"try to delete inspection sheet {sheetId}");
                     if (!_service.InspectionSheetExists(sheetId.Value))
