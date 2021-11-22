@@ -80,8 +80,7 @@ export class InspectionItemPresenter implements IInspectionItemPresenter {
                 <Grid
                   item
                   xs={12}
-                  // eslint-disable-next-line
-                  key={`${this.useCase.inspectionItem.inspectionItemId}_${index}`}
+                  key={this.useCase.inspectionItem.orderIndex}
                 >
                   <Box sx={InputStyle}>
                     <TextField
@@ -92,10 +91,10 @@ export class InspectionItemPresenter implements IInspectionItemPresenter {
                       size="small"
                       name="choice"
                       value={choice.description}
-                      onChange={(e) => this.useCase.updateChoice(e, index)}
+                      onChange={(e) => this.useCase.updateChoice(e, choice.orderIndex)}
                     />
                     <CancelIconButton
-                      onClick={() => this.useCase.removeChoice(index)}
+                      onClick={() => this.useCase.removeChoice(choice.orderIndex)}
                     />
                   </Box>
                 </Grid>
