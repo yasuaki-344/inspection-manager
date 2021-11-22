@@ -46,7 +46,7 @@ export const Create: FC = (): JSX.Element => {
    * @param sheetId Sheet ID of inspection sheet to set.
    */
   const handleSelectSheet = (sheetId: number) => {
-    controller.fetchInspectionSheet(sheetId).catch((error) => {
+    controller.copyInspectionSheet(sheetId).catch((error) => {
       notification.setMessageState(
         "error",
         `データの取得に失敗しました (ID:${sheetId})`

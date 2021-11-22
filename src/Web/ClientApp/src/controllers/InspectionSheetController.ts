@@ -57,6 +57,10 @@ export class InspectionSheetController implements IInspectionSheetController {
     await this.sheetUseCase.fetchInspectionSheetById(id);
   }
 
+  async copyInspectionSheet(id: number): Promise<void> {
+    await this.sheetUseCase.copyInspectionSheetFrom(id);
+  }
+
   /** @inheritdoc */
   async fetchInspectionMasterData(): Promise<void> {
     await this.groupUseCase
