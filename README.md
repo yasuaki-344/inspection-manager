@@ -15,7 +15,7 @@ inspection-managerは点検情報を作成・管理・出力するWebアプリ�
 
 ## Development environment
 
-* [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0)
+* [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0)
 * [Node.js](https://nodejs.org/)
 * [Yarn](https://classic.yarnpkg.com/en/docs/install/)
 
