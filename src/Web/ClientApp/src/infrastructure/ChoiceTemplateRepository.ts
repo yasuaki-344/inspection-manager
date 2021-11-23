@@ -8,15 +8,20 @@ import {
 export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
   private readonly api: ChoiceTemplatesApiInterface;
 
+  /**
+   * Initializes a new instance of ChoiceTemplateRepository class.
+   */
   constructor() {
     this.api = new ChoiceTemplatesApi();
   }
 
-  async get(): Promise<ChoiceTemplate[]> {
+  /** @inheritdoc */
+  async fetchAllChoiceTemplates(): Promise<ChoiceTemplate[]> {
     const res = await this.api.choiceTemplatesGet();
     return toCamelCase(res);
   }
 
+  /** @inheritdoc */
   async post(choiceTemplate: ChoiceTemplate): Promise<ChoiceTemplate> {
     const req = toSnakeCase(choiceTemplate);
     const res = await this.api.choiceTemplatesPost({
@@ -25,6 +30,7 @@ export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
     return toCamelCase(res);
   }
 
+  /** @inheritdoc */
   async put(choiceTemplate: ChoiceTemplate): Promise<ChoiceTemplate> {
     const req = toSnakeCase(choiceTemplate);
     const res = await this.api.choiceTemplatesChoiceTemplateIdPut({
@@ -34,6 +40,7 @@ export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
     return toCamelCase(res);
   }
 
+  /** @inheritdoc */
   async delete(id: number): Promise<void> {
     await this.api.choiceTemplatesChoiceTemplateIdDelete({
       choiceTemplateId: id,

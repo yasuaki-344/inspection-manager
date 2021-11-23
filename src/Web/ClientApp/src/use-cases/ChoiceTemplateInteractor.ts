@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import {
   IChoiceTemplateInteractor,
   IChoiceTemplateRepository,
@@ -6,14 +6,16 @@ import {
 import { ChoiceTemplate } from "../entities";
 
 export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
-  readonly templates: Array<ChoiceTemplate>;
+  readonly templates: ChoiceTemplate[];
 
-  private readonly dispatch: React.Dispatch<
-    React.SetStateAction<Array<ChoiceTemplate>>
-  >;
+  private readonly dispatch: Dispatch<SetStateAction<ChoiceTemplate[]>>;
 
   private readonly repository: IChoiceTemplateRepository;
 
+  /**
+   * Initializes a new instance of ChoiceTemplateInteractor class.
+   * @param repository Object implements IChoiceTemplateRepository interface.
+   */
   constructor(repository: IChoiceTemplateRepository) {
     const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
 
@@ -22,30 +24,23 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
     this.repository = repository;
   }
 
-  getTemplates(): Array<ChoiceTemplate> {
-    return this.templates;
-  }
-
-  get(): void {
+  /** @inheritdoc */
+  async fetchAllChoiceTemplates(): Promise<void> {
     this.repository
-      .get()
-      .then((res) => {
+      .fetchAllChoiceTemplates()
+      .then((res: ChoiceTemplate[]) => {
         this.dispatch(res);
       })
       .catch(console.error);
   }
 
-  getById(id: number): ChoiceTemplate | undefined {
-    return this.templates.find(
-      (x: ChoiceTemplate) => x.choiceTemplateId === id
-    );
-  }
-
+  /** @inheritdoc */
   async create(choiceTemplate: ChoiceTemplate): Promise<void> {
     const res = await this.repository.post(choiceTemplate);
     this.dispatch(this.templates.concat(res));
   }
 
+  /** @inheritdoc */
   async update(choiceTemplate: ChoiceTemplate): Promise<void> {
     const res = await this.repository.put(choiceTemplate);
     this.dispatch(
@@ -55,6 +50,7 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
     );
   }
 
+  /** @inheritdoc */
   async delete(id: number): Promise<void> {
     await this.repository.delete(id);
     this.dispatch(
