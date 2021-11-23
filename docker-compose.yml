@@ -19,6 +19,7 @@ services:
       - ./database:/app/database
     environment:
       ConnectionStrings__InspectionContext: Host=database;Database=${DATABASE};Username=${DB_USERNAME};Password=${DB_PASSWORD}
+      ASPNETCORE_ENVIRONMENT: Production
     networks:
       - frontend
       - backend
