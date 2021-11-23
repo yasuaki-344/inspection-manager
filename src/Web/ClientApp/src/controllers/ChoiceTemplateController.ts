@@ -7,8 +7,17 @@ import { ChoiceTemplate } from "../entities";
 export class ChoiceTemplateController implements IChoiceTemplateController {
   private readonly useCase: IChoiceTemplateInteractor;
 
+  /**
+   * Initializes a new instance of ChoiceTemplateController class.
+   * @param useCase Objects implements IChoiceTemplateInteractor interface.
+   */
   constructor(useCase: IChoiceTemplateInteractor) {
     this.useCase = useCase;
+  }
+
+  /** @inheritdoc */
+  async getAllChoiceTemplates(): Promise<void> {
+    await this.useCase.fetchAllChoiceTemplates();
   }
 
   async create(choiceTemplate: ChoiceTemplate): Promise<void> {

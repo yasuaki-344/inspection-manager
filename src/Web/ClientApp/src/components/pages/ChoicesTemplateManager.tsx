@@ -1,9 +1,21 @@
 import React, { FC, useState, useEffect } from "react";
-import { BottomNavigation, TableContainer, Grid, Paper } from "@mui/material";
+import {
+  BottomNavigation,
+  TableContainer,
+  Grid,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+} from "@mui/material";
 import nameof from "ts-nameof.macro";
 import { ChoiceTemplate } from "../../entities";
 import {
   BottomNavigationAdd,
+  CancelIconButton,
+  EditIconButton,
   Notification,
   NotificationInitState,
   NotificationStateInteractor,
@@ -35,7 +47,7 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
   );
 
   useEffect(() => {
-    presenter.get();
+    controller.getAllChoiceTemplates();
   }, []);
 
   /**
@@ -115,10 +127,38 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper}>
-            {presenter.choiceTemplateTable(
-              handleUpdateTemplate,
-              handleDeleteTemplate
-            )}
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>選択肢</TableCell>
+                  <TableCell>&nbsp;</TableCell>
+                  <TableCell>&nbsp;</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {presenter.state.map((template: ChoiceTemplate) => (
+                  <TableRow key={template.choiceTemplateId}>
+                    <TableCell>
+                      {template.choices.map((x) => x.description).join(",")}
+                    </TableCell>
+                    <TableCell padding="checkbox">
+                      <EditIconButton
+                        onClick={() =>
+                          handleUpdateTemplate(template.choiceTemplateId)
+                        }
+                      />
+                    </TableCell>
+                    <TableCell padding="checkbox">
+                      <CancelIconButton
+                        onClick={() =>
+                          handleDeleteTemplate(template.choiceTemplateId)
+                        }
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </TableContainer>
         </Grid>
         <Grid item xs={12}>
