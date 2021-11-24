@@ -54,10 +54,7 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
    * Creates new template set.
    */
   const handleAddTemplate = () => {
-    setTarget({
-      choiceTemplateId: 0,
-      choices: [],
-    });
+    controller.setUpNewChoiceTemplate();
     setIsUpdate(false);
     setOpen(true);
   };
@@ -172,7 +169,6 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
       </Grid>
       <ChoiceTemplateEditDialog
         open={open}
-        target={target}
         setTarget={setTarget}
         onOkButtonClick={() => handleRegistration()}
         onCancelButtonClick={() => setOpen(false)}

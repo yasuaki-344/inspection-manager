@@ -2,6 +2,16 @@ import { ChoiceTemplate } from "../../entities";
 
 export interface IChoiceTemplateController {
   /**
+   * Sets up new choice template to edit.
+   */
+  setUpNewChoiceTemplate(): void;
+
+  /**
+   * Adds new choice to edit template.
+   */
+  addChoice(): void;
+
+  /**
    * Gets all choice templates from database.
    */
   getAllChoiceTemplates(): Promise<void>;

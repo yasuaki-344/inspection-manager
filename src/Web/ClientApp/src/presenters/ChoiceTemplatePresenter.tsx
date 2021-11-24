@@ -5,9 +5,11 @@ import {
 import { ChoiceTemplate } from "../entities";
 
 export class ChoiceTemplatePresenter implements IChoiceTemplatePresenter {
-  private readonly useCase: IChoiceTemplateInteractor;
-
   readonly state: ChoiceTemplate[];
+
+  readonly target: ChoiceTemplate;
+
+  private readonly useCase: IChoiceTemplateInteractor;
 
   /**
    * Initializes a new instance of ChoiceTemplatePresenter class.
@@ -16,6 +18,7 @@ export class ChoiceTemplatePresenter implements IChoiceTemplatePresenter {
   constructor(useCase: IChoiceTemplateInteractor) {
     this.useCase = useCase;
     this.state = useCase.templates;
+    this.target = useCase.target;
   }
 
   getById(id: number): ChoiceTemplate | undefined {

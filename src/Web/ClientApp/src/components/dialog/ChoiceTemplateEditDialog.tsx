@@ -6,6 +6,7 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
+import nameof from "ts-nameof.macro";
 import { ChoiceTemplate, Option } from "../../entities";
 import {
   BottomNavigationAdd,
@@ -13,10 +14,14 @@ import {
   OkCancelDialogActions,
 } from "../utilities";
 import { DialogTitleDesign, InputStyle } from "../stylesheets";
+import { useDIContext } from "../../container";
+import {
+  IChoiceTemplateController,
+  IChoiceTemplatePresenter,
+} from "../../interfaces";
 
 interface ChoiceTemplateEditDialogProps {
   open: boolean;
-  target: ChoiceTemplate;
   setTarget: React.Dispatch<React.SetStateAction<ChoiceTemplate>>;
   onOkButtonClick: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -49,16 +54,6 @@ class ChoiceTemplateEditor {
     return index === -1;
   }
 
-  addChoice(): void {
-    this.dispatch({
-      ...this.state,
-      choices: this.state.choices.concat({
-        optionId: 0,
-        description: "",
-      }),
-    });
-  }
-
   updateChoice(index: number, input: string): void {
     this.dispatch({
       ...this.state,
@@ -86,13 +81,19 @@ class ChoiceTemplateEditor {
 export const ChoiceTemplateEditDialog: FC<ChoiceTemplateEditDialogProps> = (
   props: ChoiceTemplateEditDialogProps
 ): JSX.Element => {
+  const inject = useDIContext();
+  const controller: IChoiceTemplateController = inject(
+    nameof<IChoiceTemplateController>()
+  );
+  const presenter: IChoiceTemplatePresenter = inject(
+    nameof<IChoiceTemplatePresenter>()
+  );
+
   const [disabled, setDisabled] = useState(false);
-  const editor = new ChoiceTemplateEditor(props.target, props.setTarget);
+  const editor = new ChoiceTemplateEditor(presenter.target, props.setTarget);
   useEffect(() => {
     setDisabled(!editor.isValid());
-  }, [props.target]);
-
-  const addChoice = (): void => editor.addChoice();
+  }, [presenter.target]);
 
   const updateChoice = (index: number, input: string): void =>
     editor.updateChoice(index, input);
@@ -104,7 +105,7 @@ export const ChoiceTemplateEditDialog: FC<ChoiceTemplateEditDialogProps> = (
       <DialogTitle sx={DialogTitleDesign}>選択肢テンプレート編集</DialogTitle>
       <DialogContent>
         <Grid container spacing={1} sx={{ pt: 1.5 }}>
-          {props.target.choices.map((choice: Option, index: number) => (
+          {presenter.target.choices.map((choice: Option, index: number) => (
             <Grid item xs={12} sx={InputStyle} key={choice.optionId}>
               <TextField
                 required
@@ -120,7 +121,10 @@ export const ChoiceTemplateEditDialog: FC<ChoiceTemplateEditDialogProps> = (
             </Grid>
           ))}
           <Grid item xs={12}>
-            <BottomNavigationAdd label="選択肢追加" onClick={addChoice} />
+            <BottomNavigationAdd
+              label="選択肢追加"
+              onClick={() => controller.addChoice()}
+            />
           </Grid>
         </Grid>
       </DialogContent>

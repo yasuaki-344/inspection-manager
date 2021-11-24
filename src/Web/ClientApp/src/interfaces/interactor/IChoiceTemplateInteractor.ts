@@ -5,6 +5,16 @@ export interface IChoiceTemplateInteractor {
   target: ChoiceTemplate;
 
   /**
+   * Sets up new choice template to edit.
+   */
+  setUpNewChoiceTemplate(): void;
+
+  /**
+   * Adds new choice to edit template.
+   */
+  addChoice(): void;
+
+  /**
    * Gets all choice templates from database.
    */
   fetchAllChoiceTemplates(): Promise<void>;

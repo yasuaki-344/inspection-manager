@@ -16,6 +16,16 @@ export class ChoiceTemplateController implements IChoiceTemplateController {
   }
 
   /** @inheritdoc */
+  setUpNewChoiceTemplate(): void {
+    this.useCase.setUpNewChoiceTemplate();
+  }
+
+  /** @inheritdoc */
+  addChoice(): void {
+    this.useCase.addChoice();
+  }
+
+  /** @inheritdoc */
   async getAllChoiceTemplates(): Promise<void> {
     await this.useCase.fetchAllChoiceTemplates();
   }

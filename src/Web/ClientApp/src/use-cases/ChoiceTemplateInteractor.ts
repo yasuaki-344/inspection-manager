@@ -36,6 +36,25 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
   }
 
   /** @inheritdoc */
+  setUpNewChoiceTemplate(): void {
+    this.setTarget({
+      choiceTemplateId: 0,
+      choices: [],
+    });
+  }
+
+  /** @inheritdoc */
+  addChoice(): void {
+    this.setTarget({
+      ...this.target,
+      choices: this.target.choices.concat({
+        optionId: 0,
+        description: "",
+      }),
+    });
+  }
+
+  /** @inheritdoc */
   async fetchAllChoiceTemplates(): Promise<void> {
     this.repository
       .fetchAllChoiceTemplates()
