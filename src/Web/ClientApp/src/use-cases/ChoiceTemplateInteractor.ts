@@ -52,9 +52,10 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
 
   /** @inheritdoc */
   async delete(id: number): Promise<void> {
-    await this.repository.delete(id);
-    this.dispatch(
-      this.templates.filter((x: ChoiceTemplate) => x.choiceTemplateId !== id)
-    );
+    await this.repository.delete(id).then(() => {
+      this.dispatch(
+        this.templates.filter((x: ChoiceTemplate) => x.choiceTemplateId !== id)
+      );
+    });
   }
 }

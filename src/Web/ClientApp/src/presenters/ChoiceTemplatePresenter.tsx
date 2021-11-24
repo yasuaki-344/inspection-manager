@@ -19,7 +19,7 @@ export class ChoiceTemplatePresenter implements IChoiceTemplatePresenter {
   }
 
   getById(id: number): ChoiceTemplate | undefined {
-    return this.state.find(x => x.choiceTemplateId === id);
+    return this.state.find((x) => x.choiceTemplateId === id);
   }
 
   getByIndex(index: number): ChoiceTemplate | undefined {

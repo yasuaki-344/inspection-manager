@@ -28,6 +28,7 @@ export class ChoiceTemplateController implements IChoiceTemplateController {
     await this.useCase.update(choiceTemplate);
   }
 
+  /** @inheritdoc */
   async delete(id: number): Promise<void> {
     await this.useCase.delete(id);
   }
