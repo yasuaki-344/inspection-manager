@@ -8,7 +8,11 @@ import { ChoiceTemplate } from "../entities";
 export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
   readonly templates: ChoiceTemplate[];
 
+  readonly target: ChoiceTemplate;
+
   private readonly dispatch: Dispatch<SetStateAction<ChoiceTemplate[]>>;
+
+  private readonly setTarget: Dispatch<SetStateAction<ChoiceTemplate>>;
 
   private readonly repository: IChoiceTemplateRepository;
 
@@ -18,9 +22,16 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
    */
   constructor(repository: IChoiceTemplateRepository) {
     const [templates, setTemplates] = useState<ChoiceTemplate[]>([]);
-
     this.templates = templates;
     this.dispatch = setTemplates;
+
+    const [target, setTarget] = useState<ChoiceTemplate>({
+      choiceTemplateId: 0,
+      choices: [],
+    });
+    this.target = target;
+    this.setTarget = setTarget;
+
     this.repository = repository;
   }
 

@@ -2,6 +2,7 @@ import { ChoiceTemplate } from "../../entities";
 
 export interface IChoiceTemplateInteractor {
   templates: ChoiceTemplate[];
+  target: ChoiceTemplate;
 
   /**
    * Gets all choice templates from database.
