@@ -7,7 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import nameof from "ts-nameof.macro";
-import { ChoiceTemplate, Option } from "../../entities";
+import { Option } from "../../entities";
 import {
   BottomNavigationAdd,
   CancelIconButton,
@@ -22,37 +22,12 @@ import {
 
 interface ChoiceTemplateEditDialogProps {
   open: boolean;
-  setTarget: React.Dispatch<React.SetStateAction<ChoiceTemplate>>;
   onOkButtonClick: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
   onCancelButtonClick: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
-}
-
-class ChoiceTemplateEditor {
-  readonly state: ChoiceTemplate;
-
-  private readonly dispatch: React.Dispatch<
-    React.SetStateAction<ChoiceTemplate>
-  >;
-
-  constructor(
-    state: ChoiceTemplate,
-    dispatch: React.Dispatch<React.SetStateAction<ChoiceTemplate>>
-  ) {
-    this.state = state;
-    this.dispatch = dispatch;
-  }
-
-  isValid(): boolean {
-    if (!this.state.choices.length) {
-      return false;
-    }
-    const index = this.state.choices.findIndex((x) => x.description === "");
-    return index === -1;
-  }
 }
 
 export const ChoiceTemplateEditDialog: FC<ChoiceTemplateEditDialogProps> = (
@@ -67,9 +42,8 @@ export const ChoiceTemplateEditDialog: FC<ChoiceTemplateEditDialogProps> = (
   );
 
   const [disabled, setDisabled] = useState(false);
-  const editor = new ChoiceTemplateEditor(presenter.target, props.setTarget);
   useEffect(() => {
-    setDisabled(!editor.isValid());
+    setDisabled(!presenter.isTargetValid());
   }, [presenter.target]);
 
   return (

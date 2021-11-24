@@ -169,7 +169,6 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
       </Grid>
       <ChoiceTemplateEditDialog
         open={open}
-        setTarget={setTarget}
         onOkButtonClick={() => handleRegistration()}
         onCancelButtonClick={() => setOpen(false)}
       />
