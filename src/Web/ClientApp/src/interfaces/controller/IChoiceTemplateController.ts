@@ -12,6 +12,12 @@ export interface IChoiceTemplateController {
   addChoice(): void;
 
   /**
+   * Removes the specified choice from editing template
+   * @param index Index of choice to be removed.
+   */
+  removeChoice(index: number): void;
+
+  /**
    * Gets all choice templates from database.
    */
   getAllChoiceTemplates(): Promise<void>;

@@ -67,15 +67,6 @@ class ChoiceTemplateEditor {
       }),
     });
   }
-
-  deleteChoice(index: number): void {
-    this.dispatch({
-      ...this.state,
-      choices: this.state.choices.filter(
-        (value: Option, i: number) => i !== index
-      ),
-    });
-  }
 }
 
 export const ChoiceTemplateEditDialog: FC<ChoiceTemplateEditDialogProps> = (
@@ -98,8 +89,6 @@ export const ChoiceTemplateEditDialog: FC<ChoiceTemplateEditDialogProps> = (
   const updateChoice = (index: number, input: string): void =>
     editor.updateChoice(index, input);
 
-  const deleteChoice = (index: number): void => editor.deleteChoice(index);
-
   return (
     <Dialog open={props.open} onClose={props.onCancelButtonClick}>
       <DialogTitle sx={DialogTitleDesign}>選択肢テンプレート編集</DialogTitle>
@@ -117,7 +106,9 @@ export const ChoiceTemplateEditDialog: FC<ChoiceTemplateEditDialogProps> = (
                 value={choice.description}
                 onChange={(e) => updateChoice(index, e.target.value)}
               />
-              <CancelIconButton onClick={() => deleteChoice(index)} />
+              <CancelIconButton
+                onClick={() => controller.removeChoice(index)}
+              />
             </Grid>
           ))}
           <Grid item xs={12}>

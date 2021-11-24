@@ -26,6 +26,11 @@ export class ChoiceTemplateController implements IChoiceTemplateController {
   }
 
   /** @inheritdoc */
+  removeChoice(index: number): void {
+    this.useCase.removeChoice(index);
+  }
+
+  /** @inheritdoc */
   async getAllChoiceTemplates(): Promise<void> {
     await this.useCase.fetchAllChoiceTemplates();
   }

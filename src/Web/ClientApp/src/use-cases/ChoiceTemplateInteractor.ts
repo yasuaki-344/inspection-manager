@@ -3,7 +3,7 @@ import {
   IChoiceTemplateInteractor,
   IChoiceTemplateRepository,
 } from "../interfaces";
-import { ChoiceTemplate } from "../entities";
+import { ChoiceTemplate, Option } from "../entities";
 
 export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
   readonly templates: ChoiceTemplate[];
@@ -51,6 +51,16 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
         optionId: 0,
         description: "",
       }),
+    });
+  }
+
+  /** @inheritdoc */
+  removeChoice(index: number): void {
+    this.setTarget({
+      ...this.target,
+      choices: this.target.choices.filter(
+        (value: Option, i: number) => i !== index
+      ),
     });
   }
 

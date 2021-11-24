@@ -10,9 +10,15 @@ export interface IChoiceTemplateInteractor {
   setUpNewChoiceTemplate(): void;
 
   /**
-   * Adds new choice to edit template.
+   * Adds new choice to editing template.
    */
   addChoice(): void;
+
+  /**
+   * Removes the specified choice from editing template
+   * @param index Index of choice to be removed.
+   */
+  removeChoice(index: number): void;
 
   /**
    * Gets all choice templates from database.
