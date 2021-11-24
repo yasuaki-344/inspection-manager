@@ -28,7 +28,11 @@ export interface IChoiceTemplateController {
    * Gets all choice templates from database.
    */
   getAllChoiceTemplates(): Promise<void>;
-  create(choiceTemplate: ChoiceTemplate): Promise<void>;
+
+  /**
+   * Creates new choice template in database.
+   */
+  create(): Promise<void>;
   update(choiceTemplate: ChoiceTemplate): Promise<void>;
 
   /**

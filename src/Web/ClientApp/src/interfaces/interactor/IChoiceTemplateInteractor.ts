@@ -33,10 +33,9 @@ export interface IChoiceTemplateInteractor {
   fetchAllChoiceTemplates(): Promise<void>;
 
   /**
-   * Creates a new choice templates by using the specified data.
-   * @param choiceTemplate Template data to be created.
+   * Creates a new choice templates by using editing template.
    */
-  create(choiceTemplate: ChoiceTemplate): Promise<void>;
+  create(): Promise<void>;
 
   /**
    * Updates a the specified templates

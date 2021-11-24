@@ -40,8 +40,9 @@ export class ChoiceTemplateController implements IChoiceTemplateController {
     await this.useCase.fetchAllChoiceTemplates();
   }
 
-  async create(choiceTemplate: ChoiceTemplate): Promise<void> {
-    await this.useCase.create(choiceTemplate);
+  /** @inheritdoc */
+  async create(): Promise<void> {
+    await this.useCase.create();
   }
 
   async update(choiceTemplate: ChoiceTemplate): Promise<void> {

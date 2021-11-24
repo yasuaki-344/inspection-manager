@@ -88,7 +88,7 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
         });
     } else {
       controller
-        .create(target)
+        .create()
         .then(() => {
           notification.setMessageState("success", "追加に成功しました");
         })

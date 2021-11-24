@@ -90,8 +90,8 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
   }
 
   /** @inheritdoc */
-  async create(choiceTemplate: ChoiceTemplate): Promise<void> {
-    const res = await this.repository.post(choiceTemplate);
+  async create(): Promise<void> {
+    const res = await this.repository.post(this.target);
     this.dispatch(this.templates.concat(res));
   }
 
