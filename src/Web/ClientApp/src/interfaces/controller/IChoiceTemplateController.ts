@@ -12,6 +12,13 @@ export interface IChoiceTemplateController {
   addChoice(): void;
 
   /**
+   * Updates the specified choice of editing template.
+   * @param index Index of choice to be update.
+   * @param input Update string.
+   */
+  updateChoice(index: number, input: string): void;
+
+  /**
    * Removes the specified choice from editing template
    * @param index Index of choice to be removed.
    */

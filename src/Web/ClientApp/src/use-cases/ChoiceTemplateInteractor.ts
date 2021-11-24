@@ -55,6 +55,21 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
   }
 
   /** @inheritdoc */
+  updateChoice(index: number, input: string): void {
+    this.setTarget({
+      ...this.target,
+      choices: this.target.choices.map((value: Option, i: number) => {
+        return i !== index
+          ? value
+          : {
+              optionId: value.optionId,
+              description: input,
+            };
+      }),
+    });
+  }
+
+  /** @inheritdoc */
   removeChoice(index: number): void {
     this.setTarget({
       ...this.target,

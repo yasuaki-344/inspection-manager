@@ -53,20 +53,6 @@ class ChoiceTemplateEditor {
     const index = this.state.choices.findIndex((x) => x.description === "");
     return index === -1;
   }
-
-  updateChoice(index: number, input: string): void {
-    this.dispatch({
-      ...this.state,
-      choices: this.state.choices.map((value: Option, i: number) => {
-        return i !== index
-          ? value
-          : {
-              optionId: value.optionId,
-              description: input,
-            };
-      }),
-    });
-  }
 }
 
 export const ChoiceTemplateEditDialog: FC<ChoiceTemplateEditDialogProps> = (
@@ -86,9 +72,6 @@ export const ChoiceTemplateEditDialog: FC<ChoiceTemplateEditDialogProps> = (
     setDisabled(!editor.isValid());
   }, [presenter.target]);
 
-  const updateChoice = (index: number, input: string): void =>
-    editor.updateChoice(index, input);
-
   return (
     <Dialog open={props.open} onClose={props.onCancelButtonClick}>
       <DialogTitle sx={DialogTitleDesign}>選択肢テンプレート編集</DialogTitle>
@@ -104,7 +87,7 @@ export const ChoiceTemplateEditDialog: FC<ChoiceTemplateEditDialogProps> = (
                 size="small"
                 name="choice"
                 value={choice.description}
-                onChange={(e) => updateChoice(index, e.target.value)}
+                onChange={(e) => controller.updateChoice(index, e.target.value)}
               />
               <CancelIconButton
                 onClick={() => controller.removeChoice(index)}

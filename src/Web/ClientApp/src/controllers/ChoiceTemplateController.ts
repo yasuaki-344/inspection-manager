@@ -26,6 +26,11 @@ export class ChoiceTemplateController implements IChoiceTemplateController {
   }
 
   /** @inheritdoc */
+  updateChoice(index: number, input: string): void {
+    this.useCase.updateChoice(index, input);
+  }
+
+  /** @inheritdoc */
   removeChoice(index: number): void {
     this.useCase.removeChoice(index);
   }
