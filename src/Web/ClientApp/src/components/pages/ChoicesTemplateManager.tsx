@@ -38,10 +38,6 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
 
   const [open, setOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
-  const [target, setTarget] = useState<ChoiceTemplate>({
-    choiceTemplateId: 0,
-    choices: [],
-  });
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)
   );
@@ -64,12 +60,9 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
    * @param id The template ID to be edited.
    */
   const handleUpdateTemplate = (id: number) => {
-    const template = presenter.getById(id);
-    if (template != null) {
-      setTarget(template);
-      setIsUpdate(true);
-      setOpen(true);
-    }
+    controller.setUpChoiceTemplateForEdit(id);
+    setIsUpdate(true);
+    setOpen(true);
   };
 
   /**
@@ -78,7 +71,7 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
   const handleRegistration = () => {
     if (isUpdate) {
       controller
-        .update(target)
+        .update()
         .then(() => {
           notification.setMessageState("success", "更新に成功しました");
         })

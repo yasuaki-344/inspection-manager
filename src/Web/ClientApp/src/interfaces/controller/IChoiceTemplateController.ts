@@ -1,10 +1,14 @@
-import { ChoiceTemplate } from "../../entities";
-
 export interface IChoiceTemplateController {
   /**
    * Sets up new choice template to edit.
    */
   setUpNewChoiceTemplate(): void;
+
+  /**
+   * Sets up choice template to edit.
+   * @param id ID of choice template to be edited
+   */
+  setUpChoiceTemplateForEdit(id: number): void;
 
   /**
    * Adds new choice to edit template.
@@ -33,7 +37,11 @@ export interface IChoiceTemplateController {
    * Creates new choice template in database.
    */
   create(): Promise<void>;
-  update(choiceTemplate: ChoiceTemplate): Promise<void>;
+
+  /**
+   * Updates choice template in database.
+   */
+  update(): Promise<void>;
 
   /**
    * Removes the specified choice template from database.

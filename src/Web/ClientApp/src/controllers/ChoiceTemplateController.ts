@@ -2,7 +2,6 @@ import {
   IChoiceTemplateController,
   IChoiceTemplateInteractor,
 } from "../interfaces";
-import { ChoiceTemplate } from "../entities";
 
 export class ChoiceTemplateController implements IChoiceTemplateController {
   private readonly useCase: IChoiceTemplateInteractor;
@@ -18,6 +17,11 @@ export class ChoiceTemplateController implements IChoiceTemplateController {
   /** @inheritdoc */
   setUpNewChoiceTemplate(): void {
     this.useCase.setUpNewChoiceTemplate();
+  }
+
+  /** @inheritdoc */
+  setUpChoiceTemplateForEdit(id: number): void {
+    this.useCase.setUpChoiceTemplateForEdit(id);
   }
 
   /** @inheritdoc */
@@ -45,8 +49,9 @@ export class ChoiceTemplateController implements IChoiceTemplateController {
     await this.useCase.create();
   }
 
-  async update(choiceTemplate: ChoiceTemplate): Promise<void> {
-    await this.useCase.update(choiceTemplate);
+  /** @inheritdoc */
+  async update(): Promise<void> {
+    await this.useCase.update();
   }
 
   /** @inheritdoc */

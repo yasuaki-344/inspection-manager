@@ -10,6 +10,12 @@ export interface IChoiceTemplateInteractor {
   setUpNewChoiceTemplate(): void;
 
   /**
+   * Sets up choice template to edit.
+   * @param id ID of choice template to be edited
+   */
+  setUpChoiceTemplateForEdit(id: number): void;
+
+  /**
    * Adds new choice to editing template.
    */
   addChoice(): void;
@@ -38,10 +44,9 @@ export interface IChoiceTemplateInteractor {
   create(): Promise<void>;
 
   /**
-   * Updates a the specified templates
-   * @param choiceTemplate Template data to be updated.
+   * Updates a the editing templates to database.
    */
-  update(choiceTemplate: ChoiceTemplate): Promise<void>;
+  update(): Promise<void>;
 
   /**
    * Removes the specified choice template from database.

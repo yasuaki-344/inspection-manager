@@ -44,6 +44,14 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
   }
 
   /** @inheritdoc */
+  setUpChoiceTemplateForEdit(id: number): void {
+    const data = this.templates.find((x) => x.choiceTemplateId === id);
+    if (data != null) {
+      this.setTarget(data);
+    }
+  }
+
+  /** @inheritdoc */
   addChoice(): void {
     this.setTarget({
       ...this.target,
@@ -96,8 +104,8 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
   }
 
   /** @inheritdoc */
-  async update(choiceTemplate: ChoiceTemplate): Promise<void> {
-    const res = await this.repository.put(choiceTemplate);
+  async update(): Promise<void> {
+    const res = await this.repository.put(this.target);
     this.dispatch(
       this.templates.map((x) =>
         x.choiceTemplateId === res.choiceTemplateId ? res : x
