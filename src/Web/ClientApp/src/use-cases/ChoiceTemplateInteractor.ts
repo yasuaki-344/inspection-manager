@@ -99,18 +99,20 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
 
   /** @inheritdoc */
   async create(): Promise<void> {
-    const res = await this.repository.post(this.target);
-    this.dispatch(this.templates.concat(res));
+    await this.repository.post(this.target).then((res: ChoiceTemplate) => {
+      this.dispatch(this.templates.concat(res));
+    });
   }
 
   /** @inheritdoc */
   async update(): Promise<void> {
-    const res = await this.repository.put(this.target);
-    this.dispatch(
-      this.templates.map((x) =>
-        x.choiceTemplateId === res.choiceTemplateId ? res : x
-      )
-    );
+    await this.repository.put(this.target).then((res: ChoiceTemplate) => {
+      this.dispatch(
+        this.templates.map((x) =>
+          x.choiceTemplateId === res.choiceTemplateId ? res : x
+        )
+      );
+    });
   }
 
   /** @inheritdoc */
