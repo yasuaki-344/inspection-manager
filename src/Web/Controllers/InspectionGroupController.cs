@@ -77,7 +77,7 @@ namespace InspectionManager.Web.Controllers
                 {
                     _logger.LogInformation($"try to get inspection group {inspectionGroupId}");
                     var result = _repository.GetInspectionGroup(inspectionGroupId.Value);
-                    if (result != null)
+                    if (result is not null)
                     {
                         return Ok(result);
                     }
