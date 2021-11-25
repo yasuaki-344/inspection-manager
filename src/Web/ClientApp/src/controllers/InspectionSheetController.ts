@@ -1,6 +1,5 @@
 import { ChangeEvent } from "react";
 import {
-  ChoiceTemplate,
   InspectionGroup,
   InspectionItem,
   InspectionSheetInitialState,
@@ -180,10 +179,6 @@ export class InspectionSheetController implements IInspectionSheetController {
     const { name, value } = e.target;
     this.itemUseCase.updateField(name, value);
   };
-
-  setChoices(choices: ChoiceTemplate): void {
-    this.itemUseCase.setChoices(choices);
-  }
 
   /** @inheritdoc */
   updateInspectionItemChoiceField = (

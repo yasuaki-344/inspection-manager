@@ -13,8 +13,8 @@ import { ChoiceTemplate } from "../../entities";
 import { OkCancelDialogActions } from "../utilities";
 import { DialogTitleDesign } from "../stylesheets";
 import {
+  IChoiceTemplateController,
   IChoiceTemplatePresenter,
-  IInspectionSheetController,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
 
@@ -27,8 +27,8 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
   props: ChoiceSetSelectDialogProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const controller: IInspectionSheetController = inject(
-    nameof<IInspectionSheetController>()
+  const controller: IChoiceTemplateController = inject(
+    nameof<IChoiceTemplateController>()
   );
   const templatePresenter: IChoiceTemplatePresenter = inject(
     nameof<IChoiceTemplatePresenter>()
@@ -36,7 +36,7 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
   const [value, setValue] = useState(0);
 
   useEffect(() => {
-    // templatePresenter;
+    controller.getAllChoiceTemplates();
   }, []);
 
   /**
@@ -52,10 +52,7 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
    * and closes this dialog.
    */
   const handleSelectTemplate = () => {
-    const template = templatePresenter.getByIndex(value);
-    if (template != null) {
-      controller.setChoices(template);
-    }
+    controller.applyTemplate(value);
     props.onClose();
   };
 

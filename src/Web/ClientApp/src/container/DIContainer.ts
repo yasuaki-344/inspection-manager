@@ -218,7 +218,10 @@ export const setUpDIContainer = () => {
   );
   register(
     nameof<IChoiceTemplateController>(),
-    new ChoiceTemplateController(inject(nameof<IChoiceTemplateInteractor>()))
+    new ChoiceTemplateController(
+      inject(nameof<IChoiceTemplateInteractor>()),
+      inject(nameof<IInspectionItemInteractor>())
+    )
   );
 
   return container;
