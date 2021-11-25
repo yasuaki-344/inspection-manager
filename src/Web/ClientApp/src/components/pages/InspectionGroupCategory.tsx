@@ -24,7 +24,6 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
   );
 
   const [open, setOpen] = useState(false);
-  const [isUpdate, setIsUpdate] = useState(false);
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)
   );
@@ -41,7 +40,6 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
    */
   const handleAddItem = (): void => {
     controller.createEditItem();
-    setIsUpdate(false);
     setOpen(true);
   };
 
@@ -51,12 +49,11 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
    */
   const handleUpdateItem = (id: number): void => {
     controller.setEditItem(id);
-    setIsUpdate(true);
     setOpen(true);
   };
 
   const handleRegistration = (): void => {
-    if (isUpdate) {
+    if (presenter.editItem.inspectionGroupId !== 0) {
       controller
         .update(presenter.editItem)
         .then(() => {
