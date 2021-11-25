@@ -16,7 +16,7 @@ namespace InspectionManager.Infrastructure.Data
             {
                 {
                     context.Database.EnsureCreated();
-                    if (context.InputTypes != null)
+                    if (context.InputTypes is not null)
                     {
                         if (!context.InputTypes.Any())
                         {
@@ -29,7 +29,7 @@ namespace InspectionManager.Infrastructure.Data
                         }
                         context.SaveChanges();
                     }
-                    if (context.ChoiceTemplates != null)
+                    if (context.ChoiceTemplates is not null)
                     {
                         if (!context.ChoiceTemplates.Any())
                         {
@@ -44,7 +44,7 @@ namespace InspectionManager.Infrastructure.Data
                             context.SaveChanges();
                         }
                     }
-                    if (context.InspectionSheets != null && context.InputTypes != null)
+                    if (context.InspectionSheets is not null && context.InputTypes is not null)
                     {
                         if (!context.InspectionSheets.Any())
                         {

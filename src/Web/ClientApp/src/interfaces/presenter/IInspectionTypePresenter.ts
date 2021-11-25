@@ -5,8 +5,4 @@ export interface IInspectionTypePresenter {
   editItem: InspectionType;
 
   getTypeName(id: number): string | undefined;
-  inspectionTypeTable(
-    updateMethod: (id: number) => void,
-    deleteMethod: (id: number) => void
-  ): JSX.Element;
 }

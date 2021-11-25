@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import { ChoiceTemplate, InspectionItem } from "../../entities";
+import { InspectionItem } from "../../entities";
 
 export interface IInspectionSheetController {
   /**
@@ -110,8 +110,6 @@ export interface IInspectionSheetController {
    * @param choiceOrderIndex Order index of choice to be removed.
    */
   removeInspectionItemChoice(choiceOrderIndex: number): void;
-
-  setChoices(choices: ChoiceTemplate): void;
 
   /**
    * Create a new inspection sheet data in database

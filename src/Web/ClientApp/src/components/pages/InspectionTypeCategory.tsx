@@ -1,18 +1,33 @@
 import React, { FC, useState, useEffect } from "react";
-import { Grid, Paper, TableContainer } from "@mui/material";
+import {
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import nameof from "ts-nameof.macro";
 import {
   Notification,
   NotificationInitState,
   NotificationStateInteractor,
 } from "../utilities/Notification";
-import { BottomNavigationAdd, TopPageLink } from "../utilities";
+import {
+  BottomNavigationAdd,
+  CancelIconButton,
+  EditIconButton,
+  TopPageLink,
+} from "../utilities";
 import { EditDialog } from "../dialog/EditDialog";
 import {
   IInspectionTypeController,
   IInspectionTypePresenter,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
+import { InspectionType } from "../../entities";
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
   const inject = useDIContext();
@@ -24,7 +39,6 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
   );
 
   const [open, setOpen] = useState(false);
-  const [isUpdate, setIsUpdate] = useState(false);
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)
   );
@@ -41,7 +55,6 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
    */
   const handleAddItem = (): void => {
     controller.createEditItem();
-    setIsUpdate(false);
     setOpen(true);
   };
 
@@ -51,12 +64,11 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
    */
   const handleUpdateItem = (id: number): void => {
     controller.setEditItem(id);
-    setIsUpdate(true);
     setOpen(true);
   };
 
   const handleRegistration = (): void => {
-    if (isUpdate) {
+    if (presenter.editItem.inspectionTypeId !== 0) {
       controller
         .update(presenter.editItem)
         .then(() => {
@@ -107,7 +119,32 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper}>
-            {presenter.inspectionTypeTable(handleUpdateItem, handleDeleteItem)}
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>点検タイプ</TableCell>
+                  <TableCell>&nbsp;</TableCell>
+                  <TableCell>&nbsp;</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {presenter.state.map((type: InspectionType) => (
+                  <TableRow key={type.inspectionTypeId}>
+                    <TableCell>{type.description}</TableCell>
+                    <TableCell padding="checkbox">
+                      <EditIconButton
+                        onClick={() => handleUpdateItem(type.inspectionTypeId)}
+                      />
+                    </TableCell>
+                    <TableCell padding="checkbox">
+                      <CancelIconButton
+                        onClick={() => handleDeleteItem(type.inspectionTypeId)}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </TableContainer>
         </Grid>
         <Grid item xs={12}>

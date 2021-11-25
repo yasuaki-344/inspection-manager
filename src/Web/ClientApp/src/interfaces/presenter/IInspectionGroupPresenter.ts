@@ -5,8 +5,4 @@ export interface IInspectionGroupPresenter {
   readonly editItem: InspectionGroup;
 
   getGroupName(id: number): string | undefined;
-  inspectionGroupTable(
-    updateMethod: (id: number) => void,
-    deleteMethod: (id: number) => void
-  ): JSX.Element;
 }

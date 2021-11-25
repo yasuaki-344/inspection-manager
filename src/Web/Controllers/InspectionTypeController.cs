@@ -113,7 +113,7 @@ namespace InspectionManager.Web.Controllers
             {
                 _logger.LogInformation($"try to get inspection type {inspectionTypeId}");
                 var result = _repository.GetInspectionType(inspectionTypeId);
-                if (result != null)
+                if (result is not null)
                 {
                     return Ok(result);
                 }

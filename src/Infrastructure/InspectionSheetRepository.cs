@@ -54,21 +54,21 @@ namespace InspectionManager.Infrastructure
         /// <inheritdoc/>
         public bool InspectionSheetExists(int id)
         {
-            if (_context.InspectionSheets != null)
+            if (_context.InspectionSheets is not null)
             {
                 var sheetExists = _context.InspectionSheets.Any(s => s.SheetId == id);
                 return sheetExists;
             }
             else
             {
-                return false;
+                throw new NullReferenceException(nameof(_context.InspectionSheets));
             }
         }
 
         /// <inheritdoc/>
         public IEnumerable<InspectionSheetDto> GetAllInspectionSheets()
         {
-            if (_context.InspectionSheets != null)
+            if (_context.InspectionSheets is not null)
             {
                 var dto = _context.InspectionSheets
                     .ProjectTo<InspectionSheetDto>(_mapper.ConfigurationProvider)
@@ -85,7 +85,7 @@ namespace InspectionManager.Infrastructure
         /// <inheritdoc/>
         public InspectionSheetDetailDto? GetInspectionSheet(int id)
         {
-            if (_context.InspectionSheets != null)
+            if (_context.InspectionSheets is not null)
             {
                 if (_context.InspectionSheets.Any(x => x.SheetId == id))
                 {
@@ -110,19 +110,31 @@ namespace InspectionManager.Infrastructure
         /// <inheritdoc/>
         public bool IsValidInspectionSheet(InspectionSheetDetailDto dto)
         {
-            if (_context.InspectionGroups != null && _context.InspectionTypes != null)
+            if (_context.InspectionGroups is not null)
             {
-                var isGroupIdValid = _context.InspectionGroups
-                    .Any(x => x.InspectionGroupId == dto.InspectionGroupId);
-                var isTypeIdValid = _context.InspectionTypes
-                    .Any(x => x.InspectionTypeId == dto.InspectionTypeId);
-                return isGroupIdValid && isTypeIdValid;
+                if (!_context.InspectionGroups.Any(x => x.InspectionGroupId == dto.InspectionGroupId))
+                {
+                    return false;
+                }
             }
             else
             {
-                throw new NullReferenceException(
-                    $"{nameof(_context.InspectionGroups)} or {nameof(_context.InspectionTypes)}");
+                throw new NullReferenceException(nameof(_context.InspectionGroups));
             }
+
+            if (_context.InspectionTypes is not null)
+            {
+                if (!_context.InspectionTypes.Any(x => x.InspectionTypeId == dto.InspectionTypeId))
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                throw new NullReferenceException(nameof(_context.InspectionTypes));
+            }
+
+            return true;
         }
 
         /// <inheritdoc/>

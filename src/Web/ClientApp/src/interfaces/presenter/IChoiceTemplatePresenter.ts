@@ -10,5 +10,4 @@ export interface IChoiceTemplatePresenter {
   isTargetValid(): boolean;
 
   getById(id: number): ChoiceTemplate | undefined;
-  getByIndex(index: number): ChoiceTemplate | undefined;
 }
