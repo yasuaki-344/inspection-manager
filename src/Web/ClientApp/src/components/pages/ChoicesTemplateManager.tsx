@@ -37,7 +37,6 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
   );
 
   const [open, setOpen] = useState(false);
-  const [isUpdate, setIsUpdate] = useState(false);
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)
   );
@@ -51,7 +50,6 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
    */
   const handleAddTemplate = () => {
     controller.setUpNewChoiceTemplate();
-    setIsUpdate(false);
     setOpen(true);
   };
 
@@ -61,7 +59,6 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
    */
   const handleUpdateTemplate = (id: number) => {
     controller.setUpChoiceTemplateForEdit(id);
-    setIsUpdate(true);
     setOpen(true);
   };
 
@@ -69,7 +66,7 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
    * Add new template set.
    */
   const handleRegistration = () => {
-    if (isUpdate) {
+    if (presenter.target.choiceTemplateId !== 0) {
       controller
         .update()
         .then(() => {
