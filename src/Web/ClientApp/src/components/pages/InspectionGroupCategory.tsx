@@ -1,18 +1,33 @@
 import React, { FC, useState, useEffect } from "react";
-import { Grid, Paper, TableContainer } from "@mui/material";
+import {
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import nameof from "ts-nameof.macro";
 import {
   Notification,
   NotificationInitState,
   NotificationStateInteractor,
 } from "../utilities/Notification";
-import { BottomNavigationAdd, TopPageLink } from "../utilities";
+import {
+  BottomNavigationAdd,
+  CancelIconButton,
+  EditIconButton,
+  TopPageLink,
+} from "../utilities";
 import { EditDialog } from "../dialog/EditDialog";
 import {
   IInspectionGroupPresenter,
   IInspectionGroupController,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
+import { InspectionGroup } from "../../entities";
 
 export const InspectionGroupCategory: FC = (): JSX.Element => {
   const inject = useDIContext();
@@ -104,7 +119,36 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper}>
-            {presenter.inspectionGroupTable(handleUpdateItem, handleDeleteItem)}
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>ID</TableCell>
+                  <TableCell>点検グループ</TableCell>
+                  <TableCell>&nbsp;</TableCell>
+                  <TableCell>&nbsp;</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {presenter.state.map((type: InspectionGroup) => (
+                  <TableRow key={type.inspectionGroupId}>
+                    <TableCell padding="checkbox" align="center">
+                      {type.inspectionGroupId}
+                    </TableCell>
+                    <TableCell>{type.description}</TableCell>
+                    <TableCell padding="checkbox">
+                      <EditIconButton
+                        onClick={() => handleUpdateItem(type.inspectionGroupId)}
+                      />
+                    </TableCell>
+                    <TableCell padding="checkbox">
+                      <CancelIconButton
+                        onClick={() => handleDeleteItem(type.inspectionGroupId)}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </TableContainer>
         </Grid>
         <Grid item xs={12}>
