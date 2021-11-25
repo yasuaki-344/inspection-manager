@@ -1,12 +1,14 @@
 import { ChoiceTemplate } from "../../entities";
 
 export interface IChoiceTemplatePresenter {
-  readonly state: Array<ChoiceTemplate>;
-  get(): void;
+  state: ChoiceTemplate[];
+  target: ChoiceTemplate;
+
+  /**
+   * Checks if editing template is valid or not.
+   */
+  isTargetValid(): boolean;
+
   getById(id: number): ChoiceTemplate | undefined;
   getByIndex(index: number): ChoiceTemplate | undefined;
-  choiceTemplateTable(
-    updateMethod: (id: number) => void,
-    deleteMethod: (id: number) => void
-  ): JSX.Element;
 }

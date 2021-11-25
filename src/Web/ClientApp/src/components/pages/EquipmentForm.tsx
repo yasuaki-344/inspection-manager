@@ -35,7 +35,9 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
   props: EquipmentFormProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const controller: IInspectionSheetController = inject(nameof<IInspectionSheetController>());
+  const controller: IInspectionSheetController = inject(
+    nameof<IInspectionSheetController>()
+  );
   const [status, setStatus] = useContext(InspectionItemDialogStateContext);
 
   const dropRef = useRef<HTMLDivElement>(null);

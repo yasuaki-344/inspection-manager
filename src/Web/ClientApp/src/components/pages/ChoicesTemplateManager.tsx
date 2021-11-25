@@ -1,9 +1,21 @@
 import React, { FC, useState, useEffect } from "react";
-import { BottomNavigation, TableContainer, Grid, Paper } from "@mui/material";
+import {
+  BottomNavigation,
+  TableContainer,
+  Grid,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+} from "@mui/material";
 import nameof from "ts-nameof.macro";
 import { ChoiceTemplate } from "../../entities";
 import {
   BottomNavigationAdd,
+  CancelIconButton,
+  EditIconButton,
   Notification,
   NotificationInitState,
   NotificationStateInteractor,
@@ -25,28 +37,19 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
   );
 
   const [open, setOpen] = useState(false);
-  const [isUpdate, setIsUpdate] = useState(false);
-  const [target, setTarget] = useState<ChoiceTemplate>({
-    choiceTemplateId: 0,
-    choices: [],
-  });
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)
   );
 
   useEffect(() => {
-    presenter.get();
+    controller.getAllChoiceTemplates();
   }, []);
 
   /**
    * Creates new template set.
    */
   const handleAddTemplate = () => {
-    setTarget({
-      choiceTemplateId: 0,
-      choices: [],
-    });
-    setIsUpdate(false);
+    controller.setUpNewChoiceTemplate();
     setOpen(true);
   };
 
@@ -55,21 +58,17 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
    * @param id The template ID to be edited.
    */
   const handleUpdateTemplate = (id: number) => {
-    const template = presenter.getById(id);
-    if (template != null) {
-      setTarget(template);
-      setIsUpdate(true);
-      setOpen(true);
-    }
+    controller.setUpChoiceTemplateForEdit(id);
+    setOpen(true);
   };
 
   /**
    * Add new template set.
    */
   const handleRegistration = () => {
-    if (isUpdate) {
+    if (presenter.target.choiceTemplateId !== 0) {
       controller
-        .update(target)
+        .update()
         .then(() => {
           notification.setMessageState("success", "更新に成功しました");
         })
@@ -79,7 +78,7 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
         });
     } else {
       controller
-        .create(target)
+        .create()
         .then(() => {
           notification.setMessageState("success", "追加に成功しました");
         })
@@ -115,10 +114,38 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper}>
-            {presenter.choiceTemplateTable(
-              handleUpdateTemplate,
-              handleDeleteTemplate
-            )}
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>選択肢</TableCell>
+                  <TableCell>&nbsp;</TableCell>
+                  <TableCell>&nbsp;</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {presenter.state.map((template: ChoiceTemplate) => (
+                  <TableRow key={template.choiceTemplateId}>
+                    <TableCell>
+                      {template.choices.map((x) => x.description).join(",")}
+                    </TableCell>
+                    <TableCell padding="checkbox">
+                      <EditIconButton
+                        onClick={() =>
+                          handleUpdateTemplate(template.choiceTemplateId)
+                        }
+                      />
+                    </TableCell>
+                    <TableCell padding="checkbox">
+                      <CancelIconButton
+                        onClick={() =>
+                          handleDeleteTemplate(template.choiceTemplateId)
+                        }
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </TableContainer>
         </Grid>
         <Grid item xs={12}>
@@ -132,8 +159,6 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
       </Grid>
       <ChoiceTemplateEditDialog
         open={open}
-        target={target}
-        setTarget={setTarget}
         onOkButtonClick={() => handleRegistration()}
         onCancelButtonClick={() => setOpen(false)}
       />

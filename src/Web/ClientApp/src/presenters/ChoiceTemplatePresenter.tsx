@@ -1,72 +1,40 @@
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "@mui/material";
-import { CancelIconButton, EditIconButton } from "../components/utilities";
-import {
   IChoiceTemplateInteractor,
   IChoiceTemplatePresenter,
 } from "../interfaces";
 import { ChoiceTemplate } from "../entities";
 
 export class ChoiceTemplatePresenter implements IChoiceTemplatePresenter {
+  readonly state: ChoiceTemplate[];
+
+  readonly target: ChoiceTemplate;
+
   private readonly useCase: IChoiceTemplateInteractor;
 
-  readonly state: Array<ChoiceTemplate>;
-
+  /**
+   * Initializes a new instance of ChoiceTemplatePresenter class.
+   * @param useCase Object implements IChoiceTemplateInteractor interface/
+   */
   constructor(useCase: IChoiceTemplateInteractor) {
     this.useCase = useCase;
     this.state = useCase.templates;
+    this.target = useCase.target;
   }
 
-  get(): void {
-    this.useCase.get();
+  /** @inheritdoc */
+  isTargetValid(): boolean {
+    if (!this.target.choices.length) {
+      return false;
+    }
+    const index = this.target.choices.findIndex((x) => x.description === "");
+    return index === -1;
   }
 
   getById(id: number): ChoiceTemplate | undefined {
-    return this.useCase.getById(id);
+    return this.state.find((x) => x.choiceTemplateId === id);
   }
 
   getByIndex(index: number): ChoiceTemplate | undefined {
     return this.useCase.templates[index];
-  }
-
-  choiceTemplateTable(
-    updateMethod: (id: number) => void,
-    deleteMethod: (id: number) => void
-  ): JSX.Element {
-    return (
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>選択肢</TableCell>
-            <TableCell>&nbsp;</TableCell>
-            <TableCell>&nbsp;</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {this.useCase.templates.map((template: ChoiceTemplate) => (
-            <TableRow key={template.choiceTemplateId}>
-              <TableCell>
-                {template.choices.map((x) => x.description).join(",")}
-              </TableCell>
-              <TableCell padding="checkbox">
-                <EditIconButton
-                  onClick={() => updateMethod(template.choiceTemplateId)}
-                />
-              </TableCell>
-              <TableCell padding="checkbox">
-                <CancelIconButton
-                  onClick={() => deleteMethod(template.choiceTemplateId)}
-                />
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    );
   }
 }

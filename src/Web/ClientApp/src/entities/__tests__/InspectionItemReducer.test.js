@@ -143,7 +143,7 @@ describe("InspectionSheetReducer unit test", () => {
     };
     const actual = InspectionItemReducer(state, action);
     expect(actual.choices).toStrictEqual([
-      { choiceId: 0, orderIndex: 22, description: "update choice" }
+      { choiceId: 0, orderIndex: 22, description: "update choice" },
     ]);
   });
 

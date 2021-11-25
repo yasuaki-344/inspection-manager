@@ -36,7 +36,7 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
   const [value, setValue] = useState(0);
 
   useEffect(() => {
-    templatePresenter.get();
+    // templatePresenter;
   }, []);
 
   /**

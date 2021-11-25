@@ -8,7 +8,7 @@ export interface IInspectionItemInteractor {
    * @param name Inspection item field name.
    * @param value Filed value to be set.
    */
-  updateField(name: string ,value:string): void;
+  updateField(name: string, value: string): void;
   setChoices(choices: ChoiceTemplate): void;
   addChoice(): void;
   removeChoice(index: number): void;

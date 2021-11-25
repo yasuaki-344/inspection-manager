@@ -8,35 +8,57 @@ import {
 export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
   private readonly api: ChoiceTemplatesApiInterface;
 
+  /**
+   * Initializes a new instance of ChoiceTemplateRepository class.
+   */
   constructor() {
     this.api = new ChoiceTemplatesApi();
   }
 
-  async get(): Promise<ChoiceTemplate[]> {
+  /** @inheritdoc */
+  async fetchAllChoiceTemplates(): Promise<ChoiceTemplate[]> {
     const res = await this.api.choiceTemplatesGet();
-    return toCamelCase(res);
+    const data = toCamelCase(res);
+    return data.map((x: any) => this.addOrderIndex(x));
   }
 
+  /** @inheritdoc */
   async post(choiceTemplate: ChoiceTemplate): Promise<ChoiceTemplate> {
     const req = toSnakeCase(choiceTemplate);
     const res = await this.api.choiceTemplatesPost({
       choiceTemplate: req,
     });
-    return toCamelCase(res);
+    const data = toCamelCase(res);
+    return this.addOrderIndex(data);
   }
 
+  /** @inheritdoc */
   async put(choiceTemplate: ChoiceTemplate): Promise<ChoiceTemplate> {
     const req = toSnakeCase(choiceTemplate);
     const res = await this.api.choiceTemplatesChoiceTemplateIdPut({
       choiceTemplateId: req.choice_template_id,
       choiceTemplate: req,
     });
-    return toCamelCase(res);
+    const data = toCamelCase(res);
+    return this.addOrderIndex(data);
   }
 
+  /** @inheritdoc */
   async delete(id: number): Promise<void> {
     await this.api.choiceTemplatesChoiceTemplateIdDelete({
       choiceTemplateId: id,
     });
+  }
+
+  private addOrderIndex(template: any): ChoiceTemplate {
+    return {
+      ...template,
+      choices: template.choices.map((x: any, index: number) => {
+        return {
+          ...x,
+          orderIndex: index + 1,
+        };
+      }),
+    };
   }
 }
