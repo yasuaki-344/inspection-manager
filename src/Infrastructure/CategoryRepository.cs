@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -35,7 +36,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return false;
+                throw new NullReferenceException(nameof(_context.InspectionGroups));
             }
         }
 
@@ -50,7 +51,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return new List<InspectionGroupDto>();
+                throw new NullReferenceException(nameof(_context.InspectionGroups));
             }
         }
 
@@ -67,7 +68,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return null;
+                throw new NullReferenceException(nameof(_context.InspectionGroups));
             }
         }
 
@@ -84,7 +85,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return new InspectionGroupDto();
+                throw new NullReferenceException(nameof(_context.InspectionGroups));
             }
         }
 
@@ -101,7 +102,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return new InspectionGroupDto();
+                throw new NullReferenceException(nameof(_context.InspectionGroups));
             }
         }
 
@@ -124,7 +125,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return new InspectionGroupDto();
+                throw new NullReferenceException(nameof(_context.InspectionGroups));
             }
         }
 
@@ -137,7 +138,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return false;
+                throw new NullReferenceException(nameof(_context.InspectionTypes));
             }
         }
 
@@ -152,7 +153,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return new List<InspectionTypeDto>();
+                throw new NullReferenceException(nameof(_context.InspectionTypes));
             }
         }
 
@@ -169,7 +170,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return null;
+                throw new NullReferenceException(nameof(_context.InspectionTypes));
             }
         }
 
@@ -186,7 +187,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return new InspectionTypeDto();
+                throw new NullReferenceException(nameof(_context.InspectionTypes));
             }
         }
 
@@ -203,7 +204,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return new InspectionTypeDto();
+                throw new NullReferenceException(nameof(_context.InspectionTypes));
             }
         }
 
@@ -227,7 +228,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return new InspectionTypeDto();
+                throw new NullReferenceException(nameof(_context.ChoiceTemplates));
             }
         }
 
@@ -240,7 +241,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return false;
+                throw new NullReferenceException(nameof(_context.ChoiceTemplates));
             }
         }
 
@@ -256,7 +257,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return new List<ChoiceTemplateDto>();
+                throw new NullReferenceException(nameof(_context.ChoiceTemplates));
             }
         }
 
@@ -272,7 +273,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return null;
+                throw new NullReferenceException(nameof(_context.ChoiceTemplates));
             }
         }
 
@@ -289,22 +290,28 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return new ChoiceTemplateDto();
+                throw new NullReferenceException(nameof(_context.ChoiceTemplates));
             }
         }
 
         /// <inheritdoc/>
         public async Task<ChoiceTemplateDto> UpdateChoiceTemplateAsync(ChoiceTemplateDto dto)
         {
-            if (_context.ChoiceTemplates is not null &&
-                _context.Options is not null)
+            if (_context.ChoiceTemplates is not null)
             {
                 var entity = _mapper.Map<ChoiceTemplate>(dto);
                 var optionIds = entity.Choices.Select(x => x.OptionId);
-                var options = _context.Options
-                    .Where(x => x.ChoiceTemplateId == dto.ChoiceTemplateId)
-                    .Where(x => !optionIds.Contains(x.OptionId));
-                _context.Options.RemoveRange(options);
+                if (_context.Options is not null)
+                {
+                    var options = _context.Options
+                        .Where(x => x.ChoiceTemplateId == dto.ChoiceTemplateId)
+                        .Where(x => !optionIds.Contains(x.OptionId));
+                    _context.Options.RemoveRange(options);
+                }
+                else
+                {
+                    throw new NullReferenceException(nameof(_context.Options));
+                }
                 _context.ChoiceTemplates.Update(entity);
                 await _context.SaveChangesAsync();
 
@@ -312,7 +319,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return new ChoiceTemplateDto();
+                throw new NullReferenceException(nameof(_context.ChoiceTemplates));
             }
         }
 
@@ -337,7 +344,7 @@ namespace InspectionManager.Infrastructure
             }
             else
             {
-                return new ChoiceTemplateDto();
+                throw new NullReferenceException(nameof(_context.ChoiceTemplates));
             }
         }
     }
