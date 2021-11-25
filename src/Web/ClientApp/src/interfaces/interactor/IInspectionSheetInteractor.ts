@@ -54,7 +54,7 @@ export interface IInspectionSheetInteractor {
    * Sets inspection sheet name.
    * @param sheetName sheet name to set.
    */
-  setSheetName(sheetName: string): void
+  setSheetName(sheetName: string): void;
 
   /**
    * Sets inspection group ID.

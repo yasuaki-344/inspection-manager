@@ -53,10 +53,16 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
 
   /** @inheritdoc */
   addChoice(): void {
+    const maxOrderIndex = !this.target.choices.length
+      ? 0
+      : this.target.choices
+          .map((o) => o.orderIndex)
+          .reduce((previous, current) => Math.max(previous, current));
     this.setTarget({
       ...this.target,
       choices: this.target.choices.concat({
         optionId: 0,
+        orderIndex: maxOrderIndex + 1,
         description: "",
       }),
     });
@@ -71,6 +77,7 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
           ? value
           : {
               optionId: value.optionId,
+              orderIndex: value.orderIndex,
               description: input,
             };
       }),

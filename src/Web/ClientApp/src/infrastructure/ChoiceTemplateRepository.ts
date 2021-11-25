@@ -18,7 +18,8 @@ export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
   /** @inheritdoc */
   async fetchAllChoiceTemplates(): Promise<ChoiceTemplate[]> {
     const res = await this.api.choiceTemplatesGet();
-    return toCamelCase(res);
+    const data = toCamelCase(res);
+    return data.map((x: any) => this.addOrderIndex(x));
   }
 
   /** @inheritdoc */
@@ -27,7 +28,8 @@ export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
     const res = await this.api.choiceTemplatesPost({
       choiceTemplate: req,
     });
-    return toCamelCase(res);
+    const data = toCamelCase(res);
+    return this.addOrderIndex(data);
   }
 
   /** @inheritdoc */
@@ -37,7 +39,8 @@ export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
       choiceTemplateId: req.choice_template_id,
       choiceTemplate: req,
     });
-    return toCamelCase(res);
+    const data = toCamelCase(res);
+    return this.addOrderIndex(data);
   }
 
   /** @inheritdoc */
@@ -45,5 +48,17 @@ export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
     await this.api.choiceTemplatesChoiceTemplateIdDelete({
       choiceTemplateId: id,
     });
+  }
+
+  private addOrderIndex(template: any): ChoiceTemplate {
+    return {
+      ...template,
+      choices: template.choices.map((x: any, index: number) => {
+        return {
+          ...x,
+          orderIndex: index + 1,
+        };
+      }),
+    };
   }
 }

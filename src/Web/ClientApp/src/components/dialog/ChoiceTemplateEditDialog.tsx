@@ -52,7 +52,7 @@ export const ChoiceTemplateEditDialog: FC<ChoiceTemplateEditDialogProps> = (
       <DialogContent>
         <Grid container spacing={1} sx={{ pt: 1.5 }}>
           {presenter.target.choices.map((choice: Option, index: number) => (
-            <Grid item xs={12} sx={InputStyle} key={choice.optionId}>
+            <Grid item xs={12} sx={InputStyle} key={choice.orderIndex}>
               <TextField
                 required
                 id="outlined-required"

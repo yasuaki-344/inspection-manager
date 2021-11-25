@@ -18,7 +18,7 @@ interface InspectionItemFormProps {
 
 export const InspectionItemForm: FC<InspectionItemFormProps> = ({
   equipmentIndex,
-  inspectionItems
+  inspectionItems,
 }): JSX.Element => {
   return (
     <TableContainer component={Paper}>

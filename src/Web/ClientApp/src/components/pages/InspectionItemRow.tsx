@@ -27,7 +27,9 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = (
   props: InspectionItemRowProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const controller: IInspectionSheetController = inject(nameof<IInspectionSheetController>());
+  const controller: IInspectionSheetController = inject(
+    nameof<IInspectionSheetController>()
+  );
   const [, setStatus] = useContext(InspectionItemDialogStateContext);
 
   const dropRef = useRef<HTMLTableRowElement>(null);

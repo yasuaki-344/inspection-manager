@@ -83,10 +83,10 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
                   return {
                     ...z,
                     choiceId: 0,
-                  }
-                })
-              }
-            })
+                  };
+                }),
+              };
+            }),
           };
         }),
       });
