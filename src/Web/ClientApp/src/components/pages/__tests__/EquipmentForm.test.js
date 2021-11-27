@@ -1,38 +1,34 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
+import ReactDOM from "react-dom";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import {
+  DIContainerContext,
+  InspectionItemDialogStateContext,
+} from "../../../container";
 import { EquipmentForm } from "../EquipmentForm";
 
-it("renders without crashing", () => {
-  render(
-    <DndProvider backend={HTML5Backend}>
-      <EquipmentForm
-        equipment={{
-          equipment_id: "id",
-          equipment_name: "equipment",
-          inspection_items: [],
-        }}
-        handleAddItem={(equipmentId) => {}}
-        handleEditItem={(equipmentId, inspectionItem) => {}}
-      />
-    </DndProvider>
-  );
-});
-
-it("click remove equipment button", () => {
-  render(
-    <DndProvider backend={HTML5Backend}>
-      <EquipmentForm
-        equipment={{
-          equipment_id: "id",
-          equipment_name: "equipment",
-          inspection_items: [],
-        }}
-        handleAddItem={(equipmentId) => {}}
-        handleEditItem={(equipmentId, inspectionItem) => {}}
-      />
-    </DndProvider>
-  );
-  fireEvent.click(screen.getByTestId("remove-equipment-button"));
+describe("EquipmentForm component unit test", () => {
+  it("renders without crashing", () => {
+    const div = document.createElement("div");
+    const container = {
+      IInspectionSheetController: {},
+    };
+    const equipment = {
+      equipmentName: "equipment",
+      inspectionItems: [],
+    };
+    ReactDOM.render(
+      <DIContainerContext.Provider value={container}>
+        <InspectionItemDialogStateContext.Provider
+          value={[{ isOpen: false }, jest.fn(() => {})]}
+        >
+          <DndProvider backend={HTML5Backend}>
+            <EquipmentForm orderIndex={1} equipment={equipment} />
+          </DndProvider>
+        </InspectionItemDialogStateContext.Provider>
+      </DIContainerContext.Provider>,
+      div
+    );
+  });
 });
