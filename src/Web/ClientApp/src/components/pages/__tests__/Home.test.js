@@ -1,28 +1,27 @@
 import React from "react";
-import { render, unmountComponentAtNode } from "react-dom";
+import ReactDOM from "react-dom";
 import { MemoryRouter } from "react-router-dom";
-import { act } from "react-dom/test-utils";
+import { DIContainerContext } from "../../../container";
 import { Home } from "../Home";
 
-let container = null;
-beforeEach(() => {
-  container = document.createElement("div");
-  document.body.appendChild(container);
-});
+describe("Home compoenent unite test", () => {
+  it("renders without crashing", () => {
+    const div = document.createElement("div");
+    const container = {
+      IHomeController: {},
+      IHomePresenter: {
+        getGroupName: jest.fn(() => {}),
+        getTypeName: jest.fn(() => {}),
+      },
+    };
 
-afterEach(() => {
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null;
-});
-
-it("renders without crashing", async () => {
-  await act(async () => {
-    render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>,
-      container
+    ReactDOM.render(
+      <DIContainerContext.Provider value={container}>
+        <MemoryRouter>
+          <Home />
+        </MemoryRouter>
+      </DIContainerContext.Provider>,
+      div
     );
   });
 });
