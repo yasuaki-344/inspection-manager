@@ -272,7 +272,6 @@ export function InspectionSheetReducer(
       return state;
     }
     default:
-      console.warn(`unknown type ${action.type}`);
-      return state;
+      throw new Error(`unknown type ${action.type}`);
   }
 }
