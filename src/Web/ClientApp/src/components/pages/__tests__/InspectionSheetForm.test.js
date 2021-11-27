@@ -1,70 +1,43 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
+import ReactDOM from "react-dom";
+import { MemoryRouter } from "react-router-dom";
+import {
+  DIContainerContext,
+  InspectionItemDialogStateContext,
+} from "../../../container";
 import { InspectionSheetForm } from "../InspectionSheetForm";
-import { InspectionSheetContext } from "../../../../use-cases/InspectionSheetContext";
-import { InspectionItemContext } from "../../../../use-cases/InspectionItemContext";
 
-jest.mock("../EquipmentForm", () => {
-  return {
-    EquipmentForm: (props) => {
-      return <></>;
-    },
-  };
-});
-jest.mock("../../dialog/InspectionItemDialog", () => {
-  return {
-    InspectionItemDialog: (props) => {
-      return <></>;
-    },
-  };
-});
+describe("InspectionSheetForm compoenent unit test", () => {
+  it("renders without crashing", () => {
+    const div = document.createElement("div");
+    const container = {
+      IInspectionSheetController: {},
+      IInspectionSheetPresenter: {
+        groups: [{ inspectionGroupId: 1, description: "test" }],
+        types: [{ inspectionTypeId: 1, description: "test" }],
+        equipments: [],
+        item: { inspectionContent: "content" },
+        isValidInspectionItem: jest.fn(() => {}),
+        typeId: 1,
+        groupId: 1,
+      },
+      IChoiceTemplateController: {
+        getAllChoiceTemplates: jest.fn(() => {}),
+      },
+      IChoiceTemplatePresenter: { state: [] },
+    };
 
-it("renders without crashing", async () => {
-  render(
-    <InspectionSheetContext.Provider
-      value={{
-        inspectionSheet: {
-          sheet_id: "",
-          sheet_name: "",
-          inspection_group: "",
-          inspection_type: "",
-          equipments: [
-            {
-              equipment_id: "",
-              equipment_name: "",
-            },
-          ],
-        },
-        setSheet: (sheet) => {},
-        updateField: (event) => {},
-        addEquipment: () => {},
-        removeEquipment: (index) => {},
-        updateEquipment: (event, index) => {},
-        swapEquipment: (srcIndex, dstIndex) => {},
-        addInspectionItem: (index, item) => {},
-        removeInspectionItem: (equipmentIndex, itemIndex) => {},
-        updateInspectionItem: (id, item) => {},
-        swapInspectionItem: (equipmentIndex, srcIndex, dstIndex) => {},
-      }}
-    >
-      <InspectionItemContext.Provider
-        value={{
-          inspectionItem: {
-            inspection_item_id: "",
-            inspection_content: "",
-            input_type: 0,
-            choices: [],
-          },
-          setItem: (item) => {},
-          updateField: (event) => {},
-          setChoices: (choices) => {},
-          addChoice: () => {},
-          removeChoice: (index) => {},
-          updateChoice: (event, index) => {},
-        }}
-      >
-        <InspectionSheetForm isEdit={true} />
-      </InspectionItemContext.Provider>
-    </InspectionSheetContext.Provider>
-  );
+    ReactDOM.render(
+      <DIContainerContext.Provider value={container}>
+        <InspectionItemDialogStateContext.Provider
+          value={[{ isOpen: false }, jest.fn(() => {})]}
+        >
+          <MemoryRouter>
+            <InspectionSheetForm isEdit />
+          </MemoryRouter>
+        </InspectionItemDialogStateContext.Provider>
+      </DIContainerContext.Provider>,
+      div
+    );
+  });
 });
