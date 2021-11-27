@@ -1,69 +1,44 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { Table, TableBody } from "@mui/material";
+import ReactDOM from "react-dom";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import {
+  DIContainerContext,
+  InspectionItemDialogStateContext,
+} from "../../../container";
 import { InspectionItemRow } from "../InspectionItemRow";
 
-it("renders without crashing", async () => {
-  render(
-    <table>
-      <tbody>
-        <DndProvider backend={HTML5Backend}>
-          <InspectionItemRow
-            equipmentId={"id"}
-            inspectionItem={{
-              inspection_item_id: "item_id",
-              inspection_content: "content",
-              input_type: 1,
-              choices: ["choice1", "choice2"],
-            }}
-          />
-        </DndProvider>
-      </tbody>
-    </table>
-  );
-});
+describe("InspectionItemRow component unit test", () => {
+  it("renders without crashing", () => {
+    const div = document.createElement("div");
+    const container = {
+      IInspectionSheetController: {},
+    };
+    const inspectionItem = {
+      inputType: 1,
+      choices: [],
+    };
 
-it("click edit item button", async () => {
-  render(
-    <table>
-      <tbody>
-        <DndProvider backend={HTML5Backend}>
-          <InspectionItemRow
-            equipmentId={"id"}
-            inspectionItem={{
-              inspection_item_id: "item_id",
-              inspection_content: "content",
-              input_type: 1,
-              choices: ["choice1", "choice2"],
-            }}
-            editInspectionItem={(equipmentId, item) => {}}
-          />
-        </DndProvider>
-      </tbody>
-    </table>
-  );
-  fireEvent.click(screen.getByTestId("edit-item-button"));
-});
-
-it("click remove item button", async () => {
-  render(
-    <table>
-      <tbody>
-        <DndProvider backend={HTML5Backend}>
-          <InspectionItemRow
-            equipmentId={"id"}
-            inspectionItem={{
-              inspection_item_id: "item_id",
-              inspection_content: "content",
-              input_type: 1,
-              choices: ["choice1", "choice2"],
-            }}
-            editInspectionItem={(equipmentId, item) => {}}
-          />
-        </DndProvider>
-      </tbody>
-    </table>
-  );
-  fireEvent.click(screen.getByTestId("remove-item-button"));
+    ReactDOM.render(
+      <DIContainerContext.Provider value={container}>
+        <InspectionItemDialogStateContext.Provider
+          value={[{ isOpen: false }, jest.fn(() => {})]}
+        >
+          <DndProvider backend={HTML5Backend}>
+            <Table>
+              <TableBody>
+                <InspectionItemRow
+                  equipmentIndex={1}
+                  inspectionItemIndex={1}
+                  inspectionItem={inspectionItem}
+                />
+              </TableBody>
+            </Table>
+          </DndProvider>
+        </InspectionItemDialogStateContext.Provider>
+      </DIContainerContext.Provider>,
+      div
+    );
+  });
 });
