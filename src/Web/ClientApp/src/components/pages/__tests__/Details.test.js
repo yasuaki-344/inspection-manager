@@ -4,7 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import { DIContainerContext } from "../../../container";
 import { Details } from "../Details";
 
-describe("Details compoenent unite test", () => {
+describe("Details compoenent unit test", () => {
   it("renders without crashing", () => {
     const div = document.createElement("div");
     const container = {

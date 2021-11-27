@@ -4,7 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import { DIContainerContext } from "../../../container";
 import { Home } from "../Home";
 
-describe("Home compoenent unite test", () => {
+describe("Home compoenent unit test", () => {
   it("renders without crashing", () => {
     const div = document.createElement("div");
     const container = {
@@ -12,6 +12,7 @@ describe("Home compoenent unite test", () => {
       IHomePresenter: {
         getGroupName: jest.fn(() => {}),
         getTypeName: jest.fn(() => {}),
+        inspectionSheets: [],
       },
     };
 
