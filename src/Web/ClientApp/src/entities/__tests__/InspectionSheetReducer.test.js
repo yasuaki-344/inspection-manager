@@ -174,7 +174,6 @@ describe("InspectionSheetReducer unit test", () => {
       ],
     };
     const actual = InspectionSheetReducer(state, action);
-    console.log(actual);
     expect(actual.equipments[0].inspectionItems.length).toBe(0);
   });
 

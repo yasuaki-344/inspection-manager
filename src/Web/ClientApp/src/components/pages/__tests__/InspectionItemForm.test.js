@@ -1,52 +1,35 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
+import ReactDOM from "react-dom";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import {
+  DIContainerContext,
+  InspectionItemDialogStateContext,
+} from "../../../container";
 import { InspectionItemForm } from "../InspectionItemForm";
 
-jest.mock("../InspectionItemRow", () => {
-  return {
-    InspectionItemRow: (props) => {
-      return <></>;
-    },
-  };
-});
+describe("InspectionItemForm component unit test", () => {
+  it("renders without crashing", () => {
+    const div = document.createElement("div");
+    const container = {
+      IInspectionSheetController: {},
+    };
+    const inspectionItems = [];
 
-it("renders without crashing", async () => {
-  const equipmentId = "equipment_id";
-  const inspectionItems = [
-    {
-      inspection_item_id: "item_id",
-      inspection_content: "content",
-      input_type: 2,
-      choices: ["choice1", "choice2"],
-    },
-  ];
-  render(
-    <InspectionItemForm
-      equipment_id={equipmentId}
-      inspectionItems={inspectionItems}
-      editInspectionItem={(equipmentIndex, inspectionItem) => {}}
-      addInspectionItem={(equipmentIndex) => {}}
-    />
-  );
-});
-
-it("click add item button", async () => {
-  const equipmentId = "equipment_id";
-  const inspectionItems = [
-    {
-      inspection_item_id: "item_id",
-      inspection_content: "content",
-      input_type: 2,
-      choices: ["choice1", "choice2"],
-    },
-  ];
-  render(
-    <InspectionItemForm
-      equipment_id={equipmentId}
-      inspectionItems={inspectionItems}
-      editInspectionItem={(equipmentId, inspectionItem) => {}}
-      addInspectionItem={(equipmentId) => {}}
-    />
-  );
-  fireEvent.click(screen.getByTestId("add-item-button"));
+    ReactDOM.render(
+      <DIContainerContext.Provider value={container}>
+        <InspectionItemDialogStateContext.Provider
+          value={[{ isOpen: false }, jest.fn(() => {})]}
+        >
+          <DndProvider backend={HTML5Backend}>
+            <InspectionItemForm
+              equipmentIndex={1}
+              inspectionItems={inspectionItems}
+            />
+          </DndProvider>
+        </InspectionItemDialogStateContext.Provider>
+      </DIContainerContext.Provider>,
+      div
+    );
+  });
 });

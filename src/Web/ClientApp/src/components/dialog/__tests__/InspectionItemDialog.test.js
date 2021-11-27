@@ -1,44 +1,40 @@
 import React from "react";
-import { act } from "react-dom/test-utils";
-import { render, fireEvent, screen } from "@testing-library/react";
+import ReactDOM from "react-dom";
+import { MemoryRouter } from "react-router-dom";
+import { DIContainerContext } from "../../../container";
 import { InspectionItemDialog } from "../InspectionItemDialog";
 
-it("renders without crashing", async () => {
-  await act(async () => {
-    render(
-      <InspectionItemDialog
-        open={true}
-        onCancelButtonClick={() => {}}
-        onOkButtonClick={() => {}}
-      />
-    );
-  });
-});
+describe("InspectionItemDialog compoenent unit test", () => {
+  it("renders without crashing", () => {
+    const div = document.createElement("div");
+    const container = {
+      IInspectionSheetController: {},
+      IInspectionSheetPresenter: {
+        item: {
+          inspectionContent: "content",
+          inputType: 1,
+        },
+        isValidInspectionItem: jest.fn(() => {}),
+      },
+      IChoiceTemplateController: {
+        getAllChoiceTemplates: jest.fn(() => {}),
+      },
+      IChoiceTemplatePresenter: {
+        state: [],
+      },
+    };
 
-it("edit button", async () => {
-  await act(async () => {
-    render(
-      <InspectionItemDialog
-        open={true}
-        onCancelButtonClick={() => {}}
-        onOkButtonClick={() => {}}
-      />
+    ReactDOM.render(
+      <DIContainerContext.Provider value={container}>
+        <MemoryRouter>
+          <InspectionItemDialog
+            open
+            onCancelButtonClick={() => {}}
+            onOkButtonClick={() => {}}
+          />
+        </MemoryRouter>
+      </DIContainerContext.Provider>,
+      div
     );
   });
-  fireEvent.change(screen.getByDisplayValue(""), {
-    target: { value: "content" },
-  });
-});
-
-it("click cancel button", async () => {
-  await act(async () => {
-    render(
-      <InspectionItemDialog
-        open={true}
-        onCancelButtonClick={() => {}}
-        onOkButtonClick={() => {}}
-      />
-    );
-  });
-  fireEvent.click(screen.getByText(/キャンセル/i));
 });

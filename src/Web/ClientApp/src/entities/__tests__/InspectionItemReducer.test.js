@@ -127,7 +127,7 @@ describe("InspectionSheetReducer unit test", () => {
     };
     const action = {
       type: ITEM_ACTION_TYPES.REMOVE_CHOICE,
-      payload: { choiceIndex: 22 },
+      payload: { choiceOrderIndex: 22 },
     };
     const actual = InspectionItemReducer(state, action);
     expect(actual.choices.length).toStrictEqual(0);
@@ -139,7 +139,7 @@ describe("InspectionSheetReducer unit test", () => {
     };
     const action = {
       type: ITEM_ACTION_TYPES.UPDATE_CHOICE,
-      payload: { choiceIndex: 22, value: "update choice" },
+      payload: { choiceOrderIndex: 22, value: "update choice" },
     };
     const actual = InspectionItemReducer(state, action);
     expect(actual.choices).toStrictEqual([
@@ -153,7 +153,8 @@ describe("InspectionSheetReducer unit test", () => {
       payload: {},
     };
     const state = {};
-    const actual = InspectionItemReducer(state, action);
-    expect(actual).toEqual({});
+    expect(() => {
+      InspectionItemReducer(state, action);
+    }).toThrow();
   });
 });

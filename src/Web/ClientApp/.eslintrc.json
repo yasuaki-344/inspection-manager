@@ -30,6 +30,7 @@
       "error",
       {
         "extensions": [
+          ".js",
           ".jsx",
           ".tsx"
         ]

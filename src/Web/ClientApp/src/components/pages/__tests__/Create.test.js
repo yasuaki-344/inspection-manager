@@ -1,38 +1,26 @@
 import React from "react";
-import { act } from "react-dom/test-utils";
+import ReactDOM from "react-dom";
 import { MemoryRouter } from "react-router-dom";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { DIContainerContext } from "../../../container";
 import { Create } from "../Create";
 
-beforeEach(() => {
-  jest.spyOn(global, "fetch").mockImplementation(() =>
-    Promise.resolve({
-      json: () => Promise.resolve([]),
-    })
-  );
-  jest.spyOn(window, "alert").mockImplementation(() => {});
-});
-afterEach(() => {
-  jest.resetAllMocks();
-});
+describe("Create compoenent unit test", () => {
+  it("renders without crashing", () => {
+    const div = document.createElement("div");
+    const container = {
+      IInspectionSheetController: {},
+      IInspectionSheetPresenter: {
+        selectionSheets: [],
+      },
+    };
 
-it("renders without crashing", async () => {
-  await act(async () => {
-    render(
-      <MemoryRouter>
-        <Create />
-      </MemoryRouter>
+    ReactDOM.render(
+      <DIContainerContext.Provider value={container}>
+        <MemoryRouter>
+          <Create />
+        </MemoryRouter>
+      </DIContainerContext.Provider>,
+      div
     );
-  });
-});
-
-it("submit", async () => {
-  await act(async () => {
-    render(
-      <MemoryRouter>
-        <Create />
-      </MemoryRouter>
-    );
-    fireEvent.submit(screen.getByTestId("form"));
   });
 });
