@@ -12,11 +12,7 @@ RUN dotnet restore
 RUN dotnet publish -c Release -o /app --no-restore
 
 # runtime envrionment
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine
-RUN apk add --update sudo \
-    && adduser -D appuser \
-    && echo "appuser ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/appuser \
-    && chmod 0440 /etc/sudoers.d/appuser
+RUN adduser -D appuser
 
 USER appuser
 
