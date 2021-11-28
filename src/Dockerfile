@@ -9,9 +9,10 @@ COPY ./Infrastructure/ Infrastructure/.
 COPY ./Web/ Web/.
 WORKDIR /source/Web
 RUN dotnet restore
-RUN dotnet publish -c Release -o /app --no-restore
+RUN dotnet publish -c Release -o /app --no-restore -r linux-musl-x64 --self-contained
 
 # runtime envrionment
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-alpine
 RUN adduser -D appuser
 
 USER appuser
@@ -21,4 +22,4 @@ COPY --from=build /app ./
 ENV ASPNETCORE_URLS http://*:5000
 VOLUME [ "/app/database" ]
 
-ENTRYPOINT ["dotnet", "InspectionManager.Web.dll"]
+ENTRYPOINT ["./InspectionManager.Web"]
