@@ -39,13 +39,57 @@ namespace InspectionManager.Web.Controllers
         [Route("/v1/inspection-types")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionTypeDto))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetAllTypes()
+        public IActionResult GetAllInspectionTypes()
         {
             try
             {
                 _logger.LogInformation("try to get all inspection types");
                 var types = _repository.GetInspectionTypes();
                 return Ok(types);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database");
+            }
+        }
+
+        /// <summary>
+        /// Get InspectionType model by ID.
+        /// </summary>
+        /// <param name="inspectionTypeId">inspection type ID to get</param>
+        /// <response code="200">A single InspectionType model</response>
+        /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
+        /// <response code="404">対象リソースが存在しない Not Found</response>
+        /// <response code="500">システムエラー Internal Server Error</response>
+        [HttpGet]
+        [Route("/v1/inspection-types/{inspectionTypeId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionTypeDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetInspectionType([FromRoute][Required] int? inspectionTypeId)
+        {
+            try
+            {
+                if (inspectionTypeId is not null)
+                {
+                    _logger.LogInformation($"try to get inspection type {inspectionTypeId}");
+                    if (_repository.InspectionTypeExists(inspectionTypeId.Value))
+                    {
+                        var result = _repository.GetInspectionType(inspectionTypeId.Value);
+                        return Ok(result);
+                    }
+                    else
+                    {
+                        return NotFound($"type with Id = {inspectionTypeId} not found");
+                    }
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {
@@ -68,20 +112,20 @@ namespace InspectionManager.Web.Controllers
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionTypeDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateType(InspectionTypeDto? dto)
+        public async Task<IActionResult> CreateInspectionTypeAsync(InspectionTypeDto? dto)
         {
             try
             {
                 _logger.LogInformation("try to create inspection type");
-                if (dto is null)
-                {
-                    return BadRequest();
-                }
-                else
+                if (dto is not null)
                 {
                     var result = await _repository.CreateInspectionTypeAsync(dto);
                     return CreatedAtAction(nameof(GetInspectionType),
                     new { id = result.InspectionTypeId }, result);
+                }
+                else
+                {
+                    return BadRequest();
                 }
             }
             catch (Exception ex)
@@ -90,43 +134,6 @@ namespace InspectionManager.Web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Error creating new inspection types"
                 );
-            }
-        }
-
-        /// <summary>
-        /// Get InspectionType model by ID.
-        /// </summary>
-        /// <param name="inspectionTypeId">inspection type ID to get</param>
-        /// <response code="200">A single InspectionType model</response>
-        /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
-        /// <response code="404">対象リソースが存在しない Not Found</response>
-        /// <response code="500">システムエラー Internal Server Error</response>
-        [HttpGet]
-        [Route("/v1/inspection-types/{inspectionTypeId}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionTypeDto))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetInspectionType(int inspectionTypeId)
-        {
-            try
-            {
-                _logger.LogInformation($"try to get inspection type {inspectionTypeId}");
-                var result = _repository.GetInspectionType(inspectionTypeId);
-                if (result is not null)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound($"type with Id = {inspectionTypeId} not found");
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error retrieving data from the database");
             }
         }
 
@@ -140,15 +147,24 @@ namespace InspectionManager.Web.Controllers
         /// <response code="404">Not found</response>
         /// <response code="500">Internal Server Error</response>
         [HttpPut]
-        [Route("/v1/inspection-types/{inspectionGroupId}")]
+        [Route("/v1/inspection-types/{inspectionTypeId}")]
         [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> UpdateInspectionTypeAsync([FromRoute][Required] int? inspectionGroupId, [FromBody] InspectionTypeDto dto)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionTypeDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateInspectionTypeAsync([FromRoute][Required] int? inspectionTypeId, [FromBody] InspectionTypeDto dto)
         {
             try
             {
-                if (inspectionGroupId.HasValue)
+                if (inspectionTypeId is not null)
                 {
                     _logger.LogInformation($"try to update inspection type {dto.InspectionTypeId}");
+                    if (inspectionTypeId.Value != dto.InspectionTypeId)
+                    {
+                        return BadRequest("Invalid ID supplied");
+                    }
+
                     if (_repository.InspectionTypeExists(dto.InspectionTypeId))
                     {
                         var result = await _repository.UpdateInspectionTypeAsync(dto);
@@ -188,15 +204,18 @@ namespace InspectionManager.Web.Controllers
         {
             try
             {
-                if (inspectionTypeId.HasValue)
+                if (inspectionTypeId is not null)
                 {
                     _logger.LogInformation($"try to delete inspection type {inspectionTypeId}");
-                    if (!_repository.InspectionTypeExists(inspectionTypeId.Value))
+                    if (_repository.InspectionTypeExists(inspectionTypeId.Value))
+                    {
+                        await _repository.DeleteInspectionTypeAsync(inspectionTypeId.Value);
+                        return NoContent();
+                    }
+                    else
                     {
                         return NotFound($"type with Id = {inspectionTypeId} not found");
                     }
-                    await _repository.DeleteInspectionTypeAsync(inspectionTypeId.Value);
-                    return NoContent();
                 }
                 else
                 {

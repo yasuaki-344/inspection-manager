@@ -39,7 +39,7 @@ namespace InspectionManager.Web.Controllers
         [Route("/v1/inspection-groups")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionGroupDto))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetAllGroups()
+        public IActionResult GetAllInspectionGroups()
         {
             try
             {
@@ -73,12 +73,12 @@ namespace InspectionManager.Web.Controllers
         {
             try
             {
-                if (inspectionGroupId.HasValue)
+                if (inspectionGroupId is not null)
                 {
                     _logger.LogInformation($"try to get inspection group {inspectionGroupId}");
-                    var result = _repository.GetInspectionGroup(inspectionGroupId.Value);
-                    if (result is not null)
+                    if (_repository.InspectionGroupExists(inspectionGroupId.Value))
                     {
+                        var result = _repository.GetInspectionGroup(inspectionGroupId.Value);
                         return Ok(result);
                     }
                     else
@@ -112,20 +112,20 @@ namespace InspectionManager.Web.Controllers
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionGroupDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateGroup([FromBody] InspectionGroupDto? dto)
+        public async Task<IActionResult> CreateInspectionGroupAsync([FromBody] InspectionGroupDto? dto)
         {
             try
             {
                 _logger.LogInformation("try to create inspection group");
-                if (dto is null)
-                {
-                    return BadRequest();
-                }
-                else
+                if (dto is not null)
                 {
                     var result = await _repository.CreateInspectionGroupAsync(dto);
                     return CreatedAtAction(nameof(GetInspectionGroup),
                     new { id = result.InspectionGroupId }, result);
+                }
+                else
+                {
+                    return BadRequest();
                 }
             }
             catch (Exception ex)
@@ -157,21 +157,19 @@ namespace InspectionManager.Web.Controllers
         {
             try
             {
-                if (inspectionGroupId.HasValue)
+                if (inspectionGroupId is not null)
                 {
                     _logger.LogInformation($"try to update inspection group {dto.InspectionGroupId}");
+                    if (inspectionGroupId.Value != dto.InspectionGroupId)
+                    {
+                        return BadRequest("Invalid ID supplied");
+                    }
+
                     if (_repository.InspectionGroupExists(dto.InspectionGroupId))
                     {
-                        if (inspectionGroupId.Value == dto.InspectionGroupId)
-                        {
-                            var result = await _repository.UpdateInspectionGroupAsync(dto);
-                            return CreatedAtAction(nameof(GetInspectionGroup),
-                            new { id = result.InspectionGroupId }, result);
-                        }
-                        else
-                        {
-                            return BadRequest("Invalid ID supplied");
-                        }
+                        var result = await _repository.UpdateInspectionGroupAsync(dto);
+                        return CreatedAtAction(nameof(GetInspectionGroup),
+                        new { id = result.InspectionGroupId }, result);
                     }
                     else
                     {
@@ -210,19 +208,22 @@ namespace InspectionManager.Web.Controllers
         {
             try
             {
-                if (inspectionGroupId.HasValue)
+                if (inspectionGroupId is not null)
                 {
                     _logger.LogInformation($"try to delete inspection group {inspectionGroupId}");
-                    if (!_repository.InspectionGroupExists(inspectionGroupId.Value))
+                    if (_repository.InspectionGroupExists(inspectionGroupId.Value))
+                    {
+                        await _repository.DeleteInspectionGroupAsync(inspectionGroupId.Value);
+                        return NoContent();
+                    }
+                    else
                     {
                         return NotFound($"group with Id = {inspectionGroupId} not found");
                     }
-                    await _repository.DeleteInspectionGroupAsync(inspectionGroupId.Value);
-                    return StatusCode(StatusCodes.Status204NoContent);
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status400BadRequest);
+                    return BadRequest();
                 }
             }
             catch (Exception ex)

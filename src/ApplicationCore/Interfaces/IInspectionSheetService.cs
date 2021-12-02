@@ -23,8 +23,8 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// Gets the specified inspection sheet data from database.
         /// </summary>
         /// <param name="id">The ID of inspection sheet to be gotton</param>
-        /// <returns>Return The inspection sheet of the specified ID if exist, otherwise null</returns>
-        InspectionSheetDetailDto? GetInspectionSheet(int id);
+        /// <returns>Return The inspection sheet of the specified ID</returns>
+        InspectionSheetDetailDto GetInspectionSheet(int id);
 
         /// <summary>
         /// Checks if the specified inspection sheet is valid.

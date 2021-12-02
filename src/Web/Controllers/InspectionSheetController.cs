@@ -54,37 +54,6 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("/v1/inspection-sheets")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDetailDto))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> CreateSheetAsync([FromBody] InspectionSheetDetailDto dto)
-        {
-            try
-            {
-                _logger.LogInformation("try to create inspection sheet");
-                if (!_service.IsValidInspectionSheet(dto))
-                {
-                    return BadRequest();
-                }
-                else
-                {
-                    var result = await _service.CreateInspectionSheetAsync(dto);
-                    return CreatedAtAction(nameof(GetInspectionSheet),
-                    new { id = result.SheetId }, result);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error creating new inspection sheet"
-                );
-            }
-        }
-
         [HttpGet]
         [Route("/v1/inspection-sheets/{sheetId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDetailDto))]
@@ -95,17 +64,17 @@ namespace InspectionManager.Web.Controllers
         {
             try
             {
-                _logger.LogInformation($"try to get inspection sheet {sheetId}");
                 if (sheetId is not null)
                 {
-                    var result = _service.GetInspectionSheet(sheetId.Value);
-                    if (result is null)
+                    _logger.LogInformation($"try to get inspection sheet {sheetId}");
+                    if (_service.InspectionSheetExists(sheetId.Value))
                     {
-                        return NotFound();
+                        var result = _service.GetInspectionSheet(sheetId.Value);
+                        return Ok(result);
                     }
                     else
                     {
-                        return Ok(result);
+                        return NotFound($"sheet with Id = {sheetId} not found");
                     }
                 }
                 else
@@ -121,28 +90,73 @@ namespace InspectionManager.Web.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("/v1/inspection-sheets")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionSheetDetailDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreateSheetAsync([FromBody] InspectionSheetDetailDto? dto)
+        {
+            try
+            {
+                _logger.LogInformation("try to create inspection sheet");
+                if (dto is not null)
+                {
+                    if (_service.IsValidInspectionSheet(dto))
+                    {
+                        var result = await _service.CreateInspectionSheetAsync(dto);
+                        return CreatedAtAction(nameof(GetInspectionSheet),
+                        new { id = result.SheetId }, result);
+                    }
+                    else
+                    {
+                        return BadRequest();
+                    }
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error creating new inspection sheet"
+                );
+            }
+        }
+
         [HttpPut]
         [Route("/v1/inspection-sheets/{sheetId}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDetailDto))]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionSheetDetailDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> UpdateInspectionSheet([FromRoute][Required] int? sheetId, [FromBody] InspectionSheetDetailDto dto)
+        public async Task<IActionResult> UpdateInspectionSheetAsync([FromRoute][Required] int? sheetId, [FromBody] InspectionSheetDetailDto dto)
         {
             try
             {
                 if (sheetId is not null && _service.IsValidInspectionSheet(dto))
                 {
                     _logger.LogInformation($"try to update inspection sheet {sheetId.Value}");
-                    if (!_service.InspectionSheetExists(sheetId.Value))
+                    if (sheetId.Value != dto.SheetId)
+                    {
+                        return BadRequest("Invalid ID supplied");
+                    }
+
+                    if (_service.InspectionSheetExists(sheetId.Value))
+                    {
+                        var result = await _service.UpdateInspectionSheetAsync(dto);
+                        return CreatedAtAction(nameof(GetInspectionSheet),
+                        new { sheetId = result.SheetId }, result);
+                    }
+                    else
                     {
                         return NotFound($"Sheet with Id = {dto.SheetId} not found");
                     }
-                    dto.SheetId = sheetId.Value;
-                    var result = await _service.UpdateInspectionSheetAsync(dto);
-                    return CreatedAtAction(nameof(GetInspectionSheet),
-                    new { sheetId = result.SheetId }, result);
                 }
                 else
                 {
@@ -170,12 +184,15 @@ namespace InspectionManager.Web.Controllers
                 if (sheetId is not null)
                 {
                     _logger.LogInformation($"try to delete inspection sheet {sheetId}");
-                    if (!_service.InspectionSheetExists(sheetId.Value))
+                    if (_service.InspectionSheetExists(sheetId.Value))
+                    {
+                        await _service.DeleteInspectionSheetAsync(sheetId.Value);
+                        return NoContent();
+                    }
+                    else
                     {
                         return NotFound($"sheet with Id = {sheetId} not found");
                     }
-                    await _service.DeleteInspectionSheetAsync(sheetId.Value);
-                    return NoContent();
                 }
                 else
                 {
