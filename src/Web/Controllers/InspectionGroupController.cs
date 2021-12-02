@@ -213,10 +213,10 @@ namespace InspectionManager.Web.Controllers
                 if (inspectionGroupId is not null)
                 {
                     _logger.LogInformation($"try to delete inspection group {inspectionGroupId}");
-                    if (!_repository.InspectionGroupExists(inspectionGroupId.Value))
+                    if (_repository.InspectionGroupExists(inspectionGroupId.Value))
                     {
                         await _repository.DeleteInspectionGroupAsync(inspectionGroupId.Value);
-                        return StatusCode(StatusCodes.Status204NoContent);
+                        return NoContent();
                     }
                     else
                     {
@@ -225,7 +225,7 @@ namespace InspectionManager.Web.Controllers
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status400BadRequest);
+                    return BadRequest();
                 }
             }
             catch (Exception ex)
