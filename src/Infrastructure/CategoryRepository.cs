@@ -56,7 +56,7 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public InspectionGroupDto? GetInspectionGroup(int id)
+        public InspectionGroupDto GetInspectionGroup(int id)
         {
             if (_context.InspectionGroups is not null)
             {

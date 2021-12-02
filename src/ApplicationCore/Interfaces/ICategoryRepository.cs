@@ -24,7 +24,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// </summary>
         /// <param name="id">The ID of inspection group to be gotton</param>
         /// <returns>The inspection group of the specified ID</returns>
-        InspectionGroupDto? GetInspectionGroup(int id);
+        InspectionGroupDto GetInspectionGroup(int id);
 
         /// <summary>
         /// Creates new inspection group by using the specified InspectionGroupDto.
