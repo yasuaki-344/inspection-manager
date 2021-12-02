@@ -160,22 +160,20 @@ namespace InspectionManager.Web.Controllers
                 if (inspectionGroupId is not null)
                 {
                     _logger.LogInformation($"try to update inspection group {dto.InspectionGroupId}");
-                    if (inspectionGroupId.Value == dto.InspectionGroupId)
+                    if (inspectionGroupId.Value != dto.InspectionGroupId)
                     {
-                        if (_repository.InspectionGroupExists(dto.InspectionGroupId))
-                        {
-                            var result = await _repository.UpdateInspectionGroupAsync(dto);
-                            return CreatedAtAction(nameof(GetInspectionGroup),
-                            new { id = result.InspectionGroupId }, result);
-                        }
-                        else
-                        {
-                            return NotFound($"Group with Id = {dto.InspectionGroupId} not found");
-                        }
+                        return BadRequest("Invalid ID supplied");
+                    }
+
+                    if (_repository.InspectionGroupExists(dto.InspectionGroupId))
+                    {
+                        var result = await _repository.UpdateInspectionGroupAsync(dto);
+                        return CreatedAtAction(nameof(GetInspectionGroup),
+                        new { id = result.InspectionGroupId }, result);
                     }
                     else
                     {
-                        return BadRequest("Invalid ID supplied");
+                        return NotFound($"Group with Id = {dto.InspectionGroupId} not found");
                     }
                 }
                 else

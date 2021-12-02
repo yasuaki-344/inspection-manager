@@ -44,8 +44,52 @@ namespace InspectionManager.Web.Controllers
             try
             {
                 _logger.LogInformation("try to get all choice template");
-                var types = _repository.GetChoiceTemplates();
-                return Ok(types);
+                var templates = _repository.GetChoiceTemplates();
+                return Ok(templates);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database");
+            }
+        }
+
+        /// <summary>
+        /// Get ChoiceTemplate model by ID.
+        /// </summary>
+        /// <param name="choiceTemplateId">Choice template ID to get</param>
+        /// <response code="200">A single ChoiceTemplate model</response>
+        /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
+        /// <response code="404">対象リソースが存在しない Not Found</response>
+        /// <response code="500">システムエラー Internal Server Error</response>
+        [HttpGet]
+        [Route("/v1/choice-templates/{choiceTemplateId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChoiceTemplateDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetChoiceTemplate([FromRoute][Required] int? choiceTemplateId)
+        {
+            try
+            {
+                if (choiceTemplateId is not null)
+                {
+                    _logger.LogInformation($"try to get choice template {choiceTemplateId}");
+                    if (_repository.ChoiceTemplateExists(choiceTemplateId.Value))
+                    {
+                        var result = _repository.GetChoiceTemplate(choiceTemplateId.Value);
+                        return Ok(result);
+                    }
+                    else
+                    {
+                        return NotFound($"template with Id = {choiceTemplateId} not found");
+                    }
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {
@@ -73,15 +117,15 @@ namespace InspectionManager.Web.Controllers
             try
             {
                 _logger.LogInformation("try to create choice template");
-                if (dto is null)
-                {
-                    return BadRequest();
-                }
-                else
+                if (dto is not null)
                 {
                     var result = await _repository.CreateChoiceTemplateAsync(dto);
                     return CreatedAtAction(nameof(GetChoiceTemplate),
                     new { id = result.ChoiceTemplateId }, result);
+                }
+                else
+                {
+                    return BadRequest();
                 }
             }
             catch (Exception ex)
@@ -90,43 +134,6 @@ namespace InspectionManager.Web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Error creating new choice template"
                 );
-            }
-        }
-
-        /// <summary>
-        /// Get ChoiceTemplate model by ID.
-        /// </summary>
-        /// <param name="choiceTemplateId">Choice template ID to get</param>
-        /// <response code="200">A single ChoiceTemplate model</response>
-        /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
-        /// <response code="404">対象リソースが存在しない Not Found</response>
-        /// <response code="500">システムエラー Internal Server Error</response>
-        [HttpGet]
-        [Route("/v1/choice-templates/{choiceTemplateId}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChoiceTemplateDto))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetChoiceTemplate(int choiceTemplateId)
-        {
-            try
-            {
-                _logger.LogInformation($"try to get choice template {choiceTemplateId}");
-                var result = _repository.GetChoiceTemplate(choiceTemplateId);
-                if (result != null)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound($"template with Id = {choiceTemplateId} not found");
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error retrieving data from the database");
             }
         }
 
@@ -142,7 +149,7 @@ namespace InspectionManager.Web.Controllers
         [HttpPut]
         [Route("/v1/choice-templates/{choiceTemplateId}")]
         [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionGroupDto))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ChoiceTemplateDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -150,9 +157,14 @@ namespace InspectionManager.Web.Controllers
         {
             try
             {
-                if (choiceTemplateId.HasValue)
+                if (choiceTemplateId is not null)
                 {
                     _logger.LogInformation($"try to update choice template {dto.ChoiceTemplateId}");
+                    if (choiceTemplateId != dto.ChoiceTemplateId)
+                    {
+                        return BadRequest("Invalid ID supplied");
+                    }
+
                     if (_repository.ChoiceTemplateExists(dto.ChoiceTemplateId))
                     {
                         var result = await _repository.UpdateChoiceTemplateAsync(dto);
@@ -196,19 +208,22 @@ namespace InspectionManager.Web.Controllers
         {
             try
             {
-                if (choiceTemplateId.HasValue)
+                if (choiceTemplateId is not null)
                 {
                     _logger.LogInformation($"try to delete choice template {choiceTemplateId}");
-                    if (!_repository.ChoiceTemplateExists(choiceTemplateId.Value))
+                    if (_repository.ChoiceTemplateExists(choiceTemplateId.Value))
+                    {
+                        await _repository.DeleteChoiceTemplateAsync(choiceTemplateId.Value);
+                        return NoContent();
+                    }
+                    else
                     {
                         return NotFound($"choice template with Id = {choiceTemplateId} not found");
                     }
-                    await _repository.DeleteChoiceTemplateAsync(choiceTemplateId.Value);
-                    return StatusCode(StatusCodes.Status204NoContent);
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status400BadRequest);
+                    return BadRequest();
                 }
             }
             catch (Exception ex)

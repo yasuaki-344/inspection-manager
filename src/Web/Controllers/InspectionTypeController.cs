@@ -162,20 +162,18 @@ namespace InspectionManager.Web.Controllers
                     _logger.LogInformation($"try to update inspection type {dto.InspectionTypeId}");
                     if (inspectionTypeId.Value == dto.InspectionTypeId)
                     {
-                        if (_repository.InspectionTypeExists(dto.InspectionTypeId))
-                        {
-                            var result = await _repository.UpdateInspectionTypeAsync(dto);
-                            return CreatedAtAction(nameof(GetInspectionType),
-                            new { id = result.InspectionTypeId }, result);
-                        }
-                        else
-                        {
-                            return NotFound($"Type with Id = {dto.InspectionTypeId} not found");
-                        }
+                        return BadRequest("Invalid ID supplied");
+                    }
+
+                    if (_repository.InspectionTypeExists(dto.InspectionTypeId))
+                    {
+                        var result = await _repository.UpdateInspectionTypeAsync(dto);
+                        return CreatedAtAction(nameof(GetInspectionType),
+                        new { id = result.InspectionTypeId }, result);
                     }
                     else
                     {
-                        return BadRequest("Invalid ID supplied");
+                        return NotFound($"Type with Id = {dto.InspectionTypeId} not found");
                     }
                 }
                 else
