@@ -40,7 +40,7 @@ namespace InspectionManager.ApplicationCore.Services
             _repository.GetAllInspectionSheets();
 
         /// <inheritdoc/>
-        public InspectionSheetDetailDto? GetInspectionSheet(int id) =>
+        public InspectionSheetDetailDto GetInspectionSheet(int id) =>
             _repository.GetInspectionSheet(id);
 
         /// <inheritdoc/>

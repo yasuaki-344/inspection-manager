@@ -83,23 +83,16 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public InspectionSheetDetailDto? GetInspectionSheet(int id)
+        public InspectionSheetDetailDto GetInspectionSheet(int id)
         {
             if (_context.InspectionSheets is not null)
             {
-                if (_context.InspectionSheets.Any(x => x.SheetId == id))
-                {
-                    var dto = _context.InspectionSheets
-                        .Where(x => x.SheetId == id)
-                        .ProjectTo<InspectionSheetDetailDto>(_mapper.ConfigurationProvider)
-                        .Single();
-                    SortRelationalEntities(dto);
-                    return dto;
-                }
-                else
-                {
-                    return null;
-                }
+                var dto = _context.InspectionSheets
+                    .Where(x => x.SheetId == id)
+                    .ProjectTo<InspectionSheetDetailDto>(_mapper.ConfigurationProvider)
+                    .Single();
+                SortRelationalEntities(dto);
+                return dto;
             }
             else
             {
