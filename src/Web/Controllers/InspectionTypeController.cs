@@ -39,7 +39,7 @@ namespace InspectionManager.Web.Controllers
         [Route("/v1/inspection-types")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionTypeDto))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetAllTypes()
+        public IActionResult GetAllInspectionTypes()
         {
             try
             {
@@ -112,7 +112,7 @@ namespace InspectionManager.Web.Controllers
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionTypeDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateType(InspectionTypeDto? dto)
+        public async Task<IActionResult> CreateInspectionTypeAsync(InspectionTypeDto? dto)
         {
             try
             {
@@ -160,7 +160,7 @@ namespace InspectionManager.Web.Controllers
                 if (inspectionTypeId is not null)
                 {
                     _logger.LogInformation($"try to update inspection type {dto.InspectionTypeId}");
-                    if (inspectionTypeId.Value == dto.InspectionTypeId)
+                    if (inspectionTypeId.Value != dto.InspectionTypeId)
                     {
                         return BadRequest("Invalid ID supplied");
                     }

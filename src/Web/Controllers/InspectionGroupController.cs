@@ -39,7 +39,7 @@ namespace InspectionManager.Web.Controllers
         [Route("/v1/inspection-groups")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionGroupDto))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetAllGroups()
+        public IActionResult GetAllInspectionGroups()
         {
             try
             {
@@ -112,7 +112,7 @@ namespace InspectionManager.Web.Controllers
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionGroupDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateGroup([FromBody] InspectionGroupDto? dto)
+        public async Task<IActionResult> CreateInspectionGroupAsync([FromBody] InspectionGroupDto? dto)
         {
             try
             {

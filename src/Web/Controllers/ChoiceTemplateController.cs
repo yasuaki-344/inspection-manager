@@ -112,7 +112,7 @@ namespace InspectionManager.Web.Controllers
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ChoiceTemplateDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateChoiceTemplate(ChoiceTemplateDto? dto)
+        public async Task<IActionResult> CreateChoiceTemplateAsync(ChoiceTemplateDto? dto)
         {
             try
             {
