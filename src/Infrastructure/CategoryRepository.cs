@@ -158,7 +158,7 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public InspectionTypeDto? GetInspectionType(int id)
+        public InspectionTypeDto GetInspectionType(int id)
         {
             if (_context.InspectionTypes is not null)
             {

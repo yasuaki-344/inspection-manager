@@ -65,7 +65,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// </summary>
         /// <param name="id">The ID of inspection type to be gotton</param>
         /// <returns>The inspection type of the specified ID</returns>
-        InspectionTypeDto? GetInspectionType(int id);
+        InspectionTypeDto GetInspectionType(int id);
 
         /// <summary>
         /// Creates new inspection type by using the specified InspectionTypeDto.
