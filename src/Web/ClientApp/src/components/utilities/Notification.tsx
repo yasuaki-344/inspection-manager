@@ -52,7 +52,7 @@ interface NotificationProps {
   open: boolean;
   severity: string;
   message: string;
-  onClose: (event: React.SyntheticEvent<Element, Event>) => void;
+  onClose: () => void;
 }
 
 export const Notification: FC<NotificationProps> = (
@@ -65,13 +65,13 @@ export const Notification: FC<NotificationProps> = (
   let alert: JSX.Element = <></>;
   if (props.severity === "success") {
     alert = (
-      <Alert severity="success" onClose={props.onClose}>
+      <Alert severity="success" onClose={() => props.onClose}>
         {props.message}
       </Alert>
     );
   } else if (props.severity === "error") {
     alert = (
-      <Alert severity="error" onClose={props.onClose}>
+      <Alert severity="error" onClose={() => props.onClose}>
         {props.message}
       </Alert>
     );
@@ -81,7 +81,7 @@ export const Notification: FC<NotificationProps> = (
     <Snackbar
       open={props.open}
       autoHideDuration={duration}
-      onClose={props.onClose}
+      onClose={() => props.onClose}
       anchorOrigin={{ vertical, horizontal }}
     >
       {alert}
