@@ -58,7 +58,7 @@ export class HomeController implements IHomeController {
 
   exportExcelInspectionSheet(sheet: InspectionSheet): void {
     this.exportInspectionSheet(
-      `excelsheet/${sheet.sheetId}`,
+      `v1/excel-inspection-sheets/${sheet.sheetId}`,
       `${sheet.sheetName}.xlsx`
     );
   }

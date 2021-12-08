@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +14,6 @@ using Microsoft.Extensions.Logging;
 namespace InspectionManager.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class ExcelSheetController : ControllerBase
     {
         private readonly IExcelDownloadService _service;
@@ -33,28 +33,40 @@ namespace InspectionManager.Web.Controllers
             _logger = logger;
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult DownloadExcelSheet(int id)
+        [HttpGet("{id}")]
+        [Route("/v1/excel-inspection-sheets/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult DownloadExcelSheet([FromRoute][Required] int? id)
         {
             try
             {
-                _logger.LogInformation($"try to download inspection sheet {id}");
-                if (!_service.InspectionSheetExists(id))
+                if (id is not null)
                 {
-                    return NotFound($"Sheet with Id = {id} not found");
+                    _logger.LogInformation($"try to download inspection sheet {id}");
+                    if (_service.InspectionSheetExists(id.Value))
+                    {
+                        var sheet = _service.CreateXlsx(id.Value);
+                        using (var ms = new MemoryStream())
+                        {
+                            sheet.Write(ms);
+                            return File(
+                                ms.ToArray(),
+                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                "sample.xlsx"
+                            );
+                        }
+                    }
+                    else
+                    {
+                        return NotFound($"Sheet with Id = {id} not found");
+                    }
                 }
                 else
                 {
-                    var sheet = _service.CreateXlsx(id);
-                    using (var ms = new MemoryStream())
-                    {
-                        sheet.Write(ms);
-                        return File(
-                            ms.ToArray(),
-                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                            "sample.xlsx"
-                        );
-                    }
+                    return BadRequest();
                 }
             }
             catch (Exception ex)
