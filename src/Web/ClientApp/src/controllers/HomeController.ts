@@ -58,14 +58,14 @@ export class HomeController implements IHomeController {
 
   exportExcelInspectionSheet(sheet: InspectionSheet): void {
     this.exportInspectionSheet(
-      `excelsheet/${sheet.sheetId}`,
+      `v1/excel-inspection-sheets/${sheet.sheetId}`,
       `${sheet.sheetName}.xlsx`
     );
   }
 
   exportJsonInspectionSheet(sheet: InspectionSheet): void {
     this.exportInspectionSheet(
-      `jsonexport/${sheet.sheetId}`,
+      `v1/json-inspection-sheets/${sheet.sheetId}`,
       `${sheet.sheetName}.json`
     );
   }

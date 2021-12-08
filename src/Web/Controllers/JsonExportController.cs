@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Text.Encodings;
@@ -18,7 +19,6 @@ using Microsoft.Extensions.Logging;
 namespace InspectionManager.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class JsonExportController : ControllerBase
     {
         private readonly IInspectionSheetRepository _repository;
@@ -42,69 +42,33 @@ namespace InspectionManager.Web.Controllers
             _logger = logger;
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult ExportJson(int id)
+        [HttpGet]
+        [Route("/v1/json-inspection-sheets/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult? ExportJson([FromRoute][Required] int? id)
         {
             try
             {
-                _logger.LogInformation($"try to export json inspection sheet {id}");
-                if (!_repository.InspectionSheetExists(id))
+                if (id is not null)
                 {
-                    return NotFound($"Sheet with Id = {id} not found");
-                }
-                else
-                {
-                    var sheet = _repository.GetInspectionSheet(id);
-                    if (sheet is not null)
+                    _logger.LogInformation($"try to export json inspection sheet {id}");
+                    if (_repository.InspectionSheetExists(id.Value))
                     {
-                        var options = new JsonSerializerOptions();
-                        options.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
-                        var dto = _mapper.Map<InspectionSheetExportDto>(sheet);
-
-                        dto.InspectionType = _repository.InspectionTypeName(sheet.InspectionTypeId);
-                        dto.InspectionGroup = _repository.InspectionGroupName(sheet.InspectionGroupId);
-
-                        for (var i = 0; i < dto.Equipments.Count; i++)
-                        {
-                            var isLastEquipment = (i == dto.Equipments.Count - 1);
-                            foreach (var (item, index) in dto.Equipments[i].InspectionItems.Select((x, j) => (x, j)))
-                            {
-                                var isLastInspectionItem = (index == dto.Equipments[i].InspectionItems.Count - 1);
-                                item.InspectionItemId = index;
-                                if (isLastInspectionItem)
-                                {
-                                    if (!isLastEquipment)
-                                    {
-                                        item.Transitions.Add(new TransitionExportDto
-                                        {
-                                            SheetId = dto.SheetId,
-                                            EquipmentId = dto.Equipments[i + 1].EquipmentId,
-                                            InspectionItemId = 0,
-                                        });
-                                    }
-                                }
-                                else
-                                {
-                                    item.Transitions.Add(new TransitionExportDto
-                                    {
-                                        SheetId = dto.SheetId,
-                                        EquipmentId = dto.Equipments[i].EquipmentId,
-                                        InspectionItemId = item.InspectionItemId + 1,
-                                    });
-                                }
-                            }
-                        }
-                        var json = JsonSerializer.Serialize(
-                            new InspectionExportDto { Sheet = dto, },
-                            options
-                        );
-                        var data = System.Text.Encoding.UTF8.GetBytes(json);
+                        var sheet = _repository.GetInspectionSheet(id.Value);
+                        var data = ConvertInspectionSheetDtoToJson(sheet);
                         return File(data, "application/json", $"{sheet?.SheetName}.json");
                     }
                     else
                     {
                         return NotFound($"Sheet with Id = {id} not found");
                     }
+                }
+                else
+                {
+                    return BadRequest();
                 }
             }
             catch (Exception ex)
@@ -113,6 +77,53 @@ namespace InspectionManager.Web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Error retrieving data from the database");
             }
+        }
+
+        private byte[] ConvertInspectionSheetDtoToJson(InspectionSheetDetailDto sheet)
+        {
+            var options = new JsonSerializerOptions();
+            options.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
+            var dto = _mapper.Map<InspectionSheetExportDto>(sheet);
+
+            dto.InspectionType = _repository.InspectionTypeName(sheet.InspectionTypeId);
+            dto.InspectionGroup = _repository.InspectionGroupName(sheet.InspectionGroupId);
+
+            for (var i = 0; i < dto.Equipments.Count; i++)
+            {
+                var isLastEquipment = (i == dto.Equipments.Count - 1);
+                foreach (var (item, index) in dto.Equipments[i].InspectionItems.Select((x, j) => (x, j)))
+                {
+                    var isLastInspectionItem = (index == dto.Equipments[i].InspectionItems.Count - 1);
+                    item.InspectionItemId = index;
+                    if (isLastInspectionItem)
+                    {
+                        if (!isLastEquipment)
+                        {
+                            item.Transitions.Add(new TransitionExportDto
+                            {
+                                SheetId = dto.SheetId,
+                                EquipmentId = dto.Equipments[i + 1].EquipmentId,
+                                InspectionItemId = 0,
+                            });
+                        }
+                    }
+                    else
+                    {
+                        item.Transitions.Add(new TransitionExportDto
+                        {
+                            SheetId = dto.SheetId,
+                            EquipmentId = dto.Equipments[i].EquipmentId,
+                            InspectionItemId = item.InspectionItemId + 1,
+                        });
+                    }
+                }
+            }
+            var json = JsonSerializer.Serialize(
+                new InspectionExportDto { Sheet = dto, },
+                options
+            );
+            var data = System.Text.Encoding.UTF8.GetBytes(json);
+            return data;
         }
     }
 }
