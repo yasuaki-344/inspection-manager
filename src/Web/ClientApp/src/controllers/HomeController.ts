@@ -65,7 +65,7 @@ export class HomeController implements IHomeController {
 
   exportJsonInspectionSheet(sheet: InspectionSheet): void {
     this.exportInspectionSheet(
-      `jsonexport/${sheet.sheetId}`,
+      `v1/json-inspection-sheets/${sheet.sheetId}`,
       `${sheet.sheetName}.json`
     );
   }
