@@ -4,7 +4,7 @@ namespace InspectionManager.ApplicationCore.Dto
 {
     public class InspectionGroupDto
     {
-        [JsonPropertyName("inspection_group_id")]
+        [JsonPropertyName("id")]
         public int InspectionGroupId { get; set; }
 
         [JsonPropertyName("description")]

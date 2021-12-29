@@ -107,7 +107,7 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public async Task DeleteInspectionGroupAsync(int id)
+        public async Task<InspectionGroupDto> DeleteInspectionGroupAsync(int id)
         {
             if (_context.InspectionGroups is not null)
             {
@@ -117,6 +117,7 @@ namespace InspectionManager.Infrastructure
                     _context.InspectionGroups.Remove(entity);
                     await _context.SaveChangesAsync();
                 }
+                return _mapper.Map<InspectionGroupDto>(entity);
             }
             else
             {

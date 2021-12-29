@@ -44,8 +44,8 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// Deletes the specified inspection group data.
         /// </summary>
         /// <param name="id">Group ID to be deleted</param>
-        /// <returns></returns>
-        Task DeleteInspectionGroupAsync(int id);
+        /// <returns>Deleted inspection group data</returns>
+        Task<InspectionGroupDto> DeleteInspectionGroupAsync(int id);
 
         /// <summary>
         /// Checks if the specified inspection type exists.
