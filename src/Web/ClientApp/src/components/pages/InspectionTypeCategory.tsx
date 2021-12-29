@@ -3,6 +3,9 @@ import { Admin, Resource } from "react-admin";
 import simpleRestProvider from "ra-data-simple-rest";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import japaneseMessages from "@bicstone/ra-language-japanese";
+import CategoryIcon from "@mui/icons-material/Category";
+import ClassIcon from '@mui/icons-material/Class';
+import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import {
   InspectionTypeCreate,
   InspectionTypeEdit,
@@ -32,6 +35,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
         create={InspectionGroupCreate}
         edit={InspectionGroupEdit}
         list={InspectionGroupList}
+        icon={CategoryIcon}
       />
       <Resource
         name="inspection-types"
@@ -39,6 +43,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
         create={InspectionTypeCreate}
         edit={InspectionTypeEdit}
         list={InspectionTypeList}
+        icon={ClassIcon}
       />
       <Resource
         name="choice-templates"
@@ -46,6 +51,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
         create={ChoiceTemplateCreate}
         edit={ChoiceTemplateEdit}
         list={ChoiceTemplateList}
+        icon={FormatListNumberedIcon}
       />
     </Admin>
   );
