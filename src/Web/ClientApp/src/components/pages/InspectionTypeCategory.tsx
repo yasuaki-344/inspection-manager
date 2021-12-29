@@ -9,7 +9,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { Admin, Resource, ListGuesser } from "react-admin";
+import { Admin, Resource } from "react-admin";
 import fakeDataProvider from "ra-data-fakerest";
 import nameof from "ts-nameof.macro";
 import {
@@ -30,6 +30,7 @@ import {
 } from "../../interfaces";
 import { useDIContext } from "../../container";
 import { InspectionType } from "../../entities";
+import { InspectionTypeList } from "./InspectionTypes";
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
   const inject = useDIContext();
@@ -117,7 +118,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
           inspectionTypes: presenter.state,
         })}
       >
-        <Resource name="inspectionTypes" list={ListGuesser} />
+        <Resource name="inspectionTypes" list={InspectionTypeList} />
       </Admin>
       <Grid container spacing={1}>
         <Grid item xs={12}>
