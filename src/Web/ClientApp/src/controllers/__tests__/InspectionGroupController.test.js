@@ -42,9 +42,9 @@ describe("InspectionGroupController unit test", () => {
       create: jest.fn(async () => {}),
     };
     const target = new InspectionGroupController(useCase);
-    await target.create({ inspectionGroupId: 1, description: "group" });
+    await target.create({ id: 1, description: "group" });
     expect(useCase.create).toHaveBeenCalledWith({
-      inspectionGroupId: 1,
+      id: 1,
       description: "group",
     });
   });
@@ -54,9 +54,9 @@ describe("InspectionGroupController unit test", () => {
       update: jest.fn(async () => {}),
     };
     const target = new InspectionGroupController(useCase);
-    await target.update({ inspectionGroupId: 1, description: "group" });
+    await target.update({ id: 1, description: "group" });
     expect(useCase.update).toHaveBeenCalledWith({
-      inspectionGroupId: 1,
+      id: 1,
       description: "group",
     });
   });

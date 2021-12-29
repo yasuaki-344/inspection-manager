@@ -112,8 +112,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
             >
               {presenter.groups.map((group: InspectionGroup) => (
                 <MenuItem
-                  key={group.inspectionGroupId}
-                  value={group.inspectionGroupId}
+                  key={group.id}
+                  value={group.id}
                 >
                   {group.description}
                 </MenuItem>
@@ -132,10 +132,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
               onChange={controller.changeTypeId}
             >
               {presenter.types.map((type: InspectionType) => (
-                <MenuItem
-                  key={type.inspectionTypeId}
-                  value={type.inspectionTypeId}
-                >
+                <MenuItem key={type.id} value={type.id}>
                   {type.description}
                 </MenuItem>
               ))}

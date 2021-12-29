@@ -28,16 +28,16 @@ export class InspectionTypeRepository implements IInspectionTypeRepository {
 
   async put(inspectionType: InspectionType): Promise<InspectionType> {
     const req = toSnakeCase(inspectionType);
-    const res = await this.api.inspectionTypesInspectionTypeIdPut({
-      inspectionTypeId: req.inspection_type_id,
+    const res = await this.api.inspectionTypesIdPut({
+      id: req.id,
       inspectionType: req,
     });
     return toCamelCase(res);
   }
 
   async delete(id: number): Promise<void> {
-    await this.api.inspectionTypesInspectionTypeIdDelete({
-      inspectionTypeId: id,
+    await this.api.inspectionTypesIdDelete({
+      id,
     });
   }
 }

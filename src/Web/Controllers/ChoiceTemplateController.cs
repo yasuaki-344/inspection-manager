@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using InspectionManager.ApplicationCore.Dto;
@@ -45,6 +46,7 @@ namespace InspectionManager.Web.Controllers
             {
                 _logger.LogInformation("try to get all choice template");
                 var templates = _repository.GetChoiceTemplates();
+                Response.Headers.ContentRange = templates.Count().ToString();
                 return Ok(templates);
             }
             catch (Exception ex)
@@ -58,32 +60,32 @@ namespace InspectionManager.Web.Controllers
         /// <summary>
         /// Get ChoiceTemplate model by ID.
         /// </summary>
-        /// <param name="choiceTemplateId">Choice template ID to get</param>
+        /// <param name="id">Choice template ID to get</param>
         /// <response code="200">A single ChoiceTemplate model</response>
         /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
         /// <response code="404">対象リソースが存在しない Not Found</response>
         /// <response code="500">システムエラー Internal Server Error</response>
         [HttpGet]
-        [Route("/v1/choice-templates/{choiceTemplateId}")]
+        [Route("/v1/choice-templates/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChoiceTemplateDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetChoiceTemplate([FromRoute][Required] int? choiceTemplateId)
+        public IActionResult GetChoiceTemplate([FromRoute][Required] int? id)
         {
             try
             {
-                if (choiceTemplateId is not null)
+                if (id is not null)
                 {
-                    _logger.LogInformation($"try to get choice template {choiceTemplateId}");
-                    if (_repository.ChoiceTemplateExists(choiceTemplateId.Value))
+                    _logger.LogInformation($"try to get choice template {id}");
+                    if (_repository.ChoiceTemplateExists(id.Value))
                     {
-                        var result = _repository.GetChoiceTemplate(choiceTemplateId.Value);
+                        var result = _repository.GetChoiceTemplate(id.Value);
                         return Ok(result);
                     }
                     else
                     {
-                        return NotFound($"template with Id = {choiceTemplateId} not found");
+                        return NotFound($"template with Id = {id} not found");
                     }
                 }
                 else
@@ -140,27 +142,27 @@ namespace InspectionManager.Web.Controllers
         /// <summary>
         /// Updates the ChoiceTemplate model.
         /// </summary>
-        /// <param name="choiceTemplateId">Choice template ID to update</param>
+        /// <param name="id">Choice template ID to update</param>
         /// <param name="dto">inspection type to update</param>
         /// <response code="201">正常系（非同期）Created</response>
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Not found</response>
         /// <response code="500">Internal Server Error</response>
         [HttpPut]
-        [Route("/v1/choice-templates/{choiceTemplateId}")]
+        [Route("/v1/choice-templates/{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ChoiceTemplateDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateChoiceTemplateAsync([FromRoute][Required] int? choiceTemplateId, [FromBody] ChoiceTemplateDto dto)
+        public async Task<IActionResult> UpdateChoiceTemplateAsync([FromRoute][Required] int? id, [FromBody] ChoiceTemplateDto dto)
         {
             try
             {
-                if (choiceTemplateId is not null)
+                if (id is not null)
                 {
                     _logger.LogInformation($"try to update choice template {dto.ChoiceTemplateId}");
-                    if (choiceTemplateId != dto.ChoiceTemplateId)
+                    if (id != dto.ChoiceTemplateId)
                     {
                         return BadRequest("Invalid ID supplied");
                     }
@@ -192,33 +194,32 @@ namespace InspectionManager.Web.Controllers
         /// <summary>
         /// Deletes the ChoiceTemplate model.
         /// </summary>
-        /// <param name="choiceTemplateId">Choice template ID to delete</param>
-        /// <response code="204">No Content</response>
+        /// <param name="id">Choice template ID to delete</param>
+        /// <response code="200">Success</response>
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Not found</response>
         /// <response code="500">Internal Server Error</response>
         [HttpDelete]
-        [Route("/v1/choice-templates/{choiceTemplateId}")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [Route("/v1/choice-templates/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChoiceTemplateDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteChoiceTemplateAsync([FromRoute][Required] int? choiceTemplateId)
+        public async Task<IActionResult> DeleteChoiceTemplateAsync([FromRoute][Required] int? id)
         {
             try
             {
-                if (choiceTemplateId is not null)
+                if (id is not null)
                 {
-                    _logger.LogInformation($"try to delete choice template {choiceTemplateId}");
-                    if (_repository.ChoiceTemplateExists(choiceTemplateId.Value))
+                    _logger.LogInformation($"try to delete choice template {id}");
+                    if (_repository.ChoiceTemplateExists(id.Value))
                     {
-                        await _repository.DeleteChoiceTemplateAsync(choiceTemplateId.Value);
-                        return NoContent();
+                        var dto = await _repository.DeleteChoiceTemplateAsync(id.Value);
+                        return Ok(dto);
                     }
                     else
                     {
-                        return NotFound($"choice template with Id = {choiceTemplateId} not found");
+                        return NotFound($"choice template with Id = {id} not found");
                     }
                 }
                 else

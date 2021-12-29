@@ -141,9 +141,9 @@ paths:
                 items:
                   $ref: "#/components/schemas/InspectionGroup"
                 example:
-                  - inspection_group_id: 1
+                  - id: 1
                     description: group1
-                  - inspection_group_id: 2
+                  - id: 2
                     description: group2
         "500":
           description: システムエラー Internal Server Error
@@ -170,20 +170,20 @@ paths:
               schema:
                 $ref: "#/components/schemas/InspectionGroup"
               example:
-                inspection_group_id: 1
+                id: 1
                 description: inspection group
         "400":
           description: バリデーションエラー or 業務エラー Bad Request
         "500":
           description: システムエラー Internal Server Error
-  /inspection-groups/{inspection_group_id}:
+  /inspection-groups/{id}:
     get:
       tags:
         - inspection groups
       summary: Get InspectionGroup model by ID.
       description: ""
       parameters:
-        - name: inspection_group_id
+        - name: id
           in: path
           description: inspection group ID to get
           required: true
@@ -197,7 +197,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/InspectionGroup"
               example:
-                inspection_group_id: 1
+                id: 1
                 description: group name
         "400":
           description: IDが設定されていない Bad Request
@@ -211,7 +211,7 @@ paths:
       summary: Updates the InspectionGroup model.
       description: ""
       parameters:
-        - name: inspection_group_id
+        - name: id
           in: path
           description: inspection group ID to update
           required: true
@@ -224,7 +224,7 @@ paths:
             schema:
               $ref: "#/components/schemas/InspectionGroup"
             example:
-              inspection_group_id: 1
+              id: 1
               description: group name
       responses:
         "201":
@@ -234,7 +234,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/InspectionGroup"
               example:
-                inspection_group_id: 1
+                id: 1
                 description: updated group name
         "400":
           description: "Invalid ID supplied"
@@ -248,15 +248,22 @@ paths:
       summary: Deletes the InspectionGroup model.
       description: ""
       parameters:
-        - name: inspection_group_id
+        - name: id
           in: path
           description: inspection group ID to delete
           required: true
           schema:
             type: integer
       responses:
-        "204":
-          description: No Content
+        "200":
+          description: The specified InspectionGroup model is deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InspectionGroup"
+              example:
+                id: 1
+                description: deleted group name
         "400":
           description: "Invalid ID supplied"
         "404":
@@ -280,9 +287,9 @@ paths:
                 items:
                   $ref: "#/components/schemas/InspectionType"
                 example:
-                  - inspection_type_id: 1
+                  - id: 1
                     description: type1
-                  - inspection_type_id: 2
+                  - id: 2
                     description: type2
         "500":
           description: システムエラー Internal Server Error
@@ -315,14 +322,14 @@ paths:
           description: バリデーションエラー or 業務エラー Bad Request
         "500":
           description: システムエラー Internal Server Error
-  /inspection-types/{inspection_type_id}:
+  /inspection-types/{id}:
     get:
       tags:
         - inspection types
       summary: Get InspectionType model by ID.
       description: ""
       parameters:
-        - name: inspection_type_id
+        - name: id
           in: path
           description: inspection type ID to get
           required: true
@@ -336,7 +343,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/InspectionType"
               example:
-                inspection_group_id: 1
+                id: 1
                 description: type name
         "400":
           description: 無効なID Bad Request
@@ -350,7 +357,7 @@ paths:
       summary: Updates the InspectionType model.
       description: ""
       parameters:
-        - name: inspection_type_id
+        - name: id
           in: path
           description: inspection type ID to update
           required: true
@@ -387,15 +394,22 @@ paths:
       summary: Deletes the InspectionType model.
       description: ""
       parameters:
-        - name: inspection_type_id
+        - name: id
           in: path
           description: inspection type ID to delete
           required: true
           schema:
             type: integer
       responses:
-        "204":
-          description: No Content
+        "200":
+          description: The specified InspectionType model is deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InspectionType"
+              example:
+                id: 1
+                description: type name
         "400":
           description: "Invalid ID supplied"
         "404":
@@ -419,13 +433,13 @@ paths:
                 items:
                   $ref: "#/components/schemas/ChoiceTemplate"
                 example:
-                  - choice_template_id: 1
+                  - id: 1
                     choices:
                       - id: 1
                         description: OK
                       - id: 2
                         description: NG
-                  - choice_template_id: 2
+                  - id: 2
                     choices:
                       - id: 3
                         description: Yes
@@ -448,7 +462,7 @@ paths:
             schema:
               $ref: "#/components/schemas/ChoiceTemplate"
             example:
-              choice_template_id: 0
+              id: 0
               choices:
                 - id: 1
                   description: OK
@@ -462,7 +476,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ChoiceTemplate"
                 example:
-                  choice_template_id: 1
+                  id: 1
                   choices:
                     - id: 1
                       description: OK
@@ -472,14 +486,14 @@ paths:
           description: バリデーションエラー or 業務エラー Bad Request
         "500":
           description: システムエラー Internal Server Error
-  /choice-templates/{choiceTemplateId}:
+  /choice-templates/{id}:
     get:
       tags:
         - choice templates
       summary: Get choiceTemplate by ID.
       description: Returns a single ChoiceTemplate model
       parameters:
-        - name: choiceTemplateId
+        - name: id
           in: path
           description: choice template ID
           required: true
@@ -495,7 +509,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/ChoiceTemplate"
                 example:
-                  choice_template_id: 1
+                  id: 1
                   choices:
                     - id: 1
                       description: OK
@@ -513,7 +527,7 @@ paths:
       summary: Updates a ChoiceTemplate
       description: ""
       parameters:
-        - name: choiceTemplateId
+        - name: id
           in: path
           description: choice template ID
           required: true
@@ -526,7 +540,7 @@ paths:
             schema:
               $ref: "#/components/schemas/ChoiceTemplate"
             example:
-              choice_template_id: 1
+              id: 1
               choices:
                 - id: 1
                   description: OK
@@ -540,7 +554,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ChoiceTemplate"
               example:
-                choice_template_id: 1
+                id: 1
                 choices:
                   - id: 1
                     description: OK
@@ -558,15 +572,26 @@ paths:
       summary: Deletes a ChoiceTemplate
       description: ""
       parameters:
-        - name: choiceTemplateId
+        - name: id
           in: path
           description: choice template ID
           required: true
           schema:
             type: integer
       responses:
-        "204":
-          description: No Content
+        "200":
+          description: The specified ChoiceTemplate model is deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChoiceTemplate"
+              example:
+                id: 1
+                choices:
+                  - id: 1
+                    description: OK
+                  - id: 2
+                    description: NG
         "400":
           description: "Invalid ID supplied"
         "404":
@@ -686,10 +711,10 @@ components:
     InspectionGroup:
       type: object
       required:
-        - inspection_group_id
+        - id
         - description
       properties:
-        inspection_group_id:
+        id:
           type: integer
           format: int64
         description:
@@ -697,10 +722,10 @@ components:
     InspectionType:
       type: object
       required:
-        - inspection_type_id
+        - id
         - description
       properties:
-        inspection_type_id:
+        id:
           type: integer
           format: int64
         description:
@@ -708,10 +733,10 @@ components:
     ChoiceTemplate:
       type: object
       required:
-        - choice_template_id
+        - id
         - choices
       properties:
-        choice_template_id:
+        id:
           type: integer
           format: int64
         choices:

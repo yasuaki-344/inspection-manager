@@ -107,7 +107,7 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public async Task DeleteInspectionGroupAsync(int id)
+        public async Task<InspectionGroupDto> DeleteInspectionGroupAsync(int id)
         {
             if (_context.InspectionGroups is not null)
             {
@@ -117,6 +117,7 @@ namespace InspectionManager.Infrastructure
                     _context.InspectionGroups.Remove(entity);
                     await _context.SaveChangesAsync();
                 }
+                return _mapper.Map<InspectionGroupDto>(entity);
             }
             else
             {
@@ -205,7 +206,7 @@ namespace InspectionManager.Infrastructure
 
 
         /// <inheritdoc/>
-        public async Task DeleteInspectionTypeAsync(int id)
+        public async Task<InspectionTypeDto> DeleteInspectionTypeAsync(int id)
         {
             if (_context.InspectionTypes is not null)
             {
@@ -215,6 +216,7 @@ namespace InspectionManager.Infrastructure
                     _context.InspectionTypes.Remove(entity);
                     await _context.SaveChangesAsync();
                 }
+                return _mapper.Map<InspectionTypeDto>(entity);
             }
             else
             {
@@ -314,7 +316,7 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public async Task DeleteChoiceTemplateAsync(int id)
+        public async Task<ChoiceTemplateDto> DeleteChoiceTemplateAsync(int id)
         {
             if (_context.ChoiceTemplates is not null)
             {
@@ -326,6 +328,8 @@ namespace InspectionManager.Infrastructure
                     _context.ChoiceTemplates.Remove(entity);
                     await _context.SaveChangesAsync();
                 }
+
+                return _mapper.Map<ChoiceTemplateDto>(entity);
             }
             else
             {

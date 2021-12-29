@@ -1,6 +1,6 @@
 import { Option } from "./Option";
 
 export type ChoiceTemplate = {
-  choiceTemplateId: number;
+  id: number;
   choices: Option[];
 };

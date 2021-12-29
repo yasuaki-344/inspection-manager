@@ -1,4 +1,4 @@
 export type InspectionGroup = {
-  inspectionGroupId: number;
+  id: number;
   description: string;
 };

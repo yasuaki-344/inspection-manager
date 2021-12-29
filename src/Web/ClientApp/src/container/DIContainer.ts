@@ -5,8 +5,6 @@ import {
   InspectionSheetController,
   DetailController,
   HomeController,
-  InspectionGroupController,
-  InspectionTypeController,
 } from "../controllers";
 import {
   ChoiceTemplateRepository,
@@ -25,24 +23,18 @@ import {
   IDetailPresenter,
   IHomeController,
   IHomePresenter,
-  IInspectionGroupController,
   IInspectionGroupInteractor,
-  IInspectionGroupPresenter,
   IInspectionGroupRepository,
   IInspectionItemInteractor,
   IInspectionSheetInteractor,
   IInspectionSheetRepository,
-  IInspectionTypeController,
   IInspectionTypeInteractor,
-  IInspectionTypePresenter,
   IInspectionTypeRepository,
 } from "../interfaces";
 import {
   ChoiceTemplatePresenter,
   DetailPresenter,
   HomePresenter,
-  InspectionGroupPresenter,
-  InspectionTypePresenter,
 } from "../presenters";
 import { InspectionSheetPresenter } from "../presenters/InspectionSheetPresenter";
 import {
@@ -151,18 +143,6 @@ export const setUpDIContainer = () => {
       inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
     )
   );
-  register(
-    nameof<IInspectionGroupPresenter>(),
-    new InspectionGroupPresenter(
-      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor
-    )
-  );
-  register(
-    nameof<IInspectionTypePresenter>(),
-    new InspectionTypePresenter(
-      inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor
-    )
-  );
 
   // register controller
   register(
@@ -196,18 +176,6 @@ export const setUpDIContainer = () => {
         nameof<IInspectionGroupInteractor>()
       ) as IInspectionGroupInteractor,
       inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
-    )
-  );
-  register(
-    nameof<IInspectionGroupController>(),
-    new InspectionGroupController(
-      inject(nameof<IInspectionGroupInteractor>()) as IInspectionGroupInteractor
-    )
-  );
-  register(
-    nameof<IInspectionTypeController>(),
-    new InspectionTypeController(
-      inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor
     )
   );
 

@@ -44,8 +44,8 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// Deletes the specified inspection group data.
         /// </summary>
         /// <param name="id">Group ID to be deleted</param>
-        /// <returns></returns>
-        Task DeleteInspectionGroupAsync(int id);
+        /// <returns>Deleted inspection group data</returns>
+        Task<InspectionGroupDto> DeleteInspectionGroupAsync(int id);
 
         /// <summary>
         /// Checks if the specified inspection type exists.
@@ -85,8 +85,8 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// Deletes the specified inspection type data.
         /// </summary>
         /// <param name="id">Type ID to be deleted</param>
-        /// <returns></returns>
-        Task DeleteInspectionTypeAsync(int id);
+        /// <returns>Deleted entity</returns>
+        Task<InspectionTypeDto> DeleteInspectionTypeAsync(int id);
 
         /// <summary>
         /// Checks if the specified choice template exists.
@@ -126,7 +126,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// Deletes the specified choice template data.
         /// </summary>
         /// <param name="id">Choice template ID to be deleted</param>
-        /// <returns></returns>
-        Task DeleteChoiceTemplateAsync(int id);
+        /// <returns>Deleted choice template data</returns>
+        Task<ChoiceTemplateDto> DeleteChoiceTemplateAsync(int id);
     }
 }

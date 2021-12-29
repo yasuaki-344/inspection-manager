@@ -20,16 +20,16 @@ import {
     InspectionGroupToJSON,
 } from '../models';
 
-export interface InspectionGroupsInspectionGroupIdDeleteRequest {
-    inspectionGroupId: number;
+export interface InspectionGroupsIdDeleteRequest {
+    id: number;
 }
 
-export interface InspectionGroupsInspectionGroupIdGetRequest {
-    inspectionGroupId: number;
+export interface InspectionGroupsIdGetRequest {
+    id: number;
 }
 
-export interface InspectionGroupsInspectionGroupIdPutRequest {
-    inspectionGroupId: number;
+export interface InspectionGroupsIdPutRequest {
+    id: number;
     inspectionGroup?: InspectionGroup;
 }
 
@@ -61,48 +61,48 @@ export interface InspectionGroupsApiInterface {
     /**
      * 
      * @summary Deletes the InspectionGroup model.
-     * @param {number} inspectionGroupId inspection group ID to delete
+     * @param {number} id inspection group ID to delete
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof InspectionGroupsApiInterface
      */
-    inspectionGroupsInspectionGroupIdDeleteRaw(requestParameters: InspectionGroupsInspectionGroupIdDeleteRequest): Promise<runtime.ApiResponse<void>>;
+    inspectionGroupsIdDeleteRaw(requestParameters: InspectionGroupsIdDeleteRequest): Promise<runtime.ApiResponse<InspectionGroup>>;
 
     /**
      * Deletes the InspectionGroup model.
      */
-    inspectionGroupsInspectionGroupIdDelete(requestParameters: InspectionGroupsInspectionGroupIdDeleteRequest): Promise<void>;
+    inspectionGroupsIdDelete(requestParameters: InspectionGroupsIdDeleteRequest): Promise<InspectionGroup>;
 
     /**
      * 
      * @summary Get InspectionGroup model by ID.
-     * @param {number} inspectionGroupId inspection group ID to get
+     * @param {number} id inspection group ID to get
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof InspectionGroupsApiInterface
      */
-    inspectionGroupsInspectionGroupIdGetRaw(requestParameters: InspectionGroupsInspectionGroupIdGetRequest): Promise<runtime.ApiResponse<InspectionGroup>>;
+    inspectionGroupsIdGetRaw(requestParameters: InspectionGroupsIdGetRequest): Promise<runtime.ApiResponse<InspectionGroup>>;
 
     /**
      * Get InspectionGroup model by ID.
      */
-    inspectionGroupsInspectionGroupIdGet(requestParameters: InspectionGroupsInspectionGroupIdGetRequest): Promise<InspectionGroup>;
+    inspectionGroupsIdGet(requestParameters: InspectionGroupsIdGetRequest): Promise<InspectionGroup>;
 
     /**
      * 
      * @summary Updates the InspectionGroup model.
-     * @param {number} inspectionGroupId inspection group ID to update
+     * @param {number} id inspection group ID to update
      * @param {InspectionGroup} [inspectionGroup] inspection group to update
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof InspectionGroupsApiInterface
      */
-    inspectionGroupsInspectionGroupIdPutRaw(requestParameters: InspectionGroupsInspectionGroupIdPutRequest): Promise<runtime.ApiResponse<InspectionGroup>>;
+    inspectionGroupsIdPutRaw(requestParameters: InspectionGroupsIdPutRequest): Promise<runtime.ApiResponse<InspectionGroup>>;
 
     /**
      * Updates the InspectionGroup model.
      */
-    inspectionGroupsInspectionGroupIdPut(requestParameters: InspectionGroupsInspectionGroupIdPutRequest): Promise<InspectionGroup>;
+    inspectionGroupsIdPut(requestParameters: InspectionGroupsIdPutRequest): Promise<InspectionGroup>;
 
     /**
      * 
@@ -155,9 +155,9 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
     /**
      * Deletes the InspectionGroup model.
      */
-    async inspectionGroupsInspectionGroupIdDeleteRaw(requestParameters: InspectionGroupsInspectionGroupIdDeleteRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.inspectionGroupId === null || requestParameters.inspectionGroupId === undefined) {
-            throw new runtime.RequiredError('inspectionGroupId','Required parameter requestParameters.inspectionGroupId was null or undefined when calling inspectionGroupsInspectionGroupIdDelete.');
+    async inspectionGroupsIdDeleteRaw(requestParameters: InspectionGroupsIdDeleteRequest): Promise<runtime.ApiResponse<InspectionGroup>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling inspectionGroupsIdDelete.');
         }
 
         const queryParameters: any = {};
@@ -165,28 +165,29 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/inspection-groups/{inspection_group_id}`.replace(`{${"inspection_group_id"}}`, encodeURIComponent(String(requestParameters.inspectionGroupId))),
+            path: `/inspection-groups/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
         });
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => InspectionGroupFromJSON(jsonValue));
     }
 
     /**
      * Deletes the InspectionGroup model.
      */
-    async inspectionGroupsInspectionGroupIdDelete(requestParameters: InspectionGroupsInspectionGroupIdDeleteRequest): Promise<void> {
-        await this.inspectionGroupsInspectionGroupIdDeleteRaw(requestParameters);
+    async inspectionGroupsIdDelete(requestParameters: InspectionGroupsIdDeleteRequest): Promise<InspectionGroup> {
+        const response = await this.inspectionGroupsIdDeleteRaw(requestParameters);
+        return await response.value();
     }
 
     /**
      * Get InspectionGroup model by ID.
      */
-    async inspectionGroupsInspectionGroupIdGetRaw(requestParameters: InspectionGroupsInspectionGroupIdGetRequest): Promise<runtime.ApiResponse<InspectionGroup>> {
-        if (requestParameters.inspectionGroupId === null || requestParameters.inspectionGroupId === undefined) {
-            throw new runtime.RequiredError('inspectionGroupId','Required parameter requestParameters.inspectionGroupId was null or undefined when calling inspectionGroupsInspectionGroupIdGet.');
+    async inspectionGroupsIdGetRaw(requestParameters: InspectionGroupsIdGetRequest): Promise<runtime.ApiResponse<InspectionGroup>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling inspectionGroupsIdGet.');
         }
 
         const queryParameters: any = {};
@@ -194,7 +195,7 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/inspection-groups/{inspection_group_id}`.replace(`{${"inspection_group_id"}}`, encodeURIComponent(String(requestParameters.inspectionGroupId))),
+            path: `/inspection-groups/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -206,17 +207,17 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
     /**
      * Get InspectionGroup model by ID.
      */
-    async inspectionGroupsInspectionGroupIdGet(requestParameters: InspectionGroupsInspectionGroupIdGetRequest): Promise<InspectionGroup> {
-        const response = await this.inspectionGroupsInspectionGroupIdGetRaw(requestParameters);
+    async inspectionGroupsIdGet(requestParameters: InspectionGroupsIdGetRequest): Promise<InspectionGroup> {
+        const response = await this.inspectionGroupsIdGetRaw(requestParameters);
         return await response.value();
     }
 
     /**
      * Updates the InspectionGroup model.
      */
-    async inspectionGroupsInspectionGroupIdPutRaw(requestParameters: InspectionGroupsInspectionGroupIdPutRequest): Promise<runtime.ApiResponse<InspectionGroup>> {
-        if (requestParameters.inspectionGroupId === null || requestParameters.inspectionGroupId === undefined) {
-            throw new runtime.RequiredError('inspectionGroupId','Required parameter requestParameters.inspectionGroupId was null or undefined when calling inspectionGroupsInspectionGroupIdPut.');
+    async inspectionGroupsIdPutRaw(requestParameters: InspectionGroupsIdPutRequest): Promise<runtime.ApiResponse<InspectionGroup>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling inspectionGroupsIdPut.');
         }
 
         const queryParameters: any = {};
@@ -226,7 +227,7 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/inspection-groups/{inspection_group_id}`.replace(`{${"inspection_group_id"}}`, encodeURIComponent(String(requestParameters.inspectionGroupId))),
+            path: `/inspection-groups/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
@@ -239,8 +240,8 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
     /**
      * Updates the InspectionGroup model.
      */
-    async inspectionGroupsInspectionGroupIdPut(requestParameters: InspectionGroupsInspectionGroupIdPutRequest): Promise<InspectionGroup> {
-        const response = await this.inspectionGroupsInspectionGroupIdPutRaw(requestParameters);
+    async inspectionGroupsIdPut(requestParameters: InspectionGroupsIdPutRequest): Promise<InspectionGroup> {
+        const response = await this.inspectionGroupsIdPutRaw(requestParameters);
         return await response.value();
     }
 

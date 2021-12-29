@@ -13,8 +13,8 @@ describe("InspectionTypeRepository unit test", () => {
     const types = await target.get();
     expect(apiSpy).toHaveBeenCalled();
     expect(types).toEqual([
-      { inspectionTypeId: 1, description: "type1" },
-      { inspectionTypeId: 2, description: "type2" },
+      { id: 1, description: "type1" },
+      { id: 2, description: "type2" },
     ]);
   });
 
@@ -24,13 +24,13 @@ describe("InspectionTypeRepository unit test", () => {
       .mockReturnValue({ inspection_type_id: 1, description: "newType" });
     const target = new InspectionTypeRepository();
     const type = await target.post({
-      inspectionTypeId: 1,
+      id: 1,
       description: "type1",
     });
     expect(apiSpy).toHaveBeenCalledWith({
       inspectionType: { inspection_type_id: 1, description: "type1" },
     });
-    expect(type).toEqual({ inspectionTypeId: 1, description: "newType" });
+    expect(type).toEqual({ id: 1, description: "newType" });
   });
 
   test("Put inspection type correctly", async () => {
@@ -39,14 +39,14 @@ describe("InspectionTypeRepository unit test", () => {
       .mockReturnValue({ inspection_type_id: 1, description: "newType" });
     const target = new InspectionTypeRepository();
     const type = await target.put({
-      inspectionTypeId: 1,
+      id: 1,
       description: "type1",
     });
     expect(apiSpy).toHaveBeenCalledWith({
-      inspectionTypeId: 1,
+      id: 1,
       inspectionType: { inspection_type_id: 1, description: "type1" },
     });
-    expect(type).toEqual({ inspectionTypeId: 1, description: "newType" });
+    expect(type).toEqual({ id: 1, description: "newType" });
   });
 
   test("Delete inspection type correctly", async () => {
@@ -58,6 +58,6 @@ describe("InspectionTypeRepository unit test", () => {
       .mockReturnValue();
     const target = new InspectionTypeRepository();
     target.delete(1);
-    expect(apiSpy).toHaveBeenCalledWith({ inspectionTypeId: 1 });
+    expect(apiSpy).toHaveBeenCalledWith({ id: 1 });
   });
 });

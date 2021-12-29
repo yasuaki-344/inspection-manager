@@ -26,7 +26,7 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
     this.dispatch = setTemplates;
 
     const [target, setTarget] = useState<ChoiceTemplate>({
-      choiceTemplateId: 0,
+      id: 0,
       choices: [],
     });
     this.target = target;
@@ -38,14 +38,14 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
   /** @inheritdoc */
   setUpNewChoiceTemplate(): void {
     this.setTarget({
-      choiceTemplateId: 0,
+      id: 0,
       choices: [],
     });
   }
 
   /** @inheritdoc */
   setUpChoiceTemplateForEdit(id: number): void {
-    const data = this.templates.find((x) => x.choiceTemplateId === id);
+    const data = this.templates.find((x) => x.id === id);
     if (data != null) {
       this.setTarget(data);
     }
@@ -114,20 +114,14 @@ export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
   /** @inheritdoc */
   async update(): Promise<void> {
     await this.repository.put(this.target).then((res: ChoiceTemplate) => {
-      this.dispatch(
-        this.templates.map((x) =>
-          x.choiceTemplateId === res.choiceTemplateId ? res : x
-        )
-      );
+      this.dispatch(this.templates.map((x) => (x.id === res.id ? res : x)));
     });
   }
 
   /** @inheritdoc */
   async delete(id: number): Promise<void> {
     await this.repository.delete(id).then(() => {
-      this.dispatch(
-        this.templates.filter((x: ChoiceTemplate) => x.choiceTemplateId !== id)
-      );
+      this.dispatch(this.templates.filter((x: ChoiceTemplate) => x.id !== id));
     });
   }
 }
