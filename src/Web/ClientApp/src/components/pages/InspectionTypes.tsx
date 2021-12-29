@@ -7,8 +7,6 @@ import {
   SimpleForm,
   EditButton,
   TextInput,
-  ReferenceInput,
-  SelectInput,
   Create,
 } from "react-admin";
 
@@ -37,10 +35,12 @@ export const InspectionTypeCreate = (props: any) => (
   // eslint-disable-next-line
   <Create {...props}>
     <SimpleForm>
-      <ReferenceInput label="User" source="userId" reference="users">
-        <SelectInput optionText="name" />
-      </ReferenceInput>
-      <TextInput source="description" name="点検タイプ" />
+      <TextInput disabled label="点検タイプID" source="id" defaultValue="0" />
+      <TextInput
+        source="description"
+        label="点検タイプ"
+        defaultValue="タイプ"
+      />
     </SimpleForm>
   </Create>
 );
