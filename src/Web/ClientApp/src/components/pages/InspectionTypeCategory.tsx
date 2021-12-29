@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { Admin, Resource } from "react-admin";
-import fakeDataProvider from "ra-data-fakerest";
+import simpleRestProvider from "ra-data-simple-rest";
 import nameof from "ts-nameof.macro";
 import {
   Notification,
@@ -30,7 +30,11 @@ import {
 } from "../../interfaces";
 import { useDIContext } from "../../container";
 import { InspectionType } from "../../entities";
-import { InspectionTypeList, InspectionTypeEdit } from "./InspectionTypes";
+import {
+  InspectionTypeList,
+  InspectionTypeEdit,
+  InspectionTypeCreate,
+} from "./InspectionTypes";
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
   const inject = useDIContext();
@@ -71,7 +75,7 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
   };
 
   const handleRegistration = (): void => {
-    if (presenter.editItem.inspectionTypeId !== 0) {
+    if (presenter.editItem.id !== 0) {
       controller
         .update(presenter.editItem)
         .then(() => {
@@ -113,15 +117,12 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
 
   return (
     <>
-      <Admin
-        dataProvider={fakeDataProvider({
-          inspectionTypes: presenter.state,
-        })}
-      >
+      <Admin dataProvider={simpleRestProvider("http://localhost:5000/v1")}>
         <Resource
-          name="inspectionTypes"
+          name="inspection-types"
           list={InspectionTypeList}
           edit={InspectionTypeEdit}
+          create={InspectionTypeCreate}
         />
       </Admin>
       <Grid container spacing={1}>
@@ -143,16 +144,16 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
               </TableHead>
               <TableBody>
                 {presenter.state.map((type: InspectionType) => (
-                  <TableRow key={type.inspectionTypeId}>
+                  <TableRow key={type.id}>
                     <TableCell>{type.description}</TableCell>
                     <TableCell padding="checkbox">
                       <EditIconButton
-                        onClick={() => handleUpdateItem(type.inspectionTypeId)}
+                        onClick={() => handleUpdateItem(type.id)}
                       />
                     </TableCell>
                     <TableCell padding="checkbox">
                       <CancelIconButton
-                        onClick={() => handleDeleteItem(type.inspectionTypeId)}
+                        onClick={() => handleDeleteItem(type.id)}
                       />
                     </TableCell>
                   </TableRow>
