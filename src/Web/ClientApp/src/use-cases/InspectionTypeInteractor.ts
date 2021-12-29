@@ -10,22 +10,12 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
 
   private readonly setTypes: Dispatch<SetStateAction<InspectionType[]>>;
 
-  readonly target: InspectionType;
-
-  private readonly setTarget: Dispatch<SetStateAction<InspectionType>>;
-
   private readonly repository: IInspectionTypeRepository;
 
   constructor(repository: IInspectionTypeRepository) {
     const [types, setTypes] = useState<InspectionType[]>([]);
     this.types = types;
     this.setTypes = setTypes;
-    const [target, setTarget] = useState<InspectionType>({
-      id: 0,
-      description: "",
-    });
-    this.target = target;
-    this.setTarget = setTarget;
     this.repository = repository;
   }
 
