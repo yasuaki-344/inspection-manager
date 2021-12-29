@@ -66,12 +66,12 @@ export interface InspectionTypesApiInterface {
      * @throws {RequiredError}
      * @memberof InspectionTypesApiInterface
      */
-    inspectionTypesIdDeleteRaw(requestParameters: InspectionTypesIdDeleteRequest): Promise<runtime.ApiResponse<void>>;
+    inspectionTypesIdDeleteRaw(requestParameters: InspectionTypesIdDeleteRequest): Promise<runtime.ApiResponse<InspectionType>>;
 
     /**
      * Deletes the InspectionType model.
      */
-    inspectionTypesIdDelete(requestParameters: InspectionTypesIdDeleteRequest): Promise<void>;
+    inspectionTypesIdDelete(requestParameters: InspectionTypesIdDeleteRequest): Promise<InspectionType>;
 
     /**
      * 
@@ -155,7 +155,7 @@ export class InspectionTypesApi extends runtime.BaseAPI implements InspectionTyp
     /**
      * Deletes the InspectionType model.
      */
-    async inspectionTypesIdDeleteRaw(requestParameters: InspectionTypesIdDeleteRequest): Promise<runtime.ApiResponse<void>> {
+    async inspectionTypesIdDeleteRaw(requestParameters: InspectionTypesIdDeleteRequest): Promise<runtime.ApiResponse<InspectionType>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling inspectionTypesIdDelete.');
         }
@@ -171,14 +171,15 @@ export class InspectionTypesApi extends runtime.BaseAPI implements InspectionTyp
             query: queryParameters,
         });
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => InspectionTypeFromJSON(jsonValue));
     }
 
     /**
      * Deletes the InspectionType model.
      */
-    async inspectionTypesIdDelete(requestParameters: InspectionTypesIdDeleteRequest): Promise<void> {
-        await this.inspectionTypesIdDeleteRaw(requestParameters);
+    async inspectionTypesIdDelete(requestParameters: InspectionTypesIdDeleteRequest): Promise<InspectionType> {
+        const response = await this.inspectionTypesIdDeleteRaw(requestParameters);
+        return await response.value();
     }
 
     /**
