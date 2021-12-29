@@ -11,7 +11,6 @@ import {
   ListItemText,
   SwipeableDrawer,
 } from "@mui/material";
-import CategoryIcon from "@mui/icons-material/Category";
 import CreateIcon from "@mui/icons-material/Create";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import HomeIcon from "@mui/icons-material/Home";
@@ -39,12 +38,6 @@ export const NavMenu: FC = (): JSX.Element => {
   ];
 
   const subMenuList = [
-    {
-      id: 1,
-      path: "/group",
-      icon: <CategoryIcon />,
-      label: "点検グループ",
-    },
     {
       id: 2,
       path: "/types",

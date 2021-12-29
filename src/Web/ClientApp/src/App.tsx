@@ -6,7 +6,6 @@ import {
   Create,
   Details,
   Edit,
-  InspectionGroupCategory,
   InspectionTypeCategory,
   ChoicesTemplateManager,
 } from "./components/pages";
@@ -23,7 +22,6 @@ const App = (): JSX.Element => {
     <DIContainerContext.Provider value={container}>
       <Layout>
         <Route exact path="/" component={Home} />
-        <Route path="/group" component={InspectionGroupCategory} />
         <Route path="/types" component={InspectionTypeCategory} />
         <Route path="/choices-template" component={ChoicesTemplateManager} />
         <InspectionItemDialogStateContext.Provider

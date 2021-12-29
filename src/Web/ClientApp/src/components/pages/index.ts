@@ -4,7 +4,6 @@ export * from "./Details";
 export * from "./Home";
 export * from "./Edit";
 export * from "./EquipmentForm";
-export * from "./InspectionGroupCategory";
 export * from "./InspectionItemForm";
 export * from "./InspectionItemRow";
 export * from "./InspectionSheetForm";
