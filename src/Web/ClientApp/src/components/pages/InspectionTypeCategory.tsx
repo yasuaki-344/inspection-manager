@@ -9,6 +9,8 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { Admin, Resource, ListGuesser } from "react-admin";
+import fakeDataProvider from "ra-data-fakerest";
 import nameof from "ts-nameof.macro";
 import {
   Notification,
@@ -110,6 +112,13 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
 
   return (
     <>
+      <Admin
+        dataProvider={fakeDataProvider({
+          inspectionTypes: presenter.state,
+        })}
+      >
+        <Resource name="inspectionTypes" list={ListGuesser} />
+      </Admin>
       <Grid container spacing={1}>
         <Grid item xs={12}>
           <h1>点検タイプ編集</h1>
