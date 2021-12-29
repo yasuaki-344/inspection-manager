@@ -1,6 +1,8 @@
 import React, { FC } from "react";
 import { Admin, Resource } from "react-admin";
 import simpleRestProvider from "ra-data-simple-rest";
+import polyglotI18nProvider from "ra-i18n-polyglot";
+import japaneseMessages from "@bicstone/ra-language-japanese";
 import {
   InspectionTypeCreate,
   InspectionTypeEdit,
@@ -13,18 +15,22 @@ import {
 } from "./InspectionGroups";
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
+  const i18nProvider = polyglotI18nProvider(() => japaneseMessages, "ja");
   return (
-    <Admin dataProvider={simpleRestProvider("http://localhost:5000/v1")}>
+    <Admin
+      dataProvider={simpleRestProvider("http://localhost:5000/v1")}
+      i18nProvider={i18nProvider}
+    >
       <Resource
         name="inspection-groups"
-        options={{ label: '点検グループ' }}
+        options={{ label: "点検グループ" }}
         create={InspectionGroupCreate}
         edit={InspectionGroupEdit}
         list={InspectionGroupList}
       />
       <Resource
         name="inspection-types"
-        options={{ label: '点検タイプ' }}
+        options={{ label: "点検タイプ" }}
         create={InspectionTypeCreate}
         edit={InspectionTypeEdit}
         list={InspectionTypeList}

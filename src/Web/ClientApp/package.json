@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@bicstone/ra-language-japanese": "^3.18.3",
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.2.0",
@@ -13,8 +14,8 @@
     "merge": "^2.1.1",
     "oidc-client": "^1.11.5",
     "prop-types": "^15.8.0",
-    "ra-data-fakerest": "^3.19.5",
     "ra-data-simple-rest": "^3.19.5",
+    "ra-i18n-polyglot": "^3.19.5",
     "react": "^17.0.1",
     "react-admin": "^3.19.5",
     "react-dnd": "^14.0.4",
