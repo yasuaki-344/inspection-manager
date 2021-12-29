@@ -8,6 +8,7 @@ import {
   EditButton,
   TextInput,
   Create,
+  DeleteButton,
 } from "react-admin";
 
 export const InspectionTypeList = (props: any) => (
@@ -17,6 +18,7 @@ export const InspectionTypeList = (props: any) => (
       <TextField source="id" label="点検タイプID" />
       <TextField source="description" label="点検タイプ" />
       <EditButton />
+      <DeleteButton />
     </Datagrid>
   </List>
 );
