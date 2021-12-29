@@ -316,7 +316,7 @@ namespace InspectionManager.Infrastructure
         }
 
         /// <inheritdoc/>
-        public async Task DeleteChoiceTemplateAsync(int id)
+        public async Task<ChoiceTemplateDto> DeleteChoiceTemplateAsync(int id)
         {
             if (_context.ChoiceTemplates is not null)
             {
@@ -328,6 +328,8 @@ namespace InspectionManager.Infrastructure
                     _context.ChoiceTemplates.Remove(entity);
                     await _context.SaveChangesAsync();
                 }
+
+                return _mapper.Map<ChoiceTemplateDto>(entity);
             }
             else
             {

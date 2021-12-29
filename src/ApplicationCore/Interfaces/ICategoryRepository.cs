@@ -126,7 +126,7 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// Deletes the specified choice template data.
         /// </summary>
         /// <param name="id">Choice template ID to be deleted</param>
-        /// <returns></returns>
-        Task DeleteChoiceTemplateAsync(int id);
+        /// <returns>Deleted choice template data</returns>
+        Task<ChoiceTemplateDto> DeleteChoiceTemplateAsync(int id);
     }
 }

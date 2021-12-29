@@ -8,7 +8,7 @@ namespace InspectionManager.ApplicationCore.Dto
     /// </summary>
     public class ChoiceTemplateDto
     {
-        [JsonPropertyName("choice_template_id")]
+        [JsonPropertyName("id")]
         public int ChoiceTemplateId { get; set; }
 
         [JsonPropertyName("choices")]
