@@ -18,8 +18,7 @@ export class InspectionTypePresenter implements IInspectionTypePresenter {
   }
 
   getTypeName(id: number): string | undefined {
-    return this.useCase.types.find(
-      (x: InspectionType) => x.inspectionTypeId === id
-    )?.description;
+    return this.useCase.types.find((x: InspectionType) => x.id === id)
+      ?.description;
   }
 }

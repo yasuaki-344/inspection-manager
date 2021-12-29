@@ -1,4 +1,4 @@
 export type InspectionType = {
-  inspectionTypeId: number;
+  id: number;
   description: string;
 };

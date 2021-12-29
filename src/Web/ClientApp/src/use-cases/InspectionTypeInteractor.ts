@@ -21,7 +21,7 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
     this.types = types;
     this.setTypes = setTypes;
     const [target, setTarget] = useState<InspectionType>({
-      inspectionTypeId: 0,
+      id: 0,
       description: "",
     });
     this.target = target;
@@ -40,15 +40,13 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
 
   createEditItem(): void {
     this.setTarget({
-      inspectionTypeId: 0,
+      id: 0,
       description: "タイプ",
     });
   }
 
   setEditItem(id: number): void {
-    const type = this.types.find(
-      (x: InspectionType) => x.inspectionTypeId === id
-    );
+    const type = this.types.find((x: InspectionType) => x.id === id);
     if (type !== undefined) {
       this.setTarget(type);
     }
@@ -64,16 +62,15 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
   getIds(keyword: string): number[] {
     return this.types
       .filter((x: InspectionType) => x.description.includes(keyword))
-      .map((x: InspectionType) => x.inspectionTypeId);
+      .map((x: InspectionType) => x.id);
   }
 
   getById(id: number): InspectionType | undefined {
-    return this.types.find((x) => x.inspectionTypeId === id);
+    return this.types.find((x) => x.id === id);
   }
 
   getName(id: number): string | undefined {
-    return this.types.find((x: InspectionType) => x.inspectionTypeId === id)
-      ?.description;
+    return this.types.find((x: InspectionType) => x.id === id)?.description;
   }
 
   async create(inspectionType: InspectionType): Promise<void> {
@@ -84,19 +81,13 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
 
   async update(inspectionType: InspectionType): Promise<void> {
     await this.repository.put(inspectionType).then((res: InspectionType) => {
-      this.setTypes(
-        this.types.map((x) =>
-          x.inspectionTypeId === res.inspectionTypeId ? res : x
-        )
-      );
+      this.setTypes(this.types.map((x) => (x.id === res.id ? res : x)));
     });
   }
 
   async delete(id: number): Promise<void> {
     await this.repository.delete(id).then(() => {
-      this.setTypes(
-        this.types.filter((x: InspectionType) => x.inspectionTypeId !== id)
-      );
+      this.setTypes(this.types.filter((x: InspectionType) => x.id !== id));
     });
   }
 }

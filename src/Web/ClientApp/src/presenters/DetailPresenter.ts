@@ -44,7 +44,7 @@ export class DetailPresenter implements IDetailPresenter {
 
   /** @inheritdoc */
   getInspectionType(): string | undefined {
-    const { inspectionGroupId } = this.sheetUseCase.sheet;
-    return this.groupUseCase.getName(inspectionGroupId);
+    const { inspectionTypeId } = this.sheetUseCase.sheet;
+    return this.typeUseCase.getName(inspectionTypeId);
   }
 }

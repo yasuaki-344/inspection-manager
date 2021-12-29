@@ -132,10 +132,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
               onChange={controller.changeTypeId}
             >
               {presenter.types.map((type: InspectionType) => (
-                <MenuItem
-                  key={type.inspectionTypeId}
-                  value={type.inspectionTypeId}
-                >
+                <MenuItem key={type.id} value={type.id}>
                   {type.description}
                 </MenuItem>
               ))}
