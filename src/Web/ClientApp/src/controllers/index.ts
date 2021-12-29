@@ -3,4 +3,3 @@ export * from "./DetailController";
 export * from "./HomeController";
 export * from "./InspectionGroupController";
 export * from "./InspectionSheetController";
-export * from "./InspectionTypeController";
