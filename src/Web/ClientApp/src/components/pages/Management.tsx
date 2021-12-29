@@ -22,7 +22,7 @@ import {
   ChoiceTemplateList,
 } from "./ChoiceTemplates";
 
-export const InspectionTypeCategory: FC = (): JSX.Element => {
+export const Management: FC = (): JSX.Element => {
   const i18nProvider = polyglotI18nProvider(() => japaneseMessages, "ja");
   return (
     <Admin
@@ -56,4 +56,4 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
     </Admin>
   );
 };
-InspectionTypeCategory.displayName = InspectionTypeCategory.name;
+Management.displayName = Management.name;

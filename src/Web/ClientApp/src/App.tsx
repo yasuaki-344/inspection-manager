@@ -6,7 +6,7 @@ import {
   Create,
   Details,
   Edit,
-  InspectionTypeCategory,
+  Management,
 } from "./components/pages";
 import {
   DIContainerContext,
@@ -21,7 +21,7 @@ const App = (): JSX.Element => {
     <DIContainerContext.Provider value={container}>
       <Layout>
         <Route exact path="/" component={Home} />
-        <Route path="/types" component={InspectionTypeCategory} />
+        <Route path="/management" component={Management} />
         <InspectionItemDialogStateContext.Provider
           value={useState(InspectionItemDialogInitialState)}
         >

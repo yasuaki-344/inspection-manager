@@ -39,9 +39,9 @@ export const NavMenu: FC = (): JSX.Element => {
   const subMenuList = [
     {
       id: 2,
-      path: "/types",
+      path: "/management",
       icon: <LabelIcon />,
-      label: "点検種別",
+      label: "管理ページ",
     },
   ];
 
