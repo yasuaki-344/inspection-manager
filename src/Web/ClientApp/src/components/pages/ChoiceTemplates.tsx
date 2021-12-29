@@ -39,7 +39,12 @@ export const ChoiceTemplateEdit = (props: any) => (
       <TextField source="id" label="テンプレートID" />
       <ArrayInput source="choices" label="選択肢">
         <SimpleFormIterator>
-          <TextInput disabled source="option_id" label="項目ID" defaultValue="0"/>
+          <TextInput
+            disabled
+            source="option_id"
+            label="項目ID"
+            defaultValue="0"
+          />
           <TextInput source="description" label="項目" />
         </SimpleFormIterator>
       </ArrayInput>
@@ -54,7 +59,12 @@ export const ChoiceTemplateCreate = (props: any) => (
       <TextInput disabled label="テンプレートID" source="id" defaultValue="0" />
       <ArrayInput source="choices" label="選択肢">
         <SimpleFormIterator>
-          <TextInput disabled source="option_id" label="項目ID" defaultValue="0"/>
+          <TextInput
+            disabled
+            source="option_id"
+            label="項目ID"
+            defaultValue="0"
+          />
           <TextInput source="description" label="項目" />
         </SimpleFormIterator>
       </ArrayInput>

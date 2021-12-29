@@ -7,7 +7,6 @@ import {
   Details,
   Edit,
   InspectionTypeCategory,
-  ChoicesTemplateManager,
 } from "./components/pages";
 import {
   DIContainerContext,
@@ -23,7 +22,6 @@ const App = (): JSX.Element => {
       <Layout>
         <Route exact path="/" component={Home} />
         <Route path="/types" component={InspectionTypeCategory} />
-        <Route path="/choices-template" component={ChoicesTemplateManager} />
         <InspectionItemDialogStateContext.Provider
           value={useState(InspectionItemDialogInitialState)}
         >
