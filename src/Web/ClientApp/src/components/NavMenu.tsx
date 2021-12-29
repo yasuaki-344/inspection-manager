@@ -12,7 +12,6 @@ import {
   SwipeableDrawer,
 } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
-import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import HomeIcon from "@mui/icons-material/Home";
 import LabelIcon from "@mui/icons-material/Label";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -43,12 +42,6 @@ export const NavMenu: FC = (): JSX.Element => {
       path: "/types",
       icon: <LabelIcon />,
       label: "点検種別",
-    },
-    {
-      id: 3,
-      path: "/choices-template",
-      icon: <FormatListNumberedIcon />,
-      label: "選択肢テンプレート",
     },
   ];
 
