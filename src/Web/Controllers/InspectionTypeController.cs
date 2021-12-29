@@ -60,32 +60,32 @@ namespace InspectionManager.Web.Controllers
         /// <summary>
         /// Get InspectionType model by ID.
         /// </summary>
-        /// <param name="inspectionTypeId">inspection type ID to get</param>
+        /// <param name="id">inspection type ID to get</param>
         /// <response code="200">A single InspectionType model</response>
         /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
         /// <response code="404">対象リソースが存在しない Not Found</response>
         /// <response code="500">システムエラー Internal Server Error</response>
         [HttpGet]
-        [Route("/v1/inspection-types/{inspectionTypeId}")]
+        [Route("/v1/inspection-types/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionTypeDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetInspectionType([FromRoute][Required] int? inspectionTypeId)
+        public IActionResult GetInspectionType([FromRoute][Required] int? id)
         {
             try
             {
-                if (inspectionTypeId is not null)
+                if (id is not null)
                 {
-                    _logger.LogInformation($"try to get inspection type {inspectionTypeId}");
-                    if (_repository.InspectionTypeExists(inspectionTypeId.Value))
+                    _logger.LogInformation($"try to get inspection type {id}");
+                    if (_repository.InspectionTypeExists(id.Value))
                     {
-                        var result = _repository.GetInspectionType(inspectionTypeId.Value);
+                        var result = _repository.GetInspectionType(id.Value);
                         return Ok(result);
                     }
                     else
                     {
-                        return NotFound($"type with Id = {inspectionTypeId} not found");
+                        return NotFound($"type with Id = {id} not found");
                     }
                 }
                 else
@@ -142,27 +142,27 @@ namespace InspectionManager.Web.Controllers
         /// <summary>
         /// Updates the InspectionType model.
         /// </summary>
-        /// <param name="inspectionTypeId">inspection type ID to update</param>
+        /// <param name="id">inspection type ID to update</param>
         /// <param name="dto">inspection type to update</param>
         /// <response code="201">正常系（非同期）Created</response>
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Not found</response>
         /// <response code="500">Internal Server Error</response>
         [HttpPut]
-        [Route("/v1/inspection-types/{inspectionTypeId}")]
+        [Route("/v1/inspection-types/{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionTypeDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateInspectionTypeAsync([FromRoute][Required] int? inspectionTypeId, [FromBody] InspectionTypeDto dto)
+        public async Task<IActionResult> UpdateInspectionTypeAsync([FromRoute][Required] int? id, [FromBody] InspectionTypeDto dto)
         {
             try
             {
-                if (inspectionTypeId is not null)
+                if (id is not null)
                 {
                     _logger.LogInformation($"try to update inspection type {dto.InspectionTypeId}");
-                    if (inspectionTypeId.Value != dto.InspectionTypeId)
+                    if (id.Value != dto.InspectionTypeId)
                     {
                         return BadRequest("Invalid ID supplied");
                     }
@@ -194,29 +194,28 @@ namespace InspectionManager.Web.Controllers
         /// <summary>
         /// Deletes the InspectionType model.
         /// </summary>
-        /// <param name="inspectionTypeId">inspection type ID to delete</param>
+        /// <param name="id">inspection type ID to delete</param>
         /// <response code="204">No Content</response>
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Not found</response>
         /// <response code="500">Internal Server Error</response>
         [HttpDelete]
-        [Route("/v1/inspection-types/{inspectionTypeId}")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> DeleteInspectionTypeAsync([FromRoute][Required] int? inspectionTypeId)
+        [Route("/v1/inspection-types/{id}")]
+        public async Task<IActionResult> DeleteInspectionTypeAsync([FromRoute][Required] int? id)
         {
             try
             {
-                if (inspectionTypeId is not null)
+                if (id is not null)
                 {
-                    _logger.LogInformation($"try to delete inspection type {inspectionTypeId}");
-                    if (_repository.InspectionTypeExists(inspectionTypeId.Value))
+                    _logger.LogInformation($"try to delete inspection type {id}");
+                    if (_repository.InspectionTypeExists(id.Value))
                     {
-                        await _repository.DeleteInspectionTypeAsync(inspectionTypeId.Value);
+                        await _repository.DeleteInspectionTypeAsync(id.Value);
                         return NoContent();
                     }
                     else
                     {
-                        return NotFound($"type with Id = {inspectionTypeId} not found");
+                        return NotFound($"type with Id = {id} not found");
                     }
                 }
                 else
