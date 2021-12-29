@@ -14,7 +14,9 @@ import {
   InspectionGroupList,
 } from "./InspectionGroups";
 import {
-  ChoiceTemplateList
+  ChoiceTemplateCreate,
+  ChoiceTemplateEdit,
+  ChoiceTemplateList,
 } from "./ChoiceTemplates";
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
@@ -41,6 +43,8 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
       <Resource
         name="choice-templates"
         options={{ label: "選択肢テンプレート" }}
+        create={ChoiceTemplateCreate}
+        edit={ChoiceTemplateEdit}
         list={ChoiceTemplateList}
       />
     </Admin>

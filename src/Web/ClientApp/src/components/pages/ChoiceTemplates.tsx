@@ -8,6 +8,12 @@ import {
   DeleteButton,
   SingleFieldList,
   ChipField,
+  Edit,
+  SimpleForm,
+  ArrayInput,
+  SimpleFormIterator,
+  TextInput,
+  Create,
 } from "react-admin";
 
 export const ChoiceTemplateList = (props: any) => (
@@ -24,4 +30,34 @@ export const ChoiceTemplateList = (props: any) => (
       <DeleteButton />
     </Datagrid>
   </List>
+);
+
+export const ChoiceTemplateEdit = (props: any) => (
+  // eslint-disable-next-line
+  <Edit {...props}>
+    <SimpleForm>
+      <TextField source="id" label="テンプレートID" />
+      <ArrayInput source="choices" label="選択肢">
+        <SimpleFormIterator>
+          <TextInput disabled source="option_id" label="項目ID" defaultValue="0"/>
+          <TextInput source="description" label="項目" />
+        </SimpleFormIterator>
+      </ArrayInput>
+    </SimpleForm>
+  </Edit>
+);
+
+export const ChoiceTemplateCreate = (props: any) => (
+  // eslint-disable-next-line
+  <Create {...props}>
+    <SimpleForm>
+      <TextInput disabled label="テンプレートID" source="id" defaultValue="0" />
+      <ArrayInput source="choices" label="選択肢">
+        <SimpleFormIterator>
+          <TextInput disabled source="option_id" label="項目ID" defaultValue="0"/>
+          <TextInput source="description" label="項目" />
+        </SimpleFormIterator>
+      </ArrayInput>
+    </SimpleForm>
+  </Create>
 );
