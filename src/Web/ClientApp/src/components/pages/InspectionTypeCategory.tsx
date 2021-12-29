@@ -13,6 +13,9 @@ import {
   InspectionGroupEdit,
   InspectionGroupList,
 } from "./InspectionGroups";
+import {
+  ChoiceTemplateList
+} from "./ChoiceTemplates";
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
   const i18nProvider = polyglotI18nProvider(() => japaneseMessages, "ja");
@@ -34,6 +37,11 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
         create={InspectionTypeCreate}
         edit={InspectionTypeEdit}
         list={InspectionTypeList}
+      />
+      <Resource
+        name="choice-templates"
+        options={{ label: "選択肢テンプレート" }}
+        list={ChoiceTemplateList}
       />
     </Admin>
   );
