@@ -30,7 +30,7 @@ import {
 } from "../../interfaces";
 import { useDIContext } from "../../container";
 import { InspectionType } from "../../entities";
-import { InspectionTypeList } from "./InspectionTypes";
+import { InspectionTypeList, InspectionTypeEdit } from "./InspectionTypes";
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
   const inject = useDIContext();
@@ -118,7 +118,11 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
           inspectionTypes: presenter.state,
         })}
       >
-        <Resource name="inspectionTypes" list={InspectionTypeList} />
+        <Resource
+          name="inspectionTypes"
+          list={InspectionTypeList}
+          edit={InspectionTypeEdit}
+        />
       </Admin>
       <Grid container spacing={1}>
         <Grid item xs={12}>
