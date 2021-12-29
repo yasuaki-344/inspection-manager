@@ -38,56 +38,13 @@ export class InspectionTypeInteractor implements IInspectionTypeInteractor {
     return types;
   }
 
-  createEditItem(): void {
-    this.setTarget({
-      id: 0,
-      description: "タイプ",
-    });
-  }
-
-  setEditItem(id: number): void {
-    const type = this.types.find((x: InspectionType) => x.id === id);
-    if (type !== undefined) {
-      this.setTarget(type);
-    }
-  }
-
-  editType(name: string, value: string): void {
-    this.setTarget({
-      ...this.target,
-      [name]: value,
-    });
-  }
-
   getIds(keyword: string): number[] {
     return this.types
       .filter((x: InspectionType) => x.description.includes(keyword))
       .map((x: InspectionType) => x.id);
   }
 
-  getById(id: number): InspectionType | undefined {
-    return this.types.find((x) => x.id === id);
-  }
-
   getName(id: number): string | undefined {
     return this.types.find((x: InspectionType) => x.id === id)?.description;
-  }
-
-  async create(inspectionType: InspectionType): Promise<void> {
-    await this.repository.post(inspectionType).then((res: InspectionType) => {
-      this.setTypes(this.types.concat(res));
-    });
-  }
-
-  async update(inspectionType: InspectionType): Promise<void> {
-    await this.repository.put(inspectionType).then((res: InspectionType) => {
-      this.setTypes(this.types.map((x) => (x.id === res.id ? res : x)));
-    });
-  }
-
-  async delete(id: number): Promise<void> {
-    await this.repository.delete(id).then(() => {
-      this.setTypes(this.types.filter((x: InspectionType) => x.id !== id));
-    });
   }
 }
