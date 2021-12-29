@@ -65,7 +65,7 @@ export class InspectionSheetController implements IInspectionSheetController {
     await this.groupUseCase
       .fetchInspectionGroups()
       .then((groups: InspectionGroup[]) => {
-        this.sheetUseCase.setGroupId(groups[0].inspectionGroupId);
+        this.sheetUseCase.setGroupId(groups[0].id);
       });
     await this.typeUseCase
       .fetchInspectionTypes()
@@ -205,7 +205,7 @@ export class InspectionSheetController implements IInspectionSheetController {
       this.sheetUseCase.setSheet({
         sheetId: 0,
         sheetName: "",
-        inspectionGroupId: this.groupUseCase.groups[0].inspectionGroupId,
+        inspectionGroupId: this.groupUseCase.groups[0].id,
         inspectionTypeId: this.typeUseCase.types[0].id,
         inspectionGroup: "",
         inspectionType: "",

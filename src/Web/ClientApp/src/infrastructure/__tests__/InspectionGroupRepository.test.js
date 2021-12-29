@@ -13,8 +13,8 @@ describe("InspectionGroupRepository unit test", () => {
     const groups = await target.get();
     expect(apiSpy).toHaveBeenCalled();
     expect(groups).toEqual([
-      { inspectionGroupId: 1, description: "group1" },
-      { inspectionGroupId: 2, description: "group2" },
+      { id: 1, description: "group1" },
+      { id: 2, description: "group2" },
     ]);
   });
 
@@ -24,13 +24,13 @@ describe("InspectionGroupRepository unit test", () => {
       .mockReturnValue({ inspection_group_id: 1, description: "group1" });
     const target = new InspectionGroupRepository();
     const group = await target.post({
-      inspectionGroupId: 0,
+      id: 0,
       description: "group1",
     });
     expect(apiSpy).toHaveBeenCalledWith({
       inspectionGroup: { inspection_group_id: 0, description: "group1" },
     });
-    expect(group).toEqual({ inspectionGroupId: 1, description: "group1" });
+    expect(group).toEqual({ id: 1, description: "group1" });
   });
 
   test("Post inspection group correctly", async () => {
@@ -42,14 +42,14 @@ describe("InspectionGroupRepository unit test", () => {
       .mockReturnValue({ inspection_group_id: 1, description: "group1" });
     const target = new InspectionGroupRepository();
     const group = await target.put({
-      inspectionGroupId: 1,
+      id: 1,
       description: "group1",
     });
     expect(apiSpy).toHaveBeenCalledWith({
-      inspectionGroupId: 1,
+      id: 1,
       inspectionGroup: { inspection_group_id: 1, description: "group1" },
     });
-    expect(group).toEqual({ inspectionGroupId: 1, description: "group1" });
+    expect(group).toEqual({ id: 1, description: "group1" });
   });
 
   test("Delete inspection groups correctly", async () => {
@@ -61,6 +61,6 @@ describe("InspectionGroupRepository unit test", () => {
       .mockReturnValue();
     const target = new InspectionGroupRepository();
     await target.delete(10);
-    expect(apiSpy).toHaveBeenCalledWith({ inspectionGroupId: 10 });
+    expect(apiSpy).toHaveBeenCalledWith({ id: 10 });
   });
 });

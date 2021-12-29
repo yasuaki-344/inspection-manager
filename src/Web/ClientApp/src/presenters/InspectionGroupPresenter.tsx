@@ -17,7 +17,7 @@ export class InspectionGroupPresenter implements IInspectionGroupPresenter {
 
   getGroupName(id: number): string | undefined {
     return this.useCase.groups.find(
-      (x: InspectionGroup) => x.inspectionGroupId === id
+      (x: InspectionGroup) => x.id === id
     )?.description;
   }
 }

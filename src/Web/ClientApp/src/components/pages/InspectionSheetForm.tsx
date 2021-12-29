@@ -112,8 +112,8 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
             >
               {presenter.groups.map((group: InspectionGroup) => (
                 <MenuItem
-                  key={group.inspectionGroupId}
-                  value={group.inspectionGroupId}
+                  key={group.id}
+                  value={group.id}
                 >
                   {group.description}
                 </MenuItem>

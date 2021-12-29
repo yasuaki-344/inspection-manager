@@ -21,7 +21,7 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
     this.groups = groups;
     this.setGroups = setGroups;
     const [target, setTarget] = useState<InspectionGroup>({
-      inspectionGroupId: 0,
+      id: 0,
       description: "",
     });
     this.target = target;
@@ -40,14 +40,14 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
 
   createEditItem(): void {
     this.setTarget({
-      inspectionGroupId: 0,
+      id: 0,
       description: "グループ",
     });
   }
 
   setEditItem(id: number): void {
     const group = this.groups.find(
-      (x: InspectionGroup) => x.inspectionGroupId === id
+      (x: InspectionGroup) => x.id === id
     );
     if (group !== undefined) {
       this.setTarget(group);
@@ -64,16 +64,16 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
   getIds(keyword: string): number[] {
     return this.groups
       .filter((x: InspectionGroup) => x.description.includes(keyword))
-      .map((x: InspectionGroup) => x.inspectionGroupId);
+      .map((x: InspectionGroup) => x.id);
   }
 
   getName(id: number): string | undefined {
-    return this.groups.find((x: InspectionGroup) => x.inspectionGroupId === id)
+    return this.groups.find((x: InspectionGroup) => x.id === id)
       ?.description;
   }
 
   getById(id: number): InspectionGroup | undefined {
-    return this.groups.find((x) => x.inspectionGroupId === id);
+    return this.groups.find((x) => x.id === id);
   }
 
   async create(inspectionGroup: InspectionGroup): Promise<void> {
@@ -86,7 +86,7 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
     await this.repository.put(inspectionGroup).then((res: InspectionGroup) => {
       this.setGroups(
         this.groups.map((x) =>
-          x.inspectionGroupId === res.inspectionGroupId ? res : x
+          x.id === res.id ? res : x
         )
       );
     });
@@ -95,7 +95,7 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
   async delete(id: number): Promise<void> {
     await this.repository.delete(id).then(() => {
       this.setGroups(
-        this.groups.filter((x: InspectionGroup) => x.inspectionGroupId !== id)
+        this.groups.filter((x: InspectionGroup) => x.id !== id)
       );
     });
   }

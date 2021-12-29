@@ -68,7 +68,7 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
   };
 
   const handleRegistration = (): void => {
-    if (presenter.editItem.inspectionGroupId !== 0) {
+    if (presenter.editItem.id !== 0) {
       controller
         .update(presenter.editItem)
         .then(() => {
@@ -130,19 +130,19 @@ export const InspectionGroupCategory: FC = (): JSX.Element => {
               </TableHead>
               <TableBody>
                 {presenter.state.map((type: InspectionGroup) => (
-                  <TableRow key={type.inspectionGroupId}>
+                  <TableRow key={type.id}>
                     <TableCell padding="checkbox" align="center">
-                      {type.inspectionGroupId}
+                      {type.id}
                     </TableCell>
                     <TableCell>{type.description}</TableCell>
                     <TableCell padding="checkbox">
                       <EditIconButton
-                        onClick={() => handleUpdateItem(type.inspectionGroupId)}
+                        onClick={() => handleUpdateItem(type.id)}
                       />
                     </TableCell>
                     <TableCell padding="checkbox">
                       <CancelIconButton
-                        onClick={() => handleDeleteItem(type.inspectionGroupId)}
+                        onClick={() => handleDeleteItem(type.id)}
                       />
                     </TableCell>
                   </TableRow>

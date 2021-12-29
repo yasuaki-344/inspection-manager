@@ -11,6 +11,10 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
   return (
     <Admin dataProvider={simpleRestProvider("http://localhost:5000/v1")}>
       <Resource
+        name="inspection-groups"
+        options={{ label: '点検グループ' }}
+      />
+      <Resource
         name="inspection-types"
         options={{ label: '点検タイプ' }}
         list={InspectionTypeList}

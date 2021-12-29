@@ -33,8 +33,8 @@ export class InspectionGroupRepository implements IInspectionGroupRepository {
   /** @inheritdoc */
   async put(inspectionGroup: InspectionGroup): Promise<InspectionGroup> {
     const req = toSnakeCase(inspectionGroup);
-    const res = await this.api.inspectionGroupsInspectionGroupIdPut({
-      inspectionGroupId: inspectionGroup.inspectionGroupId,
+    const res = await this.api.inspectionGroupsIdPut({
+      id: inspectionGroup.id,
       inspectionGroup: req,
     });
     return toCamelCase(res);
@@ -42,8 +42,8 @@ export class InspectionGroupRepository implements IInspectionGroupRepository {
 
   /** @inheritdoc */
   async delete(id: number): Promise<void> {
-    await this.api.inspectionGroupsInspectionGroupIdDelete({
-      inspectionGroupId: id,
+    await this.api.inspectionGroupsIdDelete({
+      id,
     });
   }
 }

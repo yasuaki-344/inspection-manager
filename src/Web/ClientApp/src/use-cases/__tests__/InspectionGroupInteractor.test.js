@@ -26,7 +26,7 @@ describe("InspectionGroupInteractor unit test", () => {
     const target = new InspectionGroupInteractor({});
     target.createEditItem();
     expect(setState).toHaveBeenCalledWith({
-      inspectionGroupId: 0,
+      id: 0,
       description: "グループ",
     });
   });
@@ -34,13 +34,13 @@ describe("InspectionGroupInteractor unit test", () => {
   test("Create inspection groups correctly", async () => {
     const repository = {
       post: jest.fn(async () => {
-        return { inspectionGroupId: 1, description: "group" };
+        return { id: 1, description: "group" };
       }),
     };
     const target = new InspectionGroupInteractor(repository);
-    await target.create({ inspectionGroupId: 0, description: "group" });
+    await target.create({ id: 0, description: "group" });
     expect(repository.post).toHaveBeenCalledWith({
-      inspectionGroupId: 0,
+      id: 0,
       description: "group",
     });
     expect(setState).toHaveBeenCalled();
@@ -49,13 +49,13 @@ describe("InspectionGroupInteractor unit test", () => {
   test("Update inspection groups correctly", async () => {
     const repository = {
       put: jest.fn(async () => {
-        return { inspectionGroupId: 1, description: "group" };
+        return { id: 1, description: "group" };
       }),
     };
     const target = new InspectionGroupInteractor(repository);
-    await target.update({ inspectionGroupId: 1, description: "group" });
+    await target.update({ id: 1, description: "group" });
     expect(repository.put).toHaveBeenCalledWith({
-      inspectionGroupId: 1,
+      id: 1,
       description: "group",
     });
     expect(setState).toHaveBeenCalled();
