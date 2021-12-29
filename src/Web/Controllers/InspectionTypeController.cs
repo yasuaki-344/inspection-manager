@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -45,6 +46,7 @@ namespace InspectionManager.Web.Controllers
             {
                 _logger.LogInformation("try to get all inspection types");
                 var types = _repository.GetInspectionTypes();
+                Response.Headers.ContentRange = types.Count().ToString();
                 return Ok(types);
             }
             catch (Exception ex)
