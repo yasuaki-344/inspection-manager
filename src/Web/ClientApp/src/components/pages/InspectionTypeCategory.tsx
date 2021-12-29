@@ -2,10 +2,15 @@ import React, { FC } from "react";
 import { Admin, Resource } from "react-admin";
 import simpleRestProvider from "ra-data-simple-rest";
 import {
-  InspectionTypeList,
-  InspectionTypeEdit,
   InspectionTypeCreate,
+  InspectionTypeEdit,
+  InspectionTypeList,
 } from "./InspectionTypes";
+import {
+  InspectionGroupCreate,
+  InspectionGroupEdit,
+  InspectionGroupList,
+} from "./InspectionGroups";
 
 export const InspectionTypeCategory: FC = (): JSX.Element => {
   return (
@@ -13,13 +18,16 @@ export const InspectionTypeCategory: FC = (): JSX.Element => {
       <Resource
         name="inspection-groups"
         options={{ label: '点検グループ' }}
+        create={InspectionGroupCreate}
+        edit={InspectionGroupEdit}
+        list={InspectionGroupList}
       />
       <Resource
         name="inspection-types"
         options={{ label: '点検タイプ' }}
-        list={InspectionTypeList}
-        edit={InspectionTypeEdit}
         create={InspectionTypeCreate}
+        edit={InspectionTypeEdit}
+        list={InspectionTypeList}
       />
     </Admin>
   );
