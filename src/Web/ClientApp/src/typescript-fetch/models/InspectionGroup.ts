@@ -24,7 +24,7 @@ export interface InspectionGroup {
      * @type {number}
      * @memberof InspectionGroup
      */
-    inspection_group_id: number;
+    id: number;
     /**
      * 
      * @type {string}
@@ -43,7 +43,7 @@ export function InspectionGroupFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'inspection_group_id': json['inspection_group_id'],
+        'id': json['id'],
         'description': json['description'],
     };
 }
@@ -57,7 +57,7 @@ export function InspectionGroupToJSON(value?: InspectionGroup | null): any {
     }
     return {
         
-        'inspection_group_id': value.inspection_group_id,
+        'id': value.id,
         'description': value.description,
     };
 }
