@@ -195,12 +195,16 @@ namespace InspectionManager.Web.Controllers
         /// Deletes the InspectionType model.
         /// </summary>
         /// <param name="id">inspection type ID to delete</param>
-        /// <response code="204">No Content</response>
+        /// <response code="200">Success</response>
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Not found</response>
         /// <response code="500">Internal Server Error</response>
         [HttpDelete]
         [Route("/v1/inspection-types/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionTypeDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteInspectionTypeAsync([FromRoute][Required] int? id)
         {
             try
@@ -210,8 +214,8 @@ namespace InspectionManager.Web.Controllers
                     _logger.LogInformation($"try to delete inspection type {id}");
                     if (_repository.InspectionTypeExists(id.Value))
                     {
-                        await _repository.DeleteInspectionTypeAsync(id.Value);
-                        return NoContent();
+                        var dto = await _repository.DeleteInspectionTypeAsync(id.Value);
+                        return Ok(dto);
                     }
                     else
                     {

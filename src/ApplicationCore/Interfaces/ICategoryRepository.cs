@@ -85,8 +85,8 @@ namespace InspectionManager.ApplicationCore.Interfaces
         /// Deletes the specified inspection type data.
         /// </summary>
         /// <param name="id">Type ID to be deleted</param>
-        /// <returns></returns>
-        Task DeleteInspectionTypeAsync(int id);
+        /// <returns>Deleted entity</returns>
+        Task<InspectionTypeDto> DeleteInspectionTypeAsync(int id);
 
         /// <summary>
         /// Checks if the specified choice template exists.

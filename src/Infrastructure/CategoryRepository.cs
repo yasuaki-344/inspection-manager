@@ -205,7 +205,7 @@ namespace InspectionManager.Infrastructure
 
 
         /// <inheritdoc/>
-        public async Task DeleteInspectionTypeAsync(int id)
+        public async Task<InspectionTypeDto> DeleteInspectionTypeAsync(int id)
         {
             if (_context.InspectionTypes is not null)
             {
@@ -215,6 +215,7 @@ namespace InspectionManager.Infrastructure
                     _context.InspectionTypes.Remove(entity);
                     await _context.SaveChangesAsync();
                 }
+                return _mapper.Map<InspectionTypeDto>(entity);
             }
             else
             {
