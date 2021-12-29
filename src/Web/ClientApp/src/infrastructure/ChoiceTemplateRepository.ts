@@ -35,8 +35,8 @@ export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
   /** @inheritdoc */
   async put(choiceTemplate: ChoiceTemplate): Promise<ChoiceTemplate> {
     const req = toSnakeCase(choiceTemplate);
-    const res = await this.api.choiceTemplatesChoiceTemplateIdPut({
-      choiceTemplateId: req.choice_template_id,
+    const res = await this.api.choiceTemplatesIdPut({
+      id: req.id,
       choiceTemplate: req,
     });
     const data = toCamelCase(res);
@@ -45,8 +45,8 @@ export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
 
   /** @inheritdoc */
   async delete(id: number): Promise<void> {
-    await this.api.choiceTemplatesChoiceTemplateIdDelete({
-      choiceTemplateId: id,
+    await this.api.choiceTemplatesIdDelete({
+      id,
     });
   }
 

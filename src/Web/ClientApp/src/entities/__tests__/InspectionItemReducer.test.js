@@ -91,7 +91,7 @@ describe("InspectionSheetReducer unit test", () => {
       type: ITEM_ACTION_TYPES.SET_CHOICE,
       payload: {
         choices: {
-          choiceTemplateId: 0,
+          id: 0,
           choices: [
             { optionId: 0, description: "new1" },
             { optionId: 1, description: "new2" },

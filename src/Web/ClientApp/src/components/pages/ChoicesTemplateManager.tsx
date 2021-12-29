@@ -66,7 +66,7 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
    * Add new template set.
    */
   const handleRegistration = () => {
-    if (presenter.target.choiceTemplateId !== 0) {
+    if (presenter.target.id !== 0) {
       controller
         .update()
         .then(() => {
@@ -124,21 +124,21 @@ export const ChoicesTemplateManager: FC = (): JSX.Element => {
               </TableHead>
               <TableBody>
                 {presenter.state.map((template: ChoiceTemplate) => (
-                  <TableRow key={template.choiceTemplateId}>
+                  <TableRow key={template.id}>
                     <TableCell>
                       {template.choices.map((x) => x.description).join(",")}
                     </TableCell>
                     <TableCell padding="checkbox">
                       <EditIconButton
                         onClick={() =>
-                          handleUpdateTemplate(template.choiceTemplateId)
+                          handleUpdateTemplate(template.id)
                         }
                       />
                     </TableCell>
                     <TableCell padding="checkbox">
                       <CancelIconButton
                         onClick={() =>
-                          handleDeleteTemplate(template.choiceTemplateId)
+                          handleDeleteTemplate(template.id)
                         }
                       />
                     </TableCell>

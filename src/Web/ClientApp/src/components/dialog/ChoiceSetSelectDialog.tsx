@@ -65,7 +65,7 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
             {templatePresenter.state.map(
               (template: ChoiceTemplate, index: number) => (
                 <FormControlLabel
-                  key={template.choiceTemplateId}
+                  key={template.id}
                   value={index}
                   control={<Radio data-testid={`radio-${index}`} />}
                   label={template.choices.map((x) => x.description).join(",")}
