@@ -20,16 +20,16 @@ import {
     ChoiceTemplateToJSON,
 } from '../models';
 
-export interface ChoiceTemplatesChoiceTemplateIdDeleteRequest {
-    choiceTemplateId: number;
+export interface ChoiceTemplatesIdDeleteRequest {
+    id: number;
 }
 
-export interface ChoiceTemplatesChoiceTemplateIdGetRequest {
-    choiceTemplateId: number;
+export interface ChoiceTemplatesIdGetRequest {
+    id: number;
 }
 
-export interface ChoiceTemplatesChoiceTemplateIdPutRequest {
-    choiceTemplateId: number;
+export interface ChoiceTemplatesIdPutRequest {
+    id: number;
     choiceTemplate?: ChoiceTemplate;
 }
 
@@ -45,53 +45,6 @@ export interface ChoiceTemplatesPostRequest {
  */
 export interface ChoiceTemplatesApiInterface {
     /**
-     * 
-     * @summary Deletes a ChoiceTemplate
-     * @param {number} choiceTemplateId choice template ID
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ChoiceTemplatesApiInterface
-     */
-    choiceTemplatesChoiceTemplateIdDeleteRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdDeleteRequest): Promise<runtime.ApiResponse<void>>;
-
-    /**
-     * Deletes a ChoiceTemplate
-     */
-    choiceTemplatesChoiceTemplateIdDelete(requestParameters: ChoiceTemplatesChoiceTemplateIdDeleteRequest): Promise<void>;
-
-    /**
-     * Returns a single ChoiceTemplate model
-     * @summary Get choiceTemplate by ID.
-     * @param {number} choiceTemplateId choice template ID
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ChoiceTemplatesApiInterface
-     */
-    choiceTemplatesChoiceTemplateIdGetRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdGetRequest): Promise<runtime.ApiResponse<Array<ChoiceTemplate>>>;
-
-    /**
-     * Returns a single ChoiceTemplate model
-     * Get choiceTemplate by ID.
-     */
-    choiceTemplatesChoiceTemplateIdGet(requestParameters: ChoiceTemplatesChoiceTemplateIdGetRequest): Promise<Array<ChoiceTemplate>>;
-
-    /**
-     * 
-     * @summary Updates a ChoiceTemplate
-     * @param {number} choiceTemplateId choice template ID
-     * @param {ChoiceTemplate} [choiceTemplate] choice template to update
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ChoiceTemplatesApiInterface
-     */
-    choiceTemplatesChoiceTemplateIdPutRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<runtime.ApiResponse<ChoiceTemplate>>;
-
-    /**
-     * Updates a ChoiceTemplate
-     */
-    choiceTemplatesChoiceTemplateIdPut(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<ChoiceTemplate>;
-
-    /**
      * Returns an array of ChoiceTemplate model
      * @summary Get all choice templates.
      * @param {*} [options] Override http request option.
@@ -105,6 +58,53 @@ export interface ChoiceTemplatesApiInterface {
      * Get all choice templates.
      */
     choiceTemplatesGet(): Promise<Array<ChoiceTemplate>>;
+
+    /**
+     * 
+     * @summary Deletes a ChoiceTemplate
+     * @param {number} id choice template ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChoiceTemplatesApiInterface
+     */
+    choiceTemplatesIdDeleteRaw(requestParameters: ChoiceTemplatesIdDeleteRequest): Promise<runtime.ApiResponse<ChoiceTemplate>>;
+
+    /**
+     * Deletes a ChoiceTemplate
+     */
+    choiceTemplatesIdDelete(requestParameters: ChoiceTemplatesIdDeleteRequest): Promise<ChoiceTemplate>;
+
+    /**
+     * Returns a single ChoiceTemplate model
+     * @summary Get choiceTemplate by ID.
+     * @param {number} id choice template ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChoiceTemplatesApiInterface
+     */
+    choiceTemplatesIdGetRaw(requestParameters: ChoiceTemplatesIdGetRequest): Promise<runtime.ApiResponse<Array<ChoiceTemplate>>>;
+
+    /**
+     * Returns a single ChoiceTemplate model
+     * Get choiceTemplate by ID.
+     */
+    choiceTemplatesIdGet(requestParameters: ChoiceTemplatesIdGetRequest): Promise<Array<ChoiceTemplate>>;
+
+    /**
+     * 
+     * @summary Updates a ChoiceTemplate
+     * @param {number} id choice template ID
+     * @param {ChoiceTemplate} [choiceTemplate] choice template to update
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChoiceTemplatesApiInterface
+     */
+    choiceTemplatesIdPutRaw(requestParameters: ChoiceTemplatesIdPutRequest): Promise<runtime.ApiResponse<ChoiceTemplate>>;
+
+    /**
+     * Updates a ChoiceTemplate
+     */
+    choiceTemplatesIdPut(requestParameters: ChoiceTemplatesIdPutRequest): Promise<ChoiceTemplate>;
 
     /**
      * Create a new ChoiceTemplate
@@ -128,100 +128,6 @@ export interface ChoiceTemplatesApiInterface {
  * 
  */
 export class ChoiceTemplatesApi extends runtime.BaseAPI implements ChoiceTemplatesApiInterface {
-
-    /**
-     * Deletes a ChoiceTemplate
-     */
-    async choiceTemplatesChoiceTemplateIdDeleteRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdDeleteRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.choiceTemplateId === null || requestParameters.choiceTemplateId === undefined) {
-            throw new runtime.RequiredError('choiceTemplateId','Required parameter requestParameters.choiceTemplateId was null or undefined when calling choiceTemplatesChoiceTemplateIdDelete.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/choice-templates/{choiceTemplateId}`.replace(`{${"choiceTemplateId"}}`, encodeURIComponent(String(requestParameters.choiceTemplateId))),
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Deletes a ChoiceTemplate
-     */
-    async choiceTemplatesChoiceTemplateIdDelete(requestParameters: ChoiceTemplatesChoiceTemplateIdDeleteRequest): Promise<void> {
-        await this.choiceTemplatesChoiceTemplateIdDeleteRaw(requestParameters);
-    }
-
-    /**
-     * Returns a single ChoiceTemplate model
-     * Get choiceTemplate by ID.
-     */
-    async choiceTemplatesChoiceTemplateIdGetRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdGetRequest): Promise<runtime.ApiResponse<Array<ChoiceTemplate>>> {
-        if (requestParameters.choiceTemplateId === null || requestParameters.choiceTemplateId === undefined) {
-            throw new runtime.RequiredError('choiceTemplateId','Required parameter requestParameters.choiceTemplateId was null or undefined when calling choiceTemplatesChoiceTemplateIdGet.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/choice-templates/{choiceTemplateId}`.replace(`{${"choiceTemplateId"}}`, encodeURIComponent(String(requestParameters.choiceTemplateId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ChoiceTemplateFromJSON));
-    }
-
-    /**
-     * Returns a single ChoiceTemplate model
-     * Get choiceTemplate by ID.
-     */
-    async choiceTemplatesChoiceTemplateIdGet(requestParameters: ChoiceTemplatesChoiceTemplateIdGetRequest): Promise<Array<ChoiceTemplate>> {
-        const response = await this.choiceTemplatesChoiceTemplateIdGetRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
-     * Updates a ChoiceTemplate
-     */
-    async choiceTemplatesChoiceTemplateIdPutRaw(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<runtime.ApiResponse<ChoiceTemplate>> {
-        if (requestParameters.choiceTemplateId === null || requestParameters.choiceTemplateId === undefined) {
-            throw new runtime.RequiredError('choiceTemplateId','Required parameter requestParameters.choiceTemplateId was null or undefined when calling choiceTemplatesChoiceTemplateIdPut.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        const response = await this.request({
-            path: `/choice-templates/{choiceTemplateId}`.replace(`{${"choiceTemplateId"}}`, encodeURIComponent(String(requestParameters.choiceTemplateId))),
-            method: 'PUT',
-            headers: headerParameters,
-            query: queryParameters,
-            body: ChoiceTemplateToJSON(requestParameters.choiceTemplate),
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => ChoiceTemplateFromJSON(jsonValue));
-    }
-
-    /**
-     * Updates a ChoiceTemplate
-     */
-    async choiceTemplatesChoiceTemplateIdPut(requestParameters: ChoiceTemplatesChoiceTemplateIdPutRequest): Promise<ChoiceTemplate> {
-        const response = await this.choiceTemplatesChoiceTemplateIdPutRaw(requestParameters);
-        return await response.value();
-    }
 
     /**
      * Returns an array of ChoiceTemplate model
@@ -248,6 +154,101 @@ export class ChoiceTemplatesApi extends runtime.BaseAPI implements ChoiceTemplat
      */
     async choiceTemplatesGet(): Promise<Array<ChoiceTemplate>> {
         const response = await this.choiceTemplatesGetRaw();
+        return await response.value();
+    }
+
+    /**
+     * Deletes a ChoiceTemplate
+     */
+    async choiceTemplatesIdDeleteRaw(requestParameters: ChoiceTemplatesIdDeleteRequest): Promise<runtime.ApiResponse<ChoiceTemplate>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling choiceTemplatesIdDelete.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/choice-templates/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ChoiceTemplateFromJSON(jsonValue));
+    }
+
+    /**
+     * Deletes a ChoiceTemplate
+     */
+    async choiceTemplatesIdDelete(requestParameters: ChoiceTemplatesIdDeleteRequest): Promise<ChoiceTemplate> {
+        const response = await this.choiceTemplatesIdDeleteRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Returns a single ChoiceTemplate model
+     * Get choiceTemplate by ID.
+     */
+    async choiceTemplatesIdGetRaw(requestParameters: ChoiceTemplatesIdGetRequest): Promise<runtime.ApiResponse<Array<ChoiceTemplate>>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling choiceTemplatesIdGet.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/choice-templates/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ChoiceTemplateFromJSON));
+    }
+
+    /**
+     * Returns a single ChoiceTemplate model
+     * Get choiceTemplate by ID.
+     */
+    async choiceTemplatesIdGet(requestParameters: ChoiceTemplatesIdGetRequest): Promise<Array<ChoiceTemplate>> {
+        const response = await this.choiceTemplatesIdGetRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Updates a ChoiceTemplate
+     */
+    async choiceTemplatesIdPutRaw(requestParameters: ChoiceTemplatesIdPutRequest): Promise<runtime.ApiResponse<ChoiceTemplate>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling choiceTemplatesIdPut.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/choice-templates/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ChoiceTemplateToJSON(requestParameters.choiceTemplate),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ChoiceTemplateFromJSON(jsonValue));
+    }
+
+    /**
+     * Updates a ChoiceTemplate
+     */
+    async choiceTemplatesIdPut(requestParameters: ChoiceTemplatesIdPutRequest): Promise<ChoiceTemplate> {
+        const response = await this.choiceTemplatesIdPutRaw(requestParameters);
         return await response.value();
     }
 
