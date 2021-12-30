@@ -47,8 +47,8 @@ export const NavMenu: FC = (): JSX.Element => {
 
   return (
     <header>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar>
+        <Toolbar variant="dense">
           <IconButton
             edge="start"
             aria-label="menu"
