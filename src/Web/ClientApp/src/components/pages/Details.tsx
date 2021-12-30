@@ -13,13 +13,14 @@ import {
   CircularProgress,
   List,
   ListItem,
+  Grid,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import nameof from "ts-nameof.macro";
 import { useInputTypes, Equipment, InspectionItem } from "../../entities";
 import { TopPageLink } from "../utilities";
-import { itemTableHead, TableHeadCell } from "../stylesheets";
+import { BasePage, itemTableHead, TableHeadCell } from "../stylesheets";
 import { IDetailController, IDetailPresenter } from "../../interfaces";
 import { useDIContext } from "../../container";
 
@@ -135,10 +136,18 @@ export const Details = ({ match }: any): JSX.Element => {
     </>
   );
   return (
-    <div>
-      <h1>詳細ページ</h1>
-      <TopPageLink />
-      {displayData}
+    <div style={BasePage}>
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <h1>詳細ページ</h1>
+        </Grid>
+        <Grid item xs={12}>
+          <TopPageLink />
+        </Grid>
+        <Grid item xs={12}>
+          {displayData}
+        </Grid>
+      </Grid>
     </div>
   );
 };

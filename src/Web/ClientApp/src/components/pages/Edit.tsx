@@ -13,6 +13,7 @@ import {
   IInspectionSheetPresenter,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
+import { BasePage } from "../stylesheets";
 
 export const Edit: FC = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
@@ -60,7 +61,7 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
   const sheetForm = loading ? <></> : <InspectionSheetForm isEdit />;
 
   return (
-    <>
+    <div style={BasePage}>
       <Grid container spacing={1}>
         <Grid item xs={12}>
           <h1>編集ページ</h1>
@@ -91,7 +92,7 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
           notification.hideDisplay();
         }}
       />
-    </>
+    </div>
   );
 };
 Edit.displayName = Edit.name;
