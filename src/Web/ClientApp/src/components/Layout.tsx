@@ -8,10 +8,10 @@ interface LayoutProps {
 
 export const Layout: FC<LayoutProps> = (props): JSX.Element => {
   return (
-    <div>
+    <>
       <NavMenu />
       <Container>{props.children}</Container>
-    </div>
+    </>
   );
 };
 Layout.displayName = Layout.name;

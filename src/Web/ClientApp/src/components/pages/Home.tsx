@@ -24,6 +24,7 @@ import { CancelIconButton } from "../utilities";
 import { SheetSearchMenu } from "../SheetSearchMenu";
 import { SheetDeleteConfirmationDialog } from "../dialog/SheetDeleteConfirmationDialog";
 import { useDIContext } from "../../container";
+import { BasePage } from "../stylesheets";
 
 export const Home: FC = (): JSX.Element => {
   const inject = useDIContext();
@@ -215,7 +216,7 @@ export const Home: FC = (): JSX.Element => {
   );
 
   return (
-    <div>
+    <div style={BasePage}>
       <Grid container spacing={1}>
         <Grid item xs={12}>
           <h1>点検シート一覧</h1>

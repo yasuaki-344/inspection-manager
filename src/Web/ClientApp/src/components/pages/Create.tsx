@@ -15,6 +15,7 @@ import {
   IInspectionSheetPresenter,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
+import { BasePage } from "../stylesheets";
 
 export const Create: FC = (): JSX.Element => {
   const inject = useDIContext();
@@ -119,7 +120,7 @@ export const Create: FC = (): JSX.Element => {
   );
 
   return (
-    <>
+    <div style={BasePage}>
       <Grid container spacing={1}>
         <Grid item xs={12}>
           <h1>新規作成ページ</h1>
@@ -143,7 +144,7 @@ export const Create: FC = (): JSX.Element => {
         onSelectClick={handleSelectSheet}
         onCancelClick={() => setOpen(false)}
       />
-    </>
+    </div>
   );
 };
 Create.displayName = Create.name;
