@@ -13,6 +13,7 @@ import {
   TablePagination,
   Typography,
   CircularProgress,
+  Container,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import EditIcon from "@mui/icons-material/Edit";
@@ -213,7 +214,7 @@ export const Home: FC = (): JSX.Element => {
   );
 
   return (
-    <>
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Paper
         variant="outlined"
         sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
@@ -248,7 +249,7 @@ export const Home: FC = (): JSX.Element => {
         onDeleteClick={handleDelete}
         onCancelClick={() => setOpen(false)}
       />
-    </>
+    </Container>
   );
 };
 Home.displayName = Home.name;

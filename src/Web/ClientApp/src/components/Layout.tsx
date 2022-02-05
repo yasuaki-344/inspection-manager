@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import {
   Box,
-  Container,
   createTheme,
   CssBaseline,
   ThemeProvider,
@@ -34,9 +33,7 @@ export const Layout: FC<LayoutProps> = (props): JSX.Element => {
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            {props.children}
-          </Container>
+          {props.children}
         </Box>
       </Box>
     </ThemeProvider>

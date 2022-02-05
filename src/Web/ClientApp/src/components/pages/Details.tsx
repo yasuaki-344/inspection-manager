@@ -1,96 +1,117 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
-  Collapse,
   Paper,
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   CircularProgress,
   List,
   ListItem,
-  Grid,
+  Typography,
+  ListItemText,
+  Container,
 } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import TreeView from "@mui/lab/TreeView";
+import TreeItem from "@mui/lab/TreeItem";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import nameof from "ts-nameof.macro";
 import { useInputTypes, Equipment, InspectionItem } from "../../entities";
 import { TopPageLink } from "../utilities";
-import { BasePage, itemTableHead, TableHeadCell } from "../stylesheets";
 import { IDetailController, IDetailPresenter } from "../../interfaces";
 import { useDIContext } from "../../container";
 
-interface InspectionItemTableProps {
-  inspectionItems: InspectionItem[];
+interface InspectionItemInfoProps {
+  inspectionItem: InspectionItem;
 }
 
 interface EquipmentRowProps {
   equipment: Equipment;
 }
 
-const InspectionItemTable = (props: InspectionItemTableProps): JSX.Element => {
+const InspectionItemInfo = (props: InspectionItemInfoProps): JSX.Element => {
+  const { inspectionItem } = props;
+
   return (
-    <Table>
-      <TableHead sx={itemTableHead}>
-        <TableRow>
-          <TableCell sx={TableHeadCell}>ID</TableCell>
-          <TableCell sx={TableHeadCell}>点検項目</TableCell>
-          <TableCell sx={TableHeadCell}>点検タイプ</TableCell>
-          <TableCell sx={TableHeadCell}>選択肢</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {props.inspectionItems.map((item: InspectionItem) => (
-          <TableRow key={item.inspectionItemId}>
-            <TableCell>{item.inspectionItemId}</TableCell>
-            <TableCell>{item.inspectionContent}</TableCell>
-            <TableCell>
-              {useInputTypes.filter((e) => e.value === item.inputType)[0].label}
-            </TableCell>
-            <TableCell>
-              {item.choices.map((x) => x.description).join(",")}
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <List disablePadding>
+      <ListItem sx={{ py: 1, px: 0 }}>
+        <ListItemText primary="点検項目ID" />
+        <Typography variant="body2">
+          {inspectionItem.inspectionItemId}
+        </Typography>
+      </ListItem>
+      <ListItem sx={{ py: 1, px: 0 }}>
+        <ListItemText primary="点検項目" />
+        <Typography variant="body2">
+          {inspectionItem.inspectionContent}
+        </Typography>
+      </ListItem>
+      <ListItem sx={{ py: 1, px: 0 }}>
+        <ListItemText primary="点検タイプ" />
+        <Typography variant="body2">
+          {
+            useInputTypes.filter((e) => e.value === inspectionItem.inputType)[0]
+              .label
+          }
+        </Typography>
+      </ListItem>
+      <ListItem sx={{ py: 1, px: 0 }}>
+        <ListItemText primary="選択肢" />
+        <Typography variant="body2">
+          {inspectionItem.choices.map((x) => x.description).join(",")}
+        </Typography>
+      </ListItem>
+    </List>
   );
 };
 
 const EquipmentRow = (props: EquipmentRowProps): JSX.Element => {
-  const [open, setOpen] = useState(true);
+  const { equipment } = props;
 
   return (
-    <Fragment key={props.equipment.equipmentId}>
-      <TableRow>
-        <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell>{props.equipment.equipmentId}</TableCell>
-        <TableCell>{props.equipment.equipmentName}</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
-              <InspectionItemTable
-                inspectionItems={props.equipment.inspectionItems}
-              />
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </Fragment>
+    <TreeItem
+      nodeId={`${equipment.equipmentId}`}
+      label={<Typography variant="body2">{equipment.equipmentName}</Typography>}
+    >
+      <TreeItem
+        nodeId={`${equipment.equipmentId}-detail`}
+        label={
+          <List disablePadding>
+            <ListItem sx={{ py: 1, px: 0 }}>
+              <ListItemText primary="点検機器ID" />
+              <Typography variant="body2">
+                {props.equipment.equipmentId}
+              </Typography>
+            </ListItem>
+            <ListItem sx={{ py: 1, px: 0 }}>
+              <ListItemText>点検機器名</ListItemText>
+              <Typography variant="body2">
+                {props.equipment.equipmentName}
+              </Typography>
+            </ListItem>
+          </List>
+        }
+      />
+      <TreeItem
+        nodeId={`${equipment.equipmentId}-items`}
+        label={
+          <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+            点検項目情報
+          </Typography>
+        }
+      />
+      {equipment.inspectionItems.map((item: InspectionItem) => (
+        <TreeItem
+          nodeId={`item-${item.inspectionItemId}`}
+          label={
+            <Typography variant="body2">{item.inspectionContent}</Typography>
+          }
+        >
+          <TreeItem
+            nodeId={`item-${item.inspectionItemId}-detail`}
+            label={<InspectionItemInfo inspectionItem={item} />}
+          />
+        </TreeItem>
+      ))}
+    </TreeItem>
   );
 };
 
@@ -111,44 +132,58 @@ export const Details = ({ match }: any): JSX.Element => {
     </Box>
   ) : (
     <>
-      <List>
-        <ListItem>点検シートID:{sheetId}</ListItem>
-        <ListItem>シート名:{presenter.sheetName}</ListItem>
-        <ListItem>点検グループ:{presenter.getInspectionGroup()}</ListItem>
-        <ListItem>点検種別:{presenter.getInspectionType()}</ListItem>
+      <Typography variant="h5" gutterBottom>
+        点検シート情報
+      </Typography>
+      <List disablePadding>
+        <ListItem sx={{ py: 1, px: 0 }}>
+          <ListItemText primary="点検シートID" />
+          <Typography variant="body2">{sheetId}</Typography>
+        </ListItem>
+        <ListItem sx={{ py: 1, px: 0 }}>
+          <ListItemText>シート名</ListItemText>
+          <Typography variant="body2">{presenter.sheetName}</Typography>
+        </ListItem>
+        <ListItem sx={{ py: 1, px: 0 }}>
+          <ListItemText>点検グループ</ListItemText>
+          <Typography variant="body2">
+            {presenter.getInspectionGroup()}
+          </Typography>
+        </ListItem>
+        <ListItem sx={{ py: 1, px: 0 }}>
+          <ListItemText>点検種別</ListItemText>
+          <Typography variant="body2">
+            {presenter.getInspectionType()}
+          </Typography>
+        </ListItem>
       </List>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell>点検機器ID</TableCell>
-              <TableCell>点検機器名</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {presenter.equipments.map((equipment: Equipment) => (
-              <EquipmentRow key={equipment.equipmentId} equipment={equipment} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Typography variant="h5" gutterBottom sx={{ mt: 2 }}>
+        点検機器情報
+      </Typography>
+      <TreeView
+        aria-label="file system navigator"
+        defaultCollapseIcon={<ExpandMoreIcon />}
+        defaultExpandIcon={<ChevronRightIcon />}
+      >
+        {presenter.equipments.map((equipment: Equipment) => (
+          <EquipmentRow key={equipment.equipmentId} equipment={equipment} />
+        ))}
+      </TreeView>
     </>
   );
   return (
-    <div style={BasePage}>
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <h1>詳細ページ</h1>
-        </Grid>
-        <Grid item xs={12}>
-          <TopPageLink />
-        </Grid>
-        <Grid item xs={12}>
-          {displayData}
-        </Grid>
-      </Grid>
-    </div>
+    <Container maxWidth="sm" sx={{ mt: 4, mb: 4 }}>
+      <Paper
+        variant="outlined"
+        sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+      >
+        <Typography component="h1" variant="h4" align="center">
+          点検シート詳細
+        </Typography>
+        {displayData}
+        <TopPageLink />
+      </Paper>
+    </Container>
   );
 };
 Details.displayName = Details.name;
