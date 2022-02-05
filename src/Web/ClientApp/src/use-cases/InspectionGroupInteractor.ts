@@ -35,7 +35,6 @@ export class InspectionGroupInteractor implements IInspectionGroupInteractor {
   }
 
   getName(id: number): string | undefined {
-    return this.groups.find((x: InspectionGroup) => x.id === id)
-      ?.description;
+    return this.groups.find((x: InspectionGroup) => x.id === id)?.description;
   }
 }

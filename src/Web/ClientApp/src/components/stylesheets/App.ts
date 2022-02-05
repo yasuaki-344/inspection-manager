@@ -10,7 +10,7 @@ export const SearchField = {
   mr: 1,
 };
 export const BasePage = {
-  marginTop: 50
+  marginTop: 50,
 };
 export const LabelStyle = {
   bgcolor: "#4791db",

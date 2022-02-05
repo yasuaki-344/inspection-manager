@@ -4,7 +4,7 @@ import simpleRestProvider from "ra-data-simple-rest";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import japaneseMessages from "@bicstone/ra-language-japanese";
 import CategoryIcon from "@mui/icons-material/Category";
-import ClassIcon from '@mui/icons-material/Class';
+import ClassIcon from "@mui/icons-material/Class";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import {
   InspectionTypeCreate,
