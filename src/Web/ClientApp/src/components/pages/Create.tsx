@@ -1,5 +1,12 @@
 import React, { FC, useEffect, useState } from "react";
-import { Button, CircularProgress, Grid } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Container,
+  Grid,
+  Paper,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import nameof from "ts-nameof.macro";
 import { InspectionSheetForm } from "./InspectionSheetForm";
@@ -15,7 +22,6 @@ import {
   IInspectionSheetPresenter,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
-import { BasePage } from "../stylesheets";
 
 export const Create: FC = (): JSX.Element => {
   const inject = useDIContext();
@@ -92,7 +98,7 @@ export const Create: FC = (): JSX.Element => {
       </Grid>
     </Grid>
   ) : (
-    <>
+    <Grid container spacing={2}>
       <Grid item xs={12}>
         <Button
           variant="contained"
@@ -103,7 +109,7 @@ export const Create: FC = (): JSX.Element => {
         </Button>
       </Grid>
       <Grid item xs={12}>
-        <form data-testid="form" onSubmit={handleSubmit}>
+        <Box component="form" onSubmit={handleSubmit}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <InspectionSheetForm isEdit={false} />
@@ -114,22 +120,33 @@ export const Create: FC = (): JSX.Element => {
               </Button>
             </Grid>
           </Grid>
-        </form>
+        </Box>
       </Grid>
-    </>
+    </Grid>
   );
 
   return (
-    <div style={BasePage}>
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <h1>新規作成ページ</h1>
-        </Grid>
-        <Grid item xs={12}>
-          <TopPageLink />
-        </Grid>
-        {sheetForm}
-      </Grid>
+    <>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Paper
+          variant="outlined"
+          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography component="h1" variant="h4" align="center">
+                点検シート新規作成
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <TopPageLink />
+            </Grid>
+            <Grid item xs={12}>
+              {sheetForm}
+            </Grid>
+          </Grid>
+        </Paper>
+      </Container>
       <Notification
         open={notification.state.isOpen}
         severity={notification.state.severity}
@@ -144,7 +161,7 @@ export const Create: FC = (): JSX.Element => {
         onSelectClick={handleSelectSheet}
         onCancelClick={() => setOpen(false)}
       />
-    </div>
+    </>
   );
 };
 Create.displayName = Create.name;

@@ -135,7 +135,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
               ))}
             </TextField>
           </Grid>
-          <Grid container spacing={1} sx={{ pt: 1.5 }}>
+          <Grid item xs={12} container spacing={1} sx={{ pt: 1.5 }}>
             {presenter.equipments.map((equipment: Equipment) => (
               <Grid item xs={12} key={equipment.orderIndex}>
                 <EquipmentForm

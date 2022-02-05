@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from "react";
-import { Button, Grid } from "@mui/material";
+import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material";
 import nameof from "ts-nameof.macro";
 import { InspectionSheetForm } from "./InspectionSheetForm";
 import {
@@ -13,7 +13,6 @@ import {
   IInspectionSheetPresenter,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
-import { BasePage } from "../stylesheets";
 
 export const Edit: FC = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
@@ -61,29 +60,36 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
   const sheetForm = loading ? <></> : <InspectionSheetForm isEdit />;
 
   return (
-    <div style={BasePage}>
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <h1>編集ページ</h1>
-        </Grid>
-        <Grid item xs={12}>
-          <TopPageLink />
-        </Grid>
-        <Grid item xs={12}>
-          <form data-testid="form" onSubmit={handleUpdate}>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                {sheetForm}
-              </Grid>
-              <Grid item xs={12}>
-                <Button type="submit" variant="contained" color="primary">
-                  更新
-                </Button>
-              </Grid>
+    <>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Paper
+          variant="outlined"
+          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+        >
+          <Typography component="h1" variant="h4" align="center">
+            点検シート編集
+          </Typography>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <TopPageLink />
             </Grid>
-          </form>
-        </Grid>
-      </Grid>
+            <Grid item xs={12}>
+              <Box component="form" onSubmit={handleUpdate}>
+                <Grid container spacing={1}>
+                  <Grid item xs={12}>
+                    {sheetForm}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button type="submit" variant="contained" color="primary">
+                      更新
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Container>
       <Notification
         open={notification.state.isOpen}
         severity={notification.state.severity}
@@ -92,7 +98,7 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
           notification.hideDisplay();
         }}
       />
-    </div>
+    </>
   );
 };
 Edit.displayName = Edit.name;
