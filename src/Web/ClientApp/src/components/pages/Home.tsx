@@ -7,11 +7,11 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   Paper,
   TablePagination,
+  Typography,
   CircularProgress,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -24,7 +24,6 @@ import { CancelIconButton } from "../utilities";
 import { SheetSearchMenu } from "../SheetSearchMenu";
 import { SheetDeleteConfirmationDialog } from "../dialog/SheetDeleteConfirmationDialog";
 import { useDIContext } from "../../container";
-import { BasePage } from "../stylesheets";
 
 export const Home: FC = (): JSX.Element => {
   const inject = useDIContext();
@@ -138,70 +137,68 @@ export const Home: FC = (): JSX.Element => {
     </Grid>
   ) : (
     <>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>ダウンロード</TableCell>
-              <TableCell>点検シート名</TableCell>
-              <TableCell>点検グループ</TableCell>
-              <TableCell>点検種別</TableCell>
-              <TableCell>&nbsp;</TableCell>
-              <TableCell>&nbsp;</TableCell>
-              <TableCell>&nbsp;</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {presenter.inspectionSheets
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((sheet: InspectionSheet) => (
-                <TableRow key={sheet.sheetId}>
-                  <TableCell padding="checkbox">
-                    <ButtonGroup
-                      variant="outlined"
-                      aria-label="outlined button group"
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>ダウンロード</TableCell>
+            <TableCell>点検シート名</TableCell>
+            <TableCell>点検グループ</TableCell>
+            <TableCell>点検種別</TableCell>
+            <TableCell>&nbsp;</TableCell>
+            <TableCell>&nbsp;</TableCell>
+            <TableCell>&nbsp;</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {presenter.inspectionSheets
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((sheet: InspectionSheet) => (
+              <TableRow key={sheet.sheetId}>
+                <TableCell padding="checkbox">
+                  <ButtonGroup
+                    variant="outlined"
+                    aria-label="outlined button group"
+                  >
+                    <Button
+                      onClick={() =>
+                        controller.exportExcelInspectionSheet(sheet)
+                      }
                     >
-                      <Button
-                        onClick={() =>
-                          controller.exportExcelInspectionSheet(sheet)
-                        }
-                      >
-                        Excel
-                      </Button>
-                      <Button
-                        onClick={() =>
-                          controller.exportJsonInspectionSheet(sheet)
-                        }
-                      >
-                        JSON
-                      </Button>
-                    </ButtonGroup>
-                  </TableCell>
-                  <TableCell>{sheet.sheetName}</TableCell>
-                  <TableCell>
-                    {presenter.getGroupName(sheet.inspectionGroupId)}
-                  </TableCell>
-                  <TableCell>
-                    {presenter.getTypeName(sheet.inspectionTypeId)}
-                  </TableCell>
-                  <TableCell padding="checkbox">
-                    <Link to={`/edit/${sheet.sheetId}`}>
-                      <EditIcon />
-                    </Link>
-                  </TableCell>
-                  <TableCell padding="checkbox">
-                    <Link to={`/details/${sheet.sheetId}`}>
-                      <DetailsIcon />
-                    </Link>
-                  </TableCell>
-                  <TableCell padding="checkbox">
-                    <CancelIconButton onClick={() => handleClickOpen(sheet)} />
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                      Excel
+                    </Button>
+                    <Button
+                      onClick={() =>
+                        controller.exportJsonInspectionSheet(sheet)
+                      }
+                    >
+                      JSON
+                    </Button>
+                  </ButtonGroup>
+                </TableCell>
+                <TableCell>{sheet.sheetName}</TableCell>
+                <TableCell>
+                  {presenter.getGroupName(sheet.inspectionGroupId)}
+                </TableCell>
+                <TableCell>
+                  {presenter.getTypeName(sheet.inspectionTypeId)}
+                </TableCell>
+                <TableCell padding="checkbox">
+                  <Link to={`/edit/${sheet.sheetId}`}>
+                    <EditIcon />
+                  </Link>
+                </TableCell>
+                <TableCell padding="checkbox">
+                  <Link to={`/details/${sheet.sheetId}`}>
+                    <DetailsIcon />
+                  </Link>
+                </TableCell>
+                <TableCell padding="checkbox">
+                  <CancelIconButton onClick={() => handleClickOpen(sheet)} />
+                </TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
       <TablePagination
         component="div"
         count={presenter.inspectionSheets.length}
@@ -216,26 +213,33 @@ export const Home: FC = (): JSX.Element => {
   );
 
   return (
-    <div style={BasePage}>
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <h1>点検シート一覧</h1>
+    <>
+      <Paper
+        variant="outlined"
+        sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+      >
+        <Typography component="h1" variant="h4" align="center">
+          点検シート一覧
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Button variant="contained" component={Link} to="/create">
+              新規作成
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <SheetSearchMenu
+              searchOption={searchOption}
+              handleSearchOption={handleSearchOption}
+              handleSearch={handleSearch}
+              handleResetSearchOption={handleResetSearchOption}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            {table}
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Link to="/create">新規作成</Link>
-        </Grid>
-        <Grid item xs={12}>
-          <SheetSearchMenu
-            searchOption={searchOption}
-            handleSearchOption={handleSearchOption}
-            handleSearch={handleSearch}
-            handleResetSearchOption={handleResetSearchOption}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          {table}
-        </Grid>
-      </Grid>
+      </Paper>
       <SheetDeleteConfirmationDialog
         open={open}
         sheetName={targetSheet.sheetName}
@@ -244,7 +248,7 @@ export const Home: FC = (): JSX.Element => {
         onDeleteClick={handleDelete}
         onCancelClick={() => setOpen(false)}
       />
-    </div>
+    </>
   );
 };
 Home.displayName = Home.name;
