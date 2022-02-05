@@ -214,33 +214,35 @@ export const Home: FC = (): JSX.Element => {
   );
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Paper
-        variant="outlined"
-        sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
-      >
-        <Typography component="h1" variant="h4" align="center">
-          点検シート一覧
-        </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Button variant="contained" component={Link} to="/create">
-              新規作成
-            </Button>
+    <>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Paper
+          variant="outlined"
+          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+        >
+          <Typography component="h1" variant="h4" align="center">
+            点検シート一覧
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Button variant="contained" component={Link} to="/create">
+                新規作成
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <SheetSearchMenu
+                searchOption={searchOption}
+                handleSearchOption={handleSearchOption}
+                handleSearch={handleSearch}
+                handleResetSearchOption={handleResetSearchOption}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              {table}
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <SheetSearchMenu
-              searchOption={searchOption}
-              handleSearchOption={handleSearchOption}
-              handleSearch={handleSearch}
-              handleResetSearchOption={handleResetSearchOption}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            {table}
-          </Grid>
-        </Grid>
-      </Paper>
+        </Paper>
+      </Container>
       <SheetDeleteConfirmationDialog
         open={open}
         sheetName={targetSheet.sheetName}
@@ -249,7 +251,7 @@ export const Home: FC = (): JSX.Element => {
         onDeleteClick={handleDelete}
         onCancelClick={() => setOpen(false)}
       />
-    </Container>
+    </>
   );
 };
 Home.displayName = Home.name;
