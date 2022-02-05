@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Container, IconButton, TextField } from "@mui/material";
+import { IconButton, TextField } from "@mui/material";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import SearchIcon from "@mui/icons-material/Search";
 import { SearchField } from "./stylesheets";
@@ -17,7 +17,7 @@ export const SheetSearchMenu: FC<SheetSearchMenuProps> = (
   props: SheetSearchMenuProps
 ): JSX.Element => {
   return (
-    <Container fixed>
+    <>
       <TextField
         sx={SearchField}
         label="点検シート名"
@@ -51,6 +51,6 @@ export const SheetSearchMenu: FC<SheetSearchMenuProps> = (
       <IconButton edge="end" onClick={props.handleResetSearchOption}>
         <RotateLeftIcon />
       </IconButton>
-    </Container>
+    </>
   );
 };
