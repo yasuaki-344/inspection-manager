@@ -54,7 +54,7 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 {
     // Configure the HTTP request pipeline.
-    if (!app.Environment.IsDevelopment())
+    if (app.Environment.IsDevelopment())
     {
         app.UseDeveloperExceptionPage();
         app.UseSwagger();
@@ -78,8 +78,6 @@ var app = builder.Build();
         name: "default",
         pattern: "{controller}/{action=Index}/{id?}");
 
-    app.MapFallbackToFile("index.html");
-
     // Database initialization process
     using (var scope = app.Services.CreateScope())
     {
@@ -87,4 +85,5 @@ var app = builder.Build();
         DbInitializer.Seed(services);
     }
 }
+app.MapFallbackToFile("index.html");
 app.Run();
