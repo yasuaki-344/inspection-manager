@@ -1,6 +1,6 @@
 {
-  "short_name": "InspectionManager.Web",
-  "name": "InspectionManager.Web",
+  "short_name": "InspectionManager",
+  "name": "InspectionManager",
   "icons": [
     {
       "src": "favicon.ico",
