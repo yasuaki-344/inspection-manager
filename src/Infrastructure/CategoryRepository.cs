@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -7,7 +6,6 @@ using AutoMapper.QueryableExtensions;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Entities;
 using InspectionManager.ApplicationCore.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace InspectionManager.Infrastructure;
 
@@ -28,312 +26,152 @@ public class CategoryRepository : ICategoryRepository
     }
 
     /// <inheritdoc/>
-    public bool InspectionGroupExists(int id)
-    {
-        if (_context.InspectionGroups is not null)
-        {
-            return _context.InspectionGroups.Any(x => x.InspectionGroupId == id);
-        }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.InspectionGroups));
-        }
-    }
+    public bool InspectionGroupExists(int id) =>
+        _context.InspectionGroups.Any(x => x.InspectionGroupId == id);
 
     /// <inheritdoc/>
-    public IEnumerable<InspectionGroupDto> GetInspectionGroups()
-    {
-        if (_context.InspectionGroups is not null)
-        {
-            return _context.InspectionGroups
-                .ProjectTo<InspectionGroupDto>(_mapper.ConfigurationProvider)
-                .ToList();
-        }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.InspectionGroups));
-        }
-    }
+    public IEnumerable<InspectionGroupDto> GetInspectionGroups() =>
+        _context.InspectionGroups
+            .ProjectTo<InspectionGroupDto>(_mapper.ConfigurationProvider)
+            .ToList();
 
     /// <inheritdoc/>
-    public InspectionGroupDto GetInspectionGroup(int id)
-    {
-        if (_context.InspectionGroups is not null)
-        {
-            var dto = _context.InspectionGroups
-                .Where(x => x.InspectionGroupId == id)
-                .ProjectTo<InspectionGroupDto>(_mapper.ConfigurationProvider)
-                .Single();
-            return dto;
-        }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.InspectionGroups));
-        }
-    }
+    public InspectionGroupDto GetInspectionGroup(int id) =>
+        _context.InspectionGroups
+            .Where(x => x.InspectionGroupId == id)
+            .ProjectTo<InspectionGroupDto>(_mapper.ConfigurationProvider)
+            .Single();
 
     /// <inheritdoc/>
     public async Task<InspectionGroupDto> CreateInspectionGroupAsync(InspectionGroupDto dto)
     {
-        if (_context.InspectionGroups is not null)
-        {
-            var entity = _mapper.Map<InspectionGroup>(dto);
-            await _context.InspectionGroups.AddAsync(entity);
-            await _context.SaveChangesAsync();
+        var entity = _mapper.Map<InspectionGroup>(dto);
+        await _context.InspectionGroups.AddAsync(entity);
+        await _context.SaveChangesAsync();
 
-            return _mapper.Map<InspectionGroupDto>(entity);
-        }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.InspectionGroups));
-        }
+        return _mapper.Map<InspectionGroupDto>(entity);
     }
 
     /// <inheritdoc/>
     public async Task<InspectionGroupDto> UpdateInspectionGroupAsync(InspectionGroupDto dto)
     {
-        if (_context.InspectionGroups is not null)
-        {
-            var entity = _mapper.Map<InspectionGroup>(dto);
-            _context.InspectionGroups.Update(entity);
-            await _context.SaveChangesAsync();
+        var entity = _mapper.Map<InspectionGroup>(dto);
+        _context.InspectionGroups.Update(entity);
+        await _context.SaveChangesAsync();
 
-            return _mapper.Map<InspectionGroupDto>(entity);
-        }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.InspectionGroups));
-        }
+        return _mapper.Map<InspectionGroupDto>(entity);
     }
 
     /// <inheritdoc/>
     public async Task<InspectionGroupDto> DeleteInspectionGroupAsync(int id)
     {
-        if (_context.InspectionGroups is not null)
+        var entity = await _context.InspectionGroups.FindAsync(id);
+        if (entity is not null)
         {
-            var entity = _context.InspectionGroups.Single(x => x.InspectionGroupId == id);
-            if (entity is not null)
-            {
-                _context.InspectionGroups.Remove(entity);
-                await _context.SaveChangesAsync();
-            }
-            return _mapper.Map<InspectionGroupDto>(entity);
+            _context.InspectionGroups.Remove(entity);
+            await _context.SaveChangesAsync();
         }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.InspectionGroups));
-        }
+        return _mapper.Map<InspectionGroupDto>(entity);
     }
 
     /// <inheritdoc/>
-    public bool InspectionTypeExists(int id)
-    {
-        if (_context.InspectionTypes is not null)
-        {
-            return _context.InspectionTypes.Any(x => x.InspectionTypeId == id);
-        }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.InspectionTypes));
-        }
-    }
+    public bool InspectionTypeExists(int id) =>
+        _context.InspectionTypes.Any(x => x.InspectionTypeId == id);
 
     /// <inheritdoc/>
-    public IEnumerable<InspectionTypeDto> GetInspectionTypes()
-    {
-        if (_context.InspectionTypes is not null)
-        {
-            return _context.InspectionTypes
-                .ProjectTo<InspectionTypeDto>(_mapper.ConfigurationProvider)
-                .ToList();
-        }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.InspectionTypes));
-        }
-    }
+    public IEnumerable<InspectionTypeDto> GetInspectionTypes() =>
+        _context.InspectionTypes
+            .ProjectTo<InspectionTypeDto>(_mapper.ConfigurationProvider)
+            .ToList();
 
     /// <inheritdoc/>
-    public InspectionTypeDto GetInspectionType(int id)
-    {
-        if (_context.InspectionTypes is not null)
-        {
-            var dto = _context.InspectionTypes
-                .Where(x => x.InspectionTypeId == id)
-                .ProjectTo<InspectionTypeDto>(_mapper.ConfigurationProvider)
-                .Single();
-            return dto;
-        }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.InspectionTypes));
-        }
-    }
+    public InspectionTypeDto GetInspectionType(int id) =>
+        _context.InspectionTypes
+            .Where(x => x.InspectionTypeId == id)
+            .ProjectTo<InspectionTypeDto>(_mapper.ConfigurationProvider)
+            .Single();
 
     /// <inheritdoc/>
     public async Task<InspectionTypeDto> CreateInspectionTypeAsync(InspectionTypeDto dto)
     {
-        if (_context.InspectionTypes is not null)
-        {
-            var entity = _mapper.Map<InspectionType>(dto);
-            await _context.InspectionTypes.AddAsync(entity);
-            await _context.SaveChangesAsync();
+        var entity = _mapper.Map<InspectionType>(dto);
+        await _context.InspectionTypes.AddAsync(entity);
+        await _context.SaveChangesAsync();
 
-            return _mapper.Map<InspectionTypeDto>(entity);
-        }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.InspectionTypes));
-        }
+        return _mapper.Map<InspectionTypeDto>(entity);
     }
 
     /// <inheritdoc/>
     public async Task<InspectionTypeDto> UpdateInspectionTypeAsync(InspectionTypeDto dto)
     {
-        if (_context.InspectionTypes is not null)
-        {
-            var entity = _mapper.Map<InspectionType>(dto);
-            _context.InspectionTypes.Update(entity);
-            await _context.SaveChangesAsync();
+        var entity = _mapper.Map<InspectionType>(dto);
+        _context.InspectionTypes.Update(entity);
+        await _context.SaveChangesAsync();
 
-            return _mapper.Map<InspectionTypeDto>(entity);
-        }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.InspectionTypes));
-        }
+        return _mapper.Map<InspectionTypeDto>(entity);
     }
 
 
     /// <inheritdoc/>
     public async Task<InspectionTypeDto> DeleteInspectionTypeAsync(int id)
     {
-        if (_context.InspectionTypes is not null)
+        var entity = await _context.InspectionTypes.FindAsync(id);
+        if (entity is not null)
         {
-            var entity = _context.InspectionTypes.Single(x => x.InspectionTypeId == id);
-            if (entity is not null)
-            {
-                _context.InspectionTypes.Remove(entity);
-                await _context.SaveChangesAsync();
-            }
-            return _mapper.Map<InspectionTypeDto>(entity);
+            _context.InspectionTypes.Remove(entity);
+            await _context.SaveChangesAsync();
         }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.InspectionTypes));
-        }
+        return _mapper.Map<InspectionTypeDto>(entity);
     }
 
     /// <inheritdoc/>
-    public bool ChoiceTemplateExists(int id)
-    {
-        if (_context.ChoiceTemplates is not null)
-        {
-            return _context.ChoiceTemplates.Any(x => x.ChoiceTemplateId == id);
-        }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.ChoiceTemplates));
-        }
-    }
+    public bool ChoiceTemplateExists(int id) =>
+        _context.ChoiceTemplates.Any(x => x.ChoiceTemplateId == id);
 
     /// <inheritdoc/>
-    public IEnumerable<ChoiceTemplateDto> GetChoiceTemplates()
-    {
-        if (_context.ChoiceTemplates is not null)
-        {
-            var templates = _context.ChoiceTemplates
-                .ProjectTo<ChoiceTemplateDto>(_mapper.ConfigurationProvider)
-                .ToList();
-            return templates;
-        }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.ChoiceTemplates));
-        }
-    }
+    public IEnumerable<ChoiceTemplateDto> GetChoiceTemplates() =>
+        _context.ChoiceTemplates
+            .ProjectTo<ChoiceTemplateDto>(_mapper.ConfigurationProvider)
+            .ToList();
 
     /// <inheritdoc/>
-    public ChoiceTemplateDto GetChoiceTemplate(int id)
-    {
-        if (_context.ChoiceTemplates is not null)
-        {
-            return _context.ChoiceTemplates
-                .Where(x => x.ChoiceTemplateId == id)
-                .ProjectTo<ChoiceTemplateDto>(_mapper.ConfigurationProvider)
-                .Single();
-        }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.ChoiceTemplates));
-        }
-    }
+    public ChoiceTemplateDto GetChoiceTemplate(int id) =>
+        _context.ChoiceTemplates
+            .Where(x => x.ChoiceTemplateId == id)
+            .ProjectTo<ChoiceTemplateDto>(_mapper.ConfigurationProvider)
+            .Single();
 
     /// <inheritdoc/>
     public async Task<ChoiceTemplateDto> CreateChoiceTemplateAsync(ChoiceTemplateDto dto)
     {
-        if (_context.ChoiceTemplates is not null)
-        {
-            var entity = _mapper.Map<ChoiceTemplate>(dto);
-            await _context.ChoiceTemplates.AddAsync(entity);
-            await _context.SaveChangesAsync();
+        var entity = _mapper.Map<ChoiceTemplate>(dto);
+        await _context.ChoiceTemplates.AddAsync(entity);
+        await _context.SaveChangesAsync();
 
-            return _mapper.Map<ChoiceTemplateDto>(entity);
-        }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.ChoiceTemplates));
-        }
+        return _mapper.Map<ChoiceTemplateDto>(entity);
     }
 
     /// <inheritdoc/>
     public async Task<ChoiceTemplateDto> UpdateChoiceTemplateAsync(ChoiceTemplateDto dto)
     {
-        if (_context.ChoiceTemplates is not null)
-        {
-            var entity = _mapper.Map<ChoiceTemplate>(dto);
-            var optionIds = entity.Choices.Select(x => x.OptionId);
-            if (_context.Options is not null)
-            {
-                var options = _context.Options
-                    .Where(x => x.ChoiceTemplateId == dto.ChoiceTemplateId)
-                    .Where(x => !optionIds.Contains(x.OptionId));
-                _context.Options.RemoveRange(options);
-            }
-            else
-            {
-                throw new NullReferenceException(nameof(_context.Options));
-            }
-            _context.ChoiceTemplates.Update(entity);
-            await _context.SaveChangesAsync();
+        var entity = _mapper.Map<ChoiceTemplate>(dto);
+        _context.ChoiceTemplates.Update(entity);
+        await _context.SaveChangesAsync();
 
-            return _mapper.Map<ChoiceTemplateDto>(entity);
-        }
-        else
-        {
-            throw new NullReferenceException(nameof(_context.ChoiceTemplates));
-        }
+        return _mapper.Map<ChoiceTemplateDto>(entity);
     }
 
     /// <inheritdoc/>
     public async Task<ChoiceTemplateDto> DeleteChoiceTemplateAsync(int id)
     {
-        if (_context.ChoiceTemplates is not null)
-        {
-            var entity = _context.ChoiceTemplates
-                .Single(x => x.ChoiceTemplateId == id);
+        var entity = await _context.ChoiceTemplates.FindAsync(id);
 
-            if (entity is not null)
-            {
-                _context.ChoiceTemplates.Remove(entity);
-                await _context.SaveChangesAsync();
-            }
-
-            return _mapper.Map<ChoiceTemplateDto>(entity);
-        }
-        else
+        if (entity is not null)
         {
-            throw new NullReferenceException(nameof(_context.ChoiceTemplates));
+            _context.ChoiceTemplates.Remove(entity);
+            await _context.SaveChangesAsync();
         }
+
+        return _mapper.Map<ChoiceTemplateDto>(entity);
     }
 }

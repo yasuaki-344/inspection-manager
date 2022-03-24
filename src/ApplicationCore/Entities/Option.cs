@@ -8,5 +8,5 @@ public class Option
     public int OptionId { get; set; }
     public string Description { get; set; } = string.Empty;
     public int ChoiceTemplateId { get; set; }
-    public ChoiceTemplate ChoiceTemplate { get; set; } = new ChoiceTemplate();
+    public ChoiceTemplate ChoiceTemplate { get; set; } = null!;
 }

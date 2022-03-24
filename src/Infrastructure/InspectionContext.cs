@@ -10,13 +10,13 @@ public class InspectionContext : DbContext
 
     }
 
-    public DbSet<InspectionType>? InspectionTypes { get; set; }
-    public DbSet<InspectionGroup>? InspectionGroups { get; set; }
-    public DbSet<Option>? Options { get; set; }
-    public DbSet<ChoiceTemplate>? ChoiceTemplates { get; set; }
-    public DbSet<InputType>? InputTypes { get; set; }
-    public DbSet<Choice>? Choices { get; set; }
-    public DbSet<InspectionItem>? InspectionItems { get; set; }
-    public DbSet<Equipment>? Equipments { get; set; }
-    public DbSet<InspectionSheet>? InspectionSheets { get; set; }
+    public DbSet<InspectionType> InspectionTypes { get; set; } = null!;
+    public DbSet<InspectionGroup> InspectionGroups { get; set; } = null!;
+    public DbSet<Option> Options { get; set; } = null!;
+    public DbSet<ChoiceTemplate> ChoiceTemplates { get; set; } = null!;
+    public DbSet<InputType> InputTypes { get; set; } = null!;
+    public DbSet<Choice> Choices { get; set; } = null!;
+    public DbSet<InspectionItem> InspectionItems { get; set; } = null!;
+    public DbSet<Equipment> Equipments { get; set; } = null!;
+    public DbSet<InspectionSheet> InspectionSheets { get; set; } = null!;
 }

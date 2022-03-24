@@ -8,5 +8,5 @@ namespace InspectionManager.ApplicationCore.Entities;
 public class ChoiceTemplate
 {
     public int ChoiceTemplateId { get; set; }
-    public ICollection<Option> Choices { get; set; } = new List<Option>();
+    public ICollection<Option> Choices { get; set; } = null!;
 }
