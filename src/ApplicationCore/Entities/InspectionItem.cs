@@ -11,8 +11,8 @@ public class InspectionItem
     public int OrderIndex { get; set; }
     public string InspectionContent { get; set; } = string.Empty;
     public int InputTypeId { get; set; }
-    public InputType InputType { get; set; } = new InputType();
-    public ICollection<Choice> Choices { get; set; } = new List<Choice>();
+    public InputType InputType { get; set; } = null!;
+    public ICollection<Choice> Choices { get; set; } = null!;
     public int EquipmentId { get; set; }
-    public Equipment Equipment { get; set; } = new Equipment();
+    public Equipment Equipment { get; set; } = null!;
 }

@@ -13,8 +13,8 @@ public class InspectionSheet
     public int SheetId { get; set; }
     public string SheetName { get; set; } = string.Empty;
     public int InspectionTypeId { get; set; }
-    public InspectionType InspectionType { get; set; } = new InspectionType();
+    public InspectionType InspectionType { get; set; } = null!;
     public int InspectionGroupId { get; set; }
-    public InspectionGroup InspectionGroup { get; set; } = new InspectionGroup();
-    public ICollection<Equipment> Equipments { get; set; } = new List<Equipment>();
+    public InspectionGroup InspectionGroup { get; set; } = null!;
+    public ICollection<Equipment> Equipments { get; set; } = null!;
 }
