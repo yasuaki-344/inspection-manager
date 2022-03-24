@@ -11,70 +11,69 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace InspectionManager.Web.Controllers
+namespace InspectionManager.Web.Controllers;
+
+[ApiController]
+public class ExcelSheetController : ControllerBase
 {
-    [ApiController]
-    public class ExcelSheetController : ControllerBase
+    private readonly IExcelDownloadService _service;
+    private readonly ILogger<ExcelSheetController> _logger;
+
+    /// <summary>
+    /// Initializes a new instance of ExcelSheetController class.
+    /// </summary>
+    /// <param name="service">Excel download service object</param>
+    /// <param name="logger">logger object</param>
+    public ExcelSheetController(
+        IExcelDownloadService service,
+        ILogger<ExcelSheetController> logger
+    )
     {
-        private readonly IExcelDownloadService _service;
-        private readonly ILogger<ExcelSheetController> _logger;
+        _service = service;
+        _logger = logger;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of ExcelSheetController class.
-        /// </summary>
-        /// <param name="service">Excel download service object</param>
-        /// <param name="logger">logger object</param>
-        public ExcelSheetController(
-            IExcelDownloadService service,
-            ILogger<ExcelSheetController> logger
-        )
+    [HttpGet("{id}")]
+    [Route("/v1/excel-inspection-sheets/{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public IActionResult DownloadExcelSheet([FromRoute][Required] int? id)
+    {
+        try
         {
-            _service = service;
-            _logger = logger;
-        }
-
-        [HttpGet("{id}")]
-        [Route("/v1/excel-inspection-sheets/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult DownloadExcelSheet([FromRoute][Required] int? id)
-        {
-            try
+            if (id is not null)
             {
-                if (id is not null)
+                _logger.LogInformation($"try to download inspection sheet {id}");
+                if (_service.InspectionSheetExists(id.Value))
                 {
-                    _logger.LogInformation($"try to download inspection sheet {id}");
-                    if (_service.InspectionSheetExists(id.Value))
+                    var sheet = _service.CreateXlsx(id.Value);
+                    using (var ms = new MemoryStream())
                     {
-                        var sheet = _service.CreateXlsx(id.Value);
-                        using (var ms = new MemoryStream())
-                        {
-                            sheet.Write(ms);
-                            return File(
-                                ms.ToArray(),
-                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                                "sample.xlsx"
-                            );
-                        }
-                    }
-                    else
-                    {
-                        return NotFound($"Sheet with Id = {id} not found");
+                        sheet.Write(ms);
+                        return File(
+                            ms.ToArray(),
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "sample.xlsx"
+                        );
                     }
                 }
                 else
                 {
-                    return BadRequest();
+                    return NotFound($"Sheet with Id = {id} not found");
                 }
             }
-            catch (Exception ex)
+            else
             {
-                _logger.LogError(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error retrieving data from the database");
+                return BadRequest();
             }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError,
+                "Error retrieving data from the database");
         }
     }
 }

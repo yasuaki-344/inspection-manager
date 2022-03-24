@@ -20,6 +20,5 @@ USER appuser
 WORKDIR /app
 COPY --from=build /app ./
 ENV ASPNETCORE_URLS http://*:5000
-VOLUME [ "/app/database" ]
 
 ENTRYPOINT ["./InspectionManager.Web"]
