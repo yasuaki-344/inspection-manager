@@ -33,7 +33,7 @@ public class ExcelSheetController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet]
     [Route("/v1/excel-inspection-sheets/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

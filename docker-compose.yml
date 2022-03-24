@@ -1,7 +1,8 @@
-version: '3.7'
+version: '3.9'
 services:
   web:
-    image: nginx:alpine
+    build:
+      context: ./src/ClientApp/
     depends_on:
       - app
     volumes:
@@ -15,8 +16,6 @@ services:
     build: ./src/
     depends_on:
       - database
-    volumes:
-      - ./database:/app/database
     environment:
       ConnectionStrings__InspectionContext: Host=database;Database=${DATABASE};Username=${DB_USERNAME};Password=${DB_PASSWORD}
       ASPNETCORE_ENVIRONMENT: Production

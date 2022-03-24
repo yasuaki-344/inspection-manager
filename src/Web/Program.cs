@@ -1,4 +1,10 @@
-﻿using InspectionManager.ApplicationCore.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Reflection;
+using System.Text;
+using InspectionManager.ApplicationCore.Interfaces;
 using InspectionManager.ApplicationCore.Services;
 using InspectionManager.Infrastructure;
 using InspectionManager.Infrastructure.Data;
@@ -40,7 +46,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IInspectionSheetService, InspectionSheetService>();
     builder.Services.AddScoped<IExcelDownloadService, ExcelDownloadService>();
 
-    // open API setting
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(c =>
     {
         c.SwaggerDoc("v1", new OpenApiInfo
@@ -48,6 +55,13 @@ var builder = WebApplication.CreateBuilder(args);
             Version = "v1",
             Title = "Open API"
         });
+        c.CustomSchemaIds(x =>
+        {
+            var attr = x.GetCustomAttribute<DisplayNameAttribute>();
+            return (attr is not null) ? attr.DisplayName : x.Name;
+        });
+        var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
     });
 }
 
@@ -56,18 +70,24 @@ var app = builder.Build();
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
-        app.UseDeveloperExceptionPage();
-        app.UseSwagger();
+        app.UseSwagger(c =>
+        {
+            c.PreSerializeFilters.Add((swagger, httpReq) =>
+            {
+                swagger.Servers = new List<OpenApiServer>
+                {
+                    new OpenApiServer
+                    {
+                        Url = $"{httpReq.Scheme}://{httpReq.Host.Value}"
+                    }
+                };
+            });
+        });
         app.UseSwaggerUI(c =>
         {
-            c.SwaggerEndpoint("/swagger/v1/swagger.yaml", "Open API");
+            c.SwaggerEndpoint("/swagger/v1/swagger.yaml", "v1");
+            c.RoutePrefix = string.Empty;
         });
-    }
-    else
-    {
-        app.UseExceptionHandler("/Error");
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        // app.UseHsts();
     }
 
     // app.UseHttpsRedirection();
@@ -85,5 +105,4 @@ var app = builder.Build();
         DbInitializer.Seed(services);
     }
 }
-app.MapFallbackToFile("index.html");
 app.Run();
