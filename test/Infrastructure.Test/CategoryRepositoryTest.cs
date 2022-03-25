@@ -98,6 +98,24 @@ public class CategoryRepositoryTest : IDisposable
     }
 
     [Fact]
+    public async Task CreateInspectionGroupAsync_NewDto_ReturnsRegisteredDto()
+    {
+        var target = new CategoryRepository(_context, _mapper);
+        var dto = new InspectionGroupDto
+        {
+            Description = "group"
+        };
+        var actualDto = await target.CreateInspectionGroupAsync(dto);
+
+        Assert.NotEqual(0, actualDto.InspectionGroupId);
+        Assert.Equal("group", actualDto.Description);
+
+        var actualEntity = _context.InspectionGroups.First();
+        Assert.NotEqual(0, actualEntity.InspectionGroupId);
+        Assert.Equal("group", actualEntity.Description);
+    }
+
+    [Fact]
     public async Task DeleteInspectionGroupAsync_ExistentId_ReturnsNull()
     {
         _context.InspectionGroups.Add(new InspectionGroup
@@ -192,6 +210,24 @@ public class CategoryRepositoryTest : IDisposable
 
         Assert.Equal(3, actual.InspectionTypeId);
         Assert.Equal("group", actual.Description);
+    }
+
+    [Fact]
+    public async Task CreateInspectionTypeAsync_NewDto_ReturnsRegisteredDto()
+    {
+        var target = new CategoryRepository(_context, _mapper);
+        var dto = new InspectionTypeDto
+        {
+            Description = "type"
+        };
+        var actualDto = await target.CreateInspectionTypeAsync(dto);
+
+        Assert.NotEqual(0, actualDto.InspectionTypeId);
+        Assert.Equal("type", actualDto.Description);
+
+        var actualEntity = _context.InspectionTypes.First();
+        Assert.NotEqual(0, actualEntity.InspectionTypeId);
+        Assert.Equal("type", actualEntity.Description);
     }
 
     [Fact]
@@ -294,6 +330,31 @@ public class CategoryRepositoryTest : IDisposable
         var choices = new List<string> { "choice1", "choice2" };
         Assert.Equal(3, actual.ChoiceTemplateId);
         Assert.Contains(actual.Choices, x => choices.Contains(x.Description));
+    }
+
+    [Fact]
+    public async Task CreateChoiceTemplateAsync_NewDto_ReturnsRegisteredDto()
+    {
+        var target = new CategoryRepository(_context, _mapper);
+        var dto = new ChoiceTemplateDto
+        {
+            Choices = new List<OptionDto>
+            {
+                new OptionDto { Description = "choice1"},
+                new OptionDto { Description = "choice2"}
+            }
+        };
+        var actualDto = await target.CreateChoiceTemplateAsync(dto);
+
+        var choices = new List<string> { "choice1", "choice2" };
+        Assert.NotEqual(0, actualDto.ChoiceTemplateId);
+        Assert.DoesNotContain(actualDto.Choices, x => x.OptionId == 0);
+        Assert.Contains(actualDto.Choices, x => choices.Contains(x.Description));
+
+        var actualEntity = _context.ChoiceTemplates.First();
+        Assert.NotEqual(0, actualEntity.ChoiceTemplateId);
+        Assert.DoesNotContain(actualEntity.Choices, x => x.OptionId == 0);
+        Assert.Contains(actualEntity.Choices, x => choices.Contains(x.Description));
     }
 
     [Fact]
