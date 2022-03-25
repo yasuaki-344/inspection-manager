@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -61,6 +61,24 @@ public class CategoryRepositoryTest : IDisposable
         var actual = target.InspectionGroupExists(3);
 
         Assert.True(actual);
+    }
+
+    [Fact]
+    public void GetInspectionGroups_Existent_ReturnsDtoList()
+    {
+        _context.InspectionGroups.AddRange(
+            new InspectionGroup { Description = "group1" },
+            new InspectionGroup { Description = "group2" }
+        );
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var actual = target.GetInspectionGroups();
+
+        var groups = new List<string> { "group1", "group2" };
+
+        Assert.DoesNotContain(actual, x => x.InspectionGroupId == 0);
+        Assert.Contains(actual, x => groups.Contains(x.Description));
     }
 
     [Fact]
@@ -229,6 +247,24 @@ public class CategoryRepositoryTest : IDisposable
     }
 
     [Fact]
+    public void GetInspectionTypes_Existent_ReturnsDtoList()
+    {
+        _context.InspectionTypes.AddRange(
+            new InspectionType { Description = "type1" },
+            new InspectionType { Description = "type2" }
+        );
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var actual = target.GetInspectionTypes();
+
+        var types = new List<string> { "type1", "type2" };
+
+        Assert.DoesNotContain(actual, x => x.InspectionTypeId == 0);
+        Assert.Contains(actual, x => types.Contains(x.Description));
+    }
+
+    [Fact]
     public void GetInspectionType_NonExistentId_ThrowException()
     {
         _context.InspectionTypes.Add(new InspectionType
@@ -393,7 +429,21 @@ public class CategoryRepositoryTest : IDisposable
         Assert.True(actual);
     }
 
-    // /// <inheritdoc/>
+    [Fact]
+    public void GetChoiceTemplates_Existent_ReturnsDtoList()
+    {
+        _context.ChoiceTemplates.AddRange(
+            new ChoiceTemplate { },
+            new ChoiceTemplate { }
+        );
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var actual = target.GetChoiceTemplates();
+
+        Assert.DoesNotContain(actual, x => x.ChoiceTemplateId == 0);
+    }
+
     [Fact]
     public void GetChoiceTemplates_NonExistentId_ThrowException()
     {
@@ -548,7 +598,6 @@ public class CategoryRepositoryTest : IDisposable
             }
         });
         _context.SaveChanges();
-
 
         var target = new CategoryRepository(_context, _mapper);
         var actual = await target.DeleteChoiceTemplateAsync(3);
