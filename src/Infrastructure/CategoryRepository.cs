@@ -55,9 +55,13 @@ public class CategoryRepository : ICategoryRepository
     /// <inheritdoc/>
     public async Task<InspectionGroupDto> UpdateInspectionGroupAsync(InspectionGroupDto dto)
     {
-        var entity = _mapper.Map<InspectionGroup>(dto);
-        _context.InspectionGroups.Update(entity);
-        await _context.SaveChangesAsync();
+        var entity = await _context.InspectionGroups.FindAsync(dto.InspectionGroupId);
+        if (entity is not null)
+        {
+            _mapper.Map(dto, entity);
+            _context.InspectionGroups.Update(entity);
+            await _context.SaveChangesAsync();
+        }
 
         return _mapper.Map<InspectionGroupDto>(entity);
     }
@@ -104,9 +108,13 @@ public class CategoryRepository : ICategoryRepository
     /// <inheritdoc/>
     public async Task<InspectionTypeDto> UpdateInspectionTypeAsync(InspectionTypeDto dto)
     {
-        var entity = _mapper.Map<InspectionType>(dto);
-        _context.InspectionTypes.Update(entity);
-        await _context.SaveChangesAsync();
+        var entity = await _context.InspectionTypes.FindAsync(dto.InspectionTypeId);
+        if (entity is not null)
+        {
+            _mapper.Map(dto, entity);
+            _context.InspectionTypes.Update(entity);
+            await _context.SaveChangesAsync();
+        }
 
         return _mapper.Map<InspectionTypeDto>(entity);
     }
@@ -154,9 +162,13 @@ public class CategoryRepository : ICategoryRepository
     /// <inheritdoc/>
     public async Task<ChoiceTemplateDto> UpdateChoiceTemplateAsync(ChoiceTemplateDto dto)
     {
-        var entity = _mapper.Map<ChoiceTemplate>(dto);
-        _context.ChoiceTemplates.Update(entity);
-        await _context.SaveChangesAsync();
+        var entity = await _context.ChoiceTemplates.FindAsync(dto.ChoiceTemplateId);
+        if (entity is not null)
+        {
+            _mapper.Map(dto, entity);
+            _context.ChoiceTemplates.Update(entity);
+            await _context.SaveChangesAsync();
+        }
 
         return _mapper.Map<ChoiceTemplateDto>(entity);
     }

@@ -116,6 +116,56 @@ public class CategoryRepositoryTest : IDisposable
     }
 
     [Fact]
+    public async Task UpdateInspectionGroupAsync_NonExistentId_ReturnsNull()
+    {
+        _context.InspectionGroups.Add(new InspectionGroup
+        {
+            InspectionGroupId = 3,
+            Description = "group"
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var dto = new InspectionGroupDto
+        {
+            InspectionGroupId = 2,
+            Description = "group1"
+        };
+        var actualDto = await target.UpdateInspectionGroupAsync(dto);
+        Assert.Null(actualDto);
+
+        var actualEntity = _context.InspectionGroups.First();
+        Assert.Equal(3, actualEntity.InspectionGroupId);
+        Assert.Equal("group", actualEntity.Description);
+    }
+
+    [Fact]
+    public async Task UpdateInspectionGroupAsync_UpdatedDto_ReturnsRegisteredDto()
+    {
+        _context.InspectionGroups.Add(new InspectionGroup
+        {
+            InspectionGroupId = 3,
+            Description = "group"
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var dto = new InspectionGroupDto
+        {
+            InspectionGroupId = 3,
+            Description = "group1"
+        };
+        var actualDto = await target.UpdateInspectionGroupAsync(dto);
+
+        Assert.Equal(3, actualDto.InspectionGroupId);
+        Assert.Equal("group1", actualDto.Description);
+
+        var actualEntity = _context.InspectionGroups.First();
+        Assert.Equal(3, actualEntity.InspectionGroupId);
+        Assert.Equal("group1", actualEntity.Description);
+    }
+
+    [Fact]
     public async Task DeleteInspectionGroupAsync_ExistentId_ReturnsNull()
     {
         _context.InspectionGroups.Add(new InspectionGroup
@@ -228,6 +278,56 @@ public class CategoryRepositoryTest : IDisposable
         var actualEntity = _context.InspectionTypes.First();
         Assert.NotEqual(0, actualEntity.InspectionTypeId);
         Assert.Equal("type", actualEntity.Description);
+    }
+
+    [Fact]
+    public async Task UpdateInspectionTypeAsync_NonExistentId_ReturnsNull()
+    {
+        _context.InspectionTypes.Add(new InspectionType
+        {
+            InspectionTypeId = 3,
+            Description = "type"
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var dto = new InspectionTypeDto
+        {
+            InspectionTypeId = 2,
+            Description = "type1"
+        };
+        var actualDto = await target.UpdateInspectionTypeAsync(dto);
+        Assert.Null(actualDto);
+
+        var actualEntity = _context.InspectionTypes.First();
+        Assert.Equal(3, actualEntity.InspectionTypeId);
+        Assert.Equal("type", actualEntity.Description);
+    }
+
+    [Fact]
+    public async Task UpdateInspectionTypeAsync_UpdatedDto_ReturnsRegisteredDto()
+    {
+        _context.InspectionTypes.Add(new InspectionType
+        {
+            InspectionTypeId = 3,
+            Description = "type"
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var dto = new InspectionTypeDto
+        {
+            InspectionTypeId = 3,
+            Description = "type1"
+        };
+        var actualDto = await target.UpdateInspectionTypeAsync(dto);
+
+        Assert.Equal(3, actualDto.InspectionTypeId);
+        Assert.Equal("type1", actualDto.Description);
+
+        var actualEntity = _context.InspectionTypes.First();
+        Assert.Equal(3, actualEntity.InspectionTypeId);
+        Assert.Equal("type1", actualEntity.Description);
     }
 
     [Fact]
@@ -358,6 +458,64 @@ public class CategoryRepositoryTest : IDisposable
     }
 
     [Fact]
+    public async Task UpdateChoiceTemplateAsync_NonExistentId_ReturnsNull()
+    {
+        _context.ChoiceTemplates.Add(new ChoiceTemplate
+        {
+            ChoiceTemplateId = 3,
+            Choices = new List<Option>
+            {
+                new Option { OptionId = 1, Description = "choice1" },
+                new Option { OptionId = 2, Description = "choice2" }
+            }
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var dto = new ChoiceTemplateDto
+        {
+            ChoiceTemplateId = 2,
+        };
+        var actualDto = await target.UpdateChoiceTemplateAsync(dto);
+        Assert.Null(actualDto);
+
+        var actualEntity = _context.ChoiceTemplates.First();
+        Assert.Equal(3, actualEntity.ChoiceTemplateId);
+    }
+
+    [Fact]
+    public async Task UpdateChoiceTemplateAsync_UpdatedDto_ReturnsRegisteredDto()
+    {
+        _context.ChoiceTemplates.Add(new ChoiceTemplate
+        {
+            ChoiceTemplateId = 3,
+            Choices = new List<Option>
+            {
+                new Option { OptionId = 1, Description = "choice1" },
+                new Option { OptionId = 2, Description = "choice2" }
+            }
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var dto = new ChoiceTemplateDto
+        {
+            ChoiceTemplateId = 3,
+            // Choices = new List<OptionDto>
+            // {
+            //     new OptionDto { OptionId = 1, Description = "newChoice1" },
+            //     new OptionDto { OptionId = 2, Description = "newChoice2" }
+            // }
+        };
+        var actualDto = await target.UpdateChoiceTemplateAsync(dto);
+
+        Assert.Equal(3, actualDto.ChoiceTemplateId);
+
+        var actualEntity = _context.ChoiceTemplates.First();
+        Assert.Equal(3, actualEntity.ChoiceTemplateId);
+    }
+
+    [Fact]
     public async Task DeleteChoiceTemplateAsync_ExistentId_ReturnsNull()
     {
         _context.ChoiceTemplates.Add(new ChoiceTemplate
@@ -370,7 +528,6 @@ public class CategoryRepositoryTest : IDisposable
             }
         });
         _context.SaveChanges();
-
 
         var target = new CategoryRepository(_context, _mapper);
         var actual = await target.DeleteChoiceTemplateAsync(1);
