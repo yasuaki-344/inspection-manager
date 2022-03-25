@@ -98,6 +98,39 @@ public class CategoryRepositoryTest : IDisposable
     }
 
     [Fact]
+    public async Task DeleteInspectionGroupAsync_ExistentId_ReturnsNull()
+    {
+        _context.InspectionGroups.Add(new InspectionGroup
+        {
+            InspectionGroupId = 3,
+            Description = "group"
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var actual = await target.DeleteInspectionGroupAsync(1);
+
+        Assert.Null(actual);
+    }
+
+    [Fact]
+    public async Task DeleteInspectionGroupAsync_ExistentId_ReturnsDto()
+    {
+        _context.InspectionGroups.Add(new InspectionGroup
+        {
+            InspectionGroupId = 3,
+            Description = "group"
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var actual = await target.DeleteInspectionGroupAsync(3);
+
+        Assert.Equal(3, actual.InspectionGroupId);
+        Assert.Equal("group", actual.Description);
+    }
+
+    [Fact]
     public void InspectionTypeExists_NonExistentId_ReturnsFalse()
     {
         _context.InspectionTypes.Add(new InspectionType
@@ -156,6 +189,39 @@ public class CategoryRepositoryTest : IDisposable
 
         var target = new CategoryRepository(_context, _mapper);
         var actual = target.GetInspectionType(3);
+
+        Assert.Equal(3, actual.InspectionTypeId);
+        Assert.Equal("group", actual.Description);
+    }
+
+    [Fact]
+    public async Task DeleteInspectionTypeAsync_ExistentId_ReturnsNull()
+    {
+        _context.InspectionTypes.Add(new InspectionType
+        {
+            InspectionTypeId = 3,
+            Description = "group"
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var actual = await target.DeleteInspectionTypeAsync(1);
+
+        Assert.Null(actual);
+    }
+
+    [Fact]
+    public async Task DeleteInspectionTypeAsync_ExistentId_ReturnsDto()
+    {
+        _context.InspectionTypes.Add(new InspectionType
+        {
+            InspectionTypeId = 3,
+            Description = "group"
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var actual = await target.DeleteInspectionTypeAsync(3);
 
         Assert.Equal(3, actual.InspectionTypeId);
         Assert.Equal("group", actual.Description);
@@ -225,9 +291,52 @@ public class CategoryRepositoryTest : IDisposable
         var target = new CategoryRepository(_context, _mapper);
         var actual = target.GetChoiceTemplate(3);
 
-        var choices = new List<string>{"choice1", "choice2"};
+        var choices = new List<string> { "choice1", "choice2" };
         Assert.Equal(3, actual.ChoiceTemplateId);
         Assert.Contains(actual.Choices, x => choices.Contains(x.Description));
     }
 
+    [Fact]
+    public async Task DeleteChoiceTemplateAsync_ExistentId_ReturnsNull()
+    {
+        _context.ChoiceTemplates.Add(new ChoiceTemplate
+        {
+            ChoiceTemplateId = 3,
+            Choices = new List<Option>
+            {
+                new Option { Description = "choice1" },
+                new Option { Description = "choice2" },
+            }
+        });
+        _context.SaveChanges();
+
+
+        var target = new CategoryRepository(_context, _mapper);
+        var actual = await target.DeleteChoiceTemplateAsync(1);
+
+        Assert.Null(actual);
+    }
+
+    [Fact]
+    public async Task DeleteChoiceTemplateAsync_ExistentId_ReturnsDto()
+    {
+        _context.ChoiceTemplates.Add(new ChoiceTemplate
+        {
+            ChoiceTemplateId = 3,
+            Choices = new List<Option>
+            {
+                new Option { Description = "choice1" },
+                new Option { Description = "choice2" },
+            }
+        });
+        _context.SaveChanges();
+
+
+        var target = new CategoryRepository(_context, _mapper);
+        var actual = await target.DeleteChoiceTemplateAsync(3);
+
+        var choices = new List<string> { "choice1", "choice2" };
+        Assert.Equal(3, actual.ChoiceTemplateId);
+        Assert.Contains(actual.Choices, x => choices.Contains(x.Description));
+    }
 }
