@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -160,5 +161,73 @@ public class CategoryRepositoryTest : IDisposable
         Assert.Equal("group", actual.Description);
     }
 
+    [Fact]
+    public void ChoiceTemplateExists_NonExistentId_ReturnsFalse()
+    {
+        _context.ChoiceTemplates.Add(new ChoiceTemplate
+        {
+            ChoiceTemplateId = 3
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var actual = target.ChoiceTemplateExists(1);
+
+        Assert.False(actual);
+    }
+
+    [Fact]
+    public void ChoiceTemplateExists_ExistentId_ReturnsTrue()
+    {
+        _context.ChoiceTemplates.Add(new ChoiceTemplate
+        {
+            ChoiceTemplateId = 3
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var actual = target.ChoiceTemplateExists(3);
+
+        Assert.True(actual);
+    }
+
     // /// <inheritdoc/>
+    [Fact]
+    public void GetChoiceTemplates_NonExistentId_ThrowException()
+    {
+        _context.ChoiceTemplates.Add(new ChoiceTemplate
+        {
+            ChoiceTemplateId = 3,
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        Assert.Throws<InvalidOperationException>(() =>
+        {
+            target.GetChoiceTemplate(1);
+        });
+    }
+
+    [Fact]
+    public void GetChoiceTemplatese_ExistentId_ReturnsDto()
+    {
+        _context.ChoiceTemplates.Add(new ChoiceTemplate
+        {
+            ChoiceTemplateId = 3,
+            Choices = new List<Option>
+            {
+                new Option { Description = "choice1" },
+                new Option { Description = "choice2" },
+            }
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var actual = target.GetChoiceTemplate(3);
+
+        var choices = new List<string>{"choice1", "choice2"};
+        Assert.Equal(3, actual.ChoiceTemplateId);
+        Assert.Contains(actual.Choices, x => choices.Contains(x.Description));
+    }
+
 }
