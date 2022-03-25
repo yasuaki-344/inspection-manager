@@ -63,6 +63,40 @@ public class CategoryRepositoryTest : IDisposable
     }
 
     [Fact]
+    public void GetInspectionGroup_NonExistentId_ThrowException()
+    {
+        _context.InspectionGroups.Add(new InspectionGroup
+        {
+            InspectionGroupId = 3,
+            Description = "group"
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        Assert.Throws<InvalidOperationException>(() =>
+        {
+            target.GetInspectionGroup(1);
+        });
+    }
+
+    [Fact]
+    public void GetInspectionGroup_ExistentId_ReturnsDto()
+    {
+        _context.InspectionGroups.Add(new InspectionGroup
+        {
+            InspectionGroupId = 3,
+            Description = "group"
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var actual = target.GetInspectionGroup(3);
+
+        Assert.Equal(3, actual.InspectionGroupId);
+        Assert.Equal("group", actual.Description);
+    }
+
+    [Fact]
     public void InspectionTypeExists_NonExistentId_ReturnsFalse()
     {
         _context.InspectionTypes.Add(new InspectionType
@@ -92,4 +126,39 @@ public class CategoryRepositoryTest : IDisposable
         Assert.True(actual);
     }
 
+    [Fact]
+    public void GetInspectionType_NonExistentId_ThrowException()
+    {
+        _context.InspectionTypes.Add(new InspectionType
+        {
+            InspectionTypeId = 3,
+            Description = "group"
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        Assert.Throws<InvalidOperationException>(() =>
+        {
+            target.GetInspectionType(1);
+        });
+    }
+
+    [Fact]
+    public void GetInspectionType_ExistentId_ReturnsDto()
+    {
+        _context.InspectionTypes.Add(new InspectionType
+        {
+            InspectionTypeId = 3,
+            Description = "group"
+        });
+        _context.SaveChanges();
+
+        var target = new CategoryRepository(_context, _mapper);
+        var actual = target.GetInspectionType(3);
+
+        Assert.Equal(3, actual.InspectionTypeId);
+        Assert.Equal("group", actual.Description);
+    }
+
+    // /// <inheritdoc/>
 }
