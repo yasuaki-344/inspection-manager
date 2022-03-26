@@ -1,8 +1,10 @@
 .openapi-generator-ignore
 apis/ChoiceTemplateApi.ts
+apis/ExcelSheetApi.ts
 apis/InspectionGroupApi.ts
 apis/InspectionSheetApi.ts
 apis/InspectionTypeApi.ts
+apis/JsonExportApi.ts
 apis/index.ts
 index.ts
 models/Choice.ts

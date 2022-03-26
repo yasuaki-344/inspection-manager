@@ -46,7 +46,7 @@ export interface ApiV1InspectionTypesPostRequest {
 export class InspectionTypeApi extends runtime.BaseAPI {
 
     /**
-     * 点検種別の一覧を取得する.
+     * 点検種別の一覧を取得する
      */
     async apiV1InspectionTypesGetRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<InspectionType>>> {
         const queryParameters: any = {};
@@ -64,7 +64,7 @@ export class InspectionTypeApi extends runtime.BaseAPI {
     }
 
     /**
-     * 点検種別の一覧を取得する.
+     * 点検種別の一覧を取得する
      */
     async apiV1InspectionTypesGet(initOverrides?: RequestInit): Promise<Array<InspectionType>> {
         const response = await this.apiV1InspectionTypesGetRaw(initOverrides);

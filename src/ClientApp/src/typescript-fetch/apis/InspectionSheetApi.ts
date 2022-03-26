@@ -101,6 +101,7 @@ export class InspectionSheetApi extends runtime.BaseAPI {
     }
 
     /**
+     * 指定の点検シートを取得する
      */
     async apiV1InspectionSheetsIdGetRaw(requestParameters: ApiV1InspectionSheetsIdGetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionSheet>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
@@ -122,6 +123,7 @@ export class InspectionSheetApi extends runtime.BaseAPI {
     }
 
     /**
+     * 指定の点検シートを取得する
      */
     async apiV1InspectionSheetsIdGet(requestParameters: ApiV1InspectionSheetsIdGetRequest, initOverrides?: RequestInit): Promise<InspectionSheet> {
         const response = await this.apiV1InspectionSheetsIdGetRaw(requestParameters, initOverrides);
