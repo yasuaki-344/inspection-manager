@@ -178,7 +178,9 @@ public class CategoryRepository : ICategoryRepository
     /// <inheritdoc/>
     public async Task<ChoiceTemplateDto> UpdateChoiceTemplateAsync(ChoiceTemplateDto dto)
     {
-        var entity = await _context.ChoiceTemplates.FindAsync(dto.ChoiceTemplateId);
+        var entity = await _context.ChoiceTemplates
+            .Include(x => x.Choices)
+            .SingleAsync(x => x.ChoiceTemplateId == dto.ChoiceTemplateId);
         if (entity is not null)
         {
             _mapper.Map(dto, entity);
