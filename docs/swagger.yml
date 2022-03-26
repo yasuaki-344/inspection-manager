@@ -621,29 +621,30 @@ components:
           items:
             $ref: "#/components/schemas/InspectionItem"
     InspectionItem:
-      type: object
       required:
+        - choices
+        - input_type
+        - inspection_content
         - inspection_item_id
         - order_index
-        - inspection_content
-        - input_type
-        - choices
+      type: object
       properties:
         inspection_item_id:
           type: integer
-          format: int64
+          format: int32
         order_index:
           type: integer
-          format: int64
+          format: int32
         inspection_content:
           type: string
         input_type:
           type: integer
-          format: int64
+          format: int32
         choices:
           type: array
           items:
-            $ref: "#/components/schemas/Choice"
+            $ref: '#/components/schemas/Choice'
+      additionalProperties: false
     Choice:
       type: object
       required:
