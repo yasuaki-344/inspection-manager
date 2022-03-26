@@ -700,17 +700,6 @@ components:
           format: int64
         description:
           type: string
-    InspectionType:
-      type: object
-      required:
-        - id
-        - description
-      properties:
-        id:
-          type: integer
-          format: int64
-        description:
-          type: string
     ChoiceTemplate:
       type: object
       required:
@@ -724,6 +713,18 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Option"
+    InspectionType:
+      required:
+        - description
+        - id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        description:
+          type: string
+      additionalProperties: false
     Option:
       required:
         - description
