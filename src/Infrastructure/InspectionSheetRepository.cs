@@ -28,24 +28,33 @@ public class InspectionSheetRepository : IInspectionSheetRepository
     }
 
     public string InspectionTypeName(int id) =>
-        _context.InspectionTypes.First(x => x.InspectionTypeId == id).Description;
+        _context.InspectionTypes
+            .AsNoTracking()
+            .First(x => x.InspectionTypeId == id).Description;
 
     public string InspectionGroupName(int id) =>
-        _context.InspectionGroups.First(x => x.InspectionGroupId == id).Description;
+        _context.InspectionGroups
+            .AsNoTracking()
+            .First(x => x.InspectionGroupId == id).Description;
 
     /// <inheritdoc/>
-    public bool InspectionSheetExists(int id) => _context.InspectionSheets.Any(s => s.SheetId == id);
+    public bool InspectionSheetExists(int id) =>
+        _context.InspectionSheets
+            .AsNoTracking()
+            .Any(s => s.SheetId == id);
 
     /// <inheritdoc/>
     public IEnumerable<InspectionSheetDto> GetAllInspectionSheets() =>
         _context.InspectionSheets
-            .ProjectTo<InspectionSheetDto>(_mapper.ConfigurationProvider)
+            .AsNoTracking()
             .OrderBy(x => x.SheetId)
+            .Select(x => _mapper.Map<InspectionSheetDto>(x))
             .ToList();
 
     /// <inheritdoc/>
     public InspectionSheetDto GetInspectionSheet(int id) =>
         _context.InspectionSheets
+            .AsNoTracking()
             .Where(x => x.SheetId == id)
             .ProjectTo<InspectionSheetDto>(_mapper.ConfigurationProvider)
             .Single();
