@@ -16,10 +16,7 @@ import nameof from "ts-nameof.macro";
 import { ChoiceSetSelectDialog } from "./ChoiceSetSelectDialog";
 import { CancelIconButton, OkCancelDialogActions } from "../utilities";
 import { DialogTitleDesign, InputStyle } from "../stylesheets";
-import {
-  IInspectionItemInteractor,
-  IInspectionSheetController,
-} from "../../interfaces";
+import { IInspectionItemInteractor } from "../../interfaces";
 import { useDIContext } from "../../container";
 import { Choice, useInputTypes } from "../../entities";
 
@@ -33,9 +30,6 @@ export const InspectionItemDialog = (
   props: InspectionDialogProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const controller: IInspectionSheetController = inject(
-    nameof<IInspectionSheetController>()
-  );
   const itemUseCase: IInspectionItemInteractor = inject(
     nameof<IInspectionItemInteractor>()
   );
@@ -64,7 +58,10 @@ export const InspectionItemDialog = (
                 size="small"
                 name="inspectionContent"
                 value={itemUseCase.inspectionItem.inspectionContent}
-                onChange={controller.updateInspectionItemField}
+                onChange={(e) => {
+                  const { name, value } = e.target;
+                  itemUseCase.updateField(name, value);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -78,7 +75,10 @@ export const InspectionItemDialog = (
                 size="small"
                 name="inputType"
                 value={itemUseCase.inspectionItem.inputType}
-                onChange={controller.updateInspectionItemField}
+                onChange={(e) => {
+                  const { name, value } = e.target;
+                  itemUseCase.updateField(name, value);
+                }}
               >
                 {useInputTypes.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -103,18 +103,14 @@ export const InspectionItemDialog = (
                           size="small"
                           name="choice"
                           value={choice.description}
-                          onChange={(e) =>
-                            controller.updateInspectionItemChoiceField(
-                              e,
-                              choice.orderIndex
-                            )
-                          }
+                          onChange={(e) => {
+                            const { value } = e.target;
+                            itemUseCase.updateChoice(choice.orderIndex, value);
+                          }}
                         />
                         <CancelIconButton
                           onClick={() =>
-                            controller.removeInspectionItemChoice(
-                              choice.orderIndex
-                            )
+                            itemUseCase.removeChoice(choice.orderIndex)
                           }
                         />
                       </Box>
@@ -126,7 +122,7 @@ export const InspectionItemDialog = (
                     <BottomNavigationAction
                       label="選択肢追加"
                       icon={<AddCircleIcon />}
-                      onClick={() => controller.addInspectionItemChoice()}
+                      onClick={() => itemUseCase.addChoice()}
                     />
                     <BottomNavigationAction
                       label="テンプレート選択"

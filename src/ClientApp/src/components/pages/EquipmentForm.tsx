@@ -16,11 +16,14 @@ import { InspectionItemForm } from "./InspectionItemForm";
 import { BottomNavigationAdd, CancelIconButton } from "../utilities";
 import { equipmentLabel, MenuIcon, paperElement } from "../stylesheets";
 import { ItemType, Equipment } from "../../entities";
-import { IInspectionSheetController } from "../../interfaces";
 import {
   InspectionItemDialogStateContext,
   useDIContext,
 } from "../../container";
+import {
+  IInspectionItemInteractor,
+  IInspectionSheetInteractor,
+} from "../../interfaces";
 
 interface DragItem {
   orderIndex: number;
@@ -35,9 +38,13 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
   props: EquipmentFormProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const controller: IInspectionSheetController = inject(
-    nameof<IInspectionSheetController>()
+  const sheetUseCase: IInspectionSheetInteractor = inject(
+    nameof<IInspectionSheetInteractor>()
   );
+  const itemUseCase: IInspectionItemInteractor = inject(
+    nameof<IInspectionItemInteractor>()
+  );
+
   const [status, setStatus] = useContext(InspectionItemDialogStateContext);
 
   const dropRef = useRef<HTMLDivElement>(null);
@@ -49,7 +56,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
       if (!dropRef.current || item.orderIndex === props.orderIndex) {
         return;
       }
-      controller.swapEquipments(props.orderIndex, item.orderIndex);
+      sheetUseCase.swapEquipments(props.orderIndex, item.orderIndex);
     },
   });
   const [, drag, preview] = useDrag({
@@ -63,7 +70,13 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
    * Implements the process for adding inspection item.
    */
   const handleAddInspectionItem = (orderIndex: number) => {
-    controller.setUp();
+    itemUseCase.setItem({
+      inspectionItemId: 0,
+      orderIndex: 0,
+      inspectionContent: "",
+      inputType: 1,
+      choices: [],
+    });
     setStatus({
       ...status,
       isOpen: true,
@@ -84,7 +97,7 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
         </IconButton>
         <Box>{props.equipment.equipmentName}</Box>
         <CancelIconButton
-          onClick={() => controller.removeEquipment(props.orderIndex)}
+          onClick={() => sheetUseCase.removeEquipment(props.orderIndex)}
         />
       </AccordionSummary>
       <AccordionDetails>
@@ -97,9 +110,10 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
               size="small"
               name="equipmentName"
               value={props.equipment.equipmentName}
-              onChange={(e) =>
-                controller.changeEquipmentName(e, props.orderIndex)
-              }
+              onChange={(e) => {
+                const name = e.target.value;
+                sheetUseCase.setEquipmentName(props.orderIndex, name);
+              }}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
