@@ -1,14 +1,13 @@
 import { Dispatch, useReducer } from "react";
 import {
   ChoiceTemplate,
-  InspectionItem,
   InspectionItemAction,
   InspectionItemInitialState,
   InspectionItemReducer,
   ITEM_ACTION_TYPES,
 } from "../entities";
 import { IInspectionItemInteractor } from "../interfaces";
-import { Choice } from "../typescript-fetch";
+import { Choice, InspectionItem } from "../typescript-fetch";
 
 export class InspectionItemInteractor implements IInspectionItemInteractor {
   readonly inspectionItem: InspectionItem;

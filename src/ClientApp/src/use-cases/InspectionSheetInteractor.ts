@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction, useReducer, useState } from "react";
 import {
   Equipment,
-  InspectionItem,
   InspectionSheet,
   InspectionSheetAction,
   InspectionSheetInitialState,
@@ -12,7 +11,7 @@ import {
   IInspectionSheetInteractor,
   IInspectionSheetRepository,
 } from "../interfaces";
-import { Choice } from "../typescript-fetch";
+import { Choice, InspectionItem } from "../typescript-fetch";
 
 export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   readonly sheets: InspectionSheet[];

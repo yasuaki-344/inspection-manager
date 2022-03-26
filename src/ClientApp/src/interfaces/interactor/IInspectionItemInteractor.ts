@@ -1,4 +1,5 @@
-import { InspectionItem, ChoiceTemplate } from "../../entities";
+import { ChoiceTemplate } from "../../entities";
+import { InspectionItem } from "../../typescript-fetch";
 
 export interface IInspectionItemInteractor {
   inspectionItem: InspectionItem;

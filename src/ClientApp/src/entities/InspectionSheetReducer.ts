@@ -1,4 +1,5 @@
-import { Equipment, InspectionItem, InspectionSheet } from ".";
+import { Equipment, InspectionSheet } from ".";
+import { InspectionItem } from "../typescript-fetch";
 
 export type InspectionSheetAction = {
   type: string;

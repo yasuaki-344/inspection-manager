@@ -55,7 +55,7 @@ export interface InspectionItem {
      * @type {Array<Choice>}
      * @memberof InspectionItem
      */
-    choices?: Array<Choice>;
+    choices: Array<Choice>;
 }
 
 export function InspectionItemFromJSON(json: any): InspectionItem {
@@ -72,7 +72,7 @@ export function InspectionItemFromJSONTyped(json: any, ignoreDiscriminator: bool
         'orderIndex': json['order_index'],
         'inspectionContent': json['inspection_content'],
         'inputType': json['input_type'],
-        'choices': !exists(json, 'choices') ? undefined : ((json['choices'] as Array<any>).map(ChoiceFromJSON)),
+        'choices': ((json['choices'] as Array<any>).map(ChoiceFromJSON)),
     };
 }
 
@@ -89,7 +89,7 @@ export function InspectionItemToJSON(value?: InspectionItem | null): any {
         'order_index': value.orderIndex,
         'inspection_content': value.inspectionContent,
         'input_type': value.inputType,
-        'choices': value.choices === undefined ? undefined : ((value.choices as Array<any>).map(ChoiceToJSON)),
+        'choices': ((value.choices as Array<any>).map(ChoiceToJSON)),
     };
 }
 

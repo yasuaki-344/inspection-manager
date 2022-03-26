@@ -4,7 +4,7 @@ import { IconButton, TableCell, TableRow } from "@mui/material";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import EditIcon from "@mui/icons-material/Edit";
 import nameof from "ts-nameof.macro";
-import { useInputTypes, ItemType, InspectionItem } from "../../entities";
+import { useInputTypes, ItemType } from "../../entities";
 import { CancelIconButton } from "../utilities";
 import {
   InspectionItemDialogStateContext,
@@ -14,6 +14,7 @@ import {
   IInspectionItemInteractor,
   IInspectionSheetInteractor,
 } from "../../interfaces";
+import { InspectionItem } from "../../typescript-fetch";
 
 interface DragItem {
   equipmentIndex: number;
