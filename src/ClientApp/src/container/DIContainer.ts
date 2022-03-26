@@ -14,7 +14,6 @@ import {
 import {
   IChoiceTemplateController,
   IChoiceTemplateInteractor,
-  IChoiceTemplatePresenter,
   IChoiceTemplateRepository,
   IInspectionSheetController,
   IInspectionSheetPresenter,
@@ -27,7 +26,6 @@ import {
   IInspectionTypeInteractor,
   IInspectionTypeRepository,
 } from "../interfaces";
-import { ChoiceTemplatePresenter } from "../presenters";
 import { InspectionSheetPresenter } from "../presenters/InspectionSheetPresenter";
 import {
   ChoiceTemplateInteractor,
@@ -142,10 +140,6 @@ export const setUpDIContainer = () => {
   );
 
   // register presenter
-  register(
-    nameof<IChoiceTemplatePresenter>(),
-    new ChoiceTemplatePresenter(inject(nameof<IChoiceTemplateInteractor>()))
-  );
   register(
     nameof<IChoiceTemplateController>(),
     new ChoiceTemplateController(
