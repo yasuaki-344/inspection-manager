@@ -725,23 +725,18 @@ components:
           items:
             $ref: "#/components/schemas/Option"
     Option:
-      type: object
       required:
+        - description
         - option_id
         - order_index
-        - description
+      type: object
       properties:
         option_id:
           type: integer
-          format: int64
+          format: int32
         order_index:
           type: integer
-          format: int64
+          format: int32
         description:
           type: string
-tags:
-  - name: inspection sheets
-  - name: inspection groups
-  - name: inspection types
-  - name: choice templates
-    description: Access to ChoiceTemplates
+      additionalProperties: false
