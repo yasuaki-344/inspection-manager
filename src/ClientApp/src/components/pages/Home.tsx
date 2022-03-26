@@ -20,7 +20,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import DetailsIcon from "@mui/icons-material/Details";
 import nameof from "ts-nameof.macro";
 import { InspectionSheet, InspectionSheetInitialState } from "../../entities";
-import { IHomePresenter, IHomeController } from "../../interfaces";
+import {
+  IHomeController,
+  IInspectionGroupInteractor,
+  IInspectionTypeInteractor,
+  IInspectionSheetInteractor,
+} from "../../interfaces";
 import { CancelIconButton } from "../utilities";
 import { SheetSearchMenu } from "../SheetSearchMenu";
 import { SheetDeleteConfirmationDialog } from "../dialog/SheetDeleteConfirmationDialog";
@@ -29,7 +34,16 @@ import { useDIContext } from "../../container";
 export const Home: FC = (): JSX.Element => {
   const inject = useDIContext();
   const controller: IHomeController = inject(nameof<IHomeController>());
-  const presenter: IHomePresenter = inject(nameof<IHomePresenter>());
+
+  const groupUseCase: IInspectionGroupInteractor = inject(
+    nameof<IInspectionGroupInteractor>()
+  );
+  const typeUseCase: IInspectionTypeInteractor = inject(
+    nameof<IInspectionTypeInteractor>()
+  );
+  const sheetUseCase: IInspectionSheetInteractor = inject(
+    nameof<IInspectionSheetInteractor>()
+  );
 
   const [open, setOpen] = useState(false);
   const [targetSheet, setTargetSheet] = useState<InspectionSheet>(
@@ -151,7 +165,7 @@ export const Home: FC = (): JSX.Element => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {presenter.inspectionSheets
+          {sheetUseCase.filteredSheets
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((sheet: InspectionSheet) => (
               <TableRow key={sheet.sheetId}>
@@ -178,10 +192,10 @@ export const Home: FC = (): JSX.Element => {
                 </TableCell>
                 <TableCell>{sheet.sheetName}</TableCell>
                 <TableCell>
-                  {presenter.getGroupName(sheet.inspectionGroupId)}
+                  {groupUseCase.getName(sheet.inspectionGroupId)}
                 </TableCell>
                 <TableCell>
-                  {presenter.getTypeName(sheet.inspectionTypeId)}
+                  {typeUseCase.getName(sheet.inspectionTypeId)}
                 </TableCell>
                 <TableCell padding="checkbox">
                   <Link to={`/edit/${sheet.sheetId}`}>
@@ -202,7 +216,7 @@ export const Home: FC = (): JSX.Element => {
       </Table>
       <TablePagination
         component="div"
-        count={presenter.inspectionSheets.length}
+        count={sheetUseCase.filteredSheets.length}
         page={page}
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
@@ -246,8 +260,8 @@ export const Home: FC = (): JSX.Element => {
       <SheetDeleteConfirmationDialog
         open={open}
         sheetName={targetSheet.sheetName}
-        groupName={presenter.getGroupName(targetSheet.inspectionGroupId)}
-        typeName={presenter.getTypeName(targetSheet.inspectionTypeId)}
+        groupName={groupUseCase.getName(targetSheet.inspectionGroupId)}
+        typeName={typeUseCase.getName(targetSheet.inspectionTypeId)}
         onDeleteClick={handleDelete}
         onCancelClick={() => setOpen(false)}
       />
