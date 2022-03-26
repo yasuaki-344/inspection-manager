@@ -79,7 +79,7 @@ public class JsonExportController : ControllerBase
         }
     }
 
-    private byte[] ConvertInspectionSheetDtoToJson(InspectionSheetDetailDto sheet)
+    private byte[] ConvertInspectionSheetDtoToJson(InspectionSheetDto sheet)
     {
         var options = new JsonSerializerOptions();
         options.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);

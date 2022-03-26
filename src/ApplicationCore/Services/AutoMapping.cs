@@ -18,7 +18,7 @@ public class AutoMapping : Profile
 
         CreateMap<EquipmentDto, EquipmentExportDto>();
 
-        CreateMap<InspectionSheetDetailDto, InspectionSheetExportDto>();
+        CreateMap<InspectionSheetDto, InspectionSheetExportDto>();
 
         CreateMap<InspectionGroup, InspectionGroupDto>();
         CreateMap<InspectionGroupDto, InspectionGroup>();
@@ -29,15 +29,8 @@ public class AutoMapping : Profile
         CreateMap<ChoiceTemplate, ChoiceTemplateDto>();
         CreateMap<ChoiceTemplateDto, ChoiceTemplate>();
 
-        CreateMap<InspectionSheet, InspectionSheetDto>()
-            .ForMember(dst => dst.InspectionGroup, opt => opt.MapFrom(src => src.InspectionGroup.Description))
-            .ForMember(dst => dst.InspectionType, opt => opt.MapFrom(src => src.InspectionType.Description));
-        CreateMap<InspectionSheetDto, InspectionSheet>()
-            .ForMember(dst => dst.InspectionGroup, opt => opt.Ignore())
-            .ForMember(dst => dst.InspectionType, opt => opt.Ignore());
-
-        CreateMap<InspectionSheet, InspectionSheetDetailDto>();
-        CreateMap<InspectionSheetDetailDto, InspectionSheet>();
+        CreateMap<InspectionSheet, InspectionSheetDto>();
+        CreateMap<InspectionSheetDto, InspectionSheet>();
 
         CreateMap<Equipment, EquipmentDto>();
         CreateMap<EquipmentDto, Equipment>();

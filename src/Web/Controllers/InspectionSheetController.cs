@@ -56,7 +56,7 @@ public class InspectionSheetController : ControllerBase
 
     [HttpGet]
     [Route("/v1/inspection-sheets/{sheetId}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDetailDto))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -93,10 +93,10 @@ public class InspectionSheetController : ControllerBase
     [HttpPost]
     [Route("/v1/inspection-sheets")]
     [Consumes(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionSheetDetailDto))]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionSheetDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> CreateSheetAsync([FromBody] InspectionSheetDetailDto? dto)
+    public async Task<IActionResult> CreateSheetAsync([FromBody] InspectionSheetDto? dto)
     {
         try
         {
@@ -131,11 +131,11 @@ public class InspectionSheetController : ControllerBase
     [HttpPut]
     [Route("/v1/inspection-sheets/{sheetId}")]
     [Consumes(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionSheetDetailDto))]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionSheetDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> UpdateInspectionSheetAsync([FromRoute][Required] int? sheetId, [FromBody] InspectionSheetDetailDto dto)
+    public async Task<IActionResult> UpdateInspectionSheetAsync([FromRoute][Required] int? sheetId, [FromBody] InspectionSheetDto dto)
     {
         try
         {
