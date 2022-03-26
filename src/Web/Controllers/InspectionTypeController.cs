@@ -192,6 +192,7 @@ public class InspectionTypeController : ControllerBase
     /// <response code="404">対象リソースが存在しない</response>
     /// <response code="500">サーバー内部エラー</response>
     [HttpDelete("{id}")]
+    [Consumes(MediaTypeNames.Text.Plain)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionTypeDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
