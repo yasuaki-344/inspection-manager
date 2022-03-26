@@ -40,19 +40,19 @@ public class InspectionSheetService : IInspectionSheetService
         _repository.GetAllInspectionSheets();
 
     /// <inheritdoc/>
-    public InspectionSheetDetailDto GetInspectionSheet(int id) =>
+    public InspectionSheetDto GetInspectionSheet(int id) =>
         _repository.GetInspectionSheet(id);
 
     /// <inheritdoc/>
-    public bool IsValidInspectionSheet(InspectionSheetDetailDto dto) =>
+    public bool IsValidInspectionSheet(InspectionSheetDto dto) =>
         _repository.IsValidInspectionSheet(dto);
 
     /// <inheritdoc/>
-    public async Task<InspectionSheetDetailDto> CreateInspectionSheetAsync(InspectionSheetDetailDto dto) =>
+    public async Task<InspectionSheetDto> CreateInspectionSheetAsync(InspectionSheetDto dto) =>
         await _repository.CreateInspectionSheetAsync(dto);
 
     /// <inheritdoc/>
-    public async Task<InspectionSheetDetailDto> UpdateInspectionSheetAsync(InspectionSheetDetailDto dto) =>
+    public async Task<InspectionSheetDto> UpdateInspectionSheetAsync(InspectionSheetDto dto) =>
         await _repository.UpdateInspectionSheetAsync(dto);
 
     /// <inheritdoc/>

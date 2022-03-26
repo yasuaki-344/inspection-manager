@@ -28,28 +28,28 @@ public interface IInspectionSheetRepository
     /// </summary>
     /// <param name="id">The ID of inspection sheet to be gotton</param>
     /// <returns>The inspection sheet of the specified ID</returns>
-    InspectionSheetDetailDto GetInspectionSheet(int id);
+    InspectionSheetDto GetInspectionSheet(int id);
 
     /// <summary>
     /// Checks if the specified inspection sheet is valid.
     /// </summary>
     /// <param name="dto">Inspection sheet to be checked</param>
     /// <returns>Returns true if sheet is valid, otherwise false</returns>
-    bool IsValidInspectionSheet(InspectionSheetDetailDto dto);
+    bool IsValidInspectionSheet(InspectionSheetDto dto);
 
     /// <summary>
     /// Creates new inspection sheet by using the specified InspectionSheetDto.
     /// </summary>
     /// <param name="dto">Inspection sheet data to be created</param>
     /// <returns>Created inspection sheet data</returns>
-    Task<InspectionSheetDetailDto> CreateInspectionSheetAsync(InspectionSheetDetailDto dto);
+    Task<InspectionSheetDto> CreateInspectionSheetAsync(InspectionSheetDto dto);
 
     /// <summary>
     /// Updates the specified inspection sheet data.
     /// </summary>
     /// <param name="dto">Inspection sheet data for update</param>
     /// <returns>Updated inspection sheet data</returns>
-    Task<InspectionSheetDetailDto> UpdateInspectionSheetAsync(InspectionSheetDetailDto dto);
+    Task<InspectionSheetDto> UpdateInspectionSheetAsync(InspectionSheetDto dto);
 
     /// <summary>
     /// Deletes the specified inspection sheet data.

@@ -3,7 +3,7 @@ import {
   IInspectionGroupInteractor,
   IInspectionGroupRepository,
 } from "../interfaces";
-import { InspectionGroup } from "../entities";
+import { InspectionGroup } from "../typescript-fetch";
 
 export class InspectionGroupInteractor implements IInspectionGroupInteractor {
   readonly groups: InspectionGroup[];

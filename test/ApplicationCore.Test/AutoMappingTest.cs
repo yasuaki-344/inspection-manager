@@ -66,7 +66,7 @@ public class AutoMappingTest
     [Fact]
     public void MapToInspectionSheetExportDtoCorrectly()
     {
-        var expect = new InspectionSheetDetailDto
+        var expect = new InspectionSheetDto
         {
             SheetId = 11,
             SheetName = "sheet name",
@@ -121,9 +121,7 @@ public class AutoMappingTest
         Assert.Equal(entity.SheetId, actual.SheetId);
         Assert.Equal(entity.SheetName, actual.SheetName);
         Assert.Equal(entity.InspectionTypeId, actual.InspectionTypeId);
-        Assert.Equal(entity.InspectionType.Description, actual.InspectionType);
         Assert.Equal(entity.InspectionGroupId, actual.InspectionGroupId);
-        Assert.Equal(entity.InspectionGroup.Description, actual.InspectionGroup);
     }
 
     [Fact]
@@ -165,7 +163,7 @@ public class AutoMappingTest
                 }
         };
         var mapper = CreateMapper();
-        var actual = mapper.Map<InspectionSheetDetailDto>(entity);
+        var actual = mapper.Map<InspectionSheetDto>(entity);
         Assert.Equal(entity.SheetId, actual.SheetId);
         Assert.Equal(entity.SheetName, actual.SheetName);
         Assert.Equal(entity.InspectionTypeId, actual.InspectionTypeId);
@@ -192,9 +190,9 @@ public class AutoMappingTest
     }
 
     [Fact]
-    public void MapInspectionSheetDetailDtoToEntityCorrectly()
+    public void MapInspectionSheetDtoToEntityCorrectly()
     {
-        var dto = new InspectionSheetDetailDto
+        var dto = new InspectionSheetDto
         {
             SheetId = 1,
             SheetName = "sheet name",

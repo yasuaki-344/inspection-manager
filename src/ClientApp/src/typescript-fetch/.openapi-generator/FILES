@@ -1,8 +1,10 @@
 .openapi-generator-ignore
-apis/ChoiceTemplatesApi.ts
-apis/InspectionGroupsApi.ts
-apis/InspectionSheetsApi.ts
-apis/InspectionTypesApi.ts
+apis/ChoiceTemplateApi.ts
+apis/ExcelSheetApi.ts
+apis/InspectionGroupApi.ts
+apis/InspectionSheetApi.ts
+apis/InspectionTypeApi.ts
+apis/JsonExportApi.ts
 apis/index.ts
 index.ts
 models/Choice.ts
@@ -11,8 +13,8 @@ models/Equipment.ts
 models/InspectionGroup.ts
 models/InspectionItem.ts
 models/InspectionSheet.ts
-models/InspectionSheetDetail.ts
 models/InspectionType.ts
 models/Option.ts
+models/ProblemDetails.ts
 models/index.ts
 runtime.ts

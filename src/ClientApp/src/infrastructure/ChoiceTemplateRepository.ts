@@ -1,64 +1,43 @@
 import { IChoiceTemplateRepository } from "../interfaces";
-import { ChoiceTemplate, toCamelCase, toSnakeCase } from "../entities";
-import {
-  ChoiceTemplatesApi,
-  ChoiceTemplatesApiInterface,
-} from "../typescript-fetch";
+import { ChoiceTemplate, ChoiceTemplateApi } from "../typescript-fetch";
 
 export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
-  private readonly api: ChoiceTemplatesApiInterface;
+  private readonly api: ChoiceTemplateApi;
 
   /**
    * Initializes a new instance of ChoiceTemplateRepository class.
    */
   constructor() {
-    this.api = new ChoiceTemplatesApi();
+    this.api = new ChoiceTemplateApi();
   }
 
   /** @inheritdoc */
   async fetchAllChoiceTemplates(): Promise<ChoiceTemplate[]> {
-    const res = await this.api.choiceTemplatesGet();
-    const data = toCamelCase(res);
-    return data.map((x: any) => this.addOrderIndex(x));
+    const res = await this.api.apiV1ChoiceTemplatesGet();
+    return res;
   }
 
   /** @inheritdoc */
   async post(choiceTemplate: ChoiceTemplate): Promise<ChoiceTemplate> {
-    const req = toSnakeCase(choiceTemplate);
-    const res = await this.api.choiceTemplatesPost({
-      choiceTemplate: req,
+    const res = await this.api.apiV1ChoiceTemplatesPost({
+      choiceTemplate,
     });
-    const data = toCamelCase(res);
-    return this.addOrderIndex(data);
+    return res;
   }
 
   /** @inheritdoc */
   async put(choiceTemplate: ChoiceTemplate): Promise<ChoiceTemplate> {
-    const req = toSnakeCase(choiceTemplate);
-    const res = await this.api.choiceTemplatesIdPut({
-      id: req.id,
-      choiceTemplate: req,
+    const res = await this.api.apiV1ChoiceTemplatesIdPut({
+      id: choiceTemplate.id,
+      choiceTemplate,
     });
-    const data = toCamelCase(res);
-    return this.addOrderIndex(data);
+    return res;
   }
 
   /** @inheritdoc */
   async delete(id: number): Promise<void> {
-    await this.api.choiceTemplatesIdDelete({
+    await this.api.apiV1ChoiceTemplatesIdDelete({
       id,
     });
-  }
-
-  private addOrderIndex(template: any): ChoiceTemplate {
-    return {
-      ...template,
-      choices: template.choices.map((x: any, index: number) => {
-        return {
-          ...x,
-          orderIndex: index + 1,
-        };
-      }),
-    };
   }
 }

@@ -18,7 +18,8 @@ import { CancelIconButton, OkCancelDialogActions } from "../utilities";
 import { DialogTitleDesign, InputStyle } from "../stylesheets";
 import { IInspectionItemInteractor } from "../../interfaces";
 import { useDIContext } from "../../container";
-import { Choice, useInputTypes } from "../../entities";
+import { useInputTypes } from "../../entities";
+import { Choice } from "../../typescript-fetch";
 
 interface InspectionDialogProps {
   open: boolean;

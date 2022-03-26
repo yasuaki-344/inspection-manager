@@ -14,7 +14,7 @@ import TreeItem from "@mui/lab/TreeItem";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import nameof from "ts-nameof.macro";
-import { useInputTypes, Equipment, InspectionItem } from "../../entities";
+import { useInputTypes } from "../../entities";
 import { TopPageLink } from "../utilities";
 import {
   IInspectionGroupInteractor,
@@ -22,6 +22,7 @@ import {
   IInspectionTypeInteractor,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
+import { Equipment, InspectionItem } from "../../typescript-fetch";
 
 interface InspectionItemInfoProps {
   inspectionItem: InspectionItem;

@@ -12,6 +12,9 @@ using Microsoft.Extensions.Logging;
 namespace InspectionManager.Web.Controllers;
 
 [ApiController]
+[Route("/api/v1/choice-templates")]
+[Consumes(MediaTypeNames.Application.Json)]
+[Produces(MediaTypeNames.Application.Json)]
 public class ChoiceTemplateController : ControllerBase
 {
     private readonly ICategoryRepository _repository;
@@ -32,13 +35,13 @@ public class ChoiceTemplateController : ControllerBase
     }
 
     /// <summary>
-    /// Get all inspection types.
+    /// 点検種別の一覧を取得する
     /// </summary>
-    /// <response code="200">A JSON array of InspectionType model</response>
-    /// <response code="500">システムエラー Internal Server Error</response>
+    /// <returns>点検種別の一覧</returns>
+    /// <response code="200">取得に成功</response>
+    /// <response code="500">サーバー内部エラー</response>
     [HttpGet]
-    [Route("/v1/choice-templates")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChoiceTemplateDto))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChoiceTemplateDto[]))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetAllChoiceTemplates()
     {
@@ -52,186 +55,171 @@ public class ChoiceTemplateController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                "Error retrieving data from the database");
-        }
-    }
-
-    /// <summary>
-    /// Get ChoiceTemplate model by ID.
-    /// </summary>
-    /// <param name="id">Choice template ID to get</param>
-    /// <response code="200">A single ChoiceTemplate model</response>
-    /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
-    /// <response code="404">対象リソースが存在しない Not Found</response>
-    /// <response code="500">システムエラー Internal Server Error</response>
-    [HttpGet]
-    [Route("/v1/choice-templates/{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChoiceTemplateDto))]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult GetChoiceTemplate([FromRoute][Required] int? id)
-    {
-        try
-        {
-            if (id is not null)
-            {
-                _logger.LogInformation($"try to get choice template {id}");
-                if (_repository.ChoiceTemplateExists(id.Value))
-                {
-                    var result = _repository.GetChoiceTemplate(id.Value);
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound($"template with Id = {id} not found");
-                }
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                "Error retrieving data from the database");
-        }
-    }
-
-    /// <summary>
-    /// Create a new ChoiceTemplate model
-    /// </summary>
-    /// <param name="dto">Choice template to create</param>
-    /// <response code="201">正常系（非同期）Created</response>
-    /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
-    /// <response code="500">システムエラー Internal Server Error</response>
-    [HttpPost]
-    [Route("/v1/choice-templates")]
-    [Consumes(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ChoiceTemplateDto))]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> CreateChoiceTemplateAsync(ChoiceTemplateDto? dto)
-    {
-        try
-        {
-            _logger.LogInformation("try to create choice template");
-            if (dto is not null)
-            {
-                var result = await _repository.CreateChoiceTemplateAsync(dto);
-                return CreatedAtAction(nameof(GetChoiceTemplate),
-                new { id = result.ChoiceTemplateId }, result);
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                "Error creating new choice template"
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "Internal Sever Error"
             );
         }
     }
 
     /// <summary>
-    /// Updates the ChoiceTemplate model.
+    /// 点検種別を作成する
     /// </summary>
-    /// <param name="id">Choice template ID to update</param>
-    /// <param name="dto">inspection type to update</param>
-    /// <response code="201">正常系（非同期）Created</response>
-    /// <response code="400">Invalid ID supplied</response>
-    /// <response code="404">Not found</response>
-    /// <response code="500">Internal Server Error</response>
-    [HttpPut]
+    /// <param name="dto">作成用点検種別データ</param>
+    /// <returns>作成した点検種別データ</returns>
+    /// <response code="201">作成に成功</response>
+    /// <response code="400">リクエストエラー</response>
+    /// <response code="500">サーバー内部エラー</response>
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ChoiceTemplateDto))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> CreateChoiceTemplateAsync([Required][FromBody] ChoiceTemplateDto dto)
+    {
+        try
+        {
+            _logger.LogInformation("try to create choice template");
+            var result = await _repository.CreateChoiceTemplateAsync(dto);
+            return CreatedAtAction(
+                nameof(GetChoiceTemplateById),
+                new { id = result.ChoiceTemplateId },
+                result
+            );
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "Internal Sever Error"
+            );
+        }
+    }
+
+    /// <summary>
+    /// 指定の点検種別を取得する
+    /// </summary>
+    /// <param name="id">指定の点検種別に紐づくID</param>
+    /// <returns>指定の点検種別</returns>
+    /// <response code="200">取得に成功</response>
+    /// <response code="400">リクエストエラー</response>
+    /// <response code="404">対象リソースが存在しない</response>
+    /// <response code="500">サーバー内部エラー</response>
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChoiceTemplateDto))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public IActionResult GetChoiceTemplateById([Required][FromRoute] int id)
+    {
+        try
+        {
+            _logger.LogInformation($"try to get choice template {id}");
+            if (!_repository.ChoiceTemplateExists(id))
+            {
+                return NotFound($"template with Id = {id} not found");
+            }
+
+            var result = _repository.GetChoiceTemplate(id);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "Internal Sever Error"
+            );
+        }
+    }
+
+    /// <summary>
+    /// 指定の点検種別を更新する
+    /// </summary>
+    /// <param name="id">指定の点検種別に紐づくID</param>
+    /// <param name="dto">更新用点検種別データ</param>
+    /// <returns>指定の点検種別</returns>
+    /// <response code="201">更新に成功</response>
+    /// <response code="400">リクエストエラー</response>
+    /// <response code="404">対象リソースが存在しない</response>
+    /// <response code="500">サーバー内部エラー</response>
+    [HttpPut("{id}")]
     [Route("/v1/choice-templates/{id}")]
     [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ChoiceTemplateDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> UpdateChoiceTemplateAsync([FromRoute][Required] int? id, [FromBody] ChoiceTemplateDto dto)
+    public async Task<IActionResult> UpdateChoiceTemplateAsync(
+        [Required][FromRoute] int id,
+        [Required][FromBody] ChoiceTemplateDto dto)
     {
         try
         {
-            if (id is not null)
+            _logger.LogInformation($"try to update choice template {dto.ChoiceTemplateId}");
+            if (id != dto.ChoiceTemplateId)
             {
-                _logger.LogInformation($"try to update choice template {dto.ChoiceTemplateId}");
-                if (id != dto.ChoiceTemplateId)
-                {
-                    return BadRequest("Invalid ID supplied");
-                }
+                return BadRequest("Invalid ID supplied");
+            }
 
-                if (_repository.ChoiceTemplateExists(dto.ChoiceTemplateId))
-                {
-                    var result = await _repository.UpdateChoiceTemplateAsync(dto);
-                    return CreatedAtAction(nameof(GetChoiceTemplate),
-                    new { id = result.ChoiceTemplateId }, result);
-                }
-                else
-                {
-                    return NotFound($"Template with Id = {dto.ChoiceTemplateId} not found");
-                }
-            }
-            else
+            if (!_repository.ChoiceTemplateExists(dto.ChoiceTemplateId))
             {
-                return BadRequest();
+                return NotFound($"Template with Id = {dto.ChoiceTemplateId} not found");
             }
+
+            var result = await _repository.UpdateChoiceTemplateAsync(dto);
+            return CreatedAtAction(
+                nameof(GetChoiceTemplateById),
+                new { id = result.ChoiceTemplateId },
+                result
+            );
+
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                "Error updating data");
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "Internal Sever Error"
+            );
         }
     }
 
     /// <summary>
-    /// Deletes the ChoiceTemplate model.
+    /// 指定の点検種別を削除する
     /// </summary>
-    /// <param name="id">Choice template ID to delete</param>
-    /// <response code="200">Success</response>
-    /// <response code="400">Invalid ID supplied</response>
-    /// <response code="404">Not found</response>
-    /// <response code="500">Internal Server Error</response>
-    [HttpDelete]
-    [Route("/v1/choice-templates/{id}")]
+    /// <param name="id">指定の点検種別に紐づくID</param>
+    /// <returns>削除した点検種別データ</returns>
+    /// <response code="200">削除に成功</response>
+    /// <response code="400">リクエストエラー</response>
+    /// <response code="404">対象リソースが存在しない</response>
+    /// <response code="500">サーバー内部エラー</response>
+    [HttpDelete("{id}")]
+    [Consumes(MediaTypeNames.Text.Plain)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChoiceTemplateDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> DeleteChoiceTemplateAsync([FromRoute][Required] int? id)
+    public async Task<IActionResult> DeleteChoiceTemplateAsync([FromRoute][Required] int id)
     {
         try
         {
-            if (id is not null)
+            _logger.LogInformation($"try to delete choice template {id}");
+            if (!_repository.ChoiceTemplateExists(id))
             {
-                _logger.LogInformation($"try to delete choice template {id}");
-                if (_repository.ChoiceTemplateExists(id.Value))
-                {
-                    var dto = await _repository.DeleteChoiceTemplateAsync(id.Value);
-                    return Ok(dto);
-                }
-                else
-                {
-                    return NotFound($"choice template with Id = {id} not found");
-                }
+                return NotFound($"choice template with Id = {id} not found");
             }
-            else
-            {
-                return BadRequest();
-            }
+
+            var dto = await _repository.DeleteChoiceTemplateAsync(id);
+            return Ok(dto);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                "Error deleting data");
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "Internal Sever Error"
+            );
         }
     }
 }

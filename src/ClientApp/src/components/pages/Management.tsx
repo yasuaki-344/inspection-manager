@@ -26,7 +26,7 @@ export const Management: FC = (): JSX.Element => {
   const i18nProvider = polyglotI18nProvider(() => japaneseMessages, "ja");
   return (
     <Admin
-      dataProvider={simpleRestProvider("http://localhost:5000/v1")}
+      dataProvider={simpleRestProvider("http://localhost:3000/api/v1")}
       i18nProvider={i18nProvider}
     >
       <Resource

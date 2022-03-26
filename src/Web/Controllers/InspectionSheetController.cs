@@ -14,6 +14,9 @@ using Microsoft.Extensions.Logging;
 namespace InspectionManager.Web.Controllers;
 
 [ApiController]
+[Route("/api/v1/inspection-sheets")]
+[Consumes(MediaTypeNames.Application.Json)]
+[Produces(MediaTypeNames.Application.Json)]
 public class InspectionSheetController : ControllerBase
 {
     private readonly IInspectionSheetService _service;
@@ -33,9 +36,14 @@ public class InspectionSheetController : ControllerBase
         _logger = logger;
     }
 
+    /// <summary>
+    /// 点検シートの一覧を取得する
+    /// </summary>
+    /// <returns>点検シートの一覧</returns>
+    /// <response code="200">取得に成功</response>
+    /// <response code="500">サーバー内部エラー</response>
     [HttpGet]
-    [Route("/v1/inspection-sheets")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDto))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDto[]))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetAllInspectionSheets()
@@ -49,161 +57,176 @@ public class InspectionSheetController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                "Error retrieving data from the database");
-        }
-    }
-
-    [HttpGet]
-    [Route("/v1/inspection-sheets/{sheetId}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDetailDto))]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult GetInspectionSheet([FromRoute][Required] int? sheetId)
-    {
-        try
-        {
-            if (sheetId is not null)
-            {
-                _logger.LogInformation($"try to get inspection sheet {sheetId}");
-                if (_service.InspectionSheetExists(sheetId.Value))
-                {
-                    var result = _service.GetInspectionSheet(sheetId.Value);
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound($"sheet with Id = {sheetId} not found");
-                }
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                "Error retrieving data from the database");
-        }
-    }
-
-    [HttpPost]
-    [Route("/v1/inspection-sheets")]
-    [Consumes(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionSheetDetailDto))]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> CreateSheetAsync([FromBody] InspectionSheetDetailDto? dto)
-    {
-        try
-        {
-            _logger.LogInformation("try to create inspection sheet");
-            if (dto is not null)
-            {
-                if (_service.IsValidInspectionSheet(dto))
-                {
-                    var result = await _service.CreateInspectionSheetAsync(dto);
-                    return CreatedAtAction(nameof(GetInspectionSheet),
-                    new { id = result.SheetId }, result);
-                }
-                else
-                {
-                    return BadRequest();
-                }
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                "Error creating new inspection sheet"
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "Internal Sever Error"
             );
         }
     }
 
-    [HttpPut]
-    [Route("/v1/inspection-sheets/{sheetId}")]
-    [Consumes(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionSheetDetailDto))]
+    /// <summary>
+    /// 点検シートを作成する
+    /// </summary>
+    /// <param name="dto">作成用点検シートデータ</param>
+    /// <returns>作成した点検シートデータ</returns>
+    /// <response code="201">作成に成功</response>
+    /// <response code="400">リクエストエラー</response>
+    /// <response code="500">サーバー内部エラー</response>
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionSheetDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> UpdateInspectionSheetAsync([FromRoute][Required] int? sheetId, [FromBody] InspectionSheetDetailDto dto)
+    public async Task<IActionResult> CreateSheetAsync([Required][FromBody] InspectionSheetDto dto)
     {
         try
         {
-            if (sheetId is not null && _service.IsValidInspectionSheet(dto))
-            {
-                _logger.LogInformation($"try to update inspection sheet {sheetId.Value}");
-                if (sheetId.Value != dto.SheetId)
-                {
-                    return BadRequest("Invalid ID supplied");
-                }
-
-                if (_service.InspectionSheetExists(sheetId.Value))
-                {
-                    var result = await _service.UpdateInspectionSheetAsync(dto);
-                    return CreatedAtAction(nameof(GetInspectionSheet),
-                    new { sheetId = result.SheetId }, result);
-                }
-                else
-                {
-                    return NotFound($"Sheet with Id = {dto.SheetId} not found");
-                }
-            }
-            else
+            _logger.LogInformation("try to create inspection sheet");
+            if (!_service.IsValidInspectionSheet(dto))
             {
                 return BadRequest();
             }
+
+            var result = await _service.CreateInspectionSheetAsync(dto);
+            return CreatedAtAction(
+                nameof(GetInspectionSheet),
+                new { id = result.SheetId },
+                result
+            );
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                "Error updating data");
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "Internal Sever Error"
+            );
         }
     }
 
-    [HttpDelete]
-    [Route("/v1/inspection-sheets/{sheetId}")]
+    /// <summary>
+    /// 指定の点検シートを取得する
+    /// </summary>
+    /// <param name="id">指定の点検シートに紐づくID</param>
+    /// <returns>指定の点検シート</returns>
+    /// <response code="200">取得に成功</response>
+    /// <response code="400">リクエストエラー</response>
+    /// <response code="404">対象リソースが存在しない</response>
+    /// <response code="500">サーバー内部エラー</response>
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDto))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public IActionResult GetInspectionSheet([Required][FromRoute] int id)
+    {
+        try
+        {
+            _logger.LogInformation($"try to get inspection sheet {id}");
+            if (!_service.InspectionSheetExists(id))
+            {
+                return NotFound($"sheet with Id = {id} not found");
+            }
+
+            var result = _service.GetInspectionSheet(id);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "Internal Sever Error"
+            );
+        }
+    }
+
+    /// <summary>
+    /// 指定の点検シートを更新する
+    /// </summary>
+    /// <param name="id">指定の点検シートに紐づくID</param>
+    /// <param name="dto">更新用点検シートデータ</param>
+    /// <returns>指定の点検シート</returns>
+    /// <response code="201">更新に成功</response>
+    /// <response code="400">リクエストエラー</response>
+    /// <response code="404">対象リソースが存在しない</response>
+    /// <response code="500">サーバー内部エラー</response>
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionSheetDto))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> UpdateInspectionSheetAsync(
+        [Required][FromRoute] int id,
+        [Required][FromBody] InspectionSheetDto dto)
+    {
+        try
+        {
+            _logger.LogInformation($"try to update inspection sheet {id}");
+            if (id != dto.SheetId)
+            {
+                return BadRequest("Invalid ID supplied");
+            }
+
+            if (!_service.IsValidInspectionSheet(dto))
+            {
+                return BadRequest();
+            }
+
+            if (!_service.InspectionSheetExists(id))
+            {
+                return NotFound($"Sheet with Id = {dto.SheetId} not found");
+            }
+            var result = await _service.UpdateInspectionSheetAsync(dto);
+            return CreatedAtAction(
+                nameof(GetInspectionSheet),
+                new { sheetId = result.SheetId },
+                result
+            );
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "Internal Sever Error"
+            );
+        }
+    }
+
+    /// <summary>
+    /// 指定の点検シートを削除する
+    /// </summary>
+    /// <param name="id">指定の点検シートに紐づくID</param>
+    /// <returns>削除した点検シートデータ</returns>
+    /// <response code="204">削除に成功</response>
+    /// <response code="400">リクエストエラー</response>
+    /// <response code="404">対象リソースが存在しない</response>
+    /// <response code="500">サーバー内部エラー</response>
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> DeleteInspectionSheetAsync([FromRoute][Required] int? sheetId)
+    public async Task<IActionResult> DeleteInspectionSheetAsync([Required][FromRoute] int id)
     {
         try
         {
-            if (sheetId is not null)
+            _logger.LogInformation($"try to delete inspection sheet {id}");
+            if (!_service.InspectionSheetExists(id))
             {
-                _logger.LogInformation($"try to delete inspection sheet {sheetId}");
-                if (_service.InspectionSheetExists(sheetId.Value))
-                {
-                    await _service.DeleteInspectionSheetAsync(sheetId.Value);
-                    return NoContent();
-                }
-                else
-                {
-                    return NotFound($"sheet with Id = {sheetId} not found");
-                }
+                return NotFound($"sheet with Id = {id} not found");
             }
-            else
-            {
-                return BadRequest();
-            }
+
+            await _service.DeleteInspectionSheetAsync(id);
+            return NoContent();
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                "Error deleting data");
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "Internal Sever Error"
+            );
         }
     }
 }

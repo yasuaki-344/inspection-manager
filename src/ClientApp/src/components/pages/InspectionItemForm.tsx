@@ -8,7 +8,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { InspectionItem } from "../../entities";
+import { InspectionItem } from "../../typescript-fetch";
 import { InspectionItemRow } from "./InspectionItemRow";
 
 interface InspectionItemFormProps {

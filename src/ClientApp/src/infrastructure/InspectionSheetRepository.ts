@@ -1,58 +1,45 @@
-import { InspectionSheet, toCamelCase, toSnakeCase } from "../entities";
 import { IInspectionSheetRepository } from "../interfaces";
-import { InspectionSheetsApi } from "../typescript-fetch";
+import { InspectionSheet, InspectionSheetApi } from "../typescript-fetch";
 
 export class InspectionSheetRepository implements IInspectionSheetRepository {
-  private readonly api: InspectionSheetsApi;
+  private readonly api: InspectionSheetApi;
 
   /**
    * Initializes a new instance of InspectionSheetRepository class.
    */
   constructor() {
-    this.api = new InspectionSheetsApi();
+    this.api = new InspectionSheetApi();
   }
 
   /** @inheritdoc */
   async get(): Promise<InspectionSheet[]> {
-    const res = await this.api.inspectionSheetsGet();
-    const sheets = toCamelCase(res);
-    return sheets;
+    const res = await this.api.apiV1InspectionSheetsGet();
+    return res;
   }
 
   /** @inheritdoc */
   async getById(id: number): Promise<InspectionSheet> {
-    const res = await this.api.inspectionSheetsSheetIdGet({
-      sheetId: id,
-    });
-    const sheet = toCamelCase(res);
-    return sheet;
+    const res = await this.api.apiV1InspectionSheetsIdGet({ id });
+    return res;
   }
 
   /** @inheritdoc */
   async post(inspectionSheet: InspectionSheet): Promise<InspectionSheet> {
-    const requestBody = toSnakeCase(inspectionSheet);
-    const res = await this.api.inspectionSheetsPost({
-      inspectionSheetDetail: requestBody,
-    });
-    const sheet = toCamelCase(res);
-    return sheet;
+    const res = await this.api.apiV1InspectionSheetsPost({ inspectionSheet });
+    return res;
   }
 
   /** @inheritdoc */
   async put(inspectionSheet: InspectionSheet): Promise<InspectionSheet> {
-    const requestBody = toSnakeCase(inspectionSheet);
-    const res = await this.api.inspectionSheetsSheetIdPut({
-      sheetId: requestBody.sheet_id,
-      inspectionSheetDetail: requestBody,
+    const res = await this.api.apiV1InspectionSheetsIdPut({
+      id: inspectionSheet.sheetId,
+      inspectionSheet,
     });
-    const sheet = toCamelCase(res);
-    return sheet;
+    return res;
   }
 
   /** @inheritdoc */
   async delete(id: number): Promise<void> {
-    this.api.inspectionSheetsSheetIdDelete({
-      sheetId: id,
-    });
+    this.api.apiV1InspectionSheetsIdDelete({ id });
   }
 }

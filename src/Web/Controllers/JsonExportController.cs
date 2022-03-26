@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
-using System.Text.Encodings;
+using System.Net.Mime;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
-using System.Threading.Tasks;
-using System.Web;
 using AutoMapper;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Interfaces;
@@ -19,6 +15,9 @@ using Microsoft.Extensions.Logging;
 namespace InspectionManager.Web.Controllers;
 
 [ApiController]
+[Route("/api/v1/json-inspection-sheets")]
+[Consumes(MediaTypeNames.Application.Json)]
+[Produces(MediaTypeNames.Application.Json)]
 public class JsonExportController : ControllerBase
 {
     private readonly IInspectionSheetRepository _repository;
@@ -42,44 +41,45 @@ public class JsonExportController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet]
-    [Route("/v1/json-inspection-sheets/{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    /// <summary>
+    /// エクセル形式で点検シートをダウンロードする
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns>エクセル形式の点検シート</returns>
+    /// <response code="200">ダウンロードに成功</response>
+    /// <response code="400">リクエストエラー</response>
+    /// <response code="404">対象リソースが存在しない</response>
+    /// <response code="500">サーバー内部エラー</response>
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FileResult))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult? ExportJson([FromRoute][Required] int? id)
+    public IActionResult ExportJson([Required][FromRoute] int id)
     {
         try
         {
-            if (id is not null)
+            _logger.LogInformation($"try to export json inspection sheet {id}");
+            if (!_repository.InspectionSheetExists(id))
             {
-                _logger.LogInformation($"try to export json inspection sheet {id}");
-                if (_repository.InspectionSheetExists(id.Value))
-                {
-                    var sheet = _repository.GetInspectionSheet(id.Value);
-                    var data = ConvertInspectionSheetDtoToJson(sheet);
-                    return File(data, "application/json", $"{sheet?.SheetName}.json");
-                }
-                else
-                {
-                    return NotFound($"Sheet with Id = {id} not found");
-                }
+                return NotFound($"Sheet with Id = {id} not found");
             }
-            else
-            {
-                return BadRequest();
-            }
+
+            var sheet = _repository.GetInspectionSheet(id);
+            var data = ConvertInspectionSheetDtoToJson(sheet);
+            return File(data, MediaTypeNames.Application.Json, $"{sheet.SheetName}.json");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                "Error retrieving data from the database");
+             return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "Internal Sever Error"
+            );
         }
     }
 
-    private byte[] ConvertInspectionSheetDtoToJson(InspectionSheetDetailDto sheet)
+    private byte[] ConvertInspectionSheetDtoToJson(InspectionSheetDto sheet)
     {
         var options = new JsonSerializerOptions();
         options.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);

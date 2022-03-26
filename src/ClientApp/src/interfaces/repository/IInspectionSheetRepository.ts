@@ -1,4 +1,4 @@
-import { InspectionSheet } from "../../entities";
+import { InspectionSheet } from "../../typescript-fetch";
 
 export interface IInspectionSheetRepository {
   /**

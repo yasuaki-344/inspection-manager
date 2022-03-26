@@ -1,14 +1,11 @@
 import { Dispatch, useReducer } from "react";
 import {
-  Choice,
-  ChoiceTemplate,
-  InspectionItem,
   InspectionItemAction,
   InspectionItemInitialState,
   InspectionItemReducer,
-  ITEM_ACTION_TYPES,
 } from "../entities";
 import { IInspectionItemInteractor } from "../interfaces";
+import { Choice, ChoiceTemplate, InspectionItem } from "../typescript-fetch";
 
 export class InspectionItemInteractor implements IInspectionItemInteractor {
   readonly inspectionItem: InspectionItem;
@@ -29,7 +26,7 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
 
   setItem(item: InspectionItem): void {
     this.dispatch({
-      type: ITEM_ACTION_TYPES.SET_ITEM,
+      type: "SET_ITEM",
       payload: { item },
     });
   }
@@ -37,14 +34,14 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
   /** @inheritdoc */
   updateField(name: string, value: string): void {
     this.dispatch({
-      type: ITEM_ACTION_TYPES.UPDATE_FIELD,
+      type: "UPDATE_FIELD",
       payload: { name, value },
     });
   }
 
   setChoices(choices: ChoiceTemplate): void {
     this.dispatch({
-      type: ITEM_ACTION_TYPES.SET_CHOICE,
+      type: "SET_CHOICE",
       payload: {
         choices,
       },
@@ -53,14 +50,14 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
 
   addChoice(): void {
     this.dispatch({
-      type: ITEM_ACTION_TYPES.ADD_CHOICE,
+      type: "ADD_CHOICE",
       payload: {},
     });
   }
 
   removeChoice(index: number): void {
     this.dispatch({
-      type: ITEM_ACTION_TYPES.REMOVE_CHOICE,
+      type: "REMOVE_CHOICE",
       payload: {
         choiceOrderIndex: index,
       },
@@ -70,7 +67,7 @@ export class InspectionItemInteractor implements IInspectionItemInteractor {
   /** @inheritdoc */
   updateChoice(choiceOrderIndex: number, value: string): void {
     this.dispatch({
-      type: ITEM_ACTION_TYPES.UPDATE_CHOICE,
+      type: "UPDATE_CHOICE",
       payload: { value, choiceOrderIndex },
     });
   }

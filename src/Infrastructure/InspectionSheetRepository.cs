@@ -44,14 +44,14 @@ public class InspectionSheetRepository : IInspectionSheetRepository
             .ToList();
 
     /// <inheritdoc/>
-    public InspectionSheetDetailDto GetInspectionSheet(int id) =>
+    public InspectionSheetDto GetInspectionSheet(int id) =>
         _context.InspectionSheets
             .Where(x => x.SheetId == id)
-            .ProjectTo<InspectionSheetDetailDto>(_mapper.ConfigurationProvider)
+            .ProjectTo<InspectionSheetDto>(_mapper.ConfigurationProvider)
             .Single();
 
     /// <inheritdoc/>
-    public bool IsValidInspectionSheet(InspectionSheetDetailDto dto)
+    public bool IsValidInspectionSheet(InspectionSheetDto dto)
     {
         if (!_context.InspectionGroups.Any(x => x.InspectionGroupId == dto.InspectionGroupId))
         {
@@ -67,7 +67,7 @@ public class InspectionSheetRepository : IInspectionSheetRepository
     }
 
     /// <inheritdoc/>
-    public async Task<InspectionSheetDetailDto> CreateInspectionSheetAsync(InspectionSheetDetailDto dto)
+    public async Task<InspectionSheetDto> CreateInspectionSheetAsync(InspectionSheetDto dto)
     {
         var entity = _mapper.Map<InspectionSheet>(dto);
         ReferRelationalEntities(entity);
@@ -75,13 +75,13 @@ public class InspectionSheetRepository : IInspectionSheetRepository
         await _context.InspectionSheets.AddAsync(entity);
         await _context.SaveChangesAsync();
 
-        var result = _mapper.Map<InspectionSheetDetailDto>(entity);
+        var result = _mapper.Map<InspectionSheetDto>(entity);
         SortRelationalEntities(result);
         return result;
     }
 
     /// <inheritdoc/>
-    public async Task<InspectionSheetDetailDto> UpdateInspectionSheetAsync(InspectionSheetDetailDto dto)
+    public async Task<InspectionSheetDto> UpdateInspectionSheetAsync(InspectionSheetDto dto)
     {
         var entity = _mapper.Map<InspectionSheet>(dto);
         RemoveUnusedRelationalEntities(entity);
@@ -90,7 +90,7 @@ public class InspectionSheetRepository : IInspectionSheetRepository
         _context.InspectionSheets.Update(entity);
         await _context.SaveChangesAsync();
 
-        var result = _mapper.Map<InspectionSheetDetailDto>(entity);
+        var result = _mapper.Map<InspectionSheetDto>(entity);
         SortRelationalEntities(result);
         return result;
     }
@@ -106,7 +106,7 @@ public class InspectionSheetRepository : IInspectionSheetRepository
         }
     }
 
-    private static void SortRelationalEntities(InspectionSheetDetailDto dto)
+    private static void SortRelationalEntities(InspectionSheetDto dto)
     {
         dto.Equipments = dto.Equipments.OrderBy(x => x.OrderIndex).ToArray();
         foreach (var equipment in dto.Equipments)

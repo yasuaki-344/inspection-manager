@@ -3,7 +3,7 @@ import {
   IInspectionTypeInteractor,
   IInspectionTypeRepository,
 } from "../interfaces";
-import { InspectionType } from "../entities";
+import { InspectionType } from "../typescript-fetch";
 
 export class InspectionTypeInteractor implements IInspectionTypeInteractor {
   readonly types: InspectionType[];

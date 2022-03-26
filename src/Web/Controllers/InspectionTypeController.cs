@@ -12,6 +12,9 @@ using Microsoft.Extensions.Logging;
 namespace InspectionManager.Web.Controllers;
 
 [ApiController]
+[Route("/api/v1/inspection-types")]
+[Consumes(MediaTypeNames.Application.Json)]
+[Produces(MediaTypeNames.Application.Json)]
 public class InspectionTypeController : ControllerBase
 {
     private readonly ICategoryRepository _repository;
@@ -32,13 +35,13 @@ public class InspectionTypeController : ControllerBase
     }
 
     /// <summary>
-    /// Get all inspection types.
+    /// 点検種別の一覧を取得する
     /// </summary>
-    /// <response code="200">A JSON array of InspectionType model</response>
-    /// <response code="500">システムエラー Internal Server Error</response>
+    /// <returns>点検種別の一覧</returns>
+    /// <response code="200">取得に成功</response>
+    /// <response code="500">サーバー内部エラー</response>
     [HttpGet]
-    [Route("/v1/inspection-types")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionTypeDto))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionTypeDto[]))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetAllInspectionTypes()
     {
@@ -52,186 +55,168 @@ public class InspectionTypeController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                "Error retrieving data from the database");
-        }
-    }
-
-    /// <summary>
-    /// Get InspectionType model by ID.
-    /// </summary>
-    /// <param name="id">inspection type ID to get</param>
-    /// <response code="200">A single InspectionType model</response>
-    /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
-    /// <response code="404">対象リソースが存在しない Not Found</response>
-    /// <response code="500">システムエラー Internal Server Error</response>
-    [HttpGet]
-    [Route("/v1/inspection-types/{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionTypeDto))]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult GetInspectionType([FromRoute][Required] int? id)
-    {
-        try
-        {
-            if (id is not null)
-            {
-                _logger.LogInformation($"try to get inspection type {id}");
-                if (_repository.InspectionTypeExists(id.Value))
-                {
-                    var result = _repository.GetInspectionType(id.Value);
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound($"type with Id = {id} not found");
-                }
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                "Error retrieving data from the database");
-        }
-    }
-
-    /// <summary>
-    /// Create a new InspectionType model
-    /// </summary>
-    /// <param name="dto">inspection type to create</param>
-    /// <response code="201">正常系（非同期）Created</response>
-    /// <response code="400">バリデーションエラー or 業務エラー Bad Request</response>
-    /// <response code="500">システムエラー Internal Server Error</response>
-    [HttpPost]
-    [Route("/v1/inspection-types")]
-    [Consumes(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionTypeDto))]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> CreateInspectionTypeAsync(InspectionTypeDto? dto)
-    {
-        try
-        {
-            _logger.LogInformation("try to create inspection type");
-            if (dto is not null)
-            {
-                var result = await _repository.CreateInspectionTypeAsync(dto);
-                return CreatedAtAction(nameof(GetInspectionType),
-                new { id = result.InspectionTypeId }, result);
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                "Error creating new inspection types"
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "Internal Sever Error"
             );
         }
     }
 
     /// <summary>
-    /// Updates the InspectionType model.
+    /// 点検種別を作成する
     /// </summary>
-    /// <param name="id">inspection type ID to update</param>
-    /// <param name="dto">inspection type to update</param>
-    /// <response code="201">正常系（非同期）Created</response>
-    /// <response code="400">Invalid ID supplied</response>
-    /// <response code="404">Not found</response>
-    /// <response code="500">Internal Server Error</response>
-    [HttpPut]
-    [Route("/v1/inspection-types/{id}")]
-    [Consumes(MediaTypeNames.Application.Json)]
+    /// <param name="dto">作成用点検種別データ</param>
+    /// <returns>作成した点検種別データ</returns>
+    /// <response code="201">作成に成功</response>
+    /// <response code="400">リクエストエラー</response>
+    /// <response code="500">サーバー内部エラー</response>
+    [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionTypeDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> UpdateInspectionTypeAsync([FromRoute][Required] int? id, [FromBody] InspectionTypeDto dto)
+    public async Task<IActionResult> CreateInspectionTypeAsync([Required][FromBody] InspectionTypeDto dto)
     {
         try
         {
-            if (id is not null)
-            {
-                _logger.LogInformation($"try to update inspection type {dto.InspectionTypeId}");
-                if (id.Value != dto.InspectionTypeId)
-                {
-                    return BadRequest("Invalid ID supplied");
-                }
-
-                if (_repository.InspectionTypeExists(dto.InspectionTypeId))
-                {
-                    var result = await _repository.UpdateInspectionTypeAsync(dto);
-                    return CreatedAtAction(nameof(GetInspectionType),
-                    new { id = result.InspectionTypeId }, result);
-                }
-                else
-                {
-                    return NotFound($"Type with Id = {dto.InspectionTypeId} not found");
-                }
-            }
-            else
-            {
-                return BadRequest();
-            }
+            _logger.LogInformation("try to create inspection type");
+            var result = await _repository.CreateInspectionTypeAsync(dto);
+            return CreatedAtAction(
+                nameof(GetInspectionTypeById),
+                new { id = result.InspectionTypeId },
+                result
+            );
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                "Error updating data");
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "Internal Sever Error"
+            );
         }
     }
 
     /// <summary>
-    /// Deletes the InspectionType model.
+    /// 指定の点検種別を取得する
     /// </summary>
-    /// <param name="id">inspection type ID to delete</param>
-    /// <response code="200">Success</response>
-    /// <response code="400">Invalid ID supplied</response>
-    /// <response code="404">Not found</response>
-    /// <response code="500">Internal Server Error</response>
-    [HttpDelete]
-    [Route("/v1/inspection-types/{id}")]
+    /// <param name="id">指定の点検種別に紐づくID</param>
+    /// <returns>指定の点検種別</returns>
+    /// <response code="200">取得に成功</response>
+    /// <response code="400">リクエストエラー</response>
+    /// <response code="404">対象リソースが存在しない</response>
+    /// <response code="500">サーバー内部エラー</response>
+    [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionTypeDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> DeleteInspectionTypeAsync([FromRoute][Required] int? id)
+    public IActionResult GetInspectionTypeById([Required][FromRoute] int id)
     {
         try
         {
-            if (id is not null)
+            _logger.LogInformation($"try to get inspection type {id}");
+            if (!_repository.InspectionTypeExists(id))
             {
-                _logger.LogInformation($"try to delete inspection type {id}");
-                if (_repository.InspectionTypeExists(id.Value))
-                {
-                    var dto = await _repository.DeleteInspectionTypeAsync(id.Value);
-                    return Ok(dto);
-                }
-                else
-                {
-                    return NotFound($"type with Id = {id} not found");
-                }
+                return NotFound($"type with Id = {id} not found");
             }
-            else
-            {
-                return BadRequest();
-            }
+
+            var result = _repository.GetInspectionType(id);
+            return Ok(result);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                "Error deleting data");
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "Internal Sever Error"
+            );
+        }
+    }
+
+    /// <summary>
+    /// 指定の点検種別を更新する
+    /// </summary>
+    /// <param name="id">指定の点検種別に紐づくID</param>
+    /// <param name="dto">更新用点検種別データ</param>
+    /// <returns>指定の点検種別</returns>
+    /// <response code="201">更新に成功</response>
+    /// <response code="400">リクエストエラー</response>
+    /// <response code="404">対象リソースが存在しない</response>
+    /// <response code="500">サーバー内部エラー</response>
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(InspectionTypeDto))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> UpdateInspectionTypeAsync(
+        [Required][FromRoute] int id,
+        [Required][FromBody] InspectionTypeDto dto
+    )
+    {
+        try
+        {
+            _logger.LogInformation($"try to update inspection type {dto.InspectionTypeId}");
+            if (id != dto.InspectionTypeId)
+            {
+                return BadRequest("Invalid ID supplied");
+            }
+
+            if (!_repository.InspectionTypeExists(dto.InspectionTypeId))
+            {
+                return NotFound($"Type with Id = {dto.InspectionTypeId} not found");
+            }
+
+            var result = await _repository.UpdateInspectionTypeAsync(dto);
+            return CreatedAtAction(
+                nameof(GetInspectionTypeById),
+                new { id = result.InspectionTypeId }, result
+            );
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "Internal Sever Error"
+            );
+        }
+    }
+
+    /// <summary>
+    /// 指定の点検種別を削除する
+    /// </summary>
+    /// <param name="id">指定の点検種別に紐づくID</param>
+    /// <returns>削除した点検種別データ</returns>
+    /// <response code="200">削除に成功</response>
+    /// <response code="400">リクエストエラー</response>
+    /// <response code="404">対象リソースが存在しない</response>
+    /// <response code="500">サーバー内部エラー</response>
+    [HttpDelete("{id}")]
+    [Consumes(MediaTypeNames.Text.Plain)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionTypeDto))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> DeleteInspectionTypeAsync([Required][FromRoute] int id)
+    {
+        try
+        {
+            _logger.LogInformation($"try to delete inspection type {id}");
+            if (!_repository.InspectionTypeExists(id))
+            {
+                return NotFound($"type with Id = {id} not found");
+            }
+
+            var dto = await _repository.DeleteInspectionTypeAsync(id);
+            return Ok(dto);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                "Internal Sever Error"
+            );
         }
     }
 }
