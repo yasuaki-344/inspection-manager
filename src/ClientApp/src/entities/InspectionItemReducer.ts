@@ -22,28 +22,28 @@ export const InspectionItemInitialState: InspectionItem = {
   choices: [],
 };
 
-export const ITEM_ACTION_TYPES = {
-  SET_ITEM: "SET_ITEM",
-  UPDATE_FIELD: "UPDATE_FIELD",
-  SET_CHOICE: "SET_CHOICE",
-  ADD_CHOICE: "ADD_CHOICE",
-  REMOVE_CHOICE: "REMOVE_CHOICE",
-  UPDATE_CHOICE: "UPDATE_CHOICE",
-};
+export type ITEM_ACTION_TYPES =
+  | "SET_ITEM"
+  | "UPDATE_FIELD"
+  | "SET_CHOICE"
+  | "ADD_CHOICE"
+  | "REMOVE_CHOICE"
+  | "UPDATE_CHOICE"
+
 
 export function InspectionItemReducer(
   state: InspectionItem,
   action: InspectionItemAction
 ): any {
   switch (action.type) {
-    case ITEM_ACTION_TYPES.SET_ITEM: {
+    case "SET_ITEM": {
       const { item } = action.payload;
       if (item != null) {
         return item;
       }
       return state;
     }
-    case ITEM_ACTION_TYPES.UPDATE_FIELD: {
+    case "UPDATE_FIELD": {
       const { name, value } = action.payload;
       if (name != null && value != null) {
         if (name === "inputType" && value !== "2") {
@@ -53,7 +53,7 @@ export function InspectionItemReducer(
       }
       return state;
     }
-    case ITEM_ACTION_TYPES.SET_CHOICE: {
+    case "SET_CHOICE": {
       const { choices } = action.payload;
       if (choices != null) {
         const newChoices = choices.choices.map((x: Option, index: number) => {
@@ -70,7 +70,7 @@ export function InspectionItemReducer(
       }
       return state;
     }
-    case ITEM_ACTION_TYPES.ADD_CHOICE: {
+    case "ADD_CHOICE": {
       const { choices } = state;
       const maxOrderIndex = !choices.length
         ? 0
@@ -86,7 +86,7 @@ export function InspectionItemReducer(
         }),
       };
     }
-    case ITEM_ACTION_TYPES.REMOVE_CHOICE: {
+    case "REMOVE_CHOICE": {
       const { choiceOrderIndex: choiceIndex } = action.payload;
       if (choiceIndex != null) {
         const choices = state.choices.filter(
@@ -96,7 +96,7 @@ export function InspectionItemReducer(
       }
       return state;
     }
-    case ITEM_ACTION_TYPES.UPDATE_CHOICE: {
+    case "UPDATE_CHOICE": {
       const { choiceOrderIndex: choiceIndex, value } = action.payload;
       if (choiceIndex != null && value != null) {
         const { choices } = state;
