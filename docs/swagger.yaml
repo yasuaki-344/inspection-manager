@@ -154,6 +154,41 @@ paths:
                 $ref: '#/components/schemas/ProblemDetails'
         '500':
           description: サーバー内部エラー
+  '/api/v1/excel-inspection-sheets/{id}':
+    get:
+      tags:
+        - ExcelSheet
+      summary: エクセル形式で点検シートをダウンロードする
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: ダウンロードに成功
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: 対象リソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
   /api/v1/inspection-groups:
     get:
       tags:
@@ -355,34 +390,36 @@ paths:
     get:
       tags:
         - InspectionSheet
+      summary: 指定の点検シートを取得する
       parameters:
         - name: id
           in: path
+          description: 指定の点検シートに紐づくID
           required: true
           schema:
             type: integer
             format: int32
       responses:
         '200':
-          description: Success
+          description: 取得に成功
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InspectionSheet'
         '400':
-          description: Bad Request
+          description: リクエストエラー
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
         '404':
-          description: Not Found
+          description: 対象リソースが存在しない
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
         '500':
-          description: Server Error
+          description: サーバー内部エラー
     put:
       tags:
         - InspectionSheet
@@ -456,7 +493,7 @@ paths:
     get:
       tags:
         - InspectionType
-      summary: 点検種別の一覧を取得する.
+      summary: 点検種別の一覧を取得する
       responses:
         '200':
           description: 取得に成功
@@ -587,6 +624,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InspectionType'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: 対象リソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
+  '/api/v1/json-inspection-sheets/{id}':
+    get:
+      tags:
+        - JsonExport
+      summary: エクセル形式で点検シートをダウンロードする
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: ダウンロードに成功
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
         '400':
           description: リクエストエラー
           content:
