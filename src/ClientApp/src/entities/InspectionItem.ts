@@ -1,4 +1,4 @@
-import { Choice } from ".";
+import { Choice } from "../typescript-fetch";
 
 export type InspectionItem = {
   inspectionItemId: number;
