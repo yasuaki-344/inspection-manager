@@ -17,7 +17,7 @@ import { ChoiceSetSelectDialog } from "./ChoiceSetSelectDialog";
 import { CancelIconButton, OkCancelDialogActions } from "../utilities";
 import { DialogTitleDesign, InputStyle } from "../stylesheets";
 import {
-  IInspectionSheetPresenter,
+  IInspectionItemInteractor,
   IInspectionSheetController,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
@@ -36,15 +36,16 @@ export const InspectionItemDialog = (
   const controller: IInspectionSheetController = inject(
     nameof<IInspectionSheetController>()
   );
-  const presenter: IInspectionSheetPresenter = inject(
-    nameof<IInspectionSheetPresenter>()
+  const itemUseCase: IInspectionItemInteractor = inject(
+    nameof<IInspectionItemInteractor>()
   );
+
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
-    setDisabled(!presenter.isValidInspectionItem());
-  }, [presenter.item]);
+    setDisabled(!itemUseCase.isValidInspectionItem());
+  }, [itemUseCase.inspectionItem]);
 
   return (
     <>
@@ -62,7 +63,7 @@ export const InspectionItemDialog = (
                 variant="outlined"
                 size="small"
                 name="inspectionContent"
-                value={presenter.item.inspectionContent}
+                value={itemUseCase.inspectionItem.inspectionContent}
                 onChange={controller.updateInspectionItemField}
               />
             </Grid>
@@ -76,7 +77,7 @@ export const InspectionItemDialog = (
                 variant="outlined"
                 size="small"
                 name="inputType"
-                value={presenter.item.inputType}
+                value={itemUseCase.inspectionItem.inputType}
                 onChange={controller.updateInspectionItemField}
               >
                 {useInputTypes.map((option) => (
@@ -86,38 +87,40 @@ export const InspectionItemDialog = (
                 ))}
               </TextField>
             </Grid>
-            {presenter.item.inputType !== 3 ? (
+            {itemUseCase.inspectionItem.inputType !== 3 ? (
               <></>
             ) : (
               <>
-                {presenter.item.choices.map((choice: Choice, index: number) => (
-                  <Grid item xs={12} key={choice.orderIndex}>
-                    <Box sx={InputStyle}>
-                      <TextField
-                        required
-                        id="outlined-required"
-                        label={`選択肢${index + 1}`}
-                        variant="outlined"
-                        size="small"
-                        name="choice"
-                        value={choice.description}
-                        onChange={(e) =>
-                          controller.updateInspectionItemChoiceField(
-                            e,
-                            choice.orderIndex
-                          )
-                        }
-                      />
-                      <CancelIconButton
-                        onClick={() =>
-                          controller.removeInspectionItemChoice(
-                            choice.orderIndex
-                          )
-                        }
-                      />
-                    </Box>
-                  </Grid>
-                ))}
+                {itemUseCase.inspectionItem.choices.map(
+                  (choice: Choice, index: number) => (
+                    <Grid item xs={12} key={choice.orderIndex}>
+                      <Box sx={InputStyle}>
+                        <TextField
+                          required
+                          id="outlined-required"
+                          label={`選択肢${index + 1}`}
+                          variant="outlined"
+                          size="small"
+                          name="choice"
+                          value={choice.description}
+                          onChange={(e) =>
+                            controller.updateInspectionItemChoiceField(
+                              e,
+                              choice.orderIndex
+                            )
+                          }
+                        />
+                        <CancelIconButton
+                          onClick={() =>
+                            controller.removeInspectionItemChoice(
+                              choice.orderIndex
+                            )
+                          }
+                        />
+                      </Box>
+                    </Grid>
+                  )
+                )}
                 <Grid item xs={12}>
                   <BottomNavigation showLabels>
                     <BottomNavigationAction

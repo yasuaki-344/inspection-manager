@@ -8,10 +8,7 @@ import {
   NotificationStateInteractor,
   TopPageLink,
 } from "../utilities";
-import {
-  IInspectionSheetController,
-  IInspectionSheetPresenter,
-} from "../../interfaces";
+import { IInspectionSheetController } from "../../interfaces";
 import { useDIContext } from "../../container";
 
 export const Edit: FC = ({ match }: any): JSX.Element => {
@@ -21,10 +18,7 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
   const controller: IInspectionSheetController = inject(
     nameof<IInspectionSheetController>()
   );
-  /* eslint-disable-next-line */
-  const presenter: IInspectionSheetPresenter = inject(
-    nameof<IInspectionSheetPresenter>()
-  );
+
   const [loading, setLoading] = useState(true);
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)

@@ -19,7 +19,7 @@ import {
 import { OriginalSheetSelectDialog } from "../dialog";
 import {
   IInspectionSheetController,
-  IInspectionSheetPresenter,
+  IInspectionSheetInteractor,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
 
@@ -28,8 +28,8 @@ export const Create: FC = (): JSX.Element => {
   const controller: IInspectionSheetController = inject(
     nameof<IInspectionSheetController>()
   );
-  const presenter: IInspectionSheetPresenter = inject(
-    nameof<IInspectionSheetPresenter>()
+  const sheetUseCase: IInspectionSheetInteractor = inject(
+    nameof<IInspectionSheetInteractor>()
   );
 
   const [open, setOpen] = useState(false);
@@ -157,7 +157,7 @@ export const Create: FC = (): JSX.Element => {
       />
       <OriginalSheetSelectDialog
         open={open}
-        inspectionSheets={presenter.selectionSheets}
+        inspectionSheets={sheetUseCase.sheets}
         onSelectClick={handleSelectSheet}
         onCancelClick={() => setOpen(false)}
       />
