@@ -601,25 +601,26 @@ paths:
 components:
   schemas:
     Equipment:
-      type: object
       required:
         - equipment_id
-        - order_index
         - equipment_name
         - inspection_items
+        - order_index
+      type: object
       properties:
         equipment_id:
           type: integer
-          format: int64
+          format: int32
         order_index:
           type: integer
-          format: int64
+          format: int32
         equipment_name:
           type: string
         inspection_items:
           type: array
           items:
-            $ref: "#/components/schemas/InspectionItem"
+            $ref: '#/components/schemas/InspectionItem'
+      additionalProperties: false
     Choice:
       type: object
       required:
