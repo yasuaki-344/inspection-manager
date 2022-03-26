@@ -620,31 +620,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/InspectionItem"
-    InspectionItem:
-      required:
-        - choices
-        - input_type
-        - inspection_content
-        - inspection_item_id
-        - order_index
-      type: object
-      properties:
-        inspection_item_id:
-          type: integer
-          format: int32
-        order_index:
-          type: integer
-          format: int32
-        inspection_content:
-          type: string
-        input_type:
-          type: integer
-          format: int32
-        choices:
-          type: array
-          items:
-            $ref: '#/components/schemas/Choice'
-      additionalProperties: false
     Choice:
       type: object
       required:
@@ -684,6 +659,31 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Option"
+    InspectionItem:
+      required:
+        - choices
+        - input_type
+        - inspection_content
+        - inspection_item_id
+        - order_index
+      type: object
+      properties:
+        inspection_item_id:
+          type: integer
+          format: int32
+        order_index:
+          type: integer
+          format: int32
+        inspection_content:
+          type: string
+        input_type:
+          type: integer
+          format: int32
+        choices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Choice'
+      additionalProperties: false
     InspectionSheet:
       required:
         - equipments
