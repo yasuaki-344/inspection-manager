@@ -601,35 +601,30 @@ paths:
 components:
   schemas:
     InspectionSheet:
-      type: object
       required:
+        - equipments
+        - inspection_group_id
+        - inspection_type_id
         - sheet_id
         - sheet_name
-        - inspection_type_id
-        - inspection_type
-        - inspection_group_id
-        - inspection_group
-        - equipments
+      type: object
       properties:
         sheet_id:
           type: integer
-          format: int64
+          format: int32
         sheet_name:
           type: string
         inspection_type_id:
           type: integer
-          format: int64
-        inspection_type:
-          type: string
+          format: int32
         inspection_group_id:
           type: integer
-          format: int64
-        inspection_group:
-          type: string
+          format: int32
         equipments:
           type: array
           items:
-            $ref: "#/components/schemas/Equipment"
+            $ref: '#/components/schemas/Equipment'
+      additionalProperties: false
     Equipment:
       type: object
       required:
