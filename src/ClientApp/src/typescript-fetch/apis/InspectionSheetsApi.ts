@@ -38,93 +38,9 @@ export interface InspectionSheetsSheetIdPutRequest {
 }
 
 /**
- * InspectionSheetsApi - interface
- * 
- * @export
- * @interface InspectionSheetsApiInterface
- */
-export interface InspectionSheetsApiInterface {
-    /**
-     * 
-     * @summary Get all inspection sheets.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof InspectionSheetsApiInterface
-     */
-    inspectionSheetsGetRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<InspectionSheet>>>;
-
-    /**
-     * Get all inspection sheets.
-     */
-    inspectionSheetsGet(initOverrides?: RequestInit): Promise<Array<InspectionSheet>>;
-
-    /**
-     * 
-     * @summary Create a new InspectionSheet model
-     * @param {InspectionSheet} [inspectionSheet] inspection sheet to create
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof InspectionSheetsApiInterface
-     */
-    inspectionSheetsPostRaw(requestParameters: InspectionSheetsPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionSheet>>;
-
-    /**
-     * Create a new InspectionSheet model
-     */
-    inspectionSheetsPost(requestParameters: InspectionSheetsPostRequest, initOverrides?: RequestInit): Promise<InspectionSheet>;
-
-    /**
-     * 
-     * @summary Deletes the InspectionSheet model.
-     * @param {number} sheetId inspection sheet ID to delete
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof InspectionSheetsApiInterface
-     */
-    inspectionSheetsSheetIdDeleteRaw(requestParameters: InspectionSheetsSheetIdDeleteRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>>;
-
-    /**
-     * Deletes the InspectionSheet model.
-     */
-    inspectionSheetsSheetIdDelete(requestParameters: InspectionSheetsSheetIdDeleteRequest, initOverrides?: RequestInit): Promise<void>;
-
-    /**
-     * 
-     * @summary Get the specified inspection sheet.
-     * @param {number} sheetId inspection sheet ID to get
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof InspectionSheetsApiInterface
-     */
-    inspectionSheetsSheetIdGetRaw(requestParameters: InspectionSheetsSheetIdGetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionSheet>>;
-
-    /**
-     * Get the specified inspection sheet.
-     */
-    inspectionSheetsSheetIdGet(requestParameters: InspectionSheetsSheetIdGetRequest, initOverrides?: RequestInit): Promise<InspectionSheet>;
-
-    /**
-     * 
-     * @summary Updates the InspectionSheet model.
-     * @param {number} sheetId inspection sheet ID to update
-     * @param {InspectionSheet} [inspectionSheet] inspection sheet to update
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof InspectionSheetsApiInterface
-     */
-    inspectionSheetsSheetIdPutRaw(requestParameters: InspectionSheetsSheetIdPutRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionSheet>>;
-
-    /**
-     * Updates the InspectionSheet model.
-     */
-    inspectionSheetsSheetIdPut(requestParameters: InspectionSheetsSheetIdPutRequest, initOverrides?: RequestInit): Promise<InspectionSheet>;
-
-}
-
-/**
  * 
  */
-export class InspectionSheetsApi extends runtime.BaseAPI implements InspectionSheetsApiInterface {
+export class InspectionSheetsApi extends runtime.BaseAPI {
 
     /**
      * Get all inspection sheets.

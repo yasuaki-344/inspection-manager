@@ -6,4 +6,4 @@
   -i /local/swagger.yml \
   -g typescript-fetch \
   -o /out/typescript-fetch \
-  --additional-properties=modelPropertyNaming=camelCase,supportsES6=true,withInterfaces=true,typescriptThreePlus=true
+  --additional-properties=modelPropertyNaming=camelCase,supportsES6=true,typescriptThreePlus=true
