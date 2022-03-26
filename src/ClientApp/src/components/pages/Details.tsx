@@ -17,7 +17,6 @@ import nameof from "ts-nameof.macro";
 import { useInputTypes, Equipment, InspectionItem } from "../../entities";
 import { TopPageLink } from "../utilities";
 import {
-  IDetailController,
   IInspectionGroupInteractor,
   IInspectionSheetInteractor,
   IInspectionTypeInteractor,
@@ -134,11 +133,13 @@ export const Details = ({ match }: any): JSX.Element => {
     nameof<IInspectionSheetInteractor>()
   );
 
-  const controller: IDetailController = inject(nameof<IDetailController>());
-
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    controller.fetchDisplayData(sheetId).then(() => setLoading(false));
+    Promise.all([
+      groupUseCase.fetchInspectionGroups(),
+      typeUseCase.fetchInspectionTypes(),
+      sheetUseCase.fetchInspectionSheetById(sheetId),
+    ]).then(() => setLoading(false));
   }, [sheetId]);
 
   const displayData = loading ? (

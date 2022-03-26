@@ -3,7 +3,6 @@ import nameof from "ts-nameof.macro";
 import {
   ChoiceTemplateController,
   InspectionSheetController,
-  DetailController,
   HomeController,
 } from "../controllers";
 import {
@@ -19,7 +18,6 @@ import {
   IChoiceTemplateRepository,
   IInspectionSheetController,
   IInspectionSheetPresenter,
-  IDetailController,
   IHomeController,
   IHomePresenter,
   IInspectionGroupInteractor,
@@ -144,16 +142,6 @@ export const setUpDIContainer = () => {
         nameof<IInspectionSheetInteractor>()
       ) as IInspectionSheetInteractor,
       inject(nameof<IInspectionItemInteractor>()) as IInspectionItemInteractor
-    )
-  );
-  register(
-    nameof<IDetailController>(),
-    new DetailController(
-      inject(
-        nameof<IInspectionGroupInteractor>()
-      ) as IInspectionGroupInteractor,
-      inject(nameof<IInspectionTypeInteractor>()) as InspectionTypeInteractor,
-      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
     )
   );
   register(
