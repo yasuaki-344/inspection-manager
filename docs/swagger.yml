@@ -601,20 +601,21 @@ paths:
 components:
   schemas:
     Choice:
-      type: object
       required:
         - choice_id
-        - order_index
         - description
+        - order_index
+      type: object
       properties:
         choice_id:
           type: integer
-          format: int64
+          format: int32
         order_index:
           type: integer
-          format: int64
+          format: int32
         description:
           type: string
+      additionalProperties: false
     ChoiceTemplate:
       required:
         - choices
