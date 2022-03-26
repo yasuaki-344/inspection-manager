@@ -616,18 +616,19 @@ components:
         description:
           type: string
     ChoiceTemplate:
-      type: object
       required:
-        - id
         - choices
+        - id
+      type: object
       properties:
         id:
           type: integer
-          format: int64
+          format: int32
         choices:
           type: array
           items:
-            $ref: "#/components/schemas/Option"
+            $ref: '#/components/schemas/Option'
+      additionalProperties: false
     Equipment:
       required:
         - equipment_id
