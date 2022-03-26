@@ -15,7 +15,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { InspectionItemForm } from "./InspectionItemForm";
 import { BottomNavigationAdd, CancelIconButton } from "../utilities";
 import { equipmentLabel, MenuIcon, paperElement } from "../stylesheets";
-import { ItemType, Equipment } from "../../entities";
+import { ItemType } from "../../entities";
 import {
   InspectionItemDialogStateContext,
   useDIContext,
@@ -24,6 +24,7 @@ import {
   IInspectionItemInteractor,
   IInspectionSheetInteractor,
 } from "../../interfaces";
+import { Equipment } from "../../typescript-fetch";
 
 interface DragItem {
   orderIndex: number;

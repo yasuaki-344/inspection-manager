@@ -1,4 +1,4 @@
-import { Equipment } from ".";
+import { Equipment } from "../typescript-fetch";
 
 export type InspectionSheet = {
   sheetId: number;
