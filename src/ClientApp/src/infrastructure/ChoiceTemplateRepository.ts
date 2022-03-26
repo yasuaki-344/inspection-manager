@@ -1,6 +1,6 @@
 import { IChoiceTemplateRepository } from "../interfaces";
-import { ChoiceTemplate, toCamelCase, toSnakeCase } from "../entities";
 import {
+  ChoiceTemplate,
   ChoiceTemplatesApi,
   ChoiceTemplatesApiInterface,
 } from "../typescript-fetch";
@@ -18,29 +18,24 @@ export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
   /** @inheritdoc */
   async fetchAllChoiceTemplates(): Promise<ChoiceTemplate[]> {
     const res = await this.api.choiceTemplatesGet();
-    const data = toCamelCase(res);
-    return data.map((x: any) => this.addOrderIndex(x));
+    return res;
   }
 
   /** @inheritdoc */
   async post(choiceTemplate: ChoiceTemplate): Promise<ChoiceTemplate> {
-    const req = toSnakeCase(choiceTemplate);
     const res = await this.api.choiceTemplatesPost({
-      choiceTemplate: req,
+      choiceTemplate,
     });
-    const data = toCamelCase(res);
-    return this.addOrderIndex(data);
+    return res
   }
 
   /** @inheritdoc */
   async put(choiceTemplate: ChoiceTemplate): Promise<ChoiceTemplate> {
-    const req = toSnakeCase(choiceTemplate);
     const res = await this.api.choiceTemplatesIdPut({
-      id: req.id,
-      choiceTemplate: req,
+      id: choiceTemplate.id,
+      choiceTemplate,
     });
-    const data = toCamelCase(res);
-    return this.addOrderIndex(data);
+    return res;
   }
 
   /** @inheritdoc */
@@ -48,17 +43,5 @@ export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
     await this.api.choiceTemplatesIdDelete({
       id,
     });
-  }
-
-  private addOrderIndex(template: any): ChoiceTemplate {
-    return {
-      ...template,
-      choices: template.choices.map((x: any, index: number) => {
-        return {
-          ...x,
-          orderIndex: index + 1,
-        };
-      }),
-    };
   }
 }

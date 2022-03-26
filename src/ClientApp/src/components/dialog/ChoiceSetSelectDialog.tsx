@@ -9,7 +9,6 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import nameof from "ts-nameof.macro";
-import { ChoiceTemplate } from "../../entities";
 import { OkCancelDialogActions } from "../utilities";
 import { DialogTitleDesign } from "../stylesheets";
 import {
@@ -17,6 +16,7 @@ import {
   IInspectionItemInteractor,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
+import { ChoiceTemplate } from "../../typescript-fetch";
 
 interface ChoiceSetSelectDialogProps {
   open: boolean;

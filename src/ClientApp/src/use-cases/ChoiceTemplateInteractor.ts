@@ -3,8 +3,7 @@ import {
   IChoiceTemplateInteractor,
   IChoiceTemplateRepository,
 } from "../interfaces";
-import { ChoiceTemplate } from "../entities";
-import { Option } from "../typescript-fetch";
+import { ChoiceTemplate, Option } from "../typescript-fetch";
 
 export class ChoiceTemplateInteractor implements IChoiceTemplateInteractor {
   readonly templates: ChoiceTemplate[];
