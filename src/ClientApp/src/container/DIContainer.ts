@@ -2,7 +2,6 @@ import { createContext, useContext } from "react";
 import nameof from "ts-nameof.macro";
 import {
   InspectionSheetController,
-  HomeController,
 } from "../controllers";
 import {
   ChoiceTemplateRepository,
@@ -14,7 +13,6 @@ import {
   IChoiceTemplateInteractor,
   IChoiceTemplateRepository,
   IInspectionSheetController,
-  IHomeController,
   IInspectionGroupInteractor,
   IInspectionGroupRepository,
   IInspectionItemInteractor,
@@ -107,16 +105,6 @@ export const setUpDIContainer = () => {
         nameof<IInspectionSheetInteractor>()
       ) as IInspectionSheetInteractor,
       inject(nameof<IInspectionItemInteractor>()) as IInspectionItemInteractor
-    )
-  );
-  register(
-    nameof<IHomeController>(),
-    new HomeController(
-      inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor,
-      inject(
-        nameof<IInspectionGroupInteractor>()
-      ) as IInspectionGroupInteractor,
-      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
     )
   );
 
