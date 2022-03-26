@@ -133,7 +133,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InspectionGroup'
+                type: array
+                items:
+                  $ref: '#/components/schemas/InspectionGroup'
         '500':
           description: サーバー内部エラー
     post:

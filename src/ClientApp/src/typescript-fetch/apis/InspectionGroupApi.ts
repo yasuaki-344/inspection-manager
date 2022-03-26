@@ -48,7 +48,7 @@ export class InspectionGroupApi extends runtime.BaseAPI {
     /**
      * 点検グループの一覧を取得する
      */
-    async apiV1InspectionGroupsGetRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionGroup>> {
+    async apiV1InspectionGroupsGetRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<InspectionGroup>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -60,13 +60,13 @@ export class InspectionGroupApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => InspectionGroupFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(InspectionGroupFromJSON));
     }
 
     /**
      * 点検グループの一覧を取得する
      */
-    async apiV1InspectionGroupsGet(initOverrides?: RequestInit): Promise<InspectionGroup> {
+    async apiV1InspectionGroupsGet(initOverrides?: RequestInit): Promise<Array<InspectionGroup>> {
         const response = await this.apiV1InspectionGroupsGetRaw(initOverrides);
         return await response.value();
     }

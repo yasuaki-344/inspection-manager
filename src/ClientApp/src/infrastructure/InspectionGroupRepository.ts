@@ -1,25 +1,25 @@
 import { IInspectionGroupRepository } from "../interfaces";
-import { InspectionGroup, InspectionGroupsApi } from "../typescript-fetch";
+import { InspectionGroup, InspectionGroupApi } from "../typescript-fetch";
 
 export class InspectionGroupRepository implements IInspectionGroupRepository {
-  private readonly api: InspectionGroupsApi;
+  private readonly api: InspectionGroupApi;
 
   /**
    * Initializes a new instance of InspectionGroupRepository class.
    */
   constructor() {
-    this.api = new InspectionGroupsApi();
+    this.api = new InspectionGroupApi();
   }
 
   /** @inheritdoc */
   async get(): Promise<InspectionGroup[]> {
-    const res = await this.api.inspectionGroupsGet();
+    const res = await this.api.apiV1InspectionGroupsGet();
     return res;
   }
 
   /** @inheritdoc */
   async post(inspectionGroup: InspectionGroup): Promise<InspectionGroup> {
-    const res = await this.api.inspectionGroupsPost({
+    const res = await this.api.apiV1InspectionGroupsPost({
       inspectionGroup,
     });
     return res;
@@ -27,7 +27,7 @@ export class InspectionGroupRepository implements IInspectionGroupRepository {
 
   /** @inheritdoc */
   async put(inspectionGroup: InspectionGroup): Promise<InspectionGroup> {
-    const res = await this.api.inspectionGroupsIdPut({
+    const res = await this.api.apiV1InspectionGroupsIdPut({
       id: inspectionGroup.id,
       inspectionGroup,
     });
@@ -36,7 +36,7 @@ export class InspectionGroupRepository implements IInspectionGroupRepository {
 
   /** @inheritdoc */
   async delete(id: number): Promise<void> {
-    await this.api.inspectionGroupsIdDelete({
+    await this.api.apiV1InspectionGroupsIdDelete({
       id,
     });
   }

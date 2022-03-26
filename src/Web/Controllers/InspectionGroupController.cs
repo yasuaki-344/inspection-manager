@@ -41,7 +41,7 @@ public class InspectionGroupController : ControllerBase
     /// <response code="200">取得に成功</response>
     /// <response code="500">サーバー内部エラー</response>
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionGroupDto))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionGroupDto[]))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetAllInspectionGroups()
     {
