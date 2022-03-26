@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-export * from './ChoiceTemplatesApi';
+export * from './ChoiceTemplateApi';
 export * from './InspectionGroupApi';
 export * from './InspectionSheetsApi';
 export * from './InspectionTypeApi';

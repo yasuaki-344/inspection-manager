@@ -5,6 +5,155 @@ info:
 servers:
   - url: http://localhost:5000
 paths:
+  /api/v1/choice-templates:
+    get:
+      tags:
+        - ChoiceTemplate
+      summary: 点検種別の一覧を取得する
+      responses:
+        '200':
+          description: 取得に成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChoiceTemplate'
+        '500':
+          description: サーバー内部エラー
+    post:
+      tags:
+        - ChoiceTemplate
+      summary: 点検種別を作成する
+      requestBody:
+        description: 作成用点検種別データ
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChoiceTemplate'
+        required: true
+      responses:
+        '201':
+          description: 作成に成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChoiceTemplate'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
+  '/api/v1/choice-templates/{id}':
+    get:
+      tags:
+        - ChoiceTemplate
+      summary: 指定の点検種別を取得する
+      parameters:
+        - name: id
+          in: path
+          description: 指定の点検種別に紐づくID
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 取得に成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChoiceTemplate'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: 対象リソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
+    put:
+      tags:
+        - ChoiceTemplate
+      summary: 指定の点検種別を更新する
+      parameters:
+        - name: id
+          in: path
+          description: 指定の点検種別に紐づくID
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: 更新用点検種別データ
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChoiceTemplate'
+        required: true
+      responses:
+        '201':
+          description: 更新に成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChoiceTemplate'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: 対象リソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
+    delete:
+      tags:
+        - ChoiceTemplate
+      summary: 指定の点検種別を削除する
+      parameters:
+        - name: id
+          in: path
+          description: 指定の点検種別に紐づくID
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 削除に成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChoiceTemplate'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: 対象リソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
   /inspection-sheets:
     get:
       tags:
@@ -271,188 +420,6 @@ paths:
                 $ref: '#/components/schemas/ProblemDetails'
         '500':
           description: サーバー内部エラー
-  /choice-templates:
-    get:
-      tags:
-        - choice templates
-      summary: Get all choice templates.
-      description: Returns an array of ChoiceTemplate model
-      parameters: []
-      responses:
-        "200":
-          description: A JSON array of ChoiceTemplate model
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ChoiceTemplate"
-                example:
-                  - id: 1
-                    choices:
-                      - id: 1
-                        description: OK
-                      - id: 2
-                        description: NG
-                  - id: 2
-                    choices:
-                      - id: 3
-                        description: Yes
-                      - id: 4
-                        description: No
-                      - id: 5
-                        description: Unknown
-        "500":
-          description: システムエラー Internal Server Error
-    post:
-      tags:
-        - choice templates
-      summary: Create a new ChoiceTemplate
-      description: Create a new ChoiceTemplate
-      parameters: []
-      requestBody:
-        description: ""
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ChoiceTemplate"
-            example:
-              id: 0
-              choices:
-                - id: 1
-                  description: OK
-                - id: 2
-                  description: NG
-      responses:
-        "201":
-          description: 正常系（同期）Created
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ChoiceTemplate"
-                example:
-                  id: 1
-                  choices:
-                    - id: 1
-                      description: OK
-                    - id: 2
-                      description: NG
-        "400":
-          description: バリデーションエラー or 業務エラー Bad Request
-        "500":
-          description: システムエラー Internal Server Error
-  /choice-templates/{id}:
-    get:
-      tags:
-        - choice templates
-      summary: Get choiceTemplate by ID.
-      description: Returns a single ChoiceTemplate model
-      parameters:
-        - name: id
-          in: path
-          description: choice template ID
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: A single ChoiceTemplate model
-          content:
-            application/json:
-              schema:
-                type: object
-                items:
-                  $ref: "#/components/schemas/ChoiceTemplate"
-                example:
-                  id: 1
-                  choices:
-                    - id: 1
-                      description: OK
-                    - id: 2
-                      description: NG
-        "400":
-          description: バリデーションエラー or 業務エラー Bad Request
-        "404":
-          description: 対象リソースが存在しない Not Found
-        "500":
-          description: システムエラー Internal Server Error
-    put:
-      tags:
-        - choice templates
-      summary: Updates a ChoiceTemplate
-      description: ""
-      parameters:
-        - name: id
-          in: path
-          description: choice template ID
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        description: choice template to update
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ChoiceTemplate"
-            example:
-              id: 1
-              choices:
-                - id: 1
-                  description: OK
-                - id: 2
-                  description: NG
-      responses:
-        "201":
-          description: 正常系（非同期）Created
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ChoiceTemplate"
-              example:
-                id: 1
-                choices:
-                  - id: 1
-                    description: OK
-                  - id: 2
-                    description: NG
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "ChoiceTemplate not found"
-        "500":
-          description: システムエラー Internal Server Error
-    delete:
-      tags:
-        - choice templates
-      summary: Deletes a ChoiceTemplate
-      description: ""
-      parameters:
-        - name: id
-          in: path
-          description: choice template ID
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: The specified ChoiceTemplate model is deleted
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ChoiceTemplate"
-              example:
-                id: 1
-                choices:
-                  - id: 1
-                    description: OK
-                  - id: 2
-                    description: NG
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "ChoiceTemplate not found"
-        "500":
-          description: システムエラー Internal Server Error
   /api/v1/inspection-types:
     get:
       tags:
