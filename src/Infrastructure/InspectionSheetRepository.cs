@@ -79,13 +79,11 @@ public class InspectionSheetRepository : IInspectionSheetRepository
     public async Task<InspectionSheetDto> CreateInspectionSheetAsync(InspectionSheetDto dto)
     {
         var entity = _mapper.Map<InspectionSheet>(dto);
-        ReferRelationalEntities(entity);
 
         await _context.InspectionSheets.AddAsync(entity);
         await _context.SaveChangesAsync();
 
         var result = _mapper.Map<InspectionSheetDto>(entity);
-        SortRelationalEntities(result);
         return result;
     }
 
