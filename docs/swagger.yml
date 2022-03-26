@@ -122,152 +122,153 @@ paths:
           description: "Not found"
         "500":
           description: "Internal Server Error"
-  /inspection-groups:
+  /api/v1/inspection-groups:
     get:
       tags:
-        - inspection groups
-      summary: Get all inspection groups.
-      description: ""
-      parameters: []
+        - InspectionGroup
+      summary: 点検グループの一覧を取得する
       responses:
-        "200":
-          description: A JSON array of InspectionGroup model
+        '200':
+          description: 取得に成功
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/InspectionGroup"
-                example:
-                  - id: 1
-                    description: group1
-                  - id: 2
-                    description: group2
-        "500":
-          description: システムエラー Internal Server Error
+                $ref: '#/components/schemas/InspectionGroup'
+        '500':
+          description: サーバー内部エラー
     post:
       tags:
-        - inspection groups
-      summary: Create a new InspectionGroup model
-      description: ""
-      parameters: []
+        - InspectionGroup
+      summary: 点検グループを作成する
       requestBody:
-        description: inspection group to create
+        description: 作成用点検グループデータ
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InspectionGroup"
-            example:
-              id: 0
-              name: new group
+              $ref: '#/components/schemas/InspectionGroup'
+        required: true
       responses:
-        "201":
-          description: Single InspectionGroup model
+        '201':
+          description: 作成に成功
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InspectionGroup"
-              example:
-                id: 1
-                description: inspection group
-        "400":
-          description: バリデーションエラー or 業務エラー Bad Request
-        "500":
-          description: システムエラー Internal Server Error
-  /inspection-groups/{id}:
+                $ref: '#/components/schemas/InspectionGroup'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
+  '/api/v1/inspection-groups/{id}':
     get:
       tags:
-        - inspection groups
-      summary: Get InspectionGroup model by ID.
-      description: ""
+        - InspectionGroup
+      summary: 指定の点検グループを取得する
       parameters:
         - name: id
           in: path
-          description: inspection group ID to get
+          description: 指定の点検グループに紐づくID
           required: true
           schema:
             type: integer
+            format: int32
       responses:
-        "200":
-          description: A single InspectionGroup model
+        '200':
+          description: 取得に成功
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InspectionGroup"
-              example:
-                id: 1
-                description: group name
-        "400":
-          description: IDが設定されていない Bad Request
-        "404":
-          description: 対象リソースが存在しない Not Found
-        "500":
-          description: システムエラー Internal Server Error
+                $ref: '#/components/schemas/InspectionGroup'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: 対象リソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
     put:
       tags:
-        - inspection groups
-      summary: Updates the InspectionGroup model.
-      description: ""
+        - InspectionGroup
+      summary: 指定の点検グループを更新する
       parameters:
         - name: id
           in: path
-          description: inspection group ID to update
+          description: 指定の点検グループに紐づくID
           required: true
           schema:
             type: integer
+            format: int32
       requestBody:
-        description: inspection group to update
+        description: 更新用点検グループデータ
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InspectionGroup"
-            example:
-              id: 1
-              description: group name
+              $ref: '#/components/schemas/InspectionGroup'
+        required: true
       responses:
-        "201":
-          description: 正常系（非同期）Created
+        '201':
+          description: 更新に成功
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InspectionGroup"
-              example:
-                id: 1
-                description: updated group name
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Not found"
-        "500":
-          description: "Internal Server Error"
+                $ref: '#/components/schemas/InspectionGroup'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: 対象リソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
     delete:
       tags:
-        - inspection groups
-      summary: Deletes the InspectionGroup model.
-      description: ""
+        - InspectionGroup
+      summary: 指定の点検グループを削除する
       parameters:
         - name: id
           in: path
-          description: inspection group ID to delete
+          description: 指定の点検グループに紐づくID
           required: true
           schema:
             type: integer
+            format: int32
       responses:
-        "200":
-          description: The specified InspectionGroup model is deleted
+        '200':
+          description: 削除に成功
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InspectionGroup"
-              example:
-                id: 1
-                description: deleted group name
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Not found"
-        "500":
-          description: "Internal Server Error"
+                $ref: '#/components/schemas/InspectionGroup'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: 対象リソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
   /choice-templates:
     get:
       tags:
