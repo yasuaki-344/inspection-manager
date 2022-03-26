@@ -3,7 +3,6 @@ import {
   InspectionSheetAction,
   InspectionSheetInitialState,
   InspectionSheetReducer,
-  SHEET_ACTION_TYPE,
 } from "../entities";
 import {
   IInspectionSheetInteractor,
@@ -114,7 +113,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   /** @inheritdoc */
   setSheet(sheet: InspectionSheet): void {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.SET_SHEET,
+      type: "SET_SHEET",
       payload: { sheet },
     });
   }
@@ -127,7 +126,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   /** @inheritdoc */
   setSheetName(sheetName: string): void {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.SET_STRING_FIELD,
+      type: "SET_STRING_FIELD",
       payload: {
         name: "sheetName",
         stringValue: sheetName,
@@ -138,7 +137,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   /** @inheritdoc */
   setGroupId(groupId: number): void {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.SET_NUMERIC_FIELD,
+      type: "SET_NUMERIC_FIELD",
       payload: {
         name: "inspectionGroupId",
         numericValue: groupId,
@@ -149,7 +148,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   /** @inheritdoc */
   setTypeId(typeId: number): void {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.SET_NUMERIC_FIELD,
+      type: "SET_NUMERIC_FIELD",
       payload: {
         name: "inspectionTypeId",
         numericValue: typeId,
@@ -160,7 +159,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   /** @inheritdoc */
   addEquipment(): void {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.ADD_EQUIPMENT,
+      type: "ADD_EQUIPMENT",
       payload: {},
     });
   }
@@ -168,7 +167,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   /** @inheritdoc */
   removeEquipment(orderIndex: number): void {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.REMOVE_EQUIPMENT,
+      type: "REMOVE_EQUIPMENT",
       payload: {
         numericValue: orderIndex,
       },
@@ -178,7 +177,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   /** @inheritdoc */
   swapEquipments(srcOrderIndex: number, dstOrderIndex: number): void {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.SWAP_EQUIPMENTS,
+      type: "SWAP_EQUIPMENTS",
       payload: {
         srcOrderIndex,
         dstOrderIndex,
@@ -189,7 +188,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   /** @inheritdoc */
   setEquipmentName(orderIndex: number, name: string): void {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.SET_EQUIPMENT_STRING_FIELD,
+      type: "SET_EQUIPMENT_STRING_FIELD",
       payload: {
         equipmentOrderIndex: orderIndex,
         name: "equipmentName",
@@ -223,7 +222,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   /** @inheritdoc */
   addInspectionItem(index: number, item: InspectionItem): void {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM,
+      type: "ADD_INSPECTION_ITEM",
       payload: {
         equipmentOrderIndex: index,
         inspectionItem: item,
@@ -237,7 +236,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     itemOrderIndex: number
   ): void {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.REMOVE_INSPECTION_ITEM,
+      type: "REMOVE_INSPECTION_ITEM",
       payload: {
         equipmentOrderIndex,
         itemOrderIndex,
@@ -251,7 +250,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     item: InspectionItem
   ): void {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.UPDATE_INSPECTION_ITEM,
+      type: "UPDATE_INSPECTION_ITEM",
       payload: {
         equipmentOrderIndex,
         itemOrderIndex,
@@ -266,7 +265,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     dstOrderIndex: number
   ) {
     this.dispatch({
-      type: SHEET_ACTION_TYPE.SWAP_INSPECTION_ITEMS,
+      type: "SWAP_INSPECTION_ITEMS",
       payload: {
         equipmentOrderIndex,
         srcOrderIndex,

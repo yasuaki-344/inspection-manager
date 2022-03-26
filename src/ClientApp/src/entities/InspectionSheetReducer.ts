@@ -32,33 +32,32 @@ export const InspectionSheetInitialState: InspectionSheet = {
   equipments: [],
 };
 
-export const SHEET_ACTION_TYPE = {
-  SET_SHEET: "SET_SHEET",
-  SET_STRING_FIELD: "SET_STRING_FIELD",
-  SET_NUMERIC_FIELD: "SET_NUMERIC_FIELD",
-  ADD_EQUIPMENT: "ADD_EQUIPMENT",
-  REMOVE_EQUIPMENT: "REMOVE_EQUIPMENT",
-  SWAP_EQUIPMENTS: "SWAP_EQUIPMENTS",
-  SET_EQUIPMENT_STRING_FIELD: "SET_EQUIPMENT_STRING_FIELD",
-  ADD_INSPECTION_ITEM: "ADD_INSPECTION_ITEM",
-  REMOVE_INSPECTION_ITEM: "REMOVE_INSPECTION_ITEM",
-  SWAP_INSPECTION_ITEMS: "SWAP_INSPECTION_ITEMS",
-  UPDATE_INSPECTION_ITEM: "UPDATE_INSPECTION_ITEM",
-};
+export type SHEET_ACTION_TYPE =
+  | "SET_SHEET"
+  | "SET_STRING_FIELD"
+  | "SET_NUMERIC_FIELD"
+  | "ADD_EQUIPMENT"
+  | "REMOVE_EQUIPMENT"
+  | "SWAP_EQUIPMENTS"
+  | "SET_EQUIPMENT_STRING_FIELD"
+  | "ADD_INSPECTION_ITEM"
+  | "REMOVE_INSPECTION_ITEM"
+  | "SWAP_INSPECTION_ITEMS"
+  | "UPDATE_INSPECTION_ITEM"
 
 export function InspectionSheetReducer(
   state: InspectionSheet,
   action: InspectionSheetAction
 ): InspectionSheet {
   switch (action.type) {
-    case SHEET_ACTION_TYPE.SET_SHEET: {
+    case "SET_SHEET": {
       const { sheet } = action.payload;
       if (sheet != null) {
         return sheet;
       }
       return state;
     }
-    case SHEET_ACTION_TYPE.SET_STRING_FIELD: {
+    case "SET_STRING_FIELD": {
       const { name, stringValue } = action.payload;
       if (name != null && stringValue != null) {
         return {
@@ -68,7 +67,7 @@ export function InspectionSheetReducer(
       }
       return state;
     }
-    case SHEET_ACTION_TYPE.SET_NUMERIC_FIELD: {
+    case "SET_NUMERIC_FIELD": {
       const { name, numericValue } = action.payload;
       if (name != null && numericValue != null) {
         return {
@@ -78,7 +77,7 @@ export function InspectionSheetReducer(
       }
       return state;
     }
-    case SHEET_ACTION_TYPE.ADD_EQUIPMENT: {
+    case "ADD_EQUIPMENT": {
       const { equipments } = state;
       const maxOrderIndex = !equipments.length
         ? 0
@@ -97,7 +96,7 @@ export function InspectionSheetReducer(
         equipments: equipments.concat(newEquipment),
       };
     }
-    case SHEET_ACTION_TYPE.REMOVE_EQUIPMENT: {
+    case "REMOVE_EQUIPMENT": {
       const { numericValue } = action.payload;
       if (numericValue != null) {
         return {
@@ -109,7 +108,7 @@ export function InspectionSheetReducer(
       }
       return state;
     }
-    case SHEET_ACTION_TYPE.SWAP_EQUIPMENTS: {
+    case "SWAP_EQUIPMENTS": {
       const { srcOrderIndex, dstOrderIndex } = action.payload;
       if (srcOrderIndex != null && dstOrderIndex != null) {
         let { equipments } = state;
@@ -137,7 +136,7 @@ export function InspectionSheetReducer(
       }
       return state;
     }
-    case SHEET_ACTION_TYPE.SET_EQUIPMENT_STRING_FIELD: {
+    case "SET_EQUIPMENT_STRING_FIELD": {
       const { equipmentOrderIndex, name, stringValue } = action.payload;
       if (equipmentOrderIndex != null && name != null && stringValue != null) {
         const { equipments } = state;
@@ -155,7 +154,7 @@ export function InspectionSheetReducer(
       }
       return state;
     }
-    case SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM: {
+    case "ADD_INSPECTION_ITEM": {
       const { equipmentOrderIndex, inspectionItem } = action.payload;
       if (equipmentOrderIndex != null && inspectionItem != null) {
         const { equipments } = state;
@@ -187,7 +186,7 @@ export function InspectionSheetReducer(
       }
       return state;
     }
-    case SHEET_ACTION_TYPE.REMOVE_INSPECTION_ITEM: {
+    case "REMOVE_INSPECTION_ITEM": {
       const { equipmentOrderIndex, itemOrderIndex } = action.payload;
       if (equipmentOrderIndex != null && itemOrderIndex != null) {
         return {
@@ -207,7 +206,7 @@ export function InspectionSheetReducer(
       }
       return state;
     }
-    case SHEET_ACTION_TYPE.SWAP_INSPECTION_ITEMS: {
+    case "SWAP_INSPECTION_ITEMS": {
       const { equipmentOrderIndex, srcOrderIndex, dstOrderIndex } =
         action.payload;
       if (
@@ -249,7 +248,7 @@ export function InspectionSheetReducer(
       }
       return state;
     }
-    case SHEET_ACTION_TYPE.UPDATE_INSPECTION_ITEM: {
+    case "UPDATE_INSPECTION_ITEM": {
       const { equipmentOrderIndex, itemOrderIndex, inspectionItem } =
         action.payload;
       if (
