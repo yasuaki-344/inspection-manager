@@ -600,27 +600,6 @@ paths:
           description: システムエラー Internal Server Error
 components:
   schemas:
-    Equipment:
-      required:
-        - equipment_id
-        - equipment_name
-        - inspection_items
-        - order_index
-      type: object
-      properties:
-        equipment_id:
-          type: integer
-          format: int32
-        order_index:
-          type: integer
-          format: int32
-        equipment_name:
-          type: string
-        inspection_items:
-          type: array
-          items:
-            $ref: '#/components/schemas/InspectionItem'
-      additionalProperties: false
     Choice:
       type: object
       required:
@@ -649,6 +628,27 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Option"
+    Equipment:
+      required:
+        - equipment_id
+        - equipment_name
+        - inspection_items
+        - order_index
+      type: object
+      properties:
+        equipment_id:
+          type: integer
+          format: int32
+        order_index:
+          type: integer
+          format: int32
+        equipment_name:
+          type: string
+        inspection_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/InspectionItem'
+      additionalProperties: false
     InspectionGroup:
       required:
         - description
