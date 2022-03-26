@@ -16,10 +16,7 @@ import nameof from "ts-nameof.macro";
 import { ChoiceSetSelectDialog } from "./ChoiceSetSelectDialog";
 import { CancelIconButton, OkCancelDialogActions } from "../utilities";
 import { DialogTitleDesign, InputStyle } from "../stylesheets";
-import {
-  IInspectionSheetPresenter,
-  IInspectionSheetController,
-} from "../../interfaces";
+import { IInspectionItemInteractor } from "../../interfaces";
 import { useDIContext } from "../../container";
 import { Choice, useInputTypes } from "../../entities";
 
@@ -33,18 +30,16 @@ export const InspectionItemDialog = (
   props: InspectionDialogProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const controller: IInspectionSheetController = inject(
-    nameof<IInspectionSheetController>()
+  const itemUseCase: IInspectionItemInteractor = inject(
+    nameof<IInspectionItemInteractor>()
   );
-  const presenter: IInspectionSheetPresenter = inject(
-    nameof<IInspectionSheetPresenter>()
-  );
+
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
-    setDisabled(!presenter.isValidInspectionItem());
-  }, [presenter.item]);
+    setDisabled(!itemUseCase.isValidInspectionItem());
+  }, [itemUseCase.inspectionItem]);
 
   return (
     <>
@@ -62,8 +57,11 @@ export const InspectionItemDialog = (
                 variant="outlined"
                 size="small"
                 name="inspectionContent"
-                value={presenter.item.inspectionContent}
-                onChange={controller.updateInspectionItemField}
+                value={itemUseCase.inspectionItem.inspectionContent}
+                onChange={(e) => {
+                  const { name, value } = e.target;
+                  itemUseCase.updateField(name, value);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -76,8 +74,11 @@ export const InspectionItemDialog = (
                 variant="outlined"
                 size="small"
                 name="inputType"
-                value={presenter.item.inputType}
-                onChange={controller.updateInspectionItemField}
+                value={itemUseCase.inspectionItem.inputType}
+                onChange={(e) => {
+                  const { name, value } = e.target;
+                  itemUseCase.updateField(name, value);
+                }}
               >
                 {useInputTypes.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -86,44 +87,42 @@ export const InspectionItemDialog = (
                 ))}
               </TextField>
             </Grid>
-            {presenter.item.inputType !== 3 ? (
+            {itemUseCase.inspectionItem.inputType !== 3 ? (
               <></>
             ) : (
               <>
-                {presenter.item.choices.map((choice: Choice, index: number) => (
-                  <Grid item xs={12} key={choice.orderIndex}>
-                    <Box sx={InputStyle}>
-                      <TextField
-                        required
-                        id="outlined-required"
-                        label={`選択肢${index + 1}`}
-                        variant="outlined"
-                        size="small"
-                        name="choice"
-                        value={choice.description}
-                        onChange={(e) =>
-                          controller.updateInspectionItemChoiceField(
-                            e,
-                            choice.orderIndex
-                          )
-                        }
-                      />
-                      <CancelIconButton
-                        onClick={() =>
-                          controller.removeInspectionItemChoice(
-                            choice.orderIndex
-                          )
-                        }
-                      />
-                    </Box>
-                  </Grid>
-                ))}
+                {itemUseCase.inspectionItem.choices.map(
+                  (choice: Choice, index: number) => (
+                    <Grid item xs={12} key={choice.orderIndex}>
+                      <Box sx={InputStyle}>
+                        <TextField
+                          required
+                          id="outlined-required"
+                          label={`選択肢${index + 1}`}
+                          variant="outlined"
+                          size="small"
+                          name="choice"
+                          value={choice.description}
+                          onChange={(e) => {
+                            const { value } = e.target;
+                            itemUseCase.updateChoice(choice.orderIndex, value);
+                          }}
+                        />
+                        <CancelIconButton
+                          onClick={() =>
+                            itemUseCase.removeChoice(choice.orderIndex)
+                          }
+                        />
+                      </Box>
+                    </Grid>
+                  )
+                )}
                 <Grid item xs={12}>
                   <BottomNavigation showLabels>
                     <BottomNavigationAction
                       label="選択肢追加"
                       icon={<AddCircleIcon />}
-                      onClick={() => controller.addInspectionItemChoice()}
+                      onClick={() => itemUseCase.addChoice()}
                     />
                     <BottomNavigationAction
                       label="テンプレート選択"

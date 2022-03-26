@@ -20,16 +20,45 @@ import EditIcon from "@mui/icons-material/Edit";
 import DetailsIcon from "@mui/icons-material/Details";
 import nameof from "ts-nameof.macro";
 import { InspectionSheet, InspectionSheetInitialState } from "../../entities";
-import { IHomePresenter, IHomeController } from "../../interfaces";
+import {
+  IInspectionGroupInteractor,
+  IInspectionTypeInteractor,
+  IInspectionSheetInteractor,
+} from "../../interfaces";
 import { CancelIconButton } from "../utilities";
 import { SheetSearchMenu } from "../SheetSearchMenu";
 import { SheetDeleteConfirmationDialog } from "../dialog/SheetDeleteConfirmationDialog";
 import { useDIContext } from "../../container";
 
+const exportInspectionSheet = (exportUrl: string, fileName: string): void => {
+  fetch(exportUrl)
+    .then((response) => response.blob())
+    .then((blob) => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      document.body.appendChild(a);
+      a.download = fileName;
+      a.href = url;
+      a.click();
+      a.remove();
+      setTimeout(() => {
+        URL.revokeObjectURL(url);
+      }, 1e4);
+    })
+    .catch(console.error);
+};
+
 export const Home: FC = (): JSX.Element => {
   const inject = useDIContext();
-  const controller: IHomeController = inject(nameof<IHomeController>());
-  const presenter: IHomePresenter = inject(nameof<IHomePresenter>());
+  const groupUseCase: IInspectionGroupInteractor = inject(
+    nameof<IInspectionGroupInteractor>()
+  );
+  const typeUseCase: IInspectionTypeInteractor = inject(
+    nameof<IInspectionTypeInteractor>()
+  );
+  const sheetUseCase: IInspectionSheetInteractor = inject(
+    nameof<IInspectionSheetInteractor>()
+  );
 
   const [open, setOpen] = useState(false);
   const [targetSheet, setTargetSheet] = useState<InspectionSheet>(
@@ -45,8 +74,11 @@ export const Home: FC = (): JSX.Element => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    controller
-      .fetchDisplayData()
+    Promise.all([
+      typeUseCase.fetchInspectionTypes(),
+      groupUseCase.fetchInspectionGroups(),
+      sheetUseCase.fetchAllInspectionSheets(),
+    ])
       .then(() => {
         setLoading(false);
       })
@@ -71,11 +103,13 @@ export const Home: FC = (): JSX.Element => {
    */
   const handleSearch = () => {
     const { inspectionGroup, inspectionType, sheetName } = searchOption;
-    controller.searchInspectionSheet(
-      inspectionGroup,
-      inspectionType,
-      sheetName
-    );
+    if (inspectionGroup === "" && inspectionType === "" && sheetName === "") {
+      sheetUseCase.resetSearchedInspectionSheets();
+    } else {
+      const groupIds = groupUseCase.getIds(inspectionGroup);
+      const typeIds = typeUseCase.getIds(inspectionType);
+      sheetUseCase.searchInspectionSheet(groupIds, typeIds, sheetName);
+    }
     setPage(0);
   };
 
@@ -88,7 +122,7 @@ export const Home: FC = (): JSX.Element => {
       inspectionGroup: "",
       inspectionType: "",
     });
-    controller.searchInspectionSheet("", "", "");
+    sheetUseCase.resetSearchedInspectionSheets();
     setPage(0);
   };
 
@@ -99,7 +133,9 @@ export const Home: FC = (): JSX.Element => {
 
   const handleDelete = () => {
     setOpen(false);
-    controller.removeInspectionSheet(targetSheet.sheetId).catch(console.error);
+    sheetUseCase
+      .removeInspectionSheet(targetSheet.sheetId)
+      .catch(console.error);
   };
 
   /**
@@ -151,7 +187,7 @@ export const Home: FC = (): JSX.Element => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {presenter.inspectionSheets
+          {sheetUseCase.filteredSheets
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((sheet: InspectionSheet) => (
               <TableRow key={sheet.sheetId}>
@@ -161,16 +197,22 @@ export const Home: FC = (): JSX.Element => {
                     aria-label="outlined button group"
                   >
                     <Button
-                      onClick={() =>
-                        controller.exportExcelInspectionSheet(sheet)
-                      }
+                      onClick={() => {
+                        exportInspectionSheet(
+                          `v1/excel-inspection-sheets/${sheet.sheetId}`,
+                          `${sheet.sheetName}.xlsx`
+                        );
+                      }}
                     >
                       Excel
                     </Button>
                     <Button
-                      onClick={() =>
-                        controller.exportJsonInspectionSheet(sheet)
-                      }
+                      onClick={() => {
+                        exportInspectionSheet(
+                          `v1/json-inspection-sheets/${sheet.sheetId}`,
+                          `${sheet.sheetName}.json`
+                        );
+                      }}
                     >
                       JSON
                     </Button>
@@ -178,10 +220,10 @@ export const Home: FC = (): JSX.Element => {
                 </TableCell>
                 <TableCell>{sheet.sheetName}</TableCell>
                 <TableCell>
-                  {presenter.getGroupName(sheet.inspectionGroupId)}
+                  {groupUseCase.getName(sheet.inspectionGroupId)}
                 </TableCell>
                 <TableCell>
-                  {presenter.getTypeName(sheet.inspectionTypeId)}
+                  {typeUseCase.getName(sheet.inspectionTypeId)}
                 </TableCell>
                 <TableCell padding="checkbox">
                   <Link to={`/edit/${sheet.sheetId}`}>
@@ -202,7 +244,7 @@ export const Home: FC = (): JSX.Element => {
       </Table>
       <TablePagination
         component="div"
-        count={presenter.inspectionSheets.length}
+        count={sheetUseCase.filteredSheets.length}
         page={page}
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
@@ -246,8 +288,8 @@ export const Home: FC = (): JSX.Element => {
       <SheetDeleteConfirmationDialog
         open={open}
         sheetName={targetSheet.sheetName}
-        groupName={presenter.getGroupName(targetSheet.inspectionGroupId)}
-        typeName={presenter.getTypeName(targetSheet.inspectionTypeId)}
+        groupName={groupUseCase.getName(targetSheet.inspectionGroupId)}
+        typeName={typeUseCase.getName(targetSheet.inspectionTypeId)}
         onDeleteClick={handleDelete}
         onCancelClick={() => setOpen(false)}
       />

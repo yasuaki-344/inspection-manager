@@ -8,35 +8,42 @@ import {
   NotificationStateInteractor,
   TopPageLink,
 } from "../utilities";
-import {
-  IInspectionSheetController,
-  IInspectionSheetPresenter,
-} from "../../interfaces";
 import { useDIContext } from "../../container";
+import {
+  IInspectionGroupInteractor,
+  IInspectionSheetInteractor,
+  IInspectionTypeInteractor,
+} from "../../interfaces";
 
 export const Edit: FC = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
 
   const inject = useDIContext();
-  const controller: IInspectionSheetController = inject(
-    nameof<IInspectionSheetController>()
+  const sheetUseCase: IInspectionSheetInteractor = inject(
+    nameof<IInspectionSheetInteractor>()
   );
-  /* eslint-disable-next-line */
-  const presenter: IInspectionSheetPresenter = inject(
-    nameof<IInspectionSheetPresenter>()
+  const groupUseCase: IInspectionGroupInteractor = inject(
+    nameof<IInspectionGroupInteractor>()
   );
+  const typeUseCase: IInspectionTypeInteractor = inject(
+    nameof<IInspectionTypeInteractor>()
+  );
+
   const [loading, setLoading] = useState(true);
   const notification = new NotificationStateInteractor(
     useState(NotificationInitState)
   );
 
   useEffect(() => {
-    controller.fetchInspectionMasterData().catch((error: any) => {
-      notification.setMessageState("error", "データの取得に失敗しました");
-      console.error(error);
-    });
-    controller
-      .fetchInspectionSheet(sheetId)
+    Promise.all([
+      groupUseCase.fetchInspectionGroups(),
+      typeUseCase.fetchInspectionTypes(),
+    ])
+      .then(([groups, types]) => {
+        sheetUseCase.setGroupId(groups[0].id);
+        sheetUseCase.setTypeId(types[0].id);
+        sheetUseCase.fetchInspectionSheetById(sheetId);
+      })
       .then(() => setLoading(false))
       .catch((error: any) => {
         notification.setMessageState("error", "データの取得に失敗しました");
@@ -46,7 +53,7 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
 
   const handleUpdate = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    controller
+    sheetUseCase
       .updateInspectionSheet()
       .then(() => {
         notification.setMessageState("success", "更新に成功しました");

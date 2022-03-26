@@ -13,8 +13,8 @@ import { ChoiceTemplate } from "../../entities";
 import { OkCancelDialogActions } from "../utilities";
 import { DialogTitleDesign } from "../stylesheets";
 import {
-  IChoiceTemplateController,
-  IChoiceTemplatePresenter,
+  IChoiceTemplateInteractor,
+  IInspectionItemInteractor,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
 
@@ -27,16 +27,17 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
   props: ChoiceSetSelectDialogProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const controller: IChoiceTemplateController = inject(
-    nameof<IChoiceTemplateController>()
+  const useCase: IChoiceTemplateInteractor = inject(
+    nameof<IChoiceTemplateInteractor>()
   );
-  const templatePresenter: IChoiceTemplatePresenter = inject(
-    nameof<IChoiceTemplatePresenter>()
+  const itemUseCase: IInspectionItemInteractor = inject(
+    nameof<IInspectionItemInteractor>()
   );
+
   const [value, setValue] = useState(0);
 
   useEffect(() => {
-    controller.getAllChoiceTemplates();
+    useCase.fetchAllChoiceTemplates();
   }, []);
 
   /**
@@ -52,7 +53,10 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
    * and closes this dialog.
    */
   const handleSelectTemplate = () => {
-    controller.applyTemplate(value);
+    const template = useCase.templates[value];
+    if (template != null) {
+      itemUseCase.setChoices(template);
+    }
     props.onClose();
   };
 
@@ -62,7 +66,7 @@ export const ChoiceSetSelectDialog: FC<ChoiceSetSelectDialogProps> = (
       <DialogContent>
         <FormControl component="fieldset">
           <RadioGroup value={value} onChange={handleChange}>
-            {templatePresenter.state.map(
+            {useCase.templates.map(
               (template: ChoiceTemplate, index: number) => (
                 <FormControlLabel
                   key={template.id}

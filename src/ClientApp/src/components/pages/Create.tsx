@@ -18,18 +18,23 @@ import {
 } from "../utilities";
 import { OriginalSheetSelectDialog } from "../dialog";
 import {
-  IInspectionSheetController,
-  IInspectionSheetPresenter,
+  IInspectionGroupInteractor,
+  IInspectionSheetInteractor,
+  IInspectionTypeInteractor,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
+import { InspectionSheetInitialState } from "../../entities";
 
 export const Create: FC = (): JSX.Element => {
   const inject = useDIContext();
-  const controller: IInspectionSheetController = inject(
-    nameof<IInspectionSheetController>()
+  const sheetUseCase: IInspectionSheetInteractor = inject(
+    nameof<IInspectionSheetInteractor>()
   );
-  const presenter: IInspectionSheetPresenter = inject(
-    nameof<IInspectionSheetPresenter>()
+  const groupUseCase: IInspectionGroupInteractor = inject(
+    nameof<IInspectionGroupInteractor>()
+  );
+  const typeUseCase: IInspectionTypeInteractor = inject(
+    nameof<IInspectionTypeInteractor>()
   );
 
   const [open, setOpen] = useState(false);
@@ -39,9 +44,15 @@ export const Create: FC = (): JSX.Element => {
   );
 
   useEffect(() => {
-    controller.initializeInspectionSheet();
-    controller
-      .fetchInspectionMasterData()
+    sheetUseCase.setSheet(InspectionSheetInitialState);
+    Promise.all([
+      groupUseCase.fetchInspectionGroups(),
+      typeUseCase.fetchInspectionTypes(),
+    ])
+      .then(([groups, types]) => {
+        sheetUseCase.setGroupId(groups[0].id);
+        sheetUseCase.setTypeId(types[0].id);
+      })
       .then(() => setLoading(false))
       .catch((error) => {
         notification.setMessageState("error", "データの取得に失敗しました");
@@ -50,7 +61,7 @@ export const Create: FC = (): JSX.Element => {
   }, []);
 
   const handleSheetSelectionDialog = () => {
-    controller.fetchSelectionSheets().then(() => {
+    sheetUseCase.fetchAllInspectionSheets().then(() => {
       setOpen(true);
     });
   };
@@ -60,7 +71,7 @@ export const Create: FC = (): JSX.Element => {
    * @param sheetId Sheet ID of inspection sheet to set.
    */
   const handleSelectSheet = (sheetId: number) => {
-    controller.copyInspectionSheet(sheetId).catch((error) => {
+    sheetUseCase.copyInspectionSheetFrom(sheetId).catch((error) => {
       notification.setMessageState(
         "error",
         `データの取得に失敗しました (ID:${sheetId})`
@@ -72,8 +83,19 @@ export const Create: FC = (): JSX.Element => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    controller
+    sheetUseCase
       .createInspectionSheet()
+      .then(() => {
+        sheetUseCase.setSheet({
+          sheetId: 0,
+          sheetName: "",
+          inspectionGroupId: groupUseCase.groups[0].id,
+          inspectionTypeId: typeUseCase.types[0].id,
+          inspectionGroup: "",
+          inspectionType: "",
+          equipments: [],
+        });
+      })
       .then(() => {
         notification.setMessageState("success", "登録に成功しました");
       })
@@ -157,7 +179,7 @@ export const Create: FC = (): JSX.Element => {
       />
       <OriginalSheetSelectDialog
         open={open}
-        inspectionSheets={presenter.selectionSheets}
+        inspectionSheets={sheetUseCase.sheets}
         onSelectClick={handleSelectSheet}
         onCancelClick={() => setOpen(false)}
       />

@@ -6,11 +6,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import nameof from "ts-nameof.macro";
 import { useInputTypes, ItemType, InspectionItem } from "../../entities";
 import { CancelIconButton } from "../utilities";
-import { IInspectionSheetController } from "../../interfaces";
 import {
   InspectionItemDialogStateContext,
   useDIContext,
 } from "../../container";
+import {
+  IInspectionItemInteractor,
+  IInspectionSheetInteractor,
+} from "../../interfaces";
 
 interface DragItem {
   equipmentIndex: number;
@@ -27,9 +30,13 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = (
   props: InspectionItemRowProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const controller: IInspectionSheetController = inject(
-    nameof<IInspectionSheetController>()
+  const sheetUseCase: IInspectionSheetInteractor = inject(
+    nameof<IInspectionSheetInteractor>()
   );
+  const itemUseCase: IInspectionItemInteractor = inject(
+    nameof<IInspectionItemInteractor>()
+  );
+
   const [, setStatus] = useContext(InspectionItemDialogStateContext);
 
   const dropRef = useRef<HTMLTableRowElement>(null);
@@ -45,7 +52,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = (
       ) {
         return;
       }
-      controller.swapInspectionItem(
+      sheetUseCase.swapInspectionItem(
         props.equipmentIndex,
         props.inspectionItemIndex,
         item.inspectionItemIndex
@@ -68,7 +75,7 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = (
    * Implements the process for editing inspection item.
    */
   const handleEditInspectionItem = () => {
-    controller.setUpItem(props.inspectionItem);
+    itemUseCase.setItem(props.inspectionItem);
     setStatus({
       isOpen: true,
       isAdditional: false,
@@ -108,12 +115,12 @@ export const InspectionItemRow: FC<InspectionItemRowProps> = (
       </TableCell>
       <TableCell padding="checkbox">
         <CancelIconButton
-          onClick={() =>
-            controller.removeInspectionItem(
+          onClick={() => {
+            sheetUseCase.removeInspectionItem(
               props.equipmentIndex,
               props.inspectionItemIndex
-            )
-          }
+            );
+          }}
         />
       </TableCell>
     </TableRow>

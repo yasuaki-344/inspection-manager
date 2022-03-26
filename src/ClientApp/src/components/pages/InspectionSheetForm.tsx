@@ -14,8 +14,10 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import nameof from "ts-nameof.macro";
 import { InspectionItemDialog } from "../dialog";
 import {
-  IInspectionSheetPresenter,
-  IInspectionSheetController,
+  IInspectionGroupInteractor,
+  IInspectionItemInteractor,
+  IInspectionSheetInteractor,
+  IInspectionTypeInteractor,
 } from "../../interfaces";
 import {
   InspectionItemDialogStateContext,
@@ -33,12 +35,19 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   props: InspectionSheetFormProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const controller: IInspectionSheetController = inject(
-    nameof<IInspectionSheetController>()
+  const groupUseCase: IInspectionGroupInteractor = inject(
+    nameof<IInspectionGroupInteractor>()
   );
-  const presenter: IInspectionSheetPresenter = inject(
-    nameof<IInspectionSheetPresenter>()
+  const typeUseCase: IInspectionTypeInteractor = inject(
+    nameof<IInspectionTypeInteractor>()
   );
+  const sheetUseCase: IInspectionSheetInteractor = inject(
+    nameof<IInspectionSheetInteractor>()
+  );
+  const itemUseCase: IInspectionItemInteractor = inject(
+    nameof<IInspectionItemInteractor>()
+  );
+
   const [status, setStatus] = useContext(InspectionItemDialogStateContext);
 
   /**
@@ -46,11 +55,14 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
    */
   const handleInspectionItem = () => {
     if (status.isAdditional) {
-      controller.addInspectionItem(status.equipmentOrderIndex);
+      const item = itemUseCase.inspectionItem;
+      sheetUseCase.addInspectionItem(status.equipmentOrderIndex, item);
     } else {
-      controller.updateInspectionItem(
+      const item = itemUseCase.inspectionItem;
+      sheetUseCase.updateInspectionItem(
         status.equipmentOrderIndex,
-        status.itemOrderIndex
+        status.itemOrderIndex,
+        item
       );
     }
     setStatus({ ...status, isOpen: false });
@@ -65,7 +77,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
         variant="outlined"
         size="small"
         name="sheetId"
-        defaultValue={presenter.sheetId}
+        defaultValue={sheetUseCase.sheet.sheetId}
         InputProps={{ readOnly: true }}
       />
     </Grid>
@@ -90,8 +102,11 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
               variant="outlined"
               size="small"
               name="sheetName"
-              value={presenter.sheetName}
-              onChange={controller.changeSheetName}
+              value={sheetUseCase.sheet.sheetName}
+              onChange={(e) => {
+                const name = e.target.value;
+                sheetUseCase.setSheetName(name);
+              }}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
@@ -107,10 +122,15 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
               variant="outlined"
               size="small"
               name="inspectionGroupId"
-              value={presenter.groupId}
-              onChange={controller.changeGroupId}
+              value={sheetUseCase.sheet.inspectionGroupId}
+              onChange={(e) => {
+                const id = parseInt(e.target.value, 10);
+                if (!Number.isNaN(id)) {
+                  sheetUseCase.setGroupId(id);
+                }
+              }}
             >
-              {presenter.groups.map((group: InspectionGroup) => (
+              {groupUseCase.groups.map((group: InspectionGroup) => (
                 <MenuItem key={group.id} value={group.id}>
                   {group.description}
                 </MenuItem>
@@ -125,10 +145,15 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
               variant="outlined"
               size="small"
               name="inspectionTypeId"
-              value={presenter.typeId}
-              onChange={controller.changeTypeId}
+              value={sheetUseCase.sheet}
+              onChange={(e) => {
+                const id = parseInt(e.target.value, 10);
+                if (!Number.isNaN(id)) {
+                  sheetUseCase.setTypeId(id);
+                }
+              }}
             >
-              {presenter.types.map((type: InspectionType) => (
+              {typeUseCase.types.map((type: InspectionType) => (
                 <MenuItem key={type.id} value={type.id}>
                   {type.description}
                 </MenuItem>
@@ -136,7 +161,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
             </TextField>
           </Grid>
           <Grid item xs={12} container spacing={1} sx={{ pt: 1.5 }}>
-            {presenter.equipments.map((equipment: Equipment) => (
+            {sheetUseCase.sheet.equipments.map((equipment: Equipment) => (
               <Grid item xs={12} key={equipment.orderIndex}>
                 <EquipmentForm
                   orderIndex={equipment.orderIndex}
@@ -152,7 +177,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
               <BottomNavigationAction
                 label="点検機器追加"
                 icon={<AddCircleIcon />}
-                onClick={() => controller.addEquipment()}
+                onClick={() => sheetUseCase.addEquipment()}
               />
             </BottomNavigation>
           </Grid>

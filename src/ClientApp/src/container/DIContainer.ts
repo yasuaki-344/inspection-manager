@@ -1,28 +1,14 @@
 import { createContext, useContext } from "react";
 import nameof from "ts-nameof.macro";
 import {
-  ChoiceTemplateController,
-  InspectionSheetController,
-  DetailController,
-  HomeController,
-} from "../controllers";
-import {
   ChoiceTemplateRepository,
   InspectionGroupRepository,
   InspectionSheetRepository,
   InspectionTypeRepository,
 } from "../infrastructure";
 import {
-  IChoiceTemplateController,
   IChoiceTemplateInteractor,
-  IChoiceTemplatePresenter,
   IChoiceTemplateRepository,
-  IInspectionSheetController,
-  IInspectionSheetPresenter,
-  IDetailController,
-  IDetailPresenter,
-  IHomeController,
-  IHomePresenter,
   IInspectionGroupInteractor,
   IInspectionGroupRepository,
   IInspectionItemInteractor,
@@ -31,12 +17,6 @@ import {
   IInspectionTypeInteractor,
   IInspectionTypeRepository,
 } from "../interfaces";
-import {
-  ChoiceTemplatePresenter,
-  DetailPresenter,
-  HomePresenter,
-} from "../presenters";
-import { InspectionSheetPresenter } from "../presenters/InspectionSheetPresenter";
 import {
   ChoiceTemplateInteractor,
   InspectionGroupInteractor,
@@ -107,89 +87,6 @@ export const setUpDIContainer = () => {
   register(
     nameof<IInspectionSheetInteractor>(),
     new InspectionSheetInteractor(inject(nameof<IInspectionSheetRepository>()))
-  );
-
-  // register presenter
-  register(
-    nameof<IInspectionSheetPresenter>(),
-    new InspectionSheetPresenter(
-      inject(nameof<IInspectionTypeInteractor>()) as InspectionTypeInteractor,
-      inject(
-        nameof<IInspectionGroupInteractor>()
-      ) as IInspectionGroupInteractor,
-      inject(
-        nameof<IInspectionSheetInteractor>()
-      ) as IInspectionSheetInteractor,
-      inject(nameof<IInspectionItemInteractor>()) as IInspectionItemInteractor
-    )
-  );
-  register(
-    nameof<IDetailPresenter>(),
-    new DetailPresenter(
-      inject(
-        nameof<IInspectionGroupInteractor>()
-      ) as IInspectionGroupInteractor,
-      inject(nameof<IInspectionTypeInteractor>()) as InspectionTypeInteractor,
-      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
-    )
-  );
-  register(
-    nameof<IHomePresenter>(),
-    new HomePresenter(
-      inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor,
-      inject(
-        nameof<IInspectionGroupInteractor>()
-      ) as IInspectionGroupInteractor,
-      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
-    )
-  );
-
-  // register controller
-  register(
-    nameof<IInspectionSheetController>(),
-    new InspectionSheetController(
-      inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor,
-      inject(
-        nameof<IInspectionGroupInteractor>()
-      ) as IInspectionGroupInteractor,
-      inject(
-        nameof<IInspectionSheetInteractor>()
-      ) as IInspectionSheetInteractor,
-      inject(nameof<IInspectionItemInteractor>()) as IInspectionItemInteractor
-    )
-  );
-  register(
-    nameof<IDetailController>(),
-    new DetailController(
-      inject(
-        nameof<IInspectionGroupInteractor>()
-      ) as IInspectionGroupInteractor,
-      inject(nameof<IInspectionTypeInteractor>()) as InspectionTypeInteractor,
-      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
-    )
-  );
-  register(
-    nameof<IHomeController>(),
-    new HomeController(
-      inject(nameof<IInspectionTypeInteractor>()) as IInspectionTypeInteractor,
-      inject(
-        nameof<IInspectionGroupInteractor>()
-      ) as IInspectionGroupInteractor,
-      inject(nameof<IInspectionSheetInteractor>()) as IInspectionSheetInteractor
-    )
-  );
-
-  // register presenter
-  register(
-    nameof<IChoiceTemplatePresenter>(),
-    new ChoiceTemplatePresenter(inject(nameof<IChoiceTemplateInteractor>()))
-  );
-  register(
-    nameof<IChoiceTemplateController>(),
-    new ChoiceTemplateController(
-      inject(nameof<IChoiceTemplateInteractor>()),
-      inject(nameof<IInspectionItemInteractor>())
-    )
   );
 
   return container;
