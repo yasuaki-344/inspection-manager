@@ -16,7 +16,12 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import nameof from "ts-nameof.macro";
 import { useInputTypes, Equipment, InspectionItem } from "../../entities";
 import { TopPageLink } from "../utilities";
-import { IDetailController, IDetailPresenter } from "../../interfaces";
+import {
+  IDetailController,
+  IInspectionGroupInteractor,
+  IInspectionSheetInteractor,
+  IInspectionTypeInteractor,
+} from "../../interfaces";
 import { useDIContext } from "../../container";
 
 interface InspectionItemInfoProps {
@@ -118,7 +123,17 @@ const EquipmentRow = (props: EquipmentRowProps): JSX.Element => {
 export const Details = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
   const inject = useDIContext();
-  const presenter: IDetailPresenter = inject(nameof<IDetailPresenter>());
+
+  const groupUseCase: IInspectionGroupInteractor = inject(
+    nameof<IInspectionGroupInteractor>()
+  );
+  const typeUseCase: IInspectionTypeInteractor = inject(
+    nameof<IInspectionTypeInteractor>()
+  );
+  const sheetUseCase: IInspectionSheetInteractor = inject(
+    nameof<IInspectionSheetInteractor>()
+  );
+
   const controller: IDetailController = inject(nameof<IDetailController>());
 
   const [loading, setLoading] = useState(true);
@@ -142,18 +157,20 @@ export const Details = ({ match }: any): JSX.Element => {
         </ListItem>
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText>シート名</ListItemText>
-          <Typography variant="body2">{presenter.sheetName}</Typography>
+          <Typography variant="body2">
+            {sheetUseCase.sheet.sheetName}
+          </Typography>
         </ListItem>
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText>点検グループ</ListItemText>
           <Typography variant="body2">
-            {presenter.getInspectionGroup()}
+            {groupUseCase.getName(sheetUseCase.sheet.inspectionGroupId)}
           </Typography>
         </ListItem>
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText>点検種別</ListItemText>
           <Typography variant="body2">
-            {presenter.getInspectionType()}
+            {typeUseCase.getName(sheetUseCase.sheet.inspectionTypeId)}
           </Typography>
         </ListItem>
       </List>
@@ -165,7 +182,7 @@ export const Details = ({ match }: any): JSX.Element => {
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
       >
-        {presenter.equipments.map((equipment: Equipment) => (
+        {sheetUseCase.sheet.equipments.map((equipment: Equipment) => (
           <EquipmentRow key={equipment.equipmentId} equipment={equipment} />
         ))}
       </TreeView>
