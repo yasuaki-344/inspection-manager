@@ -1,12 +1,8 @@
 import { IInspectionGroupRepository } from "../interfaces";
-import {
-  InspectionGroup,
-  InspectionGroupsApi,
-  InspectionGroupsApiInterface,
-} from "../typescript-fetch";
+import { InspectionGroup, InspectionGroupsApi } from "../typescript-fetch";
 
 export class InspectionGroupRepository implements IInspectionGroupRepository {
-  private readonly api: InspectionGroupsApiInterface;
+  private readonly api: InspectionGroupsApi;
 
   /**
    * Initializes a new instance of InspectionGroupRepository class.

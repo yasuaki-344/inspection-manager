@@ -1,12 +1,8 @@
 import { IChoiceTemplateRepository } from "../interfaces";
-import {
-  ChoiceTemplate,
-  ChoiceTemplatesApi,
-  ChoiceTemplatesApiInterface,
-} from "../typescript-fetch";
+import { ChoiceTemplate, ChoiceTemplatesApi } from "../typescript-fetch";
 
 export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
-  private readonly api: ChoiceTemplatesApiInterface;
+  private readonly api: ChoiceTemplatesApi;
 
   /**
    * Initializes a new instance of ChoiceTemplateRepository class.
@@ -26,7 +22,7 @@ export class ChoiceTemplateRepository implements IChoiceTemplateRepository {
     const res = await this.api.choiceTemplatesPost({
       choiceTemplate,
     });
-    return res
+    return res;
   }
 
   /** @inheritdoc */

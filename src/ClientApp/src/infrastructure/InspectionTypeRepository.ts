@@ -1,13 +1,8 @@
 import { IInspectionTypeRepository } from "../interfaces";
-
-import {
-  InspectionType,
-  InspectionTypesApi,
-  InspectionTypesApiInterface,
-} from "../typescript-fetch";
+import { InspectionType, InspectionTypesApi } from "../typescript-fetch";
 
 export class InspectionTypeRepository implements IInspectionTypeRepository {
-  private readonly api: InspectionTypesApiInterface;
+  private readonly api: InspectionTypesApi;
 
   constructor() {
     this.api = new InspectionTypesApi();
