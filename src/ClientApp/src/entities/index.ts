@@ -4,5 +4,4 @@ export * from "./ItemType";
 export * from "./InputTypes";
 export * from "./InspectionItemDialogState";
 export * from "./JsonKeyNameConverter";
-export * from "./Option";
 export * from "./ChoiceTemplate";

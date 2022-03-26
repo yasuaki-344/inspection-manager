@@ -728,8 +728,13 @@ components:
       type: object
       required:
         - option_id
+        - order_index
+        - description
       properties:
         option_id:
+          type: integer
+          format: int64
+        order_index:
           type: integer
           format: int64
         description:

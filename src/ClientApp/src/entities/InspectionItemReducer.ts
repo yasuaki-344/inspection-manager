@@ -1,5 +1,5 @@
-import { ChoiceTemplate, Option } from ".";
-import { Choice, InspectionItem } from "../typescript-fetch";
+import { ChoiceTemplate } from ".";
+import { Choice, InspectionItem, Option } from "../typescript-fetch";
 
 export type InspectionItemAction = {
   type: string;

@@ -1,4 +1,4 @@
-import { Option } from "./Option";
+import { Option } from "../typescript-fetch";
 
 export type ChoiceTemplate = {
   id: number;

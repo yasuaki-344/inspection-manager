@@ -1,4 +1,4 @@
-import { ChoiceTemplate } from "../../entities";
+import { ChoiceTemplate } from "../../typescript-fetch";
 
 export interface IChoiceTemplateRepository {
   /**

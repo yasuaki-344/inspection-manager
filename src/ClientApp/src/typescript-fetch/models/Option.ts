@@ -27,10 +27,16 @@ export interface Option {
     optionId: number;
     /**
      * 
+     * @type {number}
+     * @memberof Option
+     */
+    orderIndex: number;
+    /**
+     * 
      * @type {string}
      * @memberof Option
      */
-    description?: string;
+    description: string;
 }
 
 export function OptionFromJSON(json: any): Option {
@@ -44,7 +50,8 @@ export function OptionFromJSONTyped(json: any, ignoreDiscriminator: boolean): Op
     return {
         
         'optionId': json['option_id'],
-        'description': !exists(json, 'description') ? undefined : json['description'],
+        'orderIndex': json['order_index'],
+        'description': json['description'],
     };
 }
 
@@ -58,6 +65,7 @@ export function OptionToJSON(value?: Option | null): any {
     return {
         
         'option_id': value.optionId,
+        'order_index': value.orderIndex,
         'description': value.description,
     };
 }
