@@ -1,42 +1,38 @@
 import { IInspectionSheetRepository } from "../interfaces";
-import { InspectionSheet, InspectionSheetsApi } from "../typescript-fetch";
+import { InspectionSheet, InspectionSheetApi } from "../typescript-fetch";
 
 export class InspectionSheetRepository implements IInspectionSheetRepository {
-  private readonly api: InspectionSheetsApi;
+  private readonly api: InspectionSheetApi;
 
   /**
    * Initializes a new instance of InspectionSheetRepository class.
    */
   constructor() {
-    this.api = new InspectionSheetsApi();
+    this.api = new InspectionSheetApi();
   }
 
   /** @inheritdoc */
   async get(): Promise<InspectionSheet[]> {
-    const res = await this.api.inspectionSheetsGet();
+    const res = await this.api.apiV1InspectionSheetsGet();
     return res;
   }
 
   /** @inheritdoc */
   async getById(id: number): Promise<InspectionSheet> {
-    const res = await this.api.inspectionSheetsSheetIdGet({
-      sheetId: id,
-    });
+    const res = await this.api.apiV1InspectionSheetsIdGet({ id });
     return res;
   }
 
   /** @inheritdoc */
   async post(inspectionSheet: InspectionSheet): Promise<InspectionSheet> {
-    const res = await this.api.inspectionSheetsPost({
-      inspectionSheet,
-    });
+    const res = await this.api.apiV1InspectionSheetsPost({ inspectionSheet });
     return res;
   }
 
   /** @inheritdoc */
   async put(inspectionSheet: InspectionSheet): Promise<InspectionSheet> {
-    const res = await this.api.inspectionSheetsSheetIdPut({
-      sheetId: inspectionSheet.sheetId,
+    const res = await this.api.apiV1InspectionSheetsIdPut({
+      id: inspectionSheet.sheetId,
       inspectionSheet,
     });
     return res;
@@ -44,8 +40,6 @@ export class InspectionSheetRepository implements IInspectionSheetRepository {
 
   /** @inheritdoc */
   async delete(id: number): Promise<void> {
-    this.api.inspectionSheetsSheetIdDelete({
-      sheetId: id,
-    });
+    this.api.apiV1InspectionSheetsIdDelete({ id });
   }
 }
