@@ -33,8 +33,8 @@ public static class DbInitializer
                 {
                     Choices = new List<Option>
                     {
-                        new Option { Description = "選択肢1" },
-                        new Option { Description = "選択肢2" },
+                        new Option { OrderIndex = 1, Description = "選択肢1" },
+                        new Option { OrderIndex = 2, Description = "選択肢2" },
                     }
                 });
                 context.SaveChanges();
