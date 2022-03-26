@@ -1,11 +1,9 @@
-openapi: 3.0.3
+openapi: 3.0.1
 info:
-  title: API Specification
-  description: クライアント-サーバー間のデータ通信仕様
-  version: "0.4.0"
+  title: Open API
+  version: v1
 servers:
-  - url: http://localhost:5000/v1
-    description: Development server
+  - url: http://localhost:5000
 paths:
   /inspection-sheets:
     get:

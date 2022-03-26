@@ -1,7 +1,7 @@
 apis/ChoiceTemplatesApi.ts
 apis/InspectionGroupsApi.ts
 apis/InspectionSheetsApi.ts
-apis/InspectionTypesApi.ts
+apis/InspectionTypeApi.ts
 apis/index.ts
 index.ts
 models/Choice.ts
@@ -12,5 +12,6 @@ models/InspectionItem.ts
 models/InspectionSheet.ts
 models/InspectionType.ts
 models/Option.ts
+models/ProblemDetails.ts
 models/index.ts
 runtime.ts
