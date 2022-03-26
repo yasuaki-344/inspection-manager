@@ -270,155 +270,6 @@ paths:
           description: "Not found"
         "500":
           description: "Internal Server Error"
-  /api/v1/inspection-types:
-    get:
-      tags:
-        - InspectionType
-      summary: 点検種別の一覧を取得する.
-      responses:
-        '200':
-          description: 取得に成功
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/InspectionType'
-        '500':
-          description: サーバー内部エラー
-    post:
-      tags:
-        - InspectionType
-      summary: 点検種別を作成する
-      requestBody:
-        description: 作成用点検種別データ
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InspectionType'
-        required: true
-      responses:
-        '201':
-          description: 作成に成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InspectionType'
-        '400':
-          description: リクエストエラー
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-        '500':
-          description: サーバー内部エラー
-  '/api/v1/inspection-types/{id}':
-    get:
-      tags:
-        - InspectionType
-      summary: 指定の点検種別を取得する
-      parameters:
-        - name: id
-          in: path
-          description: 指定の点検種別に紐づくID
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: 取得に成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InspectionType'
-        '400':
-          description: リクエストエラー
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-        '404':
-          description: 対象リソースが存在しない
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-        '500':
-          description: サーバー内部エラー
-    put:
-      tags:
-        - InspectionType
-      summary: 指定の点検種別を更新する
-      parameters:
-        - name: id
-          in: path
-          description: 指定の点検種別に紐づくID
-          required: true
-          schema:
-            type: integer
-            format: int32
-      requestBody:
-        description: 更新用点検種別データ
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InspectionType'
-        required: true
-      responses:
-        '201':
-          description: 更新に成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InspectionType'
-        '400':
-          description: リクエストエラー
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-        '404':
-          description: 対象リソースが存在しない
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-        '500':
-          description: サーバー内部エラー
-    delete:
-      tags:
-        - InspectionType
-      summary: 指定の点検種別を削除する
-      parameters:
-        - name: id
-          in: path
-          description: 指定の点検種別に紐づくID
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: 削除に成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InspectionType'
-        '400':
-          description: リクエストエラー
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-        '404':
-          description: 対象リソースが存在しない
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-        '500':
-          description: サーバー内部エラー
   /choice-templates:
     get:
       tags:
@@ -601,6 +452,155 @@ paths:
           description: "ChoiceTemplate not found"
         "500":
           description: システムエラー Internal Server Error
+  /api/v1/inspection-types:
+    get:
+      tags:
+        - InspectionType
+      summary: 点検種別の一覧を取得する.
+      responses:
+        '200':
+          description: 取得に成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InspectionType'
+        '500':
+          description: サーバー内部エラー
+    post:
+      tags:
+        - InspectionType
+      summary: 点検種別を作成する
+      requestBody:
+        description: 作成用点検種別データ
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InspectionType'
+        required: true
+      responses:
+        '201':
+          description: 作成に成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InspectionType'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
+  '/api/v1/inspection-types/{id}':
+    get:
+      tags:
+        - InspectionType
+      summary: 指定の点検種別を取得する
+      parameters:
+        - name: id
+          in: path
+          description: 指定の点検種別に紐づくID
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 取得に成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InspectionType'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: 対象リソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
+    put:
+      tags:
+        - InspectionType
+      summary: 指定の点検種別を更新する
+      parameters:
+        - name: id
+          in: path
+          description: 指定の点検種別に紐づくID
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: 更新用点検種別データ
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InspectionType'
+        required: true
+      responses:
+        '201':
+          description: 更新に成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InspectionType'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: 対象リソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
+    delete:
+      tags:
+        - InspectionType
+      summary: 指定の点検種別を削除する
+      parameters:
+        - name: id
+          in: path
+          description: 指定の点検種別に紐づくID
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 削除に成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InspectionType'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: 対象リソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
 components:
   schemas:
     Choice:
