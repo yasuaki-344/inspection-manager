@@ -24,8 +24,9 @@ import {
   useDIContext,
 } from "../../container";
 import { InputStyle, LabelStyle } from "../stylesheets";
-import { Equipment, InspectionGroup, InspectionType } from "../../entities";
+import { Equipment} from "../../entities";
 import { EquipmentForm } from ".";
+import { InspectionGroup, InspectionType } from "../../typescript-fetch";
 
 interface InspectionSheetFormProps {
   isEdit: boolean;

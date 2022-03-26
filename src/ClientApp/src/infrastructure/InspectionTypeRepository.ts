@@ -1,7 +1,7 @@
 import { IInspectionTypeRepository } from "../interfaces";
-import { InspectionType, toCamelCase, toSnakeCase } from "../entities";
 
 import {
+  InspectionType,
   InspectionTypesApi,
   InspectionTypesApiInterface,
 } from "../typescript-fetch";
@@ -15,24 +15,22 @@ export class InspectionTypeRepository implements IInspectionTypeRepository {
 
   async get(): Promise<InspectionType[]> {
     const res = await this.api.inspectionTypesGet();
-    return toCamelCase(res);
+    return res;
   }
 
   async post(inspectionType: InspectionType): Promise<InspectionType> {
-    const req = toSnakeCase(inspectionType);
     const res = await this.api.inspectionTypesPost({
-      inspectionType: req,
+      inspectionType,
     });
-    return toCamelCase(res);
+    return res;
   }
 
   async put(inspectionType: InspectionType): Promise<InspectionType> {
-    const req = toSnakeCase(inspectionType);
     const res = await this.api.inspectionTypesIdPut({
-      id: req.id,
-      inspectionType: req,
+      id: inspectionType.id,
+      inspectionType,
     });
-    return toCamelCase(res);
+    return res;
   }
 
   async delete(id: number): Promise<void> {
