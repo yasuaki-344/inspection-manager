@@ -270,152 +270,155 @@ paths:
           description: "Not found"
         "500":
           description: "Internal Server Error"
-  /inspection-types:
+  /api/v1/inspection-types:
     get:
       tags:
-        - inspection types
-      summary: Get all inspection types.
-      description: ""
-      parameters: []
+        - InspectionType
+      summary: 点検種別の一覧を取得する.
       responses:
-        "200":
-          description: A JSON array of InspectionType model
+        '200':
+          description: 取得に成功
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/InspectionType"
-                example:
-                  - id: 1
-                    description: type1
-                  - id: 2
-                    description: type2
-        "500":
-          description: システムエラー Internal Server Error
+                  $ref: '#/components/schemas/InspectionType'
+        '500':
+          description: サーバー内部エラー
     post:
       tags:
-        - inspection types
-      summary: Create a new InspectionType model
-      description: ""
-      parameters: []
+        - InspectionType
+      summary: 点検種別を作成する
       requestBody:
-        description: inspection type to create
+        description: 作成用点検種別データ
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InspectionType"
-            example:
-              id: 0
-              name: new type
+              $ref: '#/components/schemas/InspectionType'
+        required: true
       responses:
-        "201":
-          description: 正常系（非同期）Created
+        '201':
+          description: 作成に成功
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InspectionType"
-              example:
-                inspection_group_id: 1
-                description: inspection type
-        "400":
-          description: バリデーションエラー or 業務エラー Bad Request
-        "500":
-          description: システムエラー Internal Server Error
-  /inspection-types/{id}:
+                $ref: '#/components/schemas/InspectionType'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
+  '/api/v1/inspection-types/{id}':
     get:
       tags:
-        - inspection types
-      summary: Get InspectionType model by ID.
-      description: ""
+        - InspectionType
+      summary: 指定の点検種別を取得する
       parameters:
         - name: id
           in: path
-          description: inspection type ID to get
+          description: 指定の点検種別に紐づくID
           required: true
           schema:
             type: integer
+            format: int32
       responses:
-        "200":
-          description: A single InspectionType model
+        '200':
+          description: 取得に成功
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InspectionType"
-              example:
-                id: 1
-                description: type name
-        "400":
-          description: 無効なID Bad Request
-        "404":
-          description: 対象リソースが存在しない Not Found
-        "500":
-          description: システムエラー Internal Server Error
+                $ref: '#/components/schemas/InspectionType'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: 対象リソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
     put:
       tags:
-        - inspection types
-      summary: Updates the InspectionType model.
-      description: ""
+        - InspectionType
+      summary: 指定の点検種別を更新する
       parameters:
         - name: id
           in: path
-          description: inspection type ID to update
+          description: 指定の点検種別に紐づくID
           required: true
           schema:
             type: integer
+            format: int32
       requestBody:
-        description: inspection type to update
+        description: 更新用点検種別データ
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InspectionType"
-            example:
-              id: 1
-              name: update type
+              $ref: '#/components/schemas/InspectionType'
+        required: true
       responses:
-        "201":
-          description: 正常系（非同期）Created
+        '201':
+          description: 更新に成功
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InspectionType"
-              example:
-                inspection_group_id: 1
-                description: updated type name
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Not found"
-        "500":
-          description: "Internal Server Error"
+                $ref: '#/components/schemas/InspectionType'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: 対象リソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
     delete:
       tags:
-        - inspection types
-      summary: Deletes the InspectionType model.
-      description: ""
+        - InspectionType
+      summary: 指定の点検種別を削除する
       parameters:
         - name: id
           in: path
-          description: inspection type ID to delete
+          description: 指定の点検種別に紐づくID
           required: true
           schema:
             type: integer
+            format: int32
       responses:
-        "200":
-          description: The specified InspectionType model is deleted
+        '200':
+          description: 削除に成功
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InspectionType"
-              example:
-                id: 1
-                description: type name
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Not found"
-        "500":
-          description: "Internal Server Error"
+                $ref: '#/components/schemas/InspectionType'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: 対象リソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
   /choice-templates:
     get:
       tags:
