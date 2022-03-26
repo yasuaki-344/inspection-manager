@@ -1,6 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace InspectionManager.ApplicationCore.Dto;
