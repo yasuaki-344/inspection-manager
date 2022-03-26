@@ -27,8 +27,6 @@ export const InspectionSheetInitialState: InspectionSheet = {
   sheetName: "",
   inspectionGroupId: 0,
   inspectionTypeId: 0,
-  inspectionGroup: "",
-  inspectionType: "",
   equipments: [],
 };
 

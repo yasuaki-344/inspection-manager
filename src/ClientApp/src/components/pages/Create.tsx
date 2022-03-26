@@ -91,8 +91,6 @@ export const Create: FC = (): JSX.Element => {
           sheetName: "",
           inspectionGroupId: groupUseCase.groups[0].id,
           inspectionTypeId: typeUseCase.types[0].id,
-          inspectionGroup: "",
-          inspectionType: "",
           equipments: [],
         });
       })

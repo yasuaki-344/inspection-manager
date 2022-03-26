@@ -1,27 +1,27 @@
 import { IInspectionTypeRepository } from "../interfaces";
-import { InspectionType, InspectionTypesApi } from "../typescript-fetch";
+import { InspectionType, InspectionTypeApi } from "../typescript-fetch";
 
 export class InspectionTypeRepository implements IInspectionTypeRepository {
-  private readonly api: InspectionTypesApi;
+  private readonly api: InspectionTypeApi;
 
   constructor() {
-    this.api = new InspectionTypesApi();
+    this.api = new InspectionTypeApi();
   }
 
   async get(): Promise<InspectionType[]> {
-    const res = await this.api.inspectionTypesGet();
+    const res = await this.api.apiV1InspectionTypesGet();
     return res;
   }
 
   async post(inspectionType: InspectionType): Promise<InspectionType> {
-    const res = await this.api.inspectionTypesPost({
+    const res = await this.api.apiV1InspectionTypesPost({
       inspectionType,
     });
     return res;
   }
 
   async put(inspectionType: InspectionType): Promise<InspectionType> {
-    const res = await this.api.inspectionTypesIdPut({
+    const res = await this.api.apiV1InspectionTypesIdPut({
       id: inspectionType.id,
       inspectionType,
     });
@@ -29,7 +29,7 @@ export class InspectionTypeRepository implements IInspectionTypeRepository {
   }
 
   async delete(id: number): Promise<void> {
-    await this.api.inspectionTypesIdDelete({
+    await this.api.apiV1InspectionTypesIdDelete({
       id,
     });
   }

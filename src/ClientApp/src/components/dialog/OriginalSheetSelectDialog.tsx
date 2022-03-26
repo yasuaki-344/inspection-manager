@@ -63,8 +63,8 @@ export const OriginalSheetSelectDialog: FC<OriginalSheetSelectDialogProp> = (
                 .map((sheet: InspectionSheet) => (
                   <TableRow key={sheet.sheetId}>
                     <TableCell>{sheet.sheetName}</TableCell>
-                    <TableCell>{sheet.inspectionGroup}</TableCell>
-                    <TableCell>{sheet.inspectionType}</TableCell>
+                    <TableCell>{sheet.inspectionGroupId}</TableCell>
+                    <TableCell>{sheet.inspectionTypeId}</TableCell>
                     <TableCell>
                       <Button
                         variant="contained"
