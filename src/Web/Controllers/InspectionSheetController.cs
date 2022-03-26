@@ -103,6 +103,15 @@ public class InspectionSheetController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// 指定の点検シートを取得する
+    /// </summary>
+    /// <param name="id">指定の点検シートに紐づくID</param>
+    /// <returns>指定の点検シート</returns>
+    /// <response code="200">取得に成功</response>
+    /// <response code="400">リクエストエラー</response>
+    /// <response code="404">対象リソースが存在しない</response>
+    /// <response code="500">サーバー内部エラー</response>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(InspectionSheetDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
