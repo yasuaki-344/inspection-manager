@@ -154,123 +154,6 @@ paths:
                 $ref: '#/components/schemas/ProblemDetails'
         '500':
           description: サーバー内部エラー
-  /inspection-sheets:
-    get:
-      tags:
-        - inspection sheets
-      summary: Get all inspection sheets.
-      description: ""
-      parameters: []
-      responses:
-        "200":
-          description: A JSON array of InspectionSheet model
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/InspectionSheet"
-        "500":
-          description: システムエラー Internal Server Error
-    post:
-      tags:
-        - inspection sheets
-      summary: Create a new InspectionSheet model
-      description: ""
-      parameters: []
-      requestBody:
-        description: inspection sheet to create
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/InspectionSheet"
-      responses:
-        "201":
-          description: Single InspectionSheet model
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InspectionSheet"
-        "400":
-          description: バリデーションエラー or 業務エラー Bad Request
-        "500":
-          description: システムエラー Internal Server Error
-  /inspection-sheets/{sheet_id}:
-    get:
-      tags:
-        - inspection sheets
-      summary: Get the specified inspection sheet.
-      description: ""
-      parameters:
-        - name: sheet_id
-          in: path
-          description: inspection sheet ID to get
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: A JSON InspectionSheet model
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InspectionSheet"
-        "400":
-          description: IDが設定されていない Bad Request
-        "500":
-          description: システムエラー Internal Server Error
-    put:
-      tags:
-        - inspection sheets
-      summary: Updates the InspectionSheet model.
-      description: ""
-      parameters:
-        - name: sheet_id
-          in: path
-          description: inspection sheet ID to update
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        description: inspection sheet to update
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/InspectionSheet"
-      responses:
-        "201":
-          description: 正常系（非同期）Created
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InspectionSheet"
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Not found"
-        "500":
-          description: "Internal Server Error"
-    delete:
-      tags:
-        - inspection sheets
-      summary: Deletes the InspectionSheet model.
-      description: ""
-      parameters:
-        - name: sheet_id
-          in: path
-          description: inspection sheet ID to delete
-          required: true
-          schema:
-            type: integer
-      responses:
-        "204":
-          description: No Content
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Not found"
-        "500":
-          description: "Internal Server Error"
   /api/v1/inspection-groups:
     get:
       tags:
@@ -406,6 +289,155 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InspectionGroup'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: 対象リソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
+  /api/v1/inspection-sheets:
+    get:
+      tags:
+        - InspectionSheet
+      summary: 点検シートの一覧を取得する
+      responses:
+        '200':
+          description: 取得に成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InspectionSheet'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
+    post:
+      tags:
+        - InspectionSheet
+      summary: 点検シートを作成する
+      requestBody:
+        description: 作成用点検シートデータ
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InspectionSheet'
+        required: true
+      responses:
+        '201':
+          description: 作成に成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InspectionSheet'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
+  '/api/v1/inspection-sheets/{id}':
+    get:
+      tags:
+        - InspectionSheet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InspectionSheet'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+    put:
+      tags:
+        - InspectionSheet
+      summary: 指定の点検シートを更新する
+      parameters:
+        - name: id
+          in: path
+          description: 指定の点検シートに紐づくID
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: 更新用点検シートデータ
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InspectionSheet'
+        required: true
+      responses:
+        '201':
+          description: 更新に成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InspectionSheet'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: 対象リソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: サーバー内部エラー
+    delete:
+      tags:
+        - InspectionSheet
+      summary: 指定の点検シートを削除する
+      parameters:
+        - name: id
+          in: path
+          description: 指定の点検シートに紐づくID
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: 削除に成功
         '400':
           description: リクエストエラー
           content:
