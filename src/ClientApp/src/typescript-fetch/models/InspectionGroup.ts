@@ -62,4 +62,3 @@ export function InspectionGroupToJSON(value?: InspectionGroup | null): any {
     };
 }
 
-

@@ -51,12 +51,12 @@ export interface InspectionGroupsApiInterface {
      * @throws {RequiredError}
      * @memberof InspectionGroupsApiInterface
      */
-    inspectionGroupsGetRaw(): Promise<runtime.ApiResponse<Array<InspectionGroup>>>;
+    inspectionGroupsGetRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<InspectionGroup>>>;
 
     /**
      * Get all inspection groups.
      */
-    inspectionGroupsGet(): Promise<Array<InspectionGroup>>;
+    inspectionGroupsGet(initOverrides?: RequestInit): Promise<Array<InspectionGroup>>;
 
     /**
      * 
@@ -66,12 +66,12 @@ export interface InspectionGroupsApiInterface {
      * @throws {RequiredError}
      * @memberof InspectionGroupsApiInterface
      */
-    inspectionGroupsIdDeleteRaw(requestParameters: InspectionGroupsIdDeleteRequest): Promise<runtime.ApiResponse<InspectionGroup>>;
+    inspectionGroupsIdDeleteRaw(requestParameters: InspectionGroupsIdDeleteRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionGroup>>;
 
     /**
      * Deletes the InspectionGroup model.
      */
-    inspectionGroupsIdDelete(requestParameters: InspectionGroupsIdDeleteRequest): Promise<InspectionGroup>;
+    inspectionGroupsIdDelete(requestParameters: InspectionGroupsIdDeleteRequest, initOverrides?: RequestInit): Promise<InspectionGroup>;
 
     /**
      * 
@@ -81,12 +81,12 @@ export interface InspectionGroupsApiInterface {
      * @throws {RequiredError}
      * @memberof InspectionGroupsApiInterface
      */
-    inspectionGroupsIdGetRaw(requestParameters: InspectionGroupsIdGetRequest): Promise<runtime.ApiResponse<InspectionGroup>>;
+    inspectionGroupsIdGetRaw(requestParameters: InspectionGroupsIdGetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionGroup>>;
 
     /**
      * Get InspectionGroup model by ID.
      */
-    inspectionGroupsIdGet(requestParameters: InspectionGroupsIdGetRequest): Promise<InspectionGroup>;
+    inspectionGroupsIdGet(requestParameters: InspectionGroupsIdGetRequest, initOverrides?: RequestInit): Promise<InspectionGroup>;
 
     /**
      * 
@@ -97,12 +97,12 @@ export interface InspectionGroupsApiInterface {
      * @throws {RequiredError}
      * @memberof InspectionGroupsApiInterface
      */
-    inspectionGroupsIdPutRaw(requestParameters: InspectionGroupsIdPutRequest): Promise<runtime.ApiResponse<InspectionGroup>>;
+    inspectionGroupsIdPutRaw(requestParameters: InspectionGroupsIdPutRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionGroup>>;
 
     /**
      * Updates the InspectionGroup model.
      */
-    inspectionGroupsIdPut(requestParameters: InspectionGroupsIdPutRequest): Promise<InspectionGroup>;
+    inspectionGroupsIdPut(requestParameters: InspectionGroupsIdPutRequest, initOverrides?: RequestInit): Promise<InspectionGroup>;
 
     /**
      * 
@@ -112,12 +112,12 @@ export interface InspectionGroupsApiInterface {
      * @throws {RequiredError}
      * @memberof InspectionGroupsApiInterface
      */
-    inspectionGroupsPostRaw(requestParameters: InspectionGroupsPostRequest): Promise<runtime.ApiResponse<InspectionGroup>>;
+    inspectionGroupsPostRaw(requestParameters: InspectionGroupsPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionGroup>>;
 
     /**
      * Create a new InspectionGroup model
      */
-    inspectionGroupsPost(requestParameters: InspectionGroupsPostRequest): Promise<InspectionGroup>;
+    inspectionGroupsPost(requestParameters: InspectionGroupsPostRequest, initOverrides?: RequestInit): Promise<InspectionGroup>;
 
 }
 
@@ -129,7 +129,7 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
     /**
      * Get all inspection groups.
      */
-    async inspectionGroupsGetRaw(): Promise<runtime.ApiResponse<Array<InspectionGroup>>> {
+    async inspectionGroupsGetRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<InspectionGroup>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -139,7 +139,7 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(InspectionGroupFromJSON));
     }
@@ -147,15 +147,15 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
     /**
      * Get all inspection groups.
      */
-    async inspectionGroupsGet(): Promise<Array<InspectionGroup>> {
-        const response = await this.inspectionGroupsGetRaw();
+    async inspectionGroupsGet(initOverrides?: RequestInit): Promise<Array<InspectionGroup>> {
+        const response = await this.inspectionGroupsGetRaw(initOverrides);
         return await response.value();
     }
 
     /**
      * Deletes the InspectionGroup model.
      */
-    async inspectionGroupsIdDeleteRaw(requestParameters: InspectionGroupsIdDeleteRequest): Promise<runtime.ApiResponse<InspectionGroup>> {
+    async inspectionGroupsIdDeleteRaw(requestParameters: InspectionGroupsIdDeleteRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionGroup>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling inspectionGroupsIdDelete.');
         }
@@ -169,7 +169,7 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => InspectionGroupFromJSON(jsonValue));
     }
@@ -177,15 +177,15 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
     /**
      * Deletes the InspectionGroup model.
      */
-    async inspectionGroupsIdDelete(requestParameters: InspectionGroupsIdDeleteRequest): Promise<InspectionGroup> {
-        const response = await this.inspectionGroupsIdDeleteRaw(requestParameters);
+    async inspectionGroupsIdDelete(requestParameters: InspectionGroupsIdDeleteRequest, initOverrides?: RequestInit): Promise<InspectionGroup> {
+        const response = await this.inspectionGroupsIdDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get InspectionGroup model by ID.
      */
-    async inspectionGroupsIdGetRaw(requestParameters: InspectionGroupsIdGetRequest): Promise<runtime.ApiResponse<InspectionGroup>> {
+    async inspectionGroupsIdGetRaw(requestParameters: InspectionGroupsIdGetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionGroup>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling inspectionGroupsIdGet.');
         }
@@ -199,7 +199,7 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => InspectionGroupFromJSON(jsonValue));
     }
@@ -207,15 +207,15 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
     /**
      * Get InspectionGroup model by ID.
      */
-    async inspectionGroupsIdGet(requestParameters: InspectionGroupsIdGetRequest): Promise<InspectionGroup> {
-        const response = await this.inspectionGroupsIdGetRaw(requestParameters);
+    async inspectionGroupsIdGet(requestParameters: InspectionGroupsIdGetRequest, initOverrides?: RequestInit): Promise<InspectionGroup> {
+        const response = await this.inspectionGroupsIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Updates the InspectionGroup model.
      */
-    async inspectionGroupsIdPutRaw(requestParameters: InspectionGroupsIdPutRequest): Promise<runtime.ApiResponse<InspectionGroup>> {
+    async inspectionGroupsIdPutRaw(requestParameters: InspectionGroupsIdPutRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionGroup>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling inspectionGroupsIdPut.');
         }
@@ -232,7 +232,7 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
             headers: headerParameters,
             query: queryParameters,
             body: InspectionGroupToJSON(requestParameters.inspectionGroup),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => InspectionGroupFromJSON(jsonValue));
     }
@@ -240,15 +240,15 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
     /**
      * Updates the InspectionGroup model.
      */
-    async inspectionGroupsIdPut(requestParameters: InspectionGroupsIdPutRequest): Promise<InspectionGroup> {
-        const response = await this.inspectionGroupsIdPutRaw(requestParameters);
+    async inspectionGroupsIdPut(requestParameters: InspectionGroupsIdPutRequest, initOverrides?: RequestInit): Promise<InspectionGroup> {
+        const response = await this.inspectionGroupsIdPutRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Create a new InspectionGroup model
      */
-    async inspectionGroupsPostRaw(requestParameters: InspectionGroupsPostRequest): Promise<runtime.ApiResponse<InspectionGroup>> {
+    async inspectionGroupsPostRaw(requestParameters: InspectionGroupsPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionGroup>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -261,7 +261,7 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
             headers: headerParameters,
             query: queryParameters,
             body: InspectionGroupToJSON(requestParameters.inspectionGroup),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => InspectionGroupFromJSON(jsonValue));
     }
@@ -269,8 +269,8 @@ export class InspectionGroupsApi extends runtime.BaseAPI implements InspectionGr
     /**
      * Create a new InspectionGroup model
      */
-    async inspectionGroupsPost(requestParameters: InspectionGroupsPostRequest): Promise<InspectionGroup> {
-        const response = await this.inspectionGroupsPostRaw(requestParameters);
+    async inspectionGroupsPost(requestParameters: InspectionGroupsPostRequest = {}, initOverrides?: RequestInit): Promise<InspectionGroup> {
+        const response = await this.inspectionGroupsPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 export * from './Choice';
 export * from './ChoiceTemplate';
 export * from './Equipment';

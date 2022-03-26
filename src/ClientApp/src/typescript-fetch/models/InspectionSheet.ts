@@ -24,37 +24,37 @@ export interface InspectionSheet {
      * @type {number}
      * @memberof InspectionSheet
      */
-    sheet_id: number;
+    sheetId: number;
     /**
      * 
      * @type {string}
      * @memberof InspectionSheet
      */
-    sheet_name: string;
+    sheetName: string;
     /**
      * 
      * @type {number}
      * @memberof InspectionSheet
      */
-    inspection_type_id: number;
+    inspectionTypeId: number;
     /**
      * 
      * @type {string}
      * @memberof InspectionSheet
      */
-    inspection_type: string;
+    inspectionType: string;
     /**
      * 
      * @type {number}
      * @memberof InspectionSheet
      */
-    inspection_group_id: number;
+    inspectionGroupId: number;
     /**
      * 
      * @type {string}
      * @memberof InspectionSheet
      */
-    inspection_group: string;
+    inspectionGroup: string;
 }
 
 export function InspectionSheetFromJSON(json: any): InspectionSheet {
@@ -67,12 +67,12 @@ export function InspectionSheetFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'sheet_id': json['sheet_id'],
-        'sheet_name': json['sheet_name'],
-        'inspection_type_id': json['inspection_type_id'],
-        'inspection_type': json['inspection_type'],
-        'inspection_group_id': json['inspection_group_id'],
-        'inspection_group': json['inspection_group'],
+        'sheetId': json['sheet_id'],
+        'sheetName': json['sheet_name'],
+        'inspectionTypeId': json['inspection_type_id'],
+        'inspectionType': json['inspection_type'],
+        'inspectionGroupId': json['inspection_group_id'],
+        'inspectionGroup': json['inspection_group'],
     };
 }
 
@@ -85,13 +85,12 @@ export function InspectionSheetToJSON(value?: InspectionSheet | null): any {
     }
     return {
         
-        'sheet_id': value.sheet_id,
-        'sheet_name': value.sheet_name,
-        'inspection_type_id': value.inspection_type_id,
-        'inspection_type': value.inspection_type,
-        'inspection_group_id': value.inspection_group_id,
-        'inspection_group': value.inspection_group,
+        'sheet_id': value.sheetId,
+        'sheet_name': value.sheetName,
+        'inspection_type_id': value.inspectionTypeId,
+        'inspection_type': value.inspectionType,
+        'inspection_group_id': value.inspectionGroupId,
+        'inspection_group': value.inspectionGroup,
     };
 }
-
 

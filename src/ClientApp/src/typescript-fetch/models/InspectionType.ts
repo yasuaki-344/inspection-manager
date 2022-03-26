@@ -62,4 +62,3 @@ export function InspectionTypeToJSON(value?: InspectionType | null): any {
     };
 }
 
-

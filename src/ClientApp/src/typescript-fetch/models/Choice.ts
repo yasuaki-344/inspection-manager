@@ -24,13 +24,13 @@ export interface Choice {
      * @type {number}
      * @memberof Choice
      */
-    choice_id: number;
+    choiceId: number;
     /**
      * 
      * @type {number}
      * @memberof Choice
      */
-    order_index: number;
+    orderIndex: number;
     /**
      * 
      * @type {string}
@@ -49,8 +49,8 @@ export function ChoiceFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ch
     }
     return {
         
-        'choice_id': json['choice_id'],
-        'order_index': json['order_index'],
+        'choiceId': json['choice_id'],
+        'orderIndex': json['order_index'],
         'description': json['description'],
     };
 }
@@ -64,10 +64,9 @@ export function ChoiceToJSON(value?: Choice | null): any {
     }
     return {
         
-        'choice_id': value.choice_id,
-        'order_index': value.order_index,
+        'choice_id': value.choiceId,
+        'order_index': value.orderIndex,
         'description': value.description,
     };
 }
-
 

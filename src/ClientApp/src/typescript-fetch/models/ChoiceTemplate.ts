@@ -18,7 +18,7 @@ import {
     OptionFromJSON,
     OptionFromJSONTyped,
     OptionToJSON,
-} from './';
+} from './Option';
 
 /**
  * 
@@ -68,5 +68,4 @@ export function ChoiceTemplateToJSON(value?: ChoiceTemplate | null): any {
         'choices': ((value.choices as Array<any>).map(OptionToJSON)),
     };
 }
-
 

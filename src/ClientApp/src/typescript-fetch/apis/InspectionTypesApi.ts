@@ -51,12 +51,12 @@ export interface InspectionTypesApiInterface {
      * @throws {RequiredError}
      * @memberof InspectionTypesApiInterface
      */
-    inspectionTypesGetRaw(): Promise<runtime.ApiResponse<Array<InspectionType>>>;
+    inspectionTypesGetRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<InspectionType>>>;
 
     /**
      * Get all inspection types.
      */
-    inspectionTypesGet(): Promise<Array<InspectionType>>;
+    inspectionTypesGet(initOverrides?: RequestInit): Promise<Array<InspectionType>>;
 
     /**
      * 
@@ -66,12 +66,12 @@ export interface InspectionTypesApiInterface {
      * @throws {RequiredError}
      * @memberof InspectionTypesApiInterface
      */
-    inspectionTypesIdDeleteRaw(requestParameters: InspectionTypesIdDeleteRequest): Promise<runtime.ApiResponse<InspectionType>>;
+    inspectionTypesIdDeleteRaw(requestParameters: InspectionTypesIdDeleteRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionType>>;
 
     /**
      * Deletes the InspectionType model.
      */
-    inspectionTypesIdDelete(requestParameters: InspectionTypesIdDeleteRequest): Promise<InspectionType>;
+    inspectionTypesIdDelete(requestParameters: InspectionTypesIdDeleteRequest, initOverrides?: RequestInit): Promise<InspectionType>;
 
     /**
      * 
@@ -81,12 +81,12 @@ export interface InspectionTypesApiInterface {
      * @throws {RequiredError}
      * @memberof InspectionTypesApiInterface
      */
-    inspectionTypesIdGetRaw(requestParameters: InspectionTypesIdGetRequest): Promise<runtime.ApiResponse<InspectionType>>;
+    inspectionTypesIdGetRaw(requestParameters: InspectionTypesIdGetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionType>>;
 
     /**
      * Get InspectionType model by ID.
      */
-    inspectionTypesIdGet(requestParameters: InspectionTypesIdGetRequest): Promise<InspectionType>;
+    inspectionTypesIdGet(requestParameters: InspectionTypesIdGetRequest, initOverrides?: RequestInit): Promise<InspectionType>;
 
     /**
      * 
@@ -97,12 +97,12 @@ export interface InspectionTypesApiInterface {
      * @throws {RequiredError}
      * @memberof InspectionTypesApiInterface
      */
-    inspectionTypesIdPutRaw(requestParameters: InspectionTypesIdPutRequest): Promise<runtime.ApiResponse<InspectionType>>;
+    inspectionTypesIdPutRaw(requestParameters: InspectionTypesIdPutRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionType>>;
 
     /**
      * Updates the InspectionType model.
      */
-    inspectionTypesIdPut(requestParameters: InspectionTypesIdPutRequest): Promise<InspectionType>;
+    inspectionTypesIdPut(requestParameters: InspectionTypesIdPutRequest, initOverrides?: RequestInit): Promise<InspectionType>;
 
     /**
      * 
@@ -112,12 +112,12 @@ export interface InspectionTypesApiInterface {
      * @throws {RequiredError}
      * @memberof InspectionTypesApiInterface
      */
-    inspectionTypesPostRaw(requestParameters: InspectionTypesPostRequest): Promise<runtime.ApiResponse<InspectionType>>;
+    inspectionTypesPostRaw(requestParameters: InspectionTypesPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionType>>;
 
     /**
      * Create a new InspectionType model
      */
-    inspectionTypesPost(requestParameters: InspectionTypesPostRequest): Promise<InspectionType>;
+    inspectionTypesPost(requestParameters: InspectionTypesPostRequest, initOverrides?: RequestInit): Promise<InspectionType>;
 
 }
 
@@ -129,7 +129,7 @@ export class InspectionTypesApi extends runtime.BaseAPI implements InspectionTyp
     /**
      * Get all inspection types.
      */
-    async inspectionTypesGetRaw(): Promise<runtime.ApiResponse<Array<InspectionType>>> {
+    async inspectionTypesGetRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<InspectionType>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -139,7 +139,7 @@ export class InspectionTypesApi extends runtime.BaseAPI implements InspectionTyp
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(InspectionTypeFromJSON));
     }
@@ -147,15 +147,15 @@ export class InspectionTypesApi extends runtime.BaseAPI implements InspectionTyp
     /**
      * Get all inspection types.
      */
-    async inspectionTypesGet(): Promise<Array<InspectionType>> {
-        const response = await this.inspectionTypesGetRaw();
+    async inspectionTypesGet(initOverrides?: RequestInit): Promise<Array<InspectionType>> {
+        const response = await this.inspectionTypesGetRaw(initOverrides);
         return await response.value();
     }
 
     /**
      * Deletes the InspectionType model.
      */
-    async inspectionTypesIdDeleteRaw(requestParameters: InspectionTypesIdDeleteRequest): Promise<runtime.ApiResponse<InspectionType>> {
+    async inspectionTypesIdDeleteRaw(requestParameters: InspectionTypesIdDeleteRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionType>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling inspectionTypesIdDelete.');
         }
@@ -169,7 +169,7 @@ export class InspectionTypesApi extends runtime.BaseAPI implements InspectionTyp
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => InspectionTypeFromJSON(jsonValue));
     }
@@ -177,15 +177,15 @@ export class InspectionTypesApi extends runtime.BaseAPI implements InspectionTyp
     /**
      * Deletes the InspectionType model.
      */
-    async inspectionTypesIdDelete(requestParameters: InspectionTypesIdDeleteRequest): Promise<InspectionType> {
-        const response = await this.inspectionTypesIdDeleteRaw(requestParameters);
+    async inspectionTypesIdDelete(requestParameters: InspectionTypesIdDeleteRequest, initOverrides?: RequestInit): Promise<InspectionType> {
+        const response = await this.inspectionTypesIdDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get InspectionType model by ID.
      */
-    async inspectionTypesIdGetRaw(requestParameters: InspectionTypesIdGetRequest): Promise<runtime.ApiResponse<InspectionType>> {
+    async inspectionTypesIdGetRaw(requestParameters: InspectionTypesIdGetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionType>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling inspectionTypesIdGet.');
         }
@@ -199,7 +199,7 @@ export class InspectionTypesApi extends runtime.BaseAPI implements InspectionTyp
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => InspectionTypeFromJSON(jsonValue));
     }
@@ -207,15 +207,15 @@ export class InspectionTypesApi extends runtime.BaseAPI implements InspectionTyp
     /**
      * Get InspectionType model by ID.
      */
-    async inspectionTypesIdGet(requestParameters: InspectionTypesIdGetRequest): Promise<InspectionType> {
-        const response = await this.inspectionTypesIdGetRaw(requestParameters);
+    async inspectionTypesIdGet(requestParameters: InspectionTypesIdGetRequest, initOverrides?: RequestInit): Promise<InspectionType> {
+        const response = await this.inspectionTypesIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Updates the InspectionType model.
      */
-    async inspectionTypesIdPutRaw(requestParameters: InspectionTypesIdPutRequest): Promise<runtime.ApiResponse<InspectionType>> {
+    async inspectionTypesIdPutRaw(requestParameters: InspectionTypesIdPutRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionType>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling inspectionTypesIdPut.');
         }
@@ -232,7 +232,7 @@ export class InspectionTypesApi extends runtime.BaseAPI implements InspectionTyp
             headers: headerParameters,
             query: queryParameters,
             body: InspectionTypeToJSON(requestParameters.inspectionType),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => InspectionTypeFromJSON(jsonValue));
     }
@@ -240,15 +240,15 @@ export class InspectionTypesApi extends runtime.BaseAPI implements InspectionTyp
     /**
      * Updates the InspectionType model.
      */
-    async inspectionTypesIdPut(requestParameters: InspectionTypesIdPutRequest): Promise<InspectionType> {
-        const response = await this.inspectionTypesIdPutRaw(requestParameters);
+    async inspectionTypesIdPut(requestParameters: InspectionTypesIdPutRequest, initOverrides?: RequestInit): Promise<InspectionType> {
+        const response = await this.inspectionTypesIdPutRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Create a new InspectionType model
      */
-    async inspectionTypesPostRaw(requestParameters: InspectionTypesPostRequest): Promise<runtime.ApiResponse<InspectionType>> {
+    async inspectionTypesPostRaw(requestParameters: InspectionTypesPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InspectionType>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -261,7 +261,7 @@ export class InspectionTypesApi extends runtime.BaseAPI implements InspectionTyp
             headers: headerParameters,
             query: queryParameters,
             body: InspectionTypeToJSON(requestParameters.inspectionType),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => InspectionTypeFromJSON(jsonValue));
     }
@@ -269,8 +269,8 @@ export class InspectionTypesApi extends runtime.BaseAPI implements InspectionTyp
     /**
      * Create a new InspectionType model
      */
-    async inspectionTypesPost(requestParameters: InspectionTypesPostRequest): Promise<InspectionType> {
-        const response = await this.inspectionTypesPostRaw(requestParameters);
+    async inspectionTypesPost(requestParameters: InspectionTypesPostRequest = {}, initOverrides?: RequestInit): Promise<InspectionType> {
+        const response = await this.inspectionTypesPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

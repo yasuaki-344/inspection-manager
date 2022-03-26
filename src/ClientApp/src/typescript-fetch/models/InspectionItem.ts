@@ -18,7 +18,7 @@ import {
     ChoiceFromJSON,
     ChoiceFromJSONTyped,
     ChoiceToJSON,
-} from './';
+} from './Choice';
 
 /**
  * 
@@ -31,25 +31,25 @@ export interface InspectionItem {
      * @type {number}
      * @memberof InspectionItem
      */
-    inspection_item_id: number;
+    inspectionItemId: number;
     /**
      * 
      * @type {number}
      * @memberof InspectionItem
      */
-    order_index: number;
+    orderIndex: number;
     /**
      * 
      * @type {string}
      * @memberof InspectionItem
      */
-    inspection_content: string;
+    inspectionContent: string;
     /**
      * 
      * @type {number}
      * @memberof InspectionItem
      */
-    input_type: number;
+    inputType: number;
     /**
      * 
      * @type {Array<Choice>}
@@ -68,10 +68,10 @@ export function InspectionItemFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'inspection_item_id': json['inspection_item_id'],
-        'order_index': json['order_index'],
-        'inspection_content': json['inspection_content'],
-        'input_type': json['input_type'],
+        'inspectionItemId': json['inspection_item_id'],
+        'orderIndex': json['order_index'],
+        'inspectionContent': json['inspection_content'],
+        'inputType': json['input_type'],
         'choices': !exists(json, 'choices') ? undefined : ((json['choices'] as Array<any>).map(ChoiceFromJSON)),
     };
 }
@@ -85,12 +85,11 @@ export function InspectionItemToJSON(value?: InspectionItem | null): any {
     }
     return {
         
-        'inspection_item_id': value.inspection_item_id,
-        'order_index': value.order_index,
-        'inspection_content': value.inspection_content,
-        'input_type': value.input_type,
+        'inspection_item_id': value.inspectionItemId,
+        'order_index': value.orderIndex,
+        'inspection_content': value.inspectionContent,
+        'input_type': value.inputType,
         'choices': value.choices === undefined ? undefined : ((value.choices as Array<any>).map(ChoiceToJSON)),
     };
 }
-
 

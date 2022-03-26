@@ -18,7 +18,7 @@ import {
     EquipmentFromJSON,
     EquipmentFromJSONTyped,
     EquipmentToJSON,
-} from './';
+} from './Equipment';
 
 /**
  * 
@@ -31,25 +31,25 @@ export interface InspectionSheetDetail {
      * @type {number}
      * @memberof InspectionSheetDetail
      */
-    sheet_id: number;
+    sheetId: number;
     /**
      * 
      * @type {string}
      * @memberof InspectionSheetDetail
      */
-    sheet_name: string;
+    sheetName: string;
     /**
      * 
      * @type {number}
      * @memberof InspectionSheetDetail
      */
-    inspection_type_id: number;
+    inspectionTypeId: number;
     /**
      * 
      * @type {number}
      * @memberof InspectionSheetDetail
      */
-    inspection_group_id: number;
+    inspectionGroupId: number;
     /**
      * 
      * @type {Array<Equipment>}
@@ -68,10 +68,10 @@ export function InspectionSheetDetailFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'sheet_id': json['sheet_id'],
-        'sheet_name': json['sheet_name'],
-        'inspection_type_id': json['inspection_type_id'],
-        'inspection_group_id': json['inspection_group_id'],
+        'sheetId': json['sheet_id'],
+        'sheetName': json['sheet_name'],
+        'inspectionTypeId': json['inspection_type_id'],
+        'inspectionGroupId': json['inspection_group_id'],
         'equipments': ((json['equipments'] as Array<any>).map(EquipmentFromJSON)),
     };
 }
@@ -85,12 +85,11 @@ export function InspectionSheetDetailToJSON(value?: InspectionSheetDetail | null
     }
     return {
         
-        'sheet_id': value.sheet_id,
-        'sheet_name': value.sheet_name,
-        'inspection_type_id': value.inspection_type_id,
-        'inspection_group_id': value.inspection_group_id,
+        'sheet_id': value.sheetId,
+        'sheet_name': value.sheetName,
+        'inspection_type_id': value.inspectionTypeId,
+        'inspection_group_id': value.inspectionGroupId,
         'equipments': ((value.equipments as Array<any>).map(EquipmentToJSON)),
     };
 }
-
 
