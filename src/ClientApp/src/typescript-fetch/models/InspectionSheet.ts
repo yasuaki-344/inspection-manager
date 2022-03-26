@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    Equipment,
+    EquipmentFromJSON,
+    EquipmentFromJSONTyped,
+    EquipmentToJSON,
+} from './Equipment';
+
 /**
  * 
  * @export
@@ -55,6 +62,12 @@ export interface InspectionSheet {
      * @memberof InspectionSheet
      */
     inspectionGroup: string;
+    /**
+     * 
+     * @type {Array<Equipment>}
+     * @memberof InspectionSheet
+     */
+    equipments: Array<Equipment>;
 }
 
 export function InspectionSheetFromJSON(json: any): InspectionSheet {
@@ -73,6 +86,7 @@ export function InspectionSheetFromJSONTyped(json: any, ignoreDiscriminator: boo
         'inspectionType': json['inspection_type'],
         'inspectionGroupId': json['inspection_group_id'],
         'inspectionGroup': json['inspection_group'],
+        'equipments': ((json['equipments'] as Array<any>).map(EquipmentFromJSON)),
     };
 }
 
@@ -91,6 +105,7 @@ export function InspectionSheetToJSON(value?: InspectionSheet | null): any {
         'inspection_type': value.inspectionType,
         'inspection_group_id': value.inspectionGroupId,
         'inspection_group': value.inspectionGroup,
+        'equipments': ((value.equipments as Array<any>).map(EquipmentToJSON)),
     };
 }
 

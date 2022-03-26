@@ -1,5 +1,4 @@
-import { InspectionSheet } from "../../entities";
-import { InspectionItem } from "../../typescript-fetch";
+import { InspectionItem, InspectionSheet } from "../../typescript-fetch";
 
 export interface IInspectionSheetInteractor {
   sheets: InspectionSheet[];

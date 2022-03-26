@@ -6,6 +6,5 @@ export * from './Equipment';
 export * from './InspectionGroup';
 export * from './InspectionItem';
 export * from './InspectionSheet';
-export * from './InspectionSheetDetail';
 export * from './InspectionType';
 export * from './Option';

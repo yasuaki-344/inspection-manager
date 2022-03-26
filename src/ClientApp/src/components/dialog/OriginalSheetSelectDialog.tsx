@@ -14,8 +14,8 @@ import {
   Paper,
   TablePagination,
 } from "@mui/material";
-import { InspectionSheet } from "../../entities";
 import { DialogTitleDesign } from "../stylesheets";
+import { InspectionSheet } from "../../typescript-fetch";
 
 interface OriginalSheetSelectDialogProp {
   open: boolean;

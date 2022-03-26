@@ -1,6 +1,5 @@
-import { InspectionSheet, toCamelCase, toSnakeCase } from "../entities";
 import { IInspectionSheetRepository } from "../interfaces";
-import { InspectionSheetsApi } from "../typescript-fetch";
+import { InspectionSheet, InspectionSheetsApi } from "../typescript-fetch";
 
 export class InspectionSheetRepository implements IInspectionSheetRepository {
   private readonly api: InspectionSheetsApi;
@@ -15,8 +14,7 @@ export class InspectionSheetRepository implements IInspectionSheetRepository {
   /** @inheritdoc */
   async get(): Promise<InspectionSheet[]> {
     const res = await this.api.inspectionSheetsGet();
-    const sheets = toCamelCase(res);
-    return sheets;
+    return res;
   }
 
   /** @inheritdoc */
@@ -24,29 +22,24 @@ export class InspectionSheetRepository implements IInspectionSheetRepository {
     const res = await this.api.inspectionSheetsSheetIdGet({
       sheetId: id,
     });
-    const sheet = toCamelCase(res);
-    return sheet;
+    return res;
   }
 
   /** @inheritdoc */
   async post(inspectionSheet: InspectionSheet): Promise<InspectionSheet> {
-    const requestBody = toSnakeCase(inspectionSheet);
     const res = await this.api.inspectionSheetsPost({
-      inspectionSheetDetail: requestBody,
+      inspectionSheet,
     });
-    const sheet = toCamelCase(res);
-    return sheet;
+    return res;
   }
 
   /** @inheritdoc */
   async put(inspectionSheet: InspectionSheet): Promise<InspectionSheet> {
-    const requestBody = toSnakeCase(inspectionSheet);
     const res = await this.api.inspectionSheetsSheetIdPut({
-      sheetId: requestBody.sheet_id,
-      inspectionSheetDetail: requestBody,
+      sheetId: inspectionSheet.sheetId,
+      inspectionSheet,
     });
-    const sheet = toCamelCase(res);
-    return sheet;
+    return res;
   }
 
   /** @inheritdoc */

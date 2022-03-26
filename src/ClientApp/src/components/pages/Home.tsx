@@ -19,7 +19,7 @@ import { Box } from "@mui/system";
 import EditIcon from "@mui/icons-material/Edit";
 import DetailsIcon from "@mui/icons-material/Details";
 import nameof from "ts-nameof.macro";
-import { InspectionSheet, InspectionSheetInitialState } from "../../entities";
+import { InspectionSheetInitialState } from "../../entities";
 import {
   IInspectionGroupInteractor,
   IInspectionTypeInteractor,
@@ -29,6 +29,7 @@ import { CancelIconButton } from "../utilities";
 import { SheetSearchMenu } from "../SheetSearchMenu";
 import { SheetDeleteConfirmationDialog } from "../dialog/SheetDeleteConfirmationDialog";
 import { useDIContext } from "../../container";
+import { InspectionSheet } from "../../typescript-fetch";
 
 const exportInspectionSheet = (exportUrl: string, fileName: string): void => {
   fetch(exportUrl)
