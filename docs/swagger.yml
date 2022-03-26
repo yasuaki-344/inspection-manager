@@ -636,16 +636,17 @@ components:
         description:
           type: string
     InspectionGroup:
-      type: object
       required:
-        - id
         - description
+        - id
+      type: object
       properties:
         id:
           type: integer
-          format: int64
+          format: int32
         description:
           type: string
+      additionalProperties: false
     ChoiceTemplate:
       type: object
       required:
