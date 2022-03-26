@@ -635,18 +635,6 @@ components:
           format: int64
         description:
           type: string
-    InspectionGroup:
-      required:
-        - description
-        - id
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int32
-        description:
-          type: string
-      additionalProperties: false
     ChoiceTemplate:
       type: object
       required:
@@ -660,6 +648,18 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Option"
+    InspectionGroup:
+      required:
+        - description
+        - id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        description:
+          type: string
+      additionalProperties: false
     InspectionItem:
       required:
         - choices
