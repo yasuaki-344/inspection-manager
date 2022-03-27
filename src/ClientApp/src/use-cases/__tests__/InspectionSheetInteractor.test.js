@@ -1,6 +1,5 @@
 import { useState, useReducer } from "react";
 import { InspectionSheetInteractor } from "..";
-import { SHEET_ACTION_TYPE } from "../../entities";
 
 jest.mock("react", () => ({
   ...jest.requireActual("react"),
@@ -22,7 +21,7 @@ describe("InspectionSheetInteractor unit test", () => {
     const value = "target name";
     target.setSheetName(value);
     expect(dispatch).toHaveBeenCalledWith({
-      type: SHEET_ACTION_TYPE.SET_STRING_FIELD,
+      type: "SET_STRING_FIELD",
       payload: {
         name: "sheetName",
         stringValue: value,
@@ -36,7 +35,7 @@ describe("InspectionSheetInteractor unit test", () => {
     const value = 11;
     target.setGroupId(value);
     expect(dispatch).toHaveBeenCalledWith({
-      type: SHEET_ACTION_TYPE.SET_NUMERIC_FIELD,
+      type: "SET_NUMERIC_FIELD",
       payload: {
         name: "inspectionGroupId",
         numericValue: value,
@@ -50,7 +49,7 @@ describe("InspectionSheetInteractor unit test", () => {
     const value = 11;
     target.setTypeId(value);
     expect(dispatch).toHaveBeenCalledWith({
-      type: SHEET_ACTION_TYPE.SET_NUMERIC_FIELD,
+      type: "SET_NUMERIC_FIELD",
       payload: {
         name: "inspectionTypeId",
         numericValue: value,
@@ -63,7 +62,7 @@ describe("InspectionSheetInteractor unit test", () => {
     const target = new InspectionSheetInteractor(repository);
     target.addEquipment();
     expect(dispatch).toHaveBeenCalledWith({
-      type: SHEET_ACTION_TYPE.ADD_EQUIPMENT,
+      type: "ADD_EQUIPMENT",
       payload: {},
     });
   });
@@ -73,7 +72,7 @@ describe("InspectionSheetInteractor unit test", () => {
     const target = new InspectionSheetInteractor(repository);
     target.removeEquipment(10);
     expect(dispatch).toHaveBeenCalledWith({
-      type: SHEET_ACTION_TYPE.REMOVE_EQUIPMENT,
+      type: "REMOVE_EQUIPMENT",
       payload: {
         numericValue: 10,
       },
@@ -85,7 +84,7 @@ describe("InspectionSheetInteractor unit test", () => {
     const target = new InspectionSheetInteractor(repository);
     target.swapEquipments(10, 20);
     expect(dispatch).toHaveBeenCalledWith({
-      type: SHEET_ACTION_TYPE.SWAP_EQUIPMENTS,
+      type: "SWAP_EQUIPMENTS",
       payload: {
         srcOrderIndex: 10,
         dstOrderIndex: 20,

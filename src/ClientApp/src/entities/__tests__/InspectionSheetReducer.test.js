@@ -1,4 +1,4 @@
-import { InspectionSheetReducer, SHEET_ACTION_TYPE } from "..";
+import { InspectionSheetReducer } from "..";
 
 describe("InspectionSheetReducer unit test", () => {
   test("Set sheet name correctly", () => {
@@ -7,7 +7,7 @@ describe("InspectionSheetReducer unit test", () => {
       sheetName: "base",
     };
     const action = {
-      type: SHEET_ACTION_TYPE.SET_STRING_FIELD,
+      type: "SET_STRING_FIELD",
       payload: {
         name: "sheetName",
         stringValue: value,
@@ -23,7 +23,7 @@ describe("InspectionSheetReducer unit test", () => {
       inspectionGroupId: 0,
     };
     const action = {
-      type: SHEET_ACTION_TYPE.SET_NUMERIC_FIELD,
+      type: "SET_NUMERIC_FIELD",
       payload: {
         name: "inspectionGroupId",
         numericValue: value,
@@ -39,7 +39,7 @@ describe("InspectionSheetReducer unit test", () => {
       inspectionTypeId: 0,
     };
     const action = {
-      type: SHEET_ACTION_TYPE.SET_NUMERIC_FIELD,
+      type: "SET_NUMERIC_FIELD",
       payload: {
         name: "inspectionTypeId",
         numericValue: value,
@@ -51,7 +51,7 @@ describe("InspectionSheetReducer unit test", () => {
 
   test("Add equipment correctly", () => {
     const action = {
-      type: SHEET_ACTION_TYPE.ADD_EQUIPMENT,
+      type: "ADD_EQUIPMENT",
       payload: {},
     };
     const state = {
@@ -70,7 +70,7 @@ describe("InspectionSheetReducer unit test", () => {
 
   test("Remove equipment correctly", () => {
     const action = {
-      type: SHEET_ACTION_TYPE.REMOVE_EQUIPMENT,
+      type: "REMOVE_EQUIPMENT",
       payload: {
         numericValue: 10,
       },
@@ -84,7 +84,7 @@ describe("InspectionSheetReducer unit test", () => {
 
   test("Swap equipments correctly", () => {
     const action = {
-      type: SHEET_ACTION_TYPE.SWAP_EQUIPMENTS,
+      type: "SWAP_EQUIPMENTS",
       payload: {
         srcOrderIndex: 10,
         dstOrderIndex: 30,
@@ -108,7 +108,7 @@ describe("InspectionSheetReducer unit test", () => {
 
   test("Update equipment name correctly", () => {
     const action = {
-      type: SHEET_ACTION_TYPE.SET_EQUIPMENT_STRING_FIELD,
+      type: "SET_EQUIPMENT_STRING_FIELD",
       payload: {
         equipmentOrderIndex: 11,
         name: "equipmentName",
@@ -124,7 +124,7 @@ describe("InspectionSheetReducer unit test", () => {
 
   test("Add inspection item correctly", () => {
     const action = {
-      type: SHEET_ACTION_TYPE.ADD_INSPECTION_ITEM,
+      type: "ADD_INSPECTION_ITEM",
       payload: {
         equipmentOrderIndex: 11,
         inspectionItem: {
@@ -159,7 +159,7 @@ describe("InspectionSheetReducer unit test", () => {
 
   test("Remove inspection item correctly", () => {
     const action = {
-      type: SHEET_ACTION_TYPE.REMOVE_INSPECTION_ITEM,
+      type: "REMOVE_INSPECTION_ITEM",
       payload: {
         equipmentOrderIndex: 11,
         itemOrderIndex: 22,
@@ -179,7 +179,7 @@ describe("InspectionSheetReducer unit test", () => {
 
   test("Add inspection item correctly", () => {
     const action = {
-      type: SHEET_ACTION_TYPE.UPDATE_INSPECTION_ITEM,
+      type: "UPDATE_INSPECTION_ITEM",
       payload: {
         equipmentOrderIndex: 11,
         itemOrderIndex: 22,

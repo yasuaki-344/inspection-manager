@@ -30,7 +30,7 @@ export const InspectionSheetInitialState: InspectionSheet = {
   equipments: [],
 };
 
-export type SHEET_ACTION_TYPE =
+export type InspectionSheetActionType =
   | "SET_SHEET"
   | "SET_STRING_FIELD"
   | "SET_NUMERIC_FIELD"
