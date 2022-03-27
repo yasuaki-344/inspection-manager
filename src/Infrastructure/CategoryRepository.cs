@@ -6,6 +6,7 @@ using AutoMapper.QueryableExtensions;
 using InspectionManager.ApplicationCore.Dto;
 using InspectionManager.ApplicationCore.Entities;
 using InspectionManager.ApplicationCore.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace InspectionManager.Infrastructure;
 
@@ -27,17 +28,22 @@ public class CategoryRepository : ICategoryRepository
 
     /// <inheritdoc/>
     public bool InspectionGroupExists(int id) =>
-        _context.InspectionGroups.Any(x => x.InspectionGroupId == id);
+        _context.InspectionGroups
+            .AsNoTracking()
+            .Any(x => x.InspectionGroupId == id);
 
     /// <inheritdoc/>
     public IEnumerable<InspectionGroupDto> GetInspectionGroups() =>
         _context.InspectionGroups
+            .AsNoTracking()
+            .OrderBy(x => x.InspectionGroupId)
             .ProjectTo<InspectionGroupDto>(_mapper.ConfigurationProvider)
             .ToList();
 
     /// <inheritdoc/>
     public InspectionGroupDto GetInspectionGroup(int id) =>
         _context.InspectionGroups
+            .AsNoTracking()
             .Where(x => x.InspectionGroupId == id)
             .ProjectTo<InspectionGroupDto>(_mapper.ConfigurationProvider)
             .Single();
@@ -80,17 +86,22 @@ public class CategoryRepository : ICategoryRepository
 
     /// <inheritdoc/>
     public bool InspectionTypeExists(int id) =>
-        _context.InspectionTypes.Any(x => x.InspectionTypeId == id);
+        _context.InspectionTypes
+            .AsNoTracking()
+            .Any(x => x.InspectionTypeId == id);
 
     /// <inheritdoc/>
     public IEnumerable<InspectionTypeDto> GetInspectionTypes() =>
         _context.InspectionTypes
+            .AsNoTracking()
+            .OrderBy(x => x.InspectionTypeId)
             .ProjectTo<InspectionTypeDto>(_mapper.ConfigurationProvider)
             .ToList();
 
     /// <inheritdoc/>
     public InspectionTypeDto GetInspectionType(int id) =>
         _context.InspectionTypes
+            .AsNoTracking()
             .Where(x => x.InspectionTypeId == id)
             .ProjectTo<InspectionTypeDto>(_mapper.ConfigurationProvider)
             .Single();
@@ -134,17 +145,22 @@ public class CategoryRepository : ICategoryRepository
 
     /// <inheritdoc/>
     public bool ChoiceTemplateExists(int id) =>
-        _context.ChoiceTemplates.Any(x => x.ChoiceTemplateId == id);
+        _context.ChoiceTemplates
+            .AsNoTracking()
+            .Any(x => x.ChoiceTemplateId == id);
 
     /// <inheritdoc/>
     public IEnumerable<ChoiceTemplateDto> GetChoiceTemplates() =>
         _context.ChoiceTemplates
+            .AsNoTracking()
+            .OrderBy(x => x.ChoiceTemplateId)
             .ProjectTo<ChoiceTemplateDto>(_mapper.ConfigurationProvider)
             .ToList();
 
     /// <inheritdoc/>
     public ChoiceTemplateDto GetChoiceTemplate(int id) =>
         _context.ChoiceTemplates
+            .AsNoTracking()
             .Where(x => x.ChoiceTemplateId == id)
             .ProjectTo<ChoiceTemplateDto>(_mapper.ConfigurationProvider)
             .Single();
@@ -162,7 +178,9 @@ public class CategoryRepository : ICategoryRepository
     /// <inheritdoc/>
     public async Task<ChoiceTemplateDto> UpdateChoiceTemplateAsync(ChoiceTemplateDto dto)
     {
-        var entity = await _context.ChoiceTemplates.FindAsync(dto.ChoiceTemplateId);
+        var entity = await _context.ChoiceTemplates
+            .Include(x => x.Choices)
+            .SingleAsync(x => x.ChoiceTemplateId == dto.ChoiceTemplateId);
         if (entity is not null)
         {
             _mapper.Map(dto, entity);

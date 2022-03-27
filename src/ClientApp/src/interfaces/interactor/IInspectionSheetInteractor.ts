@@ -1,9 +1,16 @@
-import { InspectionItem, InspectionSheet } from "../../typescript-fetch";
+import { InspectionGroup, InspectionItem, InspectionSheet, InspectionType } from "../../typescript-fetch";
 
 export interface IInspectionSheetInteractor {
+  types: InspectionType[];
+  groups: InspectionGroup[];
   sheets: InspectionSheet[];
   filteredSheets: InspectionSheet[];
   sheet: InspectionSheet;
+
+  typeName(id: number): string | undefined;
+  groupName(id: number): string | undefined;
+
+  fetchTypesAndGroups(): Promise<[InspectionType[], InspectionGroup[]]>;
 
   /**
    * Gets all inspection sheets from database.
@@ -19,14 +26,14 @@ export interface IInspectionSheetInteractor {
   copyInspectionSheetFrom(id: number): Promise<void>;
 
   /**
-   * Filters inspection sheet by using the specified group ID, type ID, and sheet name.
-   * @param groupIds Inspection group ID to be filtered.
-   * @param typeIds Inspection type ID to be filtered.
+   * Filters inspection sheet by using the specified group, type, and sheet name.
+   * @param groupKeyword Inspection group name to be filtered.
+   * @param typeKeyword Inspection type name to be filtered.
    * @param sheetKeyword Inspection sheet name to be filtered.
    */
   searchInspectionSheet(
-    groupIds: number[],
-    typeIds: number[],
+    groupKeyword: string,
+    typeKeyword: string,
     sheetKeyword: string
   ): void;
 

@@ -9,24 +9,14 @@ import {
   TopPageLink,
 } from "../utilities";
 import { useDIContext } from "../../container";
-import {
-  IInspectionGroupInteractor,
-  IInspectionSheetInteractor,
-  IInspectionTypeInteractor,
-} from "../../interfaces";
+import { IInspectionSheetInteractor } from "../../interfaces";
 
 export const Edit: FC = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
 
   const inject = useDIContext();
-  const sheetUseCase: IInspectionSheetInteractor = inject(
+  const useCase: IInspectionSheetInteractor = inject(
     nameof<IInspectionSheetInteractor>()
-  );
-  const groupUseCase: IInspectionGroupInteractor = inject(
-    nameof<IInspectionGroupInteractor>()
-  );
-  const typeUseCase: IInspectionTypeInteractor = inject(
-    nameof<IInspectionTypeInteractor>()
   );
 
   const [loading, setLoading] = useState(true);
@@ -35,14 +25,12 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
   );
 
   useEffect(() => {
-    Promise.all([
-      groupUseCase.fetchInspectionGroups(),
-      typeUseCase.fetchInspectionTypes(),
-    ])
+    useCase
+      .fetchTypesAndGroups()
       .then(([groups, types]) => {
-        sheetUseCase.setGroupId(groups[0].id);
-        sheetUseCase.setTypeId(types[0].id);
-        sheetUseCase.fetchInspectionSheetById(sheetId);
+        useCase.setGroupId(groups[0].id);
+        useCase.setTypeId(types[0].id);
+        useCase.fetchInspectionSheetById(sheetId);
       })
       .then(() => setLoading(false))
       .catch((error: any) => {
@@ -53,7 +41,7 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
 
   const handleUpdate = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    sheetUseCase
+    useCase
       .updateInspectionSheet()
       .then(() => {
         notification.setMessageState("success", "更新に成功しました");

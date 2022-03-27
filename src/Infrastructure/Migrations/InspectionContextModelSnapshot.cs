@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace InspectionManager.Infrastructure.Migrations
 {
     [DbContext(typeof(InspectionContext))]
@@ -12,114 +14,131 @@ namespace InspectionManager.Infrastructure.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.5");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.0");
 
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.Choice", b =>
                 {
                     b.Property<int>("ChoiceId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("description");
 
                     b.Property<int>("InspectionItemId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("inspection_item_id");
 
                     b.Property<int>("OrderIndex")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("order_index");
 
                     b.HasKey("ChoiceId");
 
                     b.HasIndex("InspectionItemId");
 
-                    b.ToTable("Choices");
+                    b.ToTable("choices");
                 });
 
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.ChoiceTemplate", b =>
                 {
                     b.Property<int>("ChoiceTemplateId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
 
                     b.HasKey("ChoiceTemplateId");
 
-                    b.ToTable("ChoiceTemplates");
+                    b.ToTable("choice_templates");
                 });
 
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.Equipment", b =>
                 {
                     b.Property<int>("EquipmentId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
 
                     b.Property<string>("EquipmentName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("equipment_name");
 
                     b.Property<int>("InspectionSheetId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("inspection_sheet_id");
 
                     b.Property<int>("OrderIndex")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("order_index");
 
                     b.HasKey("EquipmentId");
 
                     b.HasIndex("InspectionSheetId");
 
-                    b.ToTable("Equipments");
+                    b.ToTable("equipments");
                 });
 
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.InputType", b =>
                 {
                     b.Property<int>("InputTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("description");
 
                     b.HasKey("InputTypeId");
 
-                    b.ToTable("InputTypes");
+                    b.ToTable("input_types");
                 });
 
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.InspectionGroup", b =>
                 {
                     b.Property<int>("InspectionGroupId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("description");
 
                     b.HasKey("InspectionGroupId");
 
-                    b.ToTable("InspectionGroups");
+                    b.ToTable("inspection_groups");
                 });
 
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.InspectionItem", b =>
                 {
                     b.Property<int>("InspectionItemId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
 
                     b.Property<int>("EquipmentId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("equipment_id");
 
                     b.Property<int>("InputTypeId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("input_type_id");
 
                     b.Property<string>("InspectionContent")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("inspection_content");
 
                     b.Property<int>("OrderIndex")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("order_index");
 
                     b.HasKey("InspectionItemId");
 
@@ -127,24 +146,28 @@ namespace InspectionManager.Infrastructure.Migrations
 
                     b.HasIndex("InputTypeId");
 
-                    b.ToTable("InspectionItems");
+                    b.ToTable("inspection_items");
                 });
 
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.InspectionSheet", b =>
                 {
                     b.Property<int>("SheetId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
 
                     b.Property<int>("InspectionGroupId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("inspection_group_id");
 
                     b.Property<int>("InspectionTypeId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("inspection_type_id");
 
                     b.Property<string>("SheetName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("sheet_name");
 
                     b.HasKey("SheetId");
 
@@ -152,42 +175,51 @@ namespace InspectionManager.Infrastructure.Migrations
 
                     b.HasIndex("InspectionTypeId");
 
-                    b.ToTable("InspectionSheets");
+                    b.ToTable("inspection_sheets");
                 });
 
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.InspectionType", b =>
                 {
                     b.Property<int>("InspectionTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("description");
 
                     b.HasKey("InspectionTypeId");
 
-                    b.ToTable("InspectionTypes");
+                    b.ToTable("inspection_types");
                 });
 
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.Option", b =>
                 {
                     b.Property<int>("OptionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
 
                     b.Property<int>("ChoiceTemplateId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("choice_template_id");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("description");
+
+                    b.Property<int>("OrderIndex")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("order_index");
 
                     b.HasKey("OptionId");
 
                     b.HasIndex("ChoiceTemplateId");
 
-                    b.ToTable("Options");
+                    b.ToTable("options");
                 });
 
             modelBuilder.Entity("InspectionManager.ApplicationCore.Entities.Choice", b =>

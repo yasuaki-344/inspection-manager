@@ -9,20 +9,16 @@ import {
 import {
   IChoiceTemplateInteractor,
   IChoiceTemplateRepository,
-  IInspectionGroupInteractor,
   IInspectionGroupRepository,
   IInspectionItemInteractor,
   IInspectionSheetInteractor,
   IInspectionSheetRepository,
-  IInspectionTypeInteractor,
   IInspectionTypeRepository,
 } from "../interfaces";
 import {
   ChoiceTemplateInteractor,
-  InspectionGroupInteractor,
   InspectionItemInteractor,
   InspectionSheetInteractor,
-  InspectionTypeInteractor,
 } from "../use-cases";
 
 export const DIContainerContext = createContext({} as { [key: string]: any });
@@ -67,18 +63,6 @@ export const setUpDIContainer = () => {
 
   // register use-case interactor
   register(
-    nameof<IInspectionGroupInteractor>(),
-    new InspectionGroupInteractor(
-      inject(nameof<IInspectionGroupRepository>()) as IInspectionGroupRepository
-    )
-  );
-  register(
-    nameof<IInspectionTypeInteractor>(),
-    new InspectionTypeInteractor(
-      inject(nameof<IInspectionTypeRepository>()) as IInspectionTypeRepository
-    )
-  );
-  register(
     nameof<IChoiceTemplateInteractor>(),
     new ChoiceTemplateInteractor(inject(nameof<IChoiceTemplateRepository>()))
   );
@@ -86,7 +70,11 @@ export const setUpDIContainer = () => {
   register(nameof<IInspectionItemInteractor>(), new InspectionItemInteractor());
   register(
     nameof<IInspectionSheetInteractor>(),
-    new InspectionSheetInteractor(inject(nameof<IInspectionSheetRepository>()))
+    new InspectionSheetInteractor(
+      inject(nameof<IInspectionTypeRepository>()),
+      inject(nameof<IInspectionGroupRepository>()),
+      inject(nameof<IInspectionSheetRepository>())
+    )
   );
 
   return container;

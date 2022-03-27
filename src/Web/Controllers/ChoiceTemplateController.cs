@@ -145,7 +145,6 @@ public class ChoiceTemplateController : ControllerBase
     /// <response code="500">サーバー内部エラー</response>
     [HttpPut("{id}")]
     [Route("/v1/choice-templates/{id}")]
-    [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ChoiceTemplateDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
