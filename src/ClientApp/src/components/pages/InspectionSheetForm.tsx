@@ -37,7 +37,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   props: InspectionSheetFormProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const sheetUseCase: IInspectionSheetInteractor = inject(
+  const useCase: IInspectionSheetInteractor = inject(
     nameof<IInspectionSheetInteractor>()
   );
   const itemUseCase: IInspectionItemInteractor = inject(
@@ -52,10 +52,10 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   const handleInspectionItem = () => {
     if (status.isAdditional) {
       const item = itemUseCase.inspectionItem;
-      sheetUseCase.addInspectionItem(status.equipmentOrderIndex, item);
+      useCase.addInspectionItem(status.equipmentOrderIndex, item);
     } else {
       const item = itemUseCase.inspectionItem;
-      sheetUseCase.updateInspectionItem(
+      useCase.updateInspectionItem(
         status.equipmentOrderIndex,
         status.itemOrderIndex,
         item
@@ -73,7 +73,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
         variant="outlined"
         size="small"
         name="sheetId"
-        defaultValue={sheetUseCase.sheet.sheetId}
+        defaultValue={useCase.sheet.sheetId}
         InputProps={{ readOnly: true }}
       />
     </Grid>
@@ -98,10 +98,9 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
               variant="outlined"
               size="small"
               name="sheetName"
-              value={sheetUseCase.sheet.sheetName}
-              onChange={(e) => {
-                const name = e.target.value;
-                sheetUseCase.setSheetName(name);
+              value={useCase.sheet.sheetName}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                useCase.setMember("sheetName", e.target.value);
               }}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
@@ -118,15 +117,15 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
               variant="outlined"
               size="small"
               name="inspectionGroupId"
-              value={sheetUseCase.sheet.inspectionGroupId}
-              onChange={(e) => {
+              value={useCase.sheet.inspectionGroupId}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 const id = parseInt(e.target.value, 10);
                 if (!Number.isNaN(id)) {
-                  sheetUseCase.setGroupId(id);
+                  useCase.setMember("inspectionGroupId", id);
                 }
               }}
             >
-              {sheetUseCase.groups.map((group: InspectionGroup) => (
+              {useCase.groups.map((group: InspectionGroup) => (
                 <MenuItem key={group.id} value={group.id}>
                   {group.description}
                 </MenuItem>
@@ -141,15 +140,15 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
               variant="outlined"
               size="small"
               name="inspectionTypeId"
-              value={sheetUseCase.sheet}
-              onChange={(e) => {
+              value={useCase.sheet}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 const id = parseInt(e.target.value, 10);
                 if (!Number.isNaN(id)) {
-                  sheetUseCase.setTypeId(id);
+                  useCase.setMember("inspectionTypeId", id);
                 }
               }}
             >
-              {sheetUseCase.types.map((type: InspectionType) => (
+              {useCase.types.map((type: InspectionType) => (
                 <MenuItem key={type.id} value={type.id}>
                   {type.description}
                 </MenuItem>
@@ -157,7 +156,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
             </TextField>
           </Grid>
           <Grid item xs={12} container spacing={1} sx={{ pt: 1.5 }}>
-            {sheetUseCase.sheet.equipments.map((equipment: Equipment) => (
+            {useCase.sheet.equipments.map((equipment: Equipment) => (
               <Grid item xs={12} key={equipment.orderIndex}>
                 <EquipmentForm
                   orderIndex={equipment.orderIndex}
@@ -173,7 +172,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
               <BottomNavigationAction
                 label="点検機器追加"
                 icon={<AddCircleIcon />}
-                onClick={() => sheetUseCase.addEquipment()}
+                onClick={() => useCase.addEquipment()}
               />
             </BottomNavigation>
           </Grid>

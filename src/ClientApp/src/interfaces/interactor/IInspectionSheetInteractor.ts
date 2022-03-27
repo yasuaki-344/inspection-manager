@@ -1,4 +1,9 @@
-import { InspectionGroup, InspectionItem, InspectionSheet, InspectionType } from "../../typescript-fetch";
+import {
+  InspectionGroup,
+  InspectionItem,
+  InspectionSheet,
+  InspectionType,
+} from "../../typescript-fetch";
 
 export interface IInspectionSheetInteractor {
   types: InspectionType[];
@@ -58,22 +63,14 @@ export interface IInspectionSheetInteractor {
   setSheet(sheet: InspectionSheet): void;
 
   /**
-   * Sets inspection sheet name.
-   * @param sheetName sheet name to set.
+   * Sets inspection sheet member.
+   * @param name the member name to be set.
+   * @param value the member value to be set.
    */
-  setSheetName(sheetName: string): void;
-
-  /**
-   * Sets inspection group ID.
-   * @param groupId Group ID to set.
-   */
-  setGroupId(groupId: number): void;
-
-  /**
-   * Sets inspection type ID.
-   * @param typeId Group ID to set.
-   */
-  setTypeId(typeId: number): void;
+  setMember(
+    name: "sheetName" | "inspectionGroupId" | "inspectionTypeId",
+    value: string | number
+  ): void;
 
   /**
    * Add a new equipment to inspection sheet.

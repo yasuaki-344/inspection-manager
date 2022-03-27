@@ -9,6 +9,7 @@ export type InspectionSheetAction = {
   payload: {
     sheet?: InspectionSheet;
     name?: string;
+    value?: number | string;
     numericValue?: number;
     stringValue?: string;
     equipmentOrderIndex?: number;
@@ -32,8 +33,7 @@ export const InspectionSheetInitialState: InspectionSheet = {
 
 export type InspectionSheetActionType =
   | "SET_SHEET"
-  | "SET_STRING_FIELD"
-  | "SET_NUMERIC_FIELD"
+  | "setMember"
   | "ADD_EQUIPMENT"
   | "REMOVE_EQUIPMENT"
   | "SWAP_EQUIPMENTS"
@@ -41,37 +41,25 @@ export type InspectionSheetActionType =
   | "ADD_INSPECTION_ITEM"
   | "REMOVE_INSPECTION_ITEM"
   | "SWAP_INSPECTION_ITEMS"
-  | "UPDATE_INSPECTION_ITEM"
+  | "UPDATE_INSPECTION_ITEM";
 
 export function InspectionSheetReducer(
   state: InspectionSheet,
   action: InspectionSheetAction
 ): InspectionSheet {
-  switch (action.type) {
+  const { type, payload } = action;
+  switch (type) {
     case "SET_SHEET": {
-      const { sheet } = action.payload;
+      const { sheet } = payload;
       if (sheet != null) {
         return sheet;
       }
       return state;
     }
-    case "SET_STRING_FIELD": {
-      const { name, stringValue } = action.payload;
-      if (name != null && stringValue != null) {
-        return {
-          ...state,
-          [name]: stringValue,
-        };
-      }
-      return state;
-    }
-    case "SET_NUMERIC_FIELD": {
-      const { name, numericValue } = action.payload;
-      if (name != null && numericValue != null) {
-        return {
-          ...state,
-          [name]: numericValue,
-        };
+    case "setMember": {
+      const { name, value } = payload;
+      if (name != null && value != null) {
+        return { ...state, [name]: value };
       }
       return state;
     }
@@ -95,7 +83,7 @@ export function InspectionSheetReducer(
       };
     }
     case "REMOVE_EQUIPMENT": {
-      const { numericValue } = action.payload;
+      const { numericValue } = payload;
       if (numericValue != null) {
         return {
           ...state,
@@ -107,7 +95,7 @@ export function InspectionSheetReducer(
       return state;
     }
     case "SWAP_EQUIPMENTS": {
-      const { srcOrderIndex, dstOrderIndex } = action.payload;
+      const { srcOrderIndex, dstOrderIndex } = payload;
       if (srcOrderIndex != null && dstOrderIndex != null) {
         let { equipments } = state;
         const src = equipments.find(
@@ -135,7 +123,7 @@ export function InspectionSheetReducer(
       return state;
     }
     case "SET_EQUIPMENT_STRING_FIELD": {
-      const { equipmentOrderIndex, name, stringValue } = action.payload;
+      const { equipmentOrderIndex, name, stringValue } = payload;
       if (equipmentOrderIndex != null && name != null && stringValue != null) {
         const { equipments } = state;
         return {
@@ -153,7 +141,7 @@ export function InspectionSheetReducer(
       return state;
     }
     case "ADD_INSPECTION_ITEM": {
-      const { equipmentOrderIndex, inspectionItem } = action.payload;
+      const { equipmentOrderIndex, inspectionItem } = payload;
       if (equipmentOrderIndex != null && inspectionItem != null) {
         const { equipments } = state;
         const equipment = equipments.find(
@@ -185,7 +173,7 @@ export function InspectionSheetReducer(
       return state;
     }
     case "REMOVE_INSPECTION_ITEM": {
-      const { equipmentOrderIndex, itemOrderIndex } = action.payload;
+      const { equipmentOrderIndex, itemOrderIndex } = payload;
       if (equipmentOrderIndex != null && itemOrderIndex != null) {
         return {
           ...state,
@@ -205,8 +193,7 @@ export function InspectionSheetReducer(
       return state;
     }
     case "SWAP_INSPECTION_ITEMS": {
-      const { equipmentOrderIndex, srcOrderIndex, dstOrderIndex } =
-        action.payload;
+      const { equipmentOrderIndex, srcOrderIndex, dstOrderIndex } = payload;
       if (
         equipmentOrderIndex != null &&
         srcOrderIndex != null &&
@@ -247,8 +234,7 @@ export function InspectionSheetReducer(
       return state;
     }
     case "UPDATE_INSPECTION_ITEM": {
-      const { equipmentOrderIndex, itemOrderIndex, inspectionItem } =
-        action.payload;
+      const { equipmentOrderIndex, itemOrderIndex, inspectionItem } = payload;
       if (
         equipmentOrderIndex != null &&
         itemOrderIndex != null &&

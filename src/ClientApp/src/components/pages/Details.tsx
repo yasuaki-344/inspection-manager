@@ -126,9 +126,7 @@ export const Details = ({ match }: any): JSX.Element => {
 
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    useCase
-      .fetchInspectionSheetById(sheetId)
-      .then(() => setLoading(false));
+    useCase.fetchInspectionSheetById(sheetId).then(() => setLoading(false));
   }, [sheetId]);
 
   const displayData = loading ? (
@@ -147,9 +145,7 @@ export const Details = ({ match }: any): JSX.Element => {
         </ListItem>
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText>シート名</ListItemText>
-          <Typography variant="body2">
-            {useCase.sheet.sheetName}
-          </Typography>
+          <Typography variant="body2">{useCase.sheet.sheetName}</Typography>
         </ListItem>
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText>点検グループ</ListItemText>

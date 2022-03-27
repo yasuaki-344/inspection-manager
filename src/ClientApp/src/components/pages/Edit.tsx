@@ -28,8 +28,8 @@ export const Edit: FC = ({ match }: any): JSX.Element => {
     useCase
       .fetchTypesAndGroups()
       .then(([groups, types]) => {
-        useCase.setGroupId(groups[0].id);
-        useCase.setTypeId(types[0].id);
+        useCase.setMember("inspectionGroupId", groups[0].id);
+        useCase.setMember("inspectionTypeId", types[0].id);
         useCase.fetchInspectionSheetById(sheetId);
       })
       .then(() => setLoading(false))

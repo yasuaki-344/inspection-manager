@@ -1,4 +1,9 @@
-import { Choice, ChoiceTemplate, InspectionItem, Option } from "../typescript-fetch";
+import {
+  Choice,
+  ChoiceTemplate,
+  InspectionItem,
+  Option,
+} from "../typescript-fetch";
 
 export type InspectionItemAction = {
   type: string;
@@ -28,8 +33,7 @@ export type ITEM_ACTION_TYPES =
   | "SET_CHOICE"
   | "ADD_CHOICE"
   | "REMOVE_CHOICE"
-  | "UPDATE_CHOICE"
-
+  | "UPDATE_CHOICE";
 
 export function InspectionItemReducer(
   state: InspectionItem,

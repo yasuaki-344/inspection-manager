@@ -91,7 +91,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     this.setTypes(types);
     this.setGroups(groups);
 
-    return [types, groups]
+    return [types, groups];
   }
 
   /** @inheritdoc */
@@ -183,36 +183,11 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   }
 
   /** @inheritdoc */
-  setSheetName(sheetName: string): void {
-    this.dispatch({
-      type: "SET_STRING_FIELD",
-      payload: {
-        name: "sheetName",
-        stringValue: sheetName,
-      },
-    });
-  }
-
-  /** @inheritdoc */
-  setGroupId(groupId: number): void {
-    this.dispatch({
-      type: "SET_NUMERIC_FIELD",
-      payload: {
-        name: "inspectionGroupId",
-        numericValue: groupId,
-      },
-    });
-  }
-
-  /** @inheritdoc */
-  setTypeId(typeId: number): void {
-    this.dispatch({
-      type: "SET_NUMERIC_FIELD",
-      payload: {
-        name: "inspectionTypeId",
-        numericValue: typeId,
-      },
-    });
+  setMember(
+    name: "sheetName" | "inspectionGroupId" | "inspectionTypeId",
+    value: string | number
+  ): void {
+    this.dispatch({ type: "setMember", payload: { name, value } });
   }
 
   /** @inheritdoc */
