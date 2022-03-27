@@ -97,9 +97,14 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
 
   /** @inheritdoc */
   async fetchInspectionSheetById(id: number): Promise<void> {
-    await this.sheetRepository.getById(id).then((res: InspectionSheet) => {
-      this.setSheet(res);
-    });
+    const [types, groups, sheet] = await Promise.all([
+      this.typeRepository.get(),
+      this.groupRepository.get(),
+      this.sheetRepository.getById(id),
+    ]);
+    this.setTypes(types);
+    this.setGroups(groups);
+    this.setSheet(sheet);
   }
 
   async copyInspectionSheetFrom(id: number): Promise<void> {

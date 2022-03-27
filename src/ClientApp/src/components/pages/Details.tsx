@@ -16,11 +16,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import nameof from "ts-nameof.macro";
 import { useInputTypes } from "../../entities";
 import { TopPageLink } from "../utilities";
-import {
-  IInspectionGroupInteractor,
-  IInspectionSheetInteractor,
-  IInspectionTypeInteractor,
-} from "../../interfaces";
+import { IInspectionSheetInteractor } from "../../interfaces";
 import { useDIContext } from "../../container";
 import { Equipment, InspectionItem } from "../../typescript-fetch";
 
@@ -124,23 +120,15 @@ export const Details = ({ match }: any): JSX.Element => {
   const sheetId = match.params.id;
   const inject = useDIContext();
 
-  const groupUseCase: IInspectionGroupInteractor = inject(
-    nameof<IInspectionGroupInteractor>()
-  );
-  const typeUseCase: IInspectionTypeInteractor = inject(
-    nameof<IInspectionTypeInteractor>()
-  );
-  const sheetUseCase: IInspectionSheetInteractor = inject(
+  const useCase: IInspectionSheetInteractor = inject(
     nameof<IInspectionSheetInteractor>()
   );
 
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    Promise.all([
-      groupUseCase.fetchInspectionGroups(),
-      typeUseCase.fetchInspectionTypes(),
-      sheetUseCase.fetchInspectionSheetById(sheetId),
-    ]).then(() => setLoading(false));
+    useCase
+      .fetchInspectionSheetById(sheetId)
+      .then(() => setLoading(false));
   }, [sheetId]);
 
   const displayData = loading ? (
@@ -160,19 +148,19 @@ export const Details = ({ match }: any): JSX.Element => {
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText>シート名</ListItemText>
           <Typography variant="body2">
-            {sheetUseCase.sheet.sheetName}
+            {useCase.sheet.sheetName}
           </Typography>
         </ListItem>
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText>点検グループ</ListItemText>
           <Typography variant="body2">
-            {groupUseCase.getName(sheetUseCase.sheet.inspectionGroupId)}
+            {useCase.groupName(useCase.sheet.inspectionGroupId)}
           </Typography>
         </ListItem>
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText>点検種別</ListItemText>
           <Typography variant="body2">
-            {typeUseCase.getName(sheetUseCase.sheet.inspectionTypeId)}
+            {useCase.typeName(useCase.sheet.inspectionTypeId)}
           </Typography>
         </ListItem>
       </List>
@@ -184,7 +172,7 @@ export const Details = ({ match }: any): JSX.Element => {
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
       >
-        {sheetUseCase.sheet.equipments.map((equipment: Equipment) => (
+        {useCase.sheet.equipments.map((equipment: Equipment) => (
           <EquipmentRow key={equipment.equipmentId} equipment={equipment} />
         ))}
       </TreeView>
