@@ -14,10 +14,8 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import nameof from "ts-nameof.macro";
 import { InspectionItemDialog } from "../dialog";
 import {
-  IInspectionGroupInteractor,
   IInspectionItemInteractor,
   IInspectionSheetInteractor,
-  IInspectionTypeInteractor,
 } from "../../interfaces";
 import {
   InspectionItemDialogStateContext,
@@ -39,12 +37,6 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
   props: InspectionSheetFormProps
 ): JSX.Element => {
   const inject = useDIContext();
-  const groupUseCase: IInspectionGroupInteractor = inject(
-    nameof<IInspectionGroupInteractor>()
-  );
-  const typeUseCase: IInspectionTypeInteractor = inject(
-    nameof<IInspectionTypeInteractor>()
-  );
   const sheetUseCase: IInspectionSheetInteractor = inject(
     nameof<IInspectionSheetInteractor>()
   );
@@ -134,7 +126,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
                 }
               }}
             >
-              {groupUseCase.groups.map((group: InspectionGroup) => (
+              {sheetUseCase.groups.map((group: InspectionGroup) => (
                 <MenuItem key={group.id} value={group.id}>
                   {group.description}
                 </MenuItem>
@@ -157,7 +149,7 @@ export const InspectionSheetForm: FC<InspectionSheetFormProps> = (
                 }
               }}
             >
-              {typeUseCase.types.map((type: InspectionType) => (
+              {sheetUseCase.types.map((type: InspectionType) => (
                 <MenuItem key={type.id} value={type.id}>
                   {type.description}
                 </MenuItem>
