@@ -508,7 +508,7 @@ public class CategoryRepositoryTest : IDisposable
     }
 
     [Fact]
-    public async Task UpdateChoiceTemplateAsync_NonExistentId_ReturnsNull()
+    public async Task UpdateChoiceTemplateAsync_NonExistentId_ThrowsException()
     {
         _context.ChoiceTemplates.Add(new ChoiceTemplate
         {
@@ -526,11 +526,9 @@ public class CategoryRepositoryTest : IDisposable
         {
             ChoiceTemplateId = 2,
         };
-        var actualDto = await target.UpdateChoiceTemplateAsync(dto);
-        Assert.Null(actualDto);
-
-        var actualEntity = _context.ChoiceTemplates.First();
-        Assert.Equal(3, actualEntity.ChoiceTemplateId);
+        await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            target.UpdateChoiceTemplateAsync(dto)
+        );
     }
 
     [Fact]
