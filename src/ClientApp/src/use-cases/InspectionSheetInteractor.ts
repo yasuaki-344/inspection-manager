@@ -171,10 +171,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
 
   /** @inheritdoc */
   setSheet(sheet: InspectionSheet): void {
-    this.dispatch({
-      type: "SET_SHEET",
-      payload: { sheet },
-    });
+    this.dispatch({ type: "setSheet", payload: { sheet } });
   }
 
   /** @inheritdoc */
@@ -192,19 +189,14 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
 
   /** @inheritdoc */
   addEquipment(): void {
-    this.dispatch({
-      type: "ADD_EQUIPMENT",
-      payload: {},
-    });
+    this.dispatch({ type: "AddEquipment", payload: {} });
   }
 
   /** @inheritdoc */
   removeEquipment(orderIndex: number): void {
     this.dispatch({
-      type: "REMOVE_EQUIPMENT",
-      payload: {
-        numericValue: orderIndex,
-      },
+      type: "RemoveEquipment",
+      payload: { equipmentOrderIndex: orderIndex },
     });
   }
 
@@ -222,11 +214,11 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   /** @inheritdoc */
   setEquipmentName(orderIndex: number, name: string): void {
     this.dispatch({
-      type: "SET_EQUIPMENT_STRING_FIELD",
+      type: "setEquipmentMember",
       payload: {
         equipmentOrderIndex: orderIndex,
         name: "equipmentName",
-        stringValue: name,
+        value: name,
       },
     });
   }

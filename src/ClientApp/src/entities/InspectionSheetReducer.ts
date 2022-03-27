@@ -7,15 +7,13 @@ import {
 export type InspectionSheetAction = {
   type: string;
   payload: {
-    sheet?: InspectionSheet;
     name?: string;
     value?: number | string;
-    numericValue?: number;
-    stringValue?: string;
     equipmentOrderIndex?: number;
     itemOrderIndex?: number;
     srcOrderIndex?: number;
     dstOrderIndex?: number;
+    sheet?: InspectionSheet;
     inspectionItem?: InspectionItem;
   };
 };
@@ -32,12 +30,12 @@ export const InspectionSheetInitialState: InspectionSheet = {
 };
 
 export type InspectionSheetActionType =
-  | "SET_SHEET"
+  | "setSheet"
   | "setMember"
-  | "ADD_EQUIPMENT"
-  | "REMOVE_EQUIPMENT"
+  | "AddEquipment"
+  | "RemoveEquipment"
   | "SWAP_EQUIPMENTS"
-  | "SET_EQUIPMENT_STRING_FIELD"
+  | "setEquipmentMember"
   | "ADD_INSPECTION_ITEM"
   | "REMOVE_INSPECTION_ITEM"
   | "SWAP_INSPECTION_ITEMS"
@@ -49,12 +47,9 @@ export function InspectionSheetReducer(
 ): InspectionSheet {
   const { type, payload } = action;
   switch (type) {
-    case "SET_SHEET": {
+    case "setSheet": {
       const { sheet } = payload;
-      if (sheet != null) {
-        return sheet;
-      }
-      return state;
+      return sheet != null ? sheet : state;
     }
     case "setMember": {
       const { name, value } = payload;
@@ -63,12 +58,12 @@ export function InspectionSheetReducer(
       }
       return state;
     }
-    case "ADD_EQUIPMENT": {
+    case "AddEquipment": {
       const { equipments } = state;
       const maxOrderIndex = !equipments.length
         ? 0
         : equipments
-            .map((o) => o.orderIndex)
+            .map((o: Equipment) => o.orderIndex)
             .reduce((previous, current) => Math.max(previous, current));
 
       const newEquipment: Equipment = {
@@ -82,15 +77,14 @@ export function InspectionSheetReducer(
         equipments: equipments.concat(newEquipment),
       };
     }
-    case "REMOVE_EQUIPMENT": {
-      const { numericValue } = payload;
-      if (numericValue != null) {
-        return {
-          ...state,
-          equipments: state.equipments.filter(
-            (x: Equipment) => x.orderIndex !== numericValue
-          ),
-        };
+    case "RemoveEquipment": {
+      const { equipmentOrderIndex } = payload;
+      if (equipmentOrderIndex != null) {
+        const { equipments } = state;
+        const newArray = equipments.filter(
+          (x: Equipment) => x.orderIndex !== equipmentOrderIndex
+        );
+        return { ...state, equipments: newArray };
       }
       return state;
     }
@@ -122,9 +116,9 @@ export function InspectionSheetReducer(
       }
       return state;
     }
-    case "SET_EQUIPMENT_STRING_FIELD": {
-      const { equipmentOrderIndex, name, stringValue } = payload;
-      if (equipmentOrderIndex != null && name != null && stringValue != null) {
+    case "setEquipmentMember": {
+      const { equipmentOrderIndex, name, value } = payload;
+      if (equipmentOrderIndex != null && name != null && value != null) {
         const { equipments } = state;
         return {
           ...state,
@@ -133,7 +127,7 @@ export function InspectionSheetReducer(
               ? x
               : {
                   ...x,
-                  [name]: stringValue,
+                  [name]: value,
                 }
           ),
         };
