@@ -189,13 +189,13 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
 
   /** @inheritdoc */
   addEquipment(): void {
-    this.dispatch({ type: "AddEquipment", payload: {} });
+    this.dispatch({ type: "addEquipment", payload: {} });
   }
 
   /** @inheritdoc */
   removeEquipment(orderIndex: number): void {
     this.dispatch({
-      type: "RemoveEquipment",
+      type: "removeEquipment",
       payload: { equipmentOrderIndex: orderIndex },
     });
   }
@@ -204,10 +204,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   swapEquipments(srcOrderIndex: number, dstOrderIndex: number): void {
     this.dispatch({
       type: "swapEquipments",
-      payload: {
-        srcOrderIndex,
-        dstOrderIndex,
-      },
+      payload: { srcOrderIndex, dstOrderIndex },
     });
   }
 
@@ -248,11 +245,8 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   /** @inheritdoc */
   addInspectionItem(index: number, item: InspectionItem): void {
     this.dispatch({
-      type: "ADD_INSPECTION_ITEM",
-      payload: {
-        equipmentOrderIndex: index,
-        inspectionItem: item,
-      },
+      type: "addInspectionItem",
+      payload: { equipmentOrderIndex: index, inspectionItem: item },
     });
   }
 
@@ -262,26 +256,19 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     itemOrderIndex: number
   ): void {
     this.dispatch({
-      type: "REMOVE_INSPECTION_ITEM",
-      payload: {
-        equipmentOrderIndex,
-        itemOrderIndex,
-      },
+      type: "removeInspectionItem",
+      payload: { equipmentOrderIndex, itemOrderIndex },
     });
   }
 
   updateInspectionItem(
     equipmentOrderIndex: number,
     itemOrderIndex: number,
-    item: InspectionItem
+    inspectionItem: InspectionItem
   ): void {
     this.dispatch({
-      type: "UPDATE_INSPECTION_ITEM",
-      payload: {
-        equipmentOrderIndex,
-        itemOrderIndex,
-        inspectionItem: item,
-      },
+      type: "updateInspectionItem",
+      payload: { equipmentOrderIndex, itemOrderIndex, inspectionItem },
     });
   }
 
@@ -291,12 +278,8 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
     dstOrderIndex: number
   ) {
     this.dispatch({
-      type: "SWAP_INSPECTION_ITEMS",
-      payload: {
-        equipmentOrderIndex,
-        srcOrderIndex,
-        dstOrderIndex,
-      },
+      type: "swapInspectionItems",
+      payload: { equipmentOrderIndex, srcOrderIndex, dstOrderIndex },
     });
   }
 }

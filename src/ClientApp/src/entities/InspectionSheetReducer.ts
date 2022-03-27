@@ -7,14 +7,14 @@ import {
 export type InspectionSheetActionType =
   | "setSheet"
   | "setMember"
-  | "AddEquipment"
-  | "RemoveEquipment"
+  | "addEquipment"
+  | "removeEquipment"
   | "swapEquipments"
   | "setEquipmentMember"
-  | "ADD_INSPECTION_ITEM"
-  | "REMOVE_INSPECTION_ITEM"
-  | "SWAP_INSPECTION_ITEMS"
-  | "UPDATE_INSPECTION_ITEM";
+  | "addInspectionItem"
+  | "removeInspectionItem"
+  | "swapInspectionItems"
+  | "updateInspectionItem";
 
 export type InspectionSheetAction = {
   type: InspectionSheetActionType;
@@ -58,7 +58,7 @@ export function InspectionSheetReducer(
       }
       return state;
     }
-    case "AddEquipment": {
+    case "addEquipment": {
       const { equipments } = state;
       const maxOrderIndex = !equipments.length
         ? 0
@@ -77,7 +77,7 @@ export function InspectionSheetReducer(
         equipments: equipments.concat(newEquipment),
       };
     }
-    case "RemoveEquipment": {
+    case "removeEquipment": {
       const { equipmentOrderIndex } = payload;
       if (equipmentOrderIndex != null) {
         const { equipments } = state;
@@ -123,7 +123,7 @@ export function InspectionSheetReducer(
       }
       return state;
     }
-    case "ADD_INSPECTION_ITEM": {
+    case "addInspectionItem": {
       const { equipmentOrderIndex, inspectionItem } = payload;
       if (equipmentOrderIndex != null && inspectionItem != null) {
         const { equipments } = state;
@@ -143,19 +143,16 @@ export function InspectionSheetReducer(
           });
           return {
             ...state,
-            equipments: state.equipments.map((x: Equipment) => {
-              if (x.orderIndex === equipmentOrderIndex) {
-                return equipment;
-              }
-              return x;
-            }),
+            equipments: equipments.map((x: Equipment) =>
+              x.orderIndex === equipmentOrderIndex ? equipment : x
+            ),
           };
         }
         return state;
       }
       return state;
     }
-    case "REMOVE_INSPECTION_ITEM": {
+    case "removeInspectionItem": {
       const { equipmentOrderIndex, itemOrderIndex } = payload;
       if (equipmentOrderIndex != null && itemOrderIndex != null) {
         return {
@@ -175,7 +172,7 @@ export function InspectionSheetReducer(
       }
       return state;
     }
-    case "SWAP_INSPECTION_ITEMS": {
+    case "swapInspectionItems": {
       const { equipmentOrderIndex, srcOrderIndex, dstOrderIndex } = payload;
       if (
         equipmentOrderIndex != null &&
@@ -196,13 +193,14 @@ export function InspectionSheetReducer(
           if (src != null && dst != null) {
             equipment.inspectionItems = inspectionItems.map(
               (x: InspectionItem) => {
-                if (x.orderIndex === srcOrderIndex) {
-                  return { ...dst, orderIndex: srcOrderIndex };
+                switch (x.orderIndex) {
+                  case srcOrderIndex:
+                    return { ...dst, orderIndex: srcOrderIndex };
+                  case dstOrderIndex:
+                    return { ...src, orderIndex: dstOrderIndex };
+                  default:
+                    return x;
                 }
-                if (x.orderIndex === dstOrderIndex) {
-                  return { ...src, orderIndex: dstOrderIndex };
-                }
-                return x;
               }
             );
             return {
@@ -216,7 +214,7 @@ export function InspectionSheetReducer(
       }
       return state;
     }
-    case "UPDATE_INSPECTION_ITEM": {
+    case "updateInspectionItem": {
       const { equipmentOrderIndex, itemOrderIndex, inspectionItem } = payload;
       if (
         equipmentOrderIndex != null &&

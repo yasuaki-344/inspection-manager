@@ -62,7 +62,7 @@ describe("InspectionSheetInteractor unit test", () => {
     const target = new InspectionSheetInteractor(repository);
     target.addEquipment();
     expect(dispatch).toHaveBeenCalledWith({
-      type: "AddEquipment",
+      type: "addEquipment",
       payload: {},
     });
   });
@@ -72,7 +72,7 @@ describe("InspectionSheetInteractor unit test", () => {
     const target = new InspectionSheetInteractor(repository);
     target.removeEquipment(10);
     expect(dispatch).toHaveBeenCalledWith({
-      type: "RemoveEquipment",
+      type: "removeEquipment",
       payload: {
         numericValue: 10,
       },

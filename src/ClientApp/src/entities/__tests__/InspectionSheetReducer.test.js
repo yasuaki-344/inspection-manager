@@ -51,7 +51,7 @@ describe("InspectionSheetReducer unit test", () => {
 
   test("Add equipment correctly", () => {
     const action = {
-      type: "AddEquipment",
+      type: "addEquipment",
       payload: {},
     };
     const state = {
@@ -70,7 +70,7 @@ describe("InspectionSheetReducer unit test", () => {
 
   test("Remove equipment correctly", () => {
     const action = {
-      type: "RemoveEquipment",
+      type: "removeEquipment",
       payload: {
         numericValue: 10,
       },
@@ -124,7 +124,7 @@ describe("InspectionSheetReducer unit test", () => {
 
   test("Add inspection item correctly", () => {
     const action = {
-      type: "ADD_INSPECTION_ITEM",
+      type: "addInspectionItem",
       payload: {
         equipmentOrderIndex: 11,
         inspectionItem: {
@@ -159,7 +159,7 @@ describe("InspectionSheetReducer unit test", () => {
 
   test("Remove inspection item correctly", () => {
     const action = {
-      type: "REMOVE_INSPECTION_ITEM",
+      type: "removeInspectionItem",
       payload: {
         equipmentOrderIndex: 11,
         itemOrderIndex: 22,
@@ -179,7 +179,7 @@ describe("InspectionSheetReducer unit test", () => {
 
   test("Add inspection item correctly", () => {
     const action = {
-      type: "UPDATE_INSPECTION_ITEM",
+      type: "updateInspectionItem",
       payload: {
         equipmentOrderIndex: 11,
         itemOrderIndex: 22,
