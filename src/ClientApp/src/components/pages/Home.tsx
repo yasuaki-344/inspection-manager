@@ -20,11 +20,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DetailsIcon from "@mui/icons-material/Details";
 import nameof from "ts-nameof.macro";
 import { InspectionSheetInitialState } from "../../entities";
-import {
-  IInspectionGroupInteractor,
-  IInspectionTypeInteractor,
-  IInspectionSheetInteractor,
-} from "../../interfaces";
+import { IInspectionSheetInteractor } from "../../interfaces";
 import { CancelIconButton } from "../utilities";
 import { SheetSearchMenu } from "../SheetSearchMenu";
 import { SheetDeleteConfirmationDialog } from "../dialog/SheetDeleteConfirmationDialog";
@@ -51,13 +47,7 @@ const exportInspectionSheet = (exportUrl: string, fileName: string): void => {
 
 export const Home: FC = (): JSX.Element => {
   const inject = useDIContext();
-  const groupUseCase: IInspectionGroupInteractor = inject(
-    nameof<IInspectionGroupInteractor>()
-  );
-  const typeUseCase: IInspectionTypeInteractor = inject(
-    nameof<IInspectionTypeInteractor>()
-  );
-  const sheetUseCase: IInspectionSheetInteractor = inject(
+  const useCase: IInspectionSheetInteractor = inject(
     nameof<IInspectionSheetInteractor>()
   );
 
@@ -75,14 +65,9 @@ export const Home: FC = (): JSX.Element => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    Promise.all([
-      typeUseCase.fetchInspectionTypes(),
-      groupUseCase.fetchInspectionGroups(),
-      sheetUseCase.fetchAllInspectionSheets(),
-    ])
-      .then(() => {
-        setLoading(false);
-      })
+    useCase
+      .fetchAllInspectionSheets()
+      .then(() => setLoading(false))
       .catch(console.error);
   }, []);
 
@@ -105,11 +90,9 @@ export const Home: FC = (): JSX.Element => {
   const handleSearch = () => {
     const { inspectionGroup, inspectionType, sheetName } = searchOption;
     if (inspectionGroup === "" && inspectionType === "" && sheetName === "") {
-      sheetUseCase.resetSearchedInspectionSheets();
+      useCase.resetSearchedInspectionSheets();
     } else {
-      const groupIds = groupUseCase.getIds(inspectionGroup);
-      const typeIds = typeUseCase.getIds(inspectionType);
-      sheetUseCase.searchInspectionSheet(groupIds, typeIds, sheetName);
+      useCase.searchInspectionSheet(inspectionGroup, inspectionType, sheetName);
     }
     setPage(0);
   };
@@ -123,7 +106,7 @@ export const Home: FC = (): JSX.Element => {
       inspectionGroup: "",
       inspectionType: "",
     });
-    sheetUseCase.resetSearchedInspectionSheets();
+    useCase.resetSearchedInspectionSheets();
     setPage(0);
   };
 
@@ -134,9 +117,7 @@ export const Home: FC = (): JSX.Element => {
 
   const handleDelete = () => {
     setOpen(false);
-    sheetUseCase
-      .removeInspectionSheet(targetSheet.sheetId)
-      .catch(console.error);
+    useCase.removeInspectionSheet(targetSheet.sheetId).catch(console.error);
   };
 
   /**
@@ -188,7 +169,7 @@ export const Home: FC = (): JSX.Element => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {sheetUseCase.filteredSheets
+          {useCase.filteredSheets
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((sheet: InspectionSheet) => (
               <TableRow key={sheet.sheetId}>
@@ -221,10 +202,10 @@ export const Home: FC = (): JSX.Element => {
                 </TableCell>
                 <TableCell>{sheet.sheetName}</TableCell>
                 <TableCell>
-                  {groupUseCase.getName(sheet.inspectionGroupId)}
+                  {useCase.groupName(sheet.inspectionGroupId)}
                 </TableCell>
                 <TableCell>
-                  {typeUseCase.getName(sheet.inspectionTypeId)}
+                  {useCase.typeName(sheet.inspectionTypeId)}
                 </TableCell>
                 <TableCell padding="checkbox">
                   <Link to={`/edit/${sheet.sheetId}`}>
@@ -245,7 +226,7 @@ export const Home: FC = (): JSX.Element => {
       </Table>
       <TablePagination
         component="div"
-        count={sheetUseCase.filteredSheets.length}
+        count={useCase.filteredSheets.length}
         page={page}
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
@@ -289,8 +270,8 @@ export const Home: FC = (): JSX.Element => {
       <SheetDeleteConfirmationDialog
         open={open}
         sheetName={targetSheet.sheetName}
-        groupName={groupUseCase.getName(targetSheet.inspectionGroupId)}
-        typeName={typeUseCase.getName(targetSheet.inspectionTypeId)}
+        groupName={useCase.groupName(targetSheet.inspectionGroupId)}
+        typeName={useCase.typeName(targetSheet.inspectionTypeId)}
         onDeleteClick={handleDelete}
         onCancelClick={() => setOpen(false)}
       />

@@ -86,7 +86,11 @@ export const setUpDIContainer = () => {
   register(nameof<IInspectionItemInteractor>(), new InspectionItemInteractor());
   register(
     nameof<IInspectionSheetInteractor>(),
-    new InspectionSheetInteractor(inject(nameof<IInspectionSheetRepository>()))
+    new InspectionSheetInteractor(
+      inject(nameof<IInspectionTypeRepository>()),
+      inject(nameof<IInspectionGroupRepository>()),
+      inject(nameof<IInspectionSheetRepository>())
+    )
   );
 
   return container;

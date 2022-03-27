@@ -5,17 +5,29 @@ import {
   InspectionSheetReducer,
 } from "../entities";
 import {
+  IInspectionGroupRepository,
   IInspectionSheetInteractor,
   IInspectionSheetRepository,
+  IInspectionTypeRepository,
 } from "../interfaces";
 import {
   Choice,
   Equipment,
+  InspectionGroup,
   InspectionItem,
   InspectionSheet,
+  InspectionType,
 } from "../typescript-fetch";
 
 export class InspectionSheetInteractor implements IInspectionSheetInteractor {
+  readonly types: InspectionType[];
+
+  private readonly setTypes: Dispatch<SetStateAction<InspectionType[]>>;
+
+  readonly groups: InspectionGroup[];
+
+  private readonly setGroups: Dispatch<SetStateAction<InspectionGroup[]>>;
+
   readonly sheets: InspectionSheet[];
 
   private readonly setSheets: Dispatch<SetStateAction<InspectionSheet[]>>;
@@ -30,45 +42,68 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
 
   private readonly dispatch: Dispatch<InspectionSheetAction>;
 
-  private readonly repository: IInspectionSheetRepository;
+  private readonly typeRepository: IInspectionTypeRepository;
+
+  private readonly groupRepository: IInspectionGroupRepository;
+
+  private readonly sheetRepository: IInspectionSheetRepository;
 
   /**
    * Initializes a new instance of InspectionSheetInteractor.
-   * @param repository IInspectionSheetRepository object.
+   * @param typeRepository IInspectionTypeRepository object.
+   * @param groupRepository IInspectionGroupRepository object.
+   * @param sheetRepository IInspectionSheetRepository object.
    */
-  constructor(repository: IInspectionSheetRepository) {
-    const [sheets, setSheets] = useState<InspectionSheet[]>([]);
-    this.sheets = sheets;
-    this.setSheets = setSheets;
-    const [filteredSheets, setFilteredSheets] = useState<InspectionSheet[]>([]);
-    this.filteredSheets = filteredSheets;
-    this.setFilteredSheets = setFilteredSheets;
-    const [sheet, sheetDispatch] = useReducer(
+  constructor(
+    typeRepository: IInspectionTypeRepository,
+    groupRepository: IInspectionGroupRepository,
+    sheetRepository: IInspectionSheetRepository
+  ) {
+    [this.types, this.setTypes] = useState<InspectionType[]>([]);
+    [this.groups, this.setGroups] = useState<InspectionGroup[]>([]);
+    [this.sheets, this.setSheets] = useState<InspectionSheet[]>([]);
+    [this.filteredSheets, this.setFilteredSheets] = useState<InspectionSheet[]>(
+      []
+    );
+    [this.sheet, this.dispatch] = useReducer(
       InspectionSheetReducer,
       InspectionSheetInitialState
     );
-    this.sheet = sheet;
-    this.dispatch = sheetDispatch;
-    this.repository = repository;
+    this.typeRepository = typeRepository;
+    this.groupRepository = groupRepository;
+    this.sheetRepository = sheetRepository;
+  }
+
+  typeName(id: number): string | undefined {
+    return this.types.find((x: InspectionType) => x.id === id)?.description;
+  }
+
+  groupName(id: number): string | undefined {
+    return this.groups.find((x: InspectionGroup) => x.id === id)?.description;
   }
 
   /** @inheritdoc */
   async fetchAllInspectionSheets(): Promise<void> {
-    await this.repository.get().then((res: InspectionSheet[]) => {
-      this.setSheets(res);
-      this.setFilteredSheets(res);
-    });
+    const [types, groups, sheets] = await Promise.all([
+      this.typeRepository.get(),
+      this.groupRepository.get(),
+      this.sheetRepository.get(),
+    ]);
+    this.setTypes(types);
+    this.setGroups(groups);
+    this.setSheets(sheets);
+    this.setFilteredSheets(sheets);
   }
 
   /** @inheritdoc */
   async fetchInspectionSheetById(id: number): Promise<void> {
-    await this.repository.getById(id).then((res: InspectionSheet) => {
+    await this.sheetRepository.getById(id).then((res: InspectionSheet) => {
       this.setSheet(res);
     });
   }
 
   async copyInspectionSheetFrom(id: number): Promise<void> {
-    await this.repository.getById(id).then((res: InspectionSheet) => {
+    await this.sheetRepository.getById(id).then((res: InspectionSheet) => {
       this.setSheet({
         ...res,
         sheetId: 0,
@@ -96,10 +131,17 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
 
   /** @inheritdoc */
   searchInspectionSheet(
-    groupIds: number[],
-    typeIds: number[],
+    groupKeyword: string,
+    typeKeyword: string,
     sheetKeyword: string
   ): void {
+    const groupIds = this.groups
+      .filter((x: InspectionGroup) => x.description.includes(groupKeyword))
+      .map((x: InspectionGroup) => x.id);
+    const typeIds = this.types
+      .filter((x: InspectionType) => x.description.includes(typeKeyword))
+      .map((x: InspectionType) => x.id);
+
     this.setFilteredSheets(
       this.sheets.filter(
         (x: InspectionSheet) =>
@@ -199,17 +241,17 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
 
   /** @inheritdoc */
   async createInspectionSheet(): Promise<void> {
-    await this.repository.post(this.sheet);
+    await this.sheetRepository.post(this.sheet);
   }
 
   async updateInspectionSheet(): Promise<void> {
-    const sheet = await this.repository.put(this.sheet);
+    const sheet = await this.sheetRepository.put(this.sheet);
     this.setSheet(sheet);
   }
 
   /** @inheritdoc */
   async removeInspectionSheet(id: number): Promise<void> {
-    await this.repository.delete(id).then(() => {
+    await this.sheetRepository.delete(id).then(() => {
       this.setSheets(
         this.sheets.filter((x: InspectionSheet) => x.sheetId !== id)
       );
