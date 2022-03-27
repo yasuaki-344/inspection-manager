@@ -10,6 +10,8 @@ export interface IInspectionSheetInteractor {
   typeName(id: number): string | undefined;
   groupName(id: number): string | undefined;
 
+  fetchTypesAndGroups(): Promise<[InspectionType[], InspectionGroup[]]>;
+
   /**
    * Gets all inspection sheets from database.
    */

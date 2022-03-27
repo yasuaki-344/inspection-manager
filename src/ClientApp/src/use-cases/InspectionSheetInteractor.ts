@@ -83,6 +83,18 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   }
 
   /** @inheritdoc */
+  async fetchTypesAndGroups(): Promise<[InspectionType[], InspectionGroup[]]> {
+    const [types, groups] = await Promise.all([
+      this.typeRepository.get(),
+      this.groupRepository.get(),
+    ]);
+    this.setTypes(types);
+    this.setGroups(groups);
+
+    return [types, groups]
+  }
+
+  /** @inheritdoc */
   async fetchAllInspectionSheets(): Promise<void> {
     const [types, groups, sheets] = await Promise.all([
       this.typeRepository.get(),

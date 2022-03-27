@@ -18,9 +18,7 @@ import {
 } from "../utilities";
 import { OriginalSheetSelectDialog } from "../dialog";
 import {
-  IInspectionGroupInteractor,
   IInspectionSheetInteractor,
-  IInspectionTypeInteractor,
 } from "../../interfaces";
 import { useDIContext } from "../../container";
 import { InspectionSheetInitialState } from "../../entities";
@@ -29,12 +27,6 @@ export const Create: FC = (): JSX.Element => {
   const inject = useDIContext();
   const sheetUseCase: IInspectionSheetInteractor = inject(
     nameof<IInspectionSheetInteractor>()
-  );
-  const groupUseCase: IInspectionGroupInteractor = inject(
-    nameof<IInspectionGroupInteractor>()
-  );
-  const typeUseCase: IInspectionTypeInteractor = inject(
-    nameof<IInspectionTypeInteractor>()
   );
 
   const [open, setOpen] = useState(false);
@@ -45,10 +37,7 @@ export const Create: FC = (): JSX.Element => {
 
   useEffect(() => {
     sheetUseCase.setSheet(InspectionSheetInitialState);
-    Promise.all([
-      groupUseCase.fetchInspectionGroups(),
-      typeUseCase.fetchInspectionTypes(),
-    ])
+    sheetUseCase.fetchTypesAndGroups()
       .then(([groups, types]) => {
         sheetUseCase.setGroupId(groups[0].id);
         sheetUseCase.setTypeId(types[0].id);
@@ -89,8 +78,8 @@ export const Create: FC = (): JSX.Element => {
         sheetUseCase.setSheet({
           sheetId: 0,
           sheetName: "",
-          inspectionGroupId: groupUseCase.groups[0].id,
-          inspectionTypeId: typeUseCase.types[0].id,
+          inspectionGroupId: sheetUseCase.groups[0].id,
+          inspectionTypeId: sheetUseCase.types[0].id,
           equipments: [],
         });
       })
