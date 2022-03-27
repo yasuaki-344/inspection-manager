@@ -6,4 +6,4 @@ export * from "./EquipmentForm";
 export * from "./InspectionItemForm";
 export * from "./InspectionItemRow";
 export * from "./InspectionSheetForm";
-export * from "./Management";
+export * from "./admin";
