@@ -84,7 +84,7 @@ describe("InspectionSheetInteractor unit test", () => {
     const target = new InspectionSheetInteractor(repository);
     target.swapEquipments(10, 20);
     expect(dispatch).toHaveBeenCalledWith({
-      type: "SWAP_EQUIPMENTS",
+      type: "swapEquipments",
       payload: {
         srcOrderIndex: 10,
         dstOrderIndex: 20,

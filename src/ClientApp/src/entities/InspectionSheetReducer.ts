@@ -4,8 +4,20 @@ import {
   InspectionSheet,
 } from "../typescript-fetch";
 
+export type InspectionSheetActionType =
+  | "setSheet"
+  | "setMember"
+  | "AddEquipment"
+  | "RemoveEquipment"
+  | "swapEquipments"
+  | "setEquipmentMember"
+  | "ADD_INSPECTION_ITEM"
+  | "REMOVE_INSPECTION_ITEM"
+  | "SWAP_INSPECTION_ITEMS"
+  | "UPDATE_INSPECTION_ITEM";
+
 export type InspectionSheetAction = {
-  type: string;
+  type: InspectionSheetActionType;
   payload: {
     name?: string;
     value?: number | string;
@@ -28,18 +40,6 @@ export const InspectionSheetInitialState: InspectionSheet = {
   inspectionTypeId: 0,
   equipments: [],
 };
-
-export type InspectionSheetActionType =
-  | "setSheet"
-  | "setMember"
-  | "AddEquipment"
-  | "RemoveEquipment"
-  | "SWAP_EQUIPMENTS"
-  | "setEquipmentMember"
-  | "ADD_INSPECTION_ITEM"
-  | "REMOVE_INSPECTION_ITEM"
-  | "SWAP_INSPECTION_ITEMS"
-  | "UPDATE_INSPECTION_ITEM";
 
 export function InspectionSheetReducer(
   state: InspectionSheet,
@@ -88,30 +88,24 @@ export function InspectionSheetReducer(
       }
       return state;
     }
-    case "SWAP_EQUIPMENTS": {
+    case "swapEquipments": {
       const { srcOrderIndex, dstOrderIndex } = payload;
       if (srcOrderIndex != null && dstOrderIndex != null) {
-        let { equipments } = state;
-        const src = equipments.find(
-          (x: Equipment) => x.orderIndex === srcOrderIndex
-        );
-        const dst = equipments.find(
-          (x: Equipment) => x.orderIndex === dstOrderIndex
-        );
+        const { equipments } = state;
+        const src = equipments.find((x) => x.orderIndex === srcOrderIndex);
+        const dst = equipments.find((x) => x.orderIndex === dstOrderIndex);
         if (src != null && dst != null) {
-          equipments = equipments.map((x: Equipment) => {
-            if (x.orderIndex === srcOrderIndex) {
-              return { ...dst, orderIndex: srcOrderIndex };
+          const newArray = equipments.map((x: Equipment) => {
+            switch (x.orderIndex) {
+              case srcOrderIndex:
+                return { ...dst, orderIndex: srcOrderIndex };
+              case dstOrderIndex:
+                return { ...src, orderIndex: dstOrderIndex };
+              default:
+                return x;
             }
-            if (x.orderIndex === dstOrderIndex) {
-              return { ...src, orderIndex: dstOrderIndex };
-            }
-            return x;
           });
-          return {
-            ...state,
-            equipments,
-          };
+          return { ...state, equipments: newArray };
         }
       }
       return state;
@@ -123,12 +117,7 @@ export function InspectionSheetReducer(
         return {
           ...state,
           equipments: equipments.map((x: Equipment) =>
-            x.orderIndex !== equipmentOrderIndex
-              ? x
-              : {
-                  ...x,
-                  [name]: value,
-                }
+            x.orderIndex !== equipmentOrderIndex ? x : { ...x, [name]: value }
           ),
         };
       }

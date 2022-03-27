@@ -203,7 +203,7 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   /** @inheritdoc */
   swapEquipments(srcOrderIndex: number, dstOrderIndex: number): void {
     this.dispatch({
-      type: "SWAP_EQUIPMENTS",
+      type: "swapEquipments",
       payload: {
         srcOrderIndex,
         dstOrderIndex,

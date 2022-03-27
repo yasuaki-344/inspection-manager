@@ -84,7 +84,7 @@ describe("InspectionSheetReducer unit test", () => {
 
   test("Swap equipments correctly", () => {
     const action = {
-      type: "SWAP_EQUIPMENTS",
+      type: "swapEquipments",
       payload: {
         srcOrderIndex: 10,
         dstOrderIndex: 30,
