@@ -212,14 +212,14 @@ export class InspectionSheetInteractor implements IInspectionSheetInteractor {
   }
 
   /** @inheritdoc */
-  setEquipmentName(orderIndex: number, name: string): void {
+  setEquipmentMember(
+    orderIndex: number,
+    name: "equipmentName",
+    value: string
+  ): void {
     this.dispatch({
       type: "setEquipmentMember",
-      payload: {
-        equipmentOrderIndex: orderIndex,
-        name: "equipmentName",
-        value: name,
-      },
+      payload: { equipmentOrderIndex: orderIndex, name, value },
     });
   }
 

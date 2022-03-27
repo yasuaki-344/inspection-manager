@@ -91,11 +91,16 @@ export interface IInspectionSheetInteractor {
   swapEquipments(srcOrderIndex: number, dstOrderIndex: number): void;
 
   /**
-   * Sets inspection sheet name.
+   * Sets inspection equipment member.
    * @param orderIndex Order index of equipment to be set.
-   * @param name Equipment name to set.
+   * @param name the member name to be set.
+   * @param value the member value to be set.
    */
-  setEquipmentName(orderIndex: number, name: string): void;
+  setEquipmentMember(
+    orderIndex: number,
+    name: "equipmentName",
+    value: string
+  ): void;
 
   addInspectionItem(index: number, item: InspectionItem): void;
   removeInspectionItem(equipmentIndex: number, itemIndex: number): void;

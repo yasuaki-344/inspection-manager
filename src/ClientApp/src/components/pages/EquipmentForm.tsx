@@ -113,7 +113,11 @@ export const EquipmentForm: FC<EquipmentFormProps> = (
               value={props.equipment.equipmentName}
               onChange={(e) => {
                 const name = e.target.value;
-                sheetUseCase.setEquipmentName(props.orderIndex, name);
+                sheetUseCase.setEquipmentMember(
+                  props.orderIndex,
+                  "equipmentName",
+                  name
+                );
               }}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
